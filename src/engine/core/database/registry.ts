@@ -63,15 +63,18 @@ export const registry = {
    */
   schemes: new LuaTable<EScheme, TAbstractSchemeConstructor>(),
   /**
-   * Session-constant derived facts only: entries are computed once, never invalidated and always
-   * safe to read. Transient or coherence-managed caches (per-tick snapshots, scratch buffers)
-   * belong next to their mutation points in domain modules instead.
+   * Session-constant derived facts and engine-mirrored state kept coherent via engine callbacks.
+   * Nested containers may be replaced wholesale on invalidation, so always access them through ref.
    */
   cache: {
     /**
      * Memoized condlist for parsing simplification, where key is string data and value is parsed descriptor.
      */
     conditionLists: new LuaMap<string, TConditionList>(),
+    /**
+     * Mirror of actor info portions state.
+     */
+    infoPortions: new LuaMap<TName, boolean>(),
     /**
      * Memoized game graph vertex -> level id lookups, constant for the loaded game graph.
      */

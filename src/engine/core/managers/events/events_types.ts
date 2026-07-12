@@ -63,9 +63,13 @@ export enum EGameEvent {
    */
   ACTOR_DEATH,
   /**
-   * Actor info-portions update.
+   * Actor info-portion added.
    */
-  ACTOR_INFO_UPDATE,
+  ACTOR_INFO_ADDED,
+  /**
+   * Actor info-portion removed.
+   */
+  ACTOR_INFO_REMOVED,
   /**
    * Actor take item from box.
    */

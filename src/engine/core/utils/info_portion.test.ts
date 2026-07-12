@@ -9,6 +9,7 @@ import {
   hasFewInfoPortions,
   hasInfoPortion,
   hasInfoPortions,
+  invalidateInfoPortionsCache,
 } from "@/engine/core/utils/info_portion";
 import { mockRegisteredActor, resetRegistry } from "@/fixtures/engine";
 
@@ -46,7 +47,9 @@ describe("disableInfoPortion", () => {
     expect(hasInfoPortion(infoPortions.info_up_ac_mp5)).toBe(false);
 
     expect(registry.actor.disable_info_portion).toHaveBeenCalledTimes(1);
-    expect(registry.actor.has_info).toHaveBeenCalledTimes(3);
+
+    // Gives / disables update the mirror granularly - no engine reads were needed at all.
+    expect(registry.actor.has_info).toHaveBeenCalledTimes(0);
   });
 });
 
@@ -141,5 +144,55 @@ describe("hasFewInfoPortions", () => {
         3
       )
     ).toBe(false);
+  });
+});
+
+describe("info portions mirror", () => {
+  beforeEach(() => {
+    resetRegistry();
+  });
+
+  it("should memoize checks and re-read from engine after invalidation", () => {
+    const { actorGameObject } = mockRegisteredActor();
+
+    expect(hasInfoPortion(infoPortions.info_up_ac_mp5)).toBe(false);
+
+    // Raw mock grant is invisible while memoized (engine grants update the mirror via actor binder callback).
+    actorGameObject.give_info_portion(infoPortions.info_up_ac_mp5);
+
+    expect(hasInfoPortion(infoPortions.info_up_ac_mp5)).toBe(false);
+    expect(registry.actor.has_info).toHaveBeenCalledTimes(1);
+
+    invalidateInfoPortionsCache();
+
+    expect(hasInfoPortion(infoPortions.info_up_ac_mp5)).toBe(true);
+  });
+
+  it("should update exact entries on lua-side mutations without dropping the mirror", () => {
+    mockRegisteredActor();
+
+    expect(hasInfoPortion(infoPortions.pri_a15_lights_off)).toBe(false);
+
+    giveInfoPortion(infoPortions.info_up_ac_mp5);
+
+    // Mutated entry is visible without engine reads, unrelated memoized entry survives.
+    expect(hasInfoPortion(infoPortions.info_up_ac_mp5)).toBe(true);
+    expect(hasInfoPortion(infoPortions.pri_a15_lights_off)).toBe(false);
+    expect(registry.actor.has_info).toHaveBeenCalledTimes(1);
+  });
+
+  it("should invalidate when the actor is re-registered", () => {
+    const { actorGameObject: firstActor } = mockRegisteredActor();
+
+    firstActor.give_info_portion(infoPortions.info_up_ac_mp5);
+    invalidateInfoPortionsCache();
+
+    expect(hasInfoPortion(infoPortions.info_up_ac_mp5)).toBe(true);
+
+    // New actor instance - registerActor replaces the mirror, state re-read from the fresh object.
+    resetRegistry();
+    mockRegisteredActor();
+
+    expect(hasInfoPortion(infoPortions.info_up_ac_mp5)).toBe(false);
   });
 });
