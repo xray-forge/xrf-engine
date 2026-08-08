@@ -10,3 +10,4 @@
   url = https://gitlab.com/xray-forge/stalker-xrf-resources-base.git
   branch = main
   update = rebase
+  ignore = dirty
