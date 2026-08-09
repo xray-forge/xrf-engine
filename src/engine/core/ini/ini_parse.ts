@@ -40,8 +40,10 @@ import { EScheme } from "@/engine/core/schemes/types";
 export function parseStringsList<T extends string = string>(data: string): LuaArray<T> {
   const result: LuaArray<T> = new LuaTable();
 
-  for (const it of string.gfind(data, "([%w_%-.\\]+)%p*")) {
-    table.insert(result, it as T);
+  if ($isNotNil(data)) {
+    for (const it of string.gfind(data, "([%w_%-.\\]+)%p*")) {
+      table.insert(result, it as T);
+    }
   }
 
   return result;

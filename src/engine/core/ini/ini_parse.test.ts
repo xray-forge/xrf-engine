@@ -40,6 +40,25 @@ describe("parseStringsList", () => {
     expect(parseStringsList("-1.5 2.255")).toEqualLuaArrays(["-1.5", "2.255"]);
     expect(parseStringsList("a_b, c_d")).toEqualLuaArrays(["a_b", "c_d"]);
   });
+
+  it("should parse values containing dots and backslashes as single entries", () => {
+    // Asset paths and ammo sections both rely on this, so a split here would silently corrupt them.
+    expect(parseStringsList("ammo_11.43x23_fmj, ammo_11.43x23_hydro")).toEqualLuaArrays([
+      "ammo_11.43x23_fmj",
+      "ammo_11.43x23_hydro",
+    ]);
+    expect(parseStringsList("weapons\\pm\\pm_shoot")).toEqualLuaArrays(["weapons\\pm\\pm_shoot"]);
+  });
+
+  it("should return an empty list for empty and nil input", () => {
+    expect(parseStringsList("")).toEqualLuaArrays([]);
+    expect(parseStringsList(" ")).toEqualLuaArrays([]);
+    expect(parseStringsList(",")).toEqualLuaArrays([]);
+    // Readers hand back nil for an absent field, and gfind would throw on it rather than yield
+    // nothing, so the guard is what lets callers pass a lookup result straight through.
+    expect(parseStringsList(null as unknown as string)).toEqualLuaArrays([]);
+    expect(parseStringsList(undefined as unknown as string)).toEqualLuaArrays([]);
+  });
 });
 
 describe("parseStringsSet", () => {
