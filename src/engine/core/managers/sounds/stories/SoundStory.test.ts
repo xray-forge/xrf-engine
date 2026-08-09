@@ -7,7 +7,7 @@ describe("SoundStory", () => {
     expect(() => new SoundStory("not-existing-story")).toThrow(
       "There is no story 'not-existing-story' in 'sound_stories.ltx'."
     );
-    expect(() => new SoundStory("wrong-story")).toThrow("Wrong first field 'null' in story 'wrong-story', line '0'");
+    expect(() => new SoundStory("wrong-story")).toThrow("Wrong first field 'nil' in story 'wrong-story', line '0'");
   });
 
   it("should handle empty story records", () => {
