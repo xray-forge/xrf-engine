@@ -18,7 +18,7 @@ describe("filterStagedLtxPaths", () => {
       GAME_DATA_LTX_CONFIGS_DIR,
       "../core/objects/smart_terrain/job/__test__/job_create.default.ltx"
     );
-    const compress: string = path.resolve(GAME_DATA_LTX_CONFIGS_DIR, "../../../cli/compress/configs/fsgame.ltx");
+    const compress: string = path.resolve(GAME_DATA_LTX_CONFIGS_DIR, "../../../cli/compress/configs/template.ltx");
 
     expect(filterStagedLtxPaths([fixture, compress], GAME_DATA_LTX_CONFIGS_DIR)).toEqual([]);
   });

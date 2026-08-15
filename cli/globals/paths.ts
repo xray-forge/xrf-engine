@@ -44,7 +44,6 @@ export const TARGET_LOGS_DIR: string = path.resolve(TARGET_DIR, "logs");
 export const TARGET_GAME_PACKAGE_DIR: string = path.resolve(TARGET_DIR, "game_package");
 export const TARGET_MOD_PACKAGE_DIR: string = path.resolve(TARGET_DIR, "mod_package");
 
-export const XR_COMPRESS_PATH: string = path.resolve(CLI_DIR, config.compression.xr_compress_path);
 export const XRF_UTILS_PATH: string = path.resolve(
   CLI_DIR,
   normalizeParameterPath(

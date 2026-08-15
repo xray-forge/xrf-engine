@@ -6,7 +6,7 @@ import * as path from "node:path";
 import { blue, blueBright, yellow, yellowBright } from "chalk";
 
 import { default as config } from "#/compress/configs/compress.json";
-import { TARGET_DATABASE_DIR, TARGET_DIR, TARGET_GAME_DATA_DIR, TARGET_LOGS_DIR, XR_COMPRESS_PATH } from "#/globals";
+import { TARGET_DATABASE_DIR, TARGET_DIR, TARGET_GAME_DATA_DIR, TARGET_LOGS_DIR, XRF_UTILS_PATH } from "#/globals";
 import { createDirIfNoExisting } from "#/utils/fs/create_dir_if_no_existing";
 import { deleteFileIfExists } from "#/utils/fs/delete_file_if_exists";
 import { NodeLogger } from "#/utils/logging";
@@ -21,7 +21,7 @@ export interface ICompressParameters {
 }
 
 /**
- * Perform compression with xrCompress utils.
+ * Perform compression with xrf-cli.
  */
 export function compress(parameters: ICompressParameters): void {
   NodeLogger.IS_VERBOSE = Boolean(parameters.verbose);
@@ -51,7 +51,6 @@ export function compress(parameters: ICompressParameters): void {
     timeTracker.addMark("COMPRESS_PREPARATION");
 
     createDirIfNoExisting(TARGET_DATABASE_DIR);
-    copyConfig("fsgame.ltx");
 
     for (const [key, descriptor] of Object.entries(config)) {
       if (parameters.include === "all" || parameters.include.includes(key)) {
@@ -68,23 +67,31 @@ export function compress(parameters: ICompressParameters): void {
       }
     }
 
-    removeConfig("fsgame.ltx");
     timeTracker.end();
 
     log.info("Successfully executed compress command, took:", timeTracker.getDuration() / 1000, "sec");
   } catch (error) {
     log.error("Failed to execute compression commands:", error);
+
+    /**
+     * A half written database is worse than none: packaging on would ship archives that do not match
+     * the build. Let the failure reach the caller so `pack` stops instead of copying what is there.
+     */
+    throw error;
   } finally {
     collectLog();
   }
 }
 
 /**
- * Handle compression config with a separate xrCompress call.
+ * Handle compression config with a separate xrf-cli call.
+ *
+ * The tool writes `<name>.db<N>` straight into the database directory and reads the same xrCompress LTX
+ * dialect, so the generated config is still the contract between this step and the packer.
  */
 function compressWithConfig(
   configName: string,
-  { fast, store, folders, files }: { fast?: boolean; store?: boolean; files: Array<string>; folders: Array<string> }
+  { store, folders, files }: { fast?: boolean; store?: boolean; files: Array<string>; folders: Array<string> }
 ): void {
   const configFileName: string = configName + ".ltx";
 
@@ -101,17 +108,32 @@ function compressWithConfig(
    */
   createLtxCompressionConfig(configFileName, { files, folders });
 
-  const command: string = `${XR_COMPRESS_PATH} ${TARGET_GAME_DATA_DIR} -ltx ${configFileName} ${fast ? "-fast" : ""} ${
-    store ? "-store" : ""
-  }`;
-
-  log.info("Execute:", blue(command));
+  const args: Array<string> = [
+    "pack-archive",
+    "-p",
+    TARGET_GAME_DATA_DIR,
+    "-d",
+    TARGET_DATABASE_DIR,
+    "-n",
+    configName,
+    "--ltx",
+    path.resolve(TARGET_DIR, configFileName),
+  ];
 
   /**
-   * Start xrCompress and set CWD to target dir.
+   * `fast` is not passed on: it selected an LZO level xrCompress alone offered, and the packer has one.
    */
-  cp.execSync(command, {
-    cwd: TARGET_DIR,
+  if (store) {
+    args.push("--store");
+  }
+
+  if (NodeLogger.IS_VERBOSE) {
+    args.push("-v");
+  }
+
+  log.info("Execute:", blue([XRF_UTILS_PATH, ...args].join(" ")));
+
+  cp.execFileSync(XRF_UTILS_PATH, args, {
     stdio: NodeLogger.IS_VERBOSE ? "inherit" : "ignore",
   });
 
@@ -119,17 +141,6 @@ function compressWithConfig(
    * Remove generated build ltx.
    */
   removeConfig(configFileName);
-
-  /**
-   * Move compressed DB files to target DB directory.
-   */
-  fs.readdirSync(TARGET_DIR, { withFileTypes: true }).forEach((it) => {
-    if (it.isFile() && it.name.startsWith("gamedata.pack_")) {
-      const index: number = Number.parseInt(it.name.match(/\d+/)![0]);
-
-      fs.renameSync(path.resolve(TARGET_DIR, it.name), path.resolve(TARGET_DATABASE_DIR, `${configName}.db${index}`));
-    }
-  });
 
   log.info("Compression finished for:", yellow(configName));
 }
@@ -146,18 +157,7 @@ function removeConfig(name: string): void {
 }
 
 /**
- * Create new LTX file for compression.
- */
-function copyConfig(name: string): void {
-  const from: string = path.resolve(__dirname, "configs", name);
-  const to: string = path.resolve(TARGET_DIR, name);
-
-  removeConfig(name);
-  fs.copyFileSync(from, to);
-}
-
-/**
- * Creat xrCompress generic template based on lists of files/folders.
+ * Create generic compression config template based on lists of files/folders.
  */
 export function createLtxCompressionConfig(
   name: string,

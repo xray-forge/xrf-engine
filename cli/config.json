@@ -26,7 +26,6 @@
     "checks": "../src/engine/checks"
   },
   "compression": {
-    "xr_compress_path": ".\\bin\\compression\\xrCompress.exe",
     "xrf_cli_path_windows": ".\\bin\\tools\\xrf-cli.exe",
     "xrf_cli_path_unix": ".\\bin\\tools\\xrf-cli"
   },
