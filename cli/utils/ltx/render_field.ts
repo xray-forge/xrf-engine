@@ -1,5 +1,5 @@
 import { ELtxFieldType, ILtxFieldDescriptor } from "#/utils/ltx/types";
-import { Optional } from "#/utils/types";
+import { Nullable } from "#/utils/types";
 
 /**
  * Assert whether provided value is number.
@@ -47,7 +47,7 @@ function toFloat(it: number, precision: number = 1): string {
 /**
  * Render LTX field link based on data / descriptor.
  */
-function link(name: Optional<string>, data: string, descriptor?: Optional<ILtxFieldDescriptor<unknown>>): string {
+function link(name: Nullable<string>, data: string, descriptor?: Nullable<ILtxFieldDescriptor<unknown>>): string {
   const comment: string = descriptor?.meta?.comment ? ` ; ${descriptor.meta.comment}` : "";
   const key: string = name ? name : "";
 
@@ -63,8 +63,8 @@ function link(name: Optional<string>, data: string, descriptor?: Optional<ILtxFi
 /**
  * Render LTX field for provided section metadata.
  */
-export function renderField(name: Optional<string>, value: any): string;
-export function renderField(name: Optional<string>, value: Optional<ILtxFieldDescriptor<unknown>>): string {
+export function renderField(name: Nullable<string>, value: any): string;
+export function renderField(name: Nullable<string>, value: Nullable<ILtxFieldDescriptor<unknown>>): string {
   // In case of empty fields without data or placeholders.
   if (value === null || value === undefined) {
     return link(name, "", null);

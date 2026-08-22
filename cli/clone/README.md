@@ -6,8 +6,8 @@
 npm run cli -- clone [repository] [options]
 ```
 
-Use `--list` to print the repository names available in the current configuration. A repository name is optional only
-when listing options.
+Use `--list` to print the repositories available in the current configuration. Calling `clone` without a repository
+also prints that list, an example command, and then exits with an error.
 
 ## Options
 

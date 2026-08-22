@@ -1,7 +1,7 @@
 import * as fsp from "node:fs/promises";
 
 import { exists } from "#/utils/fs/exists";
-import { Optional } from "#/utils/types";
+import { Nullable } from "#/utils/types";
 
 const NEW_LINE_CHARACTERS: Array<string> = ["\n"];
 
@@ -19,7 +19,7 @@ export async function readLastLinesOfFile(
   encoding: BufferEncoding = "utf8"
 ): Promise<string> {
   if (await exists(filePath)) {
-    let file: Optional<fsp.FileHandle> = null;
+    let file: Nullable<fsp.FileHandle> = null;
 
     try {
       const stat = await fsp.stat(filePath);

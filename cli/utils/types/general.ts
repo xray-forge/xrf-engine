@@ -1,7 +1,7 @@
 /**
  * Nullable value.
  */
-export type Optional<T> = T | null;
+export type Nullable<T> = T | null;
 
 /**
  * Any object from JS record variant.

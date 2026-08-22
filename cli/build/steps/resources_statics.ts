@@ -10,7 +10,7 @@ import { getProjectAssetsRoots } from "#/utils/build";
 import { getDiffs, IDiffs } from "#/utils/fs/get_diffs";
 import { readFolderGen } from "#/utils/fs/read_dir_content_flat_gen";
 import { NodeLogger } from "#/utils/logging";
-import { Optional } from "#/utils/types";
+import { Nullable } from "#/utils/types";
 
 const log: NodeLogger = NodeLogger.forFile(__filename);
 
@@ -72,7 +72,7 @@ export async function buildResourcesStatics(parameters: IBuildCommandParameters)
 async function validateResources(folderPath: string): Promise<Array<string>> {
   const folders: Array<fs.Dirent> = await fsp.readdir(folderPath, { withFileTypes: true });
 
-  function allowFiles(dirent: fs.Dirent): Optional<string> {
+  function allowFiles(dirent: fs.Dirent): Nullable<string> {
     const name: string = dirent.name;
     const target: string = path.join(folderPath, name);
 

@@ -3,7 +3,7 @@ import * as path from "node:path";
 import { green } from "chalk";
 
 import { stringifyValue } from "#/utils/logging/stringify_value";
-import { Optional } from "#/utils/types";
+import { Nullable } from "#/utils/types";
 
 /**
  * DebugLogger file that logs only in dev/flagged environment.
@@ -21,7 +21,7 @@ export class NodeLogger {
   /**
    * Global log singleton.
    */
-  private static GLOBAL: Optional<NodeLogger> = null;
+  private static GLOBAL: Nullable<NodeLogger> = null;
 
   private readonly prefix: string;
   private readonly isEnabled: boolean = true;

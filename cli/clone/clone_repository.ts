@@ -8,7 +8,7 @@ import { default as config } from "#/config.json";
 import { ROOT_DIR } from "#/globals";
 import { deleteDirIfExists } from "#/utils/fs/delete_dir_if_exists";
 import { NodeLogger } from "#/utils/logging";
-import { Optional } from "#/utils/types";
+import { Nullable } from "#/utils/types";
 
 const log: NodeLogger = NodeLogger.forFile(__filename);
 
@@ -27,7 +27,7 @@ export type TPossibleRepositoryName = keyof typeof config.repositories;
 /**
  * Clone provided repository for simplified additional resources usage.
  */
-export async function cloneRepository(name: Optional<string>, parameters: ICloneRepositoryParameters): Promise<void> {
+export async function cloneRepository(name: Nullable<string>, parameters: ICloneRepositoryParameters): Promise<void> {
   NodeLogger.IS_VERBOSE = Boolean(parameters.verbose);
 
   const cloneDirectoryRoot: string = path.resolve(ROOT_DIR, "..");
@@ -36,19 +36,20 @@ export async function cloneRepository(name: Optional<string>, parameters: IClone
     return printPossibleCloneOptions();
   }
 
-  log.info("Cloning repository:", blue(name));
-  log.info("Cloning into root:", yellowBright(cloneDirectoryRoot));
-
-  const targetRepositoryUrl: Optional<string> = name ? config.repositories[name as TPossibleRepositoryName]?.url : null;
+  const targetRepositoryUrl: Nullable<string> = name ? config.repositories[name as TPossibleRepositoryName]?.url : null;
 
   /**
    * Validate input parameters.
    */
   if (!name) {
-    log.error("Invalid name option provided:", red(name));
+    log.error("No repository name provided.");
+
+    printPossibleCloneOptions();
+
+    log.info("Example:", blue("npm run cli -- clone extended"));
 
     throw new Error(
-      "Expected valid repository name from list, try checking usage with '--help' and list with '--list' command flags."
+      "A repository name is required. Choose one above or run 'clone --list' to show the available repositories."
     );
   } else if (!config.repositories[name as TPossibleRepositoryName]) {
     log.error("Not existing name option provided:", red(name));
@@ -63,6 +64,9 @@ export async function cloneRepository(name: Optional<string>, parameters: IClone
 
     throw new Error("Possibly corrupted config, no repository link in provided option.");
   }
+
+  log.info("Cloning repository:", blue(name));
+  log.info("Cloning into root:", yellowBright(cloneDirectoryRoot));
 
   const pathDetails: path.ParsedPath = path.parse(targetRepositoryUrl);
   const targetRepositoryDirectory: string = path.resolve(cloneDirectoryRoot, pathDetails.name);
@@ -105,7 +109,9 @@ export async function cloneRepository(name: Optional<string>, parameters: IClone
  * Print in console list of possible options.
  */
 function printPossibleCloneOptions(): void {
-  log.info("Possible options to clone:");
+  log.info("Available repositories:");
 
-  return Object.keys(config.repositories).forEach((it) => log.info(" -", blue(it)));
+  Object.entries(config.repositories).forEach(([name, repository]) => {
+    log.info(" -", blue(name), "—", repository.description);
+  });
 }

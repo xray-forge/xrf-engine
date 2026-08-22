@@ -7,7 +7,7 @@ import { yellow } from "chalk";
 import { getGamePaths } from "#/utils/fs/get_game_paths";
 import { readLastLinesOfFile } from "#/utils/fs/read_last_lines_of_file";
 import { NodeLogger } from "#/utils/logging";
-import { Optional } from "#/utils/types";
+import { Nullable } from "#/utils/types";
 
 const log: NodeLogger = NodeLogger.forFile(__filename);
 
@@ -19,7 +19,7 @@ export async function printLastLogLines(count: number): Promise<void> {
 
   log.info("Printing logs last lines:", linesCount);
 
-  const path: Optional<string> = await getLogFilePath();
+  const path: Nullable<string> = await getLogFilePath();
 
   if (path) {
     log.info("Checking logs in:", yellow(path));
@@ -37,7 +37,7 @@ export async function printLastLogLines(count: number): Promise<void> {
 /**
  * Get path of log file.
  */
-async function getLogFilePath(): Promise<Optional<string>> {
+async function getLogFilePath(): Promise<Nullable<string>> {
   const { logs, binJson } = await getGamePaths();
   const username: string = os.userInfo().username.toLowerCase();
 

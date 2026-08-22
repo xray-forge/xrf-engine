@@ -2,12 +2,12 @@ import * as fs from "node:fs";
 import * as path from "node:path";
 
 import { ROOT_DIR } from "#/globals/paths";
-import { Optional } from "#/utils/types";
+import { Nullable } from "#/utils/types";
 
 /**
  * Get current repository/branch commit hash.
  */
-export function getCommitHash(): Optional<string> {
+export function getCommitHash(): Nullable<string> {
   try {
     const revision: string = fs.readFileSync(path.resolve(ROOT_DIR, ".git/HEAD")).toString().trim();
 

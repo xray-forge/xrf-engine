@@ -15,7 +15,7 @@ import { exists } from "#/utils/fs/exists";
 import { getGamePaths } from "#/utils/fs/get_game_paths";
 import { isSamePath } from "#/utils/fs/is_same_path";
 import { NodeLogger } from "#/utils/logging";
-import { AnyObject, Optional } from "#/utils/types";
+import { AnyObject, Nullable } from "#/utils/types";
 
 const log: NodeLogger = NodeLogger.forFile(__filename);
 
@@ -52,7 +52,7 @@ async function linkGamedataFolders(parameters: ILinkCommandParameters): Promise<
   const { gamedata: gameGamedataFolderPath } = await getGamePaths();
 
   if (await exists(gameGamedataFolderPath)) {
-    const linkPath: Optional<string> = await fsp.readlink(gameGamedataFolderPath).catch(() => null);
+    const linkPath: Nullable<string> = await fsp.readlink(gameGamedataFolderPath).catch(() => null);
     const isLink: boolean = linkPath !== null;
 
     if (parameters.force) {

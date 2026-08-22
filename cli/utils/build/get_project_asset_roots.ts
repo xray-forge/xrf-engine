@@ -3,7 +3,7 @@ import * as path from "node:path";
 import { default as config } from "#/config.json";
 import { CLI_DIR } from "#/globals";
 import { normalizeParameterPath } from "#/utils/fs/normalize_parameter_path";
-import { Optional } from "#/utils/types";
+import { Nullable } from "#/utils/types";
 
 /**
  * @param language - Locale to use for additional assets.
@@ -14,7 +14,7 @@ export function getProjectAssetsRoots(language?: string): Array<string> {
     return path.resolve(CLI_DIR, normalizeParameterPath(it));
   });
 
-  const languageAssets: Optional<Array<string>> = language
+  const languageAssets: Nullable<Array<string>> = language
     ? config.resources.mod_assets_locales[language as keyof typeof config.resources.mod_assets_locales]
     : null;
 

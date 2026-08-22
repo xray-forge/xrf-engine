@@ -1,4 +1,4 @@
-import { Optional } from "#/utils/types";
+import { Nullable } from "#/utils/types";
 
 /**
  * Generic primitive type used in LTX configs.
@@ -23,7 +23,7 @@ export enum ELtxFieldType {
  * Field descriptor metadata used for LTX files generation.
  */
 export interface ILtxFieldMeta {
-  comment?: Optional<string>;
+  comment?: Nullable<string>;
   isBinding?: boolean;
 }
 
@@ -73,5 +73,5 @@ export const LTX_INCLUDE: unique symbol = Symbol("LTX_INCLUDE");
 export interface IConditionListDescriptor {
   condition?: Array<string>;
   action?: Array<string>;
-  value?: Optional<string | number | boolean>;
+  value?: Nullable<string | number | boolean>;
 }

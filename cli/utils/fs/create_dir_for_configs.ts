@@ -4,7 +4,7 @@ import * as path from "node:path";
 import { blueBright } from "chalk";
 
 import { NodeLogger } from "#/utils/logging";
-import { Optional, TFolderReplicationDescriptor } from "#/utils/types";
+import { Nullable, TFolderReplicationDescriptor } from "#/utils/types";
 
 /**
  * Sync way for folder creation when needed.
@@ -14,7 +14,7 @@ import { Optional, TFolderReplicationDescriptor } from "#/utils/types";
  */
 export function createDirForConfigs(
   configs: Array<TFolderReplicationDescriptor>,
-  log: Optional<NodeLogger> = null
+  log: Nullable<NodeLogger> = null
 ): void {
   configs.forEach(([, to]) => {
     const targetDir: string = path.dirname(to);

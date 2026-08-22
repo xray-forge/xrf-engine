@@ -53,7 +53,7 @@
       "description": "Full base gamedata assets for custom game repacks"
     },
     "locale-eng": {
-      "url": "https://gitlab.com/xray-forge/xrf-resources-locale-en.git",
+      "url": "https://gitlab.com/xray-forge/xrf-resources-locale-eng.git",
       "description": "English locale files, mainly game character voices"
     },
     "locale-ukr": {
@@ -61,7 +61,7 @@
       "description": "Ukrainian locale files, mainly game character voices"
     },
     "locale-rus": {
-      "url": "https://gitlab.com/xray-forge/xrf-resources-locale-ru.git",
+      "url": "https://gitlab.com/xray-forge/xrf-resources-locale-rus.git",
       "description": "Russian locale files, mainly game character voices"
     }
   }

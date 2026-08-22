@@ -1,5 +1,5 @@
 import { ILtxConfigDescriptor, ILtxFieldDescriptor, LTX_EXTEND, LTX_INCLUDE, LTX_ROOT, renderField } from "#/utils/ltx";
-import { Optional } from "#/utils/types";
+import { Nullable } from "#/utils/types";
 
 type TPossibleFieldDescriptorBase = Record<string, ILtxFieldDescriptor<unknown>> | Array<ILtxFieldDescriptor<unknown>>;
 type TPossibleFieldDescriptorFull = TPossibleFieldDescriptorBase | (() => TPossibleFieldDescriptorBase);
@@ -14,7 +14,7 @@ function renderSectionName(name: string | typeof LTX_ROOT, descriptorRaw: TPossi
   if (name === LTX_ROOT) {
     return LTX_EOL;
   } else {
-    const extendsMeta: Optional<string | Array<string>> = (descriptorRaw as Record<symbol, string | Array<string>>)[
+    const extendsMeta: Nullable<string | Array<string>> = (descriptorRaw as Record<symbol, string | Array<string>>)[
       LTX_EXTEND
     ];
 

@@ -6,7 +6,7 @@ import { PLUS_SIGN, SKIP_SIGN, WARNING_SIGN } from "#/globals";
 import { TARGET_GAME_LINK_DIR, TARGET_LOGS_LINK_DIR } from "#/globals/paths";
 import { getGamePaths } from "#/utils/fs/get_game_paths";
 import { NodeLogger } from "#/utils/logging";
-import { AnyObject, Optional } from "#/utils/types";
+import { AnyObject, Nullable } from "#/utils/types";
 
 const log: NodeLogger = NodeLogger.forFile(__filename);
 
@@ -33,7 +33,7 @@ export async function unlinkFolders(): Promise<void> {
 async function unlink(target: string): Promise<void> {
   log.info("Unlinking:", yellowBright(target));
 
-  const stat: Optional<string> = await fsp.readlink(target).catch(() => null);
+  const stat: Nullable<string> = await fsp.readlink(target).catch(() => null);
 
   if (!stat) {
     return log.info(SKIP_SIGN, "Skip operation, target does not exist");

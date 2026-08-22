@@ -9,7 +9,7 @@ import { exists } from "#/utils/fs/exists";
 import { getGamePaths } from "#/utils/fs/get_game_paths";
 import { isSymlink } from "#/utils/fs/is_symlink";
 import { NodeLogger } from "#/utils/logging";
-import { Optional } from "#/utils/types";
+import { Nullable } from "#/utils/types";
 
 const log: NodeLogger = NodeLogger.forFile(__filename);
 
@@ -26,7 +26,7 @@ export async function useEngine(target: string): Promise<void> {
     const isBinFolderExist: boolean = await exists(bin);
     const isLinkedEngine: boolean = await exists(possibleBinDescriptor);
     const isUnresolvedLink: boolean = !isLinkedEngine && isBinFolderExist && (await isSymlink(bin));
-    const oldEngine: Optional<string> = isLinkedEngine ? (await import(possibleBinDescriptor)).type : null;
+    const oldEngine: Nullable<string> = isLinkedEngine ? (await import(possibleBinDescriptor)).type : null;
 
     log.info("Switching engine:", blue(oldEngine || "original"), "->", blue(desiredVersion));
 

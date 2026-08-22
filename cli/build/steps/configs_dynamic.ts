@@ -9,7 +9,7 @@ import { GAME_DATA_LTX_CONFIGS_DIR, TARGET_GAME_DATA_CONFIGS_DIR } from "#/globa
 import { createDirForConfigs } from "#/utils/fs/create_dir_for_configs";
 import { NodeLogger } from "#/utils/logging";
 import { ILtxConfigDescriptor, renderJsonToLtx } from "#/utils/ltx";
-import { EAssetExtension, Optional, TFolderReplicationDescriptor } from "#/utils/types";
+import { EAssetExtension, Nullable, TFolderReplicationDescriptor } from "#/utils/types";
 import { renderJsxToXmlText } from "#/utils/xml";
 
 const log: NodeLogger = NodeLogger.forFile(__filename);
@@ -58,7 +58,7 @@ async function buildDynamicLtx(descriptors: Array<TFolderReplicationDescriptor>)
     await Promise.all(
       descriptors.map(async ([from, to]) => {
         const ltxSource = await import(from);
-        const ltxContent: Optional<ILtxConfigDescriptor> =
+        const ltxContent: Nullable<ILtxConfigDescriptor> =
           (ltxSource?.create || ltxSource?.config) &&
           (typeof ltxSource?.create === "function" ? ltxSource?.create() : ltxSource?.config);
 

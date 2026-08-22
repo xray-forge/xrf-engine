@@ -19,7 +19,7 @@ import {
   EEncoding,
   IJsonTranslationSchema,
   IXmlTranslationSchema,
-  Optional,
+  Nullable,
 } from "#/utils/types";
 
 const log: NodeLogger = NodeLogger.forFile(__filename);
@@ -180,9 +180,9 @@ function getTargetLocale(parameters: IParseTranslationParameters): string {
 /**
  * Try to guess encoding from the XML file.
  */
-function readEncodingFromBuffer(buffer: Buffer): Optional<string> {
+function readEncodingFromBuffer(buffer: Buffer): Nullable<string> {
   const beginning: string = buffer.toString(EEncoding.UTF_8, 0, DEFAULT_TARGET_ENCODING_CHECK_LIMIT);
-  const matches: Optional<RegExpMatchArray> = beginning.match(/encoding="(.+)"/);
+  const matches: Nullable<RegExpMatchArray> = beginning.match(/encoding="(.+)"/);
 
   if (matches && matches.length > 1 && encodingExists(matches[1])) {
     log.debug("Guessed encoding from XML heading:", matches[1]);
