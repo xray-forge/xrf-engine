@@ -6,4 +6,4 @@
 
 ## Documentation
 
-[Book: mob_walker scheme.](https://xray-forge.github.io/stalker-xrf-book/script_engine/schemes/mob_walker.html)
+[Book: mob_walker scheme.](https://xray-forge.github.io/xrf-book/script_engine/schemes/mob_walker.html)

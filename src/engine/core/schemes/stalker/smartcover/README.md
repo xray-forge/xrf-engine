@@ -6,4 +6,4 @@
 
 ## Documentation
 
-[Book: smartcover scheme.](https://xray-forge.github.io/stalker-xrf-book/script_engine/schemes/smartcover.html)
+[Book: smartcover scheme.](https://xray-forge.github.io/xrf-book/script_engine/schemes/smartcover.html)

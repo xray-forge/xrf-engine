@@ -8,4 +8,4 @@ Only logics field is used for the scheme.
 
 ## Documentation
 
-[Book: ph_on_death scheme.](https://xray-forge.github.io/stalker-xrf-book/script_engine/schemes/ph_on_death.html)
+[Book: ph_on_death scheme.](https://xray-forge.github.io/xrf-book/script_engine/schemes/ph_on_death.html)

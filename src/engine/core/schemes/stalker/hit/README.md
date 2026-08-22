@@ -6,4 +6,4 @@
 
 ## Documentation
 
-[Book: hit scheme.](https://xray-forge.github.io/stalker-xrf-book/script_engine/schemes/hit.html)
+[Book: hit scheme.](https://xray-forge.github.io/xrf-book/script_engine/schemes/hit.html)

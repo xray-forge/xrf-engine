@@ -3,16 +3,16 @@
   "available_locales": ["eng", "fra", "ger", "ita", "pol", "rus", "spa", "ukr"],
   "resources": {
     "mod_assets_base_folder": "..\\src\\resources\\",
-    "mod_assets_override_folders": ["..\\..\\stalker-xrf-resources-extended"],
+    "mod_assets_override_folders": ["..\\..\\xrf-resources-extended"],
     "mod_assets_locales": {
-      "eng": ["..\\..\\stalker-xrf-resources-locale-eng"],
-      "fra": ["..\\..\\stalker-xrf-resources-locale-eng"],
-      "ger": ["..\\..\\stalker-xrf-resources-locale-eng"],
-      "ita": ["..\\..\\stalker-xrf-resources-locale-eng"],
-      "pol": ["..\\..\\stalker-xrf-resources-locale-eng"],
-      "rus": ["..\\..\\stalker-xrf-resources-locale-rus"],
-      "spa": ["..\\..\\stalker-xrf-resources-locale-eng"],
-      "ukr": ["..\\..\\stalker-xrf-resources-locale-ukr"]
+      "eng": ["..\\..\\xrf-resources-locale-eng"],
+      "fra": ["..\\..\\xrf-resources-locale-eng"],
+      "ger": ["..\\..\\xrf-resources-locale-eng"],
+      "ita": ["..\\..\\xrf-resources-locale-eng"],
+      "pol": ["..\\..\\xrf-resources-locale-eng"],
+      "rus": ["..\\..\\xrf-resources-locale-rus"],
+      "spa": ["..\\..\\xrf-resources-locale-eng"],
+      "ukr": ["..\\..\\xrf-resources-locale-ukr"]
     }
   },
   "build": {
@@ -49,19 +49,19 @@
   },
   "repositories": {
     "extended": {
-      "url": "https://gitlab.com/xray-forge/stalker-xrf-resources-extended.git",
+      "url": "https://gitlab.com/xray-forge/xrf-resources-extended.git",
       "description": "Full base gamedata assets for custom game repacks"
     },
     "locale-eng": {
-      "url": "https://gitlab.com/xray-forge/stalker-xrf-resources-locale-en.git",
+      "url": "https://gitlab.com/xray-forge/xrf-resources-locale-en.git",
       "description": "English locale files, mainly game character voices"
     },
     "locale-ukr": {
-      "url": "https://gitlab.com/xray-forge/stalker-xrf-resources-locale-ukr.git",
+      "url": "https://gitlab.com/xray-forge/xrf-resources-locale-ukr.git",
       "description": "Ukrainian locale files, mainly game character voices"
     },
     "locale-rus": {
-      "url": "https://gitlab.com/xray-forge/stalker-xrf-resources-locale-ru.git",
+      "url": "https://gitlab.com/xray-forge/xrf-resources-locale-ru.git",
       "description": "Russian locale files, mainly game character voices"
     }
   }

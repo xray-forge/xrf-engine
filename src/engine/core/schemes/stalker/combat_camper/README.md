@@ -6,4 +6,4 @@
 
 ## Documentation
 
-[Book: combat_camper scheme.](https://xray-forge.github.io/stalker-xrf-book/script_engine/schemes/combat_camper.html)
+[Book: combat_camper scheme.](https://xray-forge.github.io/xrf-book/script_engine/schemes/combat_camper.html)

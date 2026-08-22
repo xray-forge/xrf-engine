@@ -6,4 +6,4 @@
 
 ## Documentation
 
-[Book: danger scheme.](https://xray-forge.github.io/stalker-xrf-book/script_engine/schemes/danger.html)
+[Book: danger scheme.](https://xray-forge.github.io/xrf-book/script_engine/schemes/danger.html)

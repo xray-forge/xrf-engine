@@ -6,4 +6,4 @@
 
 ## Documentation
 
-[Book: help_wounded scheme.](https://xray-forge.github.io/stalker-xrf-book/script_engine/schemes/help_wounded.html)
+[Book: help_wounded scheme.](https://xray-forge.github.io/xrf-book/script_engine/schemes/help_wounded.html)

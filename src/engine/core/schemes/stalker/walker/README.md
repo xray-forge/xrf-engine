@@ -16,4 +16,4 @@ def_state_moving - string
 
 ## Documentation
 
-[Book: walker scheme.](https://xray-forge.github.io/stalker-xrf-book/script_engine/schemes/walker.html)
+[Book: walker scheme.](https://xray-forge.github.io/xrf-book/script_engine/schemes/walker.html)

@@ -6,4 +6,4 @@ Triggers conditions lists defined in `on_death` section.
 
 ## Documentation
 
-[Book: death scheme.](https://xray-forge.github.io/stalker-xrf-book/script_engine/schemes/death.html)
+[Book: death scheme.](https://xray-forge.github.io/xrf-book/script_engine/schemes/death.html)

@@ -6,4 +6,4 @@
 
 ## Documentation
 
-[Book: ph_minigun scheme.](https://xray-forge.github.io/stalker-xrf-book/script_engine/schemes/ph_minigun.html)
+[Book: ph_minigun scheme.](https://xray-forge.github.io/xrf-book/script_engine/schemes/ph_minigun.html)

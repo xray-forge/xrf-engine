@@ -10,4 +10,4 @@ description
 
 ## Documentation
 
-[Book: wounded scheme.](https://xray-forge.github.io/stalker-xrf-book/script_engine/schemes/wounded.html)
+[Book: wounded scheme.](https://xray-forge.github.io/xrf-book/script_engine/schemes/wounded.html)

@@ -4,4 +4,4 @@ description
 
 ## Documentation
 
-[Book: sr_particle scheme.](https://xray-forge.github.io/stalker-xrf-book/script_engine/schemes/sr_particle.html)
+[Book: sr_particle scheme.](https://xray-forge.github.io/xrf-book/script_engine/schemes/sr_particle.html)

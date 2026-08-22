@@ -5,4 +5,4 @@ Helps to disable actor input and control camera for some time periods.
 
 ## Documentation
 
-[Book: sr_cutscene scheme.](https://xray-forge.github.io/stalker-xrf-book/script_engine/schemes/sr_cutscene.html)
+[Book: sr_cutscene scheme.](https://xray-forge.github.io/xrf-book/script_engine/schemes/sr_cutscene.html)

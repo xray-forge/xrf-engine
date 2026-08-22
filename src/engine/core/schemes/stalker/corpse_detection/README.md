@@ -6,4 +6,4 @@
 
 ## Documentation
 
-[Book: corpse_detection scheme.](https://xray-forge.github.io/stalker-xrf-book/script_engine/schemes/corpse_detection.html)
+[Book: corpse_detection scheme.](https://xray-forge.github.io/xrf-book/script_engine/schemes/corpse_detection.html)

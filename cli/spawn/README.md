@@ -16,5 +16,5 @@ npm run cli -- spawn unpack [options]
 ## Example
 
 ```sh
-npm run cli -- spawn unpack --path ../../stalker-xrf-resources-extended/spawns/all.spawn
+npm run cli -- spawn unpack --path ../../xrf-resources-extended/spawns/all.spawn
 ```

@@ -38,7 +38,7 @@ const logger: LuaLogger = new LuaLogger($filename, { file: "ai_state" });
  * The stalker binder owns this controller for the object's lifetime. Patrol-related schemes reset and reuse it to
  * control movement, waypoint animations, and team synchronization.
  *
- * See {@link https://xray-forge.github.io/stalker-xrf-book/script_engine/patrols.html patrols system}.
+ * See {@link https://xray-forge.github.io/xrf-book/script_engine/patrols.html patrols system}.
  */
 export class StalkerPatrolController {
   public readonly object: GameObject;

@@ -6,4 +6,4 @@
 
 ## Documentation
 
-[Book: heli_move scheme.](https://xray-forge.github.io/stalker-xrf-book/script_engine/schemes/heli_move.html)
+[Book: heli_move scheme.](https://xray-forge.github.io/xrf-book/script_engine/schemes/heli_move.html)

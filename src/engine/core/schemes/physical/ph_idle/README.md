@@ -5,4 +5,4 @@ Allows handling `use` or `hit` events.
 
 ## Documentation
 
-[Book: ph_idle scheme.](https://xray-forge.github.io/stalker-xrf-book/script_engine/schemes/ph_idle.html)
+[Book: ph_idle scheme.](https://xray-forge.github.io/xrf-book/script_engine/schemes/ph_idle.html)

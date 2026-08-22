@@ -5,4 +5,4 @@ Support scenario of different animations. <br/>
 
 ## Documentation
 
-[Book: animpoint scheme.](https://xray-forge.github.io/stalker-xrf-book/script_engine/schemes/animpoint.html)
+[Book: animpoint scheme.](https://xray-forge.github.io/xrf-book/script_engine/schemes/animpoint.html)

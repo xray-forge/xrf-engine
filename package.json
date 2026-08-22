@@ -1,8 +1,8 @@
 {
-  "name": "stalker-xrf-engine",
+  "name": "xrf-engine",
   "version": "1.0.0",
   "author": "Neloreck",
-  "repository": "https://github.com/xray-forge/stalker-xrf-engine",
+  "repository": "https://github.com/xray-forge/xrf-engine",
   "private": true,
   "scripts": {
     "cli": "ts-node -P ./cli/tsconfig.json cli/run.ts",

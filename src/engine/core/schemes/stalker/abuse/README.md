@@ -5,4 +5,4 @@ Stalkers hit actor if you click them for a lot.
 
 ## Documentation
 
-[Book: abuse scheme.](https://xray-forge.github.io/stalker-xrf-book/script_engine/schemes/abuse.html)
+[Book: abuse scheme.](https://xray-forge.github.io/xrf-book/script_engine/schemes/abuse.html)

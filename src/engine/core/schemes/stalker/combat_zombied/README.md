@@ -6,4 +6,4 @@
 
 ## Documentation
 
-[Book: combat_zombied scheme.](https://xray-forge.github.io/stalker-xrf-book/script_engine/schemes/combat_zombied.html)
+[Book: combat_zombied scheme.](https://xray-forge.github.io/xrf-book/script_engine/schemes/combat_zombied.html)

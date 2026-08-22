@@ -6,4 +6,4 @@ Example: in ShoC everything related to time near psy-labs, bloodsuckers lair, he
 
 ## Documentation
 
-[Book: sr_timer scheme.](https://xray-forge.github.io/stalker-xrf-book/script_engine/schemes/sr_timer.html)
+[Book: sr_timer scheme.](https://xray-forge.github.io/xrf-book/script_engine/schemes/sr_timer.html)

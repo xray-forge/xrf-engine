@@ -6,4 +6,4 @@
 
 ## Documentation
 
-[Book: combat_idle scheme.](https://xray-forge.github.io/stalker-xrf-book/script_engine/schemes/combat_idle.html)
+[Book: combat_idle scheme.](https://xray-forge.github.io/xrf-book/script_engine/schemes/combat_idle.html)

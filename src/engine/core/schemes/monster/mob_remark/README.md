@@ -6,4 +6,4 @@
 
 ## Documentation
 
-[Book: mob_remark scheme.](https://xray-forge.github.io/stalker-xrf-book/script_engine/schemes/mob_remark.html)
+[Book: mob_remark scheme.](https://xray-forge.github.io/xrf-book/script_engine/schemes/mob_remark.html)

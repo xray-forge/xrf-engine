@@ -6,4 +6,4 @@
 
 ## Documentation
 
-[Book: hear scheme.](https://xray-forge.github.io/stalker-xrf-book/script_engine/schemes/hear.html)
+[Book: hear scheme.](https://xray-forge.github.io/xrf-book/script_engine/schemes/hear.html)

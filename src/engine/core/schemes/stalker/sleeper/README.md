@@ -16,4 +16,4 @@ path_look_info - ?
 
 ## Documentation
 
-[Book: sleeper scheme.](https://xray-forge.github.io/stalker-xrf-book/script_engine/schemes/sleeper.html)
+[Book: sleeper scheme.](https://xray-forge.github.io/xrf-book/script_engine/schemes/sleeper.html)

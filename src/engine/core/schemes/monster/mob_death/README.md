@@ -5,4 +5,4 @@ Listens to death events and records all the information needed for logics proces
 
 ## Documentation
 
-[Book: mob_death scheme.](https://xray-forge.github.io/stalker-xrf-book/script_engine/schemes/mob_death.html)
+[Book: mob_death scheme.](https://xray-forge.github.io/xrf-book/script_engine/schemes/mob_death.html)

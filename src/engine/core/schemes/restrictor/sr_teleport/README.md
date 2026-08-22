@@ -5,4 +5,4 @@ Example: teleports in stalker ShoC last zone, teleports at Zaton burning village
 
 ## Documentation
 
-[Book: sr_teleport scheme.](https://xray-forge.github.io/stalker-xrf-book/script_engine/schemes/sr_teleport.html)
+[Book: sr_teleport scheme.](https://xray-forge.github.io/xrf-book/script_engine/schemes/sr_teleport.html)

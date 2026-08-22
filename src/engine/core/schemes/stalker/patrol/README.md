@@ -6,4 +6,4 @@
 
 ## Documentation
 
-[Book: patrol scheme.](https://xray-forge.github.io/stalker-xrf-book/script_engine/schemes/patrol.html)
+[Book: patrol scheme.](https://xray-forge.github.io/xrf-book/script_engine/schemes/patrol.html)

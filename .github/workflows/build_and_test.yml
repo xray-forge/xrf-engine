@@ -68,7 +68,7 @@ jobs:
         shell: bash
         run: |
           submodule_commit="$(git rev-parse HEAD:cli/bin)"
-          git clone --depth=1 --filter=blob:none --sparse https://github.com/xray-forge/stalker-xrf-bin.git cli/bin
+          git clone --depth=1 --filter=blob:none --sparse https://github.com/xray-forge/xrf-engine-bin.git cli/bin
           git -C cli/bin sparse-checkout set tools
           git -C cli/bin fetch --depth=1 origin "$submodule_commit"
           git -C cli/bin checkout --detach "$submodule_commit"
@@ -132,7 +132,7 @@ jobs:
         shell: bash
         run: |
           submodule_commit="$(git rev-parse HEAD:cli/bin)"
-          git clone --depth=1 --filter=blob:none --sparse https://github.com/xray-forge/stalker-xrf-bin.git cli/bin
+          git clone --depth=1 --filter=blob:none --sparse https://github.com/xray-forge/xrf-engine-bin.git cli/bin
           git -C cli/bin sparse-checkout set tools
           git -C cli/bin fetch --depth=1 origin "$submodule_commit"
           git -C cli/bin checkout --detach "$submodule_commit"

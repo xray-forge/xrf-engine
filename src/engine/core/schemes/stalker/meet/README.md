@@ -6,4 +6,4 @@
 
 ## Documentation
 
-[Book: meet scheme.](https://xray-forge.github.io/stalker-xrf-book/script_engine/schemes/meet.html)
+[Book: meet scheme.](https://xray-forge.github.io/xrf-book/script_engine/schemes/meet.html)

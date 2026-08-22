@@ -6,4 +6,4 @@
 
 ## Documentation
 
-[Book: reach_task scheme.](https://xray-forge.github.io/stalker-xrf-book/script_engine/schemes/reach_task.html)
+[Book: reach_task scheme.](https://xray-forge.github.io/xrf-book/script_engine/schemes/reach_task.html)

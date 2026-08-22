@@ -5,4 +5,4 @@ From time to time spawns crows for declared paths based on maximal possible crow
 
 ## Documentation
 
-[Book: sr_crow_spawner scheme.](https://xray-forge.github.io/stalker-xrf-book/script_engine/schemes/sr_crow_spawner.html)
+[Book: sr_crow_spawner scheme.](https://xray-forge.github.io/xrf-book/script_engine/schemes/sr_crow_spawner.html)

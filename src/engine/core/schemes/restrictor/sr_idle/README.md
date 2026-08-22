@@ -6,4 +6,4 @@
 
 ## Documentation
 
-[Book: sr_idle scheme.](https://xray-forge.github.io/stalker-xrf-book/script_engine/schemes/sr_idle.html)
+[Book: sr_idle scheme.](https://xray-forge.github.io/xrf-book/script_engine/schemes/sr_idle.html)
