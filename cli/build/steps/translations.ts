@@ -14,7 +14,7 @@ const log: NodeLogger = NodeLogger.forFile(__filename);
 export async function buildTranslations(parameters: IBuildCommandParameters): Promise<void> {
   log.info(blueBright("Build translations"));
 
-  const command: string = `${XRF_UTILS_PATH} build-translation ${
+  const command: string = `${XRF_UTILS_PATH} translation build ${
     parameters.verbose ? "--verbose " : "--silent "
   }-p ${GAME_DATA_TRANSLATIONS_DIR} -o ${TARGET_GAME_DATA_TRANSLATIONS_DIR}`;
 

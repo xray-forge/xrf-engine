@@ -109,7 +109,8 @@ function compressWithConfig(
   createLtxCompressionConfig(configFileName, { files, folders });
 
   const args: Array<string> = [
-    "pack-archive",
+    "archive",
+    "pack",
     "-p",
     TARGET_GAME_DATA_DIR,
     "-d",

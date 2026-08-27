@@ -23,7 +23,7 @@ export async function verifyLtx(parameters: IVerifyLtxParameters = {}): Promise<
 
   const timeTracker: TimeTracker = new TimeTracker().start();
 
-  const command: string = `${XRF_UTILS_PATH} verify-ltx -p ${GAME_DATA_LTX_CONFIGS_DIR} ${
+  const command: string = `${XRF_UTILS_PATH} ltx verify -p ${GAME_DATA_LTX_CONFIGS_DIR} ${
     parameters.verbose ? "-v " : ""
   }`;
 

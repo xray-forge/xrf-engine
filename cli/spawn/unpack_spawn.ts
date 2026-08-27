@@ -28,7 +28,7 @@ export async function unpackSpawn(parameters: IUnpackSpawnParameters = {}): Prom
   const from: string = parameters.path ?? path.resolve(RESOURCES_DIR, "spawns", "all.spawn");
   const to: string = parameters.dest ?? path.resolve(TARGET_DIR, "all_spawn");
 
-  const command: string = `${XRF_UTILS_PATH} unpack-spawn -p ${from} -d ${to} ${parameters.force ? "-f" : ""}`;
+  const command: string = `${XRF_UTILS_PATH} spawn unpack -p ${from} -d ${to} ${parameters.force ? "-f" : ""}`;
 
   log.info("Execute:", blue(command));
 

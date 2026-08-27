@@ -23,7 +23,7 @@ export async function verifyParticlesPacked(parameters: IFormatParticlesPackedPa
 
   const timeTracker: TimeTracker = new TimeTracker().start();
 
-  const command: string = `${XRF_UTILS_PATH} verify-particles -p ${path.join(RESOURCES_DIR, "particles.xr")}`;
+  const command: string = `${XRF_UTILS_PATH} particle verify -p ${path.join(RESOURCES_DIR, "particles.xr")}`;
 
   log.info("Execute:", blue(command));
   cp.execSync(command, { stdio: "inherit" });

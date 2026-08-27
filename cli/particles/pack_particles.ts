@@ -28,7 +28,7 @@ export async function packParticles(parameters: IPackParticlesParameters = {}): 
   const from: string = parameters.path ?? RESOURCES_PARTICLES_UNPACKED_DIR;
   const to: string = parameters.dest ?? path.resolve(RESOURCES_DIR, "particles.xr");
 
-  const command: string = `${XRF_UTILS_PATH} pack-particles -p ${from} -d ${to} ${parameters.force ? "-f" : ""}`;
+  const command: string = `${XRF_UTILS_PATH} particle pack -p ${from} -d ${to} ${parameters.force ? "-f" : ""}`;
 
   log.info("Execute:", blue(command));
 

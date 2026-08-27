@@ -20,7 +20,7 @@ export async function initTranslations(target: string, parameters: IInitTranslat
   log.info("Initialize translation:", yellow(target));
   log.debug("Running with parameters:", parameters);
 
-  const command: string = `${XRF_UTILS_PATH} initialize-translations ${
+  const command: string = `${XRF_UTILS_PATH} translation initialize ${
     parameters.verbose ? "--verbose " : "--silent "
   }-p ${target}`;
 

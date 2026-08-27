@@ -9,7 +9,7 @@ import { TimeTracker } from "#/utils/timing";
 const log: NodeLogger = NodeLogger.forFile(__filename);
 
 /**
- * Verification checks supported by the `verify-gamedata` CLI utility.
+ * Verification checks supported by the `gamedata verify` CLI utility.
  */
 export enum EGamedataCheck {
   ANIMATIONS = "animations",
@@ -46,10 +46,10 @@ export async function verifyGamedata(parameters: IVerifyGamedataParameters = {})
 
   const timeTracker: TimeTracker = new TimeTracker().start();
 
-  const args: Array<string> = ["verify-gamedata", TARGET_GAME_DATA_DIR];
+  const args: Array<string> = ["gamedata", "verify", TARGET_GAME_DATA_DIR];
 
   if (parameters.strict) {
-    args.push("-s");
+    args.push("--strict");
   }
 
   if (parameters.verbose) {

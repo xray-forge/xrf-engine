@@ -15,7 +15,7 @@ export function packTextureDescriptions(parameters: IIconsCommandParameters): vo
 
   const timeTracker: TimeTracker = new TimeTracker().start();
 
-  const command: string = `${XRF_UTILS_PATH} pack-texture-description --description ${path.resolve(
+  const command: string = `${XRF_UTILS_PATH} texture pack-texture-description --description ${path.resolve(
     GAME_DATA_UI_DIR,
     "textures_descr",
     parameters.description ?? ""

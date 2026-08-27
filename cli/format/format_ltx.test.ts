@@ -18,7 +18,7 @@ describe("formatLtx", () => {
   it("should format whole configs folder when no paths provided", async () => {
     await formatLtx();
 
-    expect(cp.execFileSync).toHaveBeenCalledWith(XRF_UTILS_PATH, ["format-ltx", "-p", GAME_DATA_LTX_CONFIGS_DIR], {
+    expect(cp.execFileSync).toHaveBeenCalledWith(XRF_UTILS_PATH, ["ltx", "format", "-p", GAME_DATA_LTX_CONFIGS_DIR], {
       stdio: "inherit",
     });
   });
@@ -26,7 +26,7 @@ describe("formatLtx", () => {
   it("should format only provided paths", async () => {
     await formatLtx({ paths: ["first.ltx", "second.ltx"] });
 
-    expect(cp.execFileSync).toHaveBeenCalledWith(XRF_UTILS_PATH, ["format-ltx", "-p", "first.ltx", "second.ltx"], {
+    expect(cp.execFileSync).toHaveBeenCalledWith(XRF_UTILS_PATH, ["ltx", "format", "-p", "first.ltx", "second.ltx"], {
       stdio: "inherit",
     });
   });
@@ -42,7 +42,7 @@ describe("formatLtx", () => {
 
     expect(cp.execFileSync).toHaveBeenCalledWith(
       XRF_UTILS_PATH,
-      ["format-ltx", "-p", GAME_DATA_LTX_CONFIGS_DIR, "-c"],
+      ["ltx", "format", "-p", GAME_DATA_LTX_CONFIGS_DIR, "-c"],
       { stdio: "inherit" }
     );
   });
@@ -50,7 +50,7 @@ describe("formatLtx", () => {
   it("should run formatter in verbose mode", async () => {
     await formatLtx({ paths: ["first.ltx"], verbose: true });
 
-    expect(cp.execFileSync).toHaveBeenCalledWith(XRF_UTILS_PATH, ["format-ltx", "-p", "first.ltx", "-v"], {
+    expect(cp.execFileSync).toHaveBeenCalledWith(XRF_UTILS_PATH, ["ltx", "format", "-p", "first.ltx", "-v"], {
       stdio: "inherit",
     });
   });

@@ -22,7 +22,7 @@ export async function checkTranslations(parameters: IListProblematicTranslationP
   log.info("List problematic translations:", yellow(GAME_DATA_TRANSLATIONS_DIR), parameters.language || "all");
   log.debug("Running with parameters:", parameters);
 
-  const command: string = `${XRF_UTILS_PATH} verify-translations ${
+  const command: string = `${XRF_UTILS_PATH} translation verify ${
     parameters.verbose ? "--verbose " : "--silent "
   }-p ${GAME_DATA_TRANSLATIONS_DIR} -l ${parameters.language || "all"} ${parameters.strict ? "--strict" : ""}`;
 

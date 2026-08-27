@@ -18,7 +18,7 @@ export async function unpackEquipmentIcons(parameters: IIconsCommandParameters):
 
   const timeTracker: TimeTracker = new TimeTracker().start();
 
-  const command: string = `${XRF_UTILS_PATH} unpack-equipment-icons --system-ltx ${path.resolve(
+  const command: string = `${XRF_UTILS_PATH} texture unpack-equipment-icons --system-ltx ${path.resolve(
     GAME_DATA_LTX_CONFIGS_DIR,
     "system.ltx"
   )} --source ${path.resolve(RESOURCES_DIR, "textures", "ui", "ui_icon_equipment.dds")} --output ${path.resolve(

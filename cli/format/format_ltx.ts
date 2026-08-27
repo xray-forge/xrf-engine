@@ -36,7 +36,7 @@ export async function formatLtx(parameters: IFormatLtxParameters = {}): Promise<
   log.info("Formatting ltx files");
 
   const timeTracker: TimeTracker = new TimeTracker().start();
-  const args: Array<string> = ["format-ltx", "-p", ...(parameters.paths ?? [GAME_DATA_LTX_CONFIGS_DIR])];
+  const args: Array<string> = ["ltx", "format", "-p", ...(parameters.paths ?? [GAME_DATA_LTX_CONFIGS_DIR])];
 
   if (parameters.check) {
     args.push("-c");

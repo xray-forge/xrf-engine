@@ -18,7 +18,7 @@ export async function verifyExternManifest(): Promise<void> {
   log.info("Verifying extern manifest");
 
   const timeTracker: TimeTracker = new TimeTracker().start();
-  const args: Array<string> = ["export-externs", GAME_DATA_DECLARATIONS_DIR, "--check", EXTERN_MANIFEST_PATH];
+  const args: Array<string> = ["externs", "export", GAME_DATA_DECLARATIONS_DIR, "--check", EXTERN_MANIFEST_PATH];
 
   log.info("Execute:", blue([XRF_UTILS_PATH, ...args].join(" ")));
 

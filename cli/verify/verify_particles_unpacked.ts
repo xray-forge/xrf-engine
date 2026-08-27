@@ -22,7 +22,7 @@ export async function verifyParticlesUnpacked(parameters: IFormatParticlesUnpack
 
   const timeTracker: TimeTracker = new TimeTracker().start();
 
-  const command: string = `${XRF_UTILS_PATH} verify-particles -p ${RESOURCES_PARTICLES_UNPACKED_DIR} -u`;
+  const command: string = `${XRF_UTILS_PATH} particle verify -p ${RESOURCES_PARTICLES_UNPACKED_DIR} -u`;
 
   log.info("Execute:", blue(command));
   cp.execSync(command, { stdio: "inherit" });
