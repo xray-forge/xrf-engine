@@ -14,9 +14,10 @@ npm run cli -- verify <command> [options]
 - `ltx` validates LTX project integrity and types.
 - `particles-packed` validates packed particles.
 - `particles-unpacked` validates unpacked particles.
+- `translations` lists missing or invalid entries in the project translation dictionaries.
 
-`gamedata`, `ltx`, `particles-packed`, and `particles-unpacked` support `-v, --verbose`. Only `gamedata` supports
-`-s, --strict`.
+`gamedata`, `ltx`, `particles-packed`, `particles-unpacked`, and `translations` support `-v, --verbose`. `gamedata`
+and `translations` support `-s, --strict`. Only `translations` supports `-l, --language <locale>`.
 
 ## Examples
 
@@ -25,4 +26,5 @@ npm run cli -- verify project
 npm run cli -- verify externs
 npm run cli -- verify ltx --verbose
 npm run cli -- verify gamedata --strict
+npm run cli -- verify translations --language ukr --strict
 ```

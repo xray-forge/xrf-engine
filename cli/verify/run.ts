@@ -6,6 +6,7 @@ import { verifyLtx } from "#/verify/verify_ltx";
 import { verifyParticlesPacked } from "#/verify/verify_particles_packed";
 import { verifyParticlesUnpacked } from "#/verify/verify_particles_unpacked";
 import { verifyProject } from "#/verify/verify_project";
+import { verifyTranslations } from "#/verify/verify_translations";
 
 /**
  * Setup verify commands.
@@ -50,4 +51,12 @@ export function setupVerifyCommands(command: Command): void {
     .description("verify unpacked particles")
     .addOption(new Option("-v, --verbose", "Whether verbose logging mode is enabled").default(false))
     .action(verifyParticlesUnpacked);
+
+  verifyCommand
+    .command("translations")
+    .description("verify translation dictionaries for missing or invalid entries")
+    .addOption(new Option("-l, --language <locale>", "verify single locale instead of all at once"))
+    .addOption(new Option("-s, --strict", "Fail on missing entries").default(false))
+    .addOption(new Option("-v, --verbose", "Whether verbose logging mode is enabled").default(false))
+    .action(verifyTranslations);
 }

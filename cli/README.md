@@ -28,9 +28,9 @@ installation use [`config.json`](config.json); review its paths before using `li
 - [`spawn`](spawn/README.md) unpacks ALife spawn files.
 - [`start`](start/README.md) launches the configured game executable.
 - [`test`](test/README.md) runs the Jest test suite.
-- [`translations`](translations/README.md) initializes, converts, and validates translations.
 - [`utils`](utils/README.md) contains shared implementation helpers; it has no standalone command.
-- [`verify`](verify/README.md) validates the project, built `gamedata`, LTX, particles, and extern manifests.
+- [`verify`](verify/README.md) validates the project, built `gamedata`, LTX, particles, translations, and extern
+  manifests.
 
 ## Related npm scripts
 

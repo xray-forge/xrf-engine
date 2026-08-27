@@ -17,7 +17,6 @@ import { setupParseCommands } from "#/parse/run";
 import { setupParticlesCommands } from "#/particles/run";
 import { setupSpawnCommands } from "#/spawn/run";
 import { setupStartCommands } from "#/start/run";
-import { setupTranslationsCommands } from "#/translations/run";
 import { setupVerifyCommands } from "#/verify/run";
 
 const program: Command = new Command("cli");
@@ -37,7 +36,6 @@ setupParticlesCommands(program);
 setupChecksCommands(program);
 setupSpawnCommands(program);
 setupStartCommands(program);
-setupTranslationsCommands(program);
 setupVerifyCommands(program);
 
 program.parse();
