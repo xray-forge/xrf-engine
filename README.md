@@ -1,4 +1,6 @@
-# 🎮 [Stalker XRF](README.md)
+<img src="https://xray-forge.github.io/xrf-book/images/xrf-engine-banner%400.5x.png">
+
+# XRF Engine
 
 [![book](https://img.shields.io/badge/docs-book-blue.svg?style=flat)](https://xray-forge.github.io/xrf-book)
 [![types](https://img.shields.io/badge/docs-types-blue.svg?style=flat)](https://xray-forge.github.io/xrf-xray16-sdk/index.html)
@@ -12,7 +14,7 @@
 Fully rewritten stalker script engine with typescript. <br/>
 </p>
 
-## 📦 In short
+## In short
 
 - Faster development with typescript and static analysis
 - Custom [CLI](https://xray-forge.github.io/xrf-book/xrf/cli/cli.html) and [build pipeline](https://xray-forge.github.io/xrf-book/xrf/building/building.html), [dev tools](https://github.com/xray-forge/xrf-tools)
@@ -27,7 +29,7 @@ Fully rewritten stalker script engine with typescript. <br/>
   [linting](https://xray-forge.github.io/xrf-book/xrf/cli/commands/lint.html),
   [configs format and verification](https://xray-forge.github.io/xrf-book/tools/cli/cli.html)
 
-## 📍 Purpose
+## Purpose
 
 - Provide shared up-to-date template and tools for mod development
 - Produce documented and readable code, document xray SDK
@@ -35,14 +37,14 @@ Fully rewritten stalker script engine with typescript. <br/>
 
 ---
 
-## 🌓 Links
+## Links
 
 - [Starting work](https://xray-forge.github.io/xrf-book/INSTALLATION.html)
 - [CLI commands](https://xray-forge.github.io/xrf-book/xrf/cli/commands.html)
 - [Docs](https://xray-forge.github.io/xrf-book/GENERAL.html)
 - [X-Ray 16 SDK](https://xray-forge.github.io/xrf-xray16-sdk/modules.html), [source](https://github.com/xray-forge/xrf-xray16-sdk)
 
-## 📌 What is used
+## What is used
 
 - [NodeJS](https://nodejs.org/en/)
 - [Typescript](https://www.typescriptlang.org/)
@@ -52,7 +54,7 @@ Fully rewritten stalker script engine with typescript. <br/>
 - [Open-X-Ray](https://github.com/OpenXRay/xray-16)
 - [XRF tools](https://github.com/xray-forge/xrf-tools)
 
-## 📦 Changes / differences from original
+## Changes / differences from original
 
 Full changes list: [changelist](https://xray-forge.github.io/xrf-book/CHANGES.html)
 
@@ -61,18 +63,11 @@ Optimizations, quality and logics updates are welcome.
 
 Breaking / radical changes can be implemented as extensions.
 
-## 🌓 TODOs / tasks
-
-- [cli and tooling](https://github.com/orgs/xray-forge/projects/3)
-- [xrf engine](https://github.com/orgs/xray-forge/projects/4)
-- [c++ engine (open xray)](https://github.com/orgs/xray-forge/projects/6)
-- [documentation](https://github.com/orgs/xray-forge/projects/5)
-
-## 📦 Credits
+## Credits
 
 [Link.](https://xray-forge.github.io/xrf-book/CREDITS.html)
 
-## 📌 License
+## License
 
 This community project is not affiliated with GSC Game World in any way.\
 When using XRF script engine and OpenXRay for making modifications for S.T.A.L.K.E.R. games developed by GSC Game World,
