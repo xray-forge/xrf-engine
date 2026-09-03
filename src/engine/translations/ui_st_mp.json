@@ -1817,16 +1817,6 @@
     "spa": "2. Caza de artefactos",
     "ukr": "2. Полювання за артефактом"
   },
-  "ui_mp_am_10_minutes": {
-    "eng": "10 minutes",
-    "fra": "10 minutes",
-    "ger": "10 Minuten",
-    "ita": "10 minuti",
-    "pol": "10 minut",
-    "rus": "10 минут",
-    "spa": "10 minutos",
-    "ukr": "10 хвилин"
-  },
   "ui_mp_am_1_day": {
     "eng": "1 day",
     "fra": "1 jour",
@@ -1867,16 +1857,6 @@
     "spa": "1 semana",
     "ukr": "1 тиждень"
   },
-  "ui_mp_am_30_minutes": {
-    "eng": "30 minutes",
-    "fra": "30 minutes",
-    "ger": "30 Minuten",
-    "ita": "30 minuti",
-    "pol": "30 minut",
-    "rus": "30 минут",
-    "spa": "30 minutos",
-    "ukr": "30 хвилин"
-  },
   "ui_mp_am_3_monthes": {
     "eng": "3 months",
     "fra": "3 mois",
@@ -1896,6 +1876,26 @@
     "rus": "6 часов",
     "spa": "6 horas",
     "ukr": "6 годин"
+  },
+  "ui_mp_am_10_minutes": {
+    "eng": "10 minutes",
+    "fra": "10 minutes",
+    "ger": "10 Minuten",
+    "ita": "10 minuti",
+    "pol": "10 minut",
+    "rus": "10 минут",
+    "spa": "10 minutos",
+    "ukr": "10 хвилин"
+  },
+  "ui_mp_am_30_minutes": {
+    "eng": "30 minutes",
+    "fra": "30 minutes",
+    "ger": "30 Minuten",
+    "ita": "30 minuti",
+    "pol": "30 minut",
+    "rus": "30 минут",
+    "spa": "30 minutos",
+    "ukr": "30 хвилин"
   },
   "ui_mp_am_ban_selected": {
     "eng": "Ban selected player",

@@ -159,6 +159,66 @@
     "spa": "Antes esto era un aislante, pero ahora casi se ha convertido en un artefacto inestable. Es probable que sea la fuente de las emisiones psíquicas intermitentes.",
     "ukr": "Цей предмет колись був електричним ізолятором. Тепер він майже перетворився на артефакт, котрий відзначається нестабільними властивостями. Швидше за все, саме він був джерелом перемінного псі-випромінювання."
   },
+  "jup_b9_blackbox": {
+    "eng": "Black Box",
+    "fra": "Boîte noire",
+    "ger": "Flugschreiber",
+    "ita": "Scatola nera",
+    "pol": "Czarna skrzynka",
+    "rus": "«Чёрный ящик»",
+    "spa": "Caja negra",
+    "ukr": "«Чорний ящик»"
+  },
+  "jup_b9_blackbox_descr": {
+    "eng": "The Stingray 1 black box which survived the crash. It should contain details of the flight's last moments, albeit in encrypted format.",
+    "fra": "La boîte noire du Stingray 1. Elle doit contenir les données cryptées du vol avant l'accident.",
+    "ger": "Der Flugschreiber von Stingray 1, der den Absturz überstanden hat. Er dürfte Details über die letzten Momente des Fluges enthalten, wenn auch in verschlüsseltem Format.",
+    "ita": "La scatola nera di Stingray 1 sopravvissuta allo schianto. Dovrebbe contenere dettagli sugli ultimi istanti di volo, anche se in formato criptato.",
+    "pol": "Czarna skrzynka z Ogończy 1, ocalała z katastrofy. Powinna zawierać informacje na temat ostatnich chwil lotu, będą one jednak zaszyfrowane.",
+    "rus": "«Чёрный ящик», уцелевший при падении вертолёта «Скат-1». В нём должна содержаться зашифрованная информация о последних минутах полёта.",
+    "spa": "La caja negra del Pez Raya 1, intacta tras el accidente. Debería contener datos codificados sobre los últimos minutos de vuelo del aparato.",
+    "ukr": "«Чорний ящик», вцілілий після падіння гелікоптеру «Скат-1». У ньому має міститися зашифрована інформація про останні хвилини польоту."
+  },
+  "jup_b47_jupiter_products_info": {
+    "eng": "Administrative documents",
+    "fra": "Documents administratifs",
+    "ger": "Verwaltungsunterlagen",
+    "ita": "Documenti amministrativi",
+    "pol": "Dokumenty administracyjne",
+    "rus": "Административные документы",
+    "spa": "Documentos administrativos",
+    "ukr": "Адміністративні документи"
+  },
+  "jup_b47_jupiter_products_info_descr": {
+    "eng": "A folder of documents containing purely administrative information. According to the documents, pursuant to an order from the central laboratory, technical documentation pertaining to item 62 was passed to the testing workshop.",
+    "fra": "À en croire le contenu de ce dossier administratif, la documentation technique afférente à l'objet 62 a été transmise à l'atelier de test sur ordre du laboratoire central.",
+    "ger": "Ein Ordner mit Unterlagen, die reine Verwaltungsinformationen enthalten. Laut diesen Dokumenten wurde die gesamte technische Dokumentation von Forschungsobjekt 62 auf Anordnung des Zentrallabors an die Testwerkstatt übergeben.",
+    "ita": "Una cartella di documenti che contengono informazioni puramente amministrative. Affermano che tutte le documentazioni tecniche relative all'oggetto 62 sono state trasferite all'officina collaudi in seguito a un ordine del laboratorio centrale.",
+    "pol": "Plik dokumentów zawierających dane czysto administracyjne. Wspomina się w nich, że zgodnie z rozkazem z laboratorium centralnego, dokumentacja techniczna obiektu 62 została przekazana do warsztatu testującego.",
+    "rus": "Папка с документами, в которых содержится сугубо административная информация. Согласно последней, в связи с приказом из центральной лаборатории техническая документация по некоему «изделию №62» была передана в испытательный цех.",
+    "spa": "Una carpeta de documentos que contiene datos puramente administrativos. Según los documentos, toda la información técnica relacionada con el objeto 62 se envió al taller de pruebas por orden del laboratorio central.",
+    "ukr": "Тека з документами, в яких міститься суто адміністративна інформація. Згідно з останньою, у зв'язку із наказом з центральної лабораторії технічну документацію такого собі «Виробу №62» було передано до випробувального цеху."
+  },
+  "jup_b47_merc_pda": {
+    "eng": "Black's PDA",
+    "fra": "PDA de Black",
+    "ger": "Blacks PDA",
+    "ita": "PDA di Black",
+    "pol": "PDA Czarnego",
+    "rus": "КПК Чёрного",
+    "spa": "PDA de Negro",
+    "ukr": "КПК Чорного"
+  },
+  "jup_b47_merc_pda_desc": {
+    "eng": "One message stands out among a handful of others. The sender is called Jackal and the message reads: \"My man at the research institute will recommend that you lead the expedition. He will have to hire your boys to guard the bunker. That will make things easier for you. Remember, the client doesn't want ANY information about the operation of X-designated objects to reach the scientists. If it does, we will not be able to leave the Zone. Don't let me down, Black.\"",
+    "fra": "Un message en particulier attire l'attention. L'expéditeur se nomme le Chacal : \"Mon informateur à l'institut de recherche te recommandera pour mener l'expédition. Il devra faire appel à ton équipe pour surveiller le bunker. Ça vous facilitera la tâche. Mais n'oublie pas que le client ne veut absolument pas que les infos sur les objets de type X remontent jusqu'aux scientifiques. Si cela devait arriver, nous ne pourrions plus quitter la Zone. Ne me fais pas faux bond, Black !\" ",
+    "ger": "Eine Nachricht sticht aus allen anderen hervor. Sie stammt von Schakal und lautet: \"Mein Mann beim Forschungsinstitut wird dich als Leiter der Expedition vorschlagen. Er wird deine Jungs zum Bewachen des Bunkers einstellen müssen, das wird die Sache einfacher für dich machen. Vergiss nicht: Der Auftraggeber wünscht, dass die Wissenschaftler KEINERLEI Informationen über die Bedienung der X-Objekte erhalten. Anderenfalls können wir die Zone nicht verlassen. Enttäusch mich nicht, Black.\"",
+    "ita": "C'è un messaggio particolarmente interessante. Il mittente è un certo Jackal e il testo del messaggio è il seguente: \"Il mio uomo all'istituto di ricerca farà in modo che sia tu a guidare la spedizione. Dovrà ingaggiare i tuoi ragazzi per difendere il bunker. Questo dovrebbe facilitarti le cose. Ricorda che il cliente esige che QUALSIASI informazione sull'operazione degli oggetti con designazione X non raggiunga gli scienziati. In caso contrario, non potremo lasciare la Zona. Non deludermi, Black\".",
+    "pol": "Uwagę zwraca jedna z wiadomości. Nadawca nazywa się Szakal, a tekst brzmi następująco: „Mój człowiek w instytucie badawczym poleci cię na dowódcę ekspedycji. Będzie musiał wynająć twoich chłopaków do ochrony bunkra. To ci ułatwi działanie. Pamiętaj, klient nie chce, żeby do naukowców dotarły JAKIEKOLWIEK informacje na temat obsługi obiektów X. W przeciwnym wypadku nie będziemy mogli opuścić Zony. Nie zawiedź mnie, Czarny.\"",
+    "rus": "Среди немногочисленных сообщений одно привлекает особое внимание благодаря прозвищу отправителя - Шакал. «Мой человек в НИИ порекомендует вас главе экспедиции. Тому придётся взять твоих ребят на охрану бункера, это здорово облегчит задачу. Помни: заказчик хочет, чтобы никакой информации о работе объектов с индексом «X» в руки учёным не попало. Если просочится хоть что-то, мы за пределами Зоны не жильцы. Не подведи меня, Чёрный».",
+    "spa": "Un mensaje que destaca entre los demás. El remitente es alguien llamado Chacal y dice así: \"Mi contacto en el instituto de investigación recomienda que dirijas la expedición. Tendrá que contratar a tus chicos para proteger el búnker. Así lo tendrás todo más fácil. Recuerda, el cliente no quiere que los científicos consigan NINGUNA información sobre el manejo de los objetos clasificados como X. De ser así, no podremos abandonar la Zona. No me decepciones, Negro.\"",
+    "ukr": "Серед нечисленних повідомлень одне привертає особливу увагу завдяки прізвиську відправника - Шакал. «Мой человек в НИИ порекомендует вас главе экспедиции. Тому придётся взять твоих ребят на охрану бункера, это здорово облегчит задачу. Помни: заказчик хочет, чтобы никакой информации о работе объектов с индексом «X» в руки учёным не попало. Если просочится хоть что-то, мы за пределами Зоны не жильцы. Не подведи меня, Чёрный»."
+  },
   "jup_b200_tech_materials_acetone": {
     "eng": "A can of colophonium",
     "fra": "Bidon de colophonium",
@@ -278,66 +338,6 @@
     "rus": "Комплекс из сканера аномальной активности, датчика присутствия мутантов (ограниченного радиуса действия) и блока записи. Прибор снабжён автоматическим выключателем, который срабатывает после накопления определённого количества данных.",
     "spa": "Este dispositivo, basado en un escáner de actividad anómala ordinario, se ha combinado con un sensor detector de mutantes de corto alcance y un dispositivo de registro para almacenar resultados. Viene equipado con un interruptor de desactivación automática que se acciona tras recoger una determinada cantidad de datos.",
     "ukr": "Комплекс зі сканера аномальної активності, датчика присутності мутантів (обмеженого радіусу дії) та блоку запису. Прилад споряджено автоматичним вимикачем, котрий спрацьовує після накопичення певної кількості даних."
-  },
-  "jup_b47_jupiter_products_info": {
-    "eng": "Administrative documents",
-    "fra": "Documents administratifs",
-    "ger": "Verwaltungsunterlagen",
-    "ita": "Documenti amministrativi",
-    "pol": "Dokumenty administracyjne",
-    "rus": "Административные документы",
-    "spa": "Documentos administrativos",
-    "ukr": "Адміністративні документи"
-  },
-  "jup_b47_jupiter_products_info_descr": {
-    "eng": "A folder of documents containing purely administrative information. According to the documents, pursuant to an order from the central laboratory, technical documentation pertaining to item 62 was passed to the testing workshop.",
-    "fra": "À en croire le contenu de ce dossier administratif, la documentation technique afférente à l'objet 62 a été transmise à l'atelier de test sur ordre du laboratoire central.",
-    "ger": "Ein Ordner mit Unterlagen, die reine Verwaltungsinformationen enthalten. Laut diesen Dokumenten wurde die gesamte technische Dokumentation von Forschungsobjekt 62 auf Anordnung des Zentrallabors an die Testwerkstatt übergeben.",
-    "ita": "Una cartella di documenti che contengono informazioni puramente amministrative. Affermano che tutte le documentazioni tecniche relative all'oggetto 62 sono state trasferite all'officina collaudi in seguito a un ordine del laboratorio centrale.",
-    "pol": "Plik dokumentów zawierających dane czysto administracyjne. Wspomina się w nich, że zgodnie z rozkazem z laboratorium centralnego, dokumentacja techniczna obiektu 62 została przekazana do warsztatu testującego.",
-    "rus": "Папка с документами, в которых содержится сугубо административная информация. Согласно последней, в связи с приказом из центральной лаборатории техническая документация по некоему «изделию №62» была передана в испытательный цех.",
-    "spa": "Una carpeta de documentos que contiene datos puramente administrativos. Según los documentos, toda la información técnica relacionada con el objeto 62 se envió al taller de pruebas por orden del laboratorio central.",
-    "ukr": "Тека з документами, в яких міститься суто адміністративна інформація. Згідно з останньою, у зв'язку із наказом з центральної лабораторії технічну документацію такого собі «Виробу №62» було передано до випробувального цеху."
-  },
-  "jup_b47_merc_pda": {
-    "eng": "Black's PDA",
-    "fra": "PDA de Black",
-    "ger": "Blacks PDA",
-    "ita": "PDA di Black",
-    "pol": "PDA Czarnego",
-    "rus": "КПК Чёрного",
-    "spa": "PDA de Negro",
-    "ukr": "КПК Чорного"
-  },
-  "jup_b47_merc_pda_desc": {
-    "eng": "One message stands out among a handful of others. The sender is called Jackal and the message reads: \"My man at the research institute will recommend that you lead the expedition. He will have to hire your boys to guard the bunker. That will make things easier for you. Remember, the client doesn't want ANY information about the operation of X-designated objects to reach the scientists. If it does, we will not be able to leave the Zone. Don't let me down, Black.\"",
-    "fra": "Un message en particulier attire l'attention. L'expéditeur se nomme le Chacal : \"Mon informateur à l'institut de recherche te recommandera pour mener l'expédition. Il devra faire appel à ton équipe pour surveiller le bunker. Ça vous facilitera la tâche. Mais n'oublie pas que le client ne veut absolument pas que les infos sur les objets de type X remontent jusqu'aux scientifiques. Si cela devait arriver, nous ne pourrions plus quitter la Zone. Ne me fais pas faux bond, Black !\" ",
-    "ger": "Eine Nachricht sticht aus allen anderen hervor. Sie stammt von Schakal und lautet: \"Mein Mann beim Forschungsinstitut wird dich als Leiter der Expedition vorschlagen. Er wird deine Jungs zum Bewachen des Bunkers einstellen müssen, das wird die Sache einfacher für dich machen. Vergiss nicht: Der Auftraggeber wünscht, dass die Wissenschaftler KEINERLEI Informationen über die Bedienung der X-Objekte erhalten. Anderenfalls können wir die Zone nicht verlassen. Enttäusch mich nicht, Black.\"",
-    "ita": "C'è un messaggio particolarmente interessante. Il mittente è un certo Jackal e il testo del messaggio è il seguente: \"Il mio uomo all'istituto di ricerca farà in modo che sia tu a guidare la spedizione. Dovrà ingaggiare i tuoi ragazzi per difendere il bunker. Questo dovrebbe facilitarti le cose. Ricorda che il cliente esige che QUALSIASI informazione sull'operazione degli oggetti con designazione X non raggiunga gli scienziati. In caso contrario, non potremo lasciare la Zona. Non deludermi, Black\".",
-    "pol": "Uwagę zwraca jedna z wiadomości. Nadawca nazywa się Szakal, a tekst brzmi następująco: „Mój człowiek w instytucie badawczym poleci cię na dowódcę ekspedycji. Będzie musiał wynająć twoich chłopaków do ochrony bunkra. To ci ułatwi działanie. Pamiętaj, klient nie chce, żeby do naukowców dotarły JAKIEKOLWIEK informacje na temat obsługi obiektów X. W przeciwnym wypadku nie będziemy mogli opuścić Zony. Nie zawiedź mnie, Czarny.\"",
-    "rus": "Среди немногочисленных сообщений одно привлекает особое внимание благодаря прозвищу отправителя - Шакал. «Мой человек в НИИ порекомендует вас главе экспедиции. Тому придётся взять твоих ребят на охрану бункера, это здорово облегчит задачу. Помни: заказчик хочет, чтобы никакой информации о работе объектов с индексом «X» в руки учёным не попало. Если просочится хоть что-то, мы за пределами Зоны не жильцы. Не подведи меня, Чёрный».",
-    "spa": "Un mensaje que destaca entre los demás. El remitente es alguien llamado Chacal y dice así: \"Mi contacto en el instituto de investigación recomienda que dirijas la expedición. Tendrá que contratar a tus chicos para proteger el búnker. Así lo tendrás todo más fácil. Recuerda, el cliente no quiere que los científicos consigan NINGUNA información sobre el manejo de los objetos clasificados como X. De ser así, no podremos abandonar la Zona. No me decepciones, Negro.\"",
-    "ukr": "Серед нечисленних повідомлень одне привертає особливу увагу завдяки прізвиську відправника - Шакал. «Мой человек в НИИ порекомендует вас главе экспедиции. Тому придётся взять твоих ребят на охрану бункера, это здорово облегчит задачу. Помни: заказчик хочет, чтобы никакой информации о работе объектов с индексом «X» в руки учёным не попало. Если просочится хоть что-то, мы за пределами Зоны не жильцы. Не подведи меня, Чёрный»."
-  },
-  "jup_b9_blackbox": {
-    "eng": "Black Box",
-    "fra": "Boîte noire",
-    "ger": "Flugschreiber",
-    "ita": "Scatola nera",
-    "pol": "Czarna skrzynka",
-    "rus": "«Чёрный ящик»",
-    "spa": "Caja negra",
-    "ukr": "«Чорний ящик»"
-  },
-  "jup_b9_blackbox_descr": {
-    "eng": "The Stingray 1 black box which survived the crash. It should contain details of the flight's last moments, albeit in encrypted format.",
-    "fra": "La boîte noire du Stingray 1. Elle doit contenir les données cryptées du vol avant l'accident.",
-    "ger": "Der Flugschreiber von Stingray 1, der den Absturz überstanden hat. Er dürfte Details über die letzten Momente des Fluges enthalten, wenn auch in verschlüsseltem Format.",
-    "ita": "La scatola nera di Stingray 1 sopravvissuta allo schianto. Dovrebbe contenere dettagli sugli ultimi istanti di volo, anche se in formato criptato.",
-    "pol": "Czarna skrzynka z Ogończy 1, ocalała z katastrofy. Powinna zawierać informacje na temat ostatnich chwil lotu, będą one jednak zaszyfrowane.",
-    "rus": "«Чёрный ящик», уцелевший при падении вертолёта «Скат-1». В нём должна содержаться зашифрованная информация о последних минутах полёта.",
-    "spa": "La caja negra del Pez Raya 1, intacta tras el accidente. Debería contener datos codificados sobre los últimos minutos de vuelo del aparato.",
-    "ukr": "«Чорний ящик», вцілілий після падіння гелікоптеру «Скат-1». У ньому має міститися зашифрована інформація про останні хвилини польоту."
   },
   "pri_a25_explosive_charge_descr": {
     "eng": "Military grade plastic explosives with a 5 second timer.",
@@ -539,6 +539,81 @@
     "spa": "Módulo de memoria bloqueado",
     "ukr": "Модуль пам'яті (заблокований)"
   },
+  "st_jup_b32_scanner_device_desc": {
+    "eng": "This case combines an artifact detector, a battery and a powerful transmitter. The device will scan anomalies to determine the number and type of artifacts that appear. All of this information will be automatically relayed to the scientists' bunker.",
+    "fra": "Cette valise contient un détecteur d'artefacts, une batterie et un puissant transmetteur. Le dispositif scanne les anomalies afin de déterminer la quantité et le type d'artefacts présents. Ces informations sont ensuite transmises automatiquement au bunker des scientifiques.",
+    "ger": "Dieses Gerät vereint einen Artefaktdetektor, eine Batterie und einen starken Sender in sich. Es scannt Anomalien und stellt die Anzahl sowie die Art der Artefakte fest, die darin vorkommen. Diese Informationen werden danach automatisch in den Bunker der Wissenschaftler übermittelt.",
+    "ita": "Questo strumento include un rilevatore di manufatti, una batteria e una potente trasmittente. Può analizzare le anomalie per determinare il numero e il tipo di manufatti che compaiono. Tutte queste informazioni vengono poi inviate automaticamente al bunker degli scienziati.",
+    "pol": "W tej skrzynce znajduje się wykrywacz artefaktów, bateria i potężny przekaźnik. Urządzenie będzie skanować anomalie, aby określić liczbę i rodzaj artefaktów, które się pojawią. Wszystkie te informacje zostaną automatycznie przekazane do bunkra naukowców.",
+    "rus": "В корпусе прибора воедино собраны детектор артефактов, аккумулятор и мощный передатчик. Эта штука должна сканировать аномалии, определяя количество и тип появившихся в них артефактов. Вся полученная информация должна автоматически пересылаться в бункер учёных.",
+    "spa": "Este estuche contiene un detector de artefactos, una batería y un potente transmisor. El dispositivo escanea anomalías para determinar la cantidad y el tipo de artefactos que aparecerán. Toda esta información se transmite automáticamente al búnker de los científicos.",
+    "ukr": "У корпусі приладу разом змонтовано детектор артефактів, акумулятор та потужний передавач. Ця штука має сканувати аномалії, визначаючи кількість і тип артефактів, що з'явилися у них. Вся отримана інформація повинна автоматично пересилатися до бункеру вчених."
+  },
+  "st_jup_b32_scanner_device_name": {
+    "eng": "Anomalous Activity Scanner",
+    "fra": "Détecteur d'activités anormales",
+    "ger": "Scanner für anomale Aktivitäten",
+    "ita": "Scanner di anomalie",
+    "pol": "Skaner anomalii",
+    "rus": "Сканер аномальной активности",
+    "spa": "Escáner de actividad anómala",
+    "ukr": "Сканер аномальної активності"
+  },
+  "st_jup_b46_duty_founder_pda_desc": {
+    "eng": [
+      "The last entry on the PDA is an audio recording: ",
+      "\"...Whichever way we go, we always end up at the same exact spot. I still can't get used to this fog... It's weird that Chepurny disappeared without a trace. Maybe he found a way out?... ",
+      "Day six... We have run out of water... The Colonel flipped his lid, shot two people at point blank range and then himself... Now I'm on my own in this damn anomaly... If I hadn't fixed for our communications with HQ to go down, they could have rescued us... and Duty wouldn't have existed. I wonder how things would have turned out... Ah, screw it. That Captain Tachenko died a long time ago... And this General Tachenko of Duty will follow him... that's justice, I suppose...\"",
+      "The recording terminates just after a gunshot can be heard."
+    ],
+    "fra": [
+      "Le PDA contient un enregistrement audio : ",
+      "\"... Où que nous allions, nous revenons toujours à notre point de départ. Je n'arrive pas à m'habituer à ce brouillard... C'est quand même étrange que Chepurny ait disparu sans laisser de traces. Est-ce qu'il aurait trouvé un moyen de sortir ?... ",
+      "Sixième jour... Nous avons épuisé nos réserves d'eau... Le colonel a pété les plombs et a tiré sur deux hommes à bout portant avant de retourner l'arme contre lui... Je suis désormais seul dans cette saloperie d'anomalie... Si je n'avais pas coupé la liaison avec le QG, ils auraient pu venir à notre secours... Et le Devoir n'aurait jamais existé. Je me demande ce qui se serait passé... Et merde, qu'est-ce que ça peut foutre ? Le capitaine Tachenko est mort il y a longtemps... Et le général Tachenko du Devoir va bientôt le suivre dans la tombe... Ce n'est que justice, je suppose...\"",
+      "On entend un coup de feu et l'enregistrement est coupé."
+    ],
+    "ger": [
+      "Der letzte Eintrag auf dem PDA ist eine Tonaufnahme: ",
+      "\"... Egal welchen Weg wir einschlagen, wir landen immer genau an der gleichen Stelle. Ich habe mich immer noch nicht an diesen Nebel gewöhnt. Es ist merkwürdig, dass Tschepurnij spurlos verschwunden ist. Vielleicht hat er einen Weg nach draußen gefunden? ",
+      "Sechster Tag... Wir haben kein Wasser mehr. Der Oberst wurde wütend, hat zwei Leute aus kürzester Distanz abgeknallt und anschließend sich selbst eine Kugel in den Kopf gejagt. Jetzt bin ich in dieser verdammten Anomalie ganz auf mich gestellt... Hätte ich unsere Funkverbindung zum Hauptquartier nicht unterbrochen, hätten sie uns retten können... und die Wächter hätten nicht existiert. Ich frage mich, wie die Dinge ihren Lauf genommen hätten. Ach, was soll's. Hauptmann Taschenkow ist vor langer Zeit gestorben... Und General Taschenkow von den Wächtern wird ihm folgen... Ich vermute, das versteht man unter Gerechtigkeit...\"",
+      "Die Aufnahme endet mit einem deutlich hörbaren Schuss."
+    ],
+    "ita": [
+      "I dati più recenti sul PDA riguardano una registrazione audio:",
+      "\"...Da qualsiasi parte andiamo, finiamo sempre nello stesso punto. Non riesco ad abituarmi a questa nebbia... È strano che Chepurny sia scomparso senza lasciare tracce: che abbia trovato un'uscita?",
+      "...Sesto giorno... Abbiamo finito l'acqua. Il colonnello è impazzito: ha ucciso due persone a sangue freddo e poi si è suicidato... così sono rimasto solo, in questa dannata anomalia... se non avessi fatto in modo che i contatti con il quartier generale si interrompessero, avrebbero potuto salvarci... e la Duty non sarebbe mai esistita. Chissà come sarebbero andate le cose... Ah, al diavolo. Quel Capitano Tachenko è morto molto tempo fa... e il Generale Tachenko della Duty lo seguirà presto... è giusto che sia così... credo...\".",
+      "La registrazione termina con un colpo d'arma da fuoco."
+    ],
+    "pol": [
+      "Ostatnia wiadomość na PDA to nagranie głosowe:",
+      "„...Którędy pójdziemy, zawsze trafiamy w to samo miejsce. Nie mogę przywyknąć do tej mgły... Zadziwiające, jak Czepurny mógł zniknąć bez śladu. Może znalazł wyjście?... ",
+      "Dzień szósty... Skończyła się woda... Pułkownikowi odbiło, zastrzelił dwóch ludzi, a potem siebie... Zostałem sam w tej przeklętej anomalii... Gdyby łączność z bazą nie siadła, to pewnie by nas uratowali i Powinność by nie powstała. Jak do tego wszystkiego doszło... Eh, pieprzyć to. Tamten kapitan Taczenko zginął dawno temu... A ten generał Taczenko z Powinności zaraz do niego dołączy... Sprawiedliwości stanie się zadość...\"",
+      "Nagranie kończy się tuż po tym, jak rozlega się strzał."
+    ],
+    "rus": "Последняя запись на КПК - звуковая:\\n«...куда ни пойди, каждый раз возращаешься на одно и то же место. Туман этот чёртов... привыкнуть невозможно... Чепурной исчез, и с концами. Странно. Может, нашёл выход?..\\nШестой день, вода вышла вся... А полковник свихнулся: двоих расстрелял и себе пулю в лоб... Я теперь один. Один внутри этой долбаной аномалии... И дёрнуло же меня устроить обрыв связи со штабом! Могли бы забрать, а? Пенсия, дача, рыбалка - и не было бы никакого «Долга»... А правда, интересно, как бы всё повернулось!.. Только к чёрту. Капитан Таченко уже мёртвый давно... А генерал «Долга» Таченко сейчас уйдёт, скоро... в верхнюю тундру, мать её... в места, богатые дичью... такая вот справедливость».\\nДалее слышен звук выстрела, запись обрывается.",
+    "spa": [
+      "La última grabación de sonido de la PDA dice: ",
+      "\"... Vayamos a donde vayamos, siempre acabamos en el mismo sitio. No hay forma de acostumbrarse a esta niebla... Es muy raro, Chepurny desapareció sin dejar rastro. ¿Habrá encontrado el modo de salir?... ",
+      "Día seis... No tenemos agua... El coronel ha perdido la chaveta, disparó a dos de los nuestros a quemarropa y se suicidó... Ahora estoy solo en esta maldita anomalía... Si no hubiera saboteado las comunicaciones con el cuartel general, podrían habernos rescatado... y Deber jamás habría existido. Me pregunto cómo habría ido todo... Bah, que le den. Ese capitán Tachenko murió hace mucho... y el general Tachenko de Deber seguirá sus pasos... Creo que es lo justo...\"",
+      "Se oye un disparo y la grabación termina."
+    ],
+    "ukr": [
+      "Останній запис на КПК - звуковий:",
+      "«... куда ни пойди, каждый раз возращаешься на одно и то же место. Туман этот чёртов... привыкнуть невозможно... Чепурной исчез, и с концами. Странно. Может, нашёл выход?..",
+      "Шестой день, вода вышла вся... А полковник свихнулся: двоих расстрелял и себе пулю в лоб... Я теперь один. Один внутри этой долбаной аномалии... И дёрнуло же меня устроить обрыв связи со штабом! Могли бы забрать, а? Пенсия, дача, рыбалка - и не было бы никакого «Долга»... А правда, интересно, как бы всё повернулось!.. Только к чёрту. Капитан Таченко уже мёртвый давно... А генерал «Долга» Таченко сейчас уйдёт, скоро... в верхнюю тундру, мать её... в места, богатые дичью... такая вот справедливость».",
+      "Далі чути звук пострілу, запис уривається."
+    ]
+  },
+  "st_jup_b46_duty_founder_pda_name": {
+    "eng": "General Tachenko's PDA",
+    "fra": "PDA du général Tachenko",
+    "ger": "General Taschenkows PDA",
+    "ita": "PDA del Generale Tachenko",
+    "pol": "PDA generała Taczenki",
+    "rus": "КПК генерала Таченко",
+    "spa": "PDA del general Tachenko",
+    "ukr": "КПК генерала Таченка"
+  },
   "st_jup_b202_bandit_pda": {
     "eng": "Sultan’s messenger’s PDA",
     "fra": "PDA du messager de Sultan",
@@ -618,81 +693,6 @@
     "rus": "КПК наёмника",
     "spa": "PDA de mercenario",
     "ukr": "КПК найманця"
-  },
-  "st_jup_b32_scanner_device_desc": {
-    "eng": "This case combines an artifact detector, a battery and a powerful transmitter. The device will scan anomalies to determine the number and type of artifacts that appear. All of this information will be automatically relayed to the scientists' bunker.",
-    "fra": "Cette valise contient un détecteur d'artefacts, une batterie et un puissant transmetteur. Le dispositif scanne les anomalies afin de déterminer la quantité et le type d'artefacts présents. Ces informations sont ensuite transmises automatiquement au bunker des scientifiques.",
-    "ger": "Dieses Gerät vereint einen Artefaktdetektor, eine Batterie und einen starken Sender in sich. Es scannt Anomalien und stellt die Anzahl sowie die Art der Artefakte fest, die darin vorkommen. Diese Informationen werden danach automatisch in den Bunker der Wissenschaftler übermittelt.",
-    "ita": "Questo strumento include un rilevatore di manufatti, una batteria e una potente trasmittente. Può analizzare le anomalie per determinare il numero e il tipo di manufatti che compaiono. Tutte queste informazioni vengono poi inviate automaticamente al bunker degli scienziati.",
-    "pol": "W tej skrzynce znajduje się wykrywacz artefaktów, bateria i potężny przekaźnik. Urządzenie będzie skanować anomalie, aby określić liczbę i rodzaj artefaktów, które się pojawią. Wszystkie te informacje zostaną automatycznie przekazane do bunkra naukowców.",
-    "rus": "В корпусе прибора воедино собраны детектор артефактов, аккумулятор и мощный передатчик. Эта штука должна сканировать аномалии, определяя количество и тип появившихся в них артефактов. Вся полученная информация должна автоматически пересылаться в бункер учёных.",
-    "spa": "Este estuche contiene un detector de artefactos, una batería y un potente transmisor. El dispositivo escanea anomalías para determinar la cantidad y el tipo de artefactos que aparecerán. Toda esta información se transmite automáticamente al búnker de los científicos.",
-    "ukr": "У корпусі приладу разом змонтовано детектор артефактів, акумулятор та потужний передавач. Ця штука має сканувати аномалії, визначаючи кількість і тип артефактів, що з'явилися у них. Вся отримана інформація повинна автоматично пересилатися до бункеру вчених."
-  },
-  "st_jup_b32_scanner_device_name": {
-    "eng": "Anomalous Activity Scanner",
-    "fra": "Détecteur d'activités anormales",
-    "ger": "Scanner für anomale Aktivitäten",
-    "ita": "Scanner di anomalie",
-    "pol": "Skaner anomalii",
-    "rus": "Сканер аномальной активности",
-    "spa": "Escáner de actividad anómala",
-    "ukr": "Сканер аномальної активності"
-  },
-  "st_jup_b46_duty_founder_pda_desc": {
-    "eng": [
-      "The last entry on the PDA is an audio recording: ",
-      "\"...Whichever way we go, we always end up at the same exact spot. I still can't get used to this fog... It's weird that Chepurny disappeared without a trace. Maybe he found a way out?... ",
-      "Day six... We have run out of water... The Colonel flipped his lid, shot two people at point blank range and then himself... Now I'm on my own in this damn anomaly... If I hadn't fixed for our communications with HQ to go down, they could have rescued us... and Duty wouldn't have existed. I wonder how things would have turned out... Ah, screw it. That Captain Tachenko died a long time ago... And this General Tachenko of Duty will follow him... that's justice, I suppose...\"",
-      "The recording terminates just after a gunshot can be heard."
-    ],
-    "fra": [
-      "Le PDA contient un enregistrement audio : ",
-      "\"... Où que nous allions, nous revenons toujours à notre point de départ. Je n'arrive pas à m'habituer à ce brouillard... C'est quand même étrange que Chepurny ait disparu sans laisser de traces. Est-ce qu'il aurait trouvé un moyen de sortir ?... ",
-      "Sixième jour... Nous avons épuisé nos réserves d'eau... Le colonel a pété les plombs et a tiré sur deux hommes à bout portant avant de retourner l'arme contre lui... Je suis désormais seul dans cette saloperie d'anomalie... Si je n'avais pas coupé la liaison avec le QG, ils auraient pu venir à notre secours... Et le Devoir n'aurait jamais existé. Je me demande ce qui se serait passé... Et merde, qu'est-ce que ça peut foutre ? Le capitaine Tachenko est mort il y a longtemps... Et le général Tachenko du Devoir va bientôt le suivre dans la tombe... Ce n'est que justice, je suppose...\"",
-      "On entend un coup de feu et l'enregistrement est coupé."
-    ],
-    "ger": [
-      "Der letzte Eintrag auf dem PDA ist eine Tonaufnahme: ",
-      "\"... Egal welchen Weg wir einschlagen, wir landen immer genau an der gleichen Stelle. Ich habe mich immer noch nicht an diesen Nebel gewöhnt. Es ist merkwürdig, dass Tschepurnij spurlos verschwunden ist. Vielleicht hat er einen Weg nach draußen gefunden? ",
-      "Sechster Tag... Wir haben kein Wasser mehr. Der Oberst wurde wütend, hat zwei Leute aus kürzester Distanz abgeknallt und anschließend sich selbst eine Kugel in den Kopf gejagt. Jetzt bin ich in dieser verdammten Anomalie ganz auf mich gestellt... Hätte ich unsere Funkverbindung zum Hauptquartier nicht unterbrochen, hätten sie uns retten können... und die Wächter hätten nicht existiert. Ich frage mich, wie die Dinge ihren Lauf genommen hätten. Ach, was soll's. Hauptmann Taschenkow ist vor langer Zeit gestorben... Und General Taschenkow von den Wächtern wird ihm folgen... Ich vermute, das versteht man unter Gerechtigkeit...\"",
-      "Die Aufnahme endet mit einem deutlich hörbaren Schuss."
-    ],
-    "ita": [
-      "I dati più recenti sul PDA riguardano una registrazione audio:",
-      "\"...Da qualsiasi parte andiamo, finiamo sempre nello stesso punto. Non riesco ad abituarmi a questa nebbia... È strano che Chepurny sia scomparso senza lasciare tracce: che abbia trovato un'uscita?",
-      "...Sesto giorno... Abbiamo finito l'acqua. Il colonnello è impazzito: ha ucciso due persone a sangue freddo e poi si è suicidato... così sono rimasto solo, in questa dannata anomalia... se non avessi fatto in modo che i contatti con il quartier generale si interrompessero, avrebbero potuto salvarci... e la Duty non sarebbe mai esistita. Chissà come sarebbero andate le cose... Ah, al diavolo. Quel Capitano Tachenko è morto molto tempo fa... e il Generale Tachenko della Duty lo seguirà presto... è giusto che sia così... credo...\".",
-      "La registrazione termina con un colpo d'arma da fuoco."
-    ],
-    "pol": [
-      "Ostatnia wiadomość na PDA to nagranie głosowe:",
-      "„...Którędy pójdziemy, zawsze trafiamy w to samo miejsce. Nie mogę przywyknąć do tej mgły... Zadziwiające, jak Czepurny mógł zniknąć bez śladu. Może znalazł wyjście?... ",
-      "Dzień szósty... Skończyła się woda... Pułkownikowi odbiło, zastrzelił dwóch ludzi, a potem siebie... Zostałem sam w tej przeklętej anomalii... Gdyby łączność z bazą nie siadła, to pewnie by nas uratowali i Powinność by nie powstała. Jak do tego wszystkiego doszło... Eh, pieprzyć to. Tamten kapitan Taczenko zginął dawno temu... A ten generał Taczenko z Powinności zaraz do niego dołączy... Sprawiedliwości stanie się zadość...\"",
-      "Nagranie kończy się tuż po tym, jak rozlega się strzał."
-    ],
-    "rus": "Последняя запись на КПК - звуковая:\\n«...куда ни пойди, каждый раз возращаешься на одно и то же место. Туман этот чёртов... привыкнуть невозможно... Чепурной исчез, и с концами. Странно. Может, нашёл выход?..\\nШестой день, вода вышла вся... А полковник свихнулся: двоих расстрелял и себе пулю в лоб... Я теперь один. Один внутри этой долбаной аномалии... И дёрнуло же меня устроить обрыв связи со штабом! Могли бы забрать, а? Пенсия, дача, рыбалка - и не было бы никакого «Долга»... А правда, интересно, как бы всё повернулось!.. Только к чёрту. Капитан Таченко уже мёртвый давно... А генерал «Долга» Таченко сейчас уйдёт, скоро... в верхнюю тундру, мать её... в места, богатые дичью... такая вот справедливость».\\nДалее слышен звук выстрела, запись обрывается.",
-    "spa": [
-      "La última grabación de sonido de la PDA dice: ",
-      "\"... Vayamos a donde vayamos, siempre acabamos en el mismo sitio. No hay forma de acostumbrarse a esta niebla... Es muy raro, Chepurny desapareció sin dejar rastro. ¿Habrá encontrado el modo de salir?... ",
-      "Día seis... No tenemos agua... El coronel ha perdido la chaveta, disparó a dos de los nuestros a quemarropa y se suicidó... Ahora estoy solo en esta maldita anomalía... Si no hubiera saboteado las comunicaciones con el cuartel general, podrían habernos rescatado... y Deber jamás habría existido. Me pregunto cómo habría ido todo... Bah, que le den. Ese capitán Tachenko murió hace mucho... y el general Tachenko de Deber seguirá sus pasos... Creo que es lo justo...\"",
-      "Se oye un disparo y la grabación termina."
-    ],
-    "ukr": [
-      "Останній запис на КПК - звуковий:",
-      "«... куда ни пойди, каждый раз возращаешься на одно и то же место. Туман этот чёртов... привыкнуть невозможно... Чепурной исчез, и с концами. Странно. Может, нашёл выход?..",
-      "Шестой день, вода вышла вся... А полковник свихнулся: двоих расстрелял и себе пулю в лоб... Я теперь один. Один внутри этой долбаной аномалии... И дёрнуло же меня устроить обрыв связи со штабом! Могли бы забрать, а? Пенсия, дача, рыбалка - и не было бы никакого «Долга»... А правда, интересно, как бы всё повернулось!.. Только к чёрту. Капитан Таченко уже мёртвый давно... А генерал «Долга» Таченко сейчас уйдёт, скоро... в верхнюю тундру, мать её... в места, богатые дичью... такая вот справедливость».",
-      "Далі чути звук пострілу, запис уривається."
-    ]
-  },
-  "st_jup_b46_duty_founder_pda_name": {
-    "eng": "General Tachenko's PDA",
-    "fra": "PDA du général Tachenko",
-    "ger": "General Taschenkows PDA",
-    "ita": "PDA del Generale Tachenko",
-    "pol": "PDA generała Taczenki",
-    "rus": "КПК генерала Таченко",
-    "spa": "PDA del general Tachenko",
-    "ukr": "КПК генерала Таченка"
   },
   "st_lx8_service_instruction_descr": {
     "eng": [
@@ -775,6 +775,47 @@
     "rus": "Тетрадь с записью об эксперименте",
     "spa": "Libreta con la descripción de un experimento",
     "ukr": "Зошит із записом про експеримент"
+  },
+  "st_pri_a19_lab_x7_info_descr": {
+    "eng": [
+      "The document refers to the transfer of the research team and all materials to another laboratory called X7, which will be used to research matters relating to the influence of the noosphere. The research team comprises: N.A. Lebedev, E.F. Kalancha and V.I. Suslov.",
+      "These documents must not fall into anyone else's hands, as they would be of great interest to USS analysts."
+    ],
+    "fra": [
+      "Le document fait état du transfert de l'équipe de recherche et de l'équipement vers le laboratoire X7 qui sera désormais utilisé pour mener des recherches sur l'influence de la noosphère. Membres de l'équipe de recherche : N. A. Lebedev, E. F. Kalancha and V. I. Suslov.",
+      "Ces documents doivent rester confidentiels, car ils pourraient intéresser les analystes du SBU."
+    ],
+    "ger": [
+      "Diese Dokumente beziehen sich auf den Transfer des Forschungsteams und aller Materialien in ein anderes, als X7 bezeichnetes Labor. Dieses wird für Forschungen im Zusammenhang mit der Wirkung der Noosphäre genutzt. Das Forschungsteam setzt sich aus N. A. Lebedew, E. F. Kalantscha und W. I. Suslow zusammen.",
+      "Diese Dokumente darf niemand in die Hände bekommen, denn sie wären von größtem Interesse für den ukrainischen Geheimdienst."
+    ],
+    "ita": [
+      "Il documento riguarda il trasferimento di una squadra scientifica e di tutti i materiali in un altro laboratorio denominato X7, che verrà usato per effettuare ricerche sull'influenza della noosfera. La squadra scientifica include: N.A. Lebedev, E.F. Kalancha e V.I. Suslov.",
+      "Questi documenti non devono finire in altre mani, poiché sarebbero di grande interesse per gli analisti dell'USS."
+    ],
+    "pol": [
+      "Dokument odnosi się do przeniesienia zespołu badawczego i wszystkich materiałów do innego laboratorium, zwanego X7, w którym będą prowadzone badania dotyczące wpływów noosfery. W skład zespołu badawczego wchodzą: N. A. Lebiediew, E. F. Kałancza i W. I. Susłow.",
+      "Te dokumenty nie mogą wpaść w cudze ręce, z pewnością bardzo zainteresują analityków SBU."
+    ],
+    "rus": "В документе говорится о переводе исследовательской группы и передаче всех материалов в лабораторию с индексом Х7, в которой будут изучаться проблемы влияния ноосферы. Состав исследовательской группы: Лебедев Н.А., Каланча Е.Ф., Суслов В.И.\\nЭти документы не должны попасть в чужие руки: они явно заинтересуют аналитиков СБУ.",
+    "spa": [
+      "El documento hace referencia al traslado del equipo de investigación y de todo el material a otro laboratorio llamado X7, en el que se investigará todo lo relacionado con la influencia de la noosfera. El equipo de investigación está formado por N. A. Lebedev, E. F. Kalancha y V. I. Suslov.",
+      "Estos documentos no deben caer en manos ajenas, pues serían de gran interés para los analistas de la USS."
+    ],
+    "ukr": [
+      "У документі говориться про переведення дослідницької групи та передачу всіх матеріалів до лабораторії з індексом Х7, в якій вивчатимуться проблеми впливу ноосфери. Склад дослідницької групи: Лебедєв Н.А., Каланча Є.Ф., Суслов В.І.",
+      "Ці документи не повинні потрапити до чужих рук: вони явно зацікавлять аналітиків СБУ."
+    ]
+  },
+  "st_pri_a19_lab_x7_info_name": {
+    "eng": "Order of Transfer",
+    "fra": "Ordre de transfert",
+    "ger": "Transferbefehl",
+    "ita": "Ordine di trasferimento",
+    "pol": "Rozkaz przeniesienia",
+    "rus": "Распоряжение о переводе",
+    "spa": "Orden de transferencia",
+    "ukr": "Розпорядження про переведення"
   },
   "st_pri_a19_lab_x10_info_descr": {
     "eng": [
@@ -899,67 +940,6 @@
     "spa": "Informe sobre el estudio de las muestras",
     "ukr": "Доповідь про дослідження зразків"
   },
-  "st_pri_a19_lab_x7_info_descr": {
-    "eng": [
-      "The document refers to the transfer of the research team and all materials to another laboratory called X7, which will be used to research matters relating to the influence of the noosphere. The research team comprises: N.A. Lebedev, E.F. Kalancha and V.I. Suslov.",
-      "These documents must not fall into anyone else's hands, as they would be of great interest to USS analysts."
-    ],
-    "fra": [
-      "Le document fait état du transfert de l'équipe de recherche et de l'équipement vers le laboratoire X7 qui sera désormais utilisé pour mener des recherches sur l'influence de la noosphère. Membres de l'équipe de recherche : N. A. Lebedev, E. F. Kalancha and V. I. Suslov.",
-      "Ces documents doivent rester confidentiels, car ils pourraient intéresser les analystes du SBU."
-    ],
-    "ger": [
-      "Diese Dokumente beziehen sich auf den Transfer des Forschungsteams und aller Materialien in ein anderes, als X7 bezeichnetes Labor. Dieses wird für Forschungen im Zusammenhang mit der Wirkung der Noosphäre genutzt. Das Forschungsteam setzt sich aus N. A. Lebedew, E. F. Kalantscha und W. I. Suslow zusammen.",
-      "Diese Dokumente darf niemand in die Hände bekommen, denn sie wären von größtem Interesse für den ukrainischen Geheimdienst."
-    ],
-    "ita": [
-      "Il documento riguarda il trasferimento di una squadra scientifica e di tutti i materiali in un altro laboratorio denominato X7, che verrà usato per effettuare ricerche sull'influenza della noosfera. La squadra scientifica include: N.A. Lebedev, E.F. Kalancha e V.I. Suslov.",
-      "Questi documenti non devono finire in altre mani, poiché sarebbero di grande interesse per gli analisti dell'USS."
-    ],
-    "pol": [
-      "Dokument odnosi się do przeniesienia zespołu badawczego i wszystkich materiałów do innego laboratorium, zwanego X7, w którym będą prowadzone badania dotyczące wpływów noosfery. W skład zespołu badawczego wchodzą: N. A. Lebiediew, E. F. Kałancza i W. I. Susłow.",
-      "Te dokumenty nie mogą wpaść w cudze ręce, z pewnością bardzo zainteresują analityków SBU."
-    ],
-    "rus": "В документе говорится о переводе исследовательской группы и передаче всех материалов в лабораторию с индексом Х7, в которой будут изучаться проблемы влияния ноосферы. Состав исследовательской группы: Лебедев Н.А., Каланча Е.Ф., Суслов В.И.\\nЭти документы не должны попасть в чужие руки: они явно заинтересуют аналитиков СБУ.",
-    "spa": [
-      "El documento hace referencia al traslado del equipo de investigación y de todo el material a otro laboratorio llamado X7, en el que se investigará todo lo relacionado con la influencia de la noosfera. El equipo de investigación está formado por N. A. Lebedev, E. F. Kalancha y V. I. Suslov.",
-      "Estos documentos no deben caer en manos ajenas, pues serían de gran interés para los analistas de la USS."
-    ],
-    "ukr": [
-      "У документі говориться про переведення дослідницької групи та передачу всіх матеріалів до лабораторії з індексом Х7, в якій вивчатимуться проблеми впливу ноосфери. Склад дослідницької групи: Лебедєв Н.А., Каланча Є.Ф., Суслов В.І.",
-      "Ці документи не повинні потрапити до чужих рук: вони явно зацікавлять аналітиків СБУ."
-    ]
-  },
-  "st_pri_a19_lab_x7_info_name": {
-    "eng": "Order of Transfer",
-    "fra": "Ordre de transfert",
-    "ger": "Transferbefehl",
-    "ita": "Ordine di trasferimento",
-    "pol": "Rozkaz przeniesienia",
-    "rus": "Распоряжение о переводе",
-    "spa": "Orden de transferencia",
-    "ukr": "Розпорядження про переведення"
-  },
-  "st_pri_b306_envoy_pda_desc": {
-    "eng": "The last note on the PDA reads: \"I found the emergency generator on the sixth floor - the technical floor. It took two hours to get it working again. I'd love to turn it on, but Serbin ordered me to stay put until he brings some people in.\"",
-    "fra": "Dernier message sur le PDA : \"J'ai trouvé le générateur de secours du sixième étage, le service technique. Il m'a fallu deux heures pour le remettre en état de marche. Je voudrais bien l'activer, mais Serbin m'a ordonné de ne rien faire avant l'arrivée de son équipe.\"",
-    "ger": "Die letzte Nachricht auf dem PDA lautet: \"Ich habe den Notfallgenerator im sechsten - dem technischen - Stockwerk gefunden. Zwei Stunden hat es gedauert, bis ich ihn wieder zum Laufen gebracht habe. Ich würde ihn sehr gerne aktivieren, aber Serbin hat mir befohlen zu warten, bis er ein paar Leute geholt hat.\"",
-    "ita": "L'ultima annotazione sul PDA è la seguente: \"Ho trovato il generatore di emergenza al sesto piano, il piano tecnico. Ci sono volute due ore per rimetterlo in funzione. Io vorrei accenderlo, ma Serbin mi ha ordinato di attendere finché non manderà qualcuno\".",
-    "pol": "Ostatnia notatka na PDA brzmi następująco: „Znalazłem generator awaryjny na szóstym piętrze - technicznym. Dwie godziny zabrało postawienie go na nogi. Bardzo chciałbym go włączyć, ale Serbin zabronił mi się wychylać, dopóki nie sprowadzi jakichś ludzi.\"",
-    "rus": "Последняя запись на КПК гласит: «Нашёл аварийный генератор на шестом - техническом - этаже. Убил два часа, чтобы привести его в более-менее рабочее состояние. Стоило бы попробовать запустить, только Сербин запретил что-либо делать, пока сам не приведёт людей»",
-    "spa": "La última anotación de la PDA dice así: \"He encontrado el generador de emergencia en la sexta planta, la sección técnica. He tardado dos horas en conseguir que funcione otra vez. Me encantaría encenderlo, pero Serbin me ha ordenado que espere hasta que traiga más gente\".",
-    "ukr": "Останній запис на КПК говорить: «Знайшов аварійний генератор на шостому - технічному - поверсі. Дві години длубався, аби привести його в більш-менш робочий стан. Варто було б спробувати запустити, та Сербін заборонив робити будь-що, поки сам не приведе людей»"
-  },
-  "st_pri_b306_envoy_pda_name": {
-    "eng": "Barchuk's PDA",
-    "fra": "PDA de Barchuk",
-    "ger": "Bartschuks PDA",
-    "ita": "PDA di Barchuk",
-    "pol": "PDA Barczuka",
-    "rus": "КПК Барчука",
-    "spa": "PDA de Barchuk",
-    "ukr": "КПК Барчука"
-  },
   "st_pri_b35_lab_x8_key_desc": {
     "eng": "A red magnetic keycard marked with X8.",
     "fra": "Carte magnétique rouge portant l'inscription X8.",
@@ -999,6 +979,26 @@
     "rus": "КПК бойца «Монолита»",
     "spa": "PDA de soldado de Monolith",
     "ukr": "КПК бійця «Моноліту»"
+  },
+  "st_pri_b306_envoy_pda_desc": {
+    "eng": "The last note on the PDA reads: \"I found the emergency generator on the sixth floor - the technical floor. It took two hours to get it working again. I'd love to turn it on, but Serbin ordered me to stay put until he brings some people in.\"",
+    "fra": "Dernier message sur le PDA : \"J'ai trouvé le générateur de secours du sixième étage, le service technique. Il m'a fallu deux heures pour le remettre en état de marche. Je voudrais bien l'activer, mais Serbin m'a ordonné de ne rien faire avant l'arrivée de son équipe.\"",
+    "ger": "Die letzte Nachricht auf dem PDA lautet: \"Ich habe den Notfallgenerator im sechsten - dem technischen - Stockwerk gefunden. Zwei Stunden hat es gedauert, bis ich ihn wieder zum Laufen gebracht habe. Ich würde ihn sehr gerne aktivieren, aber Serbin hat mir befohlen zu warten, bis er ein paar Leute geholt hat.\"",
+    "ita": "L'ultima annotazione sul PDA è la seguente: \"Ho trovato il generatore di emergenza al sesto piano, il piano tecnico. Ci sono volute due ore per rimetterlo in funzione. Io vorrei accenderlo, ma Serbin mi ha ordinato di attendere finché non manderà qualcuno\".",
+    "pol": "Ostatnia notatka na PDA brzmi następująco: „Znalazłem generator awaryjny na szóstym piętrze - technicznym. Dwie godziny zabrało postawienie go na nogi. Bardzo chciałbym go włączyć, ale Serbin zabronił mi się wychylać, dopóki nie sprowadzi jakichś ludzi.\"",
+    "rus": "Последняя запись на КПК гласит: «Нашёл аварийный генератор на шестом - техническом - этаже. Убил два часа, чтобы привести его в более-менее рабочее состояние. Стоило бы попробовать запустить, только Сербин запретил что-либо делать, пока сам не приведёт людей»",
+    "spa": "La última anotación de la PDA dice así: \"He encontrado el generador de emergencia en la sexta planta, la sección técnica. He tardado dos horas en conseguir que funcione otra vez. Me encantaría encenderlo, pero Serbin me ha ordenado que espere hasta que traiga más gente\".",
+    "ukr": "Останній запис на КПК говорить: «Знайшов аварійний генератор на шостому - технічному - поверсі. Дві години длубався, аби привести його в більш-менш робочий стан. Варто було б спробувати запустити, та Сербін заборонив робити будь-що, поки сам не приведе людей»"
+  },
+  "st_pri_b306_envoy_pda_name": {
+    "eng": "Barchuk's PDA",
+    "fra": "PDA de Barchuk",
+    "ger": "Bartschuks PDA",
+    "ita": "PDA di Barchuk",
+    "pol": "PDA Barczuka",
+    "rus": "КПК Барчука",
+    "spa": "PDA de Barchuk",
+    "ukr": "КПК Барчука"
   },
   "st_toolkit_1_desc": {
     "eng": "A children's toolkit. Unlikely to be suitable for fine work, but given the deficit of tools in the Zone, could be useful for a thrifty technician.",

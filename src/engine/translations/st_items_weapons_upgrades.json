@@ -879,86 +879,6 @@
     "spa": "Aumento de grosor de separadores de cuero",
     "ukr": "Ущілювальні вставки зі шкіри"
   },
-  "st_up_arm_c10_descr": {
-    "eng": "Additional ceramic layer with silicon amortization.",
-    "fra": "Ajout d'une couche de céramique et d'un film de silicone amortisseur.",
-    "ger": "Eine zusätzliche Keramikschicht mit Silikonverstärkung.",
-    "ita": "Strato in ceramica aggiuntivo con silicone ammortizzante.",
-    "pol": "Dodatkowa warstwa ceramiczna z silikonową amortyzacją.",
-    "rus": "Дополнительный слой керамики с силиконовой амортизацией.",
-    "spa": "Una capa cerámica adicional con refuerzo de silicio.",
-    "ukr": "Додатковий шар кераміки із силіконовою амортизацією."
-  },
-  "st_up_arm_c10_name": {
-    "eng": "Reinforced ceramic plates",
-    "fra": "Plaques renforcées en céramique",
-    "ger": "Verstärkte Keramikplatten",
-    "ita": "Piastre in ceramica rinforzate",
-    "pol": "Wzmocnione płyty ceramiczne",
-    "rus": "Усиленные керамические пластины",
-    "spa": "Placas de cerámica reforzadas",
-    "ukr": "Посилені керамічні пластини"
-  },
-  "st_up_arm_c11_descr": {
-    "eng": "Use of lighter materials to reduce body armor weight.",
-    "fra": "L'utilisation de matériaux plastiques et synthétiques permet de réduire le poids de la protection corporelle.",
-    "ger": "Durch die Verwendung von leichteren Materialien wird das Gewicht der Körperpanzerung gesenkt.",
-    "ita": "Utilizzo di materiali più leggeri per ridurre il peso dell'armatura.",
-    "pol": "Użycie lżejszych materiałów w celu zmniejszenia wagi opancerzenia.",
-    "rus": "Модификация бронежилета, направленная на снижение его веса путём использования более лёгких материалов.",
-    "spa": "El uso de materiales más ligeros reduce el peso del blindaje personal.",
-    "ukr": "Модифікація бронежилета, призначена для зниження його ваги шляхом використання легших матеріалів."
-  },
-  "st_up_arm_c11_name": {
-    "eng": "Installation of lighter synthetic and plastic components",
-    "fra": "Composants synthétiques allégés",
-    "ger": "Anbringung leichterer Kunststoff- und synthetischer Teile",
-    "ita": "Installazione di componenti in plastica e sintetici più leggeri",
-    "pol": "Instalacja lżejszych syntetycznych i plastikowych komponentów",
-    "rus": "Установка более лёгких синтетических и пластиковый частей",
-    "spa": "Instalación de componentes sintéticos y plásticos más ligeros",
-    "ukr": "Встановлення легших синтетичних та пластикових частин"
-  },
-  "st_up_arm_c12_descr": {
-    "eng": "While solid titanium plates are much too heavy for an infantry soldier to drag around, an exoskeleton with its powerful servomotors can handle the weight.",
-    "fra": "Seul un exosquelette, avec ses puissants servomoteurs, peut se voir équipé de plaques de titane massif qui seraient trop lourdes pour un fantassin normal.",
-    "ger": "Während massive Titanplatten viel zu schwer sind, um von einem Infanteristen getragen zu werden, kann ein Exoskelett das Gewicht mit seinen starken Servomotoren aushalten.",
-    "ita": "Mentre le piastre in titanio massiccio sono troppo pesanti per un soldato di fanteria, i potenti servomotori di un esoscheletro sono perfettamente in grado di gestire il peso.",
-    "pol": "Płyty z litego tytanu są zbyt ciężkie dla żołnierza piechoty, ale potężne siłowniki egzoszkieletu bez problemu sobie z nimi poradzą.",
-    "rus": "Множество толстых титановых пластин - неподъёмный вес для обычного пехотинца, но всё стремительно меняется благодаря мощным сервоприводам экзоскелета.",
-    "spa": "Aunque las placas de titanio macizo son demasiado pesadas para el blindaje de un soldado de infantería, los potentes servos de un exoesqueleto pueden con su peso.",
-    "ukr": "Безліч товстих титанових пластин - завеликий вантаж для звичайного піхотинця, але все миттєво змінюється завдяки потужним сервоприводам екзоскелета."
-  },
-  "st_up_arm_c12_name": {
-    "eng": "Cuirass titanium armor",
-    "fra": "Cuirasse de titane",
-    "ger": "Titanpanzerung \"Kürass\"",
-    "ita": "Armatura in titanio corazzata",
-    "pol": "Tytanowy napierśnik",
-    "rus": "Титановый доспех «Кирасир»",
-    "spa": "Coraza de titanio",
-    "ukr": "Титановий доспіх «Кірасир»"
-  },
-  "st_up_arm_c13_descr": {
-    "eng": "SBK-RKhZ.m.II - a special radiochemical protection combat bodysuit, mark two.",
-    "fra": "SBK-RKhZ.m.II : combinaison de protection radiochimique de combat, modèle 2.",
-    "ger": "SBK-RKhZ.m.II - ein spezieller Kampfanzug zum Schutz vor Strahlung und Chemikalien (Version II).",
-    "ita": "SBK-RKhZ.m.II – Una tuta da battaglia speciale per la protezione radiochimica, seconda versione.",
-    "pol": "SBK-RKhZ.m.II - specjalny kombinezon bojowy o zwiększonym stopniu ochrony radiochemicznej, model drugi.",
-    "rus": "«СБК-РХЗ.м.II» - «Специальный боевой комбинезон радационно-химической защиты марка вторая».",
-    "spa": "El SBK-RKhZ.m.II es el segundo modelo de este traje de combate especial que ofrece protección radioquímica.",
-    "ukr": "«КСБ-РХЗ.мII» - «Комбінезон спеціальний бойовий радіаційно-хімічного захисту марка друга»."
-  },
-  "st_up_arm_c13_name": {
-    "eng": "SBK-RKhZ.m.II airtight radiation protection bodysuit",
-    "fra": "Combinaison hermétique antiradiations SBK-RKhZ.m.II ",
-    "ger": "SBK-RKhZ.m.II Strahlenschutzanzug (luftdicht)",
-    "ita": "Tuta protettiva ermetica anti-radiazioni SBK-RKhZ.m.II ",
-    "pol": "Hermetyczny kombinezon ochronny SBK-RKhZ.m.II ",
-    "rus": "Герметичный комбинезон с противорадиационной защитой «СБК-РХЗ.м.II»",
-    "spa": "Traje de protección estanco SBK-RKhZ.m.II ",
-    "ukr": "Герметичний комбінезон із протирадіаційним захистом «КСБ-РХЗ.мII»"
-  },
   "st_up_arm_c1_descr": {
     "eng": "This labor-intensive and time consuming upgrade is not very popular, although it has been known to save lives.",
     "fra": "Ce type de protection est peu populaire en raison de la quantité de travail nécessaire à sa fabrication, mais il a déjà sauvé bien des vies.",
@@ -1138,6 +1058,86 @@
     "rus": "Защитный слой «Броненосец» на основе кристаллов сапфира",
     "spa": "Revestimiento protector Armadillo con base de cristales de zafiro",
     "ukr": "Захисний шар «Броненосець» на основі кристалів сапфіру"
+  },
+  "st_up_arm_c10_descr": {
+    "eng": "Additional ceramic layer with silicon amortization.",
+    "fra": "Ajout d'une couche de céramique et d'un film de silicone amortisseur.",
+    "ger": "Eine zusätzliche Keramikschicht mit Silikonverstärkung.",
+    "ita": "Strato in ceramica aggiuntivo con silicone ammortizzante.",
+    "pol": "Dodatkowa warstwa ceramiczna z silikonową amortyzacją.",
+    "rus": "Дополнительный слой керамики с силиконовой амортизацией.",
+    "spa": "Una capa cerámica adicional con refuerzo de silicio.",
+    "ukr": "Додатковий шар кераміки із силіконовою амортизацією."
+  },
+  "st_up_arm_c10_name": {
+    "eng": "Reinforced ceramic plates",
+    "fra": "Plaques renforcées en céramique",
+    "ger": "Verstärkte Keramikplatten",
+    "ita": "Piastre in ceramica rinforzate",
+    "pol": "Wzmocnione płyty ceramiczne",
+    "rus": "Усиленные керамические пластины",
+    "spa": "Placas de cerámica reforzadas",
+    "ukr": "Посилені керамічні пластини"
+  },
+  "st_up_arm_c11_descr": {
+    "eng": "Use of lighter materials to reduce body armor weight.",
+    "fra": "L'utilisation de matériaux plastiques et synthétiques permet de réduire le poids de la protection corporelle.",
+    "ger": "Durch die Verwendung von leichteren Materialien wird das Gewicht der Körperpanzerung gesenkt.",
+    "ita": "Utilizzo di materiali più leggeri per ridurre il peso dell'armatura.",
+    "pol": "Użycie lżejszych materiałów w celu zmniejszenia wagi opancerzenia.",
+    "rus": "Модификация бронежилета, направленная на снижение его веса путём использования более лёгких материалов.",
+    "spa": "El uso de materiales más ligeros reduce el peso del blindaje personal.",
+    "ukr": "Модифікація бронежилета, призначена для зниження його ваги шляхом використання легших матеріалів."
+  },
+  "st_up_arm_c11_name": {
+    "eng": "Installation of lighter synthetic and plastic components",
+    "fra": "Composants synthétiques allégés",
+    "ger": "Anbringung leichterer Kunststoff- und synthetischer Teile",
+    "ita": "Installazione di componenti in plastica e sintetici più leggeri",
+    "pol": "Instalacja lżejszych syntetycznych i plastikowych komponentów",
+    "rus": "Установка более лёгких синтетических и пластиковый частей",
+    "spa": "Instalación de componentes sintéticos y plásticos más ligeros",
+    "ukr": "Встановлення легших синтетичних та пластикових частин"
+  },
+  "st_up_arm_c12_descr": {
+    "eng": "While solid titanium plates are much too heavy for an infantry soldier to drag around, an exoskeleton with its powerful servomotors can handle the weight.",
+    "fra": "Seul un exosquelette, avec ses puissants servomoteurs, peut se voir équipé de plaques de titane massif qui seraient trop lourdes pour un fantassin normal.",
+    "ger": "Während massive Titanplatten viel zu schwer sind, um von einem Infanteristen getragen zu werden, kann ein Exoskelett das Gewicht mit seinen starken Servomotoren aushalten.",
+    "ita": "Mentre le piastre in titanio massiccio sono troppo pesanti per un soldato di fanteria, i potenti servomotori di un esoscheletro sono perfettamente in grado di gestire il peso.",
+    "pol": "Płyty z litego tytanu są zbyt ciężkie dla żołnierza piechoty, ale potężne siłowniki egzoszkieletu bez problemu sobie z nimi poradzą.",
+    "rus": "Множество толстых титановых пластин - неподъёмный вес для обычного пехотинца, но всё стремительно меняется благодаря мощным сервоприводам экзоскелета.",
+    "spa": "Aunque las placas de titanio macizo son demasiado pesadas para el blindaje de un soldado de infantería, los potentes servos de un exoesqueleto pueden con su peso.",
+    "ukr": "Безліч товстих титанових пластин - завеликий вантаж для звичайного піхотинця, але все миттєво змінюється завдяки потужним сервоприводам екзоскелета."
+  },
+  "st_up_arm_c12_name": {
+    "eng": "Cuirass titanium armor",
+    "fra": "Cuirasse de titane",
+    "ger": "Titanpanzerung \"Kürass\"",
+    "ita": "Armatura in titanio corazzata",
+    "pol": "Tytanowy napierśnik",
+    "rus": "Титановый доспех «Кирасир»",
+    "spa": "Coraza de titanio",
+    "ukr": "Титановий доспіх «Кірасир»"
+  },
+  "st_up_arm_c13_descr": {
+    "eng": "SBK-RKhZ.m.II - a special radiochemical protection combat bodysuit, mark two.",
+    "fra": "SBK-RKhZ.m.II : combinaison de protection radiochimique de combat, modèle 2.",
+    "ger": "SBK-RKhZ.m.II - ein spezieller Kampfanzug zum Schutz vor Strahlung und Chemikalien (Version II).",
+    "ita": "SBK-RKhZ.m.II – Una tuta da battaglia speciale per la protezione radiochimica, seconda versione.",
+    "pol": "SBK-RKhZ.m.II - specjalny kombinezon bojowy o zwiększonym stopniu ochrony radiochemicznej, model drugi.",
+    "rus": "«СБК-РХЗ.м.II» - «Специальный боевой комбинезон радационно-химической защиты марка вторая».",
+    "spa": "El SBK-RKhZ.m.II es el segundo modelo de este traje de combate especial que ofrece protección radioquímica.",
+    "ukr": "«КСБ-РХЗ.мII» - «Комбінезон спеціальний бойовий радіаційно-хімічного захисту марка друга»."
+  },
+  "st_up_arm_c13_name": {
+    "eng": "SBK-RKhZ.m.II airtight radiation protection bodysuit",
+    "fra": "Combinaison hermétique antiradiations SBK-RKhZ.m.II ",
+    "ger": "SBK-RKhZ.m.II Strahlenschutzanzug (luftdicht)",
+    "ita": "Tuta protettiva ermetica anti-radiazioni SBK-RKhZ.m.II ",
+    "pol": "Hermetyczny kombinezon ochronny SBK-RKhZ.m.II ",
+    "rus": "Герметичный комбинезон с противорадиационной защитой «СБК-РХЗ.м.II»",
+    "spa": "Traje de protección estanco SBK-RKhZ.m.II ",
+    "ukr": "Герметичний комбінезон із протирадіаційним захистом «КСБ-РХЗ.мII»"
   },
   "st_up_autd_a1_descr": {
     "eng": "Adjustment of components allows the weapon to last longer without jamming.",
@@ -2759,66 +2759,6 @@
     "spa": "Capa sintética",
     "ukr": "Синтетична підкладка"
   },
-  "st_up_kom_b10_descr": {
-    "eng": "A number of ergonomic adjustments that use a rubber construction, which allow mobility to be retained even when wearing bulky armor.",
-    "fra": "Combinaison en caoutchouc comportant de nombreux ajustements ergonomiques, qui permet de conserver une bonne mobilité même lorsqu'une protection corporelle encombrante est portée.",
-    "ger": "Eine Vielzahl von ergonomischen Anpassungen mithilfe einer Gummikonstruktion. Dabei bleibt die Mobilität erhalten, selbst wenn schwere Panzerung getragen wird.",
-    "ita": "Varie modifiche ergonomiche che usano componenti in gomma, per conservare la mobilità anche indossando le armature più pesanti.",
-    "pol": "Kilka ergonomicznych modyfikacji zbudowanych z gumy, które pozwalają na zachowanie mobilności nawet przy noszeniu ciężkiego pancerza.",
-    "rus": "Эргономические каучуковые конструкции позволяют не терять подвижности даже в массивном доспехе.",
-    "spa": "Varios ajustes ergonómicos fabricados con goma que permiten conservar la movilidad aun vistiendo blindajes voluminosos.",
-    "ukr": "Ергономічні каучукові конструкції дозволяють не втрачати рухливості навіть у масивному доспіху."
-  },
-  "st_up_kom_b10_name": {
-    "eng": "A rubber mobility bodysuit",
-    "fra": "Combinaison ergonomique en caoutchouc",
-    "ger": "Mobilitätsgummischutzanzug",
-    "ita": "Tuta in gomma per aumentare la mobilità",
-    "pol": "Gumowy kombinezon poprawiający mobilność",
-    "rus": "Каучуковый беговой комбинезон",
-    "spa": "Traje ergonómico de goma",
-    "ukr": "Каучуковий біговий комбінезон"
-  },
-  "st_up_kom_b11_descr": {
-    "eng": "Constantan is capable of isolating against electricity and has a very high melting point.",
-    "fra": "Le constantan est un alliage isolant au point de fusion très élevé.",
-    "ger": "Konstantan wird als Isolationsstoff gegen Elektrizität eingesetzt und hat eine sehr hohe Schmelztemperatur.",
-    "ita": "La constantana è un ottimo isolante elettrico e ha un punto di fusione molto elevato.",
-    "pol": "Konstantan izoluje przed elektrycznością i ma bardzo wysoką temperaturę topnienia.",
-    "rus": "Константан не проводит электрический ток и плавится только при очень высоких температурах.",
-    "spa": "El constantán proporciona aislamiento contra electricidad y tiene un punto de fusión muy elevado.",
-    "ukr": "Константан не проводить електричний струм і плавиться лише за дуже високих температур."
-  },
-  "st_up_kom_b11_name": {
-    "eng": "Constantan thermal isolation inserts",
-    "fra": "Inserts d'isolation thermique en constantan",
-    "ger": "Wärmeisolationseinlagen aus Konstantan",
-    "ita": "Inserti in constantana per isolamento termico",
-    "pol": "Konstantanowe wkładki termoizolacyjne",
-    "rus": "Термоизолирующие вставки из константана",
-    "spa": "Aislantes térmicos de constantán",
-    "ukr": "Термоізоляційні вставки з константану"
-  },
-  "st_up_kom_b12_descr": {
-    "eng": "Lead is a reliable defense against radiation because it absorbs all three types thereof.",
-    "fra": "Le plomb absorbe les trois principaux types de radiations.",
-    "ger": "Blei ist ein verlässlicher Schutz gegen Radioaktivität, weil es alle drei Arten von radioaktiver Strahlung absorbiert.",
-    "ita": "Il piombo è un'ottima difesa contro le radiazioni, essendo in grado di assorbirne tutte e tre le tipologie.",
-    "pol": "Ołów stanowi niezawodną ochronę przed promieniowaniem, ponieważ absorbuje wszystkie trzy jego typy.",
-    "rus": "Свинец - надёжная защита от облучения, поскольку поглощает все виды радиационных частиц.",
-    "spa": "El plomo es una defensa eficaz contra la radiación, ya que absorbe los tres tipos existentes.",
-    "ukr": "Свинець - надійний захист від опромінення, оскільки поглинає усі види радіаційних часток."
-  },
-  "st_up_kom_b12_name": {
-    "eng": "Addition of lead to bodysuit",
-    "fra": "Ajout de plomb à la combinaison",
-    "ger": "Bleizusätze für Schutzanzug",
-    "ita": "Aggiunta di piombo nella tuta",
-    "pol": "Dodanie wkładki ołowianej do kombinezonu",
-    "rus": "Освинцевание защитного костюма",
-    "spa": "Adición de plomo al traje",
-    "ukr": "Освинцювання захисного костюма"
-  },
   "st_up_kom_b1_descr": {
     "eng": "Basic protection against rain and caustic substances coming into contact with the skin",
     "fra": "Protection simple contre la pluie et autres substances acides pouvant entrer en contact avec la peau.",
@@ -2998,6 +2938,66 @@
     "rus": "Термическая защита из стекловолокна",
     "spa": "Protección térmica de fibra de vidrio ",
     "ukr": "Термічний захист зі скловолокна"
+  },
+  "st_up_kom_b10_descr": {
+    "eng": "A number of ergonomic adjustments that use a rubber construction, which allow mobility to be retained even when wearing bulky armor.",
+    "fra": "Combinaison en caoutchouc comportant de nombreux ajustements ergonomiques, qui permet de conserver une bonne mobilité même lorsqu'une protection corporelle encombrante est portée.",
+    "ger": "Eine Vielzahl von ergonomischen Anpassungen mithilfe einer Gummikonstruktion. Dabei bleibt die Mobilität erhalten, selbst wenn schwere Panzerung getragen wird.",
+    "ita": "Varie modifiche ergonomiche che usano componenti in gomma, per conservare la mobilità anche indossando le armature più pesanti.",
+    "pol": "Kilka ergonomicznych modyfikacji zbudowanych z gumy, które pozwalają na zachowanie mobilności nawet przy noszeniu ciężkiego pancerza.",
+    "rus": "Эргономические каучуковые конструкции позволяют не терять подвижности даже в массивном доспехе.",
+    "spa": "Varios ajustes ergonómicos fabricados con goma que permiten conservar la movilidad aun vistiendo blindajes voluminosos.",
+    "ukr": "Ергономічні каучукові конструкції дозволяють не втрачати рухливості навіть у масивному доспіху."
+  },
+  "st_up_kom_b10_name": {
+    "eng": "A rubber mobility bodysuit",
+    "fra": "Combinaison ergonomique en caoutchouc",
+    "ger": "Mobilitätsgummischutzanzug",
+    "ita": "Tuta in gomma per aumentare la mobilità",
+    "pol": "Gumowy kombinezon poprawiający mobilność",
+    "rus": "Каучуковый беговой комбинезон",
+    "spa": "Traje ergonómico de goma",
+    "ukr": "Каучуковий біговий комбінезон"
+  },
+  "st_up_kom_b11_descr": {
+    "eng": "Constantan is capable of isolating against electricity and has a very high melting point.",
+    "fra": "Le constantan est un alliage isolant au point de fusion très élevé.",
+    "ger": "Konstantan wird als Isolationsstoff gegen Elektrizität eingesetzt und hat eine sehr hohe Schmelztemperatur.",
+    "ita": "La constantana è un ottimo isolante elettrico e ha un punto di fusione molto elevato.",
+    "pol": "Konstantan izoluje przed elektrycznością i ma bardzo wysoką temperaturę topnienia.",
+    "rus": "Константан не проводит электрический ток и плавится только при очень высоких температурах.",
+    "spa": "El constantán proporciona aislamiento contra electricidad y tiene un punto de fusión muy elevado.",
+    "ukr": "Константан не проводить електричний струм і плавиться лише за дуже високих температур."
+  },
+  "st_up_kom_b11_name": {
+    "eng": "Constantan thermal isolation inserts",
+    "fra": "Inserts d'isolation thermique en constantan",
+    "ger": "Wärmeisolationseinlagen aus Konstantan",
+    "ita": "Inserti in constantana per isolamento termico",
+    "pol": "Konstantanowe wkładki termoizolacyjne",
+    "rus": "Термоизолирующие вставки из константана",
+    "spa": "Aislantes térmicos de constantán",
+    "ukr": "Термоізоляційні вставки з константану"
+  },
+  "st_up_kom_b12_descr": {
+    "eng": "Lead is a reliable defense against radiation because it absorbs all three types thereof.",
+    "fra": "Le plomb absorbe les trois principaux types de radiations.",
+    "ger": "Blei ist ein verlässlicher Schutz gegen Radioaktivität, weil es alle drei Arten von radioaktiver Strahlung absorbiert.",
+    "ita": "Il piombo è un'ottima difesa contro le radiazioni, essendo in grado di assorbirne tutte e tre le tipologie.",
+    "pol": "Ołów stanowi niezawodną ochronę przed promieniowaniem, ponieważ absorbuje wszystkie trzy jego typy.",
+    "rus": "Свинец - надёжная защита от облучения, поскольку поглощает все виды радиационных частиц.",
+    "spa": "El plomo es una defensa eficaz contra la radiación, ya que absorbe los tres tipos existentes.",
+    "ukr": "Свинець - надійний захист від опромінення, оскільки поглинає усі види радіаційних часток."
+  },
+  "st_up_kom_b12_name": {
+    "eng": "Addition of lead to bodysuit",
+    "fra": "Ajout de plomb à la combinaison",
+    "ger": "Bleizusätze für Schutzanzug",
+    "ita": "Aggiunta di piombo nella tuta",
+    "pol": "Dodanie wkładki ołowianej do kombinezonu",
+    "rus": "Освинцевание защитного костюма",
+    "spa": "Adición de plomo al traje",
+    "ukr": "Освинцювання захисного костюма"
   },
   "st_up_kom_c1_descr": {
     "eng": "Impregnated fabric should prevent chemical poisoning.",

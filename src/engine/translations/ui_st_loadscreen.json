@@ -19,6 +19,86 @@
     "spa": "Matando a enemigos y consiguiendo artefactos reunirás los puntos necesarios para aumentar de rango. Al subir de rango, puedes acceder a nuevas armas, blindajes y equipo.",
     "ukr": "За убитих ворогів та знайдені артефакти нараховуються очки, необхідні для рангового зростання. Після досягнення чергового рангу стають доступними нові зброя, броня та спорядження."
   },
+  "ls_mp_tip_2": {
+    "eng": "ARTIFACT HUNT: In order to win, you must bring a certain number of artifacts to your base.",
+    "fra": "CHASSE AUX ARTEFACTS : pour gagner, vous devez rapporter un certain nombre d'artefacts dans votre base.",
+    "ger": "ARTEFAKTJAGD: Um zu gewinnen, müssen Sie eine bestimmte Anzahl von Artefakten in Ihre Basis bringen.",
+    "ita": "CACCIA AI MANUFATTI: per vincere devi riportare alla tua base un determinato numero di manufatti.",
+    "pol": "POLOWANIE NA ARTEFAKTY: Aby wygrać, musisz przynieść do swojej bazy określoną liczbę artefaktów.",
+    "rus": "«ОХОТА ЗА АРТЕФАКТОМ»: Чтобы выиграть, необходимо доставить на свою базу определённое количество артефактов.",
+    "spa": "CAZA DE ARTEFACTOS: para ganar, debes llevar un determinado número de artefactos a tu base.",
+    "ukr": "«ПОЛЮВАННЯ ЗА АРТЕФАКТОМ»: Щоб виграти, необхідно доставити на свою базу певну кількість артефактів."
+  },
+  "ls_mp_tip_3": {
+    "eng": "DEATHMATCH: Get the most kill points to win.",
+    "fra": "MATCH À MORT : marquez le plus de points pour gagner.",
+    "ger": "DEATHMATCH: Sammeln Sie möglichst viele Punkte durch getötete Gegner, um zu gewinnen.",
+    "ita": "SCONTRO MORTALE: totalizza il massimo punteggio per vincere.",
+    "pol": "WSZYSCY PRZECIWKO WSZYSTKIM: Aby wygrać, musisz zdobyć największą liczbę punktów za zabicia.",
+    "rus": "«СМЕРТЕЛЬНЫЙ МАТЧ»: Чтобы выиграть, необходимо набрать наибольшее количество очков за убийства.",
+    "spa": "COMBATE A MUERTE: consigue más puntos letales que nadie para ganar.",
+    "ukr": "«СМЕРТЕЛЬНИЙ МАТЧ»: Щоб виграти, необхідно набрати найбільшу кількість очок за вбивства."
+  },
+  "ls_mp_tip_4": {
+    "eng": "TEAM DEATHMATCH: In order to win, your team needs to get more kill points than the enemy.",
+    "fra": "MATH À MORT EN ÉQUIPE : pour gagner, votre équipe doit faire plus de victimes que l'adversaire.",
+    "ger": "TEAM DEATHMATCH: Ihr Team muss möglichst viele Punkte durch getötete Gegner sammeln, um zu gewinnen.",
+    "ita": "SCONTRO MORTALE A SQUADRE: per poter vincere, la tua squadra deve totalizzare più punti uccisione del nemico.",
+    "pol": "GRA DRUŻYNOWA: Aby wygrać, twoja drużyna musi zdobyć więcej punktów za zabicia niż drużyna przeciwna.",
+    "rus": "«КОМАНДА ПРОТИВ КОМАНДЫ»: Для победы члены команды должны набрать большее количество очков за убийства, чем команда противника.",
+    "spa": "COMBATE A MUERTE EN EQUIPO: para ganar, tu equipo deberá conseguir más puntos letales que el enemigo.",
+    "ukr": "«КОМАНДА ПРОТИ КОМАНДИ»: Для перемоги члени команди мають набрати більшу кількість очок за вбивства, ніж команда супротивника."
+  },
+  "ls_mp_tip_5": {
+    "eng": "CAPTURE THE ARTIFACT: In order to win, you must bring a certain number of enemy artifacts to your base.",
+    "fra": "CAPTURE D'ARTEFACTS : pour gagner, vous devez rapporter un certain nombre d'artefacts ennemis dans votre base.",
+    "ger": "ARTEFAKTEROBERUNG: Um zu gewinnen, müssen Sie eine bestimmte Anzahl von gegnerischen Artefakten in Ihre Basis bringen.",
+    "ita": "CATTURA IL MANUFATTO: per vincere devi riportare alla tua base un determinato numero di manufatti.",
+    "pol": "ZDOBYCIE ARTEFAKTU: Aby wygrać, musisz przynieść do swojej bazy określoną liczbę artefaktów należących do wroga.",
+    "rus": "«ЗАХВАТ АРТЕФАКТА»: Чтобы выиграть, необходимо доставить на свою базу определённое количество артефактов противника.",
+    "spa": "CAPTURA DEL ARTEFACTO: para ganar, debes llevar un determinado número de artefactos enemigos a la base.",
+    "ukr": "«ЗАХОПЛЕННЯ АРТЕФАКТУ»: Щоб виграти, необхідно доставити на свою базу певну кількість артефактів супротивника."
+  },
+  "ls_mp_tip_6": {
+    "eng": "CAPTURE THE ARTIFACT: To return a stolen artifact to your base, you need to kill the enemy carrying it and pick it up by pressing \"$$ACTION_USE$$\".",
+    "fra": "CAPTURE D'ARTEFACTS : pour rapporter un artefact volé dans votre base, vous devez tuer son porteur et ramasser l'artefact en appuyant sur \"$$ACTION_USE$$\".",
+    "ger": "ARTEFAKTEROBERUNG: Um ein gestohlenes Artefakt wieder in Ihre Basis zu bringen, müssen Sie den Gegner, der das Artefakt trägt, ausschalten und danach mit \"$$ACTION_USE$$\" das Artefakt aufheben.",
+    "ita": "CATTURA IL MANUFATTO: per riportare un manufatto rubato alla tua base, devi uccidere il nemico che lo trasporta e raccogliere il manufatto premendo \"$$ACTION_USE$$\".",
+    "pol": "ZDOBYCIE ARTEFAKTU: Aby zwrócić skradziony artefakt do bazy, musisz zabić niosącego go przeciwnika, a następnie podnieść przedmiot, wciskając „$$ACTION_USE$$\".",
+    "rus": "«ЗАХВАТ АРТЕФАКТА»: Чтобы вернуть похищенный артефакт на базу, нужно убить противника, несущего артефакт, и подобрать последний, нажав «$$ACTION_USE$$».",
+    "spa": "CAPTURA DEL ARTEFACTO: para devolver un artefacto robado a tu base, tienes que matar al enemigo que lo lleve y recogerlo pulsando \"$$ACTION_USE$$\".",
+    "ukr": "«ЗАХОПЛЕННЯ АРТЕФАКТУ»: Щоби повернути викрадений артефакт на базу, потрібно вбити супротивника, який несе артефакт, і підібрати останній, натиснувши «$$ACTION_USE$$»."
+  },
+  "ls_mp_tip_7": {
+    "eng": "ARTIFACT HUNT: You can destroy the artifact by activating it. To do this, take the artifact out by pressing \"$$ACTION_ARTEFACT$$\" and hold \"$$ACTION_WPN_FIRE$$\".",
+    "fra": "CHASSE AUX ARTEFACTS : vous pouvez détruire un artefact en l'activant. Pour ce faire, appuyez sur \"$$ACTION_ARTEFACT$$\" et appuyez longuement sur \"$$ACTION_WPN_FIRE$$\".",
+    "ger": "ARTEFAKTJAGD: Sie können das Artefakt zerstören, indem Sie es aktivieren. Nehmen Sie es dazu in die Hand, indem Sie \"$$ACTION_ARTEFACT$$\" drücken, und halten Sie dann \"$$ACTION_WPN_FIRE$$\" gedrückt.",
+    "ita": "CACCIA AI MANUFATTI: puoi distruggere il manufatto attivandolo. Per farlo, estrai il manufatto premendo \"$$ACTION_ARTEFACT$$\" e tieni premuto \"$$ACTION_WPN_FIRE$$\".",
+    "pol": "POLOWANIE NA ARTEFAKTY: Możesz zniszczyć artefakt aktywując go. Aby to zrobić, wyciągnij artefakt wciskając „$$ACTION_ARTEFACT$$\" i przytrzymaj „$$ACTION_WPN_FIRE$$\".",
+    "rus": "«ОХОТА ЗА АРТЕФАКТОМ»: Артефакт можно разрушить, активировав его. Для этого необходимо достать артефакт, нажав «$$ACTION_ARTEFACT$$», а затем нажать «$$ACTION_WPN_FIRE$$».",
+    "spa": "CAZA DE ARTEFACTOS: puedes destruir el artefacto activándolo. Para ello, sácalo pulsando \"$$ACTION_ARTEFACT$$\" y mantén \"$$ACTION_WPN_FIRE$$\".",
+    "ukr": "«ПОЛЮВАННЯ ЗА АРТЕФАКТОМ»: Артефакт можна зруйнувати, активувавши його. Для цього необхідно дістати артефакт, натиснувши «$$ACTION_ARTEFACT$$», а потім натиснути «$$ACTION_WPN_FIRE$$»."
+  },
+  "ls_mp_tip_8": {
+    "eng": "You cannot run while carrying the artifact.",
+    "fra": "Vous ne pouvez pas courir lorsque vous transportez l'artefact.",
+    "ger": "Sie können nicht rennen, während Sie das Artefakt tragen.",
+    "ita": "Mentre trasporti il manufatto non puoi correre.",
+    "pol": "Gdy niesiesz artefakt, nie możesz biec.",
+    "rus": "Во время переноски артефакта перемещение бегом невозможно.",
+    "spa": "No puedes correr con el artefacto a cuestas.",
+    "ukr": "Під час перенесення артефакту пересуватися бігом неможливо."
+  },
+  "ls_mp_tip_9": {
+    "eng": "The artifact or the player carrying it is shown on the minimap. If the artifact is far away, an arrow on the minimap will indicate its direction.",
+    "fra": "L'artefact ou le joueur en sa possession s'affiche sur la mini-carte. Si l'artefact est éloigné, une flèche indique dans quelle direction il se trouve.",
+    "ger": "Auf der Minimap wird das Artefakt oder der Spieler, der es trägt, angezeigt. Wenn die Entfernung zum Artefakt zu groß ist, deutet ein Pfeil auf der Minimap in die entsprechende Richtung.",
+    "ita": "La posizione del manufatto o del giocatore che lo possiede viene indicata sulla minimappa. Se il manufatto è lontano, sulla minimappa compare una freccia che ne indica la direzione.",
+    "pol": "Artefakt lub niosący go gracz pokazany jest na minimapie. Jeżeli artefakt jest daleko, strzałka na minimapie wskaże odpowiedni kierunek.",
+    "rus": "Артефакт или несущий его игрок отображаются на миникарте. Если артефакт далеко, направление на него отображается стрелочкой на миникарте.",
+    "spa": "El artefacto (o el jugador que lo lleva) aparece en el minimapa. Si está demasiado lejos, verás una flecha que indica la dirección en la que se encuentra.",
+    "ukr": "Артефакт або гравець, що його несе, відображаються на мінікарті. Якщо артефакт знаходиться далеко, напрямок на нього відображається стрілочкою."
+  },
   "ls_mp_tip_10": {
     "eng": "This energy drink temporarily speeds up energy recovery, allowing you to sprint for longer.",
     "fra": "Cette boisson énergétique accélère temporairement la récupération de l'endurance, ce qui vous permet de courir plus longtemps.",
@@ -118,16 +198,6 @@
     "rus": "АС96/2 обладает уникальным режимом стрельбы с отсечкой по два патрона. В этом режиме обе выпущенные пули попадают в одну и ту же точку.",
     "spa": "El AC-96/2 puede configurarse para disparar ráfagas de dos balas que impactan en el mismo punto del objetivo.",
     "ukr": "АС96/2 має унікальний режим стрільби із відсіканням по два постріли. У цьому режимі обидві випущені кулі влучають до однієї точки."
-  },
-  "ls_mp_tip_2": {
-    "eng": "ARTIFACT HUNT: In order to win, you must bring a certain number of artifacts to your base.",
-    "fra": "CHASSE AUX ARTEFACTS : pour gagner, vous devez rapporter un certain nombre d'artefacts dans votre base.",
-    "ger": "ARTEFAKTJAGD: Um zu gewinnen, müssen Sie eine bestimmte Anzahl von Artefakten in Ihre Basis bringen.",
-    "ita": "CACCIA AI MANUFATTI: per vincere devi riportare alla tua base un determinato numero di manufatti.",
-    "pol": "POLOWANIE NA ARTEFAKTY: Aby wygrać, musisz przynieść do swojej bazy określoną liczbę artefaktów.",
-    "rus": "«ОХОТА ЗА АРТЕФАКТОМ»: Чтобы выиграть, необходимо доставить на свою базу определённое количество артефактов.",
-    "spa": "CAZA DE ARTEFACTOS: para ganar, debes llevar un determinado número de artefactos a tu base.",
-    "ukr": "«ПОЛЮВАННЯ ЗА АРТЕФАКТОМ»: Щоб виграти, необхідно доставити на свою базу певну кількість артефактів."
   },
   "ls_mp_tip_20": {
     "eng": "To detach a silencer, scope or underbarrel grenade launcher from your weapon, right-click on the weapon in your backpack and select the appropriate action from the context menu.",
@@ -229,16 +299,6 @@
     "spa": "Los enemigos utilizan granadas. Cuando veas un indicador de granada, abandona el radio letal de inmediato.",
     "ukr": "Вороги можуть активно використовувати гранати - і використовуватимуть. Помітивши на екрані символ гранати, негайно залишіть ймовірну зону ураження."
   },
-  "ls_mp_tip_3": {
-    "eng": "DEATHMATCH: Get the most kill points to win.",
-    "fra": "MATCH À MORT : marquez le plus de points pour gagner.",
-    "ger": "DEATHMATCH: Sammeln Sie möglichst viele Punkte durch getötete Gegner, um zu gewinnen.",
-    "ita": "SCONTRO MORTALE: totalizza il massimo punteggio per vincere.",
-    "pol": "WSZYSCY PRZECIWKO WSZYSTKIM: Aby wygrać, musisz zdobyć największą liczbę punktów za zabicia.",
-    "rus": "«СМЕРТЕЛЬНЫЙ МАТЧ»: Чтобы выиграть, необходимо набрать наибольшее количество очков за убийства.",
-    "spa": "COMBATE A MUERTE: consigue más puntos letales que nadie para ganar.",
-    "ukr": "«СМЕРТЕЛЬНИЙ МАТЧ»: Щоб виграти, необхідно набрати найбільшу кількість очок за вбивства."
-  },
   "ls_mp_tip_30": {
     "eng": "Speeding up before you jump allows you to leap over big gaps and cracks.",
     "fra": " Prenez votre élan avant de sauter pour franchir de grands fossés et crevasses d'un bond !",
@@ -338,16 +398,6 @@
     "rus": "Постоянную связь со своей командой можно поддерживать при помощи голосовых сообщений. Меню сообщений вызывается нажатием «$$ACTION_SPEECH_MENU_0$$» или «$$ACTION_SPEECH_MENU_1$$».",
     "spa": "Puedes comunicarte con tu equipo mediante mensajes de voz. Para acceder al menú de esa opción, pulsa \"$$ACTION_SPEECH_MENU_0$$\" o \"$$ACTION_SPEECH_MENU_1$$\".",
     "ukr": "Постійний зв'язок зі своєю командою можна підтримувати за допомогою голосових повідомлень. Меню повідомлень викликається натисканням «$$ACTION_SPEECH_MENU_0$$» або «$$ACTION_SPEECH_MENU_1$$»."
-  },
-  "ls_mp_tip_4": {
-    "eng": "TEAM DEATHMATCH: In order to win, your team needs to get more kill points than the enemy.",
-    "fra": "MATH À MORT EN ÉQUIPE : pour gagner, votre équipe doit faire plus de victimes que l'adversaire.",
-    "ger": "TEAM DEATHMATCH: Ihr Team muss möglichst viele Punkte durch getötete Gegner sammeln, um zu gewinnen.",
-    "ita": "SCONTRO MORTALE A SQUADRE: per poter vincere, la tua squadra deve totalizzare più punti uccisione del nemico.",
-    "pol": "GRA DRUŻYNOWA: Aby wygrać, twoja drużyna musi zdobyć więcej punktów za zabicia niż drużyna przeciwna.",
-    "rus": "«КОМАНДА ПРОТИВ КОМАНДЫ»: Для победы члены команды должны набрать большее количество очков за убийства, чем команда противника.",
-    "spa": "COMBATE A MUERTE EN EQUIPO: para ganar, tu equipo deberá conseguir más puntos letales que el enemigo.",
-    "ukr": "«КОМАНДА ПРОТИ КОМАНДИ»: Для перемоги члени команди мають набрати більшу кількість очок за вбивства, ніж команда супротивника."
   },
   "ls_mp_tip_40": {
     "eng": "A vote can be started by pressing \"$$ACTION_VOTE_BEGIN$$\".",
@@ -449,16 +499,6 @@
     "spa": "Para recargar el arma antes de agotar el cargador, pulsa \"$$ACTION_WPN_RELOAD$$\".",
     "ukr": "Щоб перезарядити зброю до повного використання патронів у магазині, натисніть «$$ACTION_WPN_RELOAD$$»."
   },
-  "ls_mp_tip_5": {
-    "eng": "CAPTURE THE ARTIFACT: In order to win, you must bring a certain number of enemy artifacts to your base.",
-    "fra": "CAPTURE D'ARTEFACTS : pour gagner, vous devez rapporter un certain nombre d'artefacts ennemis dans votre base.",
-    "ger": "ARTEFAKTEROBERUNG: Um zu gewinnen, müssen Sie eine bestimmte Anzahl von gegnerischen Artefakten in Ihre Basis bringen.",
-    "ita": "CATTURA IL MANUFATTO: per vincere devi riportare alla tua base un determinato numero di manufatti.",
-    "pol": "ZDOBYCIE ARTEFAKTU: Aby wygrać, musisz przynieść do swojej bazy określoną liczbę artefaktów należących do wroga.",
-    "rus": "«ЗАХВАТ АРТЕФАКТА»: Чтобы выиграть, необходимо доставить на свою базу определённое количество артефактов противника.",
-    "spa": "CAPTURA DEL ARTEFACTO: para ganar, debes llevar un determinado número de artefactos enemigos a la base.",
-    "ukr": "«ЗАХОПЛЕННЯ АРТЕФАКТУ»: Щоб виграти, необхідно доставити на свою базу певну кількість артефактів супротивника."
-  },
   "ls_mp_tip_50": {
     "eng": "To discard your current weapon, press \"$$ACTION_DROP$$\".",
     "fra": "Appuyez sur \"$$ACTION_DROP$$\" pour jeter l'arme que vous tenez en main.",
@@ -519,46 +559,6 @@
     "spa": "Para asomarte por una esquina, pulsa \"$$ACTION_LLOOKOUT$$\" o \"$$ACTION_RLOOKOUT$$\". En esta posición, no puedes disparar.",
     "ukr": "Щоби визирнути з-за рогу, натисніть «$$ACTION_LLOOKOUT$$» або «$$ACTION_RLOOKOUT$$». Врахуйте, що вести вогонь у такому положенні неможливо."
   },
-  "ls_mp_tip_6": {
-    "eng": "CAPTURE THE ARTIFACT: To return a stolen artifact to your base, you need to kill the enemy carrying it and pick it up by pressing \"$$ACTION_USE$$\".",
-    "fra": "CAPTURE D'ARTEFACTS : pour rapporter un artefact volé dans votre base, vous devez tuer son porteur et ramasser l'artefact en appuyant sur \"$$ACTION_USE$$\".",
-    "ger": "ARTEFAKTEROBERUNG: Um ein gestohlenes Artefakt wieder in Ihre Basis zu bringen, müssen Sie den Gegner, der das Artefakt trägt, ausschalten und danach mit \"$$ACTION_USE$$\" das Artefakt aufheben.",
-    "ita": "CATTURA IL MANUFATTO: per riportare un manufatto rubato alla tua base, devi uccidere il nemico che lo trasporta e raccogliere il manufatto premendo \"$$ACTION_USE$$\".",
-    "pol": "ZDOBYCIE ARTEFAKTU: Aby zwrócić skradziony artefakt do bazy, musisz zabić niosącego go przeciwnika, a następnie podnieść przedmiot, wciskając „$$ACTION_USE$$\".",
-    "rus": "«ЗАХВАТ АРТЕФАКТА»: Чтобы вернуть похищенный артефакт на базу, нужно убить противника, несущего артефакт, и подобрать последний, нажав «$$ACTION_USE$$».",
-    "spa": "CAPTURA DEL ARTEFACTO: para devolver un artefacto robado a tu base, tienes que matar al enemigo que lo lleve y recogerlo pulsando \"$$ACTION_USE$$\".",
-    "ukr": "«ЗАХОПЛЕННЯ АРТЕФАКТУ»: Щоби повернути викрадений артефакт на базу, потрібно вбити супротивника, який несе артефакт, і підібрати останній, натиснувши «$$ACTION_USE$$»."
-  },
-  "ls_mp_tip_7": {
-    "eng": "ARTIFACT HUNT: You can destroy the artifact by activating it. To do this, take the artifact out by pressing \"$$ACTION_ARTEFACT$$\" and hold \"$$ACTION_WPN_FIRE$$\".",
-    "fra": "CHASSE AUX ARTEFACTS : vous pouvez détruire un artefact en l'activant. Pour ce faire, appuyez sur \"$$ACTION_ARTEFACT$$\" et appuyez longuement sur \"$$ACTION_WPN_FIRE$$\".",
-    "ger": "ARTEFAKTJAGD: Sie können das Artefakt zerstören, indem Sie es aktivieren. Nehmen Sie es dazu in die Hand, indem Sie \"$$ACTION_ARTEFACT$$\" drücken, und halten Sie dann \"$$ACTION_WPN_FIRE$$\" gedrückt.",
-    "ita": "CACCIA AI MANUFATTI: puoi distruggere il manufatto attivandolo. Per farlo, estrai il manufatto premendo \"$$ACTION_ARTEFACT$$\" e tieni premuto \"$$ACTION_WPN_FIRE$$\".",
-    "pol": "POLOWANIE NA ARTEFAKTY: Możesz zniszczyć artefakt aktywując go. Aby to zrobić, wyciągnij artefakt wciskając „$$ACTION_ARTEFACT$$\" i przytrzymaj „$$ACTION_WPN_FIRE$$\".",
-    "rus": "«ОХОТА ЗА АРТЕФАКТОМ»: Артефакт можно разрушить, активировав его. Для этого необходимо достать артефакт, нажав «$$ACTION_ARTEFACT$$», а затем нажать «$$ACTION_WPN_FIRE$$».",
-    "spa": "CAZA DE ARTEFACTOS: puedes destruir el artefacto activándolo. Para ello, sácalo pulsando \"$$ACTION_ARTEFACT$$\" y mantén \"$$ACTION_WPN_FIRE$$\".",
-    "ukr": "«ПОЛЮВАННЯ ЗА АРТЕФАКТОМ»: Артефакт можна зруйнувати, активувавши його. Для цього необхідно дістати артефакт, натиснувши «$$ACTION_ARTEFACT$$», а потім натиснути «$$ACTION_WPN_FIRE$$»."
-  },
-  "ls_mp_tip_8": {
-    "eng": "You cannot run while carrying the artifact.",
-    "fra": "Vous ne pouvez pas courir lorsque vous transportez l'artefact.",
-    "ger": "Sie können nicht rennen, während Sie das Artefakt tragen.",
-    "ita": "Mentre trasporti il manufatto non puoi correre.",
-    "pol": "Gdy niesiesz artefakt, nie możesz biec.",
-    "rus": "Во время переноски артефакта перемещение бегом невозможно.",
-    "spa": "No puedes correr con el artefacto a cuestas.",
-    "ukr": "Під час перенесення артефакту пересуватися бігом неможливо."
-  },
-  "ls_mp_tip_9": {
-    "eng": "The artifact or the player carrying it is shown on the minimap. If the artifact is far away, an arrow on the minimap will indicate its direction.",
-    "fra": "L'artefact ou le joueur en sa possession s'affiche sur la mini-carte. Si l'artefact est éloigné, une flèche indique dans quelle direction il se trouve.",
-    "ger": "Auf der Minimap wird das Artefakt oder der Spieler, der es trägt, angezeigt. Wenn die Entfernung zum Artefakt zu groß ist, deutet ein Pfeil auf der Minimap in die entsprechende Richtung.",
-    "ita": "La posizione del manufatto o del giocatore che lo possiede viene indicata sulla minimappa. Se il manufatto è lontano, sulla minimappa compare una freccia che ne indica la direzione.",
-    "pol": "Artefakt lub niosący go gracz pokazany jest na minimapie. Jeżeli artefakt jest daleko, strzałka na minimapie wskaże odpowiedni kierunek.",
-    "rus": "Артефакт или несущий его игрок отображаются на миникарте. Если артефакт далеко, направление на него отображается стрелочкой на миникарте.",
-    "spa": "El artefacto (o el jugador que lo lleva) aparece en el minimapa. Si está demasiado lejos, verás una flecha que indica la dirección en la que se encuentra.",
-    "ukr": "Артефакт або гравець, що його несе, відображаються на мінікарті. Якщо артефакт знаходиться далеко, напрямок на нього відображається стрілочкою."
-  },
   "ls_tip_1": {
     "eng": "Vodka, a cheap alternative to antirad meds, is the easiest way to reduce the effects of radiation on the body.",
     "fra": "La Vodka, une alternative bon marché aux médicaments antiradiations, est le moyen le plus simple d'atténuer les effets physiques des radiations.",
@@ -569,6 +569,86 @@
     "spa": "El vodka, una alternativa sencilla y barata a los medicamentos antirradiación, reduce los efectos de la radiación en el cuerpo.",
     "ukr": "Горілка - дешева альтернатива протирадіаційним препаратам та найдоступніший спосіб знизити вплив радіації на організм."
   },
+  "ls_tip_2": {
+    "eng": "Technicians in stalker camps can upgrade your weapons, suits and helmets.",
+    "fra": "Les techniciens des camps de stalkers peuvent améliorer vos armes, vos combinaisons et vos casques.",
+    "ger": "Techniker in Stalkerlagern können Ihre Waffen, Schutzanzüge und Helme verbessern",
+    "ita": "I tecnici negli accampamenti degli stalker possono potenziare le armi, le tute e gli elmi.",
+    "pol": "Technicy w obozach stalkerów mogą ulepszyć twoje bronie, kombinezony i hełmy.",
+    "rus": "Свойства оружия, защитного костюма или шлема можно улучшить у техников в лагерях сталкеров.",
+    "spa": "Los técnicos de los campamentos de stalkers pueden mejorar tus armas, trajes y cascos.",
+    "ukr": "Властивості зброї, захисного костюму чи шолома можна поліпшити в техніків у таборах сталкерів."
+  },
+  "ls_tip_3": {
+    "eng": "The weight you are carrying reduces your endurance. Excess weight will restrict your mobility, while being completely overloaded will stop you from moving altogether.",
+    "fra": "Le poids que vous transportez fait chuter votre endurance. Un excès de poids peut restreindre votre mobilité et une surcharge vous empêchera de vous déplacer.",
+    "ger": "Das Gewicht, das Sie tragen, senkt Ihre Ausdauer. Zu viel Gewicht schränkt Ihre Bewegungsfähigkeit ein und wenn Sie vollkommen überladen sind, können Sie sich gar nicht mehr fortbewegen.",
+    "ita": "Il peso che trasporti riduce la tua resistenza. Un peso eccessivo limiterà la tua mobilità, mentre se sarai troppo sovraccarico non potrai muoverti affatto.",
+    "pol": "Ciężar, który nosisz, obniża twoją wytrzymałość. Zbyt duży ciężar ograniczy twoją mobilność, a kompletne przeciążenie unieruchomi cię zupełnie.",
+    "rus": "Количество переносимого груза напрямую влияет на снижение выносливости. Большой вес ограничит мобильность, а перегрузка не позволит передвигаться вообще.",
+    "spa": "El peso que lleves encima reduce tu resistencia. Un peso excesivo limitará tu movilidad, y, si te cargas demasiado, no podrás ni moverte.",
+    "ukr": "Кількість носимого вантажу прямо впливає на зниження витривалості. Велика вага обмежить мобільність, а надмірне навантаження не дозволить пересуватися взагалі."
+  },
+  "ls_tip_4": {
+    "eng": "You can hide and show different markers on the map in your PDA using filters. Filter buttons are located above the map, under the current mission line.",
+    "fra": "Vous pouvez utiliser différents filtres pour masquer ou afficher des indicateurs sur la carte de votre PDA. Les boutons des filtres se trouvent au-dessus de la carte, sous la ligne de la mission en cours.",
+    "ger": "Sie können mit Hilfe von Filtern verschiedene Markierungen auf Ihrem PDA ein- bzw. ausblenden. Die Filterschaltflächen befinden sich über der Karte, unter der Zeile mit der aktuellen Mission.",
+    "ita": "Puoi nascondere e mostrare diversi indicatori sul tuo PDA usando i filtri. I pulsanti dei filtri si trovano sopra la mappa, sotto la riga della missione in corso.",
+    "pol": "Przy pomocy filtrów możesz ukrywać i wyświetlać różne rodzaje oznaczeń na swoim PDA. Przyciski filtrów znajdują się ponad mapą, pod nazwą bieżącej misji.",
+    "rus": "При помощи фильтров в КПК можно скрывать и отображать различные типы отметок на карте. Кнопки управления фильтрами расположены между изображением карты и строкой активного задания.",
+    "spa": "Puedes ocultar y mostrar diferentes marcadores en el mapa de tu PDA utilizando filtros. Los botones para filtrar se encuentran arriba del mapa, bajo la misión actual.",
+    "ukr": "За допомогою фільтрів у КПК можна приховувати й відображати різні типи оцінок на мапі. Кнопки керування фільтрами розташовані між зображенням мапи та рядком активного завдання."
+  },
+  "ls_tip_5": {
+    "eng": "Some suits have integrated helmets. It is not possible to use other helmets with such suits.",
+    "fra": "Certaines combinaisons disposent de casques intégrés. Il n'est donc pas possible d'utiliser d'autres casques avec celles-ci.",
+    "ger": "Einige Schutzanzüge verfügen über integrierte Helme. Bei solchen Anzügen ist es nicht möglich, andere Helme zu tragen.",
+    "ita": "Alcune tute sono dotate di elmi. Non è possibile usare altri elmi con queste tute.",
+    "pol": "Niektóre kombinezony mają wbudowane hełmy. Używając takiego kombinezonu nie można korzystać z innych hełmów.",
+    "rus": "Некоторые костюмы комплектуются интегрированными шлемами. Ношение других шлемов с такими костюмами невозможно.",
+    "spa": "Algunos trajes llevan cascos integrados y no es posible combinarlos con otros cascos.",
+    "ukr": "Деякі костюми комплектуються інтегрованими шоломами. Носіння інших шоломів із такими костюмами неможливе."
+  },
+  "ls_tip_6": {
+    "eng": "To wait out an emission, take cover in a reliable building or underground. When an emission is approaching, the nearest cover will be marked on your PDA.",
+    "fra": "En cas d'émission, pensez à vous mettre à couvert dans un bâtiment sûr ou sous terre. Lorsqu'une émission est imminente, l'abri le plus proche s'affiche sur votre PDA.",
+    "ger": "Um eine Emission unbeschadet zu überstehen, sollten Sie in einem stabilen Gebäude oder unter der Erde Unterschlupf suchen. Wenn eine Emission ansteht, wird die Unterschlupfmöglichkeit, die am nächsten liegt, auf Ihrem PDA angezeigt.",
+    "ita": "Per aspettare che passi un'emissione, nasconditi in un edificio sicuro o sottoterra. Quando si avvicina un'emissione, sul tuo PDA sarà indicato il nascondiglio più vicino.",
+    "pol": "Aby przeczekać emisję, schroń się w solidnym budynku lub pod ziemią. Gdy emisja będzie się zbliżać, najbliższe schronienie będzie zaznaczone na twoim PDA.",
+    "rus": "Безопасно переждать выброс можно в надёжном строении либо под землёй. При приближении выброса расположение ближайшего укрытия будет отображено в КПК.",
+    "spa": "Para aguardar a que pase una emisión, refúgiate en un edificio fiable o subterráneo, Cuando se aproxime una emisión, verás marcado en tu PDA el punto más cercano.",
+    "ukr": "Безпечно перечекати викид можна у надійній будівлі або під землею. За наближення викиду розташування найближчого укриття буде відображене у КПК."
+  },
+  "ls_tip_7": {
+    "eng": "Weapon flatness affects bullet trajectory, while handling determines the time it takes the sight to return to its original position after firing.",
+    "fra": "La vitesse initiale a une influence sur la trajectoire de la balle, alors que la prise en main représente le temps pris par la mire pour revenir à sa position d'origine après un tir.",
+    "ger": "Die Flachheit der Waffe beeinflusst die Flugbahn des Projektils, während die Handhabung die Zeit bestimmt, die nach einem Schuss vergeht, bis das Visier wieder an seiner ursprünglichen Position ist.",
+    "ita": "La stabilità di un'arma influisce sulla traiettoria del proiettile, mentre l'ergonomia determina il tempo che il mirino impiega a tornare nella posizione originale dopo aver sparato.",
+    "pol": "Płaskość toru pocisku wpływa na trajektorię, a obsługa warunkuje czas, potrzebny aby broń powróciła do pierwotnej pozycji po oddaniu strzału.",
+    "rus": "Настильность - параметр оружия, влияющий на траекторию полёта пули, а удобность - на скорость возврата прицела в исходное положение.",
+    "spa": "La trayectoria del arma afecta a la dirección de las balas, y el manejo establece el tiempo que tarda la mira en volver a su posición inicial tras el disparo.",
+    "ukr": "Настильність - параметр зброї, що впливає на траєкторію польоту кулі, а зручність - на швидкість повернення прицілу у початкове положення."
+  },
+  "ls_tip_8": {
+    "eng": "You can use a bandage, a military medkit or Vinca drugs to stop bleeding. If you don’t deal with it quickly, bleeding can seriously damage your health.",
+    "fra": "Vous pouvez utiliser un pansement, un médikit militaire ou des médicaments Vinca pour stopper les hémorragies. Pensez à vous soigner rapidement, votre vie en dépend !",
+    "ger": "Mit Verbandszeug, einem Armee-Medkit oder Vinca-Mitteln können Sie Blutungen stoppen. Wenn Sie nämlich nicht schnell genug handeln, kann eine Blutung schwere gesundheitliche Folgen nach sich ziehen.",
+    "ita": "Per fermare l'emorragia puoi usare una fasciatura, un kit di pronto soccorso militare o le droghe Vinca. Se non te ne occupi in fretta, un'emorragia potrebbe danneggiare seriamente la tua salute.",
+    "pol": "Aby zatamować krwotok, możesz użyć bandaża, wojskowej apteczki lub barwinków. Jeśli szybko sobie z nim nie poradzisz, krwawienie może poważnie uszkodzić twoje zdrowie.",
+    "rus": "Для остановки кровотечения можно воспользоваться бинтом, армейской аптечкой или препаратом «Барвинок». Не остановленное вовремя кровотечение может нанести значительный урон организму и закончиться гибелью.",
+    "spa": "Puedes usar una venda, un botiquín militar o medicamentos de Vinca para detener una hemorragia. Si no te das prisa, tu salud pude verse muy perjudicada.",
+    "ukr": "Для зупинки кровотечі можна скористатися бинтом, армійською аптечкою або препаратом «Барвінок». Не зупинена вчасно кровотеча може завдати значної шкоди організму і скінчитися загибеллю."
+  },
+  "ls_tip_9": {
+    "eng": "Drugs don’t take effect immediately and some last for quite a long time.",
+    "fra": "Les médicaments n'ont pas un effet immédiat et certains peuvent agir de façon prolongée.",
+    "ger": "Die Wirkung von Medikamenten setzt nicht sofort ein und kann in manchen Fällen eine lange Zeit anhalten.",
+    "ita": "Le droghe non fanno effetto immediatamente e alcune hanno una durata notevole.",
+    "pol": "Leki nie zaczynają działać natychmiastowo, a efekt działania niektórych z nich utrzymuje się dość długo.",
+    "rus": "Эффект от приёма медикаментов не является мгновенным, а некоторые препараты отличаются весьма продолжительным действием. При этом эффект препарата, принятого последним, перекрывает аналогичные эффекты от принятых ранее веществ.",
+    "spa": "Los medicamentos no son de efecto inmediato, aunque algunos duran mucho.",
+    "ukr": "Ефект від прийому медикаментів не є миттєвим, а деякі препарати відзначаються доволі тривкою дією. При цьому ефект препарату, прийнятого останнім, перекриває аналогічні ефекти від прийнятих раніше речовин."
+  },
   "ls_tip_10": {
     "eng": "You can access detailed information about the current mission by holding \"$$ACTION_SCORES$$\".",
     "fra": "Appuyez longuement sur \"$$ACTION_SCORES$$\" pour afficher des informations détaillées sur la mission en cours.",
@@ -578,16 +658,6 @@
     "rus": "Подробности текущего задания можно узнать, удерживая «$$ACTION_SCORES$$».",
     "spa": "Para acceder a información detallada sobre la misión en curso, mantén \"$$ACTION_SCORES$$\".",
     "ukr": "Подробиці поточного завдання можна довідатися, утримуючи «$$ACTION_SCORES$$»."
-  },
-  "ls_tip_100": {
-    "eng": "To look in your backpack, press \"$$ACTION_INVENTORY$$\".",
-    "fra": "Pour regarder dans votre sac à dos, appuyez sur \"$$ACTION_INVENTORY$$\".",
-    "ger": "Drücken Sie \"$$ACTION_INVENTORY$$\", um Ihren Rucksackinhalt anzuzeigen.",
-    "ita": "Per guardare nel tuo zaino, premi \"$$ACTION_INVENTORY$$\".",
-    "pol": "Aby zajrzeć do plecaka, wciśnij „$$ACTION_INVENTORY$$\".",
-    "rus": "Чтобы заглянуть в содержимое своего рюкзака, нажмите «$$ACTION_INVENTORY$$».",
-    "spa": "Para mirar en tu mochila, pulsa \"$$ACTION_INVENTORY$$\".",
-    "ukr": "Щоб заглянути до вмісту свого рюкзака, натисніть «$$ACTION_INVENTORY$$»."
   },
   "ls_tip_11": {
     "eng": "You can unload the weapons you find to get more ammo. To do this, right-click on the weapon in your backpack and select the appropriate action from the context menu.",
@@ -678,16 +748,6 @@
     "rus": "Уходя в дальнюю вылазку, нужно взять с собой запас съестного. Сильный голод негативно сказывается на восстановлении выносливости.",
     "spa": "Lleva comida en las largas incursiones. Si llegas a pasar mucha hambre, tu recuperación de resistencia se verá afectada.",
     "ukr": "Вирушаючи в далеку вилазку, слід узяти із собою запас продуктів. Сильний голод негативно впливає на відновлення витривалості."
-  },
-  "ls_tip_2": {
-    "eng": "Technicians in stalker camps can upgrade your weapons, suits and helmets.",
-    "fra": "Les techniciens des camps de stalkers peuvent améliorer vos armes, vos combinaisons et vos casques.",
-    "ger": "Techniker in Stalkerlagern können Ihre Waffen, Schutzanzüge und Helme verbessern",
-    "ita": "I tecnici negli accampamenti degli stalker possono potenziare le armi, le tute e gli elmi.",
-    "pol": "Technicy w obozach stalkerów mogą ulepszyć twoje bronie, kombinezony i hełmy.",
-    "rus": "Свойства оружия, защитного костюма или шлема можно улучшить у техников в лагерях сталкеров.",
-    "spa": "Los técnicos de los campamentos de stalkers pueden mejorar tus armas, trajes y cascos.",
-    "ukr": "Властивості зброї, захисного костюму чи шолома можна поліпшити в техніків у таборах сталкерів."
   },
   "ls_tip_20": {
     "eng": "Low endurance can make you immobile and vulnerable to enemy attack at crucial moments.",
@@ -789,16 +849,6 @@
     "spa": "El cuchillo no sirve de nada contra enemigos con armas de fuego. Úsalo en el combate cuerpo a cuerpo o para matar sigilosamente.",
     "ukr": "Ніж є малоефективним проти ворогів, які мають вогнепальну зброю. Сфера його застосування - рукопашний бій та безшумне усунення супротивника."
   },
-  "ls_tip_3": {
-    "eng": "The weight you are carrying reduces your endurance. Excess weight will restrict your mobility, while being completely overloaded will stop you from moving altogether.",
-    "fra": "Le poids que vous transportez fait chuter votre endurance. Un excès de poids peut restreindre votre mobilité et une surcharge vous empêchera de vous déplacer.",
-    "ger": "Das Gewicht, das Sie tragen, senkt Ihre Ausdauer. Zu viel Gewicht schränkt Ihre Bewegungsfähigkeit ein und wenn Sie vollkommen überladen sind, können Sie sich gar nicht mehr fortbewegen.",
-    "ita": "Il peso che trasporti riduce la tua resistenza. Un peso eccessivo limiterà la tua mobilità, mentre se sarai troppo sovraccarico non potrai muoverti affatto.",
-    "pol": "Ciężar, który nosisz, obniża twoją wytrzymałość. Zbyt duży ciężar ograniczy twoją mobilność, a kompletne przeciążenie unieruchomi cię zupełnie.",
-    "rus": "Количество переносимого груза напрямую влияет на снижение выносливости. Большой вес ограничит мобильность, а перегрузка не позволит передвигаться вообще.",
-    "spa": "El peso que lleves encima reduce tu resistencia. Un peso excesivo limitará tu movilidad, y, si te cargas demasiado, no podrás ni moverte.",
-    "ukr": "Кількість носимого вантажу прямо впливає на зниження витривалості. Велика вага обмежить мобільність, а надмірне навантаження не дозволить пересуватися взагалі."
-  },
   "ls_tip_30": {
     "eng": "A detector is the only reliable way of checking anomalous areas for artifacts.",
     "fra": "Le détecteur est le seul moyen fiable de trouver des artefacts dans les anomalies.",
@@ -898,16 +948,6 @@
     "rus": "Двуствольные дробовики могут произвести два выстрела почти одновременно.",
     "spa": "Las escopetas de dos cañones pueden disparar con ambos casi simultáneamente.",
     "ukr": "Двоствольні дробовики можуть зробити два постріли майже одночасно."
-  },
-  "ls_tip_4": {
-    "eng": "You can hide and show different markers on the map in your PDA using filters. Filter buttons are located above the map, under the current mission line.",
-    "fra": "Vous pouvez utiliser différents filtres pour masquer ou afficher des indicateurs sur la carte de votre PDA. Les boutons des filtres se trouvent au-dessus de la carte, sous la ligne de la mission en cours.",
-    "ger": "Sie können mit Hilfe von Filtern verschiedene Markierungen auf Ihrem PDA ein- bzw. ausblenden. Die Filterschaltflächen befinden sich über der Karte, unter der Zeile mit der aktuellen Mission.",
-    "ita": "Puoi nascondere e mostrare diversi indicatori sul tuo PDA usando i filtri. I pulsanti dei filtri si trovano sopra la mappa, sotto la riga della missione in corso.",
-    "pol": "Przy pomocy filtrów możesz ukrywać i wyświetlać różne rodzaje oznaczeń na swoim PDA. Przyciski filtrów znajdują się ponad mapą, pod nazwą bieżącej misji.",
-    "rus": "При помощи фильтров в КПК можно скрывать и отображать различные типы отметок на карте. Кнопки управления фильтрами расположены между изображением карты и строкой активного задания.",
-    "spa": "Puedes ocultar y mostrar diferentes marcadores en el mapa de tu PDA utilizando filtros. Los botones para filtrar se encuentran arriba del mapa, bajo la misión actual.",
-    "ukr": "За допомогою фільтрів у КПК можна приховувати й відображати різні типи оцінок на мапі. Кнопки керування фільтрами розташовані між зображенням мапи та рядком активного завдання."
   },
   "ls_tip_40": {
     "eng": "If you want to move with minimal noise, press \"$$ACTION_ACCEL$$\" to walk or \"$$ACTION_CROUCH$$\" to crouch.",
@@ -1009,16 +1049,6 @@
     "spa": "Los indicadores clave que muestran tu salud y tu resistencia están situados en la parte inferior derecha de la pantalla.",
     "ukr": "Ключові індикатори - стану здоров'я та витривалості - знаходяться у правому нижньому куті екрана."
   },
-  "ls_tip_5": {
-    "eng": "Some suits have integrated helmets. It is not possible to use other helmets with such suits.",
-    "fra": "Certaines combinaisons disposent de casques intégrés. Il n'est donc pas possible d'utiliser d'autres casques avec celles-ci.",
-    "ger": "Einige Schutzanzüge verfügen über integrierte Helme. Bei solchen Anzügen ist es nicht möglich, andere Helme zu tragen.",
-    "ita": "Alcune tute sono dotate di elmi. Non è possibile usare altri elmi con queste tute.",
-    "pol": "Niektóre kombinezony mają wbudowane hełmy. Używając takiego kombinezonu nie można korzystać z innych hełmów.",
-    "rus": "Некоторые костюмы комплектуются интегрированными шлемами. Ношение других шлемов с такими костюмами невозможно.",
-    "spa": "Algunos trajes llevan cascos integrados y no es posible combinarlos con otros cascos.",
-    "ukr": "Деякі костюми комплектуються інтегрованими шоломами. Носіння інших шоломів із такими костюмами неможливе."
-  },
   "ls_tip_50": {
     "eng": "Sniper rifles are ideal for eliminating enemies from a distance, thanks to their flatness and accuracy characteristics. They are less effective at close range.",
     "fra": "La vitesse initiale et la grande précision des fusils de précision en font des armes idéales pour éliminer des cibles éloignées. Ces fusils sont cependant moins efficaces à courte portée.",
@@ -1118,16 +1148,6 @@
     "rus": "После выброса в уже исследованных районах могут появиться новые артефакты.",
     "spa": "Tras una emisión, pueden aparecer nuevos artefactos en áreas anómalas que ya hayas explorado.",
     "ukr": "Після викиду в уже досліджених районах можуть з'явитися нові артефакти."
-  },
-  "ls_tip_6": {
-    "eng": "To wait out an emission, take cover in a reliable building or underground. When an emission is approaching, the nearest cover will be marked on your PDA.",
-    "fra": "En cas d'émission, pensez à vous mettre à couvert dans un bâtiment sûr ou sous terre. Lorsqu'une émission est imminente, l'abri le plus proche s'affiche sur votre PDA.",
-    "ger": "Um eine Emission unbeschadet zu überstehen, sollten Sie in einem stabilen Gebäude oder unter der Erde Unterschlupf suchen. Wenn eine Emission ansteht, wird die Unterschlupfmöglichkeit, die am nächsten liegt, auf Ihrem PDA angezeigt.",
-    "ita": "Per aspettare che passi un'emissione, nasconditi in un edificio sicuro o sottoterra. Quando si avvicina un'emissione, sul tuo PDA sarà indicato il nascondiglio più vicino.",
-    "pol": "Aby przeczekać emisję, schroń się w solidnym budynku lub pod ziemią. Gdy emisja będzie się zbliżać, najbliższe schronienie będzie zaznaczone na twoim PDA.",
-    "rus": "Безопасно переждать выброс можно в надёжном строении либо под землёй. При приближении выброса расположение ближайшего укрытия будет отображено в КПК.",
-    "spa": "Para aguardar a que pase una emisión, refúgiate en un edificio fiable o subterráneo, Cuando se aproxime una emisión, verás marcado en tu PDA el punto más cercano.",
-    "ukr": "Безпечно перечекати викид можна у надійній будівлі або під землею. За наближення викиду розташування найближчого укриття буде відображене у КПК."
   },
   "ls_tip_60": {
     "eng": "You can use any weapon in both weapon slots. This allows you to create flexible weapon combinations, such as assault rifle/shotgun and pistol/sniper rifle.",
@@ -1229,16 +1249,6 @@
     "spa": "Para usar los medicamentos apropiados, es útil conocer su efecto. Consulta las descripciones para informarte.",
     "ukr": "Для раціонального застосування медикаментів необхідно знати їхні властивості. Уважно вивчіть опис кожного з препаратів."
   },
-  "ls_tip_7": {
-    "eng": "Weapon flatness affects bullet trajectory, while handling determines the time it takes the sight to return to its original position after firing.",
-    "fra": "La vitesse initiale a une influence sur la trajectoire de la balle, alors que la prise en main représente le temps pris par la mire pour revenir à sa position d'origine après un tir.",
-    "ger": "Die Flachheit der Waffe beeinflusst die Flugbahn des Projektils, während die Handhabung die Zeit bestimmt, die nach einem Schuss vergeht, bis das Visier wieder an seiner ursprünglichen Position ist.",
-    "ita": "La stabilità di un'arma influisce sulla traiettoria del proiettile, mentre l'ergonomia determina il tempo che il mirino impiega a tornare nella posizione originale dopo aver sparato.",
-    "pol": "Płaskość toru pocisku wpływa na trajektorię, a obsługa warunkuje czas, potrzebny aby broń powróciła do pierwotnej pozycji po oddaniu strzału.",
-    "rus": "Настильность - параметр оружия, влияющий на траекторию полёта пули, а удобность - на скорость возврата прицела в исходное положение.",
-    "spa": "La trayectoria del arma afecta a la dirección de las balas, y el manejo establece el tiempo que tarda la mira en volver a su posición inicial tras el disparo.",
-    "ukr": "Настильність - параметр зброї, що впливає на траєкторію польоту кулі, а зручність - на швидкість повернення прицілу у початкове положення."
-  },
   "ls_tip_70": {
     "eng": "Use grenades to attack enemies in cover. Keep in mind the grenade’s blast radius to avoid hurting friendly fighters.",
     "fra": "Utilisez des grenades pour attaquer les ennemis à couvert ! Prenez leur rayon d'effet en considération afin d'éviter de blesser vos alliés !",
@@ -1338,16 +1348,6 @@
     "rus": "Многие объекты в Зоне характерны повышенным радиационным фоном, поэтому приближаться к ним без соответствующей защиты опасно.",
     "spa": "Debido al entorno de la Zona, muchos mutantes son radioactivos. Acercarte a ellos sin la protección adecuada es extremadamente peligroso.",
     "ukr": "Багато об'єктів у Зоні характерні підвищеним радіаційним тлом, тому наближатися до них без відповідного захисту небезпечно."
-  },
-  "ls_tip_8": {
-    "eng": "You can use a bandage, a military medkit or Vinca drugs to stop bleeding. If you don’t deal with it quickly, bleeding can seriously damage your health.",
-    "fra": "Vous pouvez utiliser un pansement, un médikit militaire ou des médicaments Vinca pour stopper les hémorragies. Pensez à vous soigner rapidement, votre vie en dépend !",
-    "ger": "Mit Verbandszeug, einem Armee-Medkit oder Vinca-Mitteln können Sie Blutungen stoppen. Wenn Sie nämlich nicht schnell genug handeln, kann eine Blutung schwere gesundheitliche Folgen nach sich ziehen.",
-    "ita": "Per fermare l'emorragia puoi usare una fasciatura, un kit di pronto soccorso militare o le droghe Vinca. Se non te ne occupi in fretta, un'emorragia potrebbe danneggiare seriamente la tua salute.",
-    "pol": "Aby zatamować krwotok, możesz użyć bandaża, wojskowej apteczki lub barwinków. Jeśli szybko sobie z nim nie poradzisz, krwawienie może poważnie uszkodzić twoje zdrowie.",
-    "rus": "Для остановки кровотечения можно воспользоваться бинтом, армейской аптечкой или препаратом «Барвинок». Не остановленное вовремя кровотечение может нанести значительный урон организму и закончиться гибелью.",
-    "spa": "Puedes usar una venda, un botiquín militar o medicamentos de Vinca para detener una hemorragia. Si no te das prisa, tu salud pude verse muy perjudicada.",
-    "ukr": "Для зупинки кровотечі можна скористатися бинтом, армійською аптечкою або препаратом «Барвінок». Не зупинена вчасно кровотеча може завдати значної шкоди організму і скінчитися загибеллю."
   },
   "ls_tip_80": {
     "eng": "Some weapons allow you to install an adjustable long-range scope.  To adjust range, press \"$$ACTION_NEXT_SLOT$$\" or \"$$ACTION_PREV_SLOT$$\".",
@@ -1449,16 +1449,6 @@
     "spa": "Pulsa \"$$ACTION_QUICK_USE_1$$\", \"$$ACTION_QUICK_USE_2$$\", \"$$ACTION_QUICK_USE_3$$\" o \"$$ACTION_QUICK_USE_4$$\" para usar el objeto correspondiente del panel de acceso rápido.",
     "ukr": "Натискання «$$ACTION_QUICK_USE_1$$», «$$ACTION_QUICK_USE_2$$», «$$ACTION_QUICK_USE_3$$» або «$$ACTION_QUICK_USE_4$$» дозволяє використати відповідний предмет на панелі швидкого доступу."
   },
-  "ls_tip_9": {
-    "eng": "Drugs don’t take effect immediately and some last for quite a long time.",
-    "fra": "Les médicaments n'ont pas un effet immédiat et certains peuvent agir de façon prolongée.",
-    "ger": "Die Wirkung von Medikamenten setzt nicht sofort ein und kann in manchen Fällen eine lange Zeit anhalten.",
-    "ita": "Le droghe non fanno effetto immediatamente e alcune hanno una durata notevole.",
-    "pol": "Leki nie zaczynają działać natychmiastowo, a efekt działania niektórych z nich utrzymuje się dość długo.",
-    "rus": "Эффект от приёма медикаментов не является мгновенным, а некоторые препараты отличаются весьма продолжительным действием. При этом эффект препарата, принятого последним, перекрывает аналогичные эффекты от принятых ранее веществ.",
-    "spa": "Los medicamentos no son de efecto inmediato, aunque algunos duran mucho.",
-    "ukr": "Ефект від прийому медикаментів не є миттєвим, а деякі препарати відзначаються доволі тривкою дією. При цьому ефект препарату, прийнятого останнім, перекриває аналогічні ефекти від прийнятих раніше речовин."
-  },
   "ls_tip_90": {
     "eng": "Your PDA has a map, information about current missions, your personal statistics and a message log. To open your PDA, press \"$$ACTION_ACTIVE_JOBS$$\".",
     "fra": "Votre PDA contient une carte, des informations concernant vos missions actuelles, vos statistiques et un journal. Pour l'ouvrir, appuyez sur \"$$ACTION_ACTIVE_JOBS$$\".",
@@ -1558,6 +1548,16 @@
     "rus": "Чтобы выбросить текущее оружие, нажмите «$$ACTION_DROP$$».",
     "spa": "Para desechar el arma equipada, pulsa \"$$ACTION_DROP$$\".",
     "ukr": "Щоб випустити зброю з рук, натисніть «$$ACTION_DROP$$»."
+  },
+  "ls_tip_100": {
+    "eng": "To look in your backpack, press \"$$ACTION_INVENTORY$$\".",
+    "fra": "Pour regarder dans votre sac à dos, appuyez sur \"$$ACTION_INVENTORY$$\".",
+    "ger": "Drücken Sie \"$$ACTION_INVENTORY$$\", um Ihren Rucksackinhalt anzuzeigen.",
+    "ita": "Per guardare nel tuo zaino, premi \"$$ACTION_INVENTORY$$\".",
+    "pol": "Aby zajrzeć do plecaka, wciśnij „$$ACTION_INVENTORY$$\".",
+    "rus": "Чтобы заглянуть в содержимое своего рюкзака, нажмите «$$ACTION_INVENTORY$$».",
+    "spa": "Para mirar en tu mochila, pulsa \"$$ACTION_INVENTORY$$\".",
+    "ukr": "Щоб заглянути до вмісту свого рюкзака, натисніть «$$ACTION_INVENTORY$$»."
   },
   "ls_tip_number": {
     "eng": "Tip #",

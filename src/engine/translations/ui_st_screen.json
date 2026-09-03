@@ -210,16 +210,6 @@
     "spa": "Coger objeto ($$ACTION_USE$$)",
     "ukr": "Підняти предмет ($$ACTION_USE$$)"
   },
-  "jup_b10_ufo_searching_tips": {
-    "eng": "Search aircraft ($$ACTION_USE$$)",
-    "fra": "Fouiller l'appareil ($$ACTION_USE$$)",
-    "ger": "Flugobjekt durchsuchen ($$ACTION_USE$$)",
-    "ita": "Ispeziona velivolo ($$ACTION_USE$$)",
-    "pol": "Przeszukaj samolot ($$ACTION_USE$$)",
-    "rus": "Обыскать летательный аппарат ($$ACTION_USE$$)",
-    "spa": "Registrar avión ($$ACTION_USE$$)",
-    "ukr": "Обшукати літальний апарат ($$ACTION_USE$$)"
-  },
   "jup_b1_bar_door": {
     "eng": "Door jammed",
     "fra": "Porte bloquée",
@@ -239,6 +229,16 @@
     "rus": "Дверь закрыта изнутри",
     "spa": "La puerta está cerrada por dentro",
     "ukr": "Двері зачинено зсередини"
+  },
+  "jup_b10_ufo_searching_tips": {
+    "eng": "Search aircraft ($$ACTION_USE$$)",
+    "fra": "Fouiller l'appareil ($$ACTION_USE$$)",
+    "ger": "Flugobjekt durchsuchen ($$ACTION_USE$$)",
+    "ita": "Ispeziona velivolo ($$ACTION_USE$$)",
+    "pol": "Przeszukaj samolot ($$ACTION_USE$$)",
+    "rus": "Обыскать летательный аппарат ($$ACTION_USE$$)",
+    "spa": "Registrar avión ($$ACTION_USE$$)",
+    "ukr": "Обшукати літальний апарат ($$ACTION_USE$$)"
   },
   "jup_b202_treasures_closed": {
     "eng": "Safe locked",

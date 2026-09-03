@@ -1,24 +1,4 @@
 {
-  "jup_a10_bandit_leader_name": {
-    "eng": "Jack",
-    "fra": "Jack",
-    "ger": "Jack",
-    "ita": "Jack",
-    "pol": "Walet",
-    "rus": "Валет",
-    "spa": "Jack",
-    "ukr": "Валет"
-  },
-  "jup_a10_stalker_vano": {
-    "eng": "Vano",
-    "fra": "Vano",
-    "ger": "Wano",
-    "ita": "Vano",
-    "pol": "Wano",
-    "rus": "Вано",
-    "spa": "Vano",
-    "ukr": "Вано"
-  },
   "jup_a6_duty_leader": {
     "eng": "Lt Col Shulga",
     "fra": "LCl Shulga",
@@ -59,35 +39,25 @@
     "spa": "Sueldahuesos",
     "ukr": "Костоправ"
   },
-  "jup_b10_stalker_drunk": {
-    "eng": "Senka",
-    "fra": "Senka",
-    "ger": "Senka",
-    "ita": "Senka",
-    "pol": "Senka",
-    "rus": "Сенька",
-    "spa": "Senka",
-    "ukr": "Сенько"
+  "jup_a10_bandit_leader_name": {
+    "eng": "Jack",
+    "fra": "Jack",
+    "ger": "Jack",
+    "ita": "Jack",
+    "pol": "Walet",
+    "rus": "Валет",
+    "spa": "Jack",
+    "ukr": "Валет"
   },
-  "jup_b15_zulus": {
-    "eng": "Zulu",
-    "fra": "Zulu",
-    "ger": "Zulu",
-    "ita": "Zulu",
-    "pol": "Zulus",
-    "rus": "Зулус",
-    "spa": "Zulu",
-    "ukr": "Зулус"
-  },
-  "jup_b19_freedom_yar_name": {
-    "eng": "Uncle Yar",
-    "fra": "Oncle Yar",
-    "ger": "Onkel Jar",
-    "ita": "Zio Yar",
-    "pol": "Wujek Jar",
-    "rus": "Дядька Яр",
-    "spa": "Tío Yar",
-    "ukr": "Дядько Яр"
+  "jup_a10_stalker_vano": {
+    "eng": "Vano",
+    "fra": "Vano",
+    "ger": "Wano",
+    "ita": "Vano",
+    "pol": "Wano",
+    "rus": "Вано",
+    "spa": "Vano",
+    "ukr": "Вано"
   },
   "jup_b1_stalker_1": {
     "eng": "Topol",
@@ -129,35 +99,135 @@
     "spa": "Serpiente",
     "ukr": "Змій"
   },
-  "jup_b207_merc_leader_name": {
-    "eng": "Vulture",
-    "fra": "Vautour",
-    "ger": "Geier",
-    "ita": "Vulture",
-    "pol": "Sęp",
-    "rus": "Гриф",
-    "spa": "Buitre",
-    "ukr": "Гриф"
+  "jup_b4_monolith_squad_leader_name": {
+    "eng": "Strider",
+    "fra": "Arpenteur",
+    "ger": "Strider",
+    "ita": "Strider",
+    "pol": "Włóczęga",
+    "rus": "Бродяга",
+    "spa": "Strider",
+    "ukr": "Бродяга"
   },
-  "jup_b217_stalker_tech": {
-    "eng": "Nitro",
-    "fra": "Nitro",
-    "ger": "Nitro",
-    "ita": "Nitro",
-    "pol": "Azot",
-    "rus": "Азот",
-    "spa": "Nitro",
-    "ukr": "Азот"
+  "jup_b4_monolith_squad_soldier_1_name": {
+    "eng": "Armor",
+    "fra": "Armure",
+    "ger": "Armor",
+    "ita": "Armatura",
+    "pol": "Pancerniak",
+    "rus": "Броня",
+    "spa": "Blindaje",
+    "ukr": "Броня"
   },
-  "jup_b220_trapper": {
-    "eng": "Trapper",
-    "fra": "Trappeur",
-    "ger": "Trapper",
-    "ita": "Trapper",
-    "pol": "Traper",
-    "rus": "Зверобой",
-    "spa": "Trapper",
-    "ukr": "Звіробій"
+  "jup_b4_monolith_squad_soldier_2_name": {
+    "eng": "Sickle",
+    "fra": "Faucille",
+    "ger": "Sichel",
+    "ita": "Sickle",
+    "pol": "Sierp",
+    "rus": "Серп",
+    "spa": "Hoz",
+    "ukr": "Серп"
+  },
+  "jup_b4_monolith_squad_soldier_3_name": {
+    "eng": "Walrus",
+    "fra": "Phoque",
+    "ger": "Walross ",
+    "ita": "Walrus",
+    "pol": "Mors",
+    "rus": "Морж",
+    "spa": "Morsa",
+    "ukr": "Морж"
+  },
+  "jup_b4_monolith_squad_soldier_4_name": {
+    "eng": "Meeker",
+    "fra": "Lopette",
+    "ger": "Softie",
+    "ita": "Meeker",
+    "pol": "Cichy",
+    "rus": "Тихий",
+    "spa": "Dócil",
+    "ukr": "Тихий"
+  },
+  "jup_b4_monolith_squad_soldier_5_name": {
+    "eng": "Foma",
+    "fra": "Foma",
+    "ger": "Foma",
+    "ita": "Foma",
+    "pol": "Foma",
+    "rus": "Фома",
+    "spa": "Foma",
+    "ukr": "Хома"
+  },
+  "jup_b6_scientist_biochemist": {
+    "eng": "Professor Ozersky",
+    "fra": "Professeur Ozersky",
+    "ger": "Professor Oserski",
+    "ita": "Professor Ozersky",
+    "pol": "Profesor Oziorski",
+    "rus": "Профессор Озёрский",
+    "spa": "Profesor Ozersky",
+    "ukr": "Професор Озьорський"
+  },
+  "jup_b6_scientist_novikov": {
+    "eng": "Novikov",
+    "fra": "Novikov",
+    "ger": "Nowikow",
+    "ita": "Novikov",
+    "pol": "Nowikow",
+    "rus": "Новиков",
+    "spa": "Novikov",
+    "ukr": "Новіков"
+  },
+  "jup_b6_scientist_nuclear_physicist": {
+    "eng": "Professor Hermann",
+    "fra": "Professeur Hermann",
+    "ger": "Professor Hermann",
+    "ita": "Professor Hermann",
+    "pol": "Profesor Herman",
+    "rus": "Профессор Герман",
+    "spa": "Profesor Hermann",
+    "ukr": "Професор Герман"
+  },
+  "jup_b9_shliachin_name": {
+    "eng": "Sgt. Shlyachin",
+    "fra": "Sgt Shlyachin",
+    "ger": "Fw. Schlijatschin",
+    "ita": "Serg Shlyachin",
+    "pol": "Sierżant Szliaczin",
+    "rus": "Сержант Шлячин",
+    "spa": "Sgto. Shlyachin",
+    "ukr": "Сержант Шлячін"
+  },
+  "jup_b10_stalker_drunk": {
+    "eng": "Senka",
+    "fra": "Senka",
+    "ger": "Senka",
+    "ita": "Senka",
+    "pol": "Senka",
+    "rus": "Сенька",
+    "spa": "Senka",
+    "ukr": "Сенько"
+  },
+  "jup_b15_zulus": {
+    "eng": "Zulu",
+    "fra": "Zulu",
+    "ger": "Zulu",
+    "ita": "Zulu",
+    "pol": "Zulus",
+    "rus": "Зулус",
+    "spa": "Zulu",
+    "ukr": "Зулус"
+  },
+  "jup_b19_freedom_yar_name": {
+    "eng": "Uncle Yar",
+    "fra": "Oncle Yar",
+    "ger": "Onkel Jar",
+    "ita": "Zio Yar",
+    "pol": "Wujek Jar",
+    "rus": "Дядька Яр",
+    "spa": "Tío Yar",
+    "ukr": "Дядько Яр"
   },
   "jup_b25_freedom_flint": {
     "eng": "Flint",
@@ -299,105 +369,35 @@
     "spa": "Cadáver",
     "ukr": "Труп"
   },
-  "jup_b4_monolith_squad_leader_name": {
-    "eng": "Strider",
-    "fra": "Arpenteur",
-    "ger": "Strider",
-    "ita": "Strider",
-    "pol": "Włóczęga",
-    "rus": "Бродяга",
-    "spa": "Strider",
-    "ukr": "Бродяга"
+  "jup_b207_merc_leader_name": {
+    "eng": "Vulture",
+    "fra": "Vautour",
+    "ger": "Geier",
+    "ita": "Vulture",
+    "pol": "Sęp",
+    "rus": "Гриф",
+    "spa": "Buitre",
+    "ukr": "Гриф"
   },
-  "jup_b4_monolith_squad_soldier_1_name": {
-    "eng": "Armor",
-    "fra": "Armure",
-    "ger": "Armor",
-    "ita": "Armatura",
-    "pol": "Pancerniak",
-    "rus": "Броня",
-    "spa": "Blindaje",
-    "ukr": "Броня"
+  "jup_b217_stalker_tech": {
+    "eng": "Nitro",
+    "fra": "Nitro",
+    "ger": "Nitro",
+    "ita": "Nitro",
+    "pol": "Azot",
+    "rus": "Азот",
+    "spa": "Nitro",
+    "ukr": "Азот"
   },
-  "jup_b4_monolith_squad_soldier_2_name": {
-    "eng": "Sickle",
-    "fra": "Faucille",
-    "ger": "Sichel",
-    "ita": "Sickle",
-    "pol": "Sierp",
-    "rus": "Серп",
-    "spa": "Hoz",
-    "ukr": "Серп"
-  },
-  "jup_b4_monolith_squad_soldier_3_name": {
-    "eng": "Walrus",
-    "fra": "Phoque",
-    "ger": "Walross ",
-    "ita": "Walrus",
-    "pol": "Mors",
-    "rus": "Морж",
-    "spa": "Morsa",
-    "ukr": "Морж"
-  },
-  "jup_b4_monolith_squad_soldier_4_name": {
-    "eng": "Meeker",
-    "fra": "Lopette",
-    "ger": "Softie",
-    "ita": "Meeker",
-    "pol": "Cichy",
-    "rus": "Тихий",
-    "spa": "Dócil",
-    "ukr": "Тихий"
-  },
-  "jup_b4_monolith_squad_soldier_5_name": {
-    "eng": "Foma",
-    "fra": "Foma",
-    "ger": "Foma",
-    "ita": "Foma",
-    "pol": "Foma",
-    "rus": "Фома",
-    "spa": "Foma",
-    "ukr": "Хома"
-  },
-  "jup_b6_scientist_biochemist": {
-    "eng": "Professor Ozersky",
-    "fra": "Professeur Ozersky",
-    "ger": "Professor Oserski",
-    "ita": "Professor Ozersky",
-    "pol": "Profesor Oziorski",
-    "rus": "Профессор Озёрский",
-    "spa": "Profesor Ozersky",
-    "ukr": "Професор Озьорський"
-  },
-  "jup_b6_scientist_novikov": {
-    "eng": "Novikov",
-    "fra": "Novikov",
-    "ger": "Nowikow",
-    "ita": "Novikov",
-    "pol": "Nowikow",
-    "rus": "Новиков",
-    "spa": "Novikov",
-    "ukr": "Новіков"
-  },
-  "jup_b6_scientist_nuclear_physicist": {
-    "eng": "Professor Hermann",
-    "fra": "Professeur Hermann",
-    "ger": "Professor Hermann",
-    "ita": "Professor Hermann",
-    "pol": "Profesor Herman",
-    "rus": "Профессор Герман",
-    "spa": "Profesor Hermann",
-    "ukr": "Професор Герман"
-  },
-  "jup_b9_shliachin_name": {
-    "eng": "Sgt. Shlyachin",
-    "fra": "Sgt Shlyachin",
-    "ger": "Fw. Schlijatschin",
-    "ita": "Serg Shlyachin",
-    "pol": "Sierżant Szliaczin",
-    "rus": "Сержант Шлячин",
-    "spa": "Sgto. Shlyachin",
-    "ukr": "Сержант Шлячін"
+  "jup_b220_trapper": {
+    "eng": "Trapper",
+    "fra": "Trappeur",
+    "ger": "Trapper",
+    "ita": "Trapper",
+    "pol": "Traper",
+    "rus": "Зверобой",
+    "spa": "Trapper",
+    "ukr": "Звіробій"
   },
   "pri_a15_military_recon_1_name": {
     "eng": "Lt Sergeev",
@@ -639,6 +639,16 @@
     "spa": "Mitay",
     "ukr": "Митяй"
   },
+  "st_jup_b43_stalker_assistant": {
+    "eng": "Garry",
+    "fra": "Garry",
+    "ger": "Gari",
+    "ita": "Garry",
+    "pol": "Garri",
+    "rus": "Гарик",
+    "spa": "Garry",
+    "ukr": "Гарик"
+  },
   "st_jup_b207_duty_security_squad_leader_name": {
     "eng": "Lt Gavrilenko",
     "fra": "Ltn Gavrilenko",
@@ -668,16 +678,6 @@
     "rus": "Гайдук",
     "spa": "Gaiduk",
     "ukr": "Гайдук"
-  },
-  "st_jup_b43_stalker_assistant": {
-    "eng": "Garry",
-    "fra": "Garry",
-    "ger": "Gari",
-    "ita": "Garry",
-    "pol": "Garri",
-    "rus": "Гарик",
-    "spa": "Garry",
-    "ukr": "Гарик"
   },
   "st_pri_a22_army_signaller": {
     "eng": "Lt Kirillov",
@@ -719,35 +719,45 @@
     "spa": "Nimble",
     "ukr": "Спритник"
   },
-  "st_zat_b106_stalker_crab_name": {
-    "eng": "Crab",
-    "fra": "Crabe",
-    "ger": "Krabbe",
-    "ita": "Crab",
-    "pol": "Krab",
-    "rus": "Краб",
-    "spa": "Cangrejo",
-    "ukr": "Краб"
+  "st_zat_b7_bandit_boss_sultan_name": {
+    "eng": "Sultan",
+    "fra": "Sultan",
+    "ger": "Sultan",
+    "ita": "Sultan",
+    "pol": "Sułtan",
+    "rus": "Султан",
+    "spa": "Sultán",
+    "ukr": "Султан"
   },
-  "st_zat_b106_stalker_garmata_name": {
-    "eng": "Garmata",
-    "fra": "Garmata",
-    "ger": "Garmata",
-    "ita": "Garmata",
-    "pol": "Garmata",
-    "rus": "Гармата",
-    "spa": "Garmata",
-    "ukr": "Гармата"
+  "st_zat_b7_duty_illicit_dealer_name": {
+    "eng": "Morgan",
+    "fra": "Morgan",
+    "ger": "Morgan",
+    "ita": "Morgan",
+    "pol": "Morgan",
+    "rus": "Морган",
+    "spa": "Morgan",
+    "ukr": "Морган"
   },
-  "st_zat_b106_stalker_gonta_name": {
-    "eng": "Gonta",
-    "fra": "Gonta",
-    "ger": "Gonta",
-    "ita": "Gonta",
-    "pol": "Gonta",
-    "rus": "Гонта",
-    "spa": "Gonta",
-    "ukr": "Гонта"
+  "st_zat_b7_stalker_raider_leader": {
+    "eng": "Knuckles",
+    "fra": "Poing",
+    "ger": "Haxe",
+    "ita": "Knuckles",
+    "pol": "Kastet",
+    "rus": "Кастет",
+    "spa": "Knuckles",
+    "ukr": "Кастет"
+  },
+  "st_zat_b7_stalker_squad_leader": {
+    "eng": "Spartacus",
+    "fra": "Spartacus",
+    "ger": "Spartacus",
+    "ita": "Spartacus",
+    "pol": "Spartakus",
+    "rus": "Спартак",
+    "spa": "Espartaco",
+    "ukr": "Спартак"
   },
   "st_zat_b29_stalker_rival_1": {
     "eng": "Sledgehammer",
@@ -799,45 +809,35 @@
     "spa": "Danila",
     "ukr": "Данило"
   },
-  "st_zat_b7_bandit_boss_sultan_name": {
-    "eng": "Sultan",
-    "fra": "Sultan",
-    "ger": "Sultan",
-    "ita": "Sultan",
-    "pol": "Sułtan",
-    "rus": "Султан",
-    "spa": "Sultán",
-    "ukr": "Султан"
+  "st_zat_b106_stalker_crab_name": {
+    "eng": "Crab",
+    "fra": "Crabe",
+    "ger": "Krabbe",
+    "ita": "Crab",
+    "pol": "Krab",
+    "rus": "Краб",
+    "spa": "Cangrejo",
+    "ukr": "Краб"
   },
-  "st_zat_b7_duty_illicit_dealer_name": {
-    "eng": "Morgan",
-    "fra": "Morgan",
-    "ger": "Morgan",
-    "ita": "Morgan",
-    "pol": "Morgan",
-    "rus": "Морган",
-    "spa": "Morgan",
-    "ukr": "Морган"
+  "st_zat_b106_stalker_garmata_name": {
+    "eng": "Garmata",
+    "fra": "Garmata",
+    "ger": "Garmata",
+    "ita": "Garmata",
+    "pol": "Garmata",
+    "rus": "Гармата",
+    "spa": "Garmata",
+    "ukr": "Гармата"
   },
-  "st_zat_b7_stalker_raider_leader": {
-    "eng": "Knuckles",
-    "fra": "Poing",
-    "ger": "Haxe",
-    "ita": "Knuckles",
-    "pol": "Kastet",
-    "rus": "Кастет",
-    "spa": "Knuckles",
-    "ukr": "Кастет"
-  },
-  "st_zat_b7_stalker_squad_leader": {
-    "eng": "Spartacus",
-    "fra": "Spartacus",
-    "ger": "Spartacus",
-    "ita": "Spartacus",
-    "pol": "Spartakus",
-    "rus": "Спартак",
-    "spa": "Espartaco",
-    "ukr": "Спартак"
+  "st_zat_b106_stalker_gonta_name": {
+    "eng": "Gonta",
+    "fra": "Gonta",
+    "ger": "Gonta",
+    "ita": "Gonta",
+    "pol": "Gonta",
+    "rus": "Гонта",
+    "spa": "Gonta",
+    "ukr": "Гонта"
   },
   "zat_a2_stalker_barmen_name": {
     "eng": "Beard",
@@ -858,6 +858,136 @@
     "rus": "Кардан",
     "spa": "Cardán",
     "ukr": "Кардан"
+  },
+  "zat_b14_stalker_1_name": {
+    "eng": "Tuna",
+    "fra": "Thon",
+    "ger": "Tuna",
+    "ita": "Tuna",
+    "pol": "Płotka",
+    "rus": "Вобла",
+    "spa": "Atún",
+    "ukr": "Вобла"
+  },
+  "zat_b18_noah_name": {
+    "eng": "Noah",
+    "fra": "Noah",
+    "ger": "Noah",
+    "ita": "Noah",
+    "pol": "Noe",
+    "rus": "Ной",
+    "spa": "Noé",
+    "ukr": "Ной"
+  },
+  "zat_b22_stalker_medic_name": {
+    "eng": "Tremor",
+    "fra": "Sismik",
+    "ger": "Tremor",
+    "ita": "Tremor",
+    "pol": "Wstrząs",
+    "rus": "Тремор",
+    "spa": "Tremor",
+    "ukr": "Тремор"
+  },
+  "zat_b28_draper_name": {
+    "eng": "Lt Drapei",
+    "fra": "Ltn Drapeï",
+    "ger": "Lt. Drapej",
+    "ita": "Ten Drapei",
+    "pol": "Porucznik Drapej",
+    "rus": "Лейтенант Драпей",
+    "spa": "Ten. Drapei",
+    "ukr": "Лейтенант Драпей"
+  },
+  "zat_b28_smoliak_name": {
+    "eng": "Snr Lt Smolyak",
+    "fra": "Ltn Smolyak",
+    "ger": "OLt. Smoljak",
+    "ita": "Tenente Smolyak",
+    "pol": "St. porucznik Smoliak",
+    "rus": "Ст. лейтенант Смоляк",
+    "spa": "Ten. 1º Smolyak",
+    "ukr": "Ст. сержант Смоляк"
+  },
+  "zat_b28_umerov_name": {
+    "eng": "WO Umerov",
+    "fra": "Adj Umerov",
+    "ger": "Uffz. Umerow",
+    "ita": "Sott. Umerov",
+    "pol": "Chorąży Umerow",
+    "rus": "Прапорщик Умеров",
+    "spa": "Sub. Umerov",
+    "ukr": "Прапорщик Умеров"
+  },
+  "zat_b33_stalker_snag": {
+    "eng": "Snag",
+    "fra": "Accroc",
+    "ger": "Snag",
+    "ita": "Snag",
+    "pol": "Sęk",
+    "rus": "Коряга",
+    "spa": "Snag",
+    "ukr": "Корч"
+  },
+  "zat_b40_merc_squad_leader_1_name": {
+    "eng": "Hook",
+    "fra": "Crochet",
+    "ger": "Hook",
+    "ita": "Hook",
+    "pol": "Hak",
+    "rus": "Крюк",
+    "spa": "Hook",
+    "ukr": "Крюк"
+  },
+  "zat_b40_merc_squad_leader_2_name": {
+    "eng": "Ridge",
+    "fra": "Pic",
+    "ger": "Rippe",
+    "ita": "Ridge",
+    "pol": "Pręga",
+    "rus": "Хребет",
+    "spa": "Ridge",
+    "ukr": "Хребет"
+  },
+  "zat_b42_mayron_name": {
+    "eng": "Mirone",
+    "fra": "Mirone",
+    "ger": "Mirone",
+    "ita": "Mirone",
+    "pol": "Majron",
+    "rus": "Майрон",
+    "spa": "Mirone",
+    "ukr": "Майрон"
+  },
+  "zat_b44_stalker_barge_name": {
+    "eng": "Barge",
+    "fra": "Barge",
+    "ger": "Barge",
+    "ita": "Barge",
+    "pol": "Stóg",
+    "rus": "Баржа",
+    "spa": "Barca",
+    "ukr": "Баржа"
+  },
+  "zat_b53_artefact_hunter_1_name": {
+    "eng": "Petruha",
+    "fra": "Petruha",
+    "ger": "Petrucha",
+    "ita": "Petruha",
+    "pol": "Pietrucha",
+    "rus": "Петруха",
+    "spa": "Petruha",
+    "ukr": "Петруха"
+  },
+  "zat_b53_artefact_hunter_2_name": {
+    "eng": "Awl",
+    "fra": "Poinçon",
+    "ger": "Awl",
+    "ita": "Awl",
+    "pol": "Szydło",
+    "rus": "Шило",
+    "spa": "Punzón",
+    "ukr": "Шило"
   },
   "zat_b100_army_1": {
     "eng": "Sergeant Gazda",
@@ -969,26 +1099,6 @@
     "spa": "Hachuela",
     "ukr": "Тесак"
   },
-  "zat_b14_stalker_1_name": {
-    "eng": "Tuna",
-    "fra": "Thon",
-    "ger": "Tuna",
-    "ita": "Tuna",
-    "pol": "Płotka",
-    "rus": "Вобла",
-    "spa": "Atún",
-    "ukr": "Вобла"
-  },
-  "zat_b18_noah_name": {
-    "eng": "Noah",
-    "fra": "Noah",
-    "ger": "Noah",
-    "ita": "Noah",
-    "pol": "Noe",
-    "rus": "Ной",
-    "spa": "Noé",
-    "ukr": "Ной"
-  },
   "zat_b215_stalker_guide_name": {
     "eng": "Pilot",
     "fra": "Pilote",
@@ -998,115 +1108,5 @@
     "rus": "Лоцман",
     "spa": "Piloto",
     "ukr": "Лоцман"
-  },
-  "zat_b22_stalker_medic_name": {
-    "eng": "Tremor",
-    "fra": "Sismik",
-    "ger": "Tremor",
-    "ita": "Tremor",
-    "pol": "Wstrząs",
-    "rus": "Тремор",
-    "spa": "Tremor",
-    "ukr": "Тремор"
-  },
-  "zat_b28_draper_name": {
-    "eng": "Lt Drapei",
-    "fra": "Ltn Drapeï",
-    "ger": "Lt. Drapej",
-    "ita": "Ten Drapei",
-    "pol": "Porucznik Drapej",
-    "rus": "Лейтенант Драпей",
-    "spa": "Ten. Drapei",
-    "ukr": "Лейтенант Драпей"
-  },
-  "zat_b28_smoliak_name": {
-    "eng": "Snr Lt Smolyak",
-    "fra": "Ltn Smolyak",
-    "ger": "OLt. Smoljak",
-    "ita": "Tenente Smolyak",
-    "pol": "St. porucznik Smoliak",
-    "rus": "Ст. лейтенант Смоляк",
-    "spa": "Ten. 1º Smolyak",
-    "ukr": "Ст. сержант Смоляк"
-  },
-  "zat_b28_umerov_name": {
-    "eng": "WO Umerov",
-    "fra": "Adj Umerov",
-    "ger": "Uffz. Umerow",
-    "ita": "Sott. Umerov",
-    "pol": "Chorąży Umerow",
-    "rus": "Прапорщик Умеров",
-    "spa": "Sub. Umerov",
-    "ukr": "Прапорщик Умеров"
-  },
-  "zat_b33_stalker_snag": {
-    "eng": "Snag",
-    "fra": "Accroc",
-    "ger": "Snag",
-    "ita": "Snag",
-    "pol": "Sęk",
-    "rus": "Коряга",
-    "spa": "Snag",
-    "ukr": "Корч"
-  },
-  "zat_b40_merc_squad_leader_1_name": {
-    "eng": "Hook",
-    "fra": "Crochet",
-    "ger": "Hook",
-    "ita": "Hook",
-    "pol": "Hak",
-    "rus": "Крюк",
-    "spa": "Hook",
-    "ukr": "Крюк"
-  },
-  "zat_b40_merc_squad_leader_2_name": {
-    "eng": "Ridge",
-    "fra": "Pic",
-    "ger": "Rippe",
-    "ita": "Ridge",
-    "pol": "Pręga",
-    "rus": "Хребет",
-    "spa": "Ridge",
-    "ukr": "Хребет"
-  },
-  "zat_b42_mayron_name": {
-    "eng": "Mirone",
-    "fra": "Mirone",
-    "ger": "Mirone",
-    "ita": "Mirone",
-    "pol": "Majron",
-    "rus": "Майрон",
-    "spa": "Mirone",
-    "ukr": "Майрон"
-  },
-  "zat_b44_stalker_barge_name": {
-    "eng": "Barge",
-    "fra": "Barge",
-    "ger": "Barge",
-    "ita": "Barge",
-    "pol": "Stóg",
-    "rus": "Баржа",
-    "spa": "Barca",
-    "ukr": "Баржа"
-  },
-  "zat_b53_artefact_hunter_1_name": {
-    "eng": "Petruha",
-    "fra": "Petruha",
-    "ger": "Petrucha",
-    "ita": "Petruha",
-    "pol": "Pietrucha",
-    "rus": "Петруха",
-    "spa": "Petruha",
-    "ukr": "Петруха"
-  },
-  "zat_b53_artefact_hunter_2_name": {
-    "eng": "Awl",
-    "fra": "Poinçon",
-    "ger": "Awl",
-    "ita": "Awl",
-    "pol": "Szydło",
-    "rus": "Шило",
-    "spa": "Punzón",
-    "ukr": "Шило"
   }
 }

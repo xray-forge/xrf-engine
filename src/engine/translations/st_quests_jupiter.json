@@ -1,4 +1,24 @@
 {
+  "jup_a9_way_to_pripyat_tech_name": {
+    "eng": "Road to Pripyat: talk to the technician about the underpass",
+    "fra": "La route de Pripyat : parler du passage souterrain au technicien.",
+    "ger": "Weg nach Pripyat: Mit dem Techniker über die Unterführung unterhalten",
+    "ita": "Verso Pripyat: parla con il tecnico riguardo al sottopasso",
+    "pol": "Droga do Prypeci: porozmawiaj z technikiem na temat tunelu",
+    "rus": "Путь в Припять: поговорить с техником про путепровод",
+    "spa": "Camino a Pripyat: habla con el técnico sobre el paso subterráneo",
+    "ukr": "Шлях у Прип'ять: поговорити з техніком про шляхопровід"
+  },
+  "jup_a9_way_to_pripyat_tech_text": {
+    "eng": "The documents you found make it clear that there is an underground underpass located underneath the Jupiter plant that leads to Pripyat. The underpass has no power, is filled with gas, and the entrance to it has been blocked. You must find a technician who can activate the generator and open the underpass lock.",
+    "fra": "Les documents que vous avez trouvés indiquent qu'il existe un passage souterrain menant à Pripyat sous l'usine de Jupiter. Ce passage souterrain est privé d'électricité et rempli d'un gaz. L'entrée a été bloquée. Vous devez trouver un technicien capable d'activer le générateur et d'ouvrir l'entrée du passage.",
+    "ger": "Aus den Dokumenten, die Sie gefunden haben, geht eindeutig hervor, dass es unterhalb der Jupiter-Anlage einen unterirdischen Durchgang nach Pripyat gibt. In dieser Unterführung fließt kein Strom, sie wurde mit Gas geflutet und der Eingang ist blockiert. Sie müssen einen Techniker finden, der den Generator aktivieren und den Eingang zur Unterführung öffnen kann.",
+    "ita": "I documenti che hai trovato indicano chiaramente l'esistenza di un sottopasso che conduce a Pripyat, sotto lo stabilimento Jupiter. Il sottopasso è privo di energia e pieno di gas, e l'ingresso è stato bloccato. Devi trovare un tecnico che possa attivare il generatore e aprire il blocco del sottopasso.",
+    "pol": "Znalezione przez ciebie dokumenty jasno stwierdzają, że pod fabryką Jupiter znajduje się podziemny tunel prowadzący do Prypeci. W tunelu nie ma energii i jest on wypełniony gazem, a wejście zostało zablokowane. Musisz znaleźć technika, który potrafi włączyć generator i otworzyć śluzę.",
+    "rus": "Из найденных документов становится ясно, что под заводом «Юпитер» есть подземный путепровод, ведущий к Припяти. Путепровод обесточен, заполнен газом, а вход в него перекрыт. Необходимо найти техника, который сможет запустить генератор и открыть шлюз.",
+    "spa": "Los documentos que has encontrado señalan la existencia de un paso subterráneo hacia Pripyat situado bajo la central de Júpiter. No hay energía en el paso, está lleno de gas y la entrada ha sido bloqueada. Debes encontrar un técnico que pueda activar el generador y abrir la cerradura de entrada.",
+    "ukr": "Зі знайдених документів стає зрозуміло: під заводом «Юпітер» є підземний шляхопровід, що веде до Прип'яті. Шляхопровід знеструмлено та заповнено газом, а вхід до нього перекрито. Необхідно знайти техніка, який зможе запустити генератор і відкрити шлюз."
+  },
   "jup_a10_actor_agree_back_vano_duties_name": {
     "eng": "Debts: take money to the bandits",
     "fra": "Dettes : apporter l'argent aux bandits.",
@@ -219,25 +239,435 @@
     "spa": "Mitay está relativamente seguro. Discute con él vuestro próximo paso.",
     "ukr": "Митяй у відносній безпеці. Варто домовитися з ним про подальші дії."
   },
-  "jup_a9_way_to_pripyat_tech_name": {
-    "eng": "Road to Pripyat: talk to the technician about the underpass",
-    "fra": "La route de Pripyat : parler du passage souterrain au technicien.",
-    "ger": "Weg nach Pripyat: Mit dem Techniker über die Unterführung unterhalten",
-    "ita": "Verso Pripyat: parla con il tecnico riguardo al sottopasso",
-    "pol": "Droga do Prypeci: porozmawiaj z technikiem na temat tunelu",
-    "rus": "Путь в Припять: поговорить с техником про путепровод",
-    "spa": "Camino a Pripyat: habla con el técnico sobre el paso subterráneo",
-    "ukr": "Шлях у Прип'ять: поговорити з техніком про шляхопровід"
+  "jup_b1_bring_art_back_name": {
+    "eng": "Intermittent psy-emissions: take the anomalous formation to the scientists",
+    "fra": "Émissions psi intermittentes : apporter la formation anormale aux scientifiques.",
+    "ger": "Unregelmäßige Psi-Emissionen: Anomalieformation zu den Wissenschaftlern bringen",
+    "ita": "Psico-emissioni intermittenti: porta la formazione anomala agli scienziati",
+    "pol": "Okresowe emisje psioniczne: zabierz anormalny twór do naukowców",
+    "rus": "Переменное пси-излучение: доставить учёным аномальное образование",
+    "spa": "Emisiones psíquicas intermitentes: lleva la formación anómala a los científicos",
+    "ukr": "Перемінне псі-випромінювання: доставити вченим аномальне утворення"
   },
-  "jup_a9_way_to_pripyat_tech_text": {
-    "eng": "The documents you found make it clear that there is an underground underpass located underneath the Jupiter plant that leads to Pripyat. The underpass has no power, is filled with gas, and the entrance to it has been blocked. You must find a technician who can activate the generator and open the underpass lock.",
-    "fra": "Les documents que vous avez trouvés indiquent qu'il existe un passage souterrain menant à Pripyat sous l'usine de Jupiter. Ce passage souterrain est privé d'électricité et rempli d'un gaz. L'entrée a été bloquée. Vous devez trouver un technicien capable d'activer le générateur et d'ouvrir l'entrée du passage.",
-    "ger": "Aus den Dokumenten, die Sie gefunden haben, geht eindeutig hervor, dass es unterhalb der Jupiter-Anlage einen unterirdischen Durchgang nach Pripyat gibt. In dieser Unterführung fließt kein Strom, sie wurde mit Gas geflutet und der Eingang ist blockiert. Sie müssen einen Techniker finden, der den Generator aktivieren und den Eingang zur Unterführung öffnen kann.",
-    "ita": "I documenti che hai trovato indicano chiaramente l'esistenza di un sottopasso che conduce a Pripyat, sotto lo stabilimento Jupiter. Il sottopasso è privo di energia e pieno di gas, e l'ingresso è stato bloccato. Devi trovare un tecnico che possa attivare il generatore e aprire il blocco del sottopasso.",
-    "pol": "Znalezione przez ciebie dokumenty jasno stwierdzają, że pod fabryką Jupiter znajduje się podziemny tunel prowadzący do Prypeci. W tunelu nie ma energii i jest on wypełniony gazem, a wejście zostało zablokowane. Musisz znaleźć technika, który potrafi włączyć generator i otworzyć śluzę.",
-    "rus": "Из найденных документов становится ясно, что под заводом «Юпитер» есть подземный путепровод, ведущий к Припяти. Путепровод обесточен, заполнен газом, а вход в него перекрыт. Необходимо найти техника, который сможет запустить генератор и открыть шлюз.",
-    "spa": "Los documentos que has encontrado señalan la existencia de un paso subterráneo hacia Pripyat situado bajo la central de Júpiter. No hay energía en el paso, está lleno de gas y la entrada ha sido bloqueada. Debes encontrar un técnico que pueda activar el generador y abrir la cerradura de entrada.",
-    "ukr": "Зі знайдених документів стає зрозуміло: під заводом «Юпітер» є підземний шляхопровід, що веде до Прип'яті. Шляхопровід знеструмлено та заповнено газом, а вхід до нього перекрито. Необхідно знайти техніка, який зможе запустити генератор і відкрити шлюз."
+  "jup_b1_bring_art_back_text": {
+    "eng": "Take the sample you found to Hermann as agreed. It looks like this is the source of intermittent psy-emissions, an item that is half-transformed through anomalous exposure.",
+    "fra": "Rapportez l'échantillon que vous avez prélevé à Hermann. Il s'agit d'un objet partiellement transformé par une anomalie. Il est probablement la source des émissions psi intermittentes.",
+    "ger": "Bringen Sie die Probe wie abgemacht zu Hermann. Offenbar ist das die Quelle der unregelmäßigen Psi-Emissionen - ein Objekt, das durch anomale Einwirkung teilweise transformiert worden ist.",
+    "ita": "Porta a Hermann il campione che hai trovato, come concordato. Pare che la fonte delle psico-emissioni intermittenti sia proprio questo oggetto, parzialmente trasformato dall'esposizione alle anomalie.",
+    "pol": "Zgodnie z umową, zabierz znalezioną próbkę do Hermana. Wygląda na to, że ten przedmiot, częściowo przekształcony przez działanie anomalii, jest źródłem okresowych emisji psionicznych.",
+    "rus": "Принести найденный образец Герману, как было оговорено. Судя по всему, этот наполовину изменённый аномальным воздействием предмет и есть источник переменного пси-излучения.",
+    "spa": "Llévale a Hermann la muestra que has encontrado. Este objeto medio transformado por la exposición a las anomalías parece ser el origen de las emisiones psíquicas intermitentes.",
+    "ukr": "Принести знайдений зразок Германові, як то було домовлено. Зважаючи на все, цей наполовину змінений аномальним впливом предмет і є джерелом перемінного псі-випромінювання."
+  },
+  "jup_b1_get_art_name": {
+    "eng": "Intermittent psy-emissions: investigate the source",
+    "fra": "Émissions psi intermittentes : enquêter sur la source.",
+    "ger": "Unregelmäßige Psi-Emissionen: Die Quelle untersuchen",
+    "ita": "Psico-emissioni intermittenti: indaga sulla fonte",
+    "pol": "Okresowe emisje psioniczne: zbadaj źródło",
+    "rus": "Переменное пси-излучение: исследовать источник",
+    "spa": "Emisiones psíquicas intermitentes: investiga el origen",
+    "ukr": "Перемінне псі-випромінювання: дослідити джерело"
+  },
+  "jup_b1_get_art_text": {
+    "eng": "Investigate the tunnel for some kind of anomalous formation. The scientists believe that the intermittent psy-field has a source, which will probably resemble an artifact.",
+    "fra": "Fouillez le tunnel à la recherche d'une formation anormale. Les scientifiques pensent que le champ psi intermittent provient d'une source qui prend probablement la forme d'un artefact.",
+    "ger": "Untersuchen Sie den Tunnel nach Anomalieformationen. Die Wissenschaftler sind der Meinung, dass das unregelmäßige Psi-Feld eine Quelle hat, die möglicherweise einem Artefakt ähnelt.",
+    "ita": "Perlustra la galleria in cerca di formazioni anomale. Gli scienziati ritengono che lo psico-campo intermittente abbia una fonte precisa, probabilmente un manufatto.",
+    "pol": "Zbadaj tunele w poszukiwaniu jakiegoś tworu wykazującego anomalię. Naukowcy wierzą, że okresowe pole psioniczne ma źródło, które prawdopodobnie przypomina artefakt.",
+    "rus": "Обследовать туннель в поисках некоего аномального образования. Учёные считают, что у переменного пси-поля есть источник и прогнозируют, что им может оказаться некий артефакт.",
+    "spa": "Investiga el túnel en busca de alguna formación anómala. Los científicos creen que el campo psíquico intermitente tiene un origen, probablemente similar a un artefacto.",
+    "ukr": "Обстежити тунель у пошуках такого собі аномального утворення. Учені вважають, що в перемінного псі-поля є джерело та прогнозують, що це, можливо, унікальний артефакт."
+  },
+  "jup_b1_join_squad_name": {
+    "eng": "Intermittent psy-emissions: meet Topol's squad",
+    "fra": "Émissions psi intermittentes : rejoindre le groupe de Topol.",
+    "ger": "Unregelmäßige Psi-Emissionen: Topols Trupp treffen",
+    "ita": "Psico-emissioni intermittenti: incontra la squadra di Topol",
+    "pol": "Okresowe emisje psioniczne: spotkaj się z drużyną Topola",
+    "rus": "Переменное пси-излучение: встретиться с отрядом Тополя",
+    "spa": "Emisiones psíquicas intermitentes: reúnete con el escuadrón de Topol",
+    "ukr": "Перемінне псі-випромінювання: зустрітися із загоном Тополі"
+  },
+  "jup_b1_join_squad_text": {
+    "eng": "Topol's squad went to the tunnel with the intermittent psy-emissions and you must meet them there.",
+    "fra": "Le groupe de Topol s'est rendue dans le tunnel d'où proviennent les émissions psi intermittentes et vous attend sur place.",
+    "ger": "Topols Trupp hat sich zu dem Tunnel mit den unregelmäßigen Psi-Emissionen begeben und Sie müssen sie dort treffen.",
+    "ita": "Devi incontrare la squadra di Topol nella galleria con le psico-emissioni intermittenti.",
+    "pol": "Drużyna Topola wybrała się do tunelu, w którym występują okresowe emisje psioniczne. Musisz się tam z nimi spotkać.",
+    "rus": "Отряд Тополя ушёл к туннелю с переменным пси-излучением. Нужно встретиться с ними там.",
+    "spa": "El escuadrón de Topol fue al túnel de las emisiones psíquicas intermitentes. Debes reunirte con ellos allí.",
+    "ukr": "Загін Тополі пішов до тунелю із перемінним псі-випромінюванням. Потрібно зустрітися з ними там."
+  },
+  "jup_b1_meet_squad_name": {
+    "eng": "Intermittent psy-emissions: talk to Topol",
+    "fra": "Émissions psi intermittentes : parler à Topol.",
+    "ger": "Unregelmäßige Psi-Emissionen: Mit Topol reden",
+    "ita": "Psico-emissioni intermittenti: parla con Topol",
+    "pol": "Okresowe emisje psioniczne: porozmawiaj z Topolem",
+    "rus": "Переменное пси-излучение: поговорить с Тополем",
+    "spa": "Emisiones psíquicas intermitentes: habla con Topol",
+    "ukr": "Перемінне псі-випромінювання: поговорити з Тополею"
+  },
+  "jup_b1_meet_squad_text": {
+    "eng": "Join Topol's squad to go to the tunnel with the intermittent psy-emissions. The agreement is that stalkers will guard the tunnel while you search for what the scientists want.",
+    "fra": "Rejoignez l'unité de Topol pour aller au tunnel d'où proviennent les émissions psi intermittentes. Les stalkers surveilleront le tunnel pendant que vous ferez vos recherches pour les scientifiques.",
+    "ger": "Gehen Sie zusammen mit Topols Trupp zum Tunnel mit den unregelmäßigen Psi-Emissionen. Es wurde abgemacht, dass Stalker den Tunnel bewachen, während Sie nach dem suchen, was die Wissenschaftler wollen.",
+    "ita": "Unisciti alla squadra di Topol per esplorare la galleria con le psico-emissioni intermittenti. Gli stalker sorveglieranno la galleria mentre tu andrai in cerca di ciò che ti hanno chiesto gli scienziati.",
+    "pol": "Dołącz do drużyny Topola idącej do tunelu, w którym występują okresowe emisje psioniczne. Zgodnie z umową, stalkerzy będą ochraniać tunel, podczas gdy ty będziesz szukać tego, czego chcą naukowcy.",
+    "rus": "Присоединится к отряду Тополя, чтобы отправиться к туннелю с переменным пси-излучением. Как было оговорено, в процессе поисков нужного учёным образца сталкеры будут охранять туннель.",
+    "spa": "Acompaña al escuadrón de Topol al túnel de las emisiones psíquicas intermitentes. Los stalkers vigilarán el túnel mientras tú buscas lo que quieren los científicos.",
+    "ukr": "Приєднатися до загону Тополі, щоб відправитися до тунелю із перемінним псі-випромінюванням. Як було домовлено, у процесі пошуків потрібного вченим зразка сталкери охоронятимуть тунель."
+  },
+  "jup_b4_monolith_squad_help_name": {
+    "eng": "Monolith survivors: talk to Yanov residents about cover",
+    "fra": "Les survivants du Monolithe : demander aux habitants de Yanov de prendre les combattants du Monolithe sous leur aile.",
+    "ger": "Ehemalige Monolither: Mit Janow-Bewohnern über Schutz suchende Ex-Monolither reden",
+    "ita": "Superstiti Monolith: parla con gli abitanti di Yanov riguardo al riparo",
+    "pol": "Ocaleni z Monolitu: zapytaj na stacji Janów o schronienie",
+    "rus": "Выживший «Монолит»: поговорить с обитателями «Янова» насчёт укрытия",
+    "spa": "Supervivientes del Monolito: habla con los habitantes de Yanov sobre el refugio",
+    "ukr": "Вцілілий «Моноліт»: поговорити із мешканцями «Янова» щодо укриття"
+  },
+  "jup_b4_monolith_squad_help_text": {
+    "eng": "A squad of Monolith fighters has broken free of the spell that possessed them. They're looking for cover from emissions and mutants. You need to talk to the residents of Yanov station about allowing the Monolith squad to take cover there.",
+    "fra": "Des combattants du Monolithe ont réussi à recouvrer leurs esprits. Ils cherchent à présent un endroit où s'abriter des émissions et des mutants. Vous devez demander aux habitants de la gare Yanov s'ils sont prêts à les prendre sous leur aile.",
+    "ger": "Ein Trupp von Monolithern konnte sich von dem Bann befreien, der sie unter Kontrolle hielt. Nun suchen sie nach einem Zufluchtsort, wo sie vor Emissionen und Mutanten sicher sind. Sie müssen mit den Bewohnern der Janow-Station sprechen, ob sie die ehemaligen Monolither aufzunehmen bereit sind.",
+    "ita": "Una squadra di combattenti Monolith si è liberata dal condizionamento mentale. Ora cercano un riparo dalle emissioni e dai mutanti. Chiedi agli abitanti della stazione Yanov se sono disposti ad accogliere la squadra Monolith.",
+    "pol": "Grupa wojowników Monolitu uwolniła się spod uroku, którym była opętana. Szukają teraz schronienia przed emisją i mutantami. Musisz porozmawiać z mieszkańcami stacji Janów, by pozwolili drużynie Monolitu ukryć się na niej.",
+    "rus": "Отряд «монолитовцев», прежде - фанатичных бойцов, вышел из-под навязчивого внушения. Теперь эти люди ищут укрытия от выбросов и монстров. Нужно договориться с обитателями станции «Янов», чтобы «монолитовцы» могли там укрыться.",
+    "spa": "Un escuadrón de soldados del Monolito se ha liberado del embrujo que los había poseído. Están buscando un refugio donde protegerse de emisiones y mutantes. Tienes que hablar con los habitantes de la estación de Yanov para que permitan a los soldados refugiarse allí.",
+    "ukr": "Загін «монолітівців», колись - фанатичних бійців, вийшов з-під нав'язливого навіювання. Тепер ці люди шукають укриття від викидів та монстрів. Потрібно домовитися з мешканцями станції «Янів», щоб «монолітівці» могли там укритися."
+  },
+  "jup_b4_stalkers_come_duty_text": {
+    "eng": "Take Duty recruitment officers to the former Monolith squad. If the Monolith fighters join Duty, they'll be able to take cover from emissions and mutants at Yanov station.",
+    "fra": "Accompagnez les officiers de recrutement du Devoir jusqu'aux anciens membres du Monolithe. Si ces combattants acceptent de s'enrôler dans le Devoir, ils pourront par la même occasion se mettre à l'abri des émissions et des mutants dans la gare de Yanov.",
+    "ger": "Bringen Sie die Rekrutierer der Wächter zu den ehemaligen Monolithern. Wenn sich diese den Wächtern anschließen, werden sie in der Janow-Station vor Emissionen und Mutanten sicher sein.",
+    "ita": "Accompagna gli ufficiali di reclutamento della Duty dalla ex squadra Monolith. Se i combattenti Monolith si uniranno alla Duty, potranno ripararsi dalle emissioni e dai mutanti alla stazione Yanov.",
+    "pol": "Zaprowadź ludzi Powinności odpowiedzialnych za rekrutację do byłej załogi Monolitu. Jeżeli wojownicy Monolitu wstąpią do Powinności, będą mogli schronić się na stacji Janów przed emisją i mutantami.",
+    "rus": "Отвести вербовщиков «Долга» к отряду бывших «монолитовцев». Если «монолитовцы» вступят в «Долг», они смогут беспрепятственно укрыться от выброса и монстров на станции «Янов».",
+    "spa": "Lleva a los oficiales de reclutamiento de Deber al anterior escuadrón del Monolito. Si se unen a Deber, podrán protegerse de las emisiones y los mutantes en la estación de Yanov.",
+    "ukr": "Відвести вербувальників «Долгу» до загону колишніх «монолітівців». Якщо «монолітівці» вступлять до «Долгу», вони зможуть безперешкодно укритися від викиду та монстрів на станції «Янів»."
+  },
+  "jup_b4_stalkers_come_freedom_text": {
+    "eng": "Take Freedom recruitment officers to the former Monolith squad. If the Monolith fighters join Freedom, they'll be able to take cover from emissions and mutants at Yanov station.",
+    "fra": "Accompagnez les officiers de recrutement de la Liberté jusqu'aux anciens membres du Monolithe. Si ces combattants acceptent de s'enrôler dans la Liberté, ils pourront par la même occasion se mettre à l'abri des émissions et des mutants dans la gare de Yanov.",
+    "ger": "Bringen Sie die Rekrutierer der Freiheit zu den ehemaligen Monolithern. Wenn sich diese der Freiheit anschließen, werden sie in der Janow-Station vor Emissionen und Mutanten sicher sein.",
+    "ita": "Accompagna gli ufficiali di reclutamento della Freedom dalla ex squadra Monolith. Se i combattenti Monolith si uniranno alla Freedom, potranno ripararsi dalle emissioni e dai mutanti alla stazione Yanov.",
+    "pol": "Zaprowadź ludzi Wolności, odpowiedzialnych za rekrutację, do byłej załogi Monolitu. Jeżeli wojownicy Monolitu wstąpią do Wolności, będą mogli schronić się na stacji Janów przed emisją i mutantami.",
+    "rus": "Отвести вербовщиков «Свободы» к отряду бывших «монолитовцев». Если «монолитовцы» присоединятся к «Свободе», они смогут беспрепятственно укрыться от выброса и монстров на станции «Янов».",
+    "spa": "Lleva a los oficiales de reclutamiento de Libertad al anterior escuadrón del Monolito. Si se unen a Libertad, podrán protegerse de las emisiones y los mutantes en la estación de Yanov.",
+    "ukr": "Відвести вербувальників «Волі» до загону колишніх «монолітівців». Якщо «монолітівці» приєднаються до «Волі», вони зможуть безперешкодно укритися від викиду та монстрів на станції «Янів»."
+  },
+  "jup_b4_stalkers_come_name": {
+    "eng": "Monolith survivors: take recruitment officers to the former Monolith squad",
+    "fra": "Les survivants du Monolithe : accompagner les officiers de recrutement jusqu'aux anciens combattants du Monolithe.",
+    "ger": "Ehemalige Monolither: Rekrutierer zu ehemaligen Monolithern bringen",
+    "ita": "Superstiti Monolith: accompagna gli ufficiali di reclutamento dalla ex squadra Monolith",
+    "pol": "Ocaleni z Monolitu: zaprowadź na miejsce odpowiedzialnych za rekrutację",
+    "rus": "Выживший «Монолит»: отвести вербовщиков к отряду бывших «монолитовцев»",
+    "spa": "Supervivientes del Monolito: lleva a los oficiales de reclutamiento al anterior escuadrón del Monolito",
+    "ukr": "Вцілілий «Моноліт»: відвести вербувальників до загону колишніх «монолітівців»"
+  },
+  "jup_b6_anom_1_guard_name": {
+    "eng": "Anomaly research: cover the stalkers",
+    "fra": "Étude de l'anomalie : couvrir les stalkers.",
+    "ger": "Anomalieforschung: Die Stalker beschützen",
+    "ita": "Ricerca sulle anomalie: copri gli stalker",
+    "pol": "Badania nad anomaliami: ochraniaj stalkerów",
+    "rus": "Исследование аномалий: прикрывать сталкеров",
+    "spa": "Investigación de anomalías: protege a los stalkers",
+    "ukr": "Дослідження аномалій: прикривати сталкерів"
+  },
+  "jup_b6_anom_1_guard_text": {
+    "eng": "It looks like the taking of measurements in the anomaly attracted mutants. You must cover the stalkers until they have collected all the data required.",
+    "fra": "L'étude de l'anomalie semble avoir attiré des mutants. Couvrez les stalkers pendant qu'ils récupèrent les données nécessaires.",
+    "ger": "Wie es scheint, hat das Vornehmen von Messungen in der Anomalie die Aufmerksamkeit von Mutanten erregt. Sie müssen den Stalkern Deckung geben, bis sie alle nötigen Daten gesammelt haben.",
+    "ita": "Pare che le operazioni nell'anomalia abbiano attirato dei mutanti. Devi coprire gli stalker finché non avranno raccolto tutti i dati richiesti.",
+    "pol": "Wygląda na to, że wykonywanie pomiarów w anomalii przyciągnęło mutanty. Musisz ochraniać stalkerów, dopóki nie zbiorą wszystkich potrzebnych danych.",
+    "rus": "Похоже, проведение замеров в аномалии привлекло монстров. Надо прикрывать сталкеров до тех пор, пока замеры не будут завершены.",
+    "spa": "Parece que la medición de datos en la anomalía ha atraído a varios mutantes. Debes proteger a los stalkers hasta que hayan obtenido los datos requeridos.",
+    "ukr": "Схоже, проведення вимірів в аномалії привернуло увагу монстрів. Треба прикривати сталкерів доти, доки вимірювання не буде завершено."
+  },
+  "jup_b6_anom_2_guard_name": {
+    "eng": "Anomaly research: cover the stalkers",
+    "fra": "Étude de l'anomalie : couvrir les stalkers.",
+    "ger": "Anomalieforschung: Die Stalker beschützen",
+    "ita": "Ricerca sulle anomalie: copri gli stalker",
+    "pol": "Badania nad anomaliami: ochraniaj stalkerów",
+    "rus": "Исследование аномалий: прикрывать сталкеров",
+    "spa": "Investigación de anomalías: protege a los stalkers",
+    "ukr": "Дослідження аномалій: прикривати сталкерів"
+  },
+  "jup_b6_anom_2_guard_text": {
+    "eng": "It looks like the taking of measurements in the anomaly attracted zombies from Kopachy. You must cover the stalkers until they have collected all the data required.",
+    "fra": "L'étude de l'anomalie semble avoir attiré les zombies de Kopachy. Couvrez les stalkers pendant qu'ils récupèrent les données nécessaires.",
+    "ger": "Wie es scheint, hat das Vornehmen von Messungen in der Anomalie die Aufmerksamkeit von Zombies aus Kopatschi erregt. Sie müssen den Stalkern Deckung geben, bis sie alle nötigen Daten gesammelt haben.",
+    "ita": "Pare che le operazioni nell'anomalia abbiano attirato degli zombi da Kopachy. Devi coprire gli stalker finché non avranno raccolto tutti i dati richiesti.",
+    "pol": "Wygląda na to, że wykonywanie pomiarów w anomalii przyciągnęło zombi z Kopaczi. Musisz ochraniać stalkerów, dopóki nie zbiorą wszystkich potrzebnych danych.",
+    "rus": "Похоже, проведение замеров в аномалии привлекло зомби с Копачей. Надо прикрывать сталкеров до тех пор, пока замеры не будут завершены.",
+    "spa": "Parece que la medición de datos en la anomalía ha atraído a varios zombis de Kopachy. Debes proteger a los stalkers hasta que hayan obtenido los datos requeridos.",
+    "ukr": "Схоже, проведення вимірів у аномалії привернуло увагу зомбі з Копачів. Треба прикривати сталкерів доти, доки вимірювання не буде завершено."
+  },
+  "jup_b6_employ_stalkers_name": {
+    "eng": "Research group: Hire the right people",
+    "fra": "Groupe de recherche : recruter des hommes de confiance",
+    "ger": "Forschungsgruppe: Die richtigen Leute anheuern",
+    "ita": "Gruppo di ricerca: assumi le persone giuste",
+    "pol": "Grupa badawcza: wynajmij odpowiednich ludzi",
+    "rus": "Исследовательская группа: подобрать людей",
+    "spa": "Grupo de investigación: contrata a la gente adecuada",
+    "ukr": "Дослідницька група: підібрати людей"
+  },
+  "jup_b6_employ_stalkers_reward_name": {
+    "eng": "Research group: Return to Hermann for the reward",
+    "fra": "Groupe de recherche : retourner auprès d'Hermann pour obtenir la récompense.",
+    "ger": "Forschungsgruppe: Bei Hermann die Belohnung abholen",
+    "ita": "Gruppo di ricerca: torna da Hermann per ricevere la ricompensa",
+    "pol": "Grupa badawcza: wróć do Hermana po nagrodę",
+    "rus": "Исследовательская группа: вернуться к Герману за наградой",
+    "spa": "Grupo de investigación: vuelve con Hermann para recoger la recompensa",
+    "ukr": "Дослідницька група: повернутися до Германа по винагороду"
+  },
+  "jup_b6_employ_stalkers_reward_text": {
+    "eng": "You've found the right people for a new research group. Now return to Hermann to collect your reward.",
+    "fra": "Vous avez trouvé les candidats idéaux pour le groupe de recherche. Retournez auprès d'Hermann pour obtenir votre récompense.",
+    "ger": "Sie haben die passenden Leute für eine neue Forschungsgruppe aufgetrieben. Kehren Sie jetzt zu Hermann zurück, um Ihre Belohnung zu kassieren.",
+    "ita": "Hai trovato le persone giuste per formare la nuova squadra di ricercatori. Ora torna da Hermann per ricevere la tua ricompensa.",
+    "pol": "Udało ci się znaleźć odpowiednich ludzi do nowej grupy badawczej. Możesz wrócić do Hermana, aby odebrać nagrodę.",
+    "rus": "Люди для новой исследовательской группы подобраны. Необходимо вернуться к Герману за причитающимся вознаграждением.",
+    "spa": "Has encontrado a la gente adecuada para un nuevo grupo de investigación. Ahora vuelve con Hermann y recoge tu recompensa.",
+    "ukr": "Людей для нової дослідницької групи підібрано. Необхідно повернутися до Германа по винагороду."
+  },
+  "jup_b6_employ_stalkers_text": {
+    "eng": "A research group working for the scientists has perished. You must staff a new group so research can continue.",
+    "fra": "Un groupe de recherche qui travaillait pour les scientifiques a été tué. Vous devez recruter de nouveaux hommes afin que les recherches puissent continuer.",
+    "ger": "Eine Forschungsgruppe, die für die Wissenschaftler gearbeitet hat, ist verschwunden. Sie müssen eine neue Gruppe zusammenstellen, damit die Arbeit fortgesetzt werden kann.",
+    "ita": "Tutti i membri di un gruppo di ricerca che lavorava per gli scienziati sono morti. Devi formare un nuovo gruppo perché la ricerca possa proseguire.",
+    "pol": "Członkowie grupy badawczej pracującej dla naukowców zginęli. Musisz zatrudnić nowych ludzi, aby kontynuować badania.",
+    "rus": "Исследовательская группа, работавшая на учёных, погибла. Необходимо подобрать новую группу для продолжения научной работы.",
+    "spa": "Un grupo de trabajo que trabajaba para los científicos ha perecido. Tienes que formar un nuevo grupo para que la investigación siga.",
+    "ukr": "Дослідницька група, що працювала на вчених, загинула. Необхідно підібрати нову групу для продовження наукової праці."
+  },
+  "jup_b6_get_reward_name": {
+    "eng": "Anomaly research: talk to Hermann",
+    "fra": "Étude de l'anomalie : parler à Hermann.",
+    "ger": "Anomalieforschung: Mit Hermann reden",
+    "ita": "Ricerca sulle anomalie: parla con Hermann",
+    "pol": "Badania nad anomaliami: porozmawiaj z Hermanem",
+    "rus": "Исследование аномалий: поговорить с Германом",
+    "spa": "Investigación de anomalías: habla con Hermann",
+    "ukr": "Дослідження аномалій: поговорити з Германом"
+  },
+  "jup_b6_get_reward_text": {
+    "eng": "The anomaly measurements have been completed - inform the scientists of this and collect your reward.",
+    "fra": "L'étude de l'anomalie a été effectuée. Informez-en les scientifiques et récupérez votre récompense.",
+    "ger": "Die Anomaliemessungen sind abgeschlossen. Informieren Sie die Wissenschaftler und holen Sie sich Ihre Belohnung ab.",
+    "ita": "Le misurazioni nelle anomalie sono state completate. Informa gli scienziati e ottieni la tua ricompensa.",
+    "pol": "Pomiary w anomalii zostały ukończone - poinformuj o tym naukowców i odbierz nagrodę.",
+    "rus": "Замеры аномалий проведены. Нужно сообщить об этом учёным и забрать обещанную награду.",
+    "spa": "Ya se han obtenido todas las medidas de la anomalía. Informa a los científicos y cobra tu recompensa.",
+    "ukr": "Вимірювання аномалій проведено. Потрібно сповістити про це вчених і забрати обіцяну винагороду."
+  },
+  "jup_b6_get_to_anomal_place_name": {
+    "eng": "Anomaly research: talk to the stalkers",
+    "fra": "Étude de l'anomalie : parler aux stalkers.",
+    "ger": "Anomalieforschung: Mit den Stalkern reden",
+    "ita": "Ricerca sulle anomalie: parla con gli stalker",
+    "pol": "Badania nad anomaliami: porozmawiaj ze stalkerami",
+    "rus": "Исследование аномалий: поговорить со сталкерами",
+    "spa": "Investigación de anomalías: habla con los stalkers",
+    "ukr": "Дослідження аномалій: поговорити зі сталкерами"
+  },
+  "jup_b6_get_to_anomal_place_text": {
+    "eng": "Talk to the stalker squad responsible for taking measurements - you need to choose which anomaly to go for.",
+    "fra": "Parlez au groupe de stalkers qui doit effectuer les relevés. Vous devez choisir une anomalie.",
+    "ger": "Reden Sie mit dem Stalkertrupp, der die Messungen vornimmt - Sie müssen wissen, welche Anomalie auf dem Plan steht.",
+    "ita": "Parla con la squadra di stalker responsabile delle misurazioni. Bisogna scegliere quale anomalia analizzare.",
+    "pol": "Porozmawiaj z drużyną stalkerów odpowiedzialną za pomiary - musicie zdecydować, do której anomalii się wybierzecie.",
+    "rus": "Поговорить с группой сталкеров, которые будут проводить замеры. Нужно выбрать, к какой аномалии отправиться.",
+    "spa": "Habla con el escuadrón de stalkers responsable de la obtención de medidas; tienes que decidir a qué anomalía dirigirte.",
+    "ukr": "Поговорити з групою сталкерів, що будуть проводити виміри. Потрібно вибрати, до якої аномалії прямувати."
+  },
+  "jup_b6_travel_home_name": {
+    "eng": "Anomaly research: talk to the stalkers",
+    "fra": "Étude de l'anomalie : parler aux stalkers.",
+    "ger": "Anomalieforschung: Mit den Stalkern reden",
+    "ita": "Ricerca sulle anomalie: parla con gli stalker",
+    "pol": "Badania nad anomaliami: porozmawiaj ze stalkerami",
+    "rus": "Исследование аномалий: поговорить со сталкерами",
+    "spa": "Investigación de anomalías: habla con los stalkers",
+    "ukr": "Дослідження аномалій: поговорити зі сталкерами"
+  },
+  "jup_b6_travel_home_text": {
+    "eng": "All the required measurements have been taken, so you can head back to the scientists' bunker together with the squad.",
+    "fra": "Toutes les données nécessaires ont été récupérées, vous pouvez donc retourner au bunker des scientifiques avec votre groupe.",
+    "ger": "Alle nötigen Messungen wurden vorgenommen. Daher können Sie sich zusammen mit dem Trupp wieder auf den Weg zum Bunker der Wissenschaftler machen.",
+    "ita": "Sono state eseguite tutte le misurazioni necessarie. Ora puoi tornare al bunker degli scienziati insieme alla squadra.",
+    "pol": "Wszystkie potrzebne pomiary zostały wykonane, możesz więc razem z drużyną wrócić do bunkra naukowców.",
+    "rus": "Все нужные замеры проведены. Можно отправляться с группой к бункеру учёных.",
+    "spa": "Ya se han obtenido todas las medidas de la anomalía; puedes volver al búnker de los científicos con el escuadrón.",
+    "ukr": "Усі потрібні вимірювання проведено. Можна відправлятися із групою до бункера вчених."
+  },
+  "jup_b6_travel_name": {
+    "eng": "Anomaly research: talk to the stalkers",
+    "fra": "Étude de l'anomalie : parler aux stalkers.",
+    "ger": "Anomalieforschung: Mit den Stalkern reden",
+    "ita": "Ricerca sulle anomalie: parla con gli stalker",
+    "pol": "Badania nad anomaliami: porozmawiaj ze stalkerami",
+    "rus": "Исследование аномалий: поговорить со сталкерами",
+    "spa": "Investigación de anomalías: habla con los stalkers",
+    "ukr": "Дослідження аномалій: поговорити зі сталкерами"
+  },
+  "jup_b6_travel_text": {
+    "eng": "Measurements have been taken from the anomaly, so you need to talk to the squad to discuss where to go next.",
+    "fra": "Les données concernant l'anomalie ont été récupérées. Vous devez à présent parler aux stalkers pour décider de la marche à suivre.",
+    "ger": "Die Messungen in der Anomalie wurden vorgenommen. Daher müssen Sie jetzt mit dem Trupp darüber reden, wie das nächste Ziel lautet.",
+    "ita": "Le misurazioni nell'anomalia sono state completate. Parla con la squadra per decidere la prossima destinazione.",
+    "pol": "Pomiary w anomalii zostały wykonane. Porozmawiaj z drużyną, dokąd się teraz wybierzecie.",
+    "rus": "Все замеры в аномалии проведены. Нужно пообщаться с группой и решить, куда идти дальше.",
+    "spa": "Se han obtenido medidas de la anomalía; habla con el resto del escuadrón para saber adónde ir ahora.",
+    "ukr": "Усі вимірювання в аномалії проведено. Потрібно поспілкуватися із групою та вирішити, куди йти далі."
+  },
+  "jup_b6_watch_topol_squad_six_name": {
+    "eng": "Anomaly research: cover the stalkers",
+    "fra": "Étude de l'anomalie : couvrir les stalkers.",
+    "ger": "Anomalieforschung: Die Stalker beschützen",
+    "ita": "Ricerca sulle anomalie: copri gli stalker",
+    "pol": "Badania nad anomaliami: ochraniaj stalkerów",
+    "rus": "Исследование аномалий: прикрывать сталкеров",
+    "spa": "Investigación de anomalías: protege a los stalkers",
+    "ukr": "Дослідження аномалій: прикривати сталкерів"
+  },
+  "jup_b6_watch_topol_squad_six_text": {
+    "eng": "Hermann has offered you the job of covering stalkers while they take measurements in anomalies.",
+    "fra": "Hermann vous a proposé de protéger les stalkers pendant qu'ils effectuent des relevés dans des anomalies.",
+    "ger": "Hermann hat Ihnen den Auftrag angeboten, die Stalker zu beschützen, während sie Messungen in Anomalien vornehmen.",
+    "ita": "Hermann ti chiesto di difendere gli stalker mentre eseguono delle misurazioni nelle anomalie.",
+    "pol": "Herman zaoferował ci pracę, polegającą na ochronie stalkerów, gdy ci będą wykonywać pomiary w anomaliach.",
+    "rus": "Герман предложил работу: нужно прикрывать сталкеров, пока те будут проводить замеры в аномалиях.",
+    "spa": "Hermann te ha ofrecido trabajo protegiendo a los stalkers mientras recogen datos en las anomalías.",
+    "ukr": "Герман запропонував роботу: потрібно прикривати сталкерів, доки ті проводитимуть вимірювання в аномаліях."
+  },
+  "jup_b8_heli_4_crash_name": {
+    "eng": "Stingray 4: investigate the crash site",
+    "fra": "Stingray 4 : fouiller les lieux de l'accident.",
+    "ger": "Stingray 4: Absturzstelle untersuchen",
+    "ita": "Stingray 4: perlustra il luogo dello schianto",
+    "pol": "Ogończa 4: zbadaj miejsce katastrofy",
+    "rus": "«Скат-4»: исследовать место падения",
+    "spa": "Pez Raya 4: investiga el lugar del accidente",
+    "ukr": "«Скат-4»: дослідити місце падіння"
+  },
+  "jup_b8_heli_4_crash_name_2": {
+    "eng": "Stingray 4: find the reason for electronic burn out",
+    "fra": "Stingray 4 : trouver la cause du court-circuit.",
+    "ger": "Stingray 4: Herausfinden, warum die Elektronik ausgebrannt ist",
+    "ita": "Stingray 4: scopri il motivo del guasto elettronico",
+    "pol": "Ogończa 4: znajdź przyczynę spalenia się elektroniki",
+    "rus": "«Скат-4»: найти причину сгорания электроники",
+    "spa": "Pez Raya 4: averigua por qué se han quemado los aparatos",
+    "ukr": "«Скат-4»: знайти причину згоряння електроніки"
+  },
+  "jup_b8_heli_4_crash_text": {
+    "eng": "Investigate the Stingray 4 crash site.",
+    "fra": "Fouillez les lieux de l'accident du Stingray 4.",
+    "ger": "Untersuchen Sie die Absturzstelle von Stingray 4.",
+    "ita": "Perlustra il luogo dello schianto di Stingray 4.",
+    "pol": "Zbadaj miejsce katastrofy Ogończy 4.",
+    "rus": "Исследовать место падения вертолёта «Скат-4».",
+    "spa": "Investiga el lugar del accidente del Pez Raya 4.",
+    "ukr": "Дослідити місце падіння гелікоптера «Скат-4»."
+  },
+  "jup_b8_heli_4_crash_text_2": {
+    "eng": "You must find the source of the powerful electric charge which hit the Stingray 4 helicopter.",
+    "fra": "Trouvez la source de la puissante décharge électrique qui a frappé l'hélicoptère Stingray 4.",
+    "ger": "Sie müssen die Quelle der starken elektrischen Entladung finden, die Stingray 4 getroffen hat.",
+    "ita": "Devi trovare la fonte della potente scarica elettrica che ha colpito l'elicottero Stingray 4.",
+    "pol": "Musisz znaleźć źródło silnego wyładowania elektrycznego, które uderzyło w śmigłowiec Ogończa 4.",
+    "rus": "Нужно выяснить источник мощного электрического разряда, поразившего «Скат-4».",
+    "spa": "Debes encontrar el origen de la potente descarga eléctrica que alcanzó al helicóptero Pez Raya 4.",
+    "ukr": "Потрібно з'ясувати джерело потужного електричного розряду, що вразив «Скат-4»."
+  },
+  "jup_b9_blackbox_decrypting_name": {
+    "eng": "Stingray 1: give the black box to a technician for decryption",
+    "fra": "Stingray 1 : apporter la boîte noire à un technicien pour qu'il la décode.",
+    "ger": "Stingray 1: Den Flugschreiber einem Techniker zur Entschlüsselung geben",
+    "ita": "Stingray 1: consegna la scatola nera a un tecnico per farla decriptare",
+    "pol": "Ogończa 1: daj technikowi czarną skrzynkę do odszyfrowania",
+    "rus": "«Скат-1»: отдать «чёрный ящик» технику на дешифровку",
+    "spa": "Pez Raya 1: dale la caja negra a un técnico para que la desencripte",
+    "ukr": "«Скат-1»: віддати «чорний ящик» технікові на дешифрування"
+  },
+  "jup_b9_blackbox_decrypting_text": {
+    "eng": "The Stingray 1 black box survived the crash. It must be taken to a technician for decryption for you to access the information it holds.",
+    "fra": "La boîte noire du Stingray 1 est intacte. Elle doit être décodée par un technicien pour que vous puissiez accéder aux informations qu'elle contient.",
+    "ger": "Der Flugschreiber von Stingray 1 hat den Absturz unbeschadet überstanden. Er muss zur Entschlüsselung zu einem Techniker gebracht werden, damit Sie Zugriff auf die aufgezeichneten Informationen bekommen.",
+    "ita": "La scatola nera di Stingray 1 è sopravvissuta allo schianto. Se vuoi accedere alle informazioni che contiene, devi consegnarla a un tecnico per farla decriptare.",
+    "pol": "Czarna skrzynka z Ogończy 1 przetrwała katastrofę. Musi zostać zabrana do technika, który ją zdeszyfruje, aby dostać się do zawartych w niej informacji.",
+    "rus": "«Чёрный ящик» вертолёта «Скат-1» уцелел. Необходимо передать его технику на дешифровку, чтобы получить доступ к содержащейся там информации.",
+    "spa": "La caja negra del Pez Raya 1 sigue intacta. Debes llevársela a un técnico para que te la desencripte y puedas acceder a los datos que contiene.",
+    "ukr": "«Чорний ящик» гелікоптера «Скат-1» вцілів. Необхідно передати його технікові на дешифрування, щоб отримати доступ до інформації, що там міститься."
+  },
+  "jup_b9_blackbox_descrypted_after_3_name": {
+    "eng": "Stingray 1: wait for black box decryption to be completed",
+    "fra": "Stingray 1 : attendre que la boîte noire soit décodée.",
+    "ger": "Stingray 1: Auf die Entschlüsselung des Flugschreibers warten",
+    "ita": "Stingray 1: attendi che la scatola nera venga decriptata",
+    "pol": "Ogończa 1: poczekaj na odszyfrowanie danych z czarnej skrzynki",
+    "rus": "«Скат-1»: дождаться дешифровки «чёрного ящика»",
+    "spa": "Pez Raya 1: espera a que se complete el desencriptado de la caja negra",
+    "ukr": "«Скат-1»: дочекатися дешифрування «чорного ящика»"
+  },
+  "jup_b9_blackbox_descrypted_after_3_text": {
+    "eng": "Nitro has agreed to decrypt the black box. He said it would take around three hours. You must wait for him to finish.",
+    "fra": "Nitro a accepté de décoder la boîte noire, mais il lui faut trois bonnes heures. Vous allez devoir patienter.",
+    "ger": "Nitro hat sich bereit erklärt, den Flugschreiber zu entschlüsseln, und geschätzt, dass es ca. drei Stunden dauern wird. Sie müssen warten, bis er seine Arbeit abgeschlossen hat.",
+    "ita": "Nitro ha accettato di decriptare la scatola nera. Ha detto che ci vogliono circa tre ore. Non ti resta che attendere che finisca.",
+    "pol": "Azot zgodził się zdeszyfrować czarną skrzynkę. Powiedział, że zajmie to około trzech godzin. Musisz poczekać, aż skończy.",
+    "rus": "Азот взялся за дешифровку «чёрного ящика» - по его словам, для этого понадобится около трёх часов. Необходимо дождаться окончания дешифровки.",
+    "spa": "Nitro ha accedido a desencriptar la caja negra. Dijo que tardaría unas tres horas. Debes esperar a que termine.",
+    "ukr": "Азот узявся за дешифрування «чорного ящика» - за його словами, для цього знадобиться близько трьох годин. Необхідно дочекатися закінчення дешифрування."
+  },
+  "jup_b9_go_for_blackbox_descryption_name": {
+    "eng": "Stingray 1: return to Nitro for information held by the black box",
+    "fra": "Stingray 1 : retourner voir Nitro pour obtenir les informations de la boîte noire.",
+    "ger": "Stingray 1: Zu Nitro zurückkehren, um die Flugschreiberinformationen zu erhalten",
+    "ita": "Stingray 1: torna da Nitro per accedere alle informazioni nella scatola nera",
+    "pol": "Ogończa 1: wróć do Azota po informacje z czarnej skrzynki",
+    "rus": "«Скат-1»: вернуться к Азоту за информацией из «чёрного ящика»",
+    "spa": "Pez Raya 1: vuelve junto a Nitro para obtener la información de la caja negra",
+    "ukr": "«Скат-1»: повернутися до Азота по інформацію із «чорного ящика»"
+  },
+  "jup_b9_go_for_blackbox_descryption_text": {
+    "eng": "Nitro should have completed the decryption process by now. Go see him to get the information held by the black box.",
+    "fra": "Nitro doit avoir terminé le décryptage. Allez le voir pour prendre connaissance des informations que renfermait la boîte noire.",
+    "ger": "Nitro dürfte mittlerweile den Flugschreiber entschlüsselt haben. Gehen Sie zu ihm, um die Informationen zu bekommen, die der Flugschreiber enthält.",
+    "ita": "Nitro deve aver completato il processo di decriptazione. Vai da lui per accedere alle informazioni contenute nella scatola nera.",
+    "pol": "Azot powinien już skończyć deszyfrację. Spotkaj się z nim, aby otrzymać informacje z czarnej skrzynki.",
+    "rus": "Азот уже должен был закончить дешифровку. Необходимо вернуться к нему за информацией из «чёрного ящика».",
+    "spa": "Nitro ya debería haber terminado de desencriptar la caja negra. Ve a verle para averiguar qué contiene.",
+    "ukr": "Азот уже мав закінчити дешифрування. Необхідно повернутися до нього по інформацію із «чорного ящика»."
+  },
+  "jup_b9_heli_1_crash_name": {
+    "eng": "Stingray 1: investigate the crash site",
+    "fra": "Stingray 1 : fouiller les lieux de l'accident.",
+    "ger": "Stingray 1: Absturzstelle untersuchen",
+    "ita": "Stingray 1: perlustra il luogo dello schianto",
+    "pol": "Ogończa 1: zbadaj miejsce katastrofy",
+    "rus": "«Скат-1»: исследовать место падения",
+    "spa": "Pez Raya 1: investiga el lugar del accidente",
+    "ukr": "«Скат-1»: дослідити місце падіння"
+  },
+  "jup_b9_heli_1_crash_text": {
+    "eng": "Investigate the Stingray 1 crash site.",
+    "fra": "Fouillez le lieu de l'accident du Stingray 1.",
+    "ger": "Untersuchen Sie die Absturzstelle von Stingray 1.",
+    "ita": "Perlustra il luogo dello schianto di Stingray 1.",
+    "pol": "Zbadaj miejsce katastrofy Ogończy 1.",
+    "rus": "Исследовать место падения вертолёта «Скат-1».",
+    "spa": "Investiga el lugar del accidente del Pez Raya 1.",
+    "ukr": "Дослідити місце падіння гелікоптера «Скат-1»."
   },
   "jup_b10_ufo_memory_at_text": {
     "eng": "The memory module is in expert hands. You must wait for it to be unblocked.",
@@ -459,85 +889,375 @@
     "spa": "Los mercenarios están muertos. Deberías hablar con el tío Yar para que te explique lo que ha pasado.",
     "ukr": "Найманці мертві. Варто поговорити із дядьком Яром, аби отримати пояснення тому, що сталося."
   },
-  "jup_b1_bring_art_back_name": {
-    "eng": "Intermittent psy-emissions: take the anomalous formation to the scientists",
-    "fra": "Émissions psi intermittentes : apporter la formation anormale aux scientifiques.",
-    "ger": "Unregelmäßige Psi-Emissionen: Anomalieformation zu den Wissenschaftlern bringen",
-    "ita": "Psico-emissioni intermittenti: porta la formazione anomala agli scienziati",
-    "pol": "Okresowe emisje psioniczne: zabierz anormalny twór do naukowców",
-    "rus": "Переменное пси-излучение: доставить учёным аномальное образование",
-    "spa": "Emisiones psíquicas intermitentes: lleva la formación anómala a los científicos",
-    "ukr": "Перемінне псі-випромінювання: доставити вченим аномальне утворення"
+  "jup_b25_accuse_flint_end_text": {
+    "eng": "Flint, AKA Magpie, is a sneaky son of a bitch. You should expose him to the stalkers at Zaton or other factions. This will teach him a good lesson.",
+    "fra": "Flint, aussi appelé la Pie, est une ordure de premier ordre. Vous devriez le dénoncer aux stalkers de Zaton ou aux autres factions. Ça lui donnera une bonne leçon.",
+    "ger": "Flint, auch bekannt unter dem Namen Magpie, ist ein hinterhältiger Scheißkerl. Sie sollten die Stalker in Zaton oder die anderen Fraktionen über ihn aufklären. Das dürfte eine gute Lektion für ihn sein.",
+    "ita": "Flint, noto anche come Magpie, è un vile bastardo. Devi mettere in guardia gli stalker di Zaton o le altre fazioni, così avrà la lezione che si merita.",
+    "pol": "Flint, znany też jako Sroka, to podstępny sukinsyn. Musisz go zdemaskować przed stalkerami na Zatonie i przed innymi frakcjami. To będzie dla niego niezła nauczka.",
+    "rus": "Флинт, он же Сорока, оказался большим прохвостом. Нужно рассказать об этом сталкерам на Затоне или представителям группировок - это станет для Флинта хорошим уроком.",
+    "spa": "Pedernal, alias Urraca, es un cabrón escurridizo. Debes revelar su paradero a los stalkers de Zaton o a otras facciones. Así aprenderá.",
+    "ukr": "Флінт, він же Сорока, виявився великим пройдисвітом. Потрібно розповісти про це сталкерам на Затоні або угрупованням - то буде для нього гарна наука."
   },
-  "jup_b1_bring_art_back_text": {
-    "eng": "Take the sample you found to Hermann as agreed. It looks like this is the source of intermittent psy-emissions, an item that is half-transformed through anomalous exposure.",
-    "fra": "Rapportez l'échantillon que vous avez prélevé à Hermann. Il s'agit d'un objet partiellement transformé par une anomalie. Il est probablement la source des émissions psi intermittentes.",
-    "ger": "Bringen Sie die Probe wie abgemacht zu Hermann. Offenbar ist das die Quelle der unregelmäßigen Psi-Emissionen - ein Objekt, das durch anomale Einwirkung teilweise transformiert worden ist.",
-    "ita": "Porta a Hermann il campione che hai trovato, come concordato. Pare che la fonte delle psico-emissioni intermittenti sia proprio questo oggetto, parzialmente trasformato dall'esposizione alle anomalie.",
-    "pol": "Zgodnie z umową, zabierz znalezioną próbkę do Hermana. Wygląda na to, że ten przedmiot, częściowo przekształcony przez działanie anomalii, jest źródłem okresowych emisji psionicznych.",
-    "rus": "Принести найденный образец Герману, как было оговорено. Судя по всему, этот наполовину изменённый аномальным воздействием предмет и есть источник переменного пси-излучения.",
-    "spa": "Llévale a Hermann la muestra que has encontrado. Este objeto medio transformado por la exposición a las anomalías parece ser el origen de las emisiones psíquicas intermitentes.",
-    "ukr": "Принести знайдений зразок Германові, як то було домовлено. Зважаючи на все, цей наполовину змінений аномальним впливом предмет і є джерелом перемінного псі-випромінювання."
+  "jup_b25_accuse_flint_first_text": {
+    "eng": "Flint is showing off and talking about things that he hasn't even seen. It would be good to expose his deceit.",
+    "fra": "Flint se vante des exploits d'un autre. Il mérite qu'on dénonce ses mensonges.",
+    "ger": "Flint ist ganz klar ein Angeber und redet von Dingen, die er nicht einmal mit eigenen Augen gesehen hat. Es wäre nicht schlecht, seinen Schwindel auffliegen zu lassen.",
+    "ita": "Flint è solo un pallone gonfiato che parla di cose che non ha mai visto. Qualcuno dovrebbe smascherarlo pubblicamente.",
+    "pol": "Flint wyraźnie się popisuje i gada o rzeczach, których nawet nie widział na oczy. Dobrze byłoby ujawnić jego oszustwa.",
+    "rus": "Флинт явно перехваливает себя, рассказывая о том, чего даже не мог видеть. Надо бы вывести его на чистую воду.",
+    "spa": "Está claro que Pedernal está presumiendo de cosas que ni siquiera ha visto. Estaría bien dejarlo en evidencia delante de todos.",
+    "ukr": "Флінт явно перехвалює себе, розповідаючи про те, чого навіть не міг бачити. Непогано було б вивести його на слизьке."
   },
-  "jup_b1_get_art_name": {
-    "eng": "Intermittent psy-emissions: investigate the source",
-    "fra": "Émissions psi intermittentes : enquêter sur la source.",
-    "ger": "Unregelmäßige Psi-Emissionen: Die Quelle untersuchen",
-    "ita": "Psico-emissioni intermittenti: indaga sulla fonte",
-    "pol": "Okresowe emisje psioniczne: zbadaj źródło",
-    "rus": "Переменное пси-излучение: исследовать источник",
-    "spa": "Emisiones psíquicas intermitentes: investiga el origen",
-    "ukr": "Перемінне псі-випромінювання: дослідити джерело"
+  "jup_b25_accuse_flint_name": {
+    "eng": "False claims: deal with Flint",
+    "fra": "Fausses déclarations : s'occuper de Flint.",
+    "ger": "Fremde Lorbeeren: Um Flint kümmern",
+    "ita": "Menzogne: sistema Flint",
+    "pol": "Fałszywe zasługi: rozpraw się z Flintem",
+    "rus": "Чужие заслуги: разобраться с Флинтом",
+    "spa": "Afirmaciones falsas: encárgate de Pedernal",
+    "ukr": "Чужі заслуги: розібратися із Флінтом"
   },
-  "jup_b1_get_art_text": {
-    "eng": "Investigate the tunnel for some kind of anomalous formation. The scientists believe that the intermittent psy-field has a source, which will probably resemble an artifact.",
-    "fra": "Fouillez le tunnel à la recherche d'une formation anormale. Les scientifiques pensent que le champ psi intermittent provient d'une source qui prend probablement la forme d'un artefact.",
-    "ger": "Untersuchen Sie den Tunnel nach Anomalieformationen. Die Wissenschaftler sind der Meinung, dass das unregelmäßige Psi-Feld eine Quelle hat, die möglicherweise einem Artefakt ähnelt.",
-    "ita": "Perlustra la galleria in cerca di formazioni anomale. Gli scienziati ritengono che lo psico-campo intermittente abbia una fonte precisa, probabilmente un manufatto.",
-    "pol": "Zbadaj tunele w poszukiwaniu jakiegoś tworu wykazującego anomalię. Naukowcy wierzą, że okresowe pole psioniczne ma źródło, które prawdopodobnie przypomina artefakt.",
-    "rus": "Обследовать туннель в поисках некоего аномального образования. Учёные считают, что у переменного пси-поля есть источник и прогнозируют, что им может оказаться некий артефакт.",
-    "spa": "Investiga el túnel en busca de alguna formación anómala. Los científicos creen que el campo psíquico intermitente tiene un origen, probablemente similar a un artefacto.",
-    "ukr": "Обстежити тунель у пошуках такого собі аномального утворення. Учені вважають, що в перемінного псі-поля є джерело та прогнозують, що це, можливо, унікальний артефакт."
+  "jup_b25_accuse_flint_second_text": {
+    "eng": "Flint is clearly taking credit for the achievements of others. He needs to learn to mind his tongue.",
+    "fra": "Flint se vante d'avoir accompli des exploits que d'autres lui ont racontés. Il doit apprendre à tenir sa langue...",
+    "ger": "Flint schmückt sich ganz offensichtlich mit fremden Lorbeeren. Er muss kapieren, wann er besser die Klappe halten sollte.",
+    "ita": "Flint si assume il merito di imprese che non ha mai compiuto. Deve imparare a tenere la bocca chiusa.",
+    "pol": "Flint przywłaszcza sobie zasługi innych. Trzeba go nauczyć, żeby uważał na to, co gada.",
+    "rus": "Флинт явно любит присваивать себе результаты чужих трудов. Надо бы заставить его попридержать язык.",
+    "spa": "Es evidente que Pedernal se está llevando el mérito por los logros de otros. Debe aprender a morderse la lengua.",
+    "ukr": "Флінт явно полюбляє привласнювати собі результати чужої праці. Непогано було б примусити його припнути свого язика."
   },
-  "jup_b1_join_squad_name": {
-    "eng": "Intermittent psy-emissions: meet Topol's squad",
-    "fra": "Émissions psi intermittentes : rejoindre le groupe de Topol.",
-    "ger": "Unregelmäßige Psi-Emissionen: Topols Trupp treffen",
-    "ita": "Psico-emissioni intermittenti: incontra la squadra di Topol",
-    "pol": "Okresowe emisje psioniczne: spotkaj się z drużyną Topola",
-    "rus": "Переменное пси-излучение: встретиться с отрядом Тополя",
-    "spa": "Emisiones psíquicas intermitentes: reúnete con el escuadrón de Topol",
-    "ukr": "Перемінне псі-випромінювання: зустрітися із загоном Тополі"
+  "jup_b25_accuse_flint_third_text": {
+    "eng": "Flint's showboating is beyond belief - you should talk to him and get him to see your point.",
+    "fra": "Flint ne peut pas s'empêcher de se vanter. Essayez de le convaincre d'arrêter...",
+    "ger": "Flints Angeberei ist kaum zu fassen - Sie sollten mit ihm reden und ihn von Ihrem Standpunkt überzeugen.",
+    "ita": "Flint è uno spaccone di prima categoria. Parla con lui e cerca di farlo ragionare.",
+    "pol": "Szpanerstwo Flinta przekracza wszelkie wyobrażenie - porozmawiaj z nim i wyjaśnij mu wszystko tak, żeby zrozumiał o co chodzi.",
+    "rus": "Хвастовство Флинта переходит всякие границы. Нужно переговорить с ним, причём объяснить всё так, чтобы до него дошло.",
+    "spa": "Pedernal se está pasando con sus alardes; deberías hablar con él y hacerle ver tu opinión.",
+    "ukr": "Хвастощі Флінта переходять усі межі. Потрібно перемовитися з ним, причому так усе пояснити, щоб до нього направду дійшло."
   },
-  "jup_b1_join_squad_text": {
-    "eng": "Topol's squad went to the tunnel with the intermittent psy-emissions and you must meet them there.",
-    "fra": "Le groupe de Topol s'est rendue dans le tunnel d'où proviennent les émissions psi intermittentes et vous attend sur place.",
-    "ger": "Topols Trupp hat sich zu dem Tunnel mit den unregelmäßigen Psi-Emissionen begeben und Sie müssen sie dort treffen.",
-    "ita": "Devi incontrare la squadra di Topol nella galleria con le psico-emissioni intermittenti.",
-    "pol": "Drużyna Topola wybrała się do tunelu, w którym występują okresowe emisje psioniczne. Musisz się tam z nimi spotkać.",
-    "rus": "Отряд Тополя ушёл к туннелю с переменным пси-излучением. Нужно встретиться с ними там.",
-    "spa": "El escuadrón de Topol fue al túnel de las emisiones psíquicas intermitentes. Debes reunirte con ellos allí.",
-    "ukr": "Загін Тополі пішов до тунелю із перемінним псі-випромінюванням. Потрібно зустрітися з ними там."
+  "jup_b25_flint_and_senya_text": {
+    "eng": "It was Flint who left Splinter to die in the anomaly. Talk to him and find out why he did it.",
+    "fra": "C'est Flint qui a laissé Senya mourir dans une anomalie. Allez lui parler et découvrez les raisons de son geste.",
+    "ger": "Es war Flint, der Splitter in der Anomalie zurückgelassen hat. Reden Sie mit ihm und finden Sie heraus, warum er das getan hat.",
+    "ita": "Flint ha lasciato morire Scheggia nell'anomalia. Parla con lui e cerca di scoprirne il motivo.",
+    "pol": "To Flint pozwolił Drzazdze zginąć w anomalii. Porozmawiaj z nim i dowiedz się, dlaczego to zrobił.",
+    "rus": "Щепку бросил умирать в аномалии именно Флинт. Нужно поговорить с ним и узнать, почему он так поступил.",
+    "spa": "Fue Pedernal quien dejó morir al disidente en la anomalía. Habla con él y averigua por qué lo hizo.",
+    "ukr": "Тріску кинув помирати в аномалії саме Флінт. Потрібно поговорити із ним та взнати, чому він так повівся."
   },
-  "jup_b1_meet_squad_name": {
-    "eng": "Intermittent psy-emissions: talk to Topol",
-    "fra": "Émissions psi intermittentes : parler à Topol.",
-    "ger": "Unregelmäßige Psi-Emissionen: Mit Topol reden",
-    "ita": "Psico-emissioni intermittenti: parla con Topol",
-    "pol": "Okresowe emisje psioniczne: porozmawiaj z Topolem",
-    "rus": "Переменное пси-излучение: поговорить с Тополем",
-    "spa": "Emisiones psíquicas intermitentes: habla con Topol",
-    "ukr": "Перемінне псі-випромінювання: поговорити з Тополею"
+  "jup_b25_revenge_senya_name": {
+    "eng": "Retribution: avenge Splinter",
+    "fra": "Châtiment : venger Senya.",
+    "ger": "Vergeltung: Splitter rächen",
+    "ita": "Castigo: vendica Scheggia",
+    "pol": "Zemsta: pomścij Drzazgę",
+    "rus": "Возмездие: отомстить за Щепку",
+    "spa": "Retribución: venga al disidente",
+    "ukr": "Відплата: помститися за Тріску"
   },
-  "jup_b1_meet_squad_text": {
-    "eng": "Join Topol's squad to go to the tunnel with the intermittent psy-emissions. The agreement is that stalkers will guard the tunnel while you search for what the scientists want.",
-    "fra": "Rejoignez l'unité de Topol pour aller au tunnel d'où proviennent les émissions psi intermittentes. Les stalkers surveilleront le tunnel pendant que vous ferez vos recherches pour les scientifiques.",
-    "ger": "Gehen Sie zusammen mit Topols Trupp zum Tunnel mit den unregelmäßigen Psi-Emissionen. Es wurde abgemacht, dass Stalker den Tunnel bewachen, während Sie nach dem suchen, was die Wissenschaftler wollen.",
-    "ita": "Unisciti alla squadra di Topol per esplorare la galleria con le psico-emissioni intermittenti. Gli stalker sorveglieranno la galleria mentre tu andrai in cerca di ciò che ti hanno chiesto gli scienziati.",
-    "pol": "Dołącz do drużyny Topola idącej do tunelu, w którym występują okresowe emisje psioniczne. Zgodnie z umową, stalkerzy będą ochraniać tunel, podczas gdy ty będziesz szukać tego, czego chcą naukowcy.",
-    "rus": "Присоединится к отряду Тополя, чтобы отправиться к туннелю с переменным пси-излучением. Как было оговорено, в процессе поисков нужного учёным образца сталкеры будут охранять туннель.",
-    "spa": "Acompaña al escuadrón de Topol al túnel de las emisiones psíquicas intermitentes. Los stalkers vigilarán el túnel mientras tú buscas lo que quieren los científicos.",
-    "ukr": "Приєднатися до загону Тополі, щоб відправитися до тунелю із перемінним псі-випромінюванням. Як було домовлено, у процесі пошуків потрібного вченим зразка сталкери охоронятимуть тунель."
+  "jup_b25_revenge_senya_text": {
+    "eng": "Find whoever left Splinter to die in an anomaly, having taken the artifact and left. Unfortunately, Splinter didn’t manage to name the villain, so all that’s known about him is that he is a member of Freedom.",
+    "fra": "Trouvez celui qui a laissé Senya mourir dans une anomalie après s'être emparé de son artefact. Malheureusement, Senya est mort avant de pouvoir vous donner un nom. Il a cependant précisé qu'il s'agissait d'un membre de la Liberté.",
+    "ger": "Finden Sie heraus, wer Splitter in einer Anomalie zurückgelassen und sich mit seinem Artefakt aus dem Staub gemacht hat. Leider konnte Splitter den Namen des Übeltäters nicht mehr verraten, daher ist über ihn nur bekannt, dass er ein Freiheitler ist.",
+    "ita": "Scopri chi ha lasciato morire Scheggia, scappando dopo aver preso il manufatto. Purtroppo, Scheggia è morto prima di poter dire il suo nome, l'unica cosa che si sa è che era un membro della Freedom.",
+    "pol": "Dowiedz się, kto porzucił Drzazgę na śmierć w anomalii, zabrał artefakt i odszedł. Niestety, Drzazga nie zdołał powiedzieć, kto to był. Wiadomo tylko, że jest członkiem Wolności.",
+    "rus": "Отыскать того, кто бросил Щепку умирать в аномалии, а сам забрал артефакт и ушёл. К сожалению, Щепка не успел сказать, как звали того сталкера - известно только, что он из «свободовцев».",
+    "spa": "Encuentra a quien dejó morir al disidente en la anomalía y después se marchó con su artefacto. Por desgracia, el disidente no logró decir de quién se trataba, solo se sabe que pertenece a Libertad.",
+    "ukr": "Відшукати того, хто кинув Тріску помирати в аномалії, а сам забрав артефакт і пішов. На жаль, Тріска не встиг сказати, як звали того сталкера - відомо лише, що він зі «свободівців»."
+  },
+  "jup_b25_senya_accuse_flint_text": {
+    "eng": "Flint, AKA Magpie, is a sneaky son of a bitch. You should expose him to the stalkers at Zaton or other factions - that would be revenge of the highest order.",
+    "fra": "Flint, aussi appelé la Pie, est une ordure de premier ordre. Vous devriez le dénoncer aux stalkers de Zaton ou aux autres factions. Ce serait une douce vengeance.",
+    "ger": "Flint, auch bekannt unter dem Namen Magpie, ist ein hinterhältiger Scheißkerl. Sie sollten die Stalker in Zaton oder die anderen Fraktionen über ihn aufklären. Das wäre die perfekte Rache.",
+    "ita": "Flint, noto anche come Magpie, è un vile bastardo. Devi mettere in guardia gli stalker di Zaton o le altre fazioni. Sarebbe una vendetta con i fiocchi.",
+    "pol": "Flint, znany też jako Sroka, to podstępny sukinsyn. Musisz go zdemaskować przed stalkerami na Zatonie i przed innymi frakcjami - to będzie najlepsza zemsta.",
+    "rus": "Флинт, он же Сорока, оказался большим прохвостом. Нужно рассказать об этом сталкерам на Затоне или представителям группировок: в данных обстоятельствах это, пожалуй, лучший выбор.",
+    "spa": "Pedernal, alias Urraca, es un cabrón escurridizo. Debes revelar su paradero a los stalkers de Zaton o a otras facciones; sería una buena venganza.",
+    "ukr": "Виявляється, Флінт, він же Сорока, - відомий пройдисвіт. Потрібно розповісти про це сталкерам на Затоні або представникам угруповань: у подібних обставинах це, мабуть, найкращий вибір."
+  },
+  "jup_b32_get_scanners_task_name": {
+    "eng": "Anomaly research: get scanners from the technician",
+    "fra": "Recherche d'anomalies : récupérer les détecteurs auprès du technicien.",
+    "ger": "Anomalieforschung: Scanner vom Techniker besorgen",
+    "ita": "Ricerca sulle anomalie: ottieni gli scanner dal tecnico",
+    "pol": "Badania nad anomaliami: odbierz skanery od technika",
+    "rus": "Исследование аномалий: получить у техника сканеры",
+    "spa": "Investigación de anomalías: consigue los escáneres del técnico",
+    "ukr": "Дослідження аномалій: одержати в техніка сканери"
+  },
+  "jup_b32_get_scanners_task_text": {
+    "eng": "Get scanners from Novikov. Hermann wants to collect artifact formation statistics and the scanners must be placed in the center of several anomalies for this purpose.",
+    "fra": "Récupérez les détecteurs auprès de Novikov. Hermann souhaite obtenir des statistiques sur la formation des artefacts et pour cela, les détecteurs doivent être placés au centre de différentes anomalies.",
+    "ger": "Besorgen Sie sich Scanner von Nowikow. Hermann möchte Daten über Artefaktformationen sammeln und die Scanner müssen dafür in den Zentren verschiedener Anomalien aufgestellt werden.",
+    "ita": "Ottieni gli scanner da Novikov. Hermann vuole raccogliere dati sulla formazione dei manufatti, e per questo è necessario posizionare gli scanner al centro di varie anomalie.",
+    "pol": "Odbierz skanery od Nowikowa. Herman chce zebrać dane statystyczne na temat tworzenia się artefaktów. Żeby mógł to zrobić, trzeba umieścić skanery w środku kilku anomalii.",
+    "rus": "Получить у Новикова сканеры, которые нужно разместить в аномалиях. Герман хочет собрать статистику появления артефактов, поэтому размещать сканеры придётся прямо в центре некоторых аномалий.",
+    "spa": "Dile a Novikov que te entregue los escáneres. Hermann quiere obtener datos sobre la formación de anomalías, y para eso hay que colocar los escáneres en el centro de varias de ellas.",
+    "ukr": "Одержати в Новікова сканери, котрі потрібно розмістити в аномаліях. Герман хоче зібрати статистику появи артефактів, тому розміщувати сканери доведеться прямо в центрі деяких аномалій."
+  },
+  "jup_b32_task_name": {
+    "eng": "Anomaly research: place the scanner in the anomaly",
+    "fra": "Recherche d'anomalies : placer le détecteur au cœur de l'anomalie.",
+    "ger": "Anomalieforschung: Scanner in der Anomalie platzieren",
+    "ita": "Ricerca sulle anomalie: posiziona lo scanner nell'anomalia",
+    "pol": "Badania nad anomaliami: umieść skaner w anomalii",
+    "rus": "Исследование аномалий: разместить сканер в аномалии",
+    "spa": "Investigación de anomalías: coloca el escáner en la anomalía",
+    "ukr": "Дослідження аномалій: розмістити сканер в аномалії"
+  },
+  "jup_b32_task_reward_name": {
+    "eng": "Anomaly research: collect your reward",
+    "fra": "Recherche d'anomalies : récupérer votre récompense.",
+    "ger": "Anomalieforschung: Belohnung abholen",
+    "ita": "Ricerca sulle anomalie: ottieni la tua ricompensa",
+    "pol": "Badania nad anomaliami: odbierz swoją nagrodę",
+    "rus": "Исследование аномалий: получить награду",
+    "spa": "Investigación de anomalías: cobra la recompensa",
+    "ukr": "Дослідження аномалій: отримати нагороду"
+  },
+  "jup_b32_task_reward_text": {
+    "eng": "Collect the reward promised to you for placing scanners in anomalies. Now that the scanners are in position, Hermann can begin to collect artifact formation data.",
+    "fra": "Récupérez la récompense qui vous a été promise si vous parveniez à placer les détecteurs au cœur des anomalies. Hermann peut à présent commencer à récupérer des données sur la formation d'artefacts.",
+    "ger": "Holen Sie sich Ihre Belohnung dafür ab, dass Sie die Scanner in den Anomalien aufgestellt haben. Jetzt kann Hermann seine Daten über Artefaktformationen sammeln.",
+    "ita": "Ottieni la ricompensa che ti spetta per aver posizionato gli scanner nelle anomalie. Ora che gli scanner sono in posizione, Hermann può iniziare a raccogliere dati sulla formazione dei manufatti.",
+    "pol": "Odbierz nagrodę obiecaną ci za umieszczenie skanerów w anomaliach. Teraz, gdy skanery są już na miejscach, Herman może zacząć zbierać dane na temat tworzenia się artefaktów.",
+    "rus": "Получить обещанную награду за размещение сканеров в аномалии. Теперь, когда сканеры размещены, Герман может начать сбор статистики появления артефактов.",
+    "spa": "Cobra la recompensa que te prometieron por colocar escáneres en las anomalías. Ahora que están en posición, Hermann podrá recabar los datos que quería.",
+    "ukr": "Отримати обіцяну нагороду за розміщення сканерів в аномалії. Тепер, коли сканери розміщено, Герман може розпочати збір статистики появи артефактів."
+  },
+  "jup_b32_task_text": {
+    "eng": "Place the scanner in the center of the anomaly. Hermann wants to collect artifact formation statistics and the scanners must be placed in the center of several anomalies for this purpose.",
+    "fra": "Placez le détecteur au cœur de l'anomalie. Hermann souhaite récupérer des statistiques sur la formation des artefacts et pour cela, les détecteurs doivent être placés au centre de différentes anomalies.",
+    "ger": "Stellen Sie den Scanner im Zentrum der Anomalie auf. Hermann möchte Daten über Artefaktformationen sammeln und die Scanner müssen dafür in den Zentren verschiedener Anomalien aufgestellt werden.",
+    "ita": "Posiziona lo scanner al centro dell'anomalia. Hermann vuole raccogliere dati sulla formazione dei manufatti, e per questo è necessario posizionare gli scanner al centro di varie anomalie.",
+    "pol": "Umieść skaner w środku anomalii. Herman chce zebrać dane statystyczne na temat tworzenia się artefaktów. Żeby mógł to zrobić, trzeba umieścić skanery w środku kilku anomalii.",
+    "rus": "Установить сканер в центре аномалии. Герман хочет собрать статистику появления артефактов, для чего сканеры надо разместить в центре нескольких аномалий.",
+    "spa": "Coloca el escáner en el centro de la anomalía. Hermann quiere obtener datos sobre la formación de anomalías, y para eso hay que colocar los escáneres en el centro de varias de ellas.",
+    "ukr": "Встановити сканер у центрі аномалії. Герман хоче зібрати статистику появи артефактів, тому сканери треба розмістити у центрах кількох аномалій."
+  },
+  "jup_b43_bring_fuzz_kolobok_name": {
+    "eng": "A contract with the scientists: bring Garry the Kolobok artifact",
+    "fra": "Un contrat avec les scientifiques : apporter l'artefact Kolobok à Garry.",
+    "ger": "Ein Vertrag mit den Wissenschaftlern: Gari das Kolobok-Artefakt bringen",
+    "ita": "Un contratto con gli scienziati: porta il manufatto Kolobok a Garry",
+    "pol": "Kontrakt z naukowcami: przynieś Garriemu artefakt zwany Kulebiakem",
+    "rus": "Контракт с учёными: принести Гарику артефакт «Колобок»",
+    "spa": "Contrato con los científicos: lleva el artefacto Kolobok a Garry",
+    "ukr": "Контракт з ученими: принести Гарикові артефакт «Колобок»"
+  },
+  "jup_b43_bring_fuzz_kolobok_text": {
+    "eng": "Garry needs the Kolobok artifact in order to complete his contract with the scientists. Bring him this artifact.",
+    "fra": "Garry a besoin de l'artefact Kolobok pour remplir les conditions de son contrat avec les scientifiques. Apportez-lui cet artefact.",
+    "ger": "Gari braucht das Kolobok-Artefakt, um seinen Vertrag mit den Wissenschaftlern zu erfüllen. Besorgen Sie ihm dieses Artefakt.",
+    "ita": "Garry ha bisogno del manufatto Kolobok per onorare il suo contratto con gli scienziati. Portagli questo manufatto.",
+    "pol": "Garri potrzebuje artefaktu zwanego Kulebiakiem, aby wypełnić swój kontrakt z naukowcami. Przynieś mu ten artefakt.",
+    "rus": "Гарик хотел бы завершить контракт с учёными, но для этого ему нужен артефакт «Колобок». Необходимо принести ему данный артефакт.",
+    "spa": "Garry necesita el artefacto Kolobok para cumplir su contrato con los científicos. Llévaselo.",
+    "ukr": "Гарик хотів би завершити контракт із ученими, але для цього йому потрібен артефакт «Колобок». Необхідно принести йому цей артефакт."
+  },
+  "jup_b43_bring_mincer_meat_name": {
+    "eng": "A contract with the scientists: bring Garry the Meat Chunk artifact",
+    "fra": "Un contrat avec les scientifiques : apporter l'artefact Morceau de viande à Garry.",
+    "ger": "Ein Vertrag mit den Wissenschaftlern: Gari das Fleischklumpen-Artefakt bringen",
+    "ita": "Un contratto con gli scienziati: porta il manufatto Pezzo di carne a Garry",
+    "pol": "Kontrakt z naukowcami: przynieś Garriemu artefakt zwany Kotletem",
+    "rus": "Контракт с учёными: принести Гарику артефакт «Ломоть мяса»",
+    "spa": "Contrato con los científicos: lleva el artefacto Trozo de carne a Garry",
+    "ukr": "Контракт з ученими: принести Гарикові артефакт «Скиба м'яса»"
+  },
+  "jup_b43_bring_mincer_meat_text": {
+    "eng": "Garry needs the Meat Chunk artifact in order to complete his contract with the scientists. Bring him this artifact.",
+    "fra": "Garry a besoin de l'artefact Morceau de viande pour remplir les conditions de son contrat avec les scientifiques. Apportez-lui cet artefact.",
+    "ger": "Gari braucht das Fleischklumpen-Artefakt, um seinen Vertrag mit den Wissenschaftlern zu erfüllen. Besorgen Sie ihm dieses Artefakt.",
+    "ita": "Garry ha bisogno del manufatto Pezzo di carne per onorare il suo contratto con gli scienziati. Portagli questo manufatto.",
+    "pol": "Garri potrzebuje artefaktu zwanego Kotletem, aby wypełnić swój kontrakt z naukowcami. Przynieś mu ten artefakt.",
+    "rus": "Гарик хотел бы завершить контракт с учёными, но для этого ему нужен артефакт «Ломоть мяса». Необходимо принести ему данный артефакт.",
+    "spa": "Garry necesita el artefacto Trozo de carne para cumplir su contrato con los científicos. Llévaselo.",
+    "ukr": "Гарик хотів би завершити контракт із ученими, але для цього йому потрібен артефакт «Скиба м'яса». Необхідно принести йому цей артефакт."
+  },
+  "jup_b43_contract_started_name": {
+    "eng": "A contract with the scientists: bring Garry the Meat Chunk and Kolobok artifacts",
+    "fra": "Un contrat avec les scientifiques : apporter les artefacts Morceau de viande et Kolobok à Garry.",
+    "ger": "Ein Vertrag mit den Wissenschaftlern: Gari das Kolobok- und das Fleischklumpen-Artefakt bringen",
+    "ita": "Un contratto con gli scienziati: porta i manufatti Kolobok e Pezzo di carne a Garry",
+    "pol": "Kontrakt z naukowcami: przynieś Garriemu artefakty Kotlet i Kulebiak",
+    "rus": "Контракт с учёными: принести Гарику артефакты «Ломоть мяса» и «Колобок»",
+    "spa": "Contrato con los científicos: lleva los artefactos Trozo de carne y Kolobok a Garry",
+    "ukr": "Контракт з ученими: принести Гарикові артефакти «Скиба м'яса» та «Колобок»"
+  },
+  "jup_b43_contract_started_text": {
+    "eng": "Garry needs the Meat Chunk and Kolobok artifacts in order to complete his contract with the scientists. Bring him these artifacts.",
+    "fra": "Garry a besoin des artefacts Morceau de viande et Kolobok pour remplir les conditions de son contrat avec les scientifiques. Apportez-lui ces artefacts.",
+    "ger": "Gari braucht das Kolobok- und das Fleischklumpen-Artefakt, um seinen Vertrag mit den Wissenschaftlern zu erfüllen. Besorgen Sie ihm diese Artefakte.",
+    "ita": "Garry ha bisogno dei manufatti Kolobok e Pezzo di carne per onorare il suo contratto con gli scienziati. Portagli questi manufatti.",
+    "pol": "Garriemu potrzebne są dwa artefakty, Kotlet i Kulebiak, aby mógł wypełnić swój kontrakt z naukowcami. Przynieś mu te artefakty.",
+    "rus": "Гарик хотел бы завершить контракт с учёными, но для этого ему нужны артефакты «Ломоть мяса» и «Колобок». Необходимо принести ему данные артефакты.",
+    "spa": "Garry necesita los artefactos Trozo de carne y Kolobok para cumplir su contrato con los científicos. Llévaselos.",
+    "ukr": "Гарик хотів би завершити контракт з ученими, але для цього йому потрібні артефакти «Скиба м'яса» та «Колобок». Необхідно принести йому ці артефакти."
+  },
+  "jup_b43_thanks_for_2_artifacts_name": {
+    "eng": "A contract with the scientists: artifacts delivered",
+    "fra": "Un contrat avec les scientifiques : les artefacts ont été livrés.",
+    "ger": "Ein Vertrag mit den Wissenschaftlern: Artefakte geliefert",
+    "ita": "Un contratto con gli scienziati: manufatti consegnati",
+    "pol": "Kontrakt z naukowcami: dostarczono artefakty",
+    "rus": "Контракт с учёными: артефакты доставлены",
+    "spa": "Contrato con los científicos: artefactos entregados",
+    "ukr": "Контракт з ученими: артефакти доставлені"
+  },
+  "jup_b43_thanks_for_2_artifacts_text": {
+    "eng": "Garry has both artifacts and his contract is complete.",
+    "fra": "Garry est en possession des deux artefacts et a honoré son contrat.",
+    "ger": "Gari hat beide Artefakte erhalten und damit seinen Vertrag erfüllt.",
+    "ita": "Garry ha ottenuto entrambi i manufatti, onorando il suo contratto.",
+    "pol": "Garri ma oba artefakty i jego kontrakt został wypełniony.",
+    "rus": "Гарик получил оба артефакта. Его контракт завершён.",
+    "spa": "Garry tiene ambos artefactos; su contrato ha sido cumplido.",
+    "ukr": "Гарик одержав обидва артефакти. Його контракт завершено."
+  },
+  "jup_b46_duty_founder_pda_name": {
+    "eng": "Duty history: give the Duty founder's PDA to interested parties",
+    "fra": "L'histoire du Devoir : remettre le PDA du fondateur du Devoir aux personnes intéressées.",
+    "ger": "Wächtergeschichte: PDA des Wächtergründers an Interessenten geben",
+    "ita": "Storia della Duty: consegna il PDA del fondatore della Duty a un potenziale interessato",
+    "pol": "Historia Powinności: przekaż PDA założyciela Powinności zainteresowanym",
+    "rus": "История «Долга»: передать КПК основателя «Долга» заинтересованным лицам",
+    "spa": "Historia de Deber: dale la PDA del fundador de Deber a quien pueda interesar",
+    "ukr": "Історія «Долгу»: передати КПК засновника «Долгу» зацікавленим особам"
+  },
+  "jup_b46_duty_founder_pda_text": {
+    "eng": "You found the personal PDA of the founder of Duty, who died in the anomaly. You should get this PDA to someone who would be interested in the faction leader's last moments.",
+    "fra": "Vous avez trouvé le PDA du fondateur du Devoir, mort dans une anomalie. Vous devriez le remettre à une personne intéressée par les derniers instants du chef de cette faction.",
+    "ger": "Sie haben den PDA des Gründers der Wächter gefunden, der in einer Anomalie ums Leben gekommen war. Sie sollten den PDA jemandem geben, der an den letzten Momenten im Leben des Anführers der Wächter interessiert sein könnte.",
+    "ita": "Hai trovato il PDA personale del fondatore della Duty, morto in un'anomalia. Consegnalo a qualcuno che potrebbe essere interessato agli ultimi istanti di vita del leader della fazione.",
+    "pol": "Udało ci się znaleźć PDA założyciela Powinności, który zginął w anomalii. Zabierz go do kogoś, kto byłby zainteresowany ostatnimi chwilami życia lidera frakcji.",
+    "rus": "На теле основателя «Долга», погибшего в аномалии, был найден личный КПК. Необходимо передать это устройство тем, кого интересуют последние минуты жизни легендарного основателя группировки.",
+    "spa": "Has encontrado la PDA personal del fundador de Deber, que murió en la anomalía. Deberías dársela a quien puedan interesar los últimos instantes del líder de la facción.",
+    "ukr": "На тілі засновника «Долгу», який загинув в аномалії, було знайдено особистий КПК. Необхідно передати цей пристрій тим, кого цікавлять останні хвилини життя легендарного засновника угруповання."
+  },
+  "jup_b46_spatial_bubble_name": {
+    "eng": "Anomalous activity: investigate the area using an improved detector",
+    "fra": "Activité anormale : examiner le secteur à l'aide d'un détecteur amélioré.",
+    "ger": "Anomale Aktivität: Das Gebiet mit einem verbesserten Detektor untersuchen",
+    "ita": "Attività anomala: perlustra l'area usando un rilevatore migliorato",
+    "pol": "Aktywność anomalii: zbadaj teren używając ulepszonego detektora",
+    "rus": "Аномальная активность: просканировать местность улучшенным детектором",
+    "spa": "Actividad anómala: investiga el lugar usando un detector mejorado",
+    "ukr": "Аномальна активність: просканирувати місцевість поліпшеним детектором"
+  },
+  "jup_b46_spatial_bubble_text": {
+    "eng": "Scientists' scanners have registered unusual activity north of the bunker. Investigate the area using an improved detector.",
+    "fra": "Les détecteurs des scientifiques ont enregistré une activité inhabituelle au nord du bunker. Examinez le secteur à l'aide d'un détecteur amélioré.",
+    "ger": "Die Scanner der Wissenschaftler haben nördlich des Bunkers ungewöhnliche Aktivitäten registriert. Untersuchen Sie das Gebiet mit einem verbesserten Detektor.",
+    "ita": "Gli scanner degli scienziati hanno registrato un'insolita attività a nord del bunker. Perlustra l'area usando un rilevatore migliorato.",
+    "pol": "Skanery naukowców zarejestrowały nietypową aktywność na północ od bunkra. Zbadaj ten teren używając ulepszonego detektora.",
+    "rus": "Сканеры учёных зарегистрировали аномальную активность к северу от бункера. Необходимо исследовать местность при помощи совершенного детектора.",
+    "spa": "Los escáneres de los científicos han captado una actividad inusual al norte del búnker. Investiga esa zona usando un detector mejorado.",
+    "ukr": "Сканери вчених зареєстрували аномальну активність на північ від бункера. Необхідно дослідити місцевість за допомогою довершеного детектора."
+  },
+  "jup_b47_bunker_guards_01_name": {
+    "eng": "Guarding the scientists: find reliable people",
+    "fra": "Protection des scientifiques : trouver des personnes fiables.",
+    "ger": "Schutz der Wissenschaftler: Verlässliche Wachen finden",
+    "ita": "Proteggere gli scienziati: trova persone affidabili",
+    "pol": "Ochrona naukowców: znajdź wiarygodnych ludzi",
+    "rus": "Охрана учёных: найти надёжных людей",
+    "spa": "Proteger a los científicos: encuentra gente de confianza",
+    "ukr": "Охорона вчених: знайти надійних людей"
+  },
+  "jup_b47_bunker_guards_01_text": {
+    "eng": "The scientists' bunker is unprotected. You must find reliable people to guard it.",
+    "fra": "Le bunker des scientifiques est vulnérable. Vous devez trouver des hommes dignes de confiance pour le protéger.",
+    "ger": "Der Bunker der Wissenschaftler wird nicht bewacht. Sie müssen verlässliche Wachen finden, die das übernehmen könnten.",
+    "ita": "Il bunker degli scienziati è indifeso. Trova delle persone affidabili che possano sorvegliarlo.",
+    "pol": "Bunkier naukowców jest niestrzeżony. Znajdź wiarygodnych ludzi do jego ochrony.",
+    "rus": "Бункер учёных остался без охраны. Необходимо подобрать им для охраны группу надёжных людей.",
+    "spa": "El búnker de los científicos está indefenso. Debes encontrar gente de confianza para protegerlo.",
+    "ukr": "Бункер учених залишився без охорони. Необхідно підібрати їм для охорони групу надійних людей."
+  },
+  "jup_b47_bunker_guards_02_name": {
+    "eng": "Guarding the scientists: return to Hermann for your reward",
+    "fra": "Protection des scientifiques : retourner voir Hermann pour obtenir la récompense.",
+    "ger": "Schutz der Wissenschaftler: Belohnung bei Hermann abholen",
+    "ita": "Proteggere gli scienziati: torna da Hermann per ricevere la tua ricompensa",
+    "pol": "Ochrona naukowców: wróć do Hermana po nagrodę",
+    "rus": "Охрана учёных: вернуться к Герману за наградой",
+    "spa": "Proteger a los científicos: regresa junto a Hermann para cobrar la recompensa",
+    "ukr": "Охорона вчених: повернутися до Германа по винагороду"
+  },
+  "jup_b47_bunker_guards_02_text": {
+    "eng": "You have found guards for the scientists' bunker. You should return to Hermann for the reward you're due.",
+    "fra": "Vous avez trouvé des gardes pour protéger le bunker des scientifiques. Retournez voir Hermann pour qu'il vous remette votre récompense.",
+    "ger": "Sie haben Wachen für den Bunker der Wissenschaftler gefunden und sollten nun zu Hermann zurückkehren, um Ihre verdiente Belohnung zu kassieren.",
+    "ita": "Hai trovato delle guardie per il bunker degli scienziati. Torna da Hermann per ricevere la ricompensa che ti spetta.",
+    "pol": "Udało ci się znaleźć strażników do bunkra naukowców. Wróć do Hermana po należną ci nagrodę.",
+    "rus": "Охрана для бункера учёных найдена. Необходимо вернуться к Герману за полагающимся вознаграждением.",
+    "spa": "Has encontrado guardias para el búnker de los científicos. Deberías regresar junto a Hermann para cobrar la recompensa merecida.",
+    "ukr": "Охорону для бункера вчених знайдено. Необхідно повернутися до Германа по належну винагороду."
+  },
+  "jup_b47_jupiter_products_01_name": {
+    "eng": "Last developments: find documents at the Jupiter plant",
+    "fra": "Derniers développements : trouver les documents dans l'usine de Jupiter.",
+    "ger": "Letzte Entwicklungen: Dokumente in der Jupiter-Anlage finden",
+    "ita": "Ultimi sviluppi: cerca documenti allo stabilimento Jupiter",
+    "pol": "Ostatnie zmiany: znajdź dokumenty w fabryce Jupiter",
+    "rus": "Последние разработки: найти документы на заводе «Юпитер»",
+    "spa": "Últimas innovaciones: encuentra los documentos en la central de Júpiter",
+    "ukr": "Останні розробки: знайти документи на заводі «Юпітер»"
+  },
+  "jup_b47_jupiter_products_01_text": {
+    "eng": "Hermann is interested in the Jupiter plant's last developments. Find the documents in the administrative section of the plant.",
+    "fra": "Hermann s'intéresse aux derniers développements de l'usine de Jupiter. Trouvez les documents correspondants dans les bureaux administratifs de l'usine.",
+    "ger": "Hermann interessiert sich für die letzten Entwicklungen in der Jupiter-Anlage. Finden Sie die Dokumente im Verwaltungsbereich der Anlage.",
+    "ita": "Hermann è interessato agli ultimi sviluppi riguardanti lo stabilimento Jupiter. Cerca dei documenti nella sezione amministrativa dello stabilimento.",
+    "pol": "Herman jest zainteresowany ostatnimi zmianami w fabryce Jupiter. Znajdź dokumenty w części administracyjnej zakładu.",
+    "rus": "Германа интересуют последние разработки завода «Юпитер». Необходимо найти документацию в административном корпусе завода.",
+    "spa": "Hermann está interesado en las últimas innovaciones de la central de Júpiter. Encuentra los documentos en la sección administrativa.",
+    "ukr": "Германа цікавлять останні розробки заводу «Юпітер». Необхідно знайти документацію в адміністративному корпусі заводу."
+  },
+  "jup_b47_jupiter_products_02_name": {
+    "eng": "Last developments: take the documents to Hermann",
+    "fra": "Derniers développements : rapporter les documents à Hermann.",
+    "ger": "Letzte Entwicklungen: Dokumente zu Hermann bringen",
+    "ita": "Ultimi sviluppi: porta i documenti a Hermann",
+    "pol": "Ostatnie zmiany: zanieś dokumenty Hermanowi",
+    "rus": "Последние разработки: отнести Герману документы",
+    "spa": "Últimas innovaciones: llévale los documentos a Hermann",
+    "ukr": "Останні розробки: віднести Германові документи"
+  },
+  "jup_b47_jupiter_products_02_text": {
+    "eng": "The documents you found indicate that all technical documentation was moved outside the plant. Although it's not much, you should convey this information to Hermann.",
+    "fra": "Les dossiers que vous avez trouvés indiquent que tous les documents techniques ont été transférés hors de l'usine. L'information n'est pas capitale, mais vous devriez tout de même la transmettre à Hermann.",
+    "ger": "Aus den Dokumenten, die Sie gefunden haben, geht hervor, dass die gesamte technische Dokumentation aus der Anlage geschafft wurde. Auch wenn das nicht gerade viel ist, sollten Sie Hermann davon in Kenntnis setzen.",
+    "ita": "I documenti che hai trovato indicano che l'intera documentazione tecnica è stata trasferita fuori dallo stabilimento. Non è molto, ma è meglio riferire tutto a Hermann.",
+    "pol": "Znalezione dokumenty wskazują, że cała dokumentacja techniczna została przeniesiona poza fabrykę. To niewiele, ale Herman powinien się o tym dowiedzieć.",
+    "rus": "В найденных документах сказано, что вся техническая документация была вывезена за пределы завода. Стоит передать Герману хотя бы эту информацию.",
+    "spa": "Los documentos que has encontrado indican que todos los registros técnicos han sido trasladados. Aunque no es mucho, deberías darle la información a Hermann.",
+    "ukr": "У знайдених документах сказано, що всю технічну документацію було вивезено за межі заводу. Варто передати Германові хоча б цю інформацію."
+  },
+  "jup_b47_jupiter_products_03_name": {
+    "eng": "Last developments: take the documents and Black's PDA to Hermann",
+    "fra": "Derniers développements : rapporter les documents et le PDA de Black à Hermann.",
+    "ger": "Letzte Entwicklungen: Dokumente und Blacks PDA zu Hermann bringen",
+    "ita": "Ultimi sviluppi: porta i documenti e il PDA di Black a Hermann",
+    "pol": "Ostatnie zmiany: zabierz dokumenty i PDA Czarnego do Hermana",
+    "rus": "Последние разработки: отнести Герману документы и КПК Чёрного",
+    "spa": "Últimas innovaciones: llévale los documentos y la PDA de Negro a Hermann",
+    "ukr": "Останні розробки: віднести Германові документи та КПК Чорного"
+  },
+  "jup_b47_jupiter_products_03_text": {
+    "eng": "A mercenary attack took place while you were searching for the documents. According to the PDA you found on Black, their leader, they were sent to prevent the scientists from looking for the documents. At the same time, the documents you found indicate that all technical documentation was moved outside the plant. You should convey this information to Hermann and show him Black's PDA.",
+    "fra": "Les mercenaires ont attaqué pendant que vous cherchiez les dossiers. Selon le PDA que vous avez trouvé sur Black, le chef de la bande, ils auraient été envoyés pour empêcher les scientifiques de mettre la main sur les documents. Mais vous avez également découvert dans les dossiers que vous avez trouvés que tous les documents techniques avaient été transférés hors de l'usine. Vous devriez transmettre cette information à Hermann et lui montrer le PDA de Black.",
+    "ger": "Während Ihrer Suche nach den Dokumenten kam es zu einem Angriff durch Söldner. Laut dem PDA, den Sie bei ihrem Anführer Black gefunden haben, hatten sie den Auftrag, die Wissenschaftler daran zu hindern, nach den Dokumenten zu suchen. Darüber hinaus geht aus den Dokumenten, die Sie gefunden haben, hervor, dass die gesamte technische Dokumentation aus der Anlage geschafft wurde. Sie sollten Hermann darüber in Kenntnis setzen und ihm zudem Blacks PDA zeigen.",
+    "ita": "Mentre cercavi i documenti, i mercenari hanno sferrato un attacco. Secondo il PDA che hai trovato addosso a Black, il loro leader, sono stati inviati per impedire agli scienziati di cercare i documenti. Allo stesso tempo, i documenti che hai trovato indicano che l'intera documentazione tecnica è stata trasferita fuori dallo stabilimento. Riferisci tutto a Hermann e mostragli il PDA di Black.",
+    "pol": "Podczas twojego szperania w dokumentach, najemnicy przypuścili atak. Według PDA znalezionego przy Czarnym, ich liderze, zostali wysłani, by uniemożliwić naukowcom poszukiwanie dokumentów. Znalezione dokumenty wskazują, że cała dokumentacja techniczna została przeniesiona poza fabrykę. Przekaż tę informację Hermanowi i pokaż mu PDA Czarnego.",
+    "rus": "Во время поиска документации произошло нападение наёмников. Судя по КПК их лидера Чёрного, они должны были пресечь поиск документации учёными. При этом в найденных документах указано, что вся техническая документация была вывезена за пределы завода. Желательно передать Герману эту информацию вкупе с КПК Чёрного.",
+    "spa": "Unos mercenarios nos atacaron mientras buscabas los documentos. Según la PDA que le cogiste a Negro, su líder, fueron contratados para evitar que los científicos consiguieran esos documentos. Por otro lado, los datos que has obtenido indican que los registros técnicos fueron trasladados fuera de la central. Deberías comunicárselo a Hermann y enseñarle la PDA de Negro.",
+    "ukr": "Під час пошуку документації стався напад найманців. Судячи з КПК їхнього лідера Чорного, вони мали припинити пошук документації вченими. При цьому в знайдених документах зазначено, що всю технічну документацію було вивезено за межі заводу. Бажано передати Германові цю інформацію вкупі з КПК Чорного."
   },
   "jup_b200_tech_materials_brought_all_text": {
     "eng": "You should take all the radio technical materials you found to Nitro.",
@@ -1288,726 +2008,6 @@
     "rus": "Путепровод «Припять-1» был заполнен углекислым газом с неизвестной приместью. Необходимо сообщить Вано, что для преодоления путепровода понадобится костюм с замкнутой системой дыхания.",
     "spa": "El paso subterráneo Pripyat 1 está inundado de dióxido de carbono mezclado con una sustancia desconocida. Debes decirle a Vano que necesitará un traje con un módulo de respiración de ciclo cerrado para pasar.",
     "ukr": "Шляхопровід «Прип'ять-1» було заповнено вуглекислим газом із невідомої домішкою. Необхідно повідомити Вано, що для подолання шляхопроводу знадобиться костюм із замкнутою системою дихання."
-  },
-  "jup_b25_accuse_flint_end_text": {
-    "eng": "Flint, AKA Magpie, is a sneaky son of a bitch. You should expose him to the stalkers at Zaton or other factions. This will teach him a good lesson.",
-    "fra": "Flint, aussi appelé la Pie, est une ordure de premier ordre. Vous devriez le dénoncer aux stalkers de Zaton ou aux autres factions. Ça lui donnera une bonne leçon.",
-    "ger": "Flint, auch bekannt unter dem Namen Magpie, ist ein hinterhältiger Scheißkerl. Sie sollten die Stalker in Zaton oder die anderen Fraktionen über ihn aufklären. Das dürfte eine gute Lektion für ihn sein.",
-    "ita": "Flint, noto anche come Magpie, è un vile bastardo. Devi mettere in guardia gli stalker di Zaton o le altre fazioni, così avrà la lezione che si merita.",
-    "pol": "Flint, znany też jako Sroka, to podstępny sukinsyn. Musisz go zdemaskować przed stalkerami na Zatonie i przed innymi frakcjami. To będzie dla niego niezła nauczka.",
-    "rus": "Флинт, он же Сорока, оказался большим прохвостом. Нужно рассказать об этом сталкерам на Затоне или представителям группировок - это станет для Флинта хорошим уроком.",
-    "spa": "Pedernal, alias Urraca, es un cabrón escurridizo. Debes revelar su paradero a los stalkers de Zaton o a otras facciones. Así aprenderá.",
-    "ukr": "Флінт, він же Сорока, виявився великим пройдисвітом. Потрібно розповісти про це сталкерам на Затоні або угрупованням - то буде для нього гарна наука."
-  },
-  "jup_b25_accuse_flint_first_text": {
-    "eng": "Flint is showing off and talking about things that he hasn't even seen. It would be good to expose his deceit.",
-    "fra": "Flint se vante des exploits d'un autre. Il mérite qu'on dénonce ses mensonges.",
-    "ger": "Flint ist ganz klar ein Angeber und redet von Dingen, die er nicht einmal mit eigenen Augen gesehen hat. Es wäre nicht schlecht, seinen Schwindel auffliegen zu lassen.",
-    "ita": "Flint è solo un pallone gonfiato che parla di cose che non ha mai visto. Qualcuno dovrebbe smascherarlo pubblicamente.",
-    "pol": "Flint wyraźnie się popisuje i gada o rzeczach, których nawet nie widział na oczy. Dobrze byłoby ujawnić jego oszustwa.",
-    "rus": "Флинт явно перехваливает себя, рассказывая о том, чего даже не мог видеть. Надо бы вывести его на чистую воду.",
-    "spa": "Está claro que Pedernal está presumiendo de cosas que ni siquiera ha visto. Estaría bien dejarlo en evidencia delante de todos.",
-    "ukr": "Флінт явно перехвалює себе, розповідаючи про те, чого навіть не міг бачити. Непогано було б вивести його на слизьке."
-  },
-  "jup_b25_accuse_flint_name": {
-    "eng": "False claims: deal with Flint",
-    "fra": "Fausses déclarations : s'occuper de Flint.",
-    "ger": "Fremde Lorbeeren: Um Flint kümmern",
-    "ita": "Menzogne: sistema Flint",
-    "pol": "Fałszywe zasługi: rozpraw się z Flintem",
-    "rus": "Чужие заслуги: разобраться с Флинтом",
-    "spa": "Afirmaciones falsas: encárgate de Pedernal",
-    "ukr": "Чужі заслуги: розібратися із Флінтом"
-  },
-  "jup_b25_accuse_flint_second_text": {
-    "eng": "Flint is clearly taking credit for the achievements of others. He needs to learn to mind his tongue.",
-    "fra": "Flint se vante d'avoir accompli des exploits que d'autres lui ont racontés. Il doit apprendre à tenir sa langue...",
-    "ger": "Flint schmückt sich ganz offensichtlich mit fremden Lorbeeren. Er muss kapieren, wann er besser die Klappe halten sollte.",
-    "ita": "Flint si assume il merito di imprese che non ha mai compiuto. Deve imparare a tenere la bocca chiusa.",
-    "pol": "Flint przywłaszcza sobie zasługi innych. Trzeba go nauczyć, żeby uważał na to, co gada.",
-    "rus": "Флинт явно любит присваивать себе результаты чужих трудов. Надо бы заставить его попридержать язык.",
-    "spa": "Es evidente que Pedernal se está llevando el mérito por los logros de otros. Debe aprender a morderse la lengua.",
-    "ukr": "Флінт явно полюбляє привласнювати собі результати чужої праці. Непогано було б примусити його припнути свого язика."
-  },
-  "jup_b25_accuse_flint_third_text": {
-    "eng": "Flint's showboating is beyond belief - you should talk to him and get him to see your point.",
-    "fra": "Flint ne peut pas s'empêcher de se vanter. Essayez de le convaincre d'arrêter...",
-    "ger": "Flints Angeberei ist kaum zu fassen - Sie sollten mit ihm reden und ihn von Ihrem Standpunkt überzeugen.",
-    "ita": "Flint è uno spaccone di prima categoria. Parla con lui e cerca di farlo ragionare.",
-    "pol": "Szpanerstwo Flinta przekracza wszelkie wyobrażenie - porozmawiaj z nim i wyjaśnij mu wszystko tak, żeby zrozumiał o co chodzi.",
-    "rus": "Хвастовство Флинта переходит всякие границы. Нужно переговорить с ним, причём объяснить всё так, чтобы до него дошло.",
-    "spa": "Pedernal se está pasando con sus alardes; deberías hablar con él y hacerle ver tu opinión.",
-    "ukr": "Хвастощі Флінта переходять усі межі. Потрібно перемовитися з ним, причому так усе пояснити, щоб до нього направду дійшло."
-  },
-  "jup_b25_flint_and_senya_text": {
-    "eng": "It was Flint who left Splinter to die in the anomaly. Talk to him and find out why he did it.",
-    "fra": "C'est Flint qui a laissé Senya mourir dans une anomalie. Allez lui parler et découvrez les raisons de son geste.",
-    "ger": "Es war Flint, der Splitter in der Anomalie zurückgelassen hat. Reden Sie mit ihm und finden Sie heraus, warum er das getan hat.",
-    "ita": "Flint ha lasciato morire Scheggia nell'anomalia. Parla con lui e cerca di scoprirne il motivo.",
-    "pol": "To Flint pozwolił Drzazdze zginąć w anomalii. Porozmawiaj z nim i dowiedz się, dlaczego to zrobił.",
-    "rus": "Щепку бросил умирать в аномалии именно Флинт. Нужно поговорить с ним и узнать, почему он так поступил.",
-    "spa": "Fue Pedernal quien dejó morir al disidente en la anomalía. Habla con él y averigua por qué lo hizo.",
-    "ukr": "Тріску кинув помирати в аномалії саме Флінт. Потрібно поговорити із ним та взнати, чому він так повівся."
-  },
-  "jup_b25_revenge_senya_name": {
-    "eng": "Retribution: avenge Splinter",
-    "fra": "Châtiment : venger Senya.",
-    "ger": "Vergeltung: Splitter rächen",
-    "ita": "Castigo: vendica Scheggia",
-    "pol": "Zemsta: pomścij Drzazgę",
-    "rus": "Возмездие: отомстить за Щепку",
-    "spa": "Retribución: venga al disidente",
-    "ukr": "Відплата: помститися за Тріску"
-  },
-  "jup_b25_revenge_senya_text": {
-    "eng": "Find whoever left Splinter to die in an anomaly, having taken the artifact and left. Unfortunately, Splinter didn’t manage to name the villain, so all that’s known about him is that he is a member of Freedom.",
-    "fra": "Trouvez celui qui a laissé Senya mourir dans une anomalie après s'être emparé de son artefact. Malheureusement, Senya est mort avant de pouvoir vous donner un nom. Il a cependant précisé qu'il s'agissait d'un membre de la Liberté.",
-    "ger": "Finden Sie heraus, wer Splitter in einer Anomalie zurückgelassen und sich mit seinem Artefakt aus dem Staub gemacht hat. Leider konnte Splitter den Namen des Übeltäters nicht mehr verraten, daher ist über ihn nur bekannt, dass er ein Freiheitler ist.",
-    "ita": "Scopri chi ha lasciato morire Scheggia, scappando dopo aver preso il manufatto. Purtroppo, Scheggia è morto prima di poter dire il suo nome, l'unica cosa che si sa è che era un membro della Freedom.",
-    "pol": "Dowiedz się, kto porzucił Drzazgę na śmierć w anomalii, zabrał artefakt i odszedł. Niestety, Drzazga nie zdołał powiedzieć, kto to był. Wiadomo tylko, że jest członkiem Wolności.",
-    "rus": "Отыскать того, кто бросил Щепку умирать в аномалии, а сам забрал артефакт и ушёл. К сожалению, Щепка не успел сказать, как звали того сталкера - известно только, что он из «свободовцев».",
-    "spa": "Encuentra a quien dejó morir al disidente en la anomalía y después se marchó con su artefacto. Por desgracia, el disidente no logró decir de quién se trataba, solo se sabe que pertenece a Libertad.",
-    "ukr": "Відшукати того, хто кинув Тріску помирати в аномалії, а сам забрав артефакт і пішов. На жаль, Тріска не встиг сказати, як звали того сталкера - відомо лише, що він зі «свободівців»."
-  },
-  "jup_b25_senya_accuse_flint_text": {
-    "eng": "Flint, AKA Magpie, is a sneaky son of a bitch. You should expose him to the stalkers at Zaton or other factions - that would be revenge of the highest order.",
-    "fra": "Flint, aussi appelé la Pie, est une ordure de premier ordre. Vous devriez le dénoncer aux stalkers de Zaton ou aux autres factions. Ce serait une douce vengeance.",
-    "ger": "Flint, auch bekannt unter dem Namen Magpie, ist ein hinterhältiger Scheißkerl. Sie sollten die Stalker in Zaton oder die anderen Fraktionen über ihn aufklären. Das wäre die perfekte Rache.",
-    "ita": "Flint, noto anche come Magpie, è un vile bastardo. Devi mettere in guardia gli stalker di Zaton o le altre fazioni. Sarebbe una vendetta con i fiocchi.",
-    "pol": "Flint, znany też jako Sroka, to podstępny sukinsyn. Musisz go zdemaskować przed stalkerami na Zatonie i przed innymi frakcjami - to będzie najlepsza zemsta.",
-    "rus": "Флинт, он же Сорока, оказался большим прохвостом. Нужно рассказать об этом сталкерам на Затоне или представителям группировок: в данных обстоятельствах это, пожалуй, лучший выбор.",
-    "spa": "Pedernal, alias Urraca, es un cabrón escurridizo. Debes revelar su paradero a los stalkers de Zaton o a otras facciones; sería una buena venganza.",
-    "ukr": "Виявляється, Флінт, він же Сорока, - відомий пройдисвіт. Потрібно розповісти про це сталкерам на Затоні або представникам угруповань: у подібних обставинах це, мабуть, найкращий вибір."
-  },
-  "jup_b32_get_scanners_task_name": {
-    "eng": "Anomaly research: get scanners from the technician",
-    "fra": "Recherche d'anomalies : récupérer les détecteurs auprès du technicien.",
-    "ger": "Anomalieforschung: Scanner vom Techniker besorgen",
-    "ita": "Ricerca sulle anomalie: ottieni gli scanner dal tecnico",
-    "pol": "Badania nad anomaliami: odbierz skanery od technika",
-    "rus": "Исследование аномалий: получить у техника сканеры",
-    "spa": "Investigación de anomalías: consigue los escáneres del técnico",
-    "ukr": "Дослідження аномалій: одержати в техніка сканери"
-  },
-  "jup_b32_get_scanners_task_text": {
-    "eng": "Get scanners from Novikov. Hermann wants to collect artifact formation statistics and the scanners must be placed in the center of several anomalies for this purpose.",
-    "fra": "Récupérez les détecteurs auprès de Novikov. Hermann souhaite obtenir des statistiques sur la formation des artefacts et pour cela, les détecteurs doivent être placés au centre de différentes anomalies.",
-    "ger": "Besorgen Sie sich Scanner von Nowikow. Hermann möchte Daten über Artefaktformationen sammeln und die Scanner müssen dafür in den Zentren verschiedener Anomalien aufgestellt werden.",
-    "ita": "Ottieni gli scanner da Novikov. Hermann vuole raccogliere dati sulla formazione dei manufatti, e per questo è necessario posizionare gli scanner al centro di varie anomalie.",
-    "pol": "Odbierz skanery od Nowikowa. Herman chce zebrać dane statystyczne na temat tworzenia się artefaktów. Żeby mógł to zrobić, trzeba umieścić skanery w środku kilku anomalii.",
-    "rus": "Получить у Новикова сканеры, которые нужно разместить в аномалиях. Герман хочет собрать статистику появления артефактов, поэтому размещать сканеры придётся прямо в центре некоторых аномалий.",
-    "spa": "Dile a Novikov que te entregue los escáneres. Hermann quiere obtener datos sobre la formación de anomalías, y para eso hay que colocar los escáneres en el centro de varias de ellas.",
-    "ukr": "Одержати в Новікова сканери, котрі потрібно розмістити в аномаліях. Герман хоче зібрати статистику появи артефактів, тому розміщувати сканери доведеться прямо в центрі деяких аномалій."
-  },
-  "jup_b32_task_name": {
-    "eng": "Anomaly research: place the scanner in the anomaly",
-    "fra": "Recherche d'anomalies : placer le détecteur au cœur de l'anomalie.",
-    "ger": "Anomalieforschung: Scanner in der Anomalie platzieren",
-    "ita": "Ricerca sulle anomalie: posiziona lo scanner nell'anomalia",
-    "pol": "Badania nad anomaliami: umieść skaner w anomalii",
-    "rus": "Исследование аномалий: разместить сканер в аномалии",
-    "spa": "Investigación de anomalías: coloca el escáner en la anomalía",
-    "ukr": "Дослідження аномалій: розмістити сканер в аномалії"
-  },
-  "jup_b32_task_reward_name": {
-    "eng": "Anomaly research: collect your reward",
-    "fra": "Recherche d'anomalies : récupérer votre récompense.",
-    "ger": "Anomalieforschung: Belohnung abholen",
-    "ita": "Ricerca sulle anomalie: ottieni la tua ricompensa",
-    "pol": "Badania nad anomaliami: odbierz swoją nagrodę",
-    "rus": "Исследование аномалий: получить награду",
-    "spa": "Investigación de anomalías: cobra la recompensa",
-    "ukr": "Дослідження аномалій: отримати нагороду"
-  },
-  "jup_b32_task_reward_text": {
-    "eng": "Collect the reward promised to you for placing scanners in anomalies. Now that the scanners are in position, Hermann can begin to collect artifact formation data.",
-    "fra": "Récupérez la récompense qui vous a été promise si vous parveniez à placer les détecteurs au cœur des anomalies. Hermann peut à présent commencer à récupérer des données sur la formation d'artefacts.",
-    "ger": "Holen Sie sich Ihre Belohnung dafür ab, dass Sie die Scanner in den Anomalien aufgestellt haben. Jetzt kann Hermann seine Daten über Artefaktformationen sammeln.",
-    "ita": "Ottieni la ricompensa che ti spetta per aver posizionato gli scanner nelle anomalie. Ora che gli scanner sono in posizione, Hermann può iniziare a raccogliere dati sulla formazione dei manufatti.",
-    "pol": "Odbierz nagrodę obiecaną ci za umieszczenie skanerów w anomaliach. Teraz, gdy skanery są już na miejscach, Herman może zacząć zbierać dane na temat tworzenia się artefaktów.",
-    "rus": "Получить обещанную награду за размещение сканеров в аномалии. Теперь, когда сканеры размещены, Герман может начать сбор статистики появления артефактов.",
-    "spa": "Cobra la recompensa que te prometieron por colocar escáneres en las anomalías. Ahora que están en posición, Hermann podrá recabar los datos que quería.",
-    "ukr": "Отримати обіцяну нагороду за розміщення сканерів в аномалії. Тепер, коли сканери розміщено, Герман може розпочати збір статистики появи артефактів."
-  },
-  "jup_b32_task_text": {
-    "eng": "Place the scanner in the center of the anomaly. Hermann wants to collect artifact formation statistics and the scanners must be placed in the center of several anomalies for this purpose.",
-    "fra": "Placez le détecteur au cœur de l'anomalie. Hermann souhaite récupérer des statistiques sur la formation des artefacts et pour cela, les détecteurs doivent être placés au centre de différentes anomalies.",
-    "ger": "Stellen Sie den Scanner im Zentrum der Anomalie auf. Hermann möchte Daten über Artefaktformationen sammeln und die Scanner müssen dafür in den Zentren verschiedener Anomalien aufgestellt werden.",
-    "ita": "Posiziona lo scanner al centro dell'anomalia. Hermann vuole raccogliere dati sulla formazione dei manufatti, e per questo è necessario posizionare gli scanner al centro di varie anomalie.",
-    "pol": "Umieść skaner w środku anomalii. Herman chce zebrać dane statystyczne na temat tworzenia się artefaktów. Żeby mógł to zrobić, trzeba umieścić skanery w środku kilku anomalii.",
-    "rus": "Установить сканер в центре аномалии. Герман хочет собрать статистику появления артефактов, для чего сканеры надо разместить в центре нескольких аномалий.",
-    "spa": "Coloca el escáner en el centro de la anomalía. Hermann quiere obtener datos sobre la formación de anomalías, y para eso hay que colocar los escáneres en el centro de varias de ellas.",
-    "ukr": "Встановити сканер у центрі аномалії. Герман хоче зібрати статистику появи артефактів, тому сканери треба розмістити у центрах кількох аномалій."
-  },
-  "jup_b43_bring_fuzz_kolobok_name": {
-    "eng": "A contract with the scientists: bring Garry the Kolobok artifact",
-    "fra": "Un contrat avec les scientifiques : apporter l'artefact Kolobok à Garry.",
-    "ger": "Ein Vertrag mit den Wissenschaftlern: Gari das Kolobok-Artefakt bringen",
-    "ita": "Un contratto con gli scienziati: porta il manufatto Kolobok a Garry",
-    "pol": "Kontrakt z naukowcami: przynieś Garriemu artefakt zwany Kulebiakem",
-    "rus": "Контракт с учёными: принести Гарику артефакт «Колобок»",
-    "spa": "Contrato con los científicos: lleva el artefacto Kolobok a Garry",
-    "ukr": "Контракт з ученими: принести Гарикові артефакт «Колобок»"
-  },
-  "jup_b43_bring_fuzz_kolobok_text": {
-    "eng": "Garry needs the Kolobok artifact in order to complete his contract with the scientists. Bring him this artifact.",
-    "fra": "Garry a besoin de l'artefact Kolobok pour remplir les conditions de son contrat avec les scientifiques. Apportez-lui cet artefact.",
-    "ger": "Gari braucht das Kolobok-Artefakt, um seinen Vertrag mit den Wissenschaftlern zu erfüllen. Besorgen Sie ihm dieses Artefakt.",
-    "ita": "Garry ha bisogno del manufatto Kolobok per onorare il suo contratto con gli scienziati. Portagli questo manufatto.",
-    "pol": "Garri potrzebuje artefaktu zwanego Kulebiakiem, aby wypełnić swój kontrakt z naukowcami. Przynieś mu ten artefakt.",
-    "rus": "Гарик хотел бы завершить контракт с учёными, но для этого ему нужен артефакт «Колобок». Необходимо принести ему данный артефакт.",
-    "spa": "Garry necesita el artefacto Kolobok para cumplir su contrato con los científicos. Llévaselo.",
-    "ukr": "Гарик хотів би завершити контракт із ученими, але для цього йому потрібен артефакт «Колобок». Необхідно принести йому цей артефакт."
-  },
-  "jup_b43_bring_mincer_meat_name": {
-    "eng": "A contract with the scientists: bring Garry the Meat Chunk artifact",
-    "fra": "Un contrat avec les scientifiques : apporter l'artefact Morceau de viande à Garry.",
-    "ger": "Ein Vertrag mit den Wissenschaftlern: Gari das Fleischklumpen-Artefakt bringen",
-    "ita": "Un contratto con gli scienziati: porta il manufatto Pezzo di carne a Garry",
-    "pol": "Kontrakt z naukowcami: przynieś Garriemu artefakt zwany Kotletem",
-    "rus": "Контракт с учёными: принести Гарику артефакт «Ломоть мяса»",
-    "spa": "Contrato con los científicos: lleva el artefacto Trozo de carne a Garry",
-    "ukr": "Контракт з ученими: принести Гарикові артефакт «Скиба м'яса»"
-  },
-  "jup_b43_bring_mincer_meat_text": {
-    "eng": "Garry needs the Meat Chunk artifact in order to complete his contract with the scientists. Bring him this artifact.",
-    "fra": "Garry a besoin de l'artefact Morceau de viande pour remplir les conditions de son contrat avec les scientifiques. Apportez-lui cet artefact.",
-    "ger": "Gari braucht das Fleischklumpen-Artefakt, um seinen Vertrag mit den Wissenschaftlern zu erfüllen. Besorgen Sie ihm dieses Artefakt.",
-    "ita": "Garry ha bisogno del manufatto Pezzo di carne per onorare il suo contratto con gli scienziati. Portagli questo manufatto.",
-    "pol": "Garri potrzebuje artefaktu zwanego Kotletem, aby wypełnić swój kontrakt z naukowcami. Przynieś mu ten artefakt.",
-    "rus": "Гарик хотел бы завершить контракт с учёными, но для этого ему нужен артефакт «Ломоть мяса». Необходимо принести ему данный артефакт.",
-    "spa": "Garry necesita el artefacto Trozo de carne para cumplir su contrato con los científicos. Llévaselo.",
-    "ukr": "Гарик хотів би завершити контракт із ученими, але для цього йому потрібен артефакт «Скиба м'яса». Необхідно принести йому цей артефакт."
-  },
-  "jup_b43_contract_started_name": {
-    "eng": "A contract with the scientists: bring Garry the Meat Chunk and Kolobok artifacts",
-    "fra": "Un contrat avec les scientifiques : apporter les artefacts Morceau de viande et Kolobok à Garry.",
-    "ger": "Ein Vertrag mit den Wissenschaftlern: Gari das Kolobok- und das Fleischklumpen-Artefakt bringen",
-    "ita": "Un contratto con gli scienziati: porta i manufatti Kolobok e Pezzo di carne a Garry",
-    "pol": "Kontrakt z naukowcami: przynieś Garriemu artefakty Kotlet i Kulebiak",
-    "rus": "Контракт с учёными: принести Гарику артефакты «Ломоть мяса» и «Колобок»",
-    "spa": "Contrato con los científicos: lleva los artefactos Trozo de carne y Kolobok a Garry",
-    "ukr": "Контракт з ученими: принести Гарикові артефакти «Скиба м'яса» та «Колобок»"
-  },
-  "jup_b43_contract_started_text": {
-    "eng": "Garry needs the Meat Chunk and Kolobok artifacts in order to complete his contract with the scientists. Bring him these artifacts.",
-    "fra": "Garry a besoin des artefacts Morceau de viande et Kolobok pour remplir les conditions de son contrat avec les scientifiques. Apportez-lui ces artefacts.",
-    "ger": "Gari braucht das Kolobok- und das Fleischklumpen-Artefakt, um seinen Vertrag mit den Wissenschaftlern zu erfüllen. Besorgen Sie ihm diese Artefakte.",
-    "ita": "Garry ha bisogno dei manufatti Kolobok e Pezzo di carne per onorare il suo contratto con gli scienziati. Portagli questi manufatti.",
-    "pol": "Garriemu potrzebne są dwa artefakty, Kotlet i Kulebiak, aby mógł wypełnić swój kontrakt z naukowcami. Przynieś mu te artefakty.",
-    "rus": "Гарик хотел бы завершить контракт с учёными, но для этого ему нужны артефакты «Ломоть мяса» и «Колобок». Необходимо принести ему данные артефакты.",
-    "spa": "Garry necesita los artefactos Trozo de carne y Kolobok para cumplir su contrato con los científicos. Llévaselos.",
-    "ukr": "Гарик хотів би завершити контракт з ученими, але для цього йому потрібні артефакти «Скиба м'яса» та «Колобок». Необхідно принести йому ці артефакти."
-  },
-  "jup_b43_thanks_for_2_artifacts_name": {
-    "eng": "A contract with the scientists: artifacts delivered",
-    "fra": "Un contrat avec les scientifiques : les artefacts ont été livrés.",
-    "ger": "Ein Vertrag mit den Wissenschaftlern: Artefakte geliefert",
-    "ita": "Un contratto con gli scienziati: manufatti consegnati",
-    "pol": "Kontrakt z naukowcami: dostarczono artefakty",
-    "rus": "Контракт с учёными: артефакты доставлены",
-    "spa": "Contrato con los científicos: artefactos entregados",
-    "ukr": "Контракт з ученими: артефакти доставлені"
-  },
-  "jup_b43_thanks_for_2_artifacts_text": {
-    "eng": "Garry has both artifacts and his contract is complete.",
-    "fra": "Garry est en possession des deux artefacts et a honoré son contrat.",
-    "ger": "Gari hat beide Artefakte erhalten und damit seinen Vertrag erfüllt.",
-    "ita": "Garry ha ottenuto entrambi i manufatti, onorando il suo contratto.",
-    "pol": "Garri ma oba artefakty i jego kontrakt został wypełniony.",
-    "rus": "Гарик получил оба артефакта. Его контракт завершён.",
-    "spa": "Garry tiene ambos artefactos; su contrato ha sido cumplido.",
-    "ukr": "Гарик одержав обидва артефакти. Його контракт завершено."
-  },
-  "jup_b46_duty_founder_pda_name": {
-    "eng": "Duty history: give the Duty founder's PDA to interested parties",
-    "fra": "L'histoire du Devoir : remettre le PDA du fondateur du Devoir aux personnes intéressées.",
-    "ger": "Wächtergeschichte: PDA des Wächtergründers an Interessenten geben",
-    "ita": "Storia della Duty: consegna il PDA del fondatore della Duty a un potenziale interessato",
-    "pol": "Historia Powinności: przekaż PDA założyciela Powinności zainteresowanym",
-    "rus": "История «Долга»: передать КПК основателя «Долга» заинтересованным лицам",
-    "spa": "Historia de Deber: dale la PDA del fundador de Deber a quien pueda interesar",
-    "ukr": "Історія «Долгу»: передати КПК засновника «Долгу» зацікавленим особам"
-  },
-  "jup_b46_duty_founder_pda_text": {
-    "eng": "You found the personal PDA of the founder of Duty, who died in the anomaly. You should get this PDA to someone who would be interested in the faction leader's last moments.",
-    "fra": "Vous avez trouvé le PDA du fondateur du Devoir, mort dans une anomalie. Vous devriez le remettre à une personne intéressée par les derniers instants du chef de cette faction.",
-    "ger": "Sie haben den PDA des Gründers der Wächter gefunden, der in einer Anomalie ums Leben gekommen war. Sie sollten den PDA jemandem geben, der an den letzten Momenten im Leben des Anführers der Wächter interessiert sein könnte.",
-    "ita": "Hai trovato il PDA personale del fondatore della Duty, morto in un'anomalia. Consegnalo a qualcuno che potrebbe essere interessato agli ultimi istanti di vita del leader della fazione.",
-    "pol": "Udało ci się znaleźć PDA założyciela Powinności, który zginął w anomalii. Zabierz go do kogoś, kto byłby zainteresowany ostatnimi chwilami życia lidera frakcji.",
-    "rus": "На теле основателя «Долга», погибшего в аномалии, был найден личный КПК. Необходимо передать это устройство тем, кого интересуют последние минуты жизни легендарного основателя группировки.",
-    "spa": "Has encontrado la PDA personal del fundador de Deber, que murió en la anomalía. Deberías dársela a quien puedan interesar los últimos instantes del líder de la facción.",
-    "ukr": "На тілі засновника «Долгу», який загинув в аномалії, було знайдено особистий КПК. Необхідно передати цей пристрій тим, кого цікавлять останні хвилини життя легендарного засновника угруповання."
-  },
-  "jup_b46_spatial_bubble_name": {
-    "eng": "Anomalous activity: investigate the area using an improved detector",
-    "fra": "Activité anormale : examiner le secteur à l'aide d'un détecteur amélioré.",
-    "ger": "Anomale Aktivität: Das Gebiet mit einem verbesserten Detektor untersuchen",
-    "ita": "Attività anomala: perlustra l'area usando un rilevatore migliorato",
-    "pol": "Aktywność anomalii: zbadaj teren używając ulepszonego detektora",
-    "rus": "Аномальная активность: просканировать местность улучшенным детектором",
-    "spa": "Actividad anómala: investiga el lugar usando un detector mejorado",
-    "ukr": "Аномальна активність: просканирувати місцевість поліпшеним детектором"
-  },
-  "jup_b46_spatial_bubble_text": {
-    "eng": "Scientists' scanners have registered unusual activity north of the bunker. Investigate the area using an improved detector.",
-    "fra": "Les détecteurs des scientifiques ont enregistré une activité inhabituelle au nord du bunker. Examinez le secteur à l'aide d'un détecteur amélioré.",
-    "ger": "Die Scanner der Wissenschaftler haben nördlich des Bunkers ungewöhnliche Aktivitäten registriert. Untersuchen Sie das Gebiet mit einem verbesserten Detektor.",
-    "ita": "Gli scanner degli scienziati hanno registrato un'insolita attività a nord del bunker. Perlustra l'area usando un rilevatore migliorato.",
-    "pol": "Skanery naukowców zarejestrowały nietypową aktywność na północ od bunkra. Zbadaj ten teren używając ulepszonego detektora.",
-    "rus": "Сканеры учёных зарегистрировали аномальную активность к северу от бункера. Необходимо исследовать местность при помощи совершенного детектора.",
-    "spa": "Los escáneres de los científicos han captado una actividad inusual al norte del búnker. Investiga esa zona usando un detector mejorado.",
-    "ukr": "Сканери вчених зареєстрували аномальну активність на північ від бункера. Необхідно дослідити місцевість за допомогою довершеного детектора."
-  },
-  "jup_b47_bunker_guards_01_name": {
-    "eng": "Guarding the scientists: find reliable people",
-    "fra": "Protection des scientifiques : trouver des personnes fiables.",
-    "ger": "Schutz der Wissenschaftler: Verlässliche Wachen finden",
-    "ita": "Proteggere gli scienziati: trova persone affidabili",
-    "pol": "Ochrona naukowców: znajdź wiarygodnych ludzi",
-    "rus": "Охрана учёных: найти надёжных людей",
-    "spa": "Proteger a los científicos: encuentra gente de confianza",
-    "ukr": "Охорона вчених: знайти надійних людей"
-  },
-  "jup_b47_bunker_guards_01_text": {
-    "eng": "The scientists' bunker is unprotected. You must find reliable people to guard it.",
-    "fra": "Le bunker des scientifiques est vulnérable. Vous devez trouver des hommes dignes de confiance pour le protéger.",
-    "ger": "Der Bunker der Wissenschaftler wird nicht bewacht. Sie müssen verlässliche Wachen finden, die das übernehmen könnten.",
-    "ita": "Il bunker degli scienziati è indifeso. Trova delle persone affidabili che possano sorvegliarlo.",
-    "pol": "Bunkier naukowców jest niestrzeżony. Znajdź wiarygodnych ludzi do jego ochrony.",
-    "rus": "Бункер учёных остался без охраны. Необходимо подобрать им для охраны группу надёжных людей.",
-    "spa": "El búnker de los científicos está indefenso. Debes encontrar gente de confianza para protegerlo.",
-    "ukr": "Бункер учених залишився без охорони. Необхідно підібрати їм для охорони групу надійних людей."
-  },
-  "jup_b47_bunker_guards_02_name": {
-    "eng": "Guarding the scientists: return to Hermann for your reward",
-    "fra": "Protection des scientifiques : retourner voir Hermann pour obtenir la récompense.",
-    "ger": "Schutz der Wissenschaftler: Belohnung bei Hermann abholen",
-    "ita": "Proteggere gli scienziati: torna da Hermann per ricevere la tua ricompensa",
-    "pol": "Ochrona naukowców: wróć do Hermana po nagrodę",
-    "rus": "Охрана учёных: вернуться к Герману за наградой",
-    "spa": "Proteger a los científicos: regresa junto a Hermann para cobrar la recompensa",
-    "ukr": "Охорона вчених: повернутися до Германа по винагороду"
-  },
-  "jup_b47_bunker_guards_02_text": {
-    "eng": "You have found guards for the scientists' bunker. You should return to Hermann for the reward you're due.",
-    "fra": "Vous avez trouvé des gardes pour protéger le bunker des scientifiques. Retournez voir Hermann pour qu'il vous remette votre récompense.",
-    "ger": "Sie haben Wachen für den Bunker der Wissenschaftler gefunden und sollten nun zu Hermann zurückkehren, um Ihre verdiente Belohnung zu kassieren.",
-    "ita": "Hai trovato delle guardie per il bunker degli scienziati. Torna da Hermann per ricevere la ricompensa che ti spetta.",
-    "pol": "Udało ci się znaleźć strażników do bunkra naukowców. Wróć do Hermana po należną ci nagrodę.",
-    "rus": "Охрана для бункера учёных найдена. Необходимо вернуться к Герману за полагающимся вознаграждением.",
-    "spa": "Has encontrado guardias para el búnker de los científicos. Deberías regresar junto a Hermann para cobrar la recompensa merecida.",
-    "ukr": "Охорону для бункера вчених знайдено. Необхідно повернутися до Германа по належну винагороду."
-  },
-  "jup_b47_jupiter_products_01_name": {
-    "eng": "Last developments: find documents at the Jupiter plant",
-    "fra": "Derniers développements : trouver les documents dans l'usine de Jupiter.",
-    "ger": "Letzte Entwicklungen: Dokumente in der Jupiter-Anlage finden",
-    "ita": "Ultimi sviluppi: cerca documenti allo stabilimento Jupiter",
-    "pol": "Ostatnie zmiany: znajdź dokumenty w fabryce Jupiter",
-    "rus": "Последние разработки: найти документы на заводе «Юпитер»",
-    "spa": "Últimas innovaciones: encuentra los documentos en la central de Júpiter",
-    "ukr": "Останні розробки: знайти документи на заводі «Юпітер»"
-  },
-  "jup_b47_jupiter_products_01_text": {
-    "eng": "Hermann is interested in the Jupiter plant's last developments. Find the documents in the administrative section of the plant.",
-    "fra": "Hermann s'intéresse aux derniers développements de l'usine de Jupiter. Trouvez les documents correspondants dans les bureaux administratifs de l'usine.",
-    "ger": "Hermann interessiert sich für die letzten Entwicklungen in der Jupiter-Anlage. Finden Sie die Dokumente im Verwaltungsbereich der Anlage.",
-    "ita": "Hermann è interessato agli ultimi sviluppi riguardanti lo stabilimento Jupiter. Cerca dei documenti nella sezione amministrativa dello stabilimento.",
-    "pol": "Herman jest zainteresowany ostatnimi zmianami w fabryce Jupiter. Znajdź dokumenty w części administracyjnej zakładu.",
-    "rus": "Германа интересуют последние разработки завода «Юпитер». Необходимо найти документацию в административном корпусе завода.",
-    "spa": "Hermann está interesado en las últimas innovaciones de la central de Júpiter. Encuentra los documentos en la sección administrativa.",
-    "ukr": "Германа цікавлять останні розробки заводу «Юпітер». Необхідно знайти документацію в адміністративному корпусі заводу."
-  },
-  "jup_b47_jupiter_products_02_name": {
-    "eng": "Last developments: take the documents to Hermann",
-    "fra": "Derniers développements : rapporter les documents à Hermann.",
-    "ger": "Letzte Entwicklungen: Dokumente zu Hermann bringen",
-    "ita": "Ultimi sviluppi: porta i documenti a Hermann",
-    "pol": "Ostatnie zmiany: zanieś dokumenty Hermanowi",
-    "rus": "Последние разработки: отнести Герману документы",
-    "spa": "Últimas innovaciones: llévale los documentos a Hermann",
-    "ukr": "Останні розробки: віднести Германові документи"
-  },
-  "jup_b47_jupiter_products_02_text": {
-    "eng": "The documents you found indicate that all technical documentation was moved outside the plant. Although it's not much, you should convey this information to Hermann.",
-    "fra": "Les dossiers que vous avez trouvés indiquent que tous les documents techniques ont été transférés hors de l'usine. L'information n'est pas capitale, mais vous devriez tout de même la transmettre à Hermann.",
-    "ger": "Aus den Dokumenten, die Sie gefunden haben, geht hervor, dass die gesamte technische Dokumentation aus der Anlage geschafft wurde. Auch wenn das nicht gerade viel ist, sollten Sie Hermann davon in Kenntnis setzen.",
-    "ita": "I documenti che hai trovato indicano che l'intera documentazione tecnica è stata trasferita fuori dallo stabilimento. Non è molto, ma è meglio riferire tutto a Hermann.",
-    "pol": "Znalezione dokumenty wskazują, że cała dokumentacja techniczna została przeniesiona poza fabrykę. To niewiele, ale Herman powinien się o tym dowiedzieć.",
-    "rus": "В найденных документах сказано, что вся техническая документация была вывезена за пределы завода. Стоит передать Герману хотя бы эту информацию.",
-    "spa": "Los documentos que has encontrado indican que todos los registros técnicos han sido trasladados. Aunque no es mucho, deberías darle la información a Hermann.",
-    "ukr": "У знайдених документах сказано, що всю технічну документацію було вивезено за межі заводу. Варто передати Германові хоча б цю інформацію."
-  },
-  "jup_b47_jupiter_products_03_name": {
-    "eng": "Last developments: take the documents and Black's PDA to Hermann",
-    "fra": "Derniers développements : rapporter les documents et le PDA de Black à Hermann.",
-    "ger": "Letzte Entwicklungen: Dokumente und Blacks PDA zu Hermann bringen",
-    "ita": "Ultimi sviluppi: porta i documenti e il PDA di Black a Hermann",
-    "pol": "Ostatnie zmiany: zabierz dokumenty i PDA Czarnego do Hermana",
-    "rus": "Последние разработки: отнести Герману документы и КПК Чёрного",
-    "spa": "Últimas innovaciones: llévale los documentos y la PDA de Negro a Hermann",
-    "ukr": "Останні розробки: віднести Германові документи та КПК Чорного"
-  },
-  "jup_b47_jupiter_products_03_text": {
-    "eng": "A mercenary attack took place while you were searching for the documents. According to the PDA you found on Black, their leader, they were sent to prevent the scientists from looking for the documents. At the same time, the documents you found indicate that all technical documentation was moved outside the plant. You should convey this information to Hermann and show him Black's PDA.",
-    "fra": "Les mercenaires ont attaqué pendant que vous cherchiez les dossiers. Selon le PDA que vous avez trouvé sur Black, le chef de la bande, ils auraient été envoyés pour empêcher les scientifiques de mettre la main sur les documents. Mais vous avez également découvert dans les dossiers que vous avez trouvés que tous les documents techniques avaient été transférés hors de l'usine. Vous devriez transmettre cette information à Hermann et lui montrer le PDA de Black.",
-    "ger": "Während Ihrer Suche nach den Dokumenten kam es zu einem Angriff durch Söldner. Laut dem PDA, den Sie bei ihrem Anführer Black gefunden haben, hatten sie den Auftrag, die Wissenschaftler daran zu hindern, nach den Dokumenten zu suchen. Darüber hinaus geht aus den Dokumenten, die Sie gefunden haben, hervor, dass die gesamte technische Dokumentation aus der Anlage geschafft wurde. Sie sollten Hermann darüber in Kenntnis setzen und ihm zudem Blacks PDA zeigen.",
-    "ita": "Mentre cercavi i documenti, i mercenari hanno sferrato un attacco. Secondo il PDA che hai trovato addosso a Black, il loro leader, sono stati inviati per impedire agli scienziati di cercare i documenti. Allo stesso tempo, i documenti che hai trovato indicano che l'intera documentazione tecnica è stata trasferita fuori dallo stabilimento. Riferisci tutto a Hermann e mostragli il PDA di Black.",
-    "pol": "Podczas twojego szperania w dokumentach, najemnicy przypuścili atak. Według PDA znalezionego przy Czarnym, ich liderze, zostali wysłani, by uniemożliwić naukowcom poszukiwanie dokumentów. Znalezione dokumenty wskazują, że cała dokumentacja techniczna została przeniesiona poza fabrykę. Przekaż tę informację Hermanowi i pokaż mu PDA Czarnego.",
-    "rus": "Во время поиска документации произошло нападение наёмников. Судя по КПК их лидера Чёрного, они должны были пресечь поиск документации учёными. При этом в найденных документах указано, что вся техническая документация была вывезена за пределы завода. Желательно передать Герману эту информацию вкупе с КПК Чёрного.",
-    "spa": "Unos mercenarios nos atacaron mientras buscabas los documentos. Según la PDA que le cogiste a Negro, su líder, fueron contratados para evitar que los científicos consiguieran esos documentos. Por otro lado, los datos que has obtenido indican que los registros técnicos fueron trasladados fuera de la central. Deberías comunicárselo a Hermann y enseñarle la PDA de Negro.",
-    "ukr": "Під час пошуку документації стався напад найманців. Судячи з КПК їхнього лідера Чорного, вони мали припинити пошук документації вченими. При цьому в знайдених документах зазначено, що всю технічну документацію було вивезено за межі заводу. Бажано передати Германові цю інформацію вкупі з КПК Чорного."
-  },
-  "jup_b4_monolith_squad_help_name": {
-    "eng": "Monolith survivors: talk to Yanov residents about cover",
-    "fra": "Les survivants du Monolithe : demander aux habitants de Yanov de prendre les combattants du Monolithe sous leur aile.",
-    "ger": "Ehemalige Monolither: Mit Janow-Bewohnern über Schutz suchende Ex-Monolither reden",
-    "ita": "Superstiti Monolith: parla con gli abitanti di Yanov riguardo al riparo",
-    "pol": "Ocaleni z Monolitu: zapytaj na stacji Janów o schronienie",
-    "rus": "Выживший «Монолит»: поговорить с обитателями «Янова» насчёт укрытия",
-    "spa": "Supervivientes del Monolito: habla con los habitantes de Yanov sobre el refugio",
-    "ukr": "Вцілілий «Моноліт»: поговорити із мешканцями «Янова» щодо укриття"
-  },
-  "jup_b4_monolith_squad_help_text": {
-    "eng": "A squad of Monolith fighters has broken free of the spell that possessed them. They're looking for cover from emissions and mutants. You need to talk to the residents of Yanov station about allowing the Monolith squad to take cover there.",
-    "fra": "Des combattants du Monolithe ont réussi à recouvrer leurs esprits. Ils cherchent à présent un endroit où s'abriter des émissions et des mutants. Vous devez demander aux habitants de la gare Yanov s'ils sont prêts à les prendre sous leur aile.",
-    "ger": "Ein Trupp von Monolithern konnte sich von dem Bann befreien, der sie unter Kontrolle hielt. Nun suchen sie nach einem Zufluchtsort, wo sie vor Emissionen und Mutanten sicher sind. Sie müssen mit den Bewohnern der Janow-Station sprechen, ob sie die ehemaligen Monolither aufzunehmen bereit sind.",
-    "ita": "Una squadra di combattenti Monolith si è liberata dal condizionamento mentale. Ora cercano un riparo dalle emissioni e dai mutanti. Chiedi agli abitanti della stazione Yanov se sono disposti ad accogliere la squadra Monolith.",
-    "pol": "Grupa wojowników Monolitu uwolniła się spod uroku, którym była opętana. Szukają teraz schronienia przed emisją i mutantami. Musisz porozmawiać z mieszkańcami stacji Janów, by pozwolili drużynie Monolitu ukryć się na niej.",
-    "rus": "Отряд «монолитовцев», прежде - фанатичных бойцов, вышел из-под навязчивого внушения. Теперь эти люди ищут укрытия от выбросов и монстров. Нужно договориться с обитателями станции «Янов», чтобы «монолитовцы» могли там укрыться.",
-    "spa": "Un escuadrón de soldados del Monolito se ha liberado del embrujo que los había poseído. Están buscando un refugio donde protegerse de emisiones y mutantes. Tienes que hablar con los habitantes de la estación de Yanov para que permitan a los soldados refugiarse allí.",
-    "ukr": "Загін «монолітівців», колись - фанатичних бійців, вийшов з-під нав'язливого навіювання. Тепер ці люди шукають укриття від викидів та монстрів. Потрібно домовитися з мешканцями станції «Янів», щоб «монолітівці» могли там укритися."
-  },
-  "jup_b4_stalkers_come_duty_text": {
-    "eng": "Take Duty recruitment officers to the former Monolith squad. If the Monolith fighters join Duty, they'll be able to take cover from emissions and mutants at Yanov station.",
-    "fra": "Accompagnez les officiers de recrutement du Devoir jusqu'aux anciens membres du Monolithe. Si ces combattants acceptent de s'enrôler dans le Devoir, ils pourront par la même occasion se mettre à l'abri des émissions et des mutants dans la gare de Yanov.",
-    "ger": "Bringen Sie die Rekrutierer der Wächter zu den ehemaligen Monolithern. Wenn sich diese den Wächtern anschließen, werden sie in der Janow-Station vor Emissionen und Mutanten sicher sein.",
-    "ita": "Accompagna gli ufficiali di reclutamento della Duty dalla ex squadra Monolith. Se i combattenti Monolith si uniranno alla Duty, potranno ripararsi dalle emissioni e dai mutanti alla stazione Yanov.",
-    "pol": "Zaprowadź ludzi Powinności odpowiedzialnych za rekrutację do byłej załogi Monolitu. Jeżeli wojownicy Monolitu wstąpią do Powinności, będą mogli schronić się na stacji Janów przed emisją i mutantami.",
-    "rus": "Отвести вербовщиков «Долга» к отряду бывших «монолитовцев». Если «монолитовцы» вступят в «Долг», они смогут беспрепятственно укрыться от выброса и монстров на станции «Янов».",
-    "spa": "Lleva a los oficiales de reclutamiento de Deber al anterior escuadrón del Monolito. Si se unen a Deber, podrán protegerse de las emisiones y los mutantes en la estación de Yanov.",
-    "ukr": "Відвести вербувальників «Долгу» до загону колишніх «монолітівців». Якщо «монолітівці» вступлять до «Долгу», вони зможуть безперешкодно укритися від викиду та монстрів на станції «Янів»."
-  },
-  "jup_b4_stalkers_come_freedom_text": {
-    "eng": "Take Freedom recruitment officers to the former Monolith squad. If the Monolith fighters join Freedom, they'll be able to take cover from emissions and mutants at Yanov station.",
-    "fra": "Accompagnez les officiers de recrutement de la Liberté jusqu'aux anciens membres du Monolithe. Si ces combattants acceptent de s'enrôler dans la Liberté, ils pourront par la même occasion se mettre à l'abri des émissions et des mutants dans la gare de Yanov.",
-    "ger": "Bringen Sie die Rekrutierer der Freiheit zu den ehemaligen Monolithern. Wenn sich diese der Freiheit anschließen, werden sie in der Janow-Station vor Emissionen und Mutanten sicher sein.",
-    "ita": "Accompagna gli ufficiali di reclutamento della Freedom dalla ex squadra Monolith. Se i combattenti Monolith si uniranno alla Freedom, potranno ripararsi dalle emissioni e dai mutanti alla stazione Yanov.",
-    "pol": "Zaprowadź ludzi Wolności, odpowiedzialnych za rekrutację, do byłej załogi Monolitu. Jeżeli wojownicy Monolitu wstąpią do Wolności, będą mogli schronić się na stacji Janów przed emisją i mutantami.",
-    "rus": "Отвести вербовщиков «Свободы» к отряду бывших «монолитовцев». Если «монолитовцы» присоединятся к «Свободе», они смогут беспрепятственно укрыться от выброса и монстров на станции «Янов».",
-    "spa": "Lleva a los oficiales de reclutamiento de Libertad al anterior escuadrón del Monolito. Si se unen a Libertad, podrán protegerse de las emisiones y los mutantes en la estación de Yanov.",
-    "ukr": "Відвести вербувальників «Волі» до загону колишніх «монолітівців». Якщо «монолітівці» приєднаються до «Волі», вони зможуть безперешкодно укритися від викиду та монстрів на станції «Янів»."
-  },
-  "jup_b4_stalkers_come_name": {
-    "eng": "Monolith survivors: take recruitment officers to the former Monolith squad",
-    "fra": "Les survivants du Monolithe : accompagner les officiers de recrutement jusqu'aux anciens combattants du Monolithe.",
-    "ger": "Ehemalige Monolither: Rekrutierer zu ehemaligen Monolithern bringen",
-    "ita": "Superstiti Monolith: accompagna gli ufficiali di reclutamento dalla ex squadra Monolith",
-    "pol": "Ocaleni z Monolitu: zaprowadź na miejsce odpowiedzialnych za rekrutację",
-    "rus": "Выживший «Монолит»: отвести вербовщиков к отряду бывших «монолитовцев»",
-    "spa": "Supervivientes del Monolito: lleva a los oficiales de reclutamiento al anterior escuadrón del Monolito",
-    "ukr": "Вцілілий «Моноліт»: відвести вербувальників до загону колишніх «монолітівців»"
-  },
-  "jup_b6_anom_1_guard_name": {
-    "eng": "Anomaly research: cover the stalkers",
-    "fra": "Étude de l'anomalie : couvrir les stalkers.",
-    "ger": "Anomalieforschung: Die Stalker beschützen",
-    "ita": "Ricerca sulle anomalie: copri gli stalker",
-    "pol": "Badania nad anomaliami: ochraniaj stalkerów",
-    "rus": "Исследование аномалий: прикрывать сталкеров",
-    "spa": "Investigación de anomalías: protege a los stalkers",
-    "ukr": "Дослідження аномалій: прикривати сталкерів"
-  },
-  "jup_b6_anom_1_guard_text": {
-    "eng": "It looks like the taking of measurements in the anomaly attracted mutants. You must cover the stalkers until they have collected all the data required.",
-    "fra": "L'étude de l'anomalie semble avoir attiré des mutants. Couvrez les stalkers pendant qu'ils récupèrent les données nécessaires.",
-    "ger": "Wie es scheint, hat das Vornehmen von Messungen in der Anomalie die Aufmerksamkeit von Mutanten erregt. Sie müssen den Stalkern Deckung geben, bis sie alle nötigen Daten gesammelt haben.",
-    "ita": "Pare che le operazioni nell'anomalia abbiano attirato dei mutanti. Devi coprire gli stalker finché non avranno raccolto tutti i dati richiesti.",
-    "pol": "Wygląda na to, że wykonywanie pomiarów w anomalii przyciągnęło mutanty. Musisz ochraniać stalkerów, dopóki nie zbiorą wszystkich potrzebnych danych.",
-    "rus": "Похоже, проведение замеров в аномалии привлекло монстров. Надо прикрывать сталкеров до тех пор, пока замеры не будут завершены.",
-    "spa": "Parece que la medición de datos en la anomalía ha atraído a varios mutantes. Debes proteger a los stalkers hasta que hayan obtenido los datos requeridos.",
-    "ukr": "Схоже, проведення вимірів в аномалії привернуло увагу монстрів. Треба прикривати сталкерів доти, доки вимірювання не буде завершено."
-  },
-  "jup_b6_anom_2_guard_name": {
-    "eng": "Anomaly research: cover the stalkers",
-    "fra": "Étude de l'anomalie : couvrir les stalkers.",
-    "ger": "Anomalieforschung: Die Stalker beschützen",
-    "ita": "Ricerca sulle anomalie: copri gli stalker",
-    "pol": "Badania nad anomaliami: ochraniaj stalkerów",
-    "rus": "Исследование аномалий: прикрывать сталкеров",
-    "spa": "Investigación de anomalías: protege a los stalkers",
-    "ukr": "Дослідження аномалій: прикривати сталкерів"
-  },
-  "jup_b6_anom_2_guard_text": {
-    "eng": "It looks like the taking of measurements in the anomaly attracted zombies from Kopachy. You must cover the stalkers until they have collected all the data required.",
-    "fra": "L'étude de l'anomalie semble avoir attiré les zombies de Kopachy. Couvrez les stalkers pendant qu'ils récupèrent les données nécessaires.",
-    "ger": "Wie es scheint, hat das Vornehmen von Messungen in der Anomalie die Aufmerksamkeit von Zombies aus Kopatschi erregt. Sie müssen den Stalkern Deckung geben, bis sie alle nötigen Daten gesammelt haben.",
-    "ita": "Pare che le operazioni nell'anomalia abbiano attirato degli zombi da Kopachy. Devi coprire gli stalker finché non avranno raccolto tutti i dati richiesti.",
-    "pol": "Wygląda na to, że wykonywanie pomiarów w anomalii przyciągnęło zombi z Kopaczi. Musisz ochraniać stalkerów, dopóki nie zbiorą wszystkich potrzebnych danych.",
-    "rus": "Похоже, проведение замеров в аномалии привлекло зомби с Копачей. Надо прикрывать сталкеров до тех пор, пока замеры не будут завершены.",
-    "spa": "Parece que la medición de datos en la anomalía ha atraído a varios zombis de Kopachy. Debes proteger a los stalkers hasta que hayan obtenido los datos requeridos.",
-    "ukr": "Схоже, проведення вимірів у аномалії привернуло увагу зомбі з Копачів. Треба прикривати сталкерів доти, доки вимірювання не буде завершено."
-  },
-  "jup_b6_employ_stalkers_name": {
-    "eng": "Research group: Hire the right people",
-    "fra": "Groupe de recherche : recruter des hommes de confiance",
-    "ger": "Forschungsgruppe: Die richtigen Leute anheuern",
-    "ita": "Gruppo di ricerca: assumi le persone giuste",
-    "pol": "Grupa badawcza: wynajmij odpowiednich ludzi",
-    "rus": "Исследовательская группа: подобрать людей",
-    "spa": "Grupo de investigación: contrata a la gente adecuada",
-    "ukr": "Дослідницька група: підібрати людей"
-  },
-  "jup_b6_employ_stalkers_reward_name": {
-    "eng": "Research group: Return to Hermann for the reward",
-    "fra": "Groupe de recherche : retourner auprès d'Hermann pour obtenir la récompense.",
-    "ger": "Forschungsgruppe: Bei Hermann die Belohnung abholen",
-    "ita": "Gruppo di ricerca: torna da Hermann per ricevere la ricompensa",
-    "pol": "Grupa badawcza: wróć do Hermana po nagrodę",
-    "rus": "Исследовательская группа: вернуться к Герману за наградой",
-    "spa": "Grupo de investigación: vuelve con Hermann para recoger la recompensa",
-    "ukr": "Дослідницька група: повернутися до Германа по винагороду"
-  },
-  "jup_b6_employ_stalkers_reward_text": {
-    "eng": "You've found the right people for a new research group. Now return to Hermann to collect your reward.",
-    "fra": "Vous avez trouvé les candidats idéaux pour le groupe de recherche. Retournez auprès d'Hermann pour obtenir votre récompense.",
-    "ger": "Sie haben die passenden Leute für eine neue Forschungsgruppe aufgetrieben. Kehren Sie jetzt zu Hermann zurück, um Ihre Belohnung zu kassieren.",
-    "ita": "Hai trovato le persone giuste per formare la nuova squadra di ricercatori. Ora torna da Hermann per ricevere la tua ricompensa.",
-    "pol": "Udało ci się znaleźć odpowiednich ludzi do nowej grupy badawczej. Możesz wrócić do Hermana, aby odebrać nagrodę.",
-    "rus": "Люди для новой исследовательской группы подобраны. Необходимо вернуться к Герману за причитающимся вознаграждением.",
-    "spa": "Has encontrado a la gente adecuada para un nuevo grupo de investigación. Ahora vuelve con Hermann y recoge tu recompensa.",
-    "ukr": "Людей для нової дослідницької групи підібрано. Необхідно повернутися до Германа по винагороду."
-  },
-  "jup_b6_employ_stalkers_text": {
-    "eng": "A research group working for the scientists has perished. You must staff a new group so research can continue.",
-    "fra": "Un groupe de recherche qui travaillait pour les scientifiques a été tué. Vous devez recruter de nouveaux hommes afin que les recherches puissent continuer.",
-    "ger": "Eine Forschungsgruppe, die für die Wissenschaftler gearbeitet hat, ist verschwunden. Sie müssen eine neue Gruppe zusammenstellen, damit die Arbeit fortgesetzt werden kann.",
-    "ita": "Tutti i membri di un gruppo di ricerca che lavorava per gli scienziati sono morti. Devi formare un nuovo gruppo perché la ricerca possa proseguire.",
-    "pol": "Członkowie grupy badawczej pracującej dla naukowców zginęli. Musisz zatrudnić nowych ludzi, aby kontynuować badania.",
-    "rus": "Исследовательская группа, работавшая на учёных, погибла. Необходимо подобрать новую группу для продолжения научной работы.",
-    "spa": "Un grupo de trabajo que trabajaba para los científicos ha perecido. Tienes que formar un nuevo grupo para que la investigación siga.",
-    "ukr": "Дослідницька група, що працювала на вчених, загинула. Необхідно підібрати нову групу для продовження наукової праці."
-  },
-  "jup_b6_get_reward_name": {
-    "eng": "Anomaly research: talk to Hermann",
-    "fra": "Étude de l'anomalie : parler à Hermann.",
-    "ger": "Anomalieforschung: Mit Hermann reden",
-    "ita": "Ricerca sulle anomalie: parla con Hermann",
-    "pol": "Badania nad anomaliami: porozmawiaj z Hermanem",
-    "rus": "Исследование аномалий: поговорить с Германом",
-    "spa": "Investigación de anomalías: habla con Hermann",
-    "ukr": "Дослідження аномалій: поговорити з Германом"
-  },
-  "jup_b6_get_reward_text": {
-    "eng": "The anomaly measurements have been completed - inform the scientists of this and collect your reward.",
-    "fra": "L'étude de l'anomalie a été effectuée. Informez-en les scientifiques et récupérez votre récompense.",
-    "ger": "Die Anomaliemessungen sind abgeschlossen. Informieren Sie die Wissenschaftler und holen Sie sich Ihre Belohnung ab.",
-    "ita": "Le misurazioni nelle anomalie sono state completate. Informa gli scienziati e ottieni la tua ricompensa.",
-    "pol": "Pomiary w anomalii zostały ukończone - poinformuj o tym naukowców i odbierz nagrodę.",
-    "rus": "Замеры аномалий проведены. Нужно сообщить об этом учёным и забрать обещанную награду.",
-    "spa": "Ya se han obtenido todas las medidas de la anomalía. Informa a los científicos y cobra tu recompensa.",
-    "ukr": "Вимірювання аномалій проведено. Потрібно сповістити про це вчених і забрати обіцяну винагороду."
-  },
-  "jup_b6_get_to_anomal_place_name": {
-    "eng": "Anomaly research: talk to the stalkers",
-    "fra": "Étude de l'anomalie : parler aux stalkers.",
-    "ger": "Anomalieforschung: Mit den Stalkern reden",
-    "ita": "Ricerca sulle anomalie: parla con gli stalker",
-    "pol": "Badania nad anomaliami: porozmawiaj ze stalkerami",
-    "rus": "Исследование аномалий: поговорить со сталкерами",
-    "spa": "Investigación de anomalías: habla con los stalkers",
-    "ukr": "Дослідження аномалій: поговорити зі сталкерами"
-  },
-  "jup_b6_get_to_anomal_place_text": {
-    "eng": "Talk to the stalker squad responsible for taking measurements - you need to choose which anomaly to go for.",
-    "fra": "Parlez au groupe de stalkers qui doit effectuer les relevés. Vous devez choisir une anomalie.",
-    "ger": "Reden Sie mit dem Stalkertrupp, der die Messungen vornimmt - Sie müssen wissen, welche Anomalie auf dem Plan steht.",
-    "ita": "Parla con la squadra di stalker responsabile delle misurazioni. Bisogna scegliere quale anomalia analizzare.",
-    "pol": "Porozmawiaj z drużyną stalkerów odpowiedzialną za pomiary - musicie zdecydować, do której anomalii się wybierzecie.",
-    "rus": "Поговорить с группой сталкеров, которые будут проводить замеры. Нужно выбрать, к какой аномалии отправиться.",
-    "spa": "Habla con el escuadrón de stalkers responsable de la obtención de medidas; tienes que decidir a qué anomalía dirigirte.",
-    "ukr": "Поговорити з групою сталкерів, що будуть проводити виміри. Потрібно вибрати, до якої аномалії прямувати."
-  },
-  "jup_b6_travel_home_name": {
-    "eng": "Anomaly research: talk to the stalkers",
-    "fra": "Étude de l'anomalie : parler aux stalkers.",
-    "ger": "Anomalieforschung: Mit den Stalkern reden",
-    "ita": "Ricerca sulle anomalie: parla con gli stalker",
-    "pol": "Badania nad anomaliami: porozmawiaj ze stalkerami",
-    "rus": "Исследование аномалий: поговорить со сталкерами",
-    "spa": "Investigación de anomalías: habla con los stalkers",
-    "ukr": "Дослідження аномалій: поговорити зі сталкерами"
-  },
-  "jup_b6_travel_home_text": {
-    "eng": "All the required measurements have been taken, so you can head back to the scientists' bunker together with the squad.",
-    "fra": "Toutes les données nécessaires ont été récupérées, vous pouvez donc retourner au bunker des scientifiques avec votre groupe.",
-    "ger": "Alle nötigen Messungen wurden vorgenommen. Daher können Sie sich zusammen mit dem Trupp wieder auf den Weg zum Bunker der Wissenschaftler machen.",
-    "ita": "Sono state eseguite tutte le misurazioni necessarie. Ora puoi tornare al bunker degli scienziati insieme alla squadra.",
-    "pol": "Wszystkie potrzebne pomiary zostały wykonane, możesz więc razem z drużyną wrócić do bunkra naukowców.",
-    "rus": "Все нужные замеры проведены. Можно отправляться с группой к бункеру учёных.",
-    "spa": "Ya se han obtenido todas las medidas de la anomalía; puedes volver al búnker de los científicos con el escuadrón.",
-    "ukr": "Усі потрібні вимірювання проведено. Можна відправлятися із групою до бункера вчених."
-  },
-  "jup_b6_travel_name": {
-    "eng": "Anomaly research: talk to the stalkers",
-    "fra": "Étude de l'anomalie : parler aux stalkers.",
-    "ger": "Anomalieforschung: Mit den Stalkern reden",
-    "ita": "Ricerca sulle anomalie: parla con gli stalker",
-    "pol": "Badania nad anomaliami: porozmawiaj ze stalkerami",
-    "rus": "Исследование аномалий: поговорить со сталкерами",
-    "spa": "Investigación de anomalías: habla con los stalkers",
-    "ukr": "Дослідження аномалій: поговорити зі сталкерами"
-  },
-  "jup_b6_travel_text": {
-    "eng": "Measurements have been taken from the anomaly, so you need to talk to the squad to discuss where to go next.",
-    "fra": "Les données concernant l'anomalie ont été récupérées. Vous devez à présent parler aux stalkers pour décider de la marche à suivre.",
-    "ger": "Die Messungen in der Anomalie wurden vorgenommen. Daher müssen Sie jetzt mit dem Trupp darüber reden, wie das nächste Ziel lautet.",
-    "ita": "Le misurazioni nell'anomalia sono state completate. Parla con la squadra per decidere la prossima destinazione.",
-    "pol": "Pomiary w anomalii zostały wykonane. Porozmawiaj z drużyną, dokąd się teraz wybierzecie.",
-    "rus": "Все замеры в аномалии проведены. Нужно пообщаться с группой и решить, куда идти дальше.",
-    "spa": "Se han obtenido medidas de la anomalía; habla con el resto del escuadrón para saber adónde ir ahora.",
-    "ukr": "Усі вимірювання в аномалії проведено. Потрібно поспілкуватися із групою та вирішити, куди йти далі."
-  },
-  "jup_b6_watch_topol_squad_six_name": {
-    "eng": "Anomaly research: cover the stalkers",
-    "fra": "Étude de l'anomalie : couvrir les stalkers.",
-    "ger": "Anomalieforschung: Die Stalker beschützen",
-    "ita": "Ricerca sulle anomalie: copri gli stalker",
-    "pol": "Badania nad anomaliami: ochraniaj stalkerów",
-    "rus": "Исследование аномалий: прикрывать сталкеров",
-    "spa": "Investigación de anomalías: protege a los stalkers",
-    "ukr": "Дослідження аномалій: прикривати сталкерів"
-  },
-  "jup_b6_watch_topol_squad_six_text": {
-    "eng": "Hermann has offered you the job of covering stalkers while they take measurements in anomalies.",
-    "fra": "Hermann vous a proposé de protéger les stalkers pendant qu'ils effectuent des relevés dans des anomalies.",
-    "ger": "Hermann hat Ihnen den Auftrag angeboten, die Stalker zu beschützen, während sie Messungen in Anomalien vornehmen.",
-    "ita": "Hermann ti chiesto di difendere gli stalker mentre eseguono delle misurazioni nelle anomalie.",
-    "pol": "Herman zaoferował ci pracę, polegającą na ochronie stalkerów, gdy ci będą wykonywać pomiary w anomaliach.",
-    "rus": "Герман предложил работу: нужно прикрывать сталкеров, пока те будут проводить замеры в аномалиях.",
-    "spa": "Hermann te ha ofrecido trabajo protegiendo a los stalkers mientras recogen datos en las anomalías.",
-    "ukr": "Герман запропонував роботу: потрібно прикривати сталкерів, доки ті проводитимуть вимірювання в аномаліях."
-  },
-  "jup_b8_heli_4_crash_name": {
-    "eng": "Stingray 4: investigate the crash site",
-    "fra": "Stingray 4 : fouiller les lieux de l'accident.",
-    "ger": "Stingray 4: Absturzstelle untersuchen",
-    "ita": "Stingray 4: perlustra il luogo dello schianto",
-    "pol": "Ogończa 4: zbadaj miejsce katastrofy",
-    "rus": "«Скат-4»: исследовать место падения",
-    "spa": "Pez Raya 4: investiga el lugar del accidente",
-    "ukr": "«Скат-4»: дослідити місце падіння"
-  },
-  "jup_b8_heli_4_crash_name_2": {
-    "eng": "Stingray 4: find the reason for electronic burn out",
-    "fra": "Stingray 4 : trouver la cause du court-circuit.",
-    "ger": "Stingray 4: Herausfinden, warum die Elektronik ausgebrannt ist",
-    "ita": "Stingray 4: scopri il motivo del guasto elettronico",
-    "pol": "Ogończa 4: znajdź przyczynę spalenia się elektroniki",
-    "rus": "«Скат-4»: найти причину сгорания электроники",
-    "spa": "Pez Raya 4: averigua por qué se han quemado los aparatos",
-    "ukr": "«Скат-4»: знайти причину згоряння електроніки"
-  },
-  "jup_b8_heli_4_crash_text": {
-    "eng": "Investigate the Stingray 4 crash site.",
-    "fra": "Fouillez les lieux de l'accident du Stingray 4.",
-    "ger": "Untersuchen Sie die Absturzstelle von Stingray 4.",
-    "ita": "Perlustra il luogo dello schianto di Stingray 4.",
-    "pol": "Zbadaj miejsce katastrofy Ogończy 4.",
-    "rus": "Исследовать место падения вертолёта «Скат-4».",
-    "spa": "Investiga el lugar del accidente del Pez Raya 4.",
-    "ukr": "Дослідити місце падіння гелікоптера «Скат-4»."
-  },
-  "jup_b8_heli_4_crash_text_2": {
-    "eng": "You must find the source of the powerful electric charge which hit the Stingray 4 helicopter.",
-    "fra": "Trouvez la source de la puissante décharge électrique qui a frappé l'hélicoptère Stingray 4.",
-    "ger": "Sie müssen die Quelle der starken elektrischen Entladung finden, die Stingray 4 getroffen hat.",
-    "ita": "Devi trovare la fonte della potente scarica elettrica che ha colpito l'elicottero Stingray 4.",
-    "pol": "Musisz znaleźć źródło silnego wyładowania elektrycznego, które uderzyło w śmigłowiec Ogończa 4.",
-    "rus": "Нужно выяснить источник мощного электрического разряда, поразившего «Скат-4».",
-    "spa": "Debes encontrar el origen de la potente descarga eléctrica que alcanzó al helicóptero Pez Raya 4.",
-    "ukr": "Потрібно з'ясувати джерело потужного електричного розряду, що вразив «Скат-4»."
-  },
-  "jup_b9_blackbox_decrypting_name": {
-    "eng": "Stingray 1: give the black box to a technician for decryption",
-    "fra": "Stingray 1 : apporter la boîte noire à un technicien pour qu'il la décode.",
-    "ger": "Stingray 1: Den Flugschreiber einem Techniker zur Entschlüsselung geben",
-    "ita": "Stingray 1: consegna la scatola nera a un tecnico per farla decriptare",
-    "pol": "Ogończa 1: daj technikowi czarną skrzynkę do odszyfrowania",
-    "rus": "«Скат-1»: отдать «чёрный ящик» технику на дешифровку",
-    "spa": "Pez Raya 1: dale la caja negra a un técnico para que la desencripte",
-    "ukr": "«Скат-1»: віддати «чорний ящик» технікові на дешифрування"
-  },
-  "jup_b9_blackbox_decrypting_text": {
-    "eng": "The Stingray 1 black box survived the crash. It must be taken to a technician for decryption for you to access the information it holds.",
-    "fra": "La boîte noire du Stingray 1 est intacte. Elle doit être décodée par un technicien pour que vous puissiez accéder aux informations qu'elle contient.",
-    "ger": "Der Flugschreiber von Stingray 1 hat den Absturz unbeschadet überstanden. Er muss zur Entschlüsselung zu einem Techniker gebracht werden, damit Sie Zugriff auf die aufgezeichneten Informationen bekommen.",
-    "ita": "La scatola nera di Stingray 1 è sopravvissuta allo schianto. Se vuoi accedere alle informazioni che contiene, devi consegnarla a un tecnico per farla decriptare.",
-    "pol": "Czarna skrzynka z Ogończy 1 przetrwała katastrofę. Musi zostać zabrana do technika, który ją zdeszyfruje, aby dostać się do zawartych w niej informacji.",
-    "rus": "«Чёрный ящик» вертолёта «Скат-1» уцелел. Необходимо передать его технику на дешифровку, чтобы получить доступ к содержащейся там информации.",
-    "spa": "La caja negra del Pez Raya 1 sigue intacta. Debes llevársela a un técnico para que te la desencripte y puedas acceder a los datos que contiene.",
-    "ukr": "«Чорний ящик» гелікоптера «Скат-1» вцілів. Необхідно передати його технікові на дешифрування, щоб отримати доступ до інформації, що там міститься."
-  },
-  "jup_b9_blackbox_descrypted_after_3_name": {
-    "eng": "Stingray 1: wait for black box decryption to be completed",
-    "fra": "Stingray 1 : attendre que la boîte noire soit décodée.",
-    "ger": "Stingray 1: Auf die Entschlüsselung des Flugschreibers warten",
-    "ita": "Stingray 1: attendi che la scatola nera venga decriptata",
-    "pol": "Ogończa 1: poczekaj na odszyfrowanie danych z czarnej skrzynki",
-    "rus": "«Скат-1»: дождаться дешифровки «чёрного ящика»",
-    "spa": "Pez Raya 1: espera a que se complete el desencriptado de la caja negra",
-    "ukr": "«Скат-1»: дочекатися дешифрування «чорного ящика»"
-  },
-  "jup_b9_blackbox_descrypted_after_3_text": {
-    "eng": "Nitro has agreed to decrypt the black box. He said it would take around three hours. You must wait for him to finish.",
-    "fra": "Nitro a accepté de décoder la boîte noire, mais il lui faut trois bonnes heures. Vous allez devoir patienter.",
-    "ger": "Nitro hat sich bereit erklärt, den Flugschreiber zu entschlüsseln, und geschätzt, dass es ca. drei Stunden dauern wird. Sie müssen warten, bis er seine Arbeit abgeschlossen hat.",
-    "ita": "Nitro ha accettato di decriptare la scatola nera. Ha detto che ci vogliono circa tre ore. Non ti resta che attendere che finisca.",
-    "pol": "Azot zgodził się zdeszyfrować czarną skrzynkę. Powiedział, że zajmie to około trzech godzin. Musisz poczekać, aż skończy.",
-    "rus": "Азот взялся за дешифровку «чёрного ящика» - по его словам, для этого понадобится около трёх часов. Необходимо дождаться окончания дешифровки.",
-    "spa": "Nitro ha accedido a desencriptar la caja negra. Dijo que tardaría unas tres horas. Debes esperar a que termine.",
-    "ukr": "Азот узявся за дешифрування «чорного ящика» - за його словами, для цього знадобиться близько трьох годин. Необхідно дочекатися закінчення дешифрування."
-  },
-  "jup_b9_go_for_blackbox_descryption_name": {
-    "eng": "Stingray 1: return to Nitro for information held by the black box",
-    "fra": "Stingray 1 : retourner voir Nitro pour obtenir les informations de la boîte noire.",
-    "ger": "Stingray 1: Zu Nitro zurückkehren, um die Flugschreiberinformationen zu erhalten",
-    "ita": "Stingray 1: torna da Nitro per accedere alle informazioni nella scatola nera",
-    "pol": "Ogończa 1: wróć do Azota po informacje z czarnej skrzynki",
-    "rus": "«Скат-1»: вернуться к Азоту за информацией из «чёрного ящика»",
-    "spa": "Pez Raya 1: vuelve junto a Nitro para obtener la información de la caja negra",
-    "ukr": "«Скат-1»: повернутися до Азота по інформацію із «чорного ящика»"
-  },
-  "jup_b9_go_for_blackbox_descryption_text": {
-    "eng": "Nitro should have completed the decryption process by now. Go see him to get the information held by the black box.",
-    "fra": "Nitro doit avoir terminé le décryptage. Allez le voir pour prendre connaissance des informations que renfermait la boîte noire.",
-    "ger": "Nitro dürfte mittlerweile den Flugschreiber entschlüsselt haben. Gehen Sie zu ihm, um die Informationen zu bekommen, die der Flugschreiber enthält.",
-    "ita": "Nitro deve aver completato il processo di decriptazione. Vai da lui per accedere alle informazioni contenute nella scatola nera.",
-    "pol": "Azot powinien już skończyć deszyfrację. Spotkaj się z nim, aby otrzymać informacje z czarnej skrzynki.",
-    "rus": "Азот уже должен был закончить дешифровку. Необходимо вернуться к нему за информацией из «чёрного ящика».",
-    "spa": "Nitro ya debería haber terminado de desencriptar la caja negra. Ve a verle para averiguar qué contiene.",
-    "ukr": "Азот уже мав закінчити дешифрування. Необхідно повернутися до нього по інформацію із «чорного ящика»."
-  },
-  "jup_b9_heli_1_crash_name": {
-    "eng": "Stingray 1: investigate the crash site",
-    "fra": "Stingray 1 : fouiller les lieux de l'accident.",
-    "ger": "Stingray 1: Absturzstelle untersuchen",
-    "ita": "Stingray 1: perlustra il luogo dello schianto",
-    "pol": "Ogończa 1: zbadaj miejsce katastrofy",
-    "rus": "«Скат-1»: исследовать место падения",
-    "spa": "Pez Raya 1: investiga el lugar del accidente",
-    "ukr": "«Скат-1»: дослідити місце падіння"
-  },
-  "jup_b9_heli_1_crash_text": {
-    "eng": "Investigate the Stingray 1 crash site.",
-    "fra": "Fouillez le lieu de l'accident du Stingray 1.",
-    "ger": "Untersuchen Sie die Absturzstelle von Stingray 1.",
-    "ita": "Perlustra il luogo dello schianto di Stingray 1.",
-    "pol": "Zbadaj miejsce katastrofy Ogończy 1.",
-    "rus": "Исследовать место падения вертолёта «Скат-1».",
-    "spa": "Investiga el lugar del accidente del Pez Raya 1.",
-    "ukr": "Дослідити місце падіння гелікоптера «Скат-1»."
   },
   "pas_b400_pripyat_control_text": {
     "eng": "You must unblock the gate to keep going. This can probably be done from the control room.",

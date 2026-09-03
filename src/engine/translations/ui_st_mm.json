@@ -1299,6 +1299,36 @@
     "spa": "Se necesita iniciar sesión con un perfil",
     "ukr": "Необхідно увійти у профіль"
   },
+  "mp_gp_unknown_error_6": {
+    "eng": "Connection error",
+    "fra": "Erreur de connexion",
+    "ger": "Verbindungsfehler",
+    "ita": "Errore di connessione",
+    "pol": "Błąd połączenia",
+    "rus": "Ошибка соединения",
+    "spa": "Error de conexión",
+    "ukr": "Помилка з'єднання"
+  },
+  "mp_gp_unknown_error_7": {
+    "eng": "Connection error",
+    "fra": "Erreur de connexion",
+    "ger": "Verbindungsfehler",
+    "ita": "Errore di connessione",
+    "pol": "Błąd połączenia",
+    "rus": "Ошибка соединения",
+    "spa": "Error de conexión",
+    "ukr": "Помилка з'єднання"
+  },
+  "mp_gp_unknown_error_8": {
+    "eng": "Connection error",
+    "fra": "Erreur de connexion",
+    "ger": "Verbindungsfehler",
+    "ita": "Errore di connessione",
+    "pol": "Błąd połączenia",
+    "rus": "Ошибка соединения",
+    "spa": "Error de conexión",
+    "ukr": "Помилка з'єднання"
+  },
   "mp_gp_unknown_error_513": {
     "eng": "Wrong profile name",
     "fra": "Nom de profil incorrect",
@@ -1338,36 +1368,6 @@
     "rus": "Уникальный ник уже используется",
     "spa": "Este apodo ya está en uso",
     "ukr": "Унікальний нік уже використовується"
-  },
-  "mp_gp_unknown_error_6": {
-    "eng": "Connection error",
-    "fra": "Erreur de connexion",
-    "ger": "Verbindungsfehler",
-    "ita": "Errore di connessione",
-    "pol": "Błąd połączenia",
-    "rus": "Ошибка соединения",
-    "spa": "Error de conexión",
-    "ukr": "Помилка з'єднання"
-  },
-  "mp_gp_unknown_error_7": {
-    "eng": "Connection error",
-    "fra": "Erreur de connexion",
-    "ger": "Verbindungsfehler",
-    "ita": "Errore di connessione",
-    "pol": "Błąd połączenia",
-    "rus": "Ошибка соединения",
-    "spa": "Error de conexión",
-    "ukr": "Помилка з'єднання"
-  },
-  "mp_gp_unknown_error_8": {
-    "eng": "Connection error",
-    "fra": "Erreur de connexion",
-    "ger": "Verbindungsfehler",
-    "ita": "Errore di connessione",
-    "pol": "Błąd połączenia",
-    "rus": "Ошибка соединения",
-    "spa": "Error de conexión",
-    "ukr": "Помилка з'єднання"
   },
   "mp_login_success": {
     "eng": "Authorization successful",
@@ -2469,16 +2469,6 @@
     "spa": "Ajustes de calidad",
     "ukr": "Налаштування якості"
   },
-  "ui_mm_quit2windows": {
-    "eng": "Exit to Windows",
-    "fra": "Retour à Windows",
-    "ger": "Zurück zu Windows",
-    "ita": "Torna a Windows",
-    "pol": "Wyjdź z gry",
-    "rus": "Выйти в Windows",
-    "spa": "Salir a Windows",
-    "ukr": "Вийти до Windows"
-  },
   "ui_mm_quit_game": {
     "eng": "Quit game",
     "fra": "Quitter",
@@ -2508,6 +2498,16 @@
     "rus": "Вы действительно хотите выйти в Windows?",
     "spa": "¿Seguro que quieres salir a Windows?",
     "ukr": "Ви справді хочете вийти до Windows?"
+  },
+  "ui_mm_quit2windows": {
+    "eng": "Exit to Windows",
+    "fra": "Retour à Windows",
+    "ger": "Zurück zu Windows",
+    "ita": "Torna a Windows",
+    "pol": "Wyjdź z gry",
+    "rus": "Выйти в Windows",
+    "spa": "Salir a Windows",
+    "ukr": "Вийти до Windows"
   },
   "ui_mm_r1_detail_textures": {
     "eng": "Detailed textures",

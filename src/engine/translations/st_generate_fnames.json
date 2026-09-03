@@ -19,6 +19,86 @@
     "spa": "Shurik",
     "ukr": "Шурик"
   },
+  "name_bandit_2": {
+    "eng": "Lekha",
+    "fra": "Lekha",
+    "ger": "Lecha",
+    "ita": "Lekha",
+    "pol": "Lecha",
+    "rus": "Леха",
+    "spa": "Lekha",
+    "ukr": "Льоха"
+  },
+  "name_bandit_3": {
+    "eng": "Tolyan",
+    "fra": "Tolyan",
+    "ger": "Toljan",
+    "ita": "Tolyan",
+    "pol": "Tolian",
+    "rus": "Толян",
+    "spa": "Tolyan",
+    "ukr": "Толян"
+  },
+  "name_bandit_4": {
+    "eng": "Andryukha",
+    "fra": "Andryukha",
+    "ger": "Andriucha",
+    "ita": "Andryukha",
+    "pol": "Andriucha",
+    "rus": "Андрюха",
+    "spa": "Andryukha",
+    "ukr": "Андрюха"
+  },
+  "name_bandit_5": {
+    "eng": "Tokha",
+    "fra": "Tokha",
+    "ger": "Tocha",
+    "ita": "Tokha",
+    "pol": "Tocha",
+    "rus": "Тоха",
+    "spa": "Tokha",
+    "ukr": "Тоха"
+  },
+  "name_bandit_6": {
+    "eng": "Arkasha",
+    "fra": "Arkasha",
+    "ger": "Arkascha",
+    "ita": "Arkasha",
+    "pol": "Arkasza",
+    "rus": "Аркаша",
+    "spa": "Arkasha",
+    "ukr": "Аркаша"
+  },
+  "name_bandit_7": {
+    "eng": "Temka",
+    "fra": "Temka",
+    "ger": "Temka",
+    "ita": "Temka",
+    "pol": "Tiomka",
+    "rus": "Тёмка",
+    "spa": "Temka",
+    "ukr": "Тьомка"
+  },
+  "name_bandit_8": {
+    "eng": "Boryan",
+    "fra": "Boryan",
+    "ger": "Borjan",
+    "ita": "Boryan",
+    "pol": "Borian",
+    "rus": "Борян",
+    "spa": "Boryan",
+    "ukr": "Борян"
+  },
+  "name_bandit_9": {
+    "eng": "Bodya",
+    "fra": "Bodya",
+    "ger": "Bodja",
+    "ita": "Bodya",
+    "pol": "Bodia",
+    "rus": "Бодя",
+    "spa": "Bodya",
+    "ukr": "Бодя"
+  },
   "name_bandit_10": {
     "eng": "Vadya",
     "fra": "Vadya",
@@ -118,16 +198,6 @@
     "rus": "Димон",
     "spa": "Dimon",
     "ukr": "Дімон"
-  },
-  "name_bandit_2": {
-    "eng": "Lekha",
-    "fra": "Lekha",
-    "ger": "Lecha",
-    "ita": "Lekha",
-    "pol": "Lecha",
-    "rus": "Леха",
-    "spa": "Lekha",
-    "ukr": "Льоха"
   },
   "name_bandit_20": {
     "eng": "Dimukha",
@@ -229,16 +299,6 @@
     "spa": "Kolyan",
     "ukr": "Колян"
   },
-  "name_bandit_3": {
-    "eng": "Tolyan",
-    "fra": "Tolyan",
-    "ger": "Toljan",
-    "ita": "Tolyan",
-    "pol": "Tolian",
-    "rus": "Толян",
-    "spa": "Tolyan",
-    "ukr": "Толян"
-  },
   "name_bandit_30": {
     "eng": "Pavlukha",
     "fra": "Pavlukha",
@@ -319,66 +379,6 @@
     "spa": "Yashka",
     "ukr": "Яшка"
   },
-  "name_bandit_4": {
-    "eng": "Andryukha",
-    "fra": "Andryukha",
-    "ger": "Andriucha",
-    "ita": "Andryukha",
-    "pol": "Andriucha",
-    "rus": "Андрюха",
-    "spa": "Andryukha",
-    "ukr": "Андрюха"
-  },
-  "name_bandit_5": {
-    "eng": "Tokha",
-    "fra": "Tokha",
-    "ger": "Tocha",
-    "ita": "Tokha",
-    "pol": "Tocha",
-    "rus": "Тоха",
-    "spa": "Tokha",
-    "ukr": "Тоха"
-  },
-  "name_bandit_6": {
-    "eng": "Arkasha",
-    "fra": "Arkasha",
-    "ger": "Arkascha",
-    "ita": "Arkasha",
-    "pol": "Arkasza",
-    "rus": "Аркаша",
-    "spa": "Arkasha",
-    "ukr": "Аркаша"
-  },
-  "name_bandit_7": {
-    "eng": "Temka",
-    "fra": "Temka",
-    "ger": "Temka",
-    "ita": "Temka",
-    "pol": "Tiomka",
-    "rus": "Тёмка",
-    "spa": "Temka",
-    "ukr": "Тьомка"
-  },
-  "name_bandit_8": {
-    "eng": "Boryan",
-    "fra": "Boryan",
-    "ger": "Borjan",
-    "ita": "Boryan",
-    "pol": "Borian",
-    "rus": "Борян",
-    "spa": "Boryan",
-    "ukr": "Борян"
-  },
-  "name_bandit_9": {
-    "eng": "Bodya",
-    "fra": "Bodya",
-    "ger": "Bodja",
-    "ita": "Bodya",
-    "pol": "Bodia",
-    "rus": "Бодя",
-    "spa": "Bodya",
-    "ukr": "Бодя"
-  },
   "name_captain_0": {
     "eng": "Captain",
     "fra": "Capitaine",
@@ -438,66 +438,6 @@
     "rus": "Антон",
     "spa": "Anton",
     "ukr": "Антон"
-  },
-  "name_science_10": {
-    "eng": "Oleg",
-    "fra": "Oleg",
-    "ger": "Oleg",
-    "ita": "Oleg",
-    "pol": "Oleg",
-    "rus": "Олег",
-    "spa": "Oleg",
-    "ukr": "Олег"
-  },
-  "name_science_11": {
-    "eng": "Roman",
-    "fra": "Roman",
-    "ger": "Roman",
-    "ita": "Roman",
-    "pol": "Roman",
-    "rus": "Роман",
-    "spa": "Roman",
-    "ukr": "Роман"
-  },
-  "name_science_12": {
-    "eng": "Aleksandr",
-    "fra": "Alexandre",
-    "ger": "Aleksandr",
-    "ita": "Aleksandr",
-    "pol": "Aleksandr",
-    "rus": "Александр",
-    "spa": "Aleksandr",
-    "ukr": "Олександр"
-  },
-  "name_science_13": {
-    "eng": "Sergey",
-    "fra": "Sergeï",
-    "ger": "Sergei",
-    "ita": "Sergey",
-    "pol": "Siergiej",
-    "rus": "Сергей",
-    "spa": "Sergey",
-    "ukr": "Сергій"
-  },
-  "name_science_14": {
-    "eng": "Anatoly",
-    "fra": "Anatoly",
-    "ger": "Anatoli",
-    "ita": "Anatoly",
-    "pol": "Anatolij",
-    "rus": "Анатолий",
-    "spa": "Anatoly",
-    "ukr": "Анатолій"
-  },
-  "name_science_15": {
-    "eng": "Yuri",
-    "fra": "Yuri",
-    "ger": "Juri",
-    "ita": "Yuri",
-    "pol": "Jurij",
-    "rus": "Юрий",
-    "spa": "Yuri",
-    "ukr": "Юрій"
   },
   "name_science_2": {
     "eng": "Bohdan",
@@ -579,6 +519,66 @@
     "spa": "Alexey",
     "ukr": "Олексій"
   },
+  "name_science_10": {
+    "eng": "Oleg",
+    "fra": "Oleg",
+    "ger": "Oleg",
+    "ita": "Oleg",
+    "pol": "Oleg",
+    "rus": "Олег",
+    "spa": "Oleg",
+    "ukr": "Олег"
+  },
+  "name_science_11": {
+    "eng": "Roman",
+    "fra": "Roman",
+    "ger": "Roman",
+    "ita": "Roman",
+    "pol": "Roman",
+    "rus": "Роман",
+    "spa": "Roman",
+    "ukr": "Роман"
+  },
+  "name_science_12": {
+    "eng": "Aleksandr",
+    "fra": "Alexandre",
+    "ger": "Aleksandr",
+    "ita": "Aleksandr",
+    "pol": "Aleksandr",
+    "rus": "Александр",
+    "spa": "Aleksandr",
+    "ukr": "Олександр"
+  },
+  "name_science_13": {
+    "eng": "Sergey",
+    "fra": "Sergeï",
+    "ger": "Sergei",
+    "ita": "Sergey",
+    "pol": "Siergiej",
+    "rus": "Сергей",
+    "spa": "Sergey",
+    "ukr": "Сергій"
+  },
+  "name_science_14": {
+    "eng": "Anatoly",
+    "fra": "Anatoly",
+    "ger": "Anatoli",
+    "ita": "Anatoly",
+    "pol": "Anatolij",
+    "rus": "Анатолий",
+    "spa": "Anatoly",
+    "ukr": "Анатолій"
+  },
+  "name_science_15": {
+    "eng": "Yuri",
+    "fra": "Yuri",
+    "ger": "Juri",
+    "ita": "Yuri",
+    "pol": "Jurij",
+    "rus": "Юрий",
+    "spa": "Yuri",
+    "ukr": "Юрій"
+  },
   "name_sergeant_0": {
     "eng": "Sergeant",
     "fra": "Sergent",
@@ -609,6 +609,86 @@
     "spa": "Sanek",
     "ukr": "Саньок"
   },
+  "name_stalker_2": {
+    "eng": "Shurik",
+    "fra": "Shurik",
+    "ger": "Schurik",
+    "ita": "Shurik",
+    "pol": "Szurik",
+    "rus": "Шурик",
+    "spa": "Shurik",
+    "ukr": "Шурік"
+  },
+  "name_stalker_3": {
+    "eng": "Lenya",
+    "fra": "Lenya",
+    "ger": "Lenja",
+    "ita": "Lenya",
+    "pol": "Lenia",
+    "rus": "Леня",
+    "spa": "Lenya",
+    "ukr": "Льоня"
+  },
+  "name_stalker_4": {
+    "eng": "Alex",
+    "fra": "Alex",
+    "ger": "Alex",
+    "ita": "Alex",
+    "pol": "Aleks",
+    "rus": "Алекс",
+    "spa": "Alex",
+    "ukr": "Алекс"
+  },
+  "name_stalker_5": {
+    "eng": "Leshka",
+    "fra": "Leshka",
+    "ger": "Leschka",
+    "ita": "Leshka",
+    "pol": "Loszka",
+    "rus": "Лешка",
+    "spa": "Leshka",
+    "ukr": "Льошка"
+  },
+  "name_stalker_6": {
+    "eng": "Tolik",
+    "fra": "Tolik",
+    "ger": "Tolik",
+    "ita": "Tolik",
+    "pol": "Tolik",
+    "rus": "Толик",
+    "spa": "Tolik",
+    "ukr": "Толік"
+  },
+  "name_stalker_7": {
+    "eng": "Anton",
+    "fra": "Anton",
+    "ger": "Anton",
+    "ita": "Anton",
+    "pol": "Anton",
+    "rus": "Антон",
+    "spa": "Anton",
+    "ukr": "Антон"
+  },
+  "name_stalker_8": {
+    "eng": "Toshka",
+    "fra": "Toshka",
+    "ger": "Toschka",
+    "ita": "Toshka",
+    "pol": "Toszka",
+    "rus": "Тошка",
+    "spa": "Toshka",
+    "ukr": "Тошка"
+  },
+  "name_stalker_9": {
+    "eng": "Artem",
+    "fra": "Artem",
+    "ger": "Artem",
+    "ita": "Artem",
+    "pol": "Artem",
+    "rus": "Артем",
+    "spa": "Artem",
+    "ukr": "Артем"
+  },
   "name_stalker_10": {
     "eng": "Arthur",
     "fra": "Arthur",
@@ -618,46 +698,6 @@
     "rus": "Артур",
     "spa": "Arthur",
     "ukr": "Артур"
-  },
-  "name_stalker_100": {
-    "eng": "Yashka",
-    "fra": "Yashka",
-    "ger": "Jaschka",
-    "ita": "Yashka",
-    "pol": "Jaszka",
-    "rus": "Яшка",
-    "spa": "Yashka",
-    "ukr": "Яшка"
-  },
-  "name_stalker_101": {
-    "eng": "Yarik",
-    "fra": "Yarik",
-    "ger": "Jarik",
-    "ita": "Yarik",
-    "pol": "Jarik",
-    "rus": "Ярик",
-    "spa": "Yarik",
-    "ukr": "Ярик"
-  },
-  "name_stalker_102": {
-    "eng": "Yara",
-    "fra": "Yara",
-    "ger": "Jara",
-    "ita": "Yara",
-    "pol": "Jara",
-    "rus": "Яра",
-    "spa": "Yara",
-    "ukr": "Яра"
-  },
-  "name_stalker_103": {
-    "eng": "Slava",
-    "fra": "Slava",
-    "ger": "Slawa",
-    "ita": "Slava",
-    "pol": "Sława",
-    "rus": "Слава",
-    "spa": "Slava",
-    "ukr": "Слава"
   },
   "name_stalker_11": {
     "eng": "Borya",
@@ -748,16 +788,6 @@
     "rus": "Валера",
     "spa": "Valera",
     "ukr": "Валера"
-  },
-  "name_stalker_2": {
-    "eng": "Shurik",
-    "fra": "Shurik",
-    "ger": "Schurik",
-    "ita": "Shurik",
-    "pol": "Szurik",
-    "rus": "Шурик",
-    "spa": "Shurik",
-    "ukr": "Шурік"
   },
   "name_stalker_20": {
     "eng": "Vasya",
@@ -859,16 +889,6 @@
     "spa": "Vovka",
     "ukr": "Вовка"
   },
-  "name_stalker_3": {
-    "eng": "Lenya",
-    "fra": "Lenya",
-    "ger": "Lenja",
-    "ita": "Lenya",
-    "pol": "Lenia",
-    "rus": "Леня",
-    "spa": "Lenya",
-    "ukr": "Льоня"
-  },
   "name_stalker_30": {
     "eng": "Seva",
     "fra": "Seva",
@@ -968,16 +988,6 @@
     "rus": "Гриша",
     "spa": "Grisha",
     "ukr": "Гриша"
-  },
-  "name_stalker_4": {
-    "eng": "Alex",
-    "fra": "Alex",
-    "ger": "Alex",
-    "ita": "Alex",
-    "pol": "Aleks",
-    "rus": "Алекс",
-    "spa": "Alex",
-    "ukr": "Алекс"
   },
   "name_stalker_40": {
     "eng": "Grishka",
@@ -1079,16 +1089,6 @@
     "spa": "Zhenya",
     "ukr": "Женя"
   },
-  "name_stalker_5": {
-    "eng": "Leshka",
-    "fra": "Leshka",
-    "ger": "Leschka",
-    "ita": "Leshka",
-    "pol": "Loszka",
-    "rus": "Лешка",
-    "spa": "Leshka",
-    "ukr": "Льошка"
-  },
   "name_stalker_50": {
     "eng": "Zhenka",
     "fra": "Zhenka",
@@ -1188,16 +1188,6 @@
     "rus": "Костик",
     "spa": "Kostik",
     "ukr": "Костік"
-  },
-  "name_stalker_6": {
-    "eng": "Tolik",
-    "fra": "Tolik",
-    "ger": "Tolik",
-    "ita": "Tolik",
-    "pol": "Tolik",
-    "rus": "Толик",
-    "spa": "Tolik",
-    "ukr": "Толік"
   },
   "name_stalker_60": {
     "eng": "Leva",
@@ -1299,16 +1289,6 @@
     "spa": "Nik",
     "ukr": "Нік"
   },
-  "name_stalker_7": {
-    "eng": "Anton",
-    "fra": "Anton",
-    "ger": "Anton",
-    "ita": "Anton",
-    "pol": "Anton",
-    "rus": "Антон",
-    "spa": "Anton",
-    "ukr": "Антон"
-  },
   "name_stalker_70": {
     "eng": "Kolya",
     "fra": "Kolya",
@@ -1408,16 +1388,6 @@
     "rus": "Ростик",
     "spa": "Rostik",
     "ukr": "Ростік"
-  },
-  "name_stalker_8": {
-    "eng": "Toshka",
-    "fra": "Toshka",
-    "ger": "Toschka",
-    "ita": "Toshka",
-    "pol": "Toszka",
-    "rus": "Тошка",
-    "spa": "Toshka",
-    "ukr": "Тошка"
   },
   "name_stalker_80": {
     "eng": "Rus",
@@ -1519,16 +1489,6 @@
     "spa": "Timka",
     "ukr": "Тимко"
   },
-  "name_stalker_9": {
-    "eng": "Artem",
-    "fra": "Artem",
-    "ger": "Artem",
-    "ita": "Artem",
-    "pol": "Artem",
-    "rus": "Артем",
-    "spa": "Artem",
-    "ukr": "Артем"
-  },
   "name_stalker_90": {
     "eng": "Fedor",
     "fra": "Fedor",
@@ -1628,5 +1588,45 @@
     "rus": "Яша",
     "spa": "Yasha",
     "ukr": "Яша"
+  },
+  "name_stalker_100": {
+    "eng": "Yashka",
+    "fra": "Yashka",
+    "ger": "Jaschka",
+    "ita": "Yashka",
+    "pol": "Jaszka",
+    "rus": "Яшка",
+    "spa": "Yashka",
+    "ukr": "Яшка"
+  },
+  "name_stalker_101": {
+    "eng": "Yarik",
+    "fra": "Yarik",
+    "ger": "Jarik",
+    "ita": "Yarik",
+    "pol": "Jarik",
+    "rus": "Ярик",
+    "spa": "Yarik",
+    "ukr": "Ярик"
+  },
+  "name_stalker_102": {
+    "eng": "Yara",
+    "fra": "Yara",
+    "ger": "Jara",
+    "ita": "Yara",
+    "pol": "Jara",
+    "rus": "Яра",
+    "spa": "Yara",
+    "ukr": "Яра"
+  },
+  "name_stalker_103": {
+    "eng": "Slava",
+    "fra": "Slava",
+    "ger": "Slawa",
+    "ita": "Slava",
+    "pol": "Sława",
+    "rus": "Слава",
+    "spa": "Slava",
+    "ukr": "Слава"
   }
 }

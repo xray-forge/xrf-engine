@@ -1739,6 +1739,86 @@
     "spa": "a que este juego fuese aún mejor:",
     "ukr": "зробити гру кращою:"
   },
+  "st_thanks2": {
+    "eng": "Alexander Poshtaruk, Andrey Oleshk",
+    "fra": "Alexander Poshtaruk, Andrey Oleshk",
+    "ger": "Alexander Poshtaruk, Andrey Oleshk",
+    "ita": "Alexander Poshtaruk, Andrey Oleshk",
+    "pol": "Alexander Poshtaruk, Andrey Oleshk",
+    "rus": "Александр Поштарук, Андрей Олешк",
+    "spa": "Alexander Poshtaruk, Andrey Oleshk",
+    "ukr": "Олександр Поштарук, Андрій Олешк"
+  },
+  "st_thanks3": {
+    "eng": "Alexander Oleinik",
+    "fra": "Alexander Oleinik",
+    "ger": "Alexander Oleinik",
+    "ita": "Alexander Oleinik",
+    "pol": "Alexander Oleinik",
+    "rus": "Александр Олейник",
+    "spa": "Alexander Oleinik",
+    "ukr": "Олександр Олійник"
+  },
+  "st_thanks4": {
+    "eng": "Konstantin “Inquisitor” Kriuchkov",
+    "fra": "Konstantin \"Inquisitor\" Kriuchkov",
+    "ger": "Konstantin \"Inquisitor\" Kriuchkov",
+    "ita": "Konstantin \"Inquisitor\" Kriuchkov",
+    "pol": "Konstantin “Inquisitor” Kriuchkov",
+    "rus": "Константин «Инквизитор» Крючков",
+    "spa": "Konstantin “Inquisitor” Kriuchkov",
+    "ukr": "Костянтин «Инквизитор» Крючков"
+  },
+  "st_thanks5": {
+    "eng": "Alexander Shakhovsky, Igor Dolzhenko",
+    "fra": "Alexander Shakhovsky, Igor Dolzhenko",
+    "ger": "Alexander Shakhovsky, Igor Dolzhenko",
+    "ita": "Alexander Shakhovsky, Igor Dolzhenko",
+    "pol": "Alexander Shakhovsky, Igor Dolzhenko",
+    "rus": "Александр Шаховский, Игорь Долженко",
+    "spa": "Alexander Shakhovsky, Igor Dolzhenko",
+    "ukr": "Олександр Шаховський, Ігор Долженко"
+  },
+  "st_thanks6": {
+    "eng": "Sergey “Tur” Leshenko",
+    "fra": "Sergey \"Tur\" Leshenko",
+    "ger": "Sergey \"Tur\" Leshenko",
+    "ita": "Sergey \"Tur\" Leshenko",
+    "pol": "Sergey “Tur” Leshenko",
+    "rus": "Сергей «Тур» Лещенко",
+    "spa": "Sergey “Tur” Leshenko",
+    "ukr": "Сергій «Тур» Лещенко"
+  },
+  "st_thanks7": {
+    "eng": "Dmitry “Hill” Gorban",
+    "fra": "Dmitry \"Hill\" Gorban",
+    "ger": "Dmitry \"Hill\" Gorban",
+    "ita": "Dmitry \"Hill\" Gorban",
+    "pol": "Dmitry “Hill” Gorban",
+    "rus": "Дмитрий «Hill» Горбань",
+    "spa": "Dmitry “Hill” Gorban",
+    "ukr": "Дмитро «Hill» Горбань"
+  },
+  "st_thanks8": {
+    "eng": "Mikhail Kliuev",
+    "fra": "Mikhail Kliuev",
+    "ger": "Mikhail Kliuev",
+    "ita": "Mikhail Kliuev",
+    "pol": "Mikhail Kliuev",
+    "rus": "Михаил Клюев",
+    "spa": "Mikhail Kliuev",
+    "ukr": "Михайло Клюєв"
+  },
+  "st_thanks9": {
+    "eng": "Sergey “Termite” Volchanov",
+    "fra": "Sergey \"Termite\" Volchanov",
+    "ger": "Sergey \"Termite\" Volchanov",
+    "ita": "Sergey \"Termite\" Volchanov",
+    "pol": "Sergey “Termite” Volchanov",
+    "rus": "Сергей «Термит» Волчанов",
+    "spa": "Sergey “Termite” Volchanov",
+    "ukr": "Сергій «Терміт» Волчанов"
+  },
   "st_thanks10": {
     "eng": "Konstantin Morozkov",
     "fra": "Konstantin Morozkov",
@@ -1839,16 +1919,6 @@
     "spa": "Alexander Novikov",
     "ukr": "Олександр Новіков"
   },
-  "st_thanks2": {
-    "eng": "Alexander Poshtaruk, Andrey Oleshk",
-    "fra": "Alexander Poshtaruk, Andrey Oleshk",
-    "ger": "Alexander Poshtaruk, Andrey Oleshk",
-    "ita": "Alexander Poshtaruk, Andrey Oleshk",
-    "pol": "Alexander Poshtaruk, Andrey Oleshk",
-    "rus": "Александр Поштарук, Андрей Олешк",
-    "spa": "Alexander Poshtaruk, Andrey Oleshk",
-    "ukr": "Олександр Поштарук, Андрій Олешк"
-  },
   "st_thanks20": {
     "eng": "Eugene “KRANZ” Goncharenko",
     "fra": "Eugene \"KRANZ\" Goncharenko",
@@ -1918,76 +1988,6 @@
     "rus": "Tiger, Demesis, Kharon, Moby",
     "spa": "Tiger, Demesis, Kharon, Moby",
     "ukr": "Tiger, Demesis, Kharon, Moby"
-  },
-  "st_thanks3": {
-    "eng": "Alexander Oleinik",
-    "fra": "Alexander Oleinik",
-    "ger": "Alexander Oleinik",
-    "ita": "Alexander Oleinik",
-    "pol": "Alexander Oleinik",
-    "rus": "Александр Олейник",
-    "spa": "Alexander Oleinik",
-    "ukr": "Олександр Олійник"
-  },
-  "st_thanks4": {
-    "eng": "Konstantin “Inquisitor” Kriuchkov",
-    "fra": "Konstantin \"Inquisitor\" Kriuchkov",
-    "ger": "Konstantin \"Inquisitor\" Kriuchkov",
-    "ita": "Konstantin \"Inquisitor\" Kriuchkov",
-    "pol": "Konstantin “Inquisitor” Kriuchkov",
-    "rus": "Константин «Инквизитор» Крючков",
-    "spa": "Konstantin “Inquisitor” Kriuchkov",
-    "ukr": "Костянтин «Инквизитор» Крючков"
-  },
-  "st_thanks5": {
-    "eng": "Alexander Shakhovsky, Igor Dolzhenko",
-    "fra": "Alexander Shakhovsky, Igor Dolzhenko",
-    "ger": "Alexander Shakhovsky, Igor Dolzhenko",
-    "ita": "Alexander Shakhovsky, Igor Dolzhenko",
-    "pol": "Alexander Shakhovsky, Igor Dolzhenko",
-    "rus": "Александр Шаховский, Игорь Долженко",
-    "spa": "Alexander Shakhovsky, Igor Dolzhenko",
-    "ukr": "Олександр Шаховський, Ігор Долженко"
-  },
-  "st_thanks6": {
-    "eng": "Sergey “Tur” Leshenko",
-    "fra": "Sergey \"Tur\" Leshenko",
-    "ger": "Sergey \"Tur\" Leshenko",
-    "ita": "Sergey \"Tur\" Leshenko",
-    "pol": "Sergey “Tur” Leshenko",
-    "rus": "Сергей «Тур» Лещенко",
-    "spa": "Sergey “Tur” Leshenko",
-    "ukr": "Сергій «Тур» Лещенко"
-  },
-  "st_thanks7": {
-    "eng": "Dmitry “Hill” Gorban",
-    "fra": "Dmitry \"Hill\" Gorban",
-    "ger": "Dmitry \"Hill\" Gorban",
-    "ita": "Dmitry \"Hill\" Gorban",
-    "pol": "Dmitry “Hill” Gorban",
-    "rus": "Дмитрий «Hill» Горбань",
-    "spa": "Dmitry “Hill” Gorban",
-    "ukr": "Дмитро «Hill» Горбань"
-  },
-  "st_thanks8": {
-    "eng": "Mikhail Kliuev",
-    "fra": "Mikhail Kliuev",
-    "ger": "Mikhail Kliuev",
-    "ita": "Mikhail Kliuev",
-    "pol": "Mikhail Kliuev",
-    "rus": "Михаил Клюев",
-    "spa": "Mikhail Kliuev",
-    "ukr": "Михайло Клюєв"
-  },
-  "st_thanks9": {
-    "eng": "Sergey “Termite” Volchanov",
-    "fra": "Sergey \"Termite\" Volchanov",
-    "ger": "Sergey \"Termite\" Volchanov",
-    "ita": "Sergey \"Termite\" Volchanov",
-    "pol": "Sergey “Termite” Volchanov",
-    "rus": "Сергей «Термит» Волчанов",
-    "spa": "Sergey “Termite” Volchanov",
-    "ukr": "Сергій «Терміт» Волчанов"
   },
   "st_tihomirov": {
     "eng": "Sergey Tikhomirov",

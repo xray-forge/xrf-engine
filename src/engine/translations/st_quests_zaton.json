@@ -19,405 +19,605 @@
     "spa": "Los únicos lugares relativamente seguros de la Zona son los campamentos de gran tamaño. El más próximo es Skadovsk y hacia allí debes dirigirte.",
     "ukr": "У Зоні відносно безпечно лише у великих таборах. Має сенс дістатися найближчого з них - «Скадовська»."
   },
-  "zat_b100_guide_maps_01_name": {
-    "eng": "Area maps: find someone interested in the maps",
-    "fra": "Cartes de la zone : trouver une personne intéressée par les cartes.",
-    "ger": "Umgebungskarten: Interessenten für die Karten finden",
-    "ita": "Mappe dell'area: trova qualcuno interessato alle mappe",
-    "pol": "Mapy terenu: znajdź kogoś, kto interesuje się mapami",
-    "rus": "Карты местности: найти заинтересованных",
-    "spa": "Mapas del lugar: encuentra a alguien interesado en los mapas",
-    "ukr": "Карти місцевості: знайти зацікавлених"
+  "zat_b3_get_tools_1_2_name": {
+    "eng": "Tools: bring Cardan tools",
+    "fra": "Outils : apporter des outils à Cardan.",
+    "ger": "Werkzeug: Kardan Werkzeug bringen",
+    "ita": "Attrezzi: porta gli attrezzi a Cardan",
+    "pol": "Narzędzia: przynieś Kardanowi narzędzia",
+    "rus": "Инструменты: принести инструменты Кардану",
+    "spa": "Herramientas: llévale herramientas a Cardán",
+    "ukr": "Інструменти: принести інструменти Карданові"
   },
-  "zat_b100_guide_maps_01_text": {
-    "eng": "The Stingray 2 onboard computer had maps of the area between Zaton and Jupiter. You should find someone who could use them.",
-    "fra": "L'ordinateur de bord de Stingray 2 contenait des cartes du secteur entre Zaton et Jupiter. Vous devriez trouver quelqu'un qui en aura l'utilité.",
-    "ger": "Auf dem Bordcomputer von Stingray 2 befanden sich Karten der Gegend zwischen Zaton und der Jupiter-Anlage. Sie sollten jemanden finden, der etwas mit diesen Karten anfangen kann.",
-    "ita": "Il computer di bordo di Stingray 2 conteneva delle mappe dell'area tra Zaton e Jupiter. Trova qualcuno a cui potrebbero interessare.",
-    "pol": "Komputer pokładowy Ogończy 2 zawierał mapy terenu pomiędzy Zatonem i Jupiterem. Znajdź kogoś, kto mógłby zrobić z nich użytek.",
-    "rus": "В бортовом компьютере вертолёта «Скат-2» были карты местности между Затоном и «Юпитером». Стоит найти того, кому эти карты могут понадобиться.",
-    "spa": "El ordenador de a bordo del Pez Raya 2 tenía mapas de la zona comprendida entre Zaton y Júpiter. Deberías buscar a alguien que los necesite.",
-    "ukr": "У бортовому комп'ютері гелікоптеру «Скат-2» містилися мапи місцевості між Затоном та «Юпітером». Варто знайти того, кому ці мапи можуть знадобитися."
+  "zat_b3_get_tools_1_2_text": {
+    "eng": "Cardan has asked you to get two sets of tools: one for basic work and one for fine work. The technician will pay you for the tools and will be able to perform more advanced weapon and armor modifications.",
+    "fra": "Cardan vous a demandé de lui apporter deux jeux d'outils : des outils rudimentaires et des outils de précision. Le technicien vous paiera et sera en mesure d'effectuer des modifications d'armes et d'armures plus complexes.",
+    "ger": "Kardan hat Sie gebeten, ihm zwei Werkzeugsets zu beschaffen: Eines für einfache Arbeiten und eines für feinere Arbeiten. Der Techniker wird Sie für das Werkzeug bezahlen und damit bessere Modifikationen für Waffen und Panzerung durchführen können.",
+    "ita": "Cardan ti ha chiesto di portargli due kit di attrezzi: uno per i lavori di base e uno per quelli avanzati. In cambio, il tecnico ti pagherà e potrà eseguire modifiche più complesse per armi e armature.",
+    "pol": "Kardan poprosił cię o zdobycie dwóch zestawów narzędzi: jednego podstawowego i jednego do precyzyjnej pracy. Technik zapłaci ci za narzędzia i będzie w stanie wykonać bardziej zaawansowane modyfikacje broni i pancerzy.",
+    "rus": "Кардан просил найти два набора инструментов: один для тонкой работы, другой для грубой. Техник заплатит за инструмент и, кроме того, сможет обеспечить более сложную модернизацию оружия или бронежилета.",
+    "spa": "Cardán te ha pedido que le consigas dos juegos de herramientas: uno para trabajos básicos y otro para trabajos profesionales. Te pagará por ellas, y podrá realizar modificaciones más avanzadas en armas y blindajes.",
+    "ukr": "Кардан просив знайти два набори інструментів: один для тонкої роботи, інший для грубої. Технік заплатить за інструмент і, крім того, зможе забезпечити складнішу модернізацію зброї чи бронежилета."
   },
-  "zat_b100_guide_maps_02_name": {
-    "eng": "Area maps: offer the maps to Pilot",
-    "fra": "Cartes de la zone : remettre les cartes à Pilote.",
-    "ger": "Umgebungskarten: Pilot die Karten anbieten",
-    "ita": "Mappe dell'area: offri le mappe a Pilot",
-    "pol": "Mapy terenu: zaoferuj mapy Pilotowi",
-    "rus": "Карты местности: предложить Лоцману",
-    "spa": "Mapas del lugar: ofrécele los mapas a Piloto",
-    "ukr": "Карти місцевості: запропонувати Лоцманові"
+  "zat_b3_get_tools_1_3_name": {
+    "eng": "Tools: bring Cardan tools",
+    "fra": "Outils : apporter des outils à Cardan.",
+    "ger": "Werkzeug: Kardan Werkzeug bringen",
+    "ita": "Attrezzi: porta gli attrezzi a Cardan",
+    "pol": "Narzędzia: przynieś Kardanowi narzędzia",
+    "rus": "Инструменты: принести инструменты Кардану",
+    "spa": "Herramientas: llévale herramientas a Cardán",
+    "ukr": "Інструменти: принести інструменти Карданові"
   },
-  "zat_b100_guide_maps_02_text": {
-    "eng": "It's possible that Pilot, the local guide, could be interested in maps of the area between Zaton and Jupiter.",
-    "fra": "Pilote, le guide du coin, pourrait être intéressé par les cartes de la région entre Zaton et Jupiter.",
-    "ger": "Möglicherweise hätte Pilot, der hiesige Ortskundige, Interesse an den Karten des Gebiets zwischen Zaton und Jupiter.",
-    "ita": "Pilot, la guida locale, potrebbe essere interessato alle mappe dell'area tra Zaton e Jupiter.",
-    "pol": "Możliwe, że Pilot, miejscowy przewodnik, będzie zainteresowany mapami terenu pomiędzy Zatonem i Jupiterem.",
-    "rus": "Карты местности между Затоном и «Юпитером» предположительно могут заинтересовать Лоцмана, местного проводника.",
-    "spa": "Es posible que Piloto, el guía local, esté interesado en los mapas de la zona comprendida entre Zaton y Júpiter.",
-    "ukr": "Є припущення, що мапи місцевості між Затоном та «Юпітером» можуть зацікавити Лоцмана, місцевого проводиря."
+  "zat_b3_get_tools_1_3_text": {
+    "eng": "Cardan has asked you to get two sets of tools: one for basic work and one for calibration. The technician will pay you for the tools and will be able to perform more advanced weapon and armor modifications.",
+    "fra": "Cardan vous a demandé de récupérer deux jeux d'outils : des outils rudimentaires et des outils de calibrage. Le technicien vous paiera et sera en mesure d'effectuer des modifications d'armes et d'armures plus complexes.",
+    "ger": "Kardan hat Sie gebeten, ihm zwei Werkzeugsets zu beschaffen: Eines für einfache Arbeiten und eines für Kalibrierungsarbeiten. Der Techniker wird Sie für das Werkzeug bezahlen und damit bessere Modifikationen für Waffen und Panzerung durchführen können.",
+    "ita": "Cardan ti ha chiesto di portargli due kit di attrezzi: uno per i lavori di base e uno per quelli di precisione. In cambio, il tecnico ti pagherà e potrà eseguire modifiche più complesse per armi e armature.",
+    "pol": "Kardan poprosił cię o zdobycie dwóch zestawów narzędzi: jednego podstawowego i jednego do kalibracji. Technik zapłaci ci za narzędzia i będzie w stanie wykonać bardziej zaawansowane modyfikacje broni i pancerzy.",
+    "rus": "Кардан просил найти два набора инструментов: один для грубой работы, другой для калибровки. Техник заплатит за инструмент и, кроме того, сможет обеспечить более сложную модернизацию оружия или бронежилета.",
+    "spa": "Cardán te ha pedido que le consigas dos juegos de herramientas: uno para trabajos básicos y otro de calibración. Te pagará por ellas, y podrá realizar modificaciones más avanzadas en armas y blindajes.",
+    "ukr": "Кардан просив знайти два набори інструментів: один для грубої роботи, інший для калібрування. Технік заплатить за інструмент і, крім того, зможе забезпечити складнішу модернізацію зброї чи бронежилета."
   },
-  "zat_b100_heli_2_crash_name": {
-    "eng": "Stingray 2: investigate the crash site",
-    "fra": "Stingray 2 : fouiller les lieux de l'accident.",
-    "ger": "Stingray 2: Absturzstelle untersuchen",
-    "ita": "Stingray 2: perlustra il luogo dello schianto",
-    "pol": "Ogończa 2: zbadaj miejsce katastrofy",
-    "rus": "«Скат-2»: исследовать место падения",
-    "spa": "Pez Raya 2: investiga el lugar del accidente",
-    "ukr": "«Скат-2»: дослідити місце падіння"
+  "zat_b3_get_tools_1_name": {
+    "eng": "Tools: bring Cardan tools",
+    "fra": "Outils : apporter des outils à Cardan.",
+    "ger": "Werkzeug: Kardan Werkzeug bringen",
+    "ita": "Attrezzi: porta gli attrezzi a Cardan",
+    "pol": "Narzędzia: przynieś Kardanowi narzędzia",
+    "rus": "Инструменты: принести инструменты Кардану",
+    "spa": "Herramientas: llévale herramientas a Cardán",
+    "ukr": "Інструменти: принести інструменти Карданові"
   },
-  "zat_b100_heli_2_crash_text": {
-    "eng": "Investigate the Stingray 2 crash site.",
-    "fra": "Fouillez les lieux de l'accident du Stingray 2.",
-    "ger": "Untersuchen Sie die Absturzstelle von Stingray 2.",
-    "ita": "Perlustra il luogo dello schianto di Stingray 2.",
-    "pol": "Zbadaj miejsce katastrofy Ogończy 2.",
-    "rus": "Исследовать место падения вертолёта «Скат-2».",
-    "spa": "Investiga el lugar del accidente del Pez Raya 2.",
-    "ukr": "Дослідити місце падіння гелікоптера «Скат-2»."
+  "zat_b3_get_tools_1_text": {
+    "eng": "Cardan has asked you to get a set of tools for basic work. The technician will pay you for the tools and will be able to perform more advanced weapon and armor modifications.",
+    "fra": "Cardan vous a demandé de récupérer un jeu d'outils rudimentaires. Le technicien vous paiera et sera en mesure d'effectuer des modifications d'armes et d'armures plus complexes.",
+    "ger": "Kardan hat Sie gebeten, ihm Werkzeug für einfache Arbeiten zu beschaffen. Der Techniker wird Sie für das Werkzeug bezahlen und damit bessere Modifikationen für Waffen und Panzerung durchführen können.",
+    "ita": "Cardan ti ha chiesto di portargli un kit di attrezzi per i lavori di base. In cambio, il tecnico ti pagherà e potrà eseguire modifiche più complesse per armi e armature.",
+    "pol": "Kardan poprosił cię o zdobycie zestawu narzędzi podstawowych. Technik zapłaci ci za narzędzia i będzie w stanie wykonać bardziej zaawansowane modyfikacje broni i pancerzy.",
+    "rus": "Кардан просил найти набор инструментов для грубой работы. Техник заплатит за инструмент и, кроме того, сможет обеспечить более сложную модернизацию оружия или бронежилета.",
+    "spa": "Cardán te ha pedido que le consigas un juego de herramientas para trabajos básicos. Te pagará por ellas, y podrá realizar modificaciones más avanzadas en armas y blindajes.",
+    "ukr": "Кардан просив знайти набір інструментів для грубої роботи. Технік заплатить за інструмент і, крім того, зможе забезпечити складнішу модернізацію зброї чи бронежилета."
   },
-  "zat_b101_heli_5_crash_name": {
-    "eng": "Stingray 5: investigate the crash site",
-    "fra": "Stingray 5 : fouiller les lieux de l'accident.",
-    "ger": "Stingray 5: Absturzstelle untersuchen",
-    "ita": "Stingray 5: perlustra il luogo dello schianto",
-    "pol": "Ogończa 5: zbadaj miejsce katastrofy",
-    "rus": "«Скат-5»: исследовать место падения",
-    "spa": "Pez Raya 5: investiga el lugar del accidente",
-    "ukr": "«Скат-5»: дослідити місце падіння"
+  "zat_b3_get_tools_2_3_name": {
+    "eng": "Tools: bring Cardan tools",
+    "fra": "Outils : apporter des outils à Cardan.",
+    "ger": "Werkzeug: Kardan Werkzeug bringen",
+    "ita": "Attrezzi: porta gli attrezzi a Cardan",
+    "pol": "Narzędzia: przynieś Kardanowi narzędzia",
+    "rus": "Инструменты: принести инструменты Кардану",
+    "spa": "Herramientas: llévale herramientas a Cardán",
+    "ukr": "Інструменти: принести інструменти Карданові"
   },
-  "zat_b101_heli_5_crash_name_02": {
-    "eng": "Stingray 5: find the reason for electronic burn out",
-    "fra": "Stingray 5 : trouver la cause du court-circuit.",
-    "ger": "Stingray 5: Herausfinden, warum die Elektronik ausgebrannt ist",
-    "ita": "Stingray 5: scopri il motivo del guasto elettronico",
-    "pol": "Ogończa 5: znajdź przyczynę spalenia się elektroniki",
-    "rus": "«Скат-5»: найти причину перегорания электроники",
-    "spa": "Pez Raya 5: averigua por qué se han quemado los aparatos",
-    "ukr": "«Скат-5»: знайти причину згоряння електроніки."
+  "zat_b3_get_tools_2_3_text": {
+    "eng": "Cardan has asked you to get two sets of tools: one for fine work and one for calibration. The technician will pay you for the tools and will be able to perform more advanced weapon and armor modifications.",
+    "fra": "Cardan vous a demandé de récupérer deux jeux d'outils : des outils de précision et des outils de calibrage. Le technicien vous paiera et sera en mesure d'effectuer des modifications d'armes et d'armures plus complexes.",
+    "ger": "Kardan hat Sie gebeten, ihm zwei Werkzeugsets zu beschaffen: Eines für feinere Arbeiten und eines für Kalibrierungsarbeiten. Der Techniker wird Sie für das Werkzeug bezahlen und damit bessere Modifikationen für Waffen und Panzerung durchführen können.",
+    "ita": "Cardan ti ha chiesto di portargli due kit di attrezzi: uno per i lavori avanzati e uno per quelli di precisione. In cambio, il tecnico ti pagherà e potrà eseguire modifiche più complesse per armi e armature.",
+    "pol": "Kardan poprosił cię o zdobycie dwóch zestawów narzędzi: jednego do precyzyjnej pracy i jednego do kalibracji. Technik zapłaci ci za narzędzia i będzie w stanie wykonać bardziej zaawansowane modyfikacje broni i pancerzy.",
+    "rus": "Кардан просил найти два набора инструментов: один для тонкой работы, другой для калибровки. Техник заплатит за инструмент и, кроме того, сможет обеспечить более сложную модернизацию оружия или бронежилета.",
+    "spa": "Cardán te ha pedido que le consigas dos juegos de herramientas: uno para trabajos profesionales y otro de calibración. Te pagará por ellas, y podrá realizar modificaciones más avanzadas en armas y blindajes.",
+    "ukr": "Кардан просив знайти два набори інструментів: один для тонкої роботи, інший для калібрування. Технік заплатить за інструмент і, крім того, зможе забезпечити складнішу модернізацію зброї чи бронежилета."
   },
-  "zat_b101_heli_5_crash_name_03": {
-    "eng": "Stingray squad: find the source of the charges which hit the two helicopters",
-    "fra": "Unité Stingray : trouver la source des décharges qui ont frappé les deux hélicoptères.",
-    "ger": "Stingray-Einheit: Die Quelle der Entladungen finden, die die beiden Hubschrauber getroffen haben",
-    "ita": "Squadra Stingray: trova la fonte delle scariche che hanno colpito i due elicotteri",
-    "pol": "Oddział Ogończy: znajdź źródło wyładowań, które uderzyły w dwa śmigłowce",
-    "rus": "Отряд «Скат»: найти источник разрядов, поразивших два вертолёта",
-    "spa": "Escuadrón de Peces Raya: encuentra el origen de la descarga que derribó a los dos helicópteros",
-    "ukr": "Загін «Скат»: знайти джерело розрядів, що вразили два гелікоптери"
+  "zat_b3_get_tools_2_name": {
+    "eng": "Tools: bring Cardan tools",
+    "fra": "Outils : apporter des outils à Cardan.",
+    "ger": "Werkzeug: Kardan Werkzeug bringen",
+    "ita": "Attrezzi: porta gli attrezzi a Cardan",
+    "pol": "Narzędzia: przynieś Kardanowi narzędzia",
+    "rus": "Инструменты: принести инструменты Кардану",
+    "spa": "Herramientas: llévale herramientas a Cardán",
+    "ukr": "Інструменти: принести інструменти Карданові"
   },
-  "zat_b101_heli_5_crash_text": {
-    "eng": "Investigate the Stingray 5 crash site.",
-    "fra": "Fouillez les lieux de l'accident du Stingray 5.",
-    "ger": "Untersuchen Sie die Absturzstelle von Stingray 5.",
-    "ita": "Perlustra il luogo dello schianto di Stingray 5.",
-    "pol": "Zbadaj miejsce katastrofy Ogończy 5.",
-    "rus": "Исследовать место падения вертолёта «Скат-5».",
-    "spa": "Investiga el lugar del accidente del Pez Raya 5.",
-    "ukr": "Дослідити місце падіння гелікоптера «Скат-5»."
+  "zat_b3_get_tools_2_text": {
+    "eng": "Cardan has asked you to get a set of tools for fine work. The technician will pay you for the tools and will be able to perform more advanced weapon and armor modifications.",
+    "fra": "Cardan vous a demandé de récupérer un jeu d'outils de précision. Le technicien vous paiera et sera en mesure d'effectuer des modifications d'armes et d'armures plus complexes.",
+    "ger": "Kardan hat Sie gebeten, ihm Werkzeug für feinere Arbeiten zu beschaffen. Der Techniker wird Sie für das Werkzeug bezahlen und damit bessere Modifikationen für Waffen und Panzerung durchführen können.",
+    "ita": "Cardan ti ha chiesto di portargli un kit di attrezzi per i lavori avanzati. In cambio, il tecnico ti pagherà e potrà eseguire modifiche più complesse per armi e armature.",
+    "pol": "Kardan poprosił cię o zdobycie zestawu narzędzi do precyzyjnej pracy. Technik zapłaci ci za narzędzia i będzie w stanie wykonać bardziej zaawansowane modyfikacje broni i pancerzy.",
+    "rus": "Кардан просил найти набор инструментов для тонкой работы. Техник заплатит за инструмент и, кроме того, сможет обеспечить более сложную модернизацию оружия или бронежилета.",
+    "spa": "Cardán te ha pedido que le consigas un juego de herramientas para trabajos profesionales. Te pagará por ellas, y podrá realizar modificaciones más avanzadas en armas y blindajes.",
+    "ukr": "Кардан просив знайти набір інструментів для тонкої роботи. Технік заплатить за інструмент і, крім того, зможе забезпечити складнішу модернізацію зброї чи бронежилета."
   },
-  "zat_b101_heli_5_crash_text_02": {
-    "eng": "You must find the source of the powerful electric charge which hit the Stingray 5 helicopter.",
-    "fra": "Trouvez la source de la puissante décharge électrique qui a frappé l'hélicoptère Stingray 5.",
-    "ger": "Sie müssen die Quelle der starken elektrischen Entladung finden, die Stingray 5 getroffen hat.",
-    "ita": "Devi trovare la fonte della potente scarica elettrica che ha colpito l'elicottero Stingray 5.",
-    "pol": "Musisz znaleźć źródło silnego wyładowania elektrycznego, które uderzyło w śmigłowiec Ogończa 5.",
-    "rus": "Нужно выяснить источник мощного электрического разряда, поразившего вертолёт «Скат-5».",
-    "spa": "Debes encontrar el origen de la potente descarga eléctrica que alcanzó al helicóptero Pez Raya 5.",
-    "ukr": "Потрібно з'ясувати джерело потужного електричного розряду, що вразив вертоліт «Скат-5»."
+  "zat_b3_get_tools_3_name": {
+    "eng": "Tools: bring Cardan tools",
+    "fra": "Outils : apporter des outils à Cardan.",
+    "ger": "Werkzeug: Kardan Werkzeug bringen",
+    "ita": "Attrezzi: porta gli attrezzi a Cardan",
+    "pol": "Narzędzia: przynieś Kardanowi narzędzia",
+    "rus": "Инструменты: принести инструменты Кардану",
+    "spa": "Herramientas: llévale herramientas a Cardán",
+    "ukr": "Інструменти: принести інструменти Карданові"
   },
-  "zat_b101_heli_5_crash_text_03": {
-    "eng": "You must find out what caused the electronics in Stingrays 4 and 5 to burn out. It seems they were hit by powerful electric charges.",
-    "fra": "Trouvez la cause du court-circuit des Stringray 4 et 5. Il semblerait qu'ils aient été frappés par de puissantes décharges électriques.",
-    "ger": "Sie müssen herausfinden, warum die Elektronik von Stingray 4 und Stingray 5 ausgebrannt ist. Offensichtlich wurden die Hubschrauber von starken elektrischen Entladungen getroffen.",
-    "ita": "Devi scoprire cosa ha provocato il guasto elettronico di Stingray 4 e 5. Pare siano stati colpiti da potenti scariche elettriche.",
-    "pol": "Musisz znaleźć przyczynę spalenia się elektroniki w Ogończach 4 i 5. Wygląda na to, że zostały trafione przez silne wyładowania elektryczne.",
-    "rus": "Необходимо найти причину, по которой сгорела электроника вертолётов «Скат-4» и «Скат-5». При обследовании выяснилось, что обе машины были поражены мощным электрическим разрядом.",
-    "spa": "Debes averiguar qué fue lo que quemó los aparatos de los Peces Raya 4 y 5. Parece que fueron alcanzados por potentes descargas eléctricas.",
-    "ukr": "Необхідно знайти причину, через яку згоріла електроніка гелікоптерів «Скат-4» та «Скат-5». Під час обстеження з'ясувалося, що обидві машини було вражено потужним електричним розрядом."
+  "zat_b3_get_tools_3_text": {
+    "eng": "Cardan has asked you to get a set of tools for calibration. The technician will pay you for the tools and will be able to perform more advanced weapon and armor modifications.",
+    "fra": "Cardan vous a demandé de récupérer un jeu d'outils de calibrage. Le technicien vous paiera et sera en mesure d'effectuer des modifications d'armes et d'armures plus complexes.",
+    "ger": "Kardan hat Sie gebeten, ihm Werkzeug für Kalibrierungsarbeiten zu beschaffen. Der Techniker wird Sie für das Werkzeug bezahlen und damit bessere Modifikationen für Waffen und Panzerung durchführen können.",
+    "ita": "Cardan ti ha chiesto di portargli un kit di attrezzi per i lavori di precisione. In cambio, il tecnico ti pagherà e potrà eseguire modifiche più complesse per armi e armature.",
+    "pol": "Kardan poprosił cię o zdobycie zestawu narzędzi do kalibracji. Technik zapłaci ci za narzędzia i będzie w stanie wykonać bardziej zaawansowane modyfikacje broni i pancerzy.",
+    "rus": "Кардан просил найти набор инструментов для калибровки. Техник заплатит за инструмент и, кроме того, сможет обеспечить более сложную модернизацию оружия или бронежилета.",
+    "spa": "Cardán te ha pedido que le consigas un juego de herramientas de calibración. Te pagará por ellas, y podrá realizar modificaciones más avanzadas en armas y blindajes.",
+    "ukr": "Кардан просив знайти набір інструментів для калібрування. Технік заплатить за інструмент і, крім того, зможе забезпечити складнішу модернізацію зброї чи бронежилета."
   },
-  "zat_b103_merc_bring_supplies_name": {
-    "eng": "Food: get food for the mercenaries",
-    "fra": "Nourriture : trouver de la nourriture pour les mercenaires.",
-    "ger": "Proviant: Lebensmittel für die Söldner besorgen",
-    "ita": "Cibo: ottieni del cibo per i mercenari",
-    "pol": "Żywność: zdobądź jedzenie dla najemników",
-    "rus": "Припасы: достать еду для наёмников",
-    "spa": "Comida: consigue comida para los mercenarios",
-    "ukr": "Припаси: дістати їжу для найманців"
+  "zat_b3_mechanic_toolkit_search_name": {
+    "eng": "Tools: bring Cardan tools",
+    "fra": "Outils : apporter des outils à Cardan.",
+    "ger": "Werkzeug: Kardan Werkzeug bringen",
+    "ita": "Attrezzi: porta gli attrezzi a Cardan",
+    "pol": "Narzędzia: przynieś Kardanowi narzędzia",
+    "rus": "Инструменты: принести инструменты Кардану",
+    "spa": "Herramientas: llévale herramientas a Cardán",
+    "ukr": "Інструменти: принести інструменти Карданові"
   },
-  "zat_b103_merc_bring_supplies_text": {
-    "eng": "The mercenary squad in the substation workshops has asked you to bring them six cans of meat, pieces of sausage or bread.",
-    "fra": "Les mercenaires des ateliers du poste électrique vous ont demandé de leur rapporter six conserves de viande, des saucisses ou du pain.",
-    "ger": "Der Söldnertrupp in den Werkstätten des Umspannwerks hat Sie gebeten, sechs Dosen Fleisch, Würste oder Brot zu besorgen.",
-    "ita": "La squadra dei mercenari nelle officine della sotto-stazione ti ha chiesto di portare sei scatole di carne, pezzi di salsiccia o del pane.",
-    "pol": "Oddział najemników z warsztatów podstacji poprosił cię o przyniesienie sześciu puszek mięsa, kawałków kiełbasy lub chleba.",
-    "rus": "Отряд наёмников, расположившийся в цехах подстанции, просит принести им припасы - общим числом шесть банок консервов, палок колбасы или батонов.",
-    "spa": "El escuadrón mercenario de los talleres de la subestación te ha pedido que les lleves seis latas de carne, salchichas troceadas o pan.",
-    "ukr": "Загін найманців, що розташувався у цехах підстанції, просить принести їм припаси - шість банок консервів, стільки ж палок ковбаси або батонів."
+  "zat_b3_mechanic_toolkit_search_text": {
+    "eng": "Cardan has asked you to get three sets of tools: one for basic work, one for fine work and one for calibration. The technician will pay you for the tools and will be able to perform more advanced weapon and armor modifications.",
+    "fra": "Cardan vous a demandé de récupérer trois jeux d'outils : des outils rudimentaires, des outils de précisions et des instruments de calibrage. Le technicien vous paiera et sera en mesure d'effectuer des modifications d'armes et d'armures plus complexes.",
+    "ger": "Kardan hat Sie gebeten, ihm drei Werkzeugsets zu beschaffen: Eines für einfache, eines für feinere und eines für Kalibrierungsarbeiten. Der Techniker wird Sie für das Werkzeug bezahlen und damit bessere Modifikationen für Waffen und Panzerung durchführen können.",
+    "ita": "Cardan ti ha chiesto di portargli tre kit di attrezzi: uno per i lavori di base, uno per quelli avanzati e uno per quelli di precisione. In cambio, il tecnico ti pagherà e potrà eseguire modifiche più complesse per armi e armature.",
+    "pol": "Kardan poprosił cię o zdobycie trzech zestawów narzędzi: jednego podstawowego, jednego do precyzyjnej pracy i jednego do kalibracji. Technik zapłaci ci za narzędzia i będzie w stanie wykonać bardziej zaawansowane modyfikacje broni i pancerzy.",
+    "rus": "Кардан просил найти три набора инструментов: для грубой работы, для тонкой работы плюс набор для калибровки. Техник заплатит за инструмент и, кроме того, сможет обеспечить более сложную модернизацию оружия или бронежилета.",
+    "spa": "Cardán te ha pedido que le consigas tres juegos de herramientas: uno para trabajos básicos, otro para trabajos profesionales y otro de calibración. Te pagará por ellas, y podrá realizar modificaciones más avanzadas en armas y blindajes.",
+    "ukr": "Кардан просив знайти три набори інструментів: для грубої роботи, для тонкої роботи плюс набір для калібрування. Технік заплатить за інструмент і, крім того, зможе забезпечити складнішу модернізацію зброї чи бронежилета."
   },
-  "zat_b103_merc_supplies_got_name": {
-    "eng": "Food: take the food to the mercenaries",
-    "fra": "Nourriture : apporter la nourriture aux mercenaires.",
-    "ger": "Proviant: Die Lebensmittel zu den Söldnern bringen",
-    "ita": "Cibo: porta il cibo ai mercenari",
-    "pol": "Żywność: zanieś jedzenie najemnikom",
-    "rus": "Припасы: отнести еду наёмникам",
-    "spa": "Comida: llévales la comida a los mercenarios",
-    "ukr": "Припаси: віднести їжу найманцям"
+  "zat_b5_come_to_bandits_name": {
+    "eng": "Transaction: meet the bandits by the ranger station",
+    "fra": "Transaction : rencontrer les bandits près du poste des rangers.",
+    "ger": "Transaktion: Banditen bei der Forststation treffen",
+    "ita": "Transazione: incontra i banditi alla stazione dei ranger",
+    "pol": "Transakcja: spotkaj się z bandytami koło strażnicy",
+    "rus": "Сделка: встретиться с бандитами возле лесничества",
+    "spa": "Transacción: reúnete con los bandidos junto a la estación de guardabosques",
+    "ukr": "Угода: зустрітися з бандитами біля лісництва"
   },
-  "zat_b103_merc_supplies_got_text": {
-    "eng": "You must take the food you've collected to the mercenaries in the substation workshops.",
-    "fra": "Rapportez la nourriture que vous avez récupérée aux mercenaires des ateliers du poste électrique.",
-    "ger": "Sie müssen die Lebensmittel, die Sie besorgt haben, zu den Söldnern in den Werkstätten des Umspannwerks bringen.",
-    "ita": "Devi portare ai mercenari nelle officine della sotto-stazione il cibo che hai trovato.",
-    "pol": "Musisz zanieść zgromadzone jedzenie najemnikom w warsztatach podstacji.",
-    "rus": "Необходимо отнести собранные припасы наёмникам, расположившимся в цехах подстанции.",
-    "spa": "Debes llevarles a los mercenarios de los talleres de la subestación la comida que has conseguido.",
-    "ukr": "Необхідно віднести зібрані припаси найманцям, які розташувалися у цехах підстанції."
+  "zat_b5_come_to_bandits_text": {
+    "eng": "Sultan has asked you to take part in a transaction with a trader. You need to accompany his people and cover them in case something happens.",
+    "fra": "Sultan vous a demandé de participer à une transaction avec un marchand. Vous devez accompagner ses hommes et les couvrir en cas de problème.",
+    "ger": "Sultan hat Sie gebeten, bei einer Transaktion mit einem Händler mitzumachen. Sie müssen seine Männer begleiten und ihnen Hilfe leisten, falls etwas passieren sollte.",
+    "ita": "Sultan ti ha chiesto di partecipare a una transazione con un mercante. Accompagna i suoi uomini e proteggili in caso di necessità.",
+    "pol": "Sułtan poprosił cię o udział w transakcji z jednym z handlarzy. Musisz towarzyszyć jego ludziom, by zapewnić im ochronę, gdyby coś się wydarzyło.",
+    "rus": "Султан попросил поучаствовать в сделке с одним барыгой. Надо сопроводить людей Султана к месту встречи и прикрывать их на случай непредвиденных обстоятельств.",
+    "spa": "Sultán te ha pedido que participes en una transacción con un comerciante. Tienes que acompañar a sus hombres y cubrirlos si ocurre algo.",
+    "ukr": "Султан попросив узяти участь в угоді з одним баригою. Треба супроводити людей Султана до місця зустрічі та прикривати їх на випадок непередбачуваних обставин."
   },
-  "zat_b103_toolkit_2_substation_workshop_name": {
-    "eng": "Tools: investigate the substation workshops",
-    "fra": "Outils : fouiller les ateliers du poste électrique.",
-    "ger": "Werkzeug: Die Werkstätten des Umspannwerks untersuchen",
-    "ita": "Attrezzi: perlustra le officine della sotto-stazione",
-    "pol": "Narzędzia: zbadaj warsztaty podstacji",
-    "rus": "Инструменты: обследовать цеха подстанции",
-    "spa": "Herramientas: investiga los talleres de la subestación",
-    "ukr": "Інструменти: обстежити цехи підстанції"
+  "zat_b5_come_to_dealer_name": {
+    "eng": "Transaction: meet the trader",
+    "fra": " Transaction : rejoindre le marchand.",
+    "ger": "Transaktion: Den Händler treffen",
+    "ita": " Transazione: incontra il mercante",
+    "pol": "Transakcja: spotkaj się z handlarzem",
+    "rus": "Сделка: встретиться с торговцем",
+    "spa": " Transacción: reúnete con el comerciante",
+    "ukr": "Угода: зустрітися із торговцем"
   },
-  "zat_b103_toolkit_2_substation_workshop_text": {
-    "eng": "They say there might be tools in the substation workshops. You might even find the ones the technician is after.",
-    "fra": "Il semble y avoir des outils dans les ateliers du poste électrique. Qui sait, vous trouverez peut-être ceux que le technicien recherche.",
-    "ger": "In den Werkstätten des Umspannwerks soll es Werkzeug geben. Vielleicht finden Sie dort sogar das Werkzeug, das der Techniker braucht.",
-    "ita": "Pare ci siano degli attrezzi nelle officine della sotto-stazione. Forse lì troverai quelli richiesti dal tecnico.",
-    "pol": "Mówią, że w warsztatach podstacji mogą znajdować się narzędzia. Może nawet znajdziesz te, których szuka technik.",
-    "rus": "Поговаривают, что в цехах подстанции могут быть инструменты. Возможно, там найдутся и такие, которые нужны технику.",
-    "spa": "Dicen que podría haber herramientas en los talleres de la subestación. Hasta puede que encuentres los que busca el técnico.",
-    "ukr": "Кажуть, що в цехах підстанції можуть знайтися інструменти. Можливо, там знайдуться і такі, що потрібні технікові."
+  "zat_b5_come_to_dealer_text": {
+    "eng": "Owl has offered you a job - protecting some trader during a transaction. Clearly, the transaction is shady and it might not go very smoothly.",
+    "fra": "Le Hibou vous a confié une mission. Vous devez protéger un marchand pendant une transaction. Il s'agit clairement d'une affaire louche et il y a des chances que les choses tournent mal.",
+    "ger": "Uhu hat einen Auftrag für Sie: Sie müssen einen Händler bei einer Transaktion beschützen. Ganz offensichtlich handelt es sich um ein krummes Geschäft und es wird nicht ohne Probleme über die Bühne gehen.",
+    "ita": "Owl ti ha chiesto di proteggere un mercante durante una transazione. L'intera faccenda è un po' losca, e qualcosa potrebbe andare storto.",
+    "pol": "Sowa zaproponował ci pracę przy ochronie pewnego handlarza podczas transakcji. Oczywiście jest to szemrany interes i może nie pójść zbyt gładko.",
+    "rus": "Сыч предложил работу - охранять какого-то торговца во время сделки. Очевидно, сделка имеет сомнительный характер и в процессе могут возникнуть неприятности.",
+    "spa": "Búho te ha encargado que protejas a un comerciante durante una transacción. Es evidente que se trata de un chanchullo y es posible que no salga del todo bien.",
+    "ukr": "Сич запропонував роботу - охороняти якогось торговця під час угоди. Вочевидь, угода має сумнівний характер і в процесі можуть виникнути неприємності."
   },
-  "zat_b106_find_chimera_name": {
-    "eng": "Hunting the chimera: find the mutant while it's sleeping",
-    "fra": "La chasse à la chimère : trouver le mutant pendant son sommeil.",
-    "ger": "Jagd auf die Chimäre: Den Mutanten finden, solange er schläft",
-    "ita": "A caccia della chimera: sorprendi il mutante mentre dorme",
-    "pol": "Polowanie na chimerę: znajdź mutanta, dopóki śpi",
-    "rus": "Охота на химеру: найти мутанта, пока он спит",
-    "spa": "Caza de la quimera: encuentra al mutante mientras duerme",
-    "ukr": "Полювання на химеру: знайти мутанта, поки той спить"
+  "zat_b5_come_to_stalkers_name": {
+    "eng": "Transaction: meet the stalkers by the ranger station",
+    "fra": " Transaction : rejoindre les stalkers près du poste des rangers.",
+    "ger": "Transaktion: Stalker bei der Forststation treffen",
+    "ita": " Transazione: incontra gli stalker alla stazione dei ranger",
+    "pol": "Transakcja: spotkaj się ze stalkerami koło strażnicy",
+    "rus": "Сделка: встретиться со сталкерами возле лесничества",
+    "spa": " Transacción: reúnete con los stalkers junto al puesto de guardabosques",
+    "ukr": "Угода: зустрітися зі сталкерами біля лісництва"
   },
-  "zat_b106_find_chimera_text": {
-    "eng": "You need to find the chimera before it wakes up.",
-    "fra": "Trouvez la chimère avant qu'elle ne se réveille.",
-    "ger": "Sie müssen die Chimäre finden, bevor sie aufwacht.",
-    "ita": "Devi trovare la chimera prima che si svegli.",
-    "pol": "Musisz znaleźć chimerę, zanim się obudzi.",
-    "rus": "Нужно найти химеру, пока она не проснулась.",
-    "spa": "Tienes que encontrar a la quimera antes de que despierte.",
-    "ukr": "Потрібно знайти химеру, поки вона не прокинулася."
+  "zat_b5_come_to_stalkers_text": {
+    "eng": "Meet the stalkers by the ranger station and help them disrupt the transaction between the bandits and the weapons trader.",
+    "fra": "Rejoignez les stalkers près du poste des rangers et aidez-les à interrompre la transaction entre les bandits et le marchand d'armes.",
+    "ger": "Treffen Sie sich mit den Stalkern bei der Forststation und helfen Sie ihnen, die Transaktion zwischen den Banditen und dem Waffenhändler zu vereiteln.",
+    "ita": "Incontra gli stalker alla stazione dei ranger e aiutali a bloccare la transazione tra i banditi e il mercante di armi.",
+    "pol": "Spotkaj się ze stalkerami koło strażnicy, aby pomóc im powstrzymać transakcję pomiędzy bandytami i handlarzem bronią.",
+    "rus": "Встретиться со сталкерами возле лесничества и помочь им предотвратить сделку между бандитами и продавцом оружия.",
+    "spa": "Reúnete con los stalkers junto al puesto de guardabosques y ayúdalos a frustrar la transacción entre los bandidos y el comerciante de armas.",
+    "ukr": "Зустрітися зі сталкерами біля лісництва та допомогти їм запобігти угоді між бандитами і продавцем зброї."
   },
-  "zat_b106_found_soroka_name": {
-    "eng": "In search of Magpie: inform Gonta",
-    "fra": "À la recherche de la Pie : informer Gonta.",
-    "ger": "Auf der Suche nach Magpie: Gonta informieren",
-    "ita": "In cerca di Magpie: informa Gonta",
-    "pol": "W poszukiwaniu Sroki: poinformuj Gontę",
-    "rus": "В поисках Сороки: сообщить Гонте",
-    "spa": "En busca de Urraca: informa a Gonta",
-    "ukr": "У пошуках Сороки: повідомити Гонті"
+  "zat_b5_cover_dealer_name": {
+    "eng": "Transaction: protect the trader",
+    "fra": "Transaction : protéger le marchand.",
+    "ger": "Transaktion: Den Händler beschützen",
+    "ita": "Transazione: proteggi il mercante",
+    "pol": "Transakcja: ochraniaj handlarza",
+    "rus": "Сделка: охранять торговца",
+    "spa": "Transacción: protege al comerciante",
+    "ukr": "Угода: охороняти торговця"
   },
-  "zat_b106_found_soroka_text": {
-    "eng": "It looks like Magpie, the stalker who set up Gonta's squad, has been found. He has joined Freedom and now calls himself Flint.",
-    "fra": "La Pie, le stalker qui a tendu un piège au groupe de Gonta, a été retrouvé. Il s'est enrôlé dans la Liberté et se prénomme désormais Flint.",
-    "ger": "Wie es scheint, wurde der Stalker namens Magpie, der Gontas Trupp hereingelegt hat, gefunden. Er hat sich mittlerweile der Freiheit angeschlossen und ist dort unter dem Namen Flint bekannt.",
-    "ita": "Pare che Magpie, lo stalker che ha imbrogliato la squadra di Gonta, sia stato trovato. Si è unito alla Freedom e ora si fa chiamare Flint.",
-    "pol": "Wygląda na to, że Sroka, stalker, który wystawił drużynę Gonty, został odnaleziony. Dołączył do Wolności i teraz zwie się Flintem.",
-    "rus": "Похоже, что Сорока - сталкер, который подставил группу Гонты, - обнаружен. Сейчас он вступил в группировку «Свобода» и называет себя Флинт.",
-    "spa": "Parece que han encontrado a Urraca, el stalker que se la jugó al escuadrón de Gonta. Se ha unido a Libertad y ahora se hace llamar Pedernal.",
-    "ukr": "Схоже, що Сороку - сталкера, який підставив групу Гонти, - виявлено. Зараз він вступив до угруповання «Воля» і називає себе Флінт."
+  "zat_b5_cover_dealer_text": {
+    "eng": "The trader has explained your job - to protect him during the transaction.",
+    "fra": "Le marchand vous a expliqué votre rôle : le protéger pendant la transaction.",
+    "ger": "Der Händler hat Ihnen Ihren Auftrag erklärt: Sie müssen ihn bei der Transaktion beschützen.",
+    "ita": "Il mercante ti ha chiesto di proteggerlo durante la transazione.",
+    "pol": "Handlarz wyjaśnił ci twoje zadanie - musisz go chronić podczas transakcji.",
+    "rus": "По словам торговца, задача проста: охранять его во время сделки.",
+    "spa": "El comerciante te ha explicado tu trabajo: protegerlo durante la transacción.",
+    "ukr": "За словами торговця, завдання є простим: охороняти його під час угоди."
   },
-  "zat_b106_kill_chimera_name": {
-    "eng": "Hunting the chimera: kill the mutant",
-    "fra": "La chasse à la chimère : tuer le mutant.",
-    "ger": "Jagd auf die Chimäre: Den Mutanten töten",
-    "ita": "A caccia della chimera: uccidi il mutante",
-    "pol": "Polowanie na chimerę: zabij mutanta",
-    "rus": "Охота на химеру: убить мутанта",
-    "spa": "Caza de la quimera: mata al mutante",
-    "ukr": "Полювання на химеру: вбити мутанта"
+  "zat_b5_intercept_talking_name": {
+    "eng": "Transaction: eavesdrop on the conversation",
+    "fra": "Transaction : écouter la conversation.",
+    "ger": "Transaktion: Gespräch mithören",
+    "ita": "Transazione: origlia la conversazione",
+    "pol": "Transakcja: podsłuchaj rozmowę",
+    "rus": "Сделка: подслушать разговор",
+    "spa": "Transacción: espía la conversación",
+    "ukr": "Угода: підслухати розмову"
   },
-  "zat_b106_kill_chimera_text": {
-    "eng": "The chimera is awake and you should kill it before it's too late.",
-    "fra": "La chimère s'est réveillée ; vous devriez l'achever avant qu'il ne soit trop tard !",
-    "ger": "Die Chimäre ist aufgewacht und Sie sollten sie töten, bevor es zu spät ist.",
-    "ita": "La chimera è sveglia. Uccidila prima che sia troppo tardi.",
-    "pol": "Chimera nie śpi. Musisz ją zabić, zanim będzie za późno.",
-    "rus": "Химера проснулась. Нужно убить её, пока есть такая возможность.",
-    "spa": "La quimera está despierta; deberías matarla antes de que sea demasiado tarde.",
-    "ukr": "Химера прокинулася! Потрібно вбити її, поки є така можливість."
+  "zat_b5_intercept_talking_text": {
+    "eng": "Stalkers want to listen in on the conversation between the bandits and the weapons trader.",
+    "fra": "Les stalkers souhaitent écouter la conversation entre les bandits et le marchand d'armes.",
+    "ger": "Die Stalker möchten mithören, was die Banditen und der Waffenhändler zu bereden haben.",
+    "ita": "Gli stalker vogliono origliare la conversazione tra i banditi e il mercante di armi.",
+    "pol": "Stalkerzy chcą podsłuchać rozmowę pomiędzy bandytami i handlarzem bronią.",
+    "rus": "Сталкеры хотят подслушать разговор между бандитами и торговцем оружием.",
+    "spa": "Los stalkers quieren oír la conversación entre los bandidos y el comerciante de armas.",
+    "ukr": "Сталкери хочуть підслухати розмову між бандитами і торговцем зброєю."
   },
-  "zat_b106_meet_with_gonta_at_night_name": {
-    "eng": "Hunting the chimera: meet Gonta in the bar at 3AM",
-    "fra": "La chasse à la chimère : rejoindre Gonta au bar à 3h du matin.",
-    "ger": "Jagd auf die Chimäre: Gonta um 3:00 Uhr in der Bar treffen",
-    "ita": "A caccia della chimera: incontrati con Gonta al bar alle 3 del mattino",
-    "pol": "Polowanie na chimerę: spotkaj się z Gontą w barze o 3 rano",
-    "rus": "Охота на химеру: встретиться с Гонтой в баре в три часа ночи",
-    "spa": "Caza de la quimera: reúnete con Gonta en el bar a las 3 a.m.",
-    "ukr": "Полювання на химеру: зустрітися із Гонтою в барі о третій годині ночі"
+  "zat_b5_kill_dealer_name": {
+    "eng": "Transaction: disrupt the weapons sale",
+    "fra": "Transaction : empêcher la vente des armes.",
+    "ger": "Transaktion: Den Waffenhandel vereiteln",
+    "ita": "Transazione: blocca la vendita delle armi",
+    "pol": "Transakcja: przeszkodź w zakupie broni",
+    "rus": "Сделка: предотвратить покупку оружия",
+    "spa": "Transacción: interrumpe la venta de armas",
+    "ukr": "Угода: запобігти купівлі зброї"
   },
-  "zat_b106_meet_with_gonta_at_night_text": {
-    "eng": "You should meet Gonta before sunrise to join his squad in their chimera hunt.",
-    "fra": "Rejoignez Gonta et son groupe avant l'aube pour participer à la chasse à la chimère.",
-    "ger": "Sie sollten sich vor Sonnenaufgang mit Gonta treffen, um sich seinem Trupp bei der Jagd auf die Chimäre anzuschließen.",
-    "ita": "Devi incontrare Gonta prima dell'alba per andare a cacciare la chimera insieme alla sua squadra.",
-    "pol": "Musisz spotkać się z Gontą przed świtem, aby dołączyć do jego drużyny podczas polowania na chimerę.",
-    "rus": "Надо встретиться с Гонтой перед рассветом, чтобы вместе с его группой выйти охотиться на химеру.",
-    "spa": "Deberías reunirte con Gonta antes del amanecer para unirte a su escuadrón y cazar a la quimera.",
-    "ukr": "Треба зустрітися із Гонтою удосвіта, щоб разом із його групою вийти полювати на химеру."
+  "zat_b5_kill_dealer_text": {
+    "eng": "Do whatever it takes to disrupt the transaction between the bandits and the trader.",
+    "fra": "Faites votre possible pour empêcher la transaction entre les bandits et le marchand d'armes.",
+    "ger": "Tun Sie alles Nötige, um das Geschäft zwischen den Banditen und dem Waffenhändler zu vereiteln.",
+    "ita": "Fai il possibile per bloccare la transazione tra i banditi e il mercante.",
+    "pol": "Zrób co tylko się da, żeby przeszkodzić w transakcji pomiędzy bandytami i handlarzem.",
+    "rus": "Надо любым способом предотвратить сделку между бандитами и барыгой.",
+    "spa": "Haz lo que sea necesario para interrumpir la transacción entre los bandidos y el comerciante.",
+    "ukr": "Треба у будь-який спосіб запобігти угоді між бандитами та баригою."
   },
-  "zat_b106_receipt_reward_name": {
-    "eng": "Hunting the chimera: inform Trapper",
-    "fra": "La chasse à la chimère : informer Trappeur.",
-    "ger": "Jagd auf die Chimäre: Trapper informieren",
-    "ita": "A caccia della chimera: informa Trapper",
-    "pol": "Polowanie na chimerę: poinformuj Trapera",
-    "rus": "Охота на химеру: сообщить Зверобою",
-    "spa": "Caza de la quimera: informa a Trapper",
-    "ukr": "Полювання на химеру: повідомити Звіробоя"
+  "zat_b5_kill_stalkers_name": {
+    "eng": "Transaction: eliminate witnesses",
+    "fra": "Transaction : éliminer les témoins.",
+    "ger": "Transaktion: Zeugen ausschalten",
+    "ita": "Transazione: elimina i testimoni",
+    "pol": "Transakcja: zlikwiduj świadków",
+    "rus": "Сделка: убрать свидетелей",
+    "spa": "Transacción: elimina a los testigos",
+    "ukr": "Угода: прибрати свідків"
   },
-  "zat_b106_receipt_reward_text": {
-    "eng": "You should inform a stalker called Trapper that the chimera hunt was successful. He should give you a reward.",
-    "fra": "Dites au stalker nommé Trappeur que la chimère est morte. Il devrait vous remettre une récompense.",
-    "ger": "Sie sollten den Stalker Trapper informieren, dass die Jagd auf die Chimäre erfolgreich war. Er dürfte Sie dafür belohnen.",
-    "ita": "Devi riferire a uno stalker chiamato Trapper che la caccia alla chimera è riuscita. Lui dovrebbe darti una ricompensa.",
-    "pol": "Poinformuj stalkera zwanego Traperem, że polowanie na chimerę zakończyło się sukcesem. Powinien dać ci nagrodę.",
-    "rus": "Нужно сообщить сталкеру по кличке Зверобой об успешной охоте на химеру - он должен выдать награду.",
-    "spa": "Deberías informar al stalker llamado Trapper de que la caza de la quimera ha tenido éxito. Él te recompensará.",
-    "ukr": "Слід повідомити сталкера на прізвисько Звіробій про успішне полювання на химеру - він має видати нагороду."
+  "zat_b5_kill_stalkers_text": {
+    "eng": "The trader's transaction didn't work out, so you need to take out all the witnesses.",
+    "fra": "La transaction n'a pas abouti, vous devez éliminer tous les témoins.",
+    "ger": "Aus dem Geschäft des Waffenhändlers wurde nichts, daher müssen Sie alle Zeugen ausschalten.",
+    "ita": "La transazione del mercante non è andata a buon fine, quindi devi eliminare tutti i testimoni.",
+    "pol": "Transakcja z handlarzem się nie udała, więc musisz zlikwidować wszystkich świadków.",
+    "rus": "Сделка с барыгой сорвалась. Нужно убрать всех свидетелей.",
+    "spa": "La transacción no ha salido bien; tienes que eliminar a todos los testigos.",
+    "ukr": "Угода з баригою зірвалася. Потрібно прибрати усіх свідків."
   },
-  "zat_b106_search_soroka_name": {
-    "eng": "In search of Magpie: find the stalker",
-    "fra": "À la recherche de la Pie : trouver le stalker.",
-    "ger": "Auf der Suche nach Magpie: Den Stalker finden",
-    "ita": "In cerca di Magpie: trova lo stalker",
-    "pol": "W poszukiwaniu Sroki: znajdź stalkera",
-    "rus": "В поисках Сороки: найти сталкера",
-    "spa": "En busca de Urraca: encuentra al stalker",
-    "ukr": "У пошуках Сороки: знайти сталкера"
+  "zat_b5_protect_dealer_name": {
+    "eng": "Transaction: protect the trader",
+    "fra": "Transaction : protéger le marchand.",
+    "ger": "Transaktion: Den Händler beschützen",
+    "ita": "Transazione: proteggi il mercante",
+    "pol": "Transakcja: ochraniaj handlarza",
+    "rus": "Сделка: защитить торговца",
+    "spa": "Transacción: protege al comerciante",
+    "ukr": "Угода: захистити торговця"
   },
-  "zat_b106_search_soroka_text": {
-    "eng": "A stalker called Magpie set up Gonta's squad to be attacked by a chimera. They've asked you to find the bastard.",
-    "fra": "Un stalker surnommé la Pie a tendu un piège au groupe de Gonta qui a été attaqué par une chimère. On vous a demandé de retrouver cette ordure.",
-    "ger": "Ein Stalker namens Magpie hat Gontas Trupp hereingelegt, sodass die Männer von einer Chimäre angegriffen wurden. Sie haben Sie gebeten, den Mistkerl zu finden.",
-    "ita": "Uno stalker chiamato Magpie ha imbrogliato la squadra di Gonta, facendola attaccare da una chimera. Ti hanno chiesto di trovare quel bastardo.",
-    "pol": "Stalker zwany Sroką wystawił ludzi Gonty na atak chimery. Poprosili cię o znalezienie tego gnojka.",
-    "rus": "Сталкер по кличке Сорока подставил группу Гонты под нападение химеры. Ребята просят найти подонка.",
-    "spa": "Un stalker llamado Urraca engañó al escuadrón de Gonta para que se topara con una quimera. Te han pedido que encuentres a ese bastardo.",
-    "ukr": "Сталкер на прізвисько Сорока підставив групу Гонти під напад химери. Хлопці просять знайти покидька."
+  "zat_b5_protect_dealer_text": {
+    "eng": "You need to protect the trader. Also, he ordered you to take out all the witnesses to the transaction, including his clients.",
+    "fra": "Vous devez protéger le marchand. Il vous a également ordonné d'éliminer tous les témoins de la transaction, y compris ses clients.",
+    "ger": "Sie müssen den Händler beschützen. Zudem hat er Sie aufgefordert, alle Zeugen der Transaktion - inklusive seiner Kunden - auszuschalten.",
+    "ita": "Devi proteggere il mercante. Inoltre ti ha chiesto di eliminare tutti i testimoni della transazione, inclusi i suoi clienti.",
+    "pol": "Musisz ochraniać handlarza. Zlecił ci też zlikwidowanie wszystkich świadków transakcji, łącznie z jego klientami.",
+    "rus": "Необходимо защитить торговца. Кроме того, он приказал убрать всех свидетелей сделки, в том числе и собственных клиентов.",
+    "spa": "Tienes que proteger al comerciante. También te ha ordenado que elimines a todos los testigos de la transacción (incluidos sus clientes).",
+    "ukr": "Необхідно захистити торговця. Окрім того, він наказав прибрати усіх свідків угоди, в тому числі й власних клієнтів."
   },
-  "zat_b107_evacuation_jupiter_name": {
-    "eng": "Evacuation locations: investigate position B205",
-    "fra": "Points d'évacuation : examiner le point d'évacuation B205.",
-    "ger": "Evakuierungsstellen: Position B205 untersuchen",
-    "ita": "Punti di evacuazione: controlla il punto B205",
-    "pol": "Miejsca ewakuacji: zbadaj punkt B205",
-    "rus": "Места эвакуации: проверить точку Б205",
-    "spa": "Puntos de evacuación: investiga la posición B205",
-    "ukr": "Місця евакуації: перевірити точку Б205"
+  "zat_b5_search_body_name": {
+    "eng": "Transaction: search the trader",
+    "fra": "Transaction : fouiller le marchand.",
+    "ger": "Transaktion: Den Händler durchsuchen",
+    "ita": "Transazione: perquisisci il mercante",
+    "pol": "Transakcja: przeszukaj handlarza",
+    "rus": "Сделка: обыскать торговца",
+    "spa": "Transacción: busca al comerciante",
+    "ukr": "Угода: обшукати торговця"
   },
-  "zat_b107_evacuation_jupiter_text": {
-    "eng": "The map you found in one of the helicopters indicated evacuation locations. You should check if the soldiers went to location B205",
-    "fra": "La carte trouvée dans l'un des hélicoptères indiquait des points d'évacuation. Vérifiez si les soldats se sont dirigés vers le point B205.",
-    "ger": "Auf der Karte, die Sie in einem der Hubschrauber gefunden haben, sind Evakuierungsstellen eingezeichnet. Sie sollten überprüfen, ob die Soldaten zu Position B205 gegangen sind.",
-    "ita": "La mappa che hai trovato in uno degli elicotteri indicava vari punti di evacuazione. Controlla se i soldati hanno raggiunto il punto B205.",
-    "pol": "Mapa znaleziona w jednym ze śmigłowców wskazywała miejsca ewakuacji. Sprawdź, czy żołnierze pojawili się w punkcie B205.",
-    "rus": "На найденной в одном из вертолётов карте были отмечены точки эвакуации. Нужно проверить, появлялись ли военные в точке Б205.",
-    "spa": "El mapa que encontraste en uno de los helicópteros señala la ubicación de puntos de evacuación. Deberías comprobar si los soldados han ido a la posición B205.",
-    "ukr": "На знайденій в одному з гелікоптерів мапі були позначені точки евакуації. Треба перевірити, чи з'являлися військові у точці Б205."
+  "zat_b5_search_body_text": {
+    "eng": "The trader may have important information which may come in handy later. You should take it.",
+    "fra": "Le marchand a peut-être des informations capitales qui pourront vous être utiles. Vous feriez mieux de les prendre.",
+    "ger": "Der Händler könnte wichtige Informationen bei sich haben, die Ihnen später von Nutzen sein könnten. Lassen Sie sie sich nicht entgehen.",
+    "ita": "Il mercante potrebbe avere con sé delle informazioni utili. Perquisiscilo.",
+    "pol": "Handlarz może mieć ważne informacje, które mogą się przydać później. Zabierz mu je.",
+    "rus": "У торговца могла остаться важная информация. Нужно её забрать - может пригодиться.",
+    "spa": "El comerciante podría tener información importante que te sería de utilidad más adelante. Deberías aceptarla.",
+    "ukr": "У торговця могла лишитися важлива інформація. Треба її забрати - може стати в нагоді."
   },
-  "zat_b107_evacuation_pripyat_1_name": {
-    "eng": "Evacuation locations: investigate position B28",
-    "fra": "Points d'évacuation : examiner le point d'évacuation B28.",
-    "ger": "Evakuierungsstellen: Position B28 untersuchen",
-    "ita": "Punti di evacuazione: controlla il punto B28",
-    "pol": "Miejsca ewakuacji: zbadaj punkt B28",
-    "rus": "Места эвакуации: проверить точку Б28",
-    "spa": "Puntos de evacuación: investiga la posición B28",
-    "ukr": "Місця евакуації: перевірити точку Б28"
+  "zat_b5_secure_bandits_name": {
+    "eng": "Transaction: cover the bandits during the transaction",
+    "fra": "Transaction : couvrir les bandits pendant la transaction. ",
+    "ger": "Transaktion: Den Banditen während der Transaktion Rückendeckung geben",
+    "ita": "Transazione: proteggi i banditi durante la transazione ",
+    "pol": "Transakcja: ochraniaj bandytów podczas transakcji ",
+    "rus": "Сделка: прикрывать бандитов во время сделки",
+    "spa": "Transacción: cubre a los bandidos durante la transacción ",
+    "ukr": "Угода: прикривати бандитів під час угоди"
   },
-  "zat_b107_evacuation_pripyat_1_text": {
-    "eng": "The map you found in one of the helicopters indicated evacuation locations. You should check if the soldiers went to location B28",
-    "fra": "La carte trouvée dans l'un des hélicoptères indiquait des points d'évacuation. Vérifiez si les soldats se sont dirigés vers le point B28.",
-    "ger": "Auf der Karte, die Sie in einem der Hubschrauber gefunden haben, sind Evakuierungsstellen eingezeichnet. Sie sollten überprüfen, ob die Soldaten zu Position B28 gegangen sind.",
-    "ita": "La mappa che hai trovato in uno degli elicotteri indicava vari punti di evacuazione. Controlla se i soldati hanno raggiunto il punto B28.",
-    "pol": "Mapa znaleziona w jednym ze śmigłowców wskazywała miejsca ewakuacji. Sprawdź, czy żołnierze pojawili się w punkcie B28",
-    "rus": "На карте, найденной в одном из вертолётов, отмечены точки эвакуации. Нужно проверить, появлялись ли военные в точке Б28.",
-    "spa": "El mapa que encontraste en uno de los helicópteros señala la ubicación de puntos de evacuación. Deberías comprobar si los soldados han ido a la posición B28.",
-    "ukr": "На знайденій в одному з гелікоптерів мапі були позначені точки евакуації. Треба перевірити, чи з'являлися військові у точці Б28."
+  "zat_b5_secure_bandits_text": {
+    "eng": "Stay on your guard and provide cover to the bandits while they are negotiating with the trader.",
+    "fra": "Restez sur le qui-vive et couvrez les bandits pendant leurs négociations avec le marchand.",
+    "ger": "Halten Sie die Stellung und geben Sie den Banditen Rückendeckung, während sie mit dem Händler verhandeln.",
+    "ita": "Tieni gli occhi aperti e proteggi i banditi durante la trattativa con il mercante.",
+    "pol": "Stój na straży i zapewniaj bandytom ochronę podczas negocjacji z handlarzem.",
+    "rus": "Пока бандиты будут договариваться с барыгой, надо быть начеку и, в случае чего, прикрыть их.",
+    "spa": "Permanece atento y proporciona cobertura a los bandidos mientras negocian con el comerciante.",
+    "ukr": "Поки бандити домовлятимуться із баригою, слід бути напоготові та, як щось станеться, прикрити їх."
   },
-  "zat_b107_evacuation_pripyat_2_name": {
-    "eng": "Evacuation location: find the coordinates of location B28",
-    "fra": "Point d'évacuation : trouver les coordonnées du point B28.",
-    "ger": "Evakuierungsstelle: Koordinaten von Position B28 herausfinden",
-    "ita": "Punto di evacuazione: trova le coordinate del punto B28",
-    "pol": "Miejsce ewakuacji: znajdź współrzędne punktu B28",
-    "rus": "Место эвакуации: найти координаты точки Б28",
-    "spa": "Puntos de evacuación: encuentra las coordenadas de la posición B28",
-    "ukr": "Місце евакуації: знайти координати точки Б28"
+  "zat_b5_speak_dealer_name": {
+    "eng": "Transaction: talk to the trader",
+    "fra": "Transaction : parler au marchand.",
+    "ger": "Transaktion: Mit dem Händler reden",
+    "ita": "Transazione: parla con il mercante",
+    "pol": "Transakcja: porozmawiaj z handlarzem",
+    "rus": "Сделка: поговорить с торговцем",
+    "spa": "Transacción: habla con el comerciante",
+    "ukr": "Угода: поговорити з торговцем"
   },
-  "zat_b107_evacuation_pripyat_2_text": {
-    "eng": "The black box of one of the Stingray helicopters had a recording where the squad commander designates a position at which the squad is to converge. This position is evacuation point B28 and you need to work out its coordinates.",
-    "fra": "La boîte noire de l'un des hélicoptères Stingray contenait un enregistrement dans lequel le chef d'unité indiquait un point de convergence. Il s'agissait du point d'évacuation B28. Vous devez trouver les coordonnées correspondantes.",
-    "ger": "In einer Aufnahme auf dem Flugschreiber aus einem der Stingray-Hubschrauber erwähnt der Kommandeur eine Position, bei der die Einheiten zusammentreffen sollen. Dabei handelt es sich um die Evakuierungsstelle B28 und Sie müssen die Koordinaten dieser Stelle herausfinden.",
-    "ita": "La scatola nera di uno degli elicotteri Stingray conteneva una registrazione in cui il comandante della squadra indicava un punto di evacuazione verso cui convergere. Trova le coordinate di questo punto, designato \"B28\".",
-    "pol": "W czarnej skrzynce jednego ze śmigłowców Ogończa znajdowało się nagranie, w którym dowódca oddziału wyznaczył miejsce zbiórki. Jest nim punkt ewakuacyjny B28. Musisz określić jego współrzędne.",
-    "rus": "На записи, сохранившейся в чёрном ящике одного из вертолётов группы «Скат», командир группы указывает место сбора - так называемая точка эвакуации Б28. Необходимо определить её координаты.",
-    "spa": "La caja negra de uno de los Peces Raya tenía una grabación en la que el comandante del escuadrón designaba un punto de encuentro. Se trata del punto de evacuación B28; tendrás que averiguar cuáles son las coordenadas.",
-    "ukr": "На записі, що зберігся у «чорному ящику» одного з гелікоптерів групи «Скат», командир групи вказує місце для збору - так звану точку евакуації Б28. Необхідно визначити її координати."
+  "zat_b5_speak_dealer_text": {
+    "eng": "The transaction with bandits is complete, so you should collect your reward.",
+    "fra": "La transaction avec les bandits est terminée. Allez récupérer votre récompense.",
+    "ger": "Das Geschäft mit den Banditen wurde abgewickelt, daher sollten Sie jetzt Ihre Belohnung kassieren.",
+    "ita": "La transazione con i banditi è finita, quindi puoi ottenere la tua ricompensa.",
+    "pol": "Transakcja z bandytami została zakończona, możesz więc odebrać swoją nagrodę.",
+    "rus": "Условия сделки с торговцем выполнены, остаётся забрать награду.",
+    "spa": "Se ha completado la transacción con los bandidos; ve a cobrar tu recompensa.",
+    "ukr": "Умови угоди із торговцем виконано, залишається забрати нагороду."
   },
-  "zat_b107_evacuation_pripyat_3_name": {
-    "eng": "Evacuation location: reach location B28",
-    "fra": "Point d'évacuation : se rendre au point B28.",
-    "ger": "Evakuierungsstelle: Position B28 erreichen",
-    "ita": "Punto di evacuazione: raggiungi il punto B28",
-    "pol": "Miejsce ewakuacji: znajdź punkt B28",
-    "rus": "Место эвакуации: добраться до точки Б28",
-    "spa": "Puntos de evacuación: ve a la posición B28",
-    "ukr": "Місце евакуації: дістатися точки Б28"
+  "zat_b5_talk_barmen_name": {
+    "eng": "Transaction: collect your reward from Beard",
+    "fra": "Transaction : demander votre récompense au Barbu.",
+    "ger": "Transaktion: Ihre Belohnung von Beard kassieren",
+    "ita": "Transazione: ottieni la tua ricompensa da Beard",
+    "pol": "Transakcja: odbierz nagrodę od Brodacza",
+    "rus": "Сделка: получить награду у Бороды",
+    "spa": "Transacción: pídele tu recompensa a Barbas",
+    "ukr": "Угода: отримати нагороду в Бороди"
   },
-  "zat_b107_evacuation_pripyat_3_text": {
-    "eng": "The position at which the soldiers are supposed to converge is in Pripyat. Find a way of getting there.",
-    "fra": "L'endroit où doivent se retrouver les soldats se situe à Pripyat. Trouvez un moyen de vous y rendre.",
-    "ger": "Die Position, an der die Soldaten zusammentreffen sollen, befindet sich in Pripyat. Finden Sie einen Weg dorthin.",
-    "ita": "Il punto verso cui i soldati dovevano convergere si trova a Pripyat. Cerca di raggiungerlo.",
-    "pol": "Miejsce zbiórki żołnierzy znajduje się w Prypeci. Znajdź sposób, by się tam dostać.",
-    "rus": "Точка сбора, где должны были собраться военные, находится в Припяти. Нужно найти способ добраться туда.",
-    "spa": "La posición en la que debían encontrarse los soldados se halla en Pripyat. Encuentra el modo de llegar.",
-    "ukr": "Точка, де мали зібратися військові, знаходиться у Прип'яті. Треба знайти спосіб дістатися туди."
+  "zat_b5_talk_barmen_text": {
+    "eng": "Beard promised you a reward if you disrupted the transaction between the bandits and the trader. With the transaction positively botched, you can go ahead and collect your reward.",
+    "fra": "Le Barbu vous a promis une récompense si vous parveniez à interrompre la transaction entre les bandits et le marchand. Vous avez réussi et pouvez à présent récupérer votre récompense.",
+    "ger": "Beard hatte Ihnen eine Belohnung versprochen, falls es Ihnen gelingen sollte, das Geschäft zwischen den Banditen und dem Händler zu vereiteln. Da Sie es geschafft haben, können Sie nun Ihre Belohnung einfordern.",
+    "ita": "Beard ti aveva promesso una ricompensa se fossi riuscito a bloccare la transazione tra i banditi e il mercante. Così è stato, quindi ora puoi incassare ciò che ti spetta.",
+    "pol": "Brodacz obiecał ci nagrodę, jeśli przeszkodzisz w transakcji pomiędzy bandytami i handlarzem. Transakcja została zakłócona, możesz więc odebrać swoją nagrodę.",
+    "rus": "Борода обещал награду, если сделка между бандитами и барыгой будет сорвана. Поскольку теперь сделка наверняка не состоится, можно отправляться за наградой.",
+    "spa": "Barbas prometió recompensarte si interrumpías la transacción de los bandidos y el comerciante. Ahora que has frustrado la venta, puedes ir a cobrar tu recompensa.",
+    "ukr": "Борода обіцяв винагороду, якщо угоду між бандитами та баригою буде зірвано. Оскільки нині угоду вже точно не буде укладено, можна відправлятися по обіцяне."
   },
-  "zat_b107_evacuation_zaton_name": {
-    "eng": "Evacuation locations: investigate position B2",
-    "fra": "Points d'évacuation : examiner le point d'évacuation B2.",
-    "ger": "Evakuierungsstellen: Position B2 untersuchen",
-    "ita": "Punti di evacuazione: controlla il punto B2",
-    "pol": "Miejsca ewakuacji: zbadaj punkt B2",
-    "rus": "Места эвакуации: проверить точку Б2",
-    "spa": "Puntos de evacuación: investiga la posición B2",
-    "ukr": "Місця евакуації: перевірити точку Б2"
+  "zat_b5_talk_stalkers_name": {
+    "eng": "Transaction: talk to the leader of the stalker squad",
+    "fra": "Transaction : parler au chef du groupe de stalkers.",
+    "ger": "Transaktion: Mit dem Anführer des Stalkertrupps reden",
+    "ita": "Transazione: parla con il capo della squadra di stalker",
+    "pol": "Transakcja: porozmawiaj z dowódcą oddziału stalkerów",
+    "rus": "Сделка: поговорить с лидером отряда сталкеров",
+    "spa": "Transacción: habla con el líder del escuadrón de stalkers",
+    "ukr": "Угода: поговорити з лідером загону сталкерів"
   },
-  "zat_b107_evacuation_zaton_text": {
-    "eng": "The map you found in one of the helicopters indicated evacuation locations. You should check if the soldiers went to location B2",
-    "fra": "La carte trouvée dans l'un des hélicoptères indiquait des points d'évacuation. Vérifiez si les soldats se sont dirigés vers le point B2.",
-    "ger": "Auf der Karte, die Sie in einem der Hubschrauber gefunden haben, sind Evakuierungsstellen eingezeichnet. Sie sollten überprüfen, ob die Soldaten zu Position B2 gegangen sind.",
-    "ita": "La mappa che hai trovato in uno degli elicotteri indicava vari punti di evacuazione. Controlla se i soldati hanno raggiunto il punto B2.",
-    "pol": "Mapa znaleziona w jednym ze śmigłowców wskazywała miejsca ewakuacji. Sprawdź, czy żołnierze pojawili się w punkcie B2.",
-    "rus": "На найденной в одном из вертолётов карте были отмечены точки эвакуации. Нужно проверить, появлялись ли военные в точке эвакуации Б2.",
-    "spa": "El mapa que encontraste en uno de los helicópteros señala la ubicación de puntos de evacuación. Deberías comprobar si los soldados han ido a la posición B2.",
-    "ukr": "На знайденій в одному з гелікоптерів мапі були позначені точки евакуації. Треба перевірити, чи з'являлися військові у точці евакуації Б2."
+  "zat_b5_talk_stalkers_text": {
+    "eng": "The transaction has been sabotaged, the weapon trader is dead. Talk to the leader of the stalker squad.",
+    "fra": "La transaction a été interrompue, le marchand d'armes est mort. Allez parler au chef du groupe de stalkers.",
+    "ger": "Die Transaktion wurde sabotiert, der Waffenhändler ist tot. Reden Sie mit dem Anführer des Stalkertrupps.",
+    "ita": "La transazione è stata sabotata e il mercante di armi è morto. Parla con il capo della squadra di stalker.",
+    "pol": "Transakcja została udaremniona. Handlarz bronią nie żyje. Porozmawiaj z dowódcą oddziału stalkerów.",
+    "rus": "Сделка сорвана, торговец оружием мёртв. Необходимо поговорить с лидером отряда сталкеров",
+    "spa": "La transacción ha sufrido un sabotaje. El comerciante de armas ha muerto. Habla con el líder del escuadrón de stalkers.",
+    "ukr": "Угоду зірвано, торговець зброєю мертвий. Необхідно поговорити з лідером загону сталкерів"
+  },
+  "zat_b5_talk_to_sultan_name": {
+    "eng": "Transaction: talk to the bandit leader",
+    "fra": "Transaction : parler au chef des bandits.",
+    "ger": "Transaktion: Mit dem Banditenanführer reden",
+    "ita": "Transazione: parla con il leader dei banditi",
+    "pol": "Transakcja: porozmawiaj z dowódcą bandytów",
+    "rus": "Сделка: поговорить с главарём бандитов",
+    "spa": "Transacción: habla con el líder de los bandidos",
+    "ukr": "Угода: поговорити із ватажком бандитів"
+  },
+  "zat_b5_talk_to_sultan_text": {
+    "eng": "You need to inform the bandit leader you're ready to take part in the transaction.",
+    "fra": "Vous devez informer le chef des bandits que vous êtes prêt à participer à la transaction.",
+    "ger": "Sie müssen dem Anführer der Banditen mitteilen, dass Sie bereit sind, bei der Transaktion mitzumachen.",
+    "ita": "Riferisci al leader dei banditi che sei pronto a partecipare alla transazione.",
+    "pol": "Musisz poinformować dowódcę bandytów o gotowości do wzięcia udziału w transakcji.",
+    "rus": "Надо сообщить главарю бандитов о готовности принять участие в сделке.",
+    "spa": "Tienes que informar al líder de los bandidos de que ya estás listo para participar en la transacción.",
+    "ukr": "Треба повідомити ватажкові бандитів про готовність взяти участь в угоді."
+  },
+  "zat_b7_stalkers_raiders_backstab_name": {
+    "eng": "The hit: attack the robbers",
+    "fra": "Braquage : attaquer les voleurs.",
+    "ger": "Der Überfall: Räuber angreifen",
+    "ita": "Il colpo: attacca i rapinatori",
+    "pol": "Atak: zaatakuj złodziei",
+    "rus": "Наезд: атаковать грабителей",
+    "spa": "El golpe: ataca a los ladrones",
+    "ukr": "Наїзд: атакувати грабіжників"
+  },
+  "zat_b7_stalkers_raiders_backstab_text": {
+    "eng": "Attacking the robbers from behind will help stalkers repel their attack.",
+    "fra": "Attaquer les voleurs par derrière permettra aux stalkers de repousser leur attaque.",
+    "ger": "Die Räuber von hinten anzugreifen, wird den Stalkern helfen, den Überfall abzuwehren.",
+    "ita": "Attaccando i rapinatori alle spalle aiuterai gli stalker a respingere il loro assalto.",
+    "pol": "Zaatakowanie złodziei od tyłu pomoże stalkerom odeprzeć atak.",
+    "rus": "Надо напасть на грабителей со спины, чтобы помочь сталкерам отразить нападение.",
+    "spa": "Atacar a los ladrones por la retaguardia ayudará a los stalkers a repeler su asalto.",
+    "ukr": "Треба напасти на грабіжників зі спини, щоб допомогти сталкерам відбити напад."
+  },
+  "zat_b7_stalkers_raiders_meet_name": {
+    "eng": "The hit: meet the robbers",
+    "fra": "Braquage : rejoindre les voleurs.",
+    "ger": "Der Überfall: Räuber treffen",
+    "ita": "Il colpo: incontra i rapinatori",
+    "pol": "Atak: spotkaj się ze złodziejami",
+    "rus": "Наезд: встретиться с грабителями",
+    "spa": "El golpe: reúnete con los ladrones",
+    "ukr": "Наїзд: зустрітися з грабіжниками"
+  },
+  "zat_b7_stalkers_raiders_meet_text": {
+    "eng": "The robbers should be waiting by Shevchenko. You’ll need to meet them to take part in their assault on the stalkers.",
+    "fra": "Les voleurs doivent attendre près du Chevtchenko. Vous devez les rejoindre pour participer à l'attaque du camp des stalkers.",
+    "ger": "Die Räuber dürften bei der Schewtschenko warten. Sie müssen sich mit ihnen treffen, um am Überfall auf die Stalker teilnehmen zu können.",
+    "ita": "I rapinatori dovrebbero essere in attesa a Shevchenko. Devi raggiungerli per partecipare al loro assalto contro gli stalker.",
+    "pol": "Złodzieje powinni czekać przy Szewczence. Musisz się z nimi spotkać, aby wziąć udział w ataku na stalkerów.",
+    "rus": "Грабители должны ждать возле «Шевченко». Нужно будет с ними встретится, чтобы участвовать в наезде на сталкеров.",
+    "spa": "Los ladrones deberían estar esperando en Shevchenko. Tienes que reunirte con ellos para participar en el asalto a los stalkers.",
+    "ukr": "Грабіжники мають чекати біля «Шевченка». Слід зустрітися з ними, щоб взяти участь у наїзді на сталкерів."
+  },
+  "zat_b7_stalkers_raiders_name": {
+    "eng": "The hit: decide what to do",
+    "fra": "Braquage : prendre une décision.",
+    "ger": "Der Überfall: Entscheiden, was zu tun ist",
+    "ita": "Il colpo: decidi cosa fare",
+    "pol": "Atak: zdecyduj, co zrobić",
+    "rus": "Наезд: решить, что предпринять",
+    "spa": "El golpe: decide lo que vas a hacer",
+    "ukr": "Наїзд: вирішити, що вчинити"
+  },
+  "zat_b7_stalkers_raiders_raiders_name": {
+    "eng": "The hit: attack the stalkers",
+    "fra": "Braquage : attaquer les stalkers.",
+    "ger": "Der Überfall: Die Stalker angreifen",
+    "ita": "Il colpo: attacca gli stalker",
+    "pol": "Atak: zaatakuj stalkerów",
+    "rus": "Наезд: напасть на сталкеров",
+    "spa": "El golpe: ataca a los stalkers",
+    "ukr": "Наїзд: напасти на сталкерів"
+  },
+  "zat_b7_stalkers_raiders_raiders_reward_name": {
+    "eng": "The hit: get your cut",
+    "fra": "Braquage : récupérer votre part.",
+    "ger": "Der Überfall: Ihren Anteil kassieren",
+    "ita": "Il colpo: ottieni la tua parte.",
+    "pol": "Atak: odbierz swoją dolę",
+    "rus": "Наезд: поговорить с грабителями",
+    "spa": "El golpe: consigue tu parte",
+    "ukr": "Наїзд: поговорити із грабіжниками"
+  },
+  "zat_b7_stalkers_raiders_raiders_reward_text": {
+    "eng": "The attack on the stalkers was successful and you should get your cut of the loot.",
+    "fra": "L'attaque sur les stalkers a réussi. Vous devriez aller récupérer votre part du butin.",
+    "ger": "Der Überfall auf die Stalker war ein voller Erfolg und Sie sollten Ihren Anteil an der Beute kassieren.",
+    "ita": "L'attacco contro gli stalker è riuscito. Ora puoi ottenere la tua parte del bottino.",
+    "pol": "Atak na stalkerów zakończył się sukcesem. Możesz odebrać swoją dolę z łupów.",
+    "rus": "Нападение на сталкеров прошло успешно. Теперь надо переговорить с подельниками.",
+    "spa": "El ataque a los stalkers ha tenido éxito; deberías cobrar tu parte del botín.",
+    "ukr": "Напад на сталкерів пройшов успішно. Тепер треба перемовитися із подільниками."
+  },
+  "zat_b7_stalkers_raiders_raiders_text": {
+    "eng": "Join the robbers in attacking the stalker camp.",
+    "fra": "Rejoignez les voleurs pour attaquer le camp des stalkers.",
+    "ger": "Schließen Sie sich den Räubern beim Überfall auf das Stalkerlager an.",
+    "ita": "Unisciti ai rapinatori nell'attacco all'accampamento degli stalker.",
+    "pol": "Przyłącz się do złodziei podczas ataku na obóz stalkerów.",
+    "rus": "Участвовать с грабителями в нападении на лагерь сталкеров.",
+    "spa": "Únete a los ladrones para atacar el campamento stalker.",
+    "ukr": "Разом із грабіжниками здійснити напад на табір сталкерів."
+  },
+  "zat_b7_stalkers_raiders_stalkers_name": {
+    "eng": "The hit: join the robbers",
+    "fra": "Braquage : rejoindre les voleurs.",
+    "ger": "Der Überfall: Den Räubern anschließen",
+    "ita": "Il colpo: unisciti i rapinatori",
+    "pol": "Zabójstwo: przyłącz się do złodziei",
+    "rus": "Наезд: влиться в ряды грабителей",
+    "spa": "El golpe: únete a los ladrones",
+    "ukr": "Наїзд: влитися до лав грабіжників"
+  },
+  "zat_b7_stalkers_raiders_stalkers_reward_name": {
+    "eng": "The hit: collect your reward",
+    "fra": "Braquage : récupérer votre récompense.",
+    "ger": "Der Überfall: Ihre Belohnung kassieren",
+    "ita": "Il colpo: prendi la tua ricompensa",
+    "pol": "Atak: odbierz swoją nagrodę",
+    "rus": "Наезд: получить награду",
+    "spa": "El golpe: cobra tu recompensa",
+    "ukr": "Наїзд: отримати нагороду"
+  },
+  "zat_b7_stalkers_raiders_stalkers_reward_text": {
+    "eng": "The attack on the camp was repelled, so you can talk to the stalkers to get your reward. They would probably have had a very tough time if they hadn't been warned about the attack.",
+    "fra": "L'attaque menée sur le camp a été repoussée. Vous pouvez maintenant parler aux stalkers pour obtenir votre récompense. Sans votre avertissement, ils auraient passé un sale quart d'heure.",
+    "ger": "Der Überfall auf das Lager wurde abgewehrt, daher können Sie sich jetzt wegen Ihrer Belohnung an die Stalker wenden. Diese hätten es sehr schwer gehabt, wenn sie nicht gewarnt worden wären.",
+    "ita": "L'attacco contro il campo è stato respinto, quindi puoi ottenere la tua ricompensa dagli stalker. Se non fossero stati avvertiti dell'assalto, probabilmente non ce l'avrebbero fatta.",
+    "pol": "Atak na obóz został odparty, możesz więc porozmawiać ze stalkerami i odebrać swoją nagrodę. Prawdopodobnie mieliby niezłe piekło, gdyby nie zostali ostrzeżeni o ataku.",
+    "rus": "Нападение на лагерь отбито, можно поговорить со сталкерами и получить награду. Скорее всего, сталкерам пришлось бы туго, если бы они не были предупреждены о нападении.",
+    "spa": "El ataque al campamento ha sido rechazado; ya puedes hablar con los stalkers para cobrar tu recompensa. De no haber sido advertidos del ataque, lo habrían pasado muy mal.",
+    "ukr": "Напад на табір відбито, можна поговорити зі сталкерами та отримати винагороду. Швидше за все, сталкерам велося б непереливки, якби їх не було попереджено про напад."
+  },
+  "zat_b7_stalkers_raiders_stalkers_text": {
+    "eng": "Stalkers have asked you to help them repel the robbers’ attack. You should join the robbers. When they begin the assault, you’ll be able to attack them from behind with impunity.",
+    "fra": "Les stalkers vous ont demandé de les aider à repousser l'attaque des voleurs. Vous devriez rejoindre les bandits. Lorsqu'ils commenceront l'assaut, vous pourrez les attaquer par derrière en toute impunité.",
+    "ger": "Sie wurden von Stalkern gebeten, ihnen dabei zu helfen, den Überfall der Räuber abzuwehren. Sie sollten sich den Räubern anschließen. Wenn sie dann den Überfall starten, können Sie ihnen ohne Probleme in den Rücken fallen.",
+    "ita": "Gli stalker ti hanno chiesto di aiutarli a respingere l'attacco dei rapinatori. Unisciti ai rapinatori, così potrai attaccarli alle spalle di sorpresa non appena sferrano l'attacco.",
+    "pol": "Stalkerzy poprosili cię o pomoc w odparciu ataku złodziei. Przyłącz się do złodziei. Gdy rozpoczną napad, będzie można bezkarnie zaatakować ich od tyłu.",
+    "rus": "Сталкеры попросили помочь им отразить атаку грабителей. Нужно влиться в ряды грабителей, тогда во время нападения можно будет спокойно напасть на них со спины.",
+    "spa": "Unos stalkers te han pedido que les ayudes a rechazar el ataque de los ladrones. Debes unirte a los ladrones, así podrás atacarlos con total impunidad desde la retaguardia.",
+    "ukr": "Сталкери попрохали допомогти їм відбити атаку грабіжників. Потрібно влитися до лав грабіжників, тоді під час нападу можна буде спокійно напасти на них зі спини."
+  },
+  "zat_b7_stalkers_raiders_text": {
+    "eng": "A group of stalkers has turned to a bandit existence of robbing their own kind. You need to decide whether to take part in their assault, warn the stalkers or not get involved.",
+    "fra": "Des stalkers peu scrupuleux détroussent leurs congénères. Vous devez décider entre participer à l'assaut, avertir les stalkers ou ne pas vous impliquer.",
+    "ger": "Eine Gruppe von Stalkern hat vor, wie Banditen ihre eigenen Leute zu überfallen. Sie müssen sich entscheiden, ob Sie bei dem Angriff mitmachen, die Stalker warnen oder sich überhaupt nicht einmischen.",
+    "ita": "Degli stalker hanno deciso di cambiare vita, diventando dei banditi a tutti gli effetti. Devi decidere se partecipare al loro assalto, avvisare gli stalker o restarne fuori.",
+    "pol": "Grupa stalkerów postanowiła zostać bandytami i rabować swoich. Musisz zdecydować, czy weźmiesz udział w ataku, ostrzeżesz stalkerów, czy nie będziesz się w to mieszać.",
+    "rus": "Группа сталкеров решила превратиться в банду и грабить своих же вчерашних коллег. Пора решать как быть: принять участие в наезде, предупредить будущих жертв или не вмешиваться?",
+    "spa": "Un grupo de stalkers ha recurrido al bandidaje y a asaltar a sus propios camaradas. Debes decidir entre unirte al asalto, advertir a los demás stalkers o no involucrarte.",
+    "ukr": "Група сталкерів вирішила перетворитися на банду і грабувати своїх же вчорашніх колег. Настав час вирішувати, як бути: взяти участь у наїзді, попередити сталкерів або ж не втручатися?"
+  },
+  "zat_b7_stalkers_raiders_time_name": {
+    "eng": "The hit: Wait for the right moment",
+    "fra": "Braquage : attendre jusqu'à l'heure convenue.",
+    "ger": "Der Überfall: Auf den richtigen Moment warten",
+    "ita": "Il colpo: aspetta il momento giusto.",
+    "pol": "Atak: Poczekaj na właściwą chwilę",
+    "rus": "Наезд: дождаться подходящего момента",
+    "spa": "El golpe: espera al momento adecuado",
+    "ukr": "Наїзд: дочекатися слушного моменту"
+  },
+  "zat_b7_stalkers_raiders_time_text": {
+    "eng": "Wait for the right moment when the robbers are distracted by the attack. You can then pounce on them from behind to help the Shevchenko stalkers.",
+    "fra": "Attendez le bon moment, quand les voleurs seront distraits par l'attaque en cours ! Vous pourrez alors les prendre à revers et aider les stalkers de Chevtchenko.",
+    "ger": "Warten Sie auf den richtigen Augenblick, wenn die Räuber durch den Überfall abgelenkt sind. Dann können Sie sie von hinten aufs Korn nehmen und damit den Stalkern auf der Schewtschenko helfen.",
+    "ita": "Aspetta il momento giusto, quando i rapinatori sono distratti dall'attacco. A quel punto puoi colpirli alle spalle per aiutare gli stalker di Shevchenko.",
+    "pol": "Poczekaj na właściwy moment, gdy złodzieje będą rozproszeni przez atak. Wtedy możesz napaść ich od tyłu i pomóc stalkerom z Szewczenki.",
+    "rus": "Необходимо дождаться момента, когда грабители будут отвлечены наездом. Тогда можно будет ударить им в спину, чтобы помочь сталкерам на «Шевченко».",
+    "spa": "Espera al momento adecuado para pillar a los ladrones distraídos por el ataque. Después podrás atacarlos por detrás para ayudar a los stalkers de Shevchenko.",
+    "ukr": "Необхідно дочекатися моменту, коли увагу грабіжників буде відвернуто наїздом. Тоді можна буде вдарити їм у спину, щоб допомогти сталкерам на «Шевченко»."
+  },
+  "zat_b7_stalkers_raiders_wait_name": {
+    "eng": "The hit: wait for the agreed time",
+    "fra": "Braquage : attendre jusqu'à l'heure convenue.",
+    "ger": "Der Überfall: Bis zum vereinbarten Zeitpunkt warten",
+    "ita": "Il colpo: aspetta l'ora concordata",
+    "pol": "Atak: poczekaj na uzgodnioną chwilę",
+    "rus": "Наезд: дождаться назначенного времени",
+    "spa": "El golpe: espera al momento acordado",
+    "ukr": "Наїзд: дочекатися призначеного часу"
+  },
+  "zat_b7_stalkers_raiders_wait_text": {
+    "eng": "Wait for the meeting with the robbers. They want to attack the stalker camp after midnight while it’s still dark. The agreed meeting place is Shevchenko.",
+    "fra": "Attendez votre rendez-vous avec les voleurs ! Ils veulent attaquer le camp de stalkers entre minuit et le lever du soleil. Le point de rendez-vous se trouve au Chevtchenko.",
+    "ger": "Warten Sie auf das Treffen mit den Räubern. Sie wollen das Stalkerlager nach Mitternacht überfallen, während es dunkel ist. Der vereinbarte Treffpunkt ist die Schewtschenko.",
+    "ita": "Aspetta di incontrare i rapinatori. Vogliono attaccare l'accampamento degli stalker dopo la mezzanotte, ma prima dell'alba. Il luogo d'incontro è Shevchenko.",
+    "pol": "Poczekaj na spotkanie ze złodziejami. Chcą zaatakować obóz stalkerów po północy, dopóki jest ciemno. Uzgodnione miejsce spotkania to Szewczenko.",
+    "rus": "Дождаться времени встречи с грабителями: те хотят напасть на лагерь сталкеров поздно ночью, в темноте. Условленное место встречи - «Шевченко».",
+    "spa": "Espera para reunirte con los ladrones. Quieren atacar el campamento stalker después de medianoche, en la oscuridad. El punto de encuentro acordado es Shevchenko.",
+    "ukr": "Дочекатися часу зустрічі із грабіжниками: ті хочуть напасти на табір сталкерів пізно вночі, у темряві. Обумовлене місце зустрічі - «Шевченко»."
   },
   "zat_b14_bring_strange_object_name": {
     "eng": "Strange phenomenon: take the artifact to Beard",
@@ -1539,146 +1739,6 @@
     "spa": "Los chupasangres no tenían nada que ver con las desapariciones de stalkers; fue Tremor, el médico de Skadovsk.",
     "ukr": "Як з'ясувалося, у зникненні сталкерів винуваті не кровососи, а Тремор - медик зі «Скадовська»."
   },
-  "zat_b3_get_tools_1_2_name": {
-    "eng": "Tools: bring Cardan tools",
-    "fra": "Outils : apporter des outils à Cardan.",
-    "ger": "Werkzeug: Kardan Werkzeug bringen",
-    "ita": "Attrezzi: porta gli attrezzi a Cardan",
-    "pol": "Narzędzia: przynieś Kardanowi narzędzia",
-    "rus": "Инструменты: принести инструменты Кардану",
-    "spa": "Herramientas: llévale herramientas a Cardán",
-    "ukr": "Інструменти: принести інструменти Карданові"
-  },
-  "zat_b3_get_tools_1_2_text": {
-    "eng": "Cardan has asked you to get two sets of tools: one for basic work and one for fine work. The technician will pay you for the tools and will be able to perform more advanced weapon and armor modifications.",
-    "fra": "Cardan vous a demandé de lui apporter deux jeux d'outils : des outils rudimentaires et des outils de précision. Le technicien vous paiera et sera en mesure d'effectuer des modifications d'armes et d'armures plus complexes.",
-    "ger": "Kardan hat Sie gebeten, ihm zwei Werkzeugsets zu beschaffen: Eines für einfache Arbeiten und eines für feinere Arbeiten. Der Techniker wird Sie für das Werkzeug bezahlen und damit bessere Modifikationen für Waffen und Panzerung durchführen können.",
-    "ita": "Cardan ti ha chiesto di portargli due kit di attrezzi: uno per i lavori di base e uno per quelli avanzati. In cambio, il tecnico ti pagherà e potrà eseguire modifiche più complesse per armi e armature.",
-    "pol": "Kardan poprosił cię o zdobycie dwóch zestawów narzędzi: jednego podstawowego i jednego do precyzyjnej pracy. Technik zapłaci ci za narzędzia i będzie w stanie wykonać bardziej zaawansowane modyfikacje broni i pancerzy.",
-    "rus": "Кардан просил найти два набора инструментов: один для тонкой работы, другой для грубой. Техник заплатит за инструмент и, кроме того, сможет обеспечить более сложную модернизацию оружия или бронежилета.",
-    "spa": "Cardán te ha pedido que le consigas dos juegos de herramientas: uno para trabajos básicos y otro para trabajos profesionales. Te pagará por ellas, y podrá realizar modificaciones más avanzadas en armas y blindajes.",
-    "ukr": "Кардан просив знайти два набори інструментів: один для тонкої роботи, інший для грубої. Технік заплатить за інструмент і, крім того, зможе забезпечити складнішу модернізацію зброї чи бронежилета."
-  },
-  "zat_b3_get_tools_1_3_name": {
-    "eng": "Tools: bring Cardan tools",
-    "fra": "Outils : apporter des outils à Cardan.",
-    "ger": "Werkzeug: Kardan Werkzeug bringen",
-    "ita": "Attrezzi: porta gli attrezzi a Cardan",
-    "pol": "Narzędzia: przynieś Kardanowi narzędzia",
-    "rus": "Инструменты: принести инструменты Кардану",
-    "spa": "Herramientas: llévale herramientas a Cardán",
-    "ukr": "Інструменти: принести інструменти Карданові"
-  },
-  "zat_b3_get_tools_1_3_text": {
-    "eng": "Cardan has asked you to get two sets of tools: one for basic work and one for calibration. The technician will pay you for the tools and will be able to perform more advanced weapon and armor modifications.",
-    "fra": "Cardan vous a demandé de récupérer deux jeux d'outils : des outils rudimentaires et des outils de calibrage. Le technicien vous paiera et sera en mesure d'effectuer des modifications d'armes et d'armures plus complexes.",
-    "ger": "Kardan hat Sie gebeten, ihm zwei Werkzeugsets zu beschaffen: Eines für einfache Arbeiten und eines für Kalibrierungsarbeiten. Der Techniker wird Sie für das Werkzeug bezahlen und damit bessere Modifikationen für Waffen und Panzerung durchführen können.",
-    "ita": "Cardan ti ha chiesto di portargli due kit di attrezzi: uno per i lavori di base e uno per quelli di precisione. In cambio, il tecnico ti pagherà e potrà eseguire modifiche più complesse per armi e armature.",
-    "pol": "Kardan poprosił cię o zdobycie dwóch zestawów narzędzi: jednego podstawowego i jednego do kalibracji. Technik zapłaci ci za narzędzia i będzie w stanie wykonać bardziej zaawansowane modyfikacje broni i pancerzy.",
-    "rus": "Кардан просил найти два набора инструментов: один для грубой работы, другой для калибровки. Техник заплатит за инструмент и, кроме того, сможет обеспечить более сложную модернизацию оружия или бронежилета.",
-    "spa": "Cardán te ha pedido que le consigas dos juegos de herramientas: uno para trabajos básicos y otro de calibración. Te pagará por ellas, y podrá realizar modificaciones más avanzadas en armas y blindajes.",
-    "ukr": "Кардан просив знайти два набори інструментів: один для грубої роботи, інший для калібрування. Технік заплатить за інструмент і, крім того, зможе забезпечити складнішу модернізацію зброї чи бронежилета."
-  },
-  "zat_b3_get_tools_1_name": {
-    "eng": "Tools: bring Cardan tools",
-    "fra": "Outils : apporter des outils à Cardan.",
-    "ger": "Werkzeug: Kardan Werkzeug bringen",
-    "ita": "Attrezzi: porta gli attrezzi a Cardan",
-    "pol": "Narzędzia: przynieś Kardanowi narzędzia",
-    "rus": "Инструменты: принести инструменты Кардану",
-    "spa": "Herramientas: llévale herramientas a Cardán",
-    "ukr": "Інструменти: принести інструменти Карданові"
-  },
-  "zat_b3_get_tools_1_text": {
-    "eng": "Cardan has asked you to get a set of tools for basic work. The technician will pay you for the tools and will be able to perform more advanced weapon and armor modifications.",
-    "fra": "Cardan vous a demandé de récupérer un jeu d'outils rudimentaires. Le technicien vous paiera et sera en mesure d'effectuer des modifications d'armes et d'armures plus complexes.",
-    "ger": "Kardan hat Sie gebeten, ihm Werkzeug für einfache Arbeiten zu beschaffen. Der Techniker wird Sie für das Werkzeug bezahlen und damit bessere Modifikationen für Waffen und Panzerung durchführen können.",
-    "ita": "Cardan ti ha chiesto di portargli un kit di attrezzi per i lavori di base. In cambio, il tecnico ti pagherà e potrà eseguire modifiche più complesse per armi e armature.",
-    "pol": "Kardan poprosił cię o zdobycie zestawu narzędzi podstawowych. Technik zapłaci ci za narzędzia i będzie w stanie wykonać bardziej zaawansowane modyfikacje broni i pancerzy.",
-    "rus": "Кардан просил найти набор инструментов для грубой работы. Техник заплатит за инструмент и, кроме того, сможет обеспечить более сложную модернизацию оружия или бронежилета.",
-    "spa": "Cardán te ha pedido que le consigas un juego de herramientas para trabajos básicos. Te pagará por ellas, y podrá realizar modificaciones más avanzadas en armas y blindajes.",
-    "ukr": "Кардан просив знайти набір інструментів для грубої роботи. Технік заплатить за інструмент і, крім того, зможе забезпечити складнішу модернізацію зброї чи бронежилета."
-  },
-  "zat_b3_get_tools_2_3_name": {
-    "eng": "Tools: bring Cardan tools",
-    "fra": "Outils : apporter des outils à Cardan.",
-    "ger": "Werkzeug: Kardan Werkzeug bringen",
-    "ita": "Attrezzi: porta gli attrezzi a Cardan",
-    "pol": "Narzędzia: przynieś Kardanowi narzędzia",
-    "rus": "Инструменты: принести инструменты Кардану",
-    "spa": "Herramientas: llévale herramientas a Cardán",
-    "ukr": "Інструменти: принести інструменти Карданові"
-  },
-  "zat_b3_get_tools_2_3_text": {
-    "eng": "Cardan has asked you to get two sets of tools: one for fine work and one for calibration. The technician will pay you for the tools and will be able to perform more advanced weapon and armor modifications.",
-    "fra": "Cardan vous a demandé de récupérer deux jeux d'outils : des outils de précision et des outils de calibrage. Le technicien vous paiera et sera en mesure d'effectuer des modifications d'armes et d'armures plus complexes.",
-    "ger": "Kardan hat Sie gebeten, ihm zwei Werkzeugsets zu beschaffen: Eines für feinere Arbeiten und eines für Kalibrierungsarbeiten. Der Techniker wird Sie für das Werkzeug bezahlen und damit bessere Modifikationen für Waffen und Panzerung durchführen können.",
-    "ita": "Cardan ti ha chiesto di portargli due kit di attrezzi: uno per i lavori avanzati e uno per quelli di precisione. In cambio, il tecnico ti pagherà e potrà eseguire modifiche più complesse per armi e armature.",
-    "pol": "Kardan poprosił cię o zdobycie dwóch zestawów narzędzi: jednego do precyzyjnej pracy i jednego do kalibracji. Technik zapłaci ci za narzędzia i będzie w stanie wykonać bardziej zaawansowane modyfikacje broni i pancerzy.",
-    "rus": "Кардан просил найти два набора инструментов: один для тонкой работы, другой для калибровки. Техник заплатит за инструмент и, кроме того, сможет обеспечить более сложную модернизацию оружия или бронежилета.",
-    "spa": "Cardán te ha pedido que le consigas dos juegos de herramientas: uno para trabajos profesionales y otro de calibración. Te pagará por ellas, y podrá realizar modificaciones más avanzadas en armas y blindajes.",
-    "ukr": "Кардан просив знайти два набори інструментів: один для тонкої роботи, інший для калібрування. Технік заплатить за інструмент і, крім того, зможе забезпечити складнішу модернізацію зброї чи бронежилета."
-  },
-  "zat_b3_get_tools_2_name": {
-    "eng": "Tools: bring Cardan tools",
-    "fra": "Outils : apporter des outils à Cardan.",
-    "ger": "Werkzeug: Kardan Werkzeug bringen",
-    "ita": "Attrezzi: porta gli attrezzi a Cardan",
-    "pol": "Narzędzia: przynieś Kardanowi narzędzia",
-    "rus": "Инструменты: принести инструменты Кардану",
-    "spa": "Herramientas: llévale herramientas a Cardán",
-    "ukr": "Інструменти: принести інструменти Карданові"
-  },
-  "zat_b3_get_tools_2_text": {
-    "eng": "Cardan has asked you to get a set of tools for fine work. The technician will pay you for the tools and will be able to perform more advanced weapon and armor modifications.",
-    "fra": "Cardan vous a demandé de récupérer un jeu d'outils de précision. Le technicien vous paiera et sera en mesure d'effectuer des modifications d'armes et d'armures plus complexes.",
-    "ger": "Kardan hat Sie gebeten, ihm Werkzeug für feinere Arbeiten zu beschaffen. Der Techniker wird Sie für das Werkzeug bezahlen und damit bessere Modifikationen für Waffen und Panzerung durchführen können.",
-    "ita": "Cardan ti ha chiesto di portargli un kit di attrezzi per i lavori avanzati. In cambio, il tecnico ti pagherà e potrà eseguire modifiche più complesse per armi e armature.",
-    "pol": "Kardan poprosił cię o zdobycie zestawu narzędzi do precyzyjnej pracy. Technik zapłaci ci za narzędzia i będzie w stanie wykonać bardziej zaawansowane modyfikacje broni i pancerzy.",
-    "rus": "Кардан просил найти набор инструментов для тонкой работы. Техник заплатит за инструмент и, кроме того, сможет обеспечить более сложную модернизацию оружия или бронежилета.",
-    "spa": "Cardán te ha pedido que le consigas un juego de herramientas para trabajos profesionales. Te pagará por ellas, y podrá realizar modificaciones más avanzadas en armas y blindajes.",
-    "ukr": "Кардан просив знайти набір інструментів для тонкої роботи. Технік заплатить за інструмент і, крім того, зможе забезпечити складнішу модернізацію зброї чи бронежилета."
-  },
-  "zat_b3_get_tools_3_name": {
-    "eng": "Tools: bring Cardan tools",
-    "fra": "Outils : apporter des outils à Cardan.",
-    "ger": "Werkzeug: Kardan Werkzeug bringen",
-    "ita": "Attrezzi: porta gli attrezzi a Cardan",
-    "pol": "Narzędzia: przynieś Kardanowi narzędzia",
-    "rus": "Инструменты: принести инструменты Кардану",
-    "spa": "Herramientas: llévale herramientas a Cardán",
-    "ukr": "Інструменти: принести інструменти Карданові"
-  },
-  "zat_b3_get_tools_3_text": {
-    "eng": "Cardan has asked you to get a set of tools for calibration. The technician will pay you for the tools and will be able to perform more advanced weapon and armor modifications.",
-    "fra": "Cardan vous a demandé de récupérer un jeu d'outils de calibrage. Le technicien vous paiera et sera en mesure d'effectuer des modifications d'armes et d'armures plus complexes.",
-    "ger": "Kardan hat Sie gebeten, ihm Werkzeug für Kalibrierungsarbeiten zu beschaffen. Der Techniker wird Sie für das Werkzeug bezahlen und damit bessere Modifikationen für Waffen und Panzerung durchführen können.",
-    "ita": "Cardan ti ha chiesto di portargli un kit di attrezzi per i lavori di precisione. In cambio, il tecnico ti pagherà e potrà eseguire modifiche più complesse per armi e armature.",
-    "pol": "Kardan poprosił cię o zdobycie zestawu narzędzi do kalibracji. Technik zapłaci ci za narzędzia i będzie w stanie wykonać bardziej zaawansowane modyfikacje broni i pancerzy.",
-    "rus": "Кардан просил найти набор инструментов для калибровки. Техник заплатит за инструмент и, кроме того, сможет обеспечить более сложную модернизацию оружия или бронежилета.",
-    "spa": "Cardán te ha pedido que le consigas un juego de herramientas de calibración. Te pagará por ellas, y podrá realizar modificaciones más avanzadas en armas y blindajes.",
-    "ukr": "Кардан просив знайти набір інструментів для калібрування. Технік заплатить за інструмент і, крім того, зможе забезпечити складнішу модернізацію зброї чи бронежилета."
-  },
-  "zat_b3_mechanic_toolkit_search_name": {
-    "eng": "Tools: bring Cardan tools",
-    "fra": "Outils : apporter des outils à Cardan.",
-    "ger": "Werkzeug: Kardan Werkzeug bringen",
-    "ita": "Attrezzi: porta gli attrezzi a Cardan",
-    "pol": "Narzędzia: przynieś Kardanowi narzędzia",
-    "rus": "Инструменты: принести инструменты Кардану",
-    "spa": "Herramientas: llévale herramientas a Cardán",
-    "ukr": "Інструменти: принести інструменти Карданові"
-  },
-  "zat_b3_mechanic_toolkit_search_text": {
-    "eng": "Cardan has asked you to get three sets of tools: one for basic work, one for fine work and one for calibration. The technician will pay you for the tools and will be able to perform more advanced weapon and armor modifications.",
-    "fra": "Cardan vous a demandé de récupérer trois jeux d'outils : des outils rudimentaires, des outils de précisions et des instruments de calibrage. Le technicien vous paiera et sera en mesure d'effectuer des modifications d'armes et d'armures plus complexes.",
-    "ger": "Kardan hat Sie gebeten, ihm drei Werkzeugsets zu beschaffen: Eines für einfache, eines für feinere und eines für Kalibrierungsarbeiten. Der Techniker wird Sie für das Werkzeug bezahlen und damit bessere Modifikationen für Waffen und Panzerung durchführen können.",
-    "ita": "Cardan ti ha chiesto di portargli tre kit di attrezzi: uno per i lavori di base, uno per quelli avanzati e uno per quelli di precisione. In cambio, il tecnico ti pagherà e potrà eseguire modifiche più complesse per armi e armature.",
-    "pol": "Kardan poprosił cię o zdobycie trzech zestawów narzędzi: jednego podstawowego, jednego do precyzyjnej pracy i jednego do kalibracji. Technik zapłaci ci za narzędzia i będzie w stanie wykonać bardziej zaawansowane modyfikacje broni i pancerzy.",
-    "rus": "Кардан просил найти три набора инструментов: для грубой работы, для тонкой работы плюс набор для калибровки. Техник заплатит за инструмент и, кроме того, сможет обеспечить более сложную модернизацию оружия или бронежилета.",
-    "spa": "Cardán te ha pedido que le consigas tres juegos de herramientas: uno para trabajos básicos, otro para trabajos profesionales y otro de calibración. Te pagará por ellas, y podrá realizar modificaciones más avanzadas en armas y blindajes.",
-    "ukr": "Кардан просив знайти три набори інструментів: для грубої роботи, для тонкої роботи плюс набір для калібрування. Технік заплатить за інструмент і, крім того, зможе забезпечити складнішу модернізацію зброї чи бронежилета."
-  },
   "zat_b40_reconnoitre_merc_camp_01_name": {
     "eng": "Mercenary camp: take any information you can find",
     "fra": "Camp de mercenaires : récupérer autant d'informations que possible.",
@@ -2129,464 +2189,404 @@
     "spa": "Tienes que asegurarte de que el gas llena la guarida y mata a todos los chupasangres.",
     "ukr": "Треба переконатися, що газ потрапив до лігвища і всі кровососі знищені."
   },
-  "zat_b5_come_to_bandits_name": {
-    "eng": "Transaction: meet the bandits by the ranger station",
-    "fra": "Transaction : rencontrer les bandits près du poste des rangers.",
-    "ger": "Transaktion: Banditen bei der Forststation treffen",
-    "ita": "Transazione: incontra i banditi alla stazione dei ranger",
-    "pol": "Transakcja: spotkaj się z bandytami koło strażnicy",
-    "rus": "Сделка: встретиться с бандитами возле лесничества",
-    "spa": "Transacción: reúnete con los bandidos junto a la estación de guardabosques",
-    "ukr": "Угода: зустрітися з бандитами біля лісництва"
+  "zat_b100_guide_maps_01_name": {
+    "eng": "Area maps: find someone interested in the maps",
+    "fra": "Cartes de la zone : trouver une personne intéressée par les cartes.",
+    "ger": "Umgebungskarten: Interessenten für die Karten finden",
+    "ita": "Mappe dell'area: trova qualcuno interessato alle mappe",
+    "pol": "Mapy terenu: znajdź kogoś, kto interesuje się mapami",
+    "rus": "Карты местности: найти заинтересованных",
+    "spa": "Mapas del lugar: encuentra a alguien interesado en los mapas",
+    "ukr": "Карти місцевості: знайти зацікавлених"
   },
-  "zat_b5_come_to_bandits_text": {
-    "eng": "Sultan has asked you to take part in a transaction with a trader. You need to accompany his people and cover them in case something happens.",
-    "fra": "Sultan vous a demandé de participer à une transaction avec un marchand. Vous devez accompagner ses hommes et les couvrir en cas de problème.",
-    "ger": "Sultan hat Sie gebeten, bei einer Transaktion mit einem Händler mitzumachen. Sie müssen seine Männer begleiten und ihnen Hilfe leisten, falls etwas passieren sollte.",
-    "ita": "Sultan ti ha chiesto di partecipare a una transazione con un mercante. Accompagna i suoi uomini e proteggili in caso di necessità.",
-    "pol": "Sułtan poprosił cię o udział w transakcji z jednym z handlarzy. Musisz towarzyszyć jego ludziom, by zapewnić im ochronę, gdyby coś się wydarzyło.",
-    "rus": "Султан попросил поучаствовать в сделке с одним барыгой. Надо сопроводить людей Султана к месту встречи и прикрывать их на случай непредвиденных обстоятельств.",
-    "spa": "Sultán te ha pedido que participes en una transacción con un comerciante. Tienes que acompañar a sus hombres y cubrirlos si ocurre algo.",
-    "ukr": "Султан попросив узяти участь в угоді з одним баригою. Треба супроводити людей Султана до місця зустрічі та прикривати їх на випадок непередбачуваних обставин."
+  "zat_b100_guide_maps_01_text": {
+    "eng": "The Stingray 2 onboard computer had maps of the area between Zaton and Jupiter. You should find someone who could use them.",
+    "fra": "L'ordinateur de bord de Stingray 2 contenait des cartes du secteur entre Zaton et Jupiter. Vous devriez trouver quelqu'un qui en aura l'utilité.",
+    "ger": "Auf dem Bordcomputer von Stingray 2 befanden sich Karten der Gegend zwischen Zaton und der Jupiter-Anlage. Sie sollten jemanden finden, der etwas mit diesen Karten anfangen kann.",
+    "ita": "Il computer di bordo di Stingray 2 conteneva delle mappe dell'area tra Zaton e Jupiter. Trova qualcuno a cui potrebbero interessare.",
+    "pol": "Komputer pokładowy Ogończy 2 zawierał mapy terenu pomiędzy Zatonem i Jupiterem. Znajdź kogoś, kto mógłby zrobić z nich użytek.",
+    "rus": "В бортовом компьютере вертолёта «Скат-2» были карты местности между Затоном и «Юпитером». Стоит найти того, кому эти карты могут понадобиться.",
+    "spa": "El ordenador de a bordo del Pez Raya 2 tenía mapas de la zona comprendida entre Zaton y Júpiter. Deberías buscar a alguien que los necesite.",
+    "ukr": "У бортовому комп'ютері гелікоптеру «Скат-2» містилися мапи місцевості між Затоном та «Юпітером». Варто знайти того, кому ці мапи можуть знадобитися."
   },
-  "zat_b5_come_to_dealer_name": {
-    "eng": "Transaction: meet the trader",
-    "fra": " Transaction : rejoindre le marchand.",
-    "ger": "Transaktion: Den Händler treffen",
-    "ita": " Transazione: incontra il mercante",
-    "pol": "Transakcja: spotkaj się z handlarzem",
-    "rus": "Сделка: встретиться с торговцем",
-    "spa": " Transacción: reúnete con el comerciante",
-    "ukr": "Угода: зустрітися із торговцем"
+  "zat_b100_guide_maps_02_name": {
+    "eng": "Area maps: offer the maps to Pilot",
+    "fra": "Cartes de la zone : remettre les cartes à Pilote.",
+    "ger": "Umgebungskarten: Pilot die Karten anbieten",
+    "ita": "Mappe dell'area: offri le mappe a Pilot",
+    "pol": "Mapy terenu: zaoferuj mapy Pilotowi",
+    "rus": "Карты местности: предложить Лоцману",
+    "spa": "Mapas del lugar: ofrécele los mapas a Piloto",
+    "ukr": "Карти місцевості: запропонувати Лоцманові"
   },
-  "zat_b5_come_to_dealer_text": {
-    "eng": "Owl has offered you a job - protecting some trader during a transaction. Clearly, the transaction is shady and it might not go very smoothly.",
-    "fra": "Le Hibou vous a confié une mission. Vous devez protéger un marchand pendant une transaction. Il s'agit clairement d'une affaire louche et il y a des chances que les choses tournent mal.",
-    "ger": "Uhu hat einen Auftrag für Sie: Sie müssen einen Händler bei einer Transaktion beschützen. Ganz offensichtlich handelt es sich um ein krummes Geschäft und es wird nicht ohne Probleme über die Bühne gehen.",
-    "ita": "Owl ti ha chiesto di proteggere un mercante durante una transazione. L'intera faccenda è un po' losca, e qualcosa potrebbe andare storto.",
-    "pol": "Sowa zaproponował ci pracę przy ochronie pewnego handlarza podczas transakcji. Oczywiście jest to szemrany interes i może nie pójść zbyt gładko.",
-    "rus": "Сыч предложил работу - охранять какого-то торговца во время сделки. Очевидно, сделка имеет сомнительный характер и в процессе могут возникнуть неприятности.",
-    "spa": "Búho te ha encargado que protejas a un comerciante durante una transacción. Es evidente que se trata de un chanchullo y es posible que no salga del todo bien.",
-    "ukr": "Сич запропонував роботу - охороняти якогось торговця під час угоди. Вочевидь, угода має сумнівний характер і в процесі можуть виникнути неприємності."
+  "zat_b100_guide_maps_02_text": {
+    "eng": "It's possible that Pilot, the local guide, could be interested in maps of the area between Zaton and Jupiter.",
+    "fra": "Pilote, le guide du coin, pourrait être intéressé par les cartes de la région entre Zaton et Jupiter.",
+    "ger": "Möglicherweise hätte Pilot, der hiesige Ortskundige, Interesse an den Karten des Gebiets zwischen Zaton und Jupiter.",
+    "ita": "Pilot, la guida locale, potrebbe essere interessato alle mappe dell'area tra Zaton e Jupiter.",
+    "pol": "Możliwe, że Pilot, miejscowy przewodnik, będzie zainteresowany mapami terenu pomiędzy Zatonem i Jupiterem.",
+    "rus": "Карты местности между Затоном и «Юпитером» предположительно могут заинтересовать Лоцмана, местного проводника.",
+    "spa": "Es posible que Piloto, el guía local, esté interesado en los mapas de la zona comprendida entre Zaton y Júpiter.",
+    "ukr": "Є припущення, що мапи місцевості між Затоном та «Юпітером» можуть зацікавити Лоцмана, місцевого проводиря."
   },
-  "zat_b5_come_to_stalkers_name": {
-    "eng": "Transaction: meet the stalkers by the ranger station",
-    "fra": " Transaction : rejoindre les stalkers près du poste des rangers.",
-    "ger": "Transaktion: Stalker bei der Forststation treffen",
-    "ita": " Transazione: incontra gli stalker alla stazione dei ranger",
-    "pol": "Transakcja: spotkaj się ze stalkerami koło strażnicy",
-    "rus": "Сделка: встретиться со сталкерами возле лесничества",
-    "spa": " Transacción: reúnete con los stalkers junto al puesto de guardabosques",
-    "ukr": "Угода: зустрітися зі сталкерами біля лісництва"
+  "zat_b100_heli_2_crash_name": {
+    "eng": "Stingray 2: investigate the crash site",
+    "fra": "Stingray 2 : fouiller les lieux de l'accident.",
+    "ger": "Stingray 2: Absturzstelle untersuchen",
+    "ita": "Stingray 2: perlustra il luogo dello schianto",
+    "pol": "Ogończa 2: zbadaj miejsce katastrofy",
+    "rus": "«Скат-2»: исследовать место падения",
+    "spa": "Pez Raya 2: investiga el lugar del accidente",
+    "ukr": "«Скат-2»: дослідити місце падіння"
   },
-  "zat_b5_come_to_stalkers_text": {
-    "eng": "Meet the stalkers by the ranger station and help them disrupt the transaction between the bandits and the weapons trader.",
-    "fra": "Rejoignez les stalkers près du poste des rangers et aidez-les à interrompre la transaction entre les bandits et le marchand d'armes.",
-    "ger": "Treffen Sie sich mit den Stalkern bei der Forststation und helfen Sie ihnen, die Transaktion zwischen den Banditen und dem Waffenhändler zu vereiteln.",
-    "ita": "Incontra gli stalker alla stazione dei ranger e aiutali a bloccare la transazione tra i banditi e il mercante di armi.",
-    "pol": "Spotkaj się ze stalkerami koło strażnicy, aby pomóc im powstrzymać transakcję pomiędzy bandytami i handlarzem bronią.",
-    "rus": "Встретиться со сталкерами возле лесничества и помочь им предотвратить сделку между бандитами и продавцом оружия.",
-    "spa": "Reúnete con los stalkers junto al puesto de guardabosques y ayúdalos a frustrar la transacción entre los bandidos y el comerciante de armas.",
-    "ukr": "Зустрітися зі сталкерами біля лісництва та допомогти їм запобігти угоді між бандитами і продавцем зброї."
+  "zat_b100_heli_2_crash_text": {
+    "eng": "Investigate the Stingray 2 crash site.",
+    "fra": "Fouillez les lieux de l'accident du Stingray 2.",
+    "ger": "Untersuchen Sie die Absturzstelle von Stingray 2.",
+    "ita": "Perlustra il luogo dello schianto di Stingray 2.",
+    "pol": "Zbadaj miejsce katastrofy Ogończy 2.",
+    "rus": "Исследовать место падения вертолёта «Скат-2».",
+    "spa": "Investiga el lugar del accidente del Pez Raya 2.",
+    "ukr": "Дослідити місце падіння гелікоптера «Скат-2»."
   },
-  "zat_b5_cover_dealer_name": {
-    "eng": "Transaction: protect the trader",
-    "fra": "Transaction : protéger le marchand.",
-    "ger": "Transaktion: Den Händler beschützen",
-    "ita": "Transazione: proteggi il mercante",
-    "pol": "Transakcja: ochraniaj handlarza",
-    "rus": "Сделка: охранять торговца",
-    "spa": "Transacción: protege al comerciante",
-    "ukr": "Угода: охороняти торговця"
+  "zat_b101_heli_5_crash_name": {
+    "eng": "Stingray 5: investigate the crash site",
+    "fra": "Stingray 5 : fouiller les lieux de l'accident.",
+    "ger": "Stingray 5: Absturzstelle untersuchen",
+    "ita": "Stingray 5: perlustra il luogo dello schianto",
+    "pol": "Ogończa 5: zbadaj miejsce katastrofy",
+    "rus": "«Скат-5»: исследовать место падения",
+    "spa": "Pez Raya 5: investiga el lugar del accidente",
+    "ukr": "«Скат-5»: дослідити місце падіння"
   },
-  "zat_b5_cover_dealer_text": {
-    "eng": "The trader has explained your job - to protect him during the transaction.",
-    "fra": "Le marchand vous a expliqué votre rôle : le protéger pendant la transaction.",
-    "ger": "Der Händler hat Ihnen Ihren Auftrag erklärt: Sie müssen ihn bei der Transaktion beschützen.",
-    "ita": "Il mercante ti ha chiesto di proteggerlo durante la transazione.",
-    "pol": "Handlarz wyjaśnił ci twoje zadanie - musisz go chronić podczas transakcji.",
-    "rus": "По словам торговца, задача проста: охранять его во время сделки.",
-    "spa": "El comerciante te ha explicado tu trabajo: protegerlo durante la transacción.",
-    "ukr": "За словами торговця, завдання є простим: охороняти його під час угоди."
+  "zat_b101_heli_5_crash_name_02": {
+    "eng": "Stingray 5: find the reason for electronic burn out",
+    "fra": "Stingray 5 : trouver la cause du court-circuit.",
+    "ger": "Stingray 5: Herausfinden, warum die Elektronik ausgebrannt ist",
+    "ita": "Stingray 5: scopri il motivo del guasto elettronico",
+    "pol": "Ogończa 5: znajdź przyczynę spalenia się elektroniki",
+    "rus": "«Скат-5»: найти причину перегорания электроники",
+    "spa": "Pez Raya 5: averigua por qué se han quemado los aparatos",
+    "ukr": "«Скат-5»: знайти причину згоряння електроніки."
   },
-  "zat_b5_intercept_talking_name": {
-    "eng": "Transaction: eavesdrop on the conversation",
-    "fra": "Transaction : écouter la conversation.",
-    "ger": "Transaktion: Gespräch mithören",
-    "ita": "Transazione: origlia la conversazione",
-    "pol": "Transakcja: podsłuchaj rozmowę",
-    "rus": "Сделка: подслушать разговор",
-    "spa": "Transacción: espía la conversación",
-    "ukr": "Угода: підслухати розмову"
+  "zat_b101_heli_5_crash_name_03": {
+    "eng": "Stingray squad: find the source of the charges which hit the two helicopters",
+    "fra": "Unité Stingray : trouver la source des décharges qui ont frappé les deux hélicoptères.",
+    "ger": "Stingray-Einheit: Die Quelle der Entladungen finden, die die beiden Hubschrauber getroffen haben",
+    "ita": "Squadra Stingray: trova la fonte delle scariche che hanno colpito i due elicotteri",
+    "pol": "Oddział Ogończy: znajdź źródło wyładowań, które uderzyły w dwa śmigłowce",
+    "rus": "Отряд «Скат»: найти источник разрядов, поразивших два вертолёта",
+    "spa": "Escuadrón de Peces Raya: encuentra el origen de la descarga que derribó a los dos helicópteros",
+    "ukr": "Загін «Скат»: знайти джерело розрядів, що вразили два гелікоптери"
   },
-  "zat_b5_intercept_talking_text": {
-    "eng": "Stalkers want to listen in on the conversation between the bandits and the weapons trader.",
-    "fra": "Les stalkers souhaitent écouter la conversation entre les bandits et le marchand d'armes.",
-    "ger": "Die Stalker möchten mithören, was die Banditen und der Waffenhändler zu bereden haben.",
-    "ita": "Gli stalker vogliono origliare la conversazione tra i banditi e il mercante di armi.",
-    "pol": "Stalkerzy chcą podsłuchać rozmowę pomiędzy bandytami i handlarzem bronią.",
-    "rus": "Сталкеры хотят подслушать разговор между бандитами и торговцем оружием.",
-    "spa": "Los stalkers quieren oír la conversación entre los bandidos y el comerciante de armas.",
-    "ukr": "Сталкери хочуть підслухати розмову між бандитами і торговцем зброєю."
+  "zat_b101_heli_5_crash_text": {
+    "eng": "Investigate the Stingray 5 crash site.",
+    "fra": "Fouillez les lieux de l'accident du Stingray 5.",
+    "ger": "Untersuchen Sie die Absturzstelle von Stingray 5.",
+    "ita": "Perlustra il luogo dello schianto di Stingray 5.",
+    "pol": "Zbadaj miejsce katastrofy Ogończy 5.",
+    "rus": "Исследовать место падения вертолёта «Скат-5».",
+    "spa": "Investiga el lugar del accidente del Pez Raya 5.",
+    "ukr": "Дослідити місце падіння гелікоптера «Скат-5»."
   },
-  "zat_b5_kill_dealer_name": {
-    "eng": "Transaction: disrupt the weapons sale",
-    "fra": "Transaction : empêcher la vente des armes.",
-    "ger": "Transaktion: Den Waffenhandel vereiteln",
-    "ita": "Transazione: blocca la vendita delle armi",
-    "pol": "Transakcja: przeszkodź w zakupie broni",
-    "rus": "Сделка: предотвратить покупку оружия",
-    "spa": "Transacción: interrumpe la venta de armas",
-    "ukr": "Угода: запобігти купівлі зброї"
+  "zat_b101_heli_5_crash_text_02": {
+    "eng": "You must find the source of the powerful electric charge which hit the Stingray 5 helicopter.",
+    "fra": "Trouvez la source de la puissante décharge électrique qui a frappé l'hélicoptère Stingray 5.",
+    "ger": "Sie müssen die Quelle der starken elektrischen Entladung finden, die Stingray 5 getroffen hat.",
+    "ita": "Devi trovare la fonte della potente scarica elettrica che ha colpito l'elicottero Stingray 5.",
+    "pol": "Musisz znaleźć źródło silnego wyładowania elektrycznego, które uderzyło w śmigłowiec Ogończa 5.",
+    "rus": "Нужно выяснить источник мощного электрического разряда, поразившего вертолёт «Скат-5».",
+    "spa": "Debes encontrar el origen de la potente descarga eléctrica que alcanzó al helicóptero Pez Raya 5.",
+    "ukr": "Потрібно з'ясувати джерело потужного електричного розряду, що вразив вертоліт «Скат-5»."
   },
-  "zat_b5_kill_dealer_text": {
-    "eng": "Do whatever it takes to disrupt the transaction between the bandits and the trader.",
-    "fra": "Faites votre possible pour empêcher la transaction entre les bandits et le marchand d'armes.",
-    "ger": "Tun Sie alles Nötige, um das Geschäft zwischen den Banditen und dem Waffenhändler zu vereiteln.",
-    "ita": "Fai il possibile per bloccare la transazione tra i banditi e il mercante.",
-    "pol": "Zrób co tylko się da, żeby przeszkodzić w transakcji pomiędzy bandytami i handlarzem.",
-    "rus": "Надо любым способом предотвратить сделку между бандитами и барыгой.",
-    "spa": "Haz lo que sea necesario para interrumpir la transacción entre los bandidos y el comerciante.",
-    "ukr": "Треба у будь-який спосіб запобігти угоді між бандитами та баригою."
+  "zat_b101_heli_5_crash_text_03": {
+    "eng": "You must find out what caused the electronics in Stingrays 4 and 5 to burn out. It seems they were hit by powerful electric charges.",
+    "fra": "Trouvez la cause du court-circuit des Stringray 4 et 5. Il semblerait qu'ils aient été frappés par de puissantes décharges électriques.",
+    "ger": "Sie müssen herausfinden, warum die Elektronik von Stingray 4 und Stingray 5 ausgebrannt ist. Offensichtlich wurden die Hubschrauber von starken elektrischen Entladungen getroffen.",
+    "ita": "Devi scoprire cosa ha provocato il guasto elettronico di Stingray 4 e 5. Pare siano stati colpiti da potenti scariche elettriche.",
+    "pol": "Musisz znaleźć przyczynę spalenia się elektroniki w Ogończach 4 i 5. Wygląda na to, że zostały trafione przez silne wyładowania elektryczne.",
+    "rus": "Необходимо найти причину, по которой сгорела электроника вертолётов «Скат-4» и «Скат-5». При обследовании выяснилось, что обе машины были поражены мощным электрическим разрядом.",
+    "spa": "Debes averiguar qué fue lo que quemó los aparatos de los Peces Raya 4 y 5. Parece que fueron alcanzados por potentes descargas eléctricas.",
+    "ukr": "Необхідно знайти причину, через яку згоріла електроніка гелікоптерів «Скат-4» та «Скат-5». Під час обстеження з'ясувалося, що обидві машини було вражено потужним електричним розрядом."
   },
-  "zat_b5_kill_stalkers_name": {
-    "eng": "Transaction: eliminate witnesses",
-    "fra": "Transaction : éliminer les témoins.",
-    "ger": "Transaktion: Zeugen ausschalten",
-    "ita": "Transazione: elimina i testimoni",
-    "pol": "Transakcja: zlikwiduj świadków",
-    "rus": "Сделка: убрать свидетелей",
-    "spa": "Transacción: elimina a los testigos",
-    "ukr": "Угода: прибрати свідків"
+  "zat_b103_merc_bring_supplies_name": {
+    "eng": "Food: get food for the mercenaries",
+    "fra": "Nourriture : trouver de la nourriture pour les mercenaires.",
+    "ger": "Proviant: Lebensmittel für die Söldner besorgen",
+    "ita": "Cibo: ottieni del cibo per i mercenari",
+    "pol": "Żywność: zdobądź jedzenie dla najemników",
+    "rus": "Припасы: достать еду для наёмников",
+    "spa": "Comida: consigue comida para los mercenarios",
+    "ukr": "Припаси: дістати їжу для найманців"
   },
-  "zat_b5_kill_stalkers_text": {
-    "eng": "The trader's transaction didn't work out, so you need to take out all the witnesses.",
-    "fra": "La transaction n'a pas abouti, vous devez éliminer tous les témoins.",
-    "ger": "Aus dem Geschäft des Waffenhändlers wurde nichts, daher müssen Sie alle Zeugen ausschalten.",
-    "ita": "La transazione del mercante non è andata a buon fine, quindi devi eliminare tutti i testimoni.",
-    "pol": "Transakcja z handlarzem się nie udała, więc musisz zlikwidować wszystkich świadków.",
-    "rus": "Сделка с барыгой сорвалась. Нужно убрать всех свидетелей.",
-    "spa": "La transacción no ha salido bien; tienes que eliminar a todos los testigos.",
-    "ukr": "Угода з баригою зірвалася. Потрібно прибрати усіх свідків."
+  "zat_b103_merc_bring_supplies_text": {
+    "eng": "The mercenary squad in the substation workshops has asked you to bring them six cans of meat, pieces of sausage or bread.",
+    "fra": "Les mercenaires des ateliers du poste électrique vous ont demandé de leur rapporter six conserves de viande, des saucisses ou du pain.",
+    "ger": "Der Söldnertrupp in den Werkstätten des Umspannwerks hat Sie gebeten, sechs Dosen Fleisch, Würste oder Brot zu besorgen.",
+    "ita": "La squadra dei mercenari nelle officine della sotto-stazione ti ha chiesto di portare sei scatole di carne, pezzi di salsiccia o del pane.",
+    "pol": "Oddział najemników z warsztatów podstacji poprosił cię o przyniesienie sześciu puszek mięsa, kawałków kiełbasy lub chleba.",
+    "rus": "Отряд наёмников, расположившийся в цехах подстанции, просит принести им припасы - общим числом шесть банок консервов, палок колбасы или батонов.",
+    "spa": "El escuadrón mercenario de los talleres de la subestación te ha pedido que les lleves seis latas de carne, salchichas troceadas o pan.",
+    "ukr": "Загін найманців, що розташувався у цехах підстанції, просить принести їм припаси - шість банок консервів, стільки ж палок ковбаси або батонів."
   },
-  "zat_b5_protect_dealer_name": {
-    "eng": "Transaction: protect the trader",
-    "fra": "Transaction : protéger le marchand.",
-    "ger": "Transaktion: Den Händler beschützen",
-    "ita": "Transazione: proteggi il mercante",
-    "pol": "Transakcja: ochraniaj handlarza",
-    "rus": "Сделка: защитить торговца",
-    "spa": "Transacción: protege al comerciante",
-    "ukr": "Угода: захистити торговця"
+  "zat_b103_merc_supplies_got_name": {
+    "eng": "Food: take the food to the mercenaries",
+    "fra": "Nourriture : apporter la nourriture aux mercenaires.",
+    "ger": "Proviant: Die Lebensmittel zu den Söldnern bringen",
+    "ita": "Cibo: porta il cibo ai mercenari",
+    "pol": "Żywność: zanieś jedzenie najemnikom",
+    "rus": "Припасы: отнести еду наёмникам",
+    "spa": "Comida: llévales la comida a los mercenarios",
+    "ukr": "Припаси: віднести їжу найманцям"
   },
-  "zat_b5_protect_dealer_text": {
-    "eng": "You need to protect the trader. Also, he ordered you to take out all the witnesses to the transaction, including his clients.",
-    "fra": "Vous devez protéger le marchand. Il vous a également ordonné d'éliminer tous les témoins de la transaction, y compris ses clients.",
-    "ger": "Sie müssen den Händler beschützen. Zudem hat er Sie aufgefordert, alle Zeugen der Transaktion - inklusive seiner Kunden - auszuschalten.",
-    "ita": "Devi proteggere il mercante. Inoltre ti ha chiesto di eliminare tutti i testimoni della transazione, inclusi i suoi clienti.",
-    "pol": "Musisz ochraniać handlarza. Zlecił ci też zlikwidowanie wszystkich świadków transakcji, łącznie z jego klientami.",
-    "rus": "Необходимо защитить торговца. Кроме того, он приказал убрать всех свидетелей сделки, в том числе и собственных клиентов.",
-    "spa": "Tienes que proteger al comerciante. También te ha ordenado que elimines a todos los testigos de la transacción (incluidos sus clientes).",
-    "ukr": "Необхідно захистити торговця. Окрім того, він наказав прибрати усіх свідків угоди, в тому числі й власних клієнтів."
+  "zat_b103_merc_supplies_got_text": {
+    "eng": "You must take the food you've collected to the mercenaries in the substation workshops.",
+    "fra": "Rapportez la nourriture que vous avez récupérée aux mercenaires des ateliers du poste électrique.",
+    "ger": "Sie müssen die Lebensmittel, die Sie besorgt haben, zu den Söldnern in den Werkstätten des Umspannwerks bringen.",
+    "ita": "Devi portare ai mercenari nelle officine della sotto-stazione il cibo che hai trovato.",
+    "pol": "Musisz zanieść zgromadzone jedzenie najemnikom w warsztatach podstacji.",
+    "rus": "Необходимо отнести собранные припасы наёмникам, расположившимся в цехах подстанции.",
+    "spa": "Debes llevarles a los mercenarios de los talleres de la subestación la comida que has conseguido.",
+    "ukr": "Необхідно віднести зібрані припаси найманцям, які розташувалися у цехах підстанції."
   },
-  "zat_b5_search_body_name": {
-    "eng": "Transaction: search the trader",
-    "fra": "Transaction : fouiller le marchand.",
-    "ger": "Transaktion: Den Händler durchsuchen",
-    "ita": "Transazione: perquisisci il mercante",
-    "pol": "Transakcja: przeszukaj handlarza",
-    "rus": "Сделка: обыскать торговца",
-    "spa": "Transacción: busca al comerciante",
-    "ukr": "Угода: обшукати торговця"
+  "zat_b103_toolkit_2_substation_workshop_name": {
+    "eng": "Tools: investigate the substation workshops",
+    "fra": "Outils : fouiller les ateliers du poste électrique.",
+    "ger": "Werkzeug: Die Werkstätten des Umspannwerks untersuchen",
+    "ita": "Attrezzi: perlustra le officine della sotto-stazione",
+    "pol": "Narzędzia: zbadaj warsztaty podstacji",
+    "rus": "Инструменты: обследовать цеха подстанции",
+    "spa": "Herramientas: investiga los talleres de la subestación",
+    "ukr": "Інструменти: обстежити цехи підстанції"
   },
-  "zat_b5_search_body_text": {
-    "eng": "The trader may have important information which may come in handy later. You should take it.",
-    "fra": "Le marchand a peut-être des informations capitales qui pourront vous être utiles. Vous feriez mieux de les prendre.",
-    "ger": "Der Händler könnte wichtige Informationen bei sich haben, die Ihnen später von Nutzen sein könnten. Lassen Sie sie sich nicht entgehen.",
-    "ita": "Il mercante potrebbe avere con sé delle informazioni utili. Perquisiscilo.",
-    "pol": "Handlarz może mieć ważne informacje, które mogą się przydać później. Zabierz mu je.",
-    "rus": "У торговца могла остаться важная информация. Нужно её забрать - может пригодиться.",
-    "spa": "El comerciante podría tener información importante que te sería de utilidad más adelante. Deberías aceptarla.",
-    "ukr": "У торговця могла лишитися важлива інформація. Треба її забрати - може стати в нагоді."
+  "zat_b103_toolkit_2_substation_workshop_text": {
+    "eng": "They say there might be tools in the substation workshops. You might even find the ones the technician is after.",
+    "fra": "Il semble y avoir des outils dans les ateliers du poste électrique. Qui sait, vous trouverez peut-être ceux que le technicien recherche.",
+    "ger": "In den Werkstätten des Umspannwerks soll es Werkzeug geben. Vielleicht finden Sie dort sogar das Werkzeug, das der Techniker braucht.",
+    "ita": "Pare ci siano degli attrezzi nelle officine della sotto-stazione. Forse lì troverai quelli richiesti dal tecnico.",
+    "pol": "Mówią, że w warsztatach podstacji mogą znajdować się narzędzia. Może nawet znajdziesz te, których szuka technik.",
+    "rus": "Поговаривают, что в цехах подстанции могут быть инструменты. Возможно, там найдутся и такие, которые нужны технику.",
+    "spa": "Dicen que podría haber herramientas en los talleres de la subestación. Hasta puede que encuentres los que busca el técnico.",
+    "ukr": "Кажуть, що в цехах підстанції можуть знайтися інструменти. Можливо, там знайдуться і такі, що потрібні технікові."
   },
-  "zat_b5_secure_bandits_name": {
-    "eng": "Transaction: cover the bandits during the transaction",
-    "fra": "Transaction : couvrir les bandits pendant la transaction. ",
-    "ger": "Transaktion: Den Banditen während der Transaktion Rückendeckung geben",
-    "ita": "Transazione: proteggi i banditi durante la transazione ",
-    "pol": "Transakcja: ochraniaj bandytów podczas transakcji ",
-    "rus": "Сделка: прикрывать бандитов во время сделки",
-    "spa": "Transacción: cubre a los bandidos durante la transacción ",
-    "ukr": "Угода: прикривати бандитів під час угоди"
+  "zat_b106_find_chimera_name": {
+    "eng": "Hunting the chimera: find the mutant while it's sleeping",
+    "fra": "La chasse à la chimère : trouver le mutant pendant son sommeil.",
+    "ger": "Jagd auf die Chimäre: Den Mutanten finden, solange er schläft",
+    "ita": "A caccia della chimera: sorprendi il mutante mentre dorme",
+    "pol": "Polowanie na chimerę: znajdź mutanta, dopóki śpi",
+    "rus": "Охота на химеру: найти мутанта, пока он спит",
+    "spa": "Caza de la quimera: encuentra al mutante mientras duerme",
+    "ukr": "Полювання на химеру: знайти мутанта, поки той спить"
   },
-  "zat_b5_secure_bandits_text": {
-    "eng": "Stay on your guard and provide cover to the bandits while they are negotiating with the trader.",
-    "fra": "Restez sur le qui-vive et couvrez les bandits pendant leurs négociations avec le marchand.",
-    "ger": "Halten Sie die Stellung und geben Sie den Banditen Rückendeckung, während sie mit dem Händler verhandeln.",
-    "ita": "Tieni gli occhi aperti e proteggi i banditi durante la trattativa con il mercante.",
-    "pol": "Stój na straży i zapewniaj bandytom ochronę podczas negocjacji z handlarzem.",
-    "rus": "Пока бандиты будут договариваться с барыгой, надо быть начеку и, в случае чего, прикрыть их.",
-    "spa": "Permanece atento y proporciona cobertura a los bandidos mientras negocian con el comerciante.",
-    "ukr": "Поки бандити домовлятимуться із баригою, слід бути напоготові та, як щось станеться, прикрити їх."
+  "zat_b106_find_chimera_text": {
+    "eng": "You need to find the chimera before it wakes up.",
+    "fra": "Trouvez la chimère avant qu'elle ne se réveille.",
+    "ger": "Sie müssen die Chimäre finden, bevor sie aufwacht.",
+    "ita": "Devi trovare la chimera prima che si svegli.",
+    "pol": "Musisz znaleźć chimerę, zanim się obudzi.",
+    "rus": "Нужно найти химеру, пока она не проснулась.",
+    "spa": "Tienes que encontrar a la quimera antes de que despierte.",
+    "ukr": "Потрібно знайти химеру, поки вона не прокинулася."
   },
-  "zat_b5_speak_dealer_name": {
-    "eng": "Transaction: talk to the trader",
-    "fra": "Transaction : parler au marchand.",
-    "ger": "Transaktion: Mit dem Händler reden",
-    "ita": "Transazione: parla con il mercante",
-    "pol": "Transakcja: porozmawiaj z handlarzem",
-    "rus": "Сделка: поговорить с торговцем",
-    "spa": "Transacción: habla con el comerciante",
-    "ukr": "Угода: поговорити з торговцем"
+  "zat_b106_found_soroka_name": {
+    "eng": "In search of Magpie: inform Gonta",
+    "fra": "À la recherche de la Pie : informer Gonta.",
+    "ger": "Auf der Suche nach Magpie: Gonta informieren",
+    "ita": "In cerca di Magpie: informa Gonta",
+    "pol": "W poszukiwaniu Sroki: poinformuj Gontę",
+    "rus": "В поисках Сороки: сообщить Гонте",
+    "spa": "En busca de Urraca: informa a Gonta",
+    "ukr": "У пошуках Сороки: повідомити Гонті"
   },
-  "zat_b5_speak_dealer_text": {
-    "eng": "The transaction with bandits is complete, so you should collect your reward.",
-    "fra": "La transaction avec les bandits est terminée. Allez récupérer votre récompense.",
-    "ger": "Das Geschäft mit den Banditen wurde abgewickelt, daher sollten Sie jetzt Ihre Belohnung kassieren.",
-    "ita": "La transazione con i banditi è finita, quindi puoi ottenere la tua ricompensa.",
-    "pol": "Transakcja z bandytami została zakończona, możesz więc odebrać swoją nagrodę.",
-    "rus": "Условия сделки с торговцем выполнены, остаётся забрать награду.",
-    "spa": "Se ha completado la transacción con los bandidos; ve a cobrar tu recompensa.",
-    "ukr": "Умови угоди із торговцем виконано, залишається забрати нагороду."
+  "zat_b106_found_soroka_text": {
+    "eng": "It looks like Magpie, the stalker who set up Gonta's squad, has been found. He has joined Freedom and now calls himself Flint.",
+    "fra": "La Pie, le stalker qui a tendu un piège au groupe de Gonta, a été retrouvé. Il s'est enrôlé dans la Liberté et se prénomme désormais Flint.",
+    "ger": "Wie es scheint, wurde der Stalker namens Magpie, der Gontas Trupp hereingelegt hat, gefunden. Er hat sich mittlerweile der Freiheit angeschlossen und ist dort unter dem Namen Flint bekannt.",
+    "ita": "Pare che Magpie, lo stalker che ha imbrogliato la squadra di Gonta, sia stato trovato. Si è unito alla Freedom e ora si fa chiamare Flint.",
+    "pol": "Wygląda na to, że Sroka, stalker, który wystawił drużynę Gonty, został odnaleziony. Dołączył do Wolności i teraz zwie się Flintem.",
+    "rus": "Похоже, что Сорока - сталкер, который подставил группу Гонты, - обнаружен. Сейчас он вступил в группировку «Свобода» и называет себя Флинт.",
+    "spa": "Parece que han encontrado a Urraca, el stalker que se la jugó al escuadrón de Gonta. Se ha unido a Libertad y ahora se hace llamar Pedernal.",
+    "ukr": "Схоже, що Сороку - сталкера, який підставив групу Гонти, - виявлено. Зараз він вступив до угруповання «Воля» і називає себе Флінт."
   },
-  "zat_b5_talk_barmen_name": {
-    "eng": "Transaction: collect your reward from Beard",
-    "fra": "Transaction : demander votre récompense au Barbu.",
-    "ger": "Transaktion: Ihre Belohnung von Beard kassieren",
-    "ita": "Transazione: ottieni la tua ricompensa da Beard",
-    "pol": "Transakcja: odbierz nagrodę od Brodacza",
-    "rus": "Сделка: получить награду у Бороды",
-    "spa": "Transacción: pídele tu recompensa a Barbas",
-    "ukr": "Угода: отримати нагороду в Бороди"
+  "zat_b106_kill_chimera_name": {
+    "eng": "Hunting the chimera: kill the mutant",
+    "fra": "La chasse à la chimère : tuer le mutant.",
+    "ger": "Jagd auf die Chimäre: Den Mutanten töten",
+    "ita": "A caccia della chimera: uccidi il mutante",
+    "pol": "Polowanie na chimerę: zabij mutanta",
+    "rus": "Охота на химеру: убить мутанта",
+    "spa": "Caza de la quimera: mata al mutante",
+    "ukr": "Полювання на химеру: вбити мутанта"
   },
-  "zat_b5_talk_barmen_text": {
-    "eng": "Beard promised you a reward if you disrupted the transaction between the bandits and the trader. With the transaction positively botched, you can go ahead and collect your reward.",
-    "fra": "Le Barbu vous a promis une récompense si vous parveniez à interrompre la transaction entre les bandits et le marchand. Vous avez réussi et pouvez à présent récupérer votre récompense.",
-    "ger": "Beard hatte Ihnen eine Belohnung versprochen, falls es Ihnen gelingen sollte, das Geschäft zwischen den Banditen und dem Händler zu vereiteln. Da Sie es geschafft haben, können Sie nun Ihre Belohnung einfordern.",
-    "ita": "Beard ti aveva promesso una ricompensa se fossi riuscito a bloccare la transazione tra i banditi e il mercante. Così è stato, quindi ora puoi incassare ciò che ti spetta.",
-    "pol": "Brodacz obiecał ci nagrodę, jeśli przeszkodzisz w transakcji pomiędzy bandytami i handlarzem. Transakcja została zakłócona, możesz więc odebrać swoją nagrodę.",
-    "rus": "Борода обещал награду, если сделка между бандитами и барыгой будет сорвана. Поскольку теперь сделка наверняка не состоится, можно отправляться за наградой.",
-    "spa": "Barbas prometió recompensarte si interrumpías la transacción de los bandidos y el comerciante. Ahora que has frustrado la venta, puedes ir a cobrar tu recompensa.",
-    "ukr": "Борода обіцяв винагороду, якщо угоду між бандитами та баригою буде зірвано. Оскільки нині угоду вже точно не буде укладено, можна відправлятися по обіцяне."
+  "zat_b106_kill_chimera_text": {
+    "eng": "The chimera is awake and you should kill it before it's too late.",
+    "fra": "La chimère s'est réveillée ; vous devriez l'achever avant qu'il ne soit trop tard !",
+    "ger": "Die Chimäre ist aufgewacht und Sie sollten sie töten, bevor es zu spät ist.",
+    "ita": "La chimera è sveglia. Uccidila prima che sia troppo tardi.",
+    "pol": "Chimera nie śpi. Musisz ją zabić, zanim będzie za późno.",
+    "rus": "Химера проснулась. Нужно убить её, пока есть такая возможность.",
+    "spa": "La quimera está despierta; deberías matarla antes de que sea demasiado tarde.",
+    "ukr": "Химера прокинулася! Потрібно вбити її, поки є така можливість."
   },
-  "zat_b5_talk_stalkers_name": {
-    "eng": "Transaction: talk to the leader of the stalker squad",
-    "fra": "Transaction : parler au chef du groupe de stalkers.",
-    "ger": "Transaktion: Mit dem Anführer des Stalkertrupps reden",
-    "ita": "Transazione: parla con il capo della squadra di stalker",
-    "pol": "Transakcja: porozmawiaj z dowódcą oddziału stalkerów",
-    "rus": "Сделка: поговорить с лидером отряда сталкеров",
-    "spa": "Transacción: habla con el líder del escuadrón de stalkers",
-    "ukr": "Угода: поговорити з лідером загону сталкерів"
+  "zat_b106_meet_with_gonta_at_night_name": {
+    "eng": "Hunting the chimera: meet Gonta in the bar at 3AM",
+    "fra": "La chasse à la chimère : rejoindre Gonta au bar à 3h du matin.",
+    "ger": "Jagd auf die Chimäre: Gonta um 3:00 Uhr in der Bar treffen",
+    "ita": "A caccia della chimera: incontrati con Gonta al bar alle 3 del mattino",
+    "pol": "Polowanie na chimerę: spotkaj się z Gontą w barze o 3 rano",
+    "rus": "Охота на химеру: встретиться с Гонтой в баре в три часа ночи",
+    "spa": "Caza de la quimera: reúnete con Gonta en el bar a las 3 a.m.",
+    "ukr": "Полювання на химеру: зустрітися із Гонтою в барі о третій годині ночі"
   },
-  "zat_b5_talk_stalkers_text": {
-    "eng": "The transaction has been sabotaged, the weapon trader is dead. Talk to the leader of the stalker squad.",
-    "fra": "La transaction a été interrompue, le marchand d'armes est mort. Allez parler au chef du groupe de stalkers.",
-    "ger": "Die Transaktion wurde sabotiert, der Waffenhändler ist tot. Reden Sie mit dem Anführer des Stalkertrupps.",
-    "ita": "La transazione è stata sabotata e il mercante di armi è morto. Parla con il capo della squadra di stalker.",
-    "pol": "Transakcja została udaremniona. Handlarz bronią nie żyje. Porozmawiaj z dowódcą oddziału stalkerów.",
-    "rus": "Сделка сорвана, торговец оружием мёртв. Необходимо поговорить с лидером отряда сталкеров",
-    "spa": "La transacción ha sufrido un sabotaje. El comerciante de armas ha muerto. Habla con el líder del escuadrón de stalkers.",
-    "ukr": "Угоду зірвано, торговець зброєю мертвий. Необхідно поговорити з лідером загону сталкерів"
+  "zat_b106_meet_with_gonta_at_night_text": {
+    "eng": "You should meet Gonta before sunrise to join his squad in their chimera hunt.",
+    "fra": "Rejoignez Gonta et son groupe avant l'aube pour participer à la chasse à la chimère.",
+    "ger": "Sie sollten sich vor Sonnenaufgang mit Gonta treffen, um sich seinem Trupp bei der Jagd auf die Chimäre anzuschließen.",
+    "ita": "Devi incontrare Gonta prima dell'alba per andare a cacciare la chimera insieme alla sua squadra.",
+    "pol": "Musisz spotkać się z Gontą przed świtem, aby dołączyć do jego drużyny podczas polowania na chimerę.",
+    "rus": "Надо встретиться с Гонтой перед рассветом, чтобы вместе с его группой выйти охотиться на химеру.",
+    "spa": "Deberías reunirte con Gonta antes del amanecer para unirte a su escuadrón y cazar a la quimera.",
+    "ukr": "Треба зустрітися із Гонтою удосвіта, щоб разом із його групою вийти полювати на химеру."
   },
-  "zat_b5_talk_to_sultan_name": {
-    "eng": "Transaction: talk to the bandit leader",
-    "fra": "Transaction : parler au chef des bandits.",
-    "ger": "Transaktion: Mit dem Banditenanführer reden",
-    "ita": "Transazione: parla con il leader dei banditi",
-    "pol": "Transakcja: porozmawiaj z dowódcą bandytów",
-    "rus": "Сделка: поговорить с главарём бандитов",
-    "spa": "Transacción: habla con el líder de los bandidos",
-    "ukr": "Угода: поговорити із ватажком бандитів"
+  "zat_b106_receipt_reward_name": {
+    "eng": "Hunting the chimera: inform Trapper",
+    "fra": "La chasse à la chimère : informer Trappeur.",
+    "ger": "Jagd auf die Chimäre: Trapper informieren",
+    "ita": "A caccia della chimera: informa Trapper",
+    "pol": "Polowanie na chimerę: poinformuj Trapera",
+    "rus": "Охота на химеру: сообщить Зверобою",
+    "spa": "Caza de la quimera: informa a Trapper",
+    "ukr": "Полювання на химеру: повідомити Звіробоя"
   },
-  "zat_b5_talk_to_sultan_text": {
-    "eng": "You need to inform the bandit leader you're ready to take part in the transaction.",
-    "fra": "Vous devez informer le chef des bandits que vous êtes prêt à participer à la transaction.",
-    "ger": "Sie müssen dem Anführer der Banditen mitteilen, dass Sie bereit sind, bei der Transaktion mitzumachen.",
-    "ita": "Riferisci al leader dei banditi che sei pronto a partecipare alla transazione.",
-    "pol": "Musisz poinformować dowódcę bandytów o gotowości do wzięcia udziału w transakcji.",
-    "rus": "Надо сообщить главарю бандитов о готовности принять участие в сделке.",
-    "spa": "Tienes que informar al líder de los bandidos de que ya estás listo para participar en la transacción.",
-    "ukr": "Треба повідомити ватажкові бандитів про готовність взяти участь в угоді."
+  "zat_b106_receipt_reward_text": {
+    "eng": "You should inform a stalker called Trapper that the chimera hunt was successful. He should give you a reward.",
+    "fra": "Dites au stalker nommé Trappeur que la chimère est morte. Il devrait vous remettre une récompense.",
+    "ger": "Sie sollten den Stalker Trapper informieren, dass die Jagd auf die Chimäre erfolgreich war. Er dürfte Sie dafür belohnen.",
+    "ita": "Devi riferire a uno stalker chiamato Trapper che la caccia alla chimera è riuscita. Lui dovrebbe darti una ricompensa.",
+    "pol": "Poinformuj stalkera zwanego Traperem, że polowanie na chimerę zakończyło się sukcesem. Powinien dać ci nagrodę.",
+    "rus": "Нужно сообщить сталкеру по кличке Зверобой об успешной охоте на химеру - он должен выдать награду.",
+    "spa": "Deberías informar al stalker llamado Trapper de que la caza de la quimera ha tenido éxito. Él te recompensará.",
+    "ukr": "Слід повідомити сталкера на прізвисько Звіробій про успішне полювання на химеру - він має видати нагороду."
   },
-  "zat_b7_stalkers_raiders_backstab_name": {
-    "eng": "The hit: attack the robbers",
-    "fra": "Braquage : attaquer les voleurs.",
-    "ger": "Der Überfall: Räuber angreifen",
-    "ita": "Il colpo: attacca i rapinatori",
-    "pol": "Atak: zaatakuj złodziei",
-    "rus": "Наезд: атаковать грабителей",
-    "spa": "El golpe: ataca a los ladrones",
-    "ukr": "Наїзд: атакувати грабіжників"
+  "zat_b106_search_soroka_name": {
+    "eng": "In search of Magpie: find the stalker",
+    "fra": "À la recherche de la Pie : trouver le stalker.",
+    "ger": "Auf der Suche nach Magpie: Den Stalker finden",
+    "ita": "In cerca di Magpie: trova lo stalker",
+    "pol": "W poszukiwaniu Sroki: znajdź stalkera",
+    "rus": "В поисках Сороки: найти сталкера",
+    "spa": "En busca de Urraca: encuentra al stalker",
+    "ukr": "У пошуках Сороки: знайти сталкера"
   },
-  "zat_b7_stalkers_raiders_backstab_text": {
-    "eng": "Attacking the robbers from behind will help stalkers repel their attack.",
-    "fra": "Attaquer les voleurs par derrière permettra aux stalkers de repousser leur attaque.",
-    "ger": "Die Räuber von hinten anzugreifen, wird den Stalkern helfen, den Überfall abzuwehren.",
-    "ita": "Attaccando i rapinatori alle spalle aiuterai gli stalker a respingere il loro assalto.",
-    "pol": "Zaatakowanie złodziei od tyłu pomoże stalkerom odeprzeć atak.",
-    "rus": "Надо напасть на грабителей со спины, чтобы помочь сталкерам отразить нападение.",
-    "spa": "Atacar a los ladrones por la retaguardia ayudará a los stalkers a repeler su asalto.",
-    "ukr": "Треба напасти на грабіжників зі спини, щоб допомогти сталкерам відбити напад."
+  "zat_b106_search_soroka_text": {
+    "eng": "A stalker called Magpie set up Gonta's squad to be attacked by a chimera. They've asked you to find the bastard.",
+    "fra": "Un stalker surnommé la Pie a tendu un piège au groupe de Gonta qui a été attaqué par une chimère. On vous a demandé de retrouver cette ordure.",
+    "ger": "Ein Stalker namens Magpie hat Gontas Trupp hereingelegt, sodass die Männer von einer Chimäre angegriffen wurden. Sie haben Sie gebeten, den Mistkerl zu finden.",
+    "ita": "Uno stalker chiamato Magpie ha imbrogliato la squadra di Gonta, facendola attaccare da una chimera. Ti hanno chiesto di trovare quel bastardo.",
+    "pol": "Stalker zwany Sroką wystawił ludzi Gonty na atak chimery. Poprosili cię o znalezienie tego gnojka.",
+    "rus": "Сталкер по кличке Сорока подставил группу Гонты под нападение химеры. Ребята просят найти подонка.",
+    "spa": "Un stalker llamado Urraca engañó al escuadrón de Gonta para que se topara con una quimera. Te han pedido que encuentres a ese bastardo.",
+    "ukr": "Сталкер на прізвисько Сорока підставив групу Гонти під напад химери. Хлопці просять знайти покидька."
   },
-  "zat_b7_stalkers_raiders_meet_name": {
-    "eng": "The hit: meet the robbers",
-    "fra": "Braquage : rejoindre les voleurs.",
-    "ger": "Der Überfall: Räuber treffen",
-    "ita": "Il colpo: incontra i rapinatori",
-    "pol": "Atak: spotkaj się ze złodziejami",
-    "rus": "Наезд: встретиться с грабителями",
-    "spa": "El golpe: reúnete con los ladrones",
-    "ukr": "Наїзд: зустрітися з грабіжниками"
+  "zat_b107_evacuation_jupiter_name": {
+    "eng": "Evacuation locations: investigate position B205",
+    "fra": "Points d'évacuation : examiner le point d'évacuation B205.",
+    "ger": "Evakuierungsstellen: Position B205 untersuchen",
+    "ita": "Punti di evacuazione: controlla il punto B205",
+    "pol": "Miejsca ewakuacji: zbadaj punkt B205",
+    "rus": "Места эвакуации: проверить точку Б205",
+    "spa": "Puntos de evacuación: investiga la posición B205",
+    "ukr": "Місця евакуації: перевірити точку Б205"
   },
-  "zat_b7_stalkers_raiders_meet_text": {
-    "eng": "The robbers should be waiting by Shevchenko. You’ll need to meet them to take part in their assault on the stalkers.",
-    "fra": "Les voleurs doivent attendre près du Chevtchenko. Vous devez les rejoindre pour participer à l'attaque du camp des stalkers.",
-    "ger": "Die Räuber dürften bei der Schewtschenko warten. Sie müssen sich mit ihnen treffen, um am Überfall auf die Stalker teilnehmen zu können.",
-    "ita": "I rapinatori dovrebbero essere in attesa a Shevchenko. Devi raggiungerli per partecipare al loro assalto contro gli stalker.",
-    "pol": "Złodzieje powinni czekać przy Szewczence. Musisz się z nimi spotkać, aby wziąć udział w ataku na stalkerów.",
-    "rus": "Грабители должны ждать возле «Шевченко». Нужно будет с ними встретится, чтобы участвовать в наезде на сталкеров.",
-    "spa": "Los ladrones deberían estar esperando en Shevchenko. Tienes que reunirte con ellos para participar en el asalto a los stalkers.",
-    "ukr": "Грабіжники мають чекати біля «Шевченка». Слід зустрітися з ними, щоб взяти участь у наїзді на сталкерів."
+  "zat_b107_evacuation_jupiter_text": {
+    "eng": "The map you found in one of the helicopters indicated evacuation locations. You should check if the soldiers went to location B205",
+    "fra": "La carte trouvée dans l'un des hélicoptères indiquait des points d'évacuation. Vérifiez si les soldats se sont dirigés vers le point B205.",
+    "ger": "Auf der Karte, die Sie in einem der Hubschrauber gefunden haben, sind Evakuierungsstellen eingezeichnet. Sie sollten überprüfen, ob die Soldaten zu Position B205 gegangen sind.",
+    "ita": "La mappa che hai trovato in uno degli elicotteri indicava vari punti di evacuazione. Controlla se i soldati hanno raggiunto il punto B205.",
+    "pol": "Mapa znaleziona w jednym ze śmigłowców wskazywała miejsca ewakuacji. Sprawdź, czy żołnierze pojawili się w punkcie B205.",
+    "rus": "На найденной в одном из вертолётов карте были отмечены точки эвакуации. Нужно проверить, появлялись ли военные в точке Б205.",
+    "spa": "El mapa que encontraste en uno de los helicópteros señala la ubicación de puntos de evacuación. Deberías comprobar si los soldados han ido a la posición B205.",
+    "ukr": "На знайденій в одному з гелікоптерів мапі були позначені точки евакуації. Треба перевірити, чи з'являлися військові у точці Б205."
   },
-  "zat_b7_stalkers_raiders_name": {
-    "eng": "The hit: decide what to do",
-    "fra": "Braquage : prendre une décision.",
-    "ger": "Der Überfall: Entscheiden, was zu tun ist",
-    "ita": "Il colpo: decidi cosa fare",
-    "pol": "Atak: zdecyduj, co zrobić",
-    "rus": "Наезд: решить, что предпринять",
-    "spa": "El golpe: decide lo que vas a hacer",
-    "ukr": "Наїзд: вирішити, що вчинити"
+  "zat_b107_evacuation_pripyat_1_name": {
+    "eng": "Evacuation locations: investigate position B28",
+    "fra": "Points d'évacuation : examiner le point d'évacuation B28.",
+    "ger": "Evakuierungsstellen: Position B28 untersuchen",
+    "ita": "Punti di evacuazione: controlla il punto B28",
+    "pol": "Miejsca ewakuacji: zbadaj punkt B28",
+    "rus": "Места эвакуации: проверить точку Б28",
+    "spa": "Puntos de evacuación: investiga la posición B28",
+    "ukr": "Місця евакуації: перевірити точку Б28"
   },
-  "zat_b7_stalkers_raiders_raiders_name": {
-    "eng": "The hit: attack the stalkers",
-    "fra": "Braquage : attaquer les stalkers.",
-    "ger": "Der Überfall: Die Stalker angreifen",
-    "ita": "Il colpo: attacca gli stalker",
-    "pol": "Atak: zaatakuj stalkerów",
-    "rus": "Наезд: напасть на сталкеров",
-    "spa": "El golpe: ataca a los stalkers",
-    "ukr": "Наїзд: напасти на сталкерів"
+  "zat_b107_evacuation_pripyat_1_text": {
+    "eng": "The map you found in one of the helicopters indicated evacuation locations. You should check if the soldiers went to location B28",
+    "fra": "La carte trouvée dans l'un des hélicoptères indiquait des points d'évacuation. Vérifiez si les soldats se sont dirigés vers le point B28.",
+    "ger": "Auf der Karte, die Sie in einem der Hubschrauber gefunden haben, sind Evakuierungsstellen eingezeichnet. Sie sollten überprüfen, ob die Soldaten zu Position B28 gegangen sind.",
+    "ita": "La mappa che hai trovato in uno degli elicotteri indicava vari punti di evacuazione. Controlla se i soldati hanno raggiunto il punto B28.",
+    "pol": "Mapa znaleziona w jednym ze śmigłowców wskazywała miejsca ewakuacji. Sprawdź, czy żołnierze pojawili się w punkcie B28",
+    "rus": "На карте, найденной в одном из вертолётов, отмечены точки эвакуации. Нужно проверить, появлялись ли военные в точке Б28.",
+    "spa": "El mapa que encontraste en uno de los helicópteros señala la ubicación de puntos de evacuación. Deberías comprobar si los soldados han ido a la posición B28.",
+    "ukr": "На знайденій в одному з гелікоптерів мапі були позначені точки евакуації. Треба перевірити, чи з'являлися військові у точці Б28."
   },
-  "zat_b7_stalkers_raiders_raiders_reward_name": {
-    "eng": "The hit: get your cut",
-    "fra": "Braquage : récupérer votre part.",
-    "ger": "Der Überfall: Ihren Anteil kassieren",
-    "ita": "Il colpo: ottieni la tua parte.",
-    "pol": "Atak: odbierz swoją dolę",
-    "rus": "Наезд: поговорить с грабителями",
-    "spa": "El golpe: consigue tu parte",
-    "ukr": "Наїзд: поговорити із грабіжниками"
+  "zat_b107_evacuation_pripyat_2_name": {
+    "eng": "Evacuation location: find the coordinates of location B28",
+    "fra": "Point d'évacuation : trouver les coordonnées du point B28.",
+    "ger": "Evakuierungsstelle: Koordinaten von Position B28 herausfinden",
+    "ita": "Punto di evacuazione: trova le coordinate del punto B28",
+    "pol": "Miejsce ewakuacji: znajdź współrzędne punktu B28",
+    "rus": "Место эвакуации: найти координаты точки Б28",
+    "spa": "Puntos de evacuación: encuentra las coordenadas de la posición B28",
+    "ukr": "Місце евакуації: знайти координати точки Б28"
   },
-  "zat_b7_stalkers_raiders_raiders_reward_text": {
-    "eng": "The attack on the stalkers was successful and you should get your cut of the loot.",
-    "fra": "L'attaque sur les stalkers a réussi. Vous devriez aller récupérer votre part du butin.",
-    "ger": "Der Überfall auf die Stalker war ein voller Erfolg und Sie sollten Ihren Anteil an der Beute kassieren.",
-    "ita": "L'attacco contro gli stalker è riuscito. Ora puoi ottenere la tua parte del bottino.",
-    "pol": "Atak na stalkerów zakończył się sukcesem. Możesz odebrać swoją dolę z łupów.",
-    "rus": "Нападение на сталкеров прошло успешно. Теперь надо переговорить с подельниками.",
-    "spa": "El ataque a los stalkers ha tenido éxito; deberías cobrar tu parte del botín.",
-    "ukr": "Напад на сталкерів пройшов успішно. Тепер треба перемовитися із подільниками."
+  "zat_b107_evacuation_pripyat_2_text": {
+    "eng": "The black box of one of the Stingray helicopters had a recording where the squad commander designates a position at which the squad is to converge. This position is evacuation point B28 and you need to work out its coordinates.",
+    "fra": "La boîte noire de l'un des hélicoptères Stingray contenait un enregistrement dans lequel le chef d'unité indiquait un point de convergence. Il s'agissait du point d'évacuation B28. Vous devez trouver les coordonnées correspondantes.",
+    "ger": "In einer Aufnahme auf dem Flugschreiber aus einem der Stingray-Hubschrauber erwähnt der Kommandeur eine Position, bei der die Einheiten zusammentreffen sollen. Dabei handelt es sich um die Evakuierungsstelle B28 und Sie müssen die Koordinaten dieser Stelle herausfinden.",
+    "ita": "La scatola nera di uno degli elicotteri Stingray conteneva una registrazione in cui il comandante della squadra indicava un punto di evacuazione verso cui convergere. Trova le coordinate di questo punto, designato \"B28\".",
+    "pol": "W czarnej skrzynce jednego ze śmigłowców Ogończa znajdowało się nagranie, w którym dowódca oddziału wyznaczył miejsce zbiórki. Jest nim punkt ewakuacyjny B28. Musisz określić jego współrzędne.",
+    "rus": "На записи, сохранившейся в чёрном ящике одного из вертолётов группы «Скат», командир группы указывает место сбора - так называемая точка эвакуации Б28. Необходимо определить её координаты.",
+    "spa": "La caja negra de uno de los Peces Raya tenía una grabación en la que el comandante del escuadrón designaba un punto de encuentro. Se trata del punto de evacuación B28; tendrás que averiguar cuáles son las coordenadas.",
+    "ukr": "На записі, що зберігся у «чорному ящику» одного з гелікоптерів групи «Скат», командир групи вказує місце для збору - так звану точку евакуації Б28. Необхідно визначити її координати."
   },
-  "zat_b7_stalkers_raiders_raiders_text": {
-    "eng": "Join the robbers in attacking the stalker camp.",
-    "fra": "Rejoignez les voleurs pour attaquer le camp des stalkers.",
-    "ger": "Schließen Sie sich den Räubern beim Überfall auf das Stalkerlager an.",
-    "ita": "Unisciti ai rapinatori nell'attacco all'accampamento degli stalker.",
-    "pol": "Przyłącz się do złodziei podczas ataku na obóz stalkerów.",
-    "rus": "Участвовать с грабителями в нападении на лагерь сталкеров.",
-    "spa": "Únete a los ladrones para atacar el campamento stalker.",
-    "ukr": "Разом із грабіжниками здійснити напад на табір сталкерів."
+  "zat_b107_evacuation_pripyat_3_name": {
+    "eng": "Evacuation location: reach location B28",
+    "fra": "Point d'évacuation : se rendre au point B28.",
+    "ger": "Evakuierungsstelle: Position B28 erreichen",
+    "ita": "Punto di evacuazione: raggiungi il punto B28",
+    "pol": "Miejsce ewakuacji: znajdź punkt B28",
+    "rus": "Место эвакуации: добраться до точки Б28",
+    "spa": "Puntos de evacuación: ve a la posición B28",
+    "ukr": "Місце евакуації: дістатися точки Б28"
   },
-  "zat_b7_stalkers_raiders_stalkers_name": {
-    "eng": "The hit: join the robbers",
-    "fra": "Braquage : rejoindre les voleurs.",
-    "ger": "Der Überfall: Den Räubern anschließen",
-    "ita": "Il colpo: unisciti i rapinatori",
-    "pol": "Zabójstwo: przyłącz się do złodziei",
-    "rus": "Наезд: влиться в ряды грабителей",
-    "spa": "El golpe: únete a los ladrones",
-    "ukr": "Наїзд: влитися до лав грабіжників"
+  "zat_b107_evacuation_pripyat_3_text": {
+    "eng": "The position at which the soldiers are supposed to converge is in Pripyat. Find a way of getting there.",
+    "fra": "L'endroit où doivent se retrouver les soldats se situe à Pripyat. Trouvez un moyen de vous y rendre.",
+    "ger": "Die Position, an der die Soldaten zusammentreffen sollen, befindet sich in Pripyat. Finden Sie einen Weg dorthin.",
+    "ita": "Il punto verso cui i soldati dovevano convergere si trova a Pripyat. Cerca di raggiungerlo.",
+    "pol": "Miejsce zbiórki żołnierzy znajduje się w Prypeci. Znajdź sposób, by się tam dostać.",
+    "rus": "Точка сбора, где должны были собраться военные, находится в Припяти. Нужно найти способ добраться туда.",
+    "spa": "La posición en la que debían encontrarse los soldados se halla en Pripyat. Encuentra el modo de llegar.",
+    "ukr": "Точка, де мали зібратися військові, знаходиться у Прип'яті. Треба знайти спосіб дістатися туди."
   },
-  "zat_b7_stalkers_raiders_stalkers_reward_name": {
-    "eng": "The hit: collect your reward",
-    "fra": "Braquage : récupérer votre récompense.",
-    "ger": "Der Überfall: Ihre Belohnung kassieren",
-    "ita": "Il colpo: prendi la tua ricompensa",
-    "pol": "Atak: odbierz swoją nagrodę",
-    "rus": "Наезд: получить награду",
-    "spa": "El golpe: cobra tu recompensa",
-    "ukr": "Наїзд: отримати нагороду"
+  "zat_b107_evacuation_zaton_name": {
+    "eng": "Evacuation locations: investigate position B2",
+    "fra": "Points d'évacuation : examiner le point d'évacuation B2.",
+    "ger": "Evakuierungsstellen: Position B2 untersuchen",
+    "ita": "Punti di evacuazione: controlla il punto B2",
+    "pol": "Miejsca ewakuacji: zbadaj punkt B2",
+    "rus": "Места эвакуации: проверить точку Б2",
+    "spa": "Puntos de evacuación: investiga la posición B2",
+    "ukr": "Місця евакуації: перевірити точку Б2"
   },
-  "zat_b7_stalkers_raiders_stalkers_reward_text": {
-    "eng": "The attack on the camp was repelled, so you can talk to the stalkers to get your reward. They would probably have had a very tough time if they hadn't been warned about the attack.",
-    "fra": "L'attaque menée sur le camp a été repoussée. Vous pouvez maintenant parler aux stalkers pour obtenir votre récompense. Sans votre avertissement, ils auraient passé un sale quart d'heure.",
-    "ger": "Der Überfall auf das Lager wurde abgewehrt, daher können Sie sich jetzt wegen Ihrer Belohnung an die Stalker wenden. Diese hätten es sehr schwer gehabt, wenn sie nicht gewarnt worden wären.",
-    "ita": "L'attacco contro il campo è stato respinto, quindi puoi ottenere la tua ricompensa dagli stalker. Se non fossero stati avvertiti dell'assalto, probabilmente non ce l'avrebbero fatta.",
-    "pol": "Atak na obóz został odparty, możesz więc porozmawiać ze stalkerami i odebrać swoją nagrodę. Prawdopodobnie mieliby niezłe piekło, gdyby nie zostali ostrzeżeni o ataku.",
-    "rus": "Нападение на лагерь отбито, можно поговорить со сталкерами и получить награду. Скорее всего, сталкерам пришлось бы туго, если бы они не были предупреждены о нападении.",
-    "spa": "El ataque al campamento ha sido rechazado; ya puedes hablar con los stalkers para cobrar tu recompensa. De no haber sido advertidos del ataque, lo habrían pasado muy mal.",
-    "ukr": "Напад на табір відбито, можна поговорити зі сталкерами та отримати винагороду. Швидше за все, сталкерам велося б непереливки, якби їх не було попереджено про напад."
-  },
-  "zat_b7_stalkers_raiders_stalkers_text": {
-    "eng": "Stalkers have asked you to help them repel the robbers’ attack. You should join the robbers. When they begin the assault, you’ll be able to attack them from behind with impunity.",
-    "fra": "Les stalkers vous ont demandé de les aider à repousser l'attaque des voleurs. Vous devriez rejoindre les bandits. Lorsqu'ils commenceront l'assaut, vous pourrez les attaquer par derrière en toute impunité.",
-    "ger": "Sie wurden von Stalkern gebeten, ihnen dabei zu helfen, den Überfall der Räuber abzuwehren. Sie sollten sich den Räubern anschließen. Wenn sie dann den Überfall starten, können Sie ihnen ohne Probleme in den Rücken fallen.",
-    "ita": "Gli stalker ti hanno chiesto di aiutarli a respingere l'attacco dei rapinatori. Unisciti ai rapinatori, così potrai attaccarli alle spalle di sorpresa non appena sferrano l'attacco.",
-    "pol": "Stalkerzy poprosili cię o pomoc w odparciu ataku złodziei. Przyłącz się do złodziei. Gdy rozpoczną napad, będzie można bezkarnie zaatakować ich od tyłu.",
-    "rus": "Сталкеры попросили помочь им отразить атаку грабителей. Нужно влиться в ряды грабителей, тогда во время нападения можно будет спокойно напасть на них со спины.",
-    "spa": "Unos stalkers te han pedido que les ayudes a rechazar el ataque de los ladrones. Debes unirte a los ladrones, así podrás atacarlos con total impunidad desde la retaguardia.",
-    "ukr": "Сталкери попрохали допомогти їм відбити атаку грабіжників. Потрібно влитися до лав грабіжників, тоді під час нападу можна буде спокійно напасти на них зі спини."
-  },
-  "zat_b7_stalkers_raiders_text": {
-    "eng": "A group of stalkers has turned to a bandit existence of robbing their own kind. You need to decide whether to take part in their assault, warn the stalkers or not get involved.",
-    "fra": "Des stalkers peu scrupuleux détroussent leurs congénères. Vous devez décider entre participer à l'assaut, avertir les stalkers ou ne pas vous impliquer.",
-    "ger": "Eine Gruppe von Stalkern hat vor, wie Banditen ihre eigenen Leute zu überfallen. Sie müssen sich entscheiden, ob Sie bei dem Angriff mitmachen, die Stalker warnen oder sich überhaupt nicht einmischen.",
-    "ita": "Degli stalker hanno deciso di cambiare vita, diventando dei banditi a tutti gli effetti. Devi decidere se partecipare al loro assalto, avvisare gli stalker o restarne fuori.",
-    "pol": "Grupa stalkerów postanowiła zostać bandytami i rabować swoich. Musisz zdecydować, czy weźmiesz udział w ataku, ostrzeżesz stalkerów, czy nie będziesz się w to mieszać.",
-    "rus": "Группа сталкеров решила превратиться в банду и грабить своих же вчерашних коллег. Пора решать как быть: принять участие в наезде, предупредить будущих жертв или не вмешиваться?",
-    "spa": "Un grupo de stalkers ha recurrido al bandidaje y a asaltar a sus propios camaradas. Debes decidir entre unirte al asalto, advertir a los demás stalkers o no involucrarte.",
-    "ukr": "Група сталкерів вирішила перетворитися на банду і грабувати своїх же вчорашніх колег. Настав час вирішувати, як бути: взяти участь у наїзді, попередити сталкерів або ж не втручатися?"
-  },
-  "zat_b7_stalkers_raiders_time_name": {
-    "eng": "The hit: Wait for the right moment",
-    "fra": "Braquage : attendre jusqu'à l'heure convenue.",
-    "ger": "Der Überfall: Auf den richtigen Moment warten",
-    "ita": "Il colpo: aspetta il momento giusto.",
-    "pol": "Atak: Poczekaj na właściwą chwilę",
-    "rus": "Наезд: дождаться подходящего момента",
-    "spa": "El golpe: espera al momento adecuado",
-    "ukr": "Наїзд: дочекатися слушного моменту"
-  },
-  "zat_b7_stalkers_raiders_time_text": {
-    "eng": "Wait for the right moment when the robbers are distracted by the attack. You can then pounce on them from behind to help the Shevchenko stalkers.",
-    "fra": "Attendez le bon moment, quand les voleurs seront distraits par l'attaque en cours ! Vous pourrez alors les prendre à revers et aider les stalkers de Chevtchenko.",
-    "ger": "Warten Sie auf den richtigen Augenblick, wenn die Räuber durch den Überfall abgelenkt sind. Dann können Sie sie von hinten aufs Korn nehmen und damit den Stalkern auf der Schewtschenko helfen.",
-    "ita": "Aspetta il momento giusto, quando i rapinatori sono distratti dall'attacco. A quel punto puoi colpirli alle spalle per aiutare gli stalker di Shevchenko.",
-    "pol": "Poczekaj na właściwy moment, gdy złodzieje będą rozproszeni przez atak. Wtedy możesz napaść ich od tyłu i pomóc stalkerom z Szewczenki.",
-    "rus": "Необходимо дождаться момента, когда грабители будут отвлечены наездом. Тогда можно будет ударить им в спину, чтобы помочь сталкерам на «Шевченко».",
-    "spa": "Espera al momento adecuado para pillar a los ladrones distraídos por el ataque. Después podrás atacarlos por detrás para ayudar a los stalkers de Shevchenko.",
-    "ukr": "Необхідно дочекатися моменту, коли увагу грабіжників буде відвернуто наїздом. Тоді можна буде вдарити їм у спину, щоб допомогти сталкерам на «Шевченко»."
-  },
-  "zat_b7_stalkers_raiders_wait_name": {
-    "eng": "The hit: wait for the agreed time",
-    "fra": "Braquage : attendre jusqu'à l'heure convenue.",
-    "ger": "Der Überfall: Bis zum vereinbarten Zeitpunkt warten",
-    "ita": "Il colpo: aspetta l'ora concordata",
-    "pol": "Atak: poczekaj na uzgodnioną chwilę",
-    "rus": "Наезд: дождаться назначенного времени",
-    "spa": "El golpe: espera al momento acordado",
-    "ukr": "Наїзд: дочекатися призначеного часу"
-  },
-  "zat_b7_stalkers_raiders_wait_text": {
-    "eng": "Wait for the meeting with the robbers. They want to attack the stalker camp after midnight while it’s still dark. The agreed meeting place is Shevchenko.",
-    "fra": "Attendez votre rendez-vous avec les voleurs ! Ils veulent attaquer le camp de stalkers entre minuit et le lever du soleil. Le point de rendez-vous se trouve au Chevtchenko.",
-    "ger": "Warten Sie auf das Treffen mit den Räubern. Sie wollen das Stalkerlager nach Mitternacht überfallen, während es dunkel ist. Der vereinbarte Treffpunkt ist die Schewtschenko.",
-    "ita": "Aspetta di incontrare i rapinatori. Vogliono attaccare l'accampamento degli stalker dopo la mezzanotte, ma prima dell'alba. Il luogo d'incontro è Shevchenko.",
-    "pol": "Poczekaj na spotkanie ze złodziejami. Chcą zaatakować obóz stalkerów po północy, dopóki jest ciemno. Uzgodnione miejsce spotkania to Szewczenko.",
-    "rus": "Дождаться времени встречи с грабителями: те хотят напасть на лагерь сталкеров поздно ночью, в темноте. Условленное место встречи - «Шевченко».",
-    "spa": "Espera para reunirte con los ladrones. Quieren atacar el campamento stalker después de medianoche, en la oscuridad. El punto de encuentro acordado es Shevchenko.",
-    "ukr": "Дочекатися часу зустрічі із грабіжниками: ті хочуть напасти на табір сталкерів пізно вночі, у темряві. Обумовлене місце зустрічі - «Шевченко»."
+  "zat_b107_evacuation_zaton_text": {
+    "eng": "The map you found in one of the helicopters indicated evacuation locations. You should check if the soldiers went to location B2",
+    "fra": "La carte trouvée dans l'un des hélicoptères indiquait des points d'évacuation. Vérifiez si les soldats se sont dirigés vers le point B2.",
+    "ger": "Auf der Karte, die Sie in einem der Hubschrauber gefunden haben, sind Evakuierungsstellen eingezeichnet. Sie sollten überprüfen, ob die Soldaten zu Position B2 gegangen sind.",
+    "ita": "La mappa che hai trovato in uno degli elicotteri indicava vari punti di evacuazione. Controlla se i soldati hanno raggiunto il punto B2.",
+    "pol": "Mapa znaleziona w jednym ze śmigłowców wskazywała miejsca ewakuacji. Sprawdź, czy żołnierze pojawili się w punkcie B2.",
+    "rus": "На найденной в одном из вертолётов карте были отмечены точки эвакуации. Нужно проверить, появлялись ли военные в точке эвакуации Б2.",
+    "spa": "El mapa que encontraste en uno de los helicópteros señala la ubicación de puntos de evacuación. Deberías comprobar si los soldados han ido a la posición B2.",
+    "ukr": "На знайденій в одному з гелікоптерів мапі були позначені точки евакуації. Треба перевірити, чи з'являлися військові у точці евакуації Б2."
   }
 }

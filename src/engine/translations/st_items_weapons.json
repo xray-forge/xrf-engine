@@ -1,124 +1,4 @@
 {
-  "ammo-11.43x23-fmj": {
-    "eng": ".45 ACP rounds",
-    "fra": "Munitions .45 ACP",
-    "ger": ".45 ACP Patronen",
-    "ita": "Munizioni .45 ACP",
-    "pol": "Naboje .45 ACP",
-    "rus": "Патроны .45 ACP",
-    "spa": "Munición de ACP .45",
-    "ukr": "Патрони .45 ACP"
-  },
-  "ammo-11.43x23-fmj_descr": {
-    "eng": "The .45 caliber full metal jacket round has enjoyed popularity for more than a hundred years thanks to its heavy bullet and a relatively small propelling charge. As a result, the bullet in this round is relatively slow but highly accurate and provides considerable stopping power.",
-    "fra": "Munition chemisée de calibre .45 dont la popularité ne faiblit pas depuis plus d'un siècle. Sa balle lourde et sa charge propulsive réduite limitent la vitesse de la balle tout en augmentant sa puissance d'arrêt.",
-    "ger": "Das Vollmantelgeschoss Kaliber .45 erfreut sich dank seines hohen Gewichts und der relativ geringen Treibladung bereits seit über hundert Jahren großer Beliebtheit. Das Geschoss ist daher vergleichsweise langsam, aber sehr schussgenau und weist eine beachtliche Stoppwirkung auf.",
-    "ita": "Avendo una massa molto pesante e una carica propellente relativamente piccola, i proiettili blindati calibro .45 sono stati ampiamente utilizzati per più di un secolo. I colpi sono relativamente lenti ma altamente precisi, oltre che dotati di una notevole capacità d'arresto.",
-    "pol": "Naboje pełnopłaszczowe kalibru .45 cieszą się popularnością od ponad stu lat, co zawdzięczają dużemu ciężarowi kuli i stosunkowo małemu ładunkowi miotającemu. Skutkuje to tym, że pocisk jest relatywnie wolny, ale bardzo precyzyjny i zapewnia znaczną moc obalającą.",
-    "rus": "Патрон калибра .45 с оболочечной пулей остаётся популярным уже более сотни лет. Тяжёлая пуля при относительно слабом пороховом заряде летит с не слишком большой скоростью, но обладает значительным останавливающим действием.",
-    "spa": "El proyectil de calibre .45 de chaqueta metálica ha gozado de gran popularidad desde hace más de cien años gracias al gran peso de la bala y a su relativamente escasa carga de propulsión. El proyectil es algo lento, pero muy preciso y con un considerable poder de detención.",
-    "ukr": "Патрон калібру .45 з оболонковою кулею лишається популярним уже понад сотню років. Важка куля за відносно слабкого порохового заряду летить із не надто великою швидкістю, але відзначається значною кінетичною дією."
-  },
-  "ammo-11.43x23-fmj_s": {
-    "eng": ".45 ACP",
-    "fra": ".45 ACP",
-    "ger": ".45 ACP",
-    "ita": ".45 ACP",
-    "pol": ".45 ACP",
-    "rus": ".45 ACP",
-    "spa": "ACP .45",
-    "ukr": ".45 ACP"
-  },
-  "ammo-11.43x23-hydro": {
-    "eng": ".45 ACP Hydrashock rounds",
-    "fra": "Munitions .45 ACP hydrashock",
-    "ger": ".45 ACP Hydroschock-Patronen",
-    "ita": "Munizioni .45 ACP hydro-shock",
-    "pol": "Naboje Hydroshock .45 ACP",
-    "rus": "Патроны .45 ACP Hydroshock",
-    "spa": "Munición Hydrashock de ACP .45",
-    "ukr": "Патрони .45 ACP Hydroshock"
-  },
-  "ammo-11.43x23-hydro_descr": {
-    "eng": "This unusual .45 ACP caliber round is comprised of a jacketed soft point bullet with an expanding hollow and a steel core.  It is a combination of jacketed expanding soft point and armor piercing bullets, benefiting, from the advantages of both and, suffering from their downsides.",
-    "fra": "Ces cartouches de .45 ACP inhabituelles se composent d'une balle en métal tendre comprenant un vide d'expansion et un cœur en acier, constituant ainsi un hybride de balle chemisée à tête creuse et de balle perforante. Elles bénéficient des avantages de leurs deux parents, mais aussi, évidemment, de tous leurs défauts.",
-    "ger": "Diese ungewöhnliche .45 ACP-Munition besteht aus einem Teilmantel-Flachkopfgeschoss mit einer expandierenden Hülle und einem Stahlkern. Sie stellt eine Kombination aus einem expandierenden Teilmantel-Flachkopfgeschoss und panzerbrechender Munition dar. Daher profitiert sie von den Vorteilen beider Geschossarten, weist allerdings auch ihre Nachteile auf.",
-    "ita": "Questi insoliti proiettili calibro .45 ACP hanno una punta soffice blindata con una cavità di espansione e un nucleo d'acciaio. Essendo un incrocio tra i proiettili a punta soffice blindati e i proiettili perforanti, presentano gli stessi pro e contro di questi due tipi di munizioni.",
-    "pol": "Te niezwykłe naboje ACP kalibru .45 to okryte płaszczem, kule z miękkim czubkiem i rozszerzającą się pustą częścią i stalowym rdzeniem, które łączą w sobie zarówno wady, jak i zalety pełnopłaszczowych, ekspansywnych kul z miękkim czubkiem oraz naboi przeciwpancernych.",
-    "rus": "Нестандартный тип патрона для калибра .45 ACP - полуоболочечная пуля с экспансивной выемкой и стальным сердечником. Этой комбинации полуоболочечной экспансивной и бронебойной пуль свойственны как все достоинства, так и все недостатки обоих типов.",
-    "spa": "Este inusual proyectil de calibre ACP .45 tiene una camisa de punta blanda hueca y cuerpo de acero. Es una combinación de proyectil de punta blanda y perforante, por lo que disfruta de las ventajas de ambos tipos, aunque también sufre sus desventajas.",
-    "ukr": "Нестандартний тип патрона для калібру .45 ACP - напівоболонкова куля з експансивним врізом та сталевим сердечником. Цієї комбінації напівоболонкової та бронебійної куль властиві як усі вигоди, так і всі недоліки обох типів."
-  },
-  "ammo-11.43x23-hydro_s": {
-    "eng": ".45 Hydro",
-    "fra": ".45 hydro",
-    "ger": ".45 Hydro",
-    "ita": ".45 hydro-shock",
-    "pol": ".45 Hydro",
-    "rus": ".45 Hydro",
-    "spa": "Hydro .45",
-    "ukr": ".45 Hydro"
-  },
-  "ammo-12x70-buck": {
-    "eng": "12x70 shot rounds",
-    "fra": "Munitions 12x70 (grenaille)",
-    "ger": "12x70 Schrotladung",
-    "ita": "Munizioni a pallettoni 12x70",
-    "pol": "Naboje śrutowe 12x70",
-    "rus": "Патроны 12х70 дробь",
-    "spa": "Munición de perdigones de 12x70",
-    "ukr": "Патрони 12х70 дріб"
-  },
-  "ammo-12x70-buck_descr": {
-    "eng": "Standard 12-caliber round filled with 6 mm shot. Highly lethal at close range. Only suitable for use with smoothbore weapons.",
-    "fra": "Cartouche standard de calibre 12 contenant de la grenaille de 6 mm. Mortelle à courte portée. Utilisable exclusivement avec des canons à âme lisse.",
-    "ger": "Standardgeschosse Kaliber 12 gefüllt mit 6mm-Schrot. Tödlich auf kurze Distanz. Nur geeignet für den Einsatz in Waffen mit glattem Lauf.",
-    "ita": "Munizioni standard calibro 12 riempite con pallettoni da 6 mm. Micidiali a distanza ravvicinata. Da usare solo con le armi ad anima liscia.",
-    "pol": "Standardowe naboje kalibru 12 wypełnione 6-milimetrowym śrutem. Zabójcze na krótki dystans. Nadają się tylko do broni gładkolufowej.",
-    "rus": "Обычный патрон 12-го калибра, снаряжённый дробью диаметром 6 мм. На близких дистанциях обладает огромным убойным и останавливающим действием. Предназначен для стрельбы только из гладкоствольного оружия.",
-    "spa": "Proyectiles estándar de calibre 12 rellenos con perdigones de 6 mm. Sumamente letales a distancias cortas. Solo pueden usarse con armas no estriadas.",
-    "ukr": "Звичайний патрон 12-го калібру, споряджений дробом діаметром 6 мм. На близьких дистанціях відзначається величезним убійним потенціалом та кінетичною дією. Призначений для стрільби виключно з гладкоствольної зброї."
-  },
-  "ammo-12x70-buck_s": {
-    "eng": "12x70 shot",
-    "fra": "12x70 (grenaille) ",
-    "ger": "12x70 Schrot",
-    "ita": "Munizioni 12x70 ",
-    "pol": "Śrutowe 12x70",
-    "rus": "12х70 др",
-    "spa": "Postas de 12x70 ",
-    "ukr": "12х70 др"
-  },
-  "ammo-12x76-zhekan": {
-    "eng": "12x76 slug rounds",
-    "fra": "Munitions 12x76 (balle)",
-    "ger": "12x76 Massivgeschosse",
-    "ita": "Munizioni slug 12x76",
-    "pol": "Naboje kulowe 12x76",
-    "rus": "Патроны 12x76 жекан",
-    "spa": "Munición de postas de 12x76",
-    "ukr": "Патрони 12x76 жекан"
-  },
-  "ammo-12x76-zhekan_descr": {
-    "eng": "This heavy 12 caliber slug round is normally used for hunting big game, but is also good for other purposes. Instead of piercing, this hefty slug simply crushes through armor.",
-    "fra": "Les lourdes balles de ces munitions de calibre 12 sont généralement utilisées pour la chasse au gros gibier, mais sont également adaptées à d'autres usages. Au lieu de perforer les protections, elles les traversent en les écrasant sous leur poids. ",
-    "ger": "Diese schweren Massivgeschosse vom Kaliber 12 werden normalerweise auf der Jagd nach ganz großer Beute eingesetzt, können aber auch in anderen Bereichen sinnvoll sein. Die schwere Munition bohrt sich nicht wie üblich durch die Panzerung, sondern durchschlägt sie einfach mit einer immensen Wucht.",
-    "ita": "Munizioni slug pesanti calibro 12 usate di norma per la caccia grossa, ma efficaci anche in altre circostanze. Invece di perforare il bersaglio, i proiettili pesanti esercitano un'azione di sfondamento. ",
-    "pol": "Te ciężkie kule kalibru 12 są zwykle używane do łowów na grubego zwierza, ale nadają się też do innych celów. Zamiast przebijać pancerz, po prostu go miażdżą.",
-    "rus": "Патрон 12-го калибра с безоболочечной пулей. Обычно используется для охоты на крупных животных, но подходит и для других целей: его тяжёлая пуля не пробивает, а фактически продавливает бронежилеты.",
-    "spa": "Estos pesados proyectiles de postas de calibre 12 suelen utilizarse en caza mayor, pero también son adecuados para otros usos. Más que perforar el blindaje, estos pesados cartuchos lo trituran. ",
-    "ukr": "Патрон 12-го калібру із безоболонковою кулею. Зазвичай використовується для полювання на великих тварин, але годиться і для інших цілей: його важка куля не пробиває, а фактично продавлює бронежилети."
-  },
-  "ammo-12x76-zhekan_s": {
-    "eng": "12x76 slug",
-    "fra": "12x76 (balle)",
-    "ger": "12x76 Massiv",
-    "ita": "Slug 12x76",
-    "pol": "Kulowe 12x76",
-    "rus": "12x76 жк",
-    "spa": "Postas de 12x76",
-    "ukr": "12x76 жк"
-  },
   "ammo-5.45x39-ap": {
     "eng": "5.45x39 mm AP rounds",
     "fra": "Munitions 5,45x39 mm perforantes",
@@ -478,6 +358,126 @@
     "rus": "9х39 мм СП-5",
     "spa": "9x39 mm SP-5",
     "ukr": "9х39 мм СП-5"
+  },
+  "ammo-11.43x23-fmj": {
+    "eng": ".45 ACP rounds",
+    "fra": "Munitions .45 ACP",
+    "ger": ".45 ACP Patronen",
+    "ita": "Munizioni .45 ACP",
+    "pol": "Naboje .45 ACP",
+    "rus": "Патроны .45 ACP",
+    "spa": "Munición de ACP .45",
+    "ukr": "Патрони .45 ACP"
+  },
+  "ammo-11.43x23-fmj_descr": {
+    "eng": "The .45 caliber full metal jacket round has enjoyed popularity for more than a hundred years thanks to its heavy bullet and a relatively small propelling charge. As a result, the bullet in this round is relatively slow but highly accurate and provides considerable stopping power.",
+    "fra": "Munition chemisée de calibre .45 dont la popularité ne faiblit pas depuis plus d'un siècle. Sa balle lourde et sa charge propulsive réduite limitent la vitesse de la balle tout en augmentant sa puissance d'arrêt.",
+    "ger": "Das Vollmantelgeschoss Kaliber .45 erfreut sich dank seines hohen Gewichts und der relativ geringen Treibladung bereits seit über hundert Jahren großer Beliebtheit. Das Geschoss ist daher vergleichsweise langsam, aber sehr schussgenau und weist eine beachtliche Stoppwirkung auf.",
+    "ita": "Avendo una massa molto pesante e una carica propellente relativamente piccola, i proiettili blindati calibro .45 sono stati ampiamente utilizzati per più di un secolo. I colpi sono relativamente lenti ma altamente precisi, oltre che dotati di una notevole capacità d'arresto.",
+    "pol": "Naboje pełnopłaszczowe kalibru .45 cieszą się popularnością od ponad stu lat, co zawdzięczają dużemu ciężarowi kuli i stosunkowo małemu ładunkowi miotającemu. Skutkuje to tym, że pocisk jest relatywnie wolny, ale bardzo precyzyjny i zapewnia znaczną moc obalającą.",
+    "rus": "Патрон калибра .45 с оболочечной пулей остаётся популярным уже более сотни лет. Тяжёлая пуля при относительно слабом пороховом заряде летит с не слишком большой скоростью, но обладает значительным останавливающим действием.",
+    "spa": "El proyectil de calibre .45 de chaqueta metálica ha gozado de gran popularidad desde hace más de cien años gracias al gran peso de la bala y a su relativamente escasa carga de propulsión. El proyectil es algo lento, pero muy preciso y con un considerable poder de detención.",
+    "ukr": "Патрон калібру .45 з оболонковою кулею лишається популярним уже понад сотню років. Важка куля за відносно слабкого порохового заряду летить із не надто великою швидкістю, але відзначається значною кінетичною дією."
+  },
+  "ammo-11.43x23-fmj_s": {
+    "eng": ".45 ACP",
+    "fra": ".45 ACP",
+    "ger": ".45 ACP",
+    "ita": ".45 ACP",
+    "pol": ".45 ACP",
+    "rus": ".45 ACP",
+    "spa": "ACP .45",
+    "ukr": ".45 ACP"
+  },
+  "ammo-11.43x23-hydro": {
+    "eng": ".45 ACP Hydrashock rounds",
+    "fra": "Munitions .45 ACP hydrashock",
+    "ger": ".45 ACP Hydroschock-Patronen",
+    "ita": "Munizioni .45 ACP hydro-shock",
+    "pol": "Naboje Hydroshock .45 ACP",
+    "rus": "Патроны .45 ACP Hydroshock",
+    "spa": "Munición Hydrashock de ACP .45",
+    "ukr": "Патрони .45 ACP Hydroshock"
+  },
+  "ammo-11.43x23-hydro_descr": {
+    "eng": "This unusual .45 ACP caliber round is comprised of a jacketed soft point bullet with an expanding hollow and a steel core.  It is a combination of jacketed expanding soft point and armor piercing bullets, benefiting, from the advantages of both and, suffering from their downsides.",
+    "fra": "Ces cartouches de .45 ACP inhabituelles se composent d'une balle en métal tendre comprenant un vide d'expansion et un cœur en acier, constituant ainsi un hybride de balle chemisée à tête creuse et de balle perforante. Elles bénéficient des avantages de leurs deux parents, mais aussi, évidemment, de tous leurs défauts.",
+    "ger": "Diese ungewöhnliche .45 ACP-Munition besteht aus einem Teilmantel-Flachkopfgeschoss mit einer expandierenden Hülle und einem Stahlkern. Sie stellt eine Kombination aus einem expandierenden Teilmantel-Flachkopfgeschoss und panzerbrechender Munition dar. Daher profitiert sie von den Vorteilen beider Geschossarten, weist allerdings auch ihre Nachteile auf.",
+    "ita": "Questi insoliti proiettili calibro .45 ACP hanno una punta soffice blindata con una cavità di espansione e un nucleo d'acciaio. Essendo un incrocio tra i proiettili a punta soffice blindati e i proiettili perforanti, presentano gli stessi pro e contro di questi due tipi di munizioni.",
+    "pol": "Te niezwykłe naboje ACP kalibru .45 to okryte płaszczem, kule z miękkim czubkiem i rozszerzającą się pustą częścią i stalowym rdzeniem, które łączą w sobie zarówno wady, jak i zalety pełnopłaszczowych, ekspansywnych kul z miękkim czubkiem oraz naboi przeciwpancernych.",
+    "rus": "Нестандартный тип патрона для калибра .45 ACP - полуоболочечная пуля с экспансивной выемкой и стальным сердечником. Этой комбинации полуоболочечной экспансивной и бронебойной пуль свойственны как все достоинства, так и все недостатки обоих типов.",
+    "spa": "Este inusual proyectil de calibre ACP .45 tiene una camisa de punta blanda hueca y cuerpo de acero. Es una combinación de proyectil de punta blanda y perforante, por lo que disfruta de las ventajas de ambos tipos, aunque también sufre sus desventajas.",
+    "ukr": "Нестандартний тип патрона для калібру .45 ACP - напівоболонкова куля з експансивним врізом та сталевим сердечником. Цієї комбінації напівоболонкової та бронебійної куль властиві як усі вигоди, так і всі недоліки обох типів."
+  },
+  "ammo-11.43x23-hydro_s": {
+    "eng": ".45 Hydro",
+    "fra": ".45 hydro",
+    "ger": ".45 Hydro",
+    "ita": ".45 hydro-shock",
+    "pol": ".45 Hydro",
+    "rus": ".45 Hydro",
+    "spa": "Hydro .45",
+    "ukr": ".45 Hydro"
+  },
+  "ammo-12x70-buck": {
+    "eng": "12x70 shot rounds",
+    "fra": "Munitions 12x70 (grenaille)",
+    "ger": "12x70 Schrotladung",
+    "ita": "Munizioni a pallettoni 12x70",
+    "pol": "Naboje śrutowe 12x70",
+    "rus": "Патроны 12х70 дробь",
+    "spa": "Munición de perdigones de 12x70",
+    "ukr": "Патрони 12х70 дріб"
+  },
+  "ammo-12x70-buck_descr": {
+    "eng": "Standard 12-caliber round filled with 6 mm shot. Highly lethal at close range. Only suitable for use with smoothbore weapons.",
+    "fra": "Cartouche standard de calibre 12 contenant de la grenaille de 6 mm. Mortelle à courte portée. Utilisable exclusivement avec des canons à âme lisse.",
+    "ger": "Standardgeschosse Kaliber 12 gefüllt mit 6mm-Schrot. Tödlich auf kurze Distanz. Nur geeignet für den Einsatz in Waffen mit glattem Lauf.",
+    "ita": "Munizioni standard calibro 12 riempite con pallettoni da 6 mm. Micidiali a distanza ravvicinata. Da usare solo con le armi ad anima liscia.",
+    "pol": "Standardowe naboje kalibru 12 wypełnione 6-milimetrowym śrutem. Zabójcze na krótki dystans. Nadają się tylko do broni gładkolufowej.",
+    "rus": "Обычный патрон 12-го калибра, снаряжённый дробью диаметром 6 мм. На близких дистанциях обладает огромным убойным и останавливающим действием. Предназначен для стрельбы только из гладкоствольного оружия.",
+    "spa": "Proyectiles estándar de calibre 12 rellenos con perdigones de 6 mm. Sumamente letales a distancias cortas. Solo pueden usarse con armas no estriadas.",
+    "ukr": "Звичайний патрон 12-го калібру, споряджений дробом діаметром 6 мм. На близьких дистанціях відзначається величезним убійним потенціалом та кінетичною дією. Призначений для стрільби виключно з гладкоствольної зброї."
+  },
+  "ammo-12x70-buck_s": {
+    "eng": "12x70 shot",
+    "fra": "12x70 (grenaille) ",
+    "ger": "12x70 Schrot",
+    "ita": "Munizioni 12x70 ",
+    "pol": "Śrutowe 12x70",
+    "rus": "12х70 др",
+    "spa": "Postas de 12x70 ",
+    "ukr": "12х70 др"
+  },
+  "ammo-12x76-zhekan": {
+    "eng": "12x76 slug rounds",
+    "fra": "Munitions 12x76 (balle)",
+    "ger": "12x76 Massivgeschosse",
+    "ita": "Munizioni slug 12x76",
+    "pol": "Naboje kulowe 12x76",
+    "rus": "Патроны 12x76 жекан",
+    "spa": "Munición de postas de 12x76",
+    "ukr": "Патрони 12x76 жекан"
+  },
+  "ammo-12x76-zhekan_descr": {
+    "eng": "This heavy 12 caliber slug round is normally used for hunting big game, but is also good for other purposes. Instead of piercing, this hefty slug simply crushes through armor.",
+    "fra": "Les lourdes balles de ces munitions de calibre 12 sont généralement utilisées pour la chasse au gros gibier, mais sont également adaptées à d'autres usages. Au lieu de perforer les protections, elles les traversent en les écrasant sous leur poids. ",
+    "ger": "Diese schweren Massivgeschosse vom Kaliber 12 werden normalerweise auf der Jagd nach ganz großer Beute eingesetzt, können aber auch in anderen Bereichen sinnvoll sein. Die schwere Munition bohrt sich nicht wie üblich durch die Panzerung, sondern durchschlägt sie einfach mit einer immensen Wucht.",
+    "ita": "Munizioni slug pesanti calibro 12 usate di norma per la caccia grossa, ma efficaci anche in altre circostanze. Invece di perforare il bersaglio, i proiettili pesanti esercitano un'azione di sfondamento. ",
+    "pol": "Te ciężkie kule kalibru 12 są zwykle używane do łowów na grubego zwierza, ale nadają się też do innych celów. Zamiast przebijać pancerz, po prostu go miażdżą.",
+    "rus": "Патрон 12-го калибра с безоболочечной пулей. Обычно используется для охоты на крупных животных, но подходит и для других целей: его тяжёлая пуля не пробивает, а фактически продавливает бронежилеты.",
+    "spa": "Estos pesados proyectiles de postas de calibre 12 suelen utilizarse en caza mayor, pero también son adecuados para otros usos. Más que perforar el blindaje, estos pesados cartuchos lo trituran. ",
+    "ukr": "Патрон 12-го калібру із безоболонковою кулею. Зазвичай використовується для полювання на великих тварин, але годиться і для інших цілей: його важка куля не пробиває, а фактично продавлює бронежилети."
+  },
+  "ammo-12x76-zhekan_s": {
+    "eng": "12x76 slug",
+    "fra": "12x76 (balle)",
+    "ger": "12x76 Massiv",
+    "ita": "Slug 12x76",
+    "pol": "Kulowe 12x76",
+    "rus": "12x76 жк",
+    "spa": "Postas de 12x76",
+    "ukr": "12x76 жк"
   },
   "ammo-gauss": {
     "eng": "Batteries",

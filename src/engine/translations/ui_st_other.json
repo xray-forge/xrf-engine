@@ -379,6 +379,16 @@
     "spa": "escombros.",
     "ukr": "карбованців."
   },
+  "st_save_jup_a9_got_underpass_docs": {
+    "eng": "road to Pripyat found",
+    "fra": "route de Pripyat trouvée",
+    "ger": "Weg nach Pripyat gefunden",
+    "ita": "strada per Pripyat scoperta",
+    "pol": "znalezienie drogi do Prypeci",
+    "rus": "найден путь в Припять",
+    "spa": "camino a Pripyat encontrado",
+    "ukr": "знайдено шлях до Прип'яті"
+  },
   "st_save_jup_a10_gonna_return_debt": {
     "eng": "Vano’s debt repaid",
     "fra": "dette de Vano remboursée",
@@ -409,15 +419,55 @@
     "spa": "rehén liberado",
     "ukr": "звільнення заручника"
   },
-  "st_save_jup_a9_got_underpass_docs": {
-    "eng": "road to Pripyat found",
-    "fra": "route de Pripyat trouvée",
-    "ger": "Weg nach Pripyat gefunden",
-    "ita": "strada per Pripyat scoperta",
-    "pol": "znalezienie drogi do Prypeci",
-    "rus": "найден путь в Припять",
-    "spa": "camino a Pripyat encontrado",
-    "ukr": "знайдено шлях до Прип'яті"
+  "st_save_jup_b1_entered_railroad_tunnel": {
+    "eng": "search for the psy-emission source",
+    "fra": "recherche de la source des émissions psi",
+    "ger": "Suche nach der Quelle der Psi-Emission",
+    "ita": "ricerca della fonte della psico-emissione",
+    "pol": "poszukiwanie źródła emisji psionicznej",
+    "rus": "поиск источника пси-излучения",
+    "spa": "búsqueda del origen de las emisiones psíquicas",
+    "ukr": "пошук джерела псі-випромінювання"
+  },
+  "st_save_jup_b6_arrived_to_ash_heap": {
+    "eng": "Ash Heap anomaly measurements",
+    "fra": "relevés de l'anomalie Tas de cendres",
+    "ger": "Aschehügel-Anomalie-Messungen",
+    "ita": "misurazioni anomalia Cumulo di cenere",
+    "pol": "pomiary anomalii Popielisko",
+    "rus": "замеры аномалии «Пепелище»",
+    "spa": "medidas de la anomalía del Cenizal",
+    "ukr": "вимірювання аномалії «Попелище»"
+  },
+  "st_save_jup_b6_arrived_to_fen": {
+    "eng": "Plavni anomaly measurements",
+    "fra": "relevés de l'anomalie Plavni",
+    "ger": "Plawni-Anomalie-Messungen",
+    "ita": "misurazioni anomalia Plavni",
+    "pol": "pomiary anomalii Szuwary",
+    "rus": "замеры аномалии «Плавни»",
+    "spa": "medidas de la anomalía Plavni",
+    "ukr": "вимірювання аномалії «Плавні»"
+  },
+  "st_save_jup_b8_searched_heli_4": {
+    "eng": "Stingray 4 examined",
+    "fra": "Stingray 4 examiné",
+    "ger": "Stingray 4 untersucht",
+    "ita": "Stingray 4 esaminato",
+    "pol": "zbadanie helikoptera Ogończa 4",
+    "rus": "исследован «Скат-4»",
+    "spa": "Pez Raya 4 registrado",
+    "ukr": "досліджено «Скат-4»"
+  },
+  "st_save_jup_b9_searched_heli_1": {
+    "eng": "Stingray 1 examined",
+    "fra": "Stingray 1 examiné",
+    "ger": "Stingray 1 untersucht",
+    "ita": "Stingray 1 esaminato",
+    "pol": "zbadanie helikoptera Ogończa 1",
+    "rus": "исследован «Скат-1»",
+    "spa": "Pez Raya 1 registrado",
+    "ukr": "досліджено «Скат-1»"
   },
   "st_save_jup_b15_drunk_with_zulu": {
     "eng": "Zulu joins the squad",
@@ -449,15 +499,15 @@
     "spa": "enviado a Kopachy",
     "ukr": "відправка до Копачів"
   },
-  "st_save_jup_b1_entered_railroad_tunnel": {
-    "eng": "search for the psy-emission source",
-    "fra": "recherche de la source des émissions psi",
-    "ger": "Suche nach der Quelle der Psi-Emission",
-    "ita": "ricerca della fonte della psico-emissione",
-    "pol": "poszukiwanie źródła emisji psionicznej",
-    "rus": "поиск источника пси-излучения",
-    "spa": "búsqueda del origen de las emisiones psíquicas",
-    "ukr": "пошук джерела псі-випромінювання"
+  "st_save_jup_b47_got_admin_docs": {
+    "eng": "administrative documents",
+    "fra": "documents administratifs",
+    "ger": "Verwaltungsunterlagen",
+    "ita": "documenti amministrativi",
+    "pol": "dokumenty administracyjne",
+    "rus": "административные документы",
+    "spa": "documentos administrativos",
+    "ukr": "адміністративні документи"
   },
   "st_save_jup_b206_got_anomalous_plant": {
     "eng": "anomalous plant collected",
@@ -538,56 +588,6 @@
     "rus": "к отряду примкнул Вано",
     "spa": "Vano se une al escuadrón",
     "ukr": "до загону долучився Вано"
-  },
-  "st_save_jup_b47_got_admin_docs": {
-    "eng": "administrative documents",
-    "fra": "documents administratifs",
-    "ger": "Verwaltungsunterlagen",
-    "ita": "documenti amministrativi",
-    "pol": "dokumenty administracyjne",
-    "rus": "административные документы",
-    "spa": "documentos administrativos",
-    "ukr": "адміністративні документи"
-  },
-  "st_save_jup_b6_arrived_to_ash_heap": {
-    "eng": "Ash Heap anomaly measurements",
-    "fra": "relevés de l'anomalie Tas de cendres",
-    "ger": "Aschehügel-Anomalie-Messungen",
-    "ita": "misurazioni anomalia Cumulo di cenere",
-    "pol": "pomiary anomalii Popielisko",
-    "rus": "замеры аномалии «Пепелище»",
-    "spa": "medidas de la anomalía del Cenizal",
-    "ukr": "вимірювання аномалії «Попелище»"
-  },
-  "st_save_jup_b6_arrived_to_fen": {
-    "eng": "Plavni anomaly measurements",
-    "fra": "relevés de l'anomalie Plavni",
-    "ger": "Plawni-Anomalie-Messungen",
-    "ita": "misurazioni anomalia Plavni",
-    "pol": "pomiary anomalii Szuwary",
-    "rus": "замеры аномалии «Плавни»",
-    "spa": "medidas de la anomalía Plavni",
-    "ukr": "вимірювання аномалії «Плавні»"
-  },
-  "st_save_jup_b8_searched_heli_4": {
-    "eng": "Stingray 4 examined",
-    "fra": "Stingray 4 examiné",
-    "ger": "Stingray 4 untersucht",
-    "ita": "Stingray 4 esaminato",
-    "pol": "zbadanie helikoptera Ogończa 4",
-    "rus": "исследован «Скат-4»",
-    "spa": "Pez Raya 4 registrado",
-    "ukr": "досліджено «Скат-4»"
-  },
-  "st_save_jup_b9_searched_heli_1": {
-    "eng": "Stingray 1 examined",
-    "fra": "Stingray 1 examiné",
-    "ger": "Stingray 1 untersucht",
-    "ita": "Stingray 1 esaminato",
-    "pol": "zbadanie helikoptera Ogończa 1",
-    "rus": "исследован «Скат-1»",
-    "spa": "Pez Raya 1 registrado",
-    "ukr": "досліджено «Скат-1»"
   },
   "st_save_pas_b400_underpass_start": {
     "eng": "arrival in the underpass",
@@ -739,16 +739,6 @@
     "spa": "comunicaciones con el cuartel general establecidas",
     "ukr": "встановлено зв'язок із командуванням"
   },
-  "st_save_pri_b301_arrived_to_help_zulu": {
-    "eng": "Zulu found",
-    "fra": "Zulu trouvé",
-    "ger": "Zulu gefunden",
-    "ita": "Zulu individuato",
-    "pol": "znalezienie Zulusa",
-    "rus": "найден Зулус",
-    "spa": "Zulu encontrado",
-    "ukr": "знайдено Зулуса"
-  },
   "st_save_pri_b35_ready_to_snipe": {
     "eng": "Operation One Shot initiated",
     "fra": "Opération Mise à mort lancée",
@@ -758,6 +748,16 @@
     "rus": "начало операции «Один выстрел»",
     "spa": "Operación Un disparo iniciada",
     "ukr": "початок операції «Один постріл»"
+  },
+  "st_save_pri_b301_arrived_to_help_zulu": {
+    "eng": "Zulu found",
+    "fra": "Zulu trouvé",
+    "ger": "Zulu gefunden",
+    "ita": "Zulu individuato",
+    "pol": "znalezienie Zulusa",
+    "rus": "найден Зулус",
+    "spa": "Zulu encontrado",
+    "ukr": "знайдено Зулуса"
   },
   "st_save_uni_labx8_to_pri": {
     "eng": "moving from X8 to Pripyat",
@@ -889,6 +889,16 @@
     "spa": "comienzo de la partida",
     "ukr": "початок гри"
   },
+  "st_save_zat_a2_reached_skadovsk": {
+    "eng": "arrival at the Skadovsk",
+    "fra": "arrivée au Skadovsk",
+    "ger": "Ankunft auf der Skadowsk",
+    "ita": "arrivo alla Skadovsk",
+    "pol": "przybycie do Skadowska",
+    "rus": "прибытие на «Скадовск»",
+    "spa": "llegada a Skadovsk",
+    "ukr": "прибуття на «Скадовськ»"
+  },
   "st_save_zat_a23_entered_test_center": {
     "eng": "testing workshop accessed",
     "fra": "accès à l'atelier de test",
@@ -909,55 +919,25 @@
     "spa": "documentación de fusil Gauss encontrada",
     "ukr": "знайдено документацію до гаус-гармати"
   },
-  "st_save_zat_a2_reached_skadovsk": {
-    "eng": "arrival at the Skadovsk",
-    "fra": "arrivée au Skadovsk",
-    "ger": "Ankunft auf der Skadowsk",
-    "ita": "arrivo alla Skadovsk",
-    "pol": "przybycie do Skadowska",
-    "rus": "прибытие на «Скадовск»",
-    "spa": "llegada a Skadovsk",
-    "ukr": "прибуття на «Скадовськ»"
+  "st_save_zat_b5_met_with_others": {
+    "eng": "deal by the ranger station",
+    "fra": "rencontre près du poste des rangers",
+    "ger": "Geschäft bei der Forststation",
+    "ita": "accordo vicino alla stazione dei ranger",
+    "pol": "transakcja przy leśniczówce",
+    "rus": "сделка возле лесничества",
+    "spa": "trato junto al puesto de guardabosques",
+    "ukr": "угода біля лісництва"
   },
-  "st_save_zat_b100_searched_heli_2": {
-    "eng": "Stingray 2 examined",
-    "fra": "Stingray 2 examiné",
-    "ger": "Stingray 2 untersucht",
-    "ita": "Stingray 2 esaminato",
-    "pol": "zbadanie helikoptera Ogończa 2",
-    "rus": "исследован «Скат-2»",
-    "spa": "Pez Raya 2 registrado",
-    "ukr": "досліджено «Скат-2»"
-  },
-  "st_save_zat_b101_searched_heli_5": {
-    "eng": "Stingray 5 examined",
-    "fra": "Stingray 5 examiné",
-    "ger": "Stingray 5 untersucht",
-    "ita": "Stingray 5 esaminato",
-    "pol": "zbadanie helikoptera Ogończa 5",
-    "rus": "исследован «Скат-5»",
-    "spa": "Pez Raya 5 registrado",
-    "ukr": "досліджено «Скат-5»"
-  },
-  "st_save_zat_b103_warned_by_mercs": {
-    "eng": "approach to the substation workshop",
-    "fra": "abords des ateliers du poste électrique",
-    "ger": "Zugang zu den Werkstätten des Umspannwerks",
-    "ita": "avvicinamento all'officina della sotto-stazione",
-    "pol": "podejście do magazynu podstacji",
-    "rus": "подход к цехам подстанции",
-    "spa": "acercamiento al taller de la subestación",
-    "ukr": "підхід до цехів підстанції"
-  },
-  "st_save_zat_b106_arrived_to_chimera_lair": {
-    "eng": "hunting the chimera",
-    "fra": "chasse à la chimère",
-    "ger": "jagt die Chimäre",
-    "ita": "a caccia della chimera",
-    "pol": "polowanie na chimerę",
-    "rus": "охота на химеру",
-    "spa": "caza de la quimera",
-    "ukr": "полювання на химеру"
+  "st_save_zat_b7_met_with_robbers": {
+    "eng": "stalker hit",
+    "fra": "stalkers touchés",
+    "ger": "Stalker getroffen",
+    "ita": "attacco stalker",
+    "pol": "atak na stalkerów",
+    "rus": "наезд на сталкеров",
+    "spa": "stalker alcanzado",
+    "ukr": "наїзд на сталкерів"
   },
   "st_save_zat_b14_got_altered_wheel": {
     "eng": "strange glow source found",
@@ -1029,25 +1009,45 @@
     "spa": "cueva peligrosa",
     "ukr": "небезпечна печера"
   },
-  "st_save_zat_b5_met_with_others": {
-    "eng": "deal by the ranger station",
-    "fra": "rencontre près du poste des rangers",
-    "ger": "Geschäft bei der Forststation",
-    "ita": "accordo vicino alla stazione dei ranger",
-    "pol": "transakcja przy leśniczówce",
-    "rus": "сделка возле лесничества",
-    "spa": "trato junto al puesto de guardabosques",
-    "ukr": "угода біля лісництва"
+  "st_save_zat_b100_searched_heli_2": {
+    "eng": "Stingray 2 examined",
+    "fra": "Stingray 2 examiné",
+    "ger": "Stingray 2 untersucht",
+    "ita": "Stingray 2 esaminato",
+    "pol": "zbadanie helikoptera Ogończa 2",
+    "rus": "исследован «Скат-2»",
+    "spa": "Pez Raya 2 registrado",
+    "ukr": "досліджено «Скат-2»"
   },
-  "st_save_zat_b7_met_with_robbers": {
-    "eng": "stalker hit",
-    "fra": "stalkers touchés",
-    "ger": "Stalker getroffen",
-    "ita": "attacco stalker",
-    "pol": "atak na stalkerów",
-    "rus": "наезд на сталкеров",
-    "spa": "stalker alcanzado",
-    "ukr": "наїзд на сталкерів"
+  "st_save_zat_b101_searched_heli_5": {
+    "eng": "Stingray 5 examined",
+    "fra": "Stingray 5 examiné",
+    "ger": "Stingray 5 untersucht",
+    "ita": "Stingray 5 esaminato",
+    "pol": "zbadanie helikoptera Ogończa 5",
+    "rus": "исследован «Скат-5»",
+    "spa": "Pez Raya 5 registrado",
+    "ukr": "досліджено «Скат-5»"
+  },
+  "st_save_zat_b103_warned_by_mercs": {
+    "eng": "approach to the substation workshop",
+    "fra": "abords des ateliers du poste électrique",
+    "ger": "Zugang zu den Werkstätten des Umspannwerks",
+    "ita": "avvicinamento all'officina della sotto-stazione",
+    "pol": "podejście do magazynu podstacji",
+    "rus": "подход к цехам подстанции",
+    "spa": "acercamiento al taller de la subestación",
+    "ukr": "підхід до цехів підстанції"
+  },
+  "st_save_zat_b106_arrived_to_chimera_lair": {
+    "eng": "hunting the chimera",
+    "fra": "chasse à la chimère",
+    "ger": "jagt die Chimäre",
+    "ita": "a caccia della chimera",
+    "pol": "polowanie na chimerę",
+    "rus": "охота на химеру",
+    "spa": "caza de la quimera",
+    "ukr": "полювання на химеру"
   },
   "st_server_connecting": {
     "eng": "SERVER: Connecting",

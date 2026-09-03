@@ -1,24 +1,4 @@
 {
-  "st_jup_a10_name": {
-    "eng": "Checkpoint",
-    "fra": "Poste de contrôle",
-    "ger": "Checkpoint",
-    "ita": "Checkpoint",
-    "pol": "Posterunek",
-    "rus": "КПП",
-    "spa": "Punto de control",
-    "ukr": "КПП"
-  },
-  "st_jup_a12_name": {
-    "eng": "Container warehouse",
-    "fra": "Entrepôt",
-    "ger": "Containerlagerhaus",
-    "ita": "Magazzino dei contenitori",
-    "pol": "Magazyn kontenerów",
-    "rus": "Склад контейнеров",
-    "spa": "Almacén de contenedores",
-    "ukr": "Склад контейнерів"
-  },
   "st_jup_a6_name": {
     "eng": "Yanov",
     "fra": "Yanov",
@@ -39,15 +19,25 @@
     "spa": "Central de Júpiter",
     "ukr": "Завод «Юпітер»"
   },
-  "st_jup_b19_name": {
-    "eng": "Kopachy",
-    "fra": "Kopachy",
-    "ger": "Kopatschi",
-    "ita": "Kopachy",
-    "pol": "Kopaczi",
-    "rus": "Копачи",
-    "spa": "Kopachy",
-    "ukr": "Копачі"
+  "st_jup_a10_name": {
+    "eng": "Checkpoint",
+    "fra": "Poste de contrôle",
+    "ger": "Checkpoint",
+    "ita": "Checkpoint",
+    "pol": "Posterunek",
+    "rus": "КПП",
+    "spa": "Punto de control",
+    "ukr": "КПП"
+  },
+  "st_jup_a12_name": {
+    "eng": "Container warehouse",
+    "fra": "Entrepôt",
+    "ger": "Containerlagerhaus",
+    "ita": "Magazzino dei contenitori",
+    "pol": "Magazyn kontenerów",
+    "rus": "Склад контейнеров",
+    "spa": "Almacén de contenedores",
+    "ukr": "Склад контейнерів"
   },
   "st_jup_b1_name": {
     "eng": "Ash Heap anomaly",
@@ -58,6 +48,66 @@
     "rus": "Аномалия «Пепелище»",
     "spa": "La anomalía del Cenizal",
     "ukr": "Аномалія «Попелище»"
+  },
+  "st_jup_b6_name": {
+    "eng": "Scientists’ bunker",
+    "fra": "Bunker des scientifiques",
+    "ger": "Bunker der Wissenschaftler",
+    "ita": "Bunker degli scienziati",
+    "pol": "Bunkier naukowców",
+    "rus": "Бункер учёных",
+    "spa": "Búnker de los científicos",
+    "ukr": "Бункер учених"
+  },
+  "st_jup_b9_name": {
+    "eng": "Helipads",
+    "fra": "Héliports",
+    "ger": "Hubschrauberlandeplatz",
+    "ita": "Piattaforme di atterraggio degli elicotteri",
+    "pol": "Lądowiska dla helikopterów",
+    "rus": "Вертолётные площадки",
+    "spa": "Pistas de aterrizaje",
+    "ukr": "Вертолітні майданчики"
+  },
+  "st_jup_b19_name": {
+    "eng": "Kopachy",
+    "fra": "Kopachy",
+    "ger": "Kopatschi",
+    "ita": "Kopachy",
+    "pol": "Kopaczi",
+    "rus": "Копачи",
+    "spa": "Kopachy",
+    "ukr": "Копачі"
+  },
+  "st_jup_b25_name": {
+    "eng": "Quarry",
+    "fra": "Carrière",
+    "ger": "Steinbruch",
+    "ita": "Cava",
+    "pol": "Kamieniołomy",
+    "rus": "Карьер",
+    "spa": "Cantera",
+    "ukr": "Кар'єр"
+  },
+  "st_jup_b32_name": {
+    "eng": "Parking lot",
+    "fra": "Parking",
+    "ger": "Parkplatz",
+    "ita": "Parcheggio",
+    "pol": "Parking",
+    "rus": "Стоянка",
+    "spa": "Aparcamiento",
+    "ukr": "Стоянка"
+  },
+  "st_jup_b46_name": {
+    "eng": "Cooling tower",
+    "fra": "Tour de refroidissement",
+    "ger": "Kühlturm",
+    "ita": "Torre di raffreddamento",
+    "pol": "Wieża chłodnicza",
+    "rus": "Градирня",
+    "spa": "Torre de refrigeración",
+    "ukr": "Градирня"
   },
   "st_jup_b200_name": {
     "eng": "Cement factory",
@@ -149,56 +199,6 @@
     "spa": "Complejo de ventilación",
     "ukr": "Вентиляційний комплекс"
   },
-  "st_jup_b25_name": {
-    "eng": "Quarry",
-    "fra": "Carrière",
-    "ger": "Steinbruch",
-    "ita": "Cava",
-    "pol": "Kamieniołomy",
-    "rus": "Карьер",
-    "spa": "Cantera",
-    "ukr": "Кар'єр"
-  },
-  "st_jup_b32_name": {
-    "eng": "Parking lot",
-    "fra": "Parking",
-    "ger": "Parkplatz",
-    "ita": "Parcheggio",
-    "pol": "Parking",
-    "rus": "Стоянка",
-    "spa": "Aparcamiento",
-    "ukr": "Стоянка"
-  },
-  "st_jup_b46_name": {
-    "eng": "Cooling tower",
-    "fra": "Tour de refroidissement",
-    "ger": "Kühlturm",
-    "ita": "Torre di raffreddamento",
-    "pol": "Wieża chłodnicza",
-    "rus": "Градирня",
-    "spa": "Torre de refrigeración",
-    "ukr": "Градирня"
-  },
-  "st_jup_b6_name": {
-    "eng": "Scientists’ bunker",
-    "fra": "Bunker des scientifiques",
-    "ger": "Bunker der Wissenschaftler",
-    "ita": "Bunker degli scienziati",
-    "pol": "Bunkier naukowców",
-    "rus": "Бункер учёных",
-    "spa": "Búnker de los científicos",
-    "ukr": "Бункер учених"
-  },
-  "st_jup_b9_name": {
-    "eng": "Helipads",
-    "fra": "Héliports",
-    "ger": "Hubschrauberlandeplatz",
-    "ita": "Piattaforme di atterraggio degli elicotteri",
-    "pol": "Lądowiska dla helikopterów",
-    "rus": "Вертолётные площадки",
-    "spa": "Pistas de aterrizaje",
-    "ukr": "Вертолітні майданчики"
-  },
   "st_pri_a16_name": {
     "eng": "Laundromat",
     "fra": "Laverie",
@@ -258,6 +258,26 @@
     "rus": "Кинотеатр «Прометей»",
     "spa": "Cine Prometeo",
     "ukr": "Кінотеатр «Прометей»"
+  },
+  "st_pri_b35_name": {
+    "eng": "Apartment complex",
+    "fra": "Complexe résidentiel",
+    "ger": "Wohnanlage",
+    "ita": "Complesso di appartamenti",
+    "pol": "Osiedle",
+    "rus": "Общежитие",
+    "spa": "Bloque de apartamentos",
+    "ukr": "Гуртожиток"
+  },
+  "st_pri_b36_name": {
+    "eng": "River port",
+    "fra": "Port fluvial",
+    "ger": "Flusshafen",
+    "ita": "Porto del fiume",
+    "pol": "Port rzeczny",
+    "rus": "Речной порт",
+    "spa": "Puerto fluvial",
+    "ukr": "Річковий порт"
   },
   "st_pri_b301_name": {
     "eng": "School",
@@ -319,26 +339,6 @@
     "spa": "Anomalía Volcán",
     "ukr": "Аномалія «Вулкан»"
   },
-  "st_pri_b35_name": {
-    "eng": "Apartment complex",
-    "fra": "Complexe résidentiel",
-    "ger": "Wohnanlage",
-    "ita": "Complesso di appartamenti",
-    "pol": "Osiedle",
-    "rus": "Общежитие",
-    "spa": "Bloque de apartamentos",
-    "ukr": "Гуртожиток"
-  },
-  "st_pri_b36_name": {
-    "eng": "River port",
-    "fra": "Port fluvial",
-    "ger": "Flusshafen",
-    "ita": "Porto del fiume",
-    "pol": "Port rzeczny",
-    "rus": "Речной порт",
-    "spa": "Puerto fluvial",
-    "ukr": "Річковий порт"
-  },
   "st_zat_a2_name": {
     "eng": "Skadovsk",
     "fra": "Skadovsk",
@@ -349,55 +349,25 @@
     "spa": "Skadovsk",
     "ukr": "«Скадовськ»"
   },
-  "st_zat_b100_name": {
-    "eng": "Iron Forest anomaly",
-    "fra": "Forêt de Fer (anomalie)",
-    "ger": "Eisenwald-Anomalie",
-    "ita": "Anomalia Foresta d'acciaio",
-    "pol": "Anomalia Żelazny Las",
-    "rus": "Аномалия «Железный лес»",
-    "spa": "Anomalía Bosque de hierro",
-    "ukr": "Аномалія «Залізний ліс»"
+  "st_zat_b5_name": {
+    "eng": "Ranger station",
+    "fra": "Poste des rangers",
+    "ger": "Forststation",
+    "ita": "Stazione dei ranger",
+    "pol": "Leśniczówka",
+    "rus": "Лесничество",
+    "spa": "Puesto de guardabosques",
+    "ukr": "Лісництво"
   },
-  "st_zat_b101_name": {
-    "eng": "Swamp",
-    "fra": "Marais",
-    "ger": "Sumpf",
-    "ita": "Palude",
-    "pol": "Bagno",
-    "rus": "Топь",
-    "spa": "Pantano",
-    "ukr": "Драговина"
-  },
-  "st_zat_b103_name": {
-    "eng": "Substation workshops",
-    "fra": "Ateliers du poste électrique",
-    "ger": "Werkstätten des Umspannwerks",
-    "ita": "Officine delle sotto-stazioni",
-    "pol": "Magazyny podstacji",
-    "rus": "Цеха подстанции",
-    "spa": "Talleres de la subestación",
-    "ukr": "Цехи підстанції"
-  },
-  "st_zat_b104_name": {
-    "eng": "Sawmill",
-    "fra": "Scierie",
-    "ger": "Sägewerk",
-    "ita": "Segheria",
-    "pol": "Tartak",
-    "rus": "Лесопилка",
-    "spa": "Aserradero",
-    "ukr": "Лісопилка"
-  },
-  "st_zat_b106_name": {
-    "eng": "Izumrudnoye",
-    "fra": "Izumrudnoye",
-    "ger": "Isumrudnoje",
-    "ita": "Izumrudnoye",
-    "pol": "Izumrudnoje",
-    "rus": "«Изумрудное»",
-    "spa": "Izumrudnoye",
-    "ukr": "«Смарагдове»"
+  "st_zat_b7_name": {
+    "eng": "Shevchenko",
+    "fra": "Chevtchenko",
+    "ger": "Schewtschenko",
+    "ita": "Shevchenko",
+    "pol": "Szewczenko",
+    "rus": "«Шевченко»",
+    "spa": "Shevchenko",
+    "ukr": "«Шевченко»"
   },
   "st_zat_b12_name": {
     "eng": "Preobrazhensky bridge",
@@ -539,24 +509,54 @@
     "spa": "Anomalía Circo",
     "ukr": "Аномалія «Цирк»"
   },
-  "st_zat_b5_name": {
-    "eng": "Ranger station",
-    "fra": "Poste des rangers",
-    "ger": "Forststation",
-    "ita": "Stazione dei ranger",
-    "pol": "Leśniczówka",
-    "rus": "Лесничество",
-    "spa": "Puesto de guardabosques",
-    "ukr": "Лісництво"
+  "st_zat_b100_name": {
+    "eng": "Iron Forest anomaly",
+    "fra": "Forêt de Fer (anomalie)",
+    "ger": "Eisenwald-Anomalie",
+    "ita": "Anomalia Foresta d'acciaio",
+    "pol": "Anomalia Żelazny Las",
+    "rus": "Аномалия «Железный лес»",
+    "spa": "Anomalía Bosque de hierro",
+    "ukr": "Аномалія «Залізний ліс»"
   },
-  "st_zat_b7_name": {
-    "eng": "Shevchenko",
-    "fra": "Chevtchenko",
-    "ger": "Schewtschenko",
-    "ita": "Shevchenko",
-    "pol": "Szewczenko",
-    "rus": "«Шевченко»",
-    "spa": "Shevchenko",
-    "ukr": "«Шевченко»"
+  "st_zat_b101_name": {
+    "eng": "Swamp",
+    "fra": "Marais",
+    "ger": "Sumpf",
+    "ita": "Palude",
+    "pol": "Bagno",
+    "rus": "Топь",
+    "spa": "Pantano",
+    "ukr": "Драговина"
+  },
+  "st_zat_b103_name": {
+    "eng": "Substation workshops",
+    "fra": "Ateliers du poste électrique",
+    "ger": "Werkstätten des Umspannwerks",
+    "ita": "Officine delle sotto-stazioni",
+    "pol": "Magazyny podstacji",
+    "rus": "Цеха подстанции",
+    "spa": "Talleres de la subestación",
+    "ukr": "Цехи підстанції"
+  },
+  "st_zat_b104_name": {
+    "eng": "Sawmill",
+    "fra": "Scierie",
+    "ger": "Sägewerk",
+    "ita": "Segheria",
+    "pol": "Tartak",
+    "rus": "Лесопилка",
+    "spa": "Aserradero",
+    "ukr": "Лісопилка"
+  },
+  "st_zat_b106_name": {
+    "eng": "Izumrudnoye",
+    "fra": "Izumrudnoye",
+    "ger": "Isumrudnoje",
+    "ita": "Izumrudnoye",
+    "pol": "Izumrudnoje",
+    "rus": "«Изумрудное»",
+    "spa": "Izumrudnoye",
+    "ukr": "«Смарагдове»"
   }
 }

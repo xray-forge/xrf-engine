@@ -879,6 +879,106 @@
     "spa": "Tienes que esperar al final de la evacuación.",
     "ukr": "Необхідно дочекатися закінчення викиду."
   },
+  "pri_b35_task_envoy_name": {
+    "eng": "One shot: eliminate the messenger",
+    "fra": "Mise à mort : éliminer le messager.",
+    "ger": "Ein Schuss: Boten ausschalten",
+    "ita": "Occasione unica: elimina il messaggero",
+    "pol": "Jeden strzał: wyeliminuj posłańca",
+    "rus": "Один выстрел: ликвидировать посланника",
+    "spa": "Un disparo: elimina al mensajero",
+    "ukr": "Один постріл: ліквідувати посланця"
+  },
+  "pri_b35_task_envoy_text": {
+    "eng": "You must eliminate the messenger. With him dead, the mercenaries won't be able to find the laboratory.",
+    "fra": "Éliminez le messager. Sans lui, les mercenaires ne pourront pas trouver le laboratoire.",
+    "ger": "Sie müssen den Boten eliminieren. Wenn er tot ist, werden die Söldner das Labor nicht finden können.",
+    "ita": "Devi eliminare il messaggero, così i mercenari non potranno trovare il laboratorio.",
+    "pol": "Musisz wyeliminować posłańca. Bez niego najemnicy nie będą w stanie odnaleźć laboratorium.",
+    "rus": "Надо ликвидировать посланника: без него наёмники не смогут обнаружить лабораторию.",
+    "spa": "Debes eliminar al mensajero. Si muere, los mercenarios no podrán encontrar el laboratorio.",
+    "ukr": "Треба ліквідувати посланця: без нього найманці не зможуть знайти лабораторію."
+  },
+  "pri_b35_task_envoy_wait_name": {
+    "eng": "One shot: wait for the client's people",
+    "fra": "Mise à mort : attendre les hommes du client.",
+    "ger": "Ein Schuss: Auf die Männer des Auftraggebers warten",
+    "ita": "Occasione unica: attendi gli uomini del cliente",
+    "pol": "Jeden strzał: poczekaj na ludzi klienta",
+    "rus": "Один выстрел: дождаться появления людей заказчика",
+    "spa": "Un disparo: espera al equipo del cliente",
+    "ukr": "Один постріл: дочекатися появи людей замовника"
+  },
+  "pri_b35_task_envoy_wait_text": {
+    "eng": "Wait for the client's people to show up and kill their leader. With him dead, the mercenaries won't be able to find the laboratory.",
+    "fra": "Attendez les hommes du client et tuez leur chef. Sans lui, les mercenaires ne pourront pas trouver le laboratoire.",
+    "ger": "Warten Sie auf die Männer des Auftraggebers und töten Sie dann ihren Anführer. Wenn er tot ist, werden die Söldner das Labor nicht finden können.",
+    "ita": "Attendi gli uomini del cliente e uccidi il loro leader, così i mercenari non potranno trovare il laboratorio.",
+    "pol": "Poczekaj na ludzi klienta i zabij ich dowódcę. Bez niego najemnicy nie będą w stanie odnaleźć laboratorium.",
+    "rus": "Надо дождаться появления людей заказчика и ликвидировать их лидера. Без него наёмники не смогут обнаружить лабораторию.",
+    "spa": "Espera a que aparezca el equipo del cliente y mata a su líder. Si muere, los mercenarios no podrán encontrar el laboratorio.",
+    "ukr": "Треба дочекатися появи людей замовника і ліквідувати їхнього лідера. Без нього найманці не зможуть знайти лабораторію."
+  },
+  "pri_b35_task_merc_name": {
+    "eng": "One shot: kill the mercenary squad leader",
+    "fra": "Mise à mort : tuer le chef des mercenaires.",
+    "ger": "Ein Schuss: Anführer des Söldnertrupps töten",
+    "ita": "Occasione unica: uccidi il leader della squadra dei mercenari",
+    "pol": "Jeden strzał: zabij dowódcę drużyny najemników",
+    "rus": "Один выстрел: ликвидировать лидера наёмников",
+    "spa": "Un disparo: mata al líder del escuadrón mercenario",
+    "ukr": "Один постріл: ліквідувати лідера найманців"
+  },
+  "pri_b35_task_merc_text": {
+    "eng": "You must kill the mercenary squad leader. With him dead, the mercenaries will be disorganized and not much of a threat.",
+    "fra": "Éliminez le chef des mercenaires. Sans lui, les mercenaires ne pourront pas trouver le laboratoire.",
+    "ger": "Sie müssen den Anführer des Söldnertrupps ausschalten. Wenn er tot ist, werden die Söldner keine große Gefahr mehr darstellen.",
+    "ita": "Devi uccidere il leader della squadra dei mercenari, così i mercenari saranno allo sbando e molto meno pericolosi.",
+    "pol": "Musisz zabić dowódcę drużyny najemników. Bez niego będą zdezorganizowani i niegroźni.",
+    "rus": "Нужно ликвидировать лидера наёмников: без него наёмники утратят сплочённость и будут не так опасны.",
+    "spa": "Debes matar al líder del escuadrón mercenario. Si muere, los mercenarios se desbandarán y no supondrán una amenaza tan grande.",
+    "ukr": "Треба ліквідувати лідера найманців: без нього найманці не матимуть згуртованості, тож стануть не такі небезпечні."
+  },
+  "pri_b35_task_merc_wait_name": {
+    "eng": "One shot: wait for the mercenaries to appear",
+    "fra": "Mise à mort : attendre l'arrivée des mercenaires.",
+    "ger": "Ein Schuss: Auf die Söldner warten",
+    "ita": "Occasione unica: attendi l'arrivo dei mercenari",
+    "pol": "Jeden strzał: poczekaj, aż pojawią się najemnicy",
+    "rus": "Один выстрел: дождаться появления наёмников",
+    "spa": "Un disparo: espera a que aparezcan los mercenarios",
+    "ukr": "Один постріл: дочекатися появи найманців"
+  },
+  "pri_b35_task_merc_wait_text": {
+    "eng": "You must wait for the mercenaries to show up and kill their leader. With him dead, the mercenaries will be disorganized and not much of a threat.",
+    "fra": "Attendez l'arrivée des mercenaires et tuez leur chef. Sans lui, les mercenaires ne pourront pas trouver le laboratoire.",
+    "ger": "Warten Sie auf die Söldner und töten Sie dann ihren Anführer. Wenn er tot ist, werden die Söldner keine große Gefahr mehr darstellen.",
+    "ita": "Attendi i mercenari e uccidi il loro leader, così i mercenari saranno allo sbando e molto meno pericolosi.",
+    "pol": "Musisz poczekać, aż pojawią się najemnicy i zabij ich dowódcę. Bez niego będą zdezorganizowani i niegroźni.",
+    "rus": "Надо дождаться появления наёмников и ликвидировать их лидера: без него наёмники утратят сплочённость и будут не так опасны.",
+    "spa": "Debes esperar a que aparezcan los mercenarios y matar a su líder. Si muere, los mercenarios se desbandarán y no supondrán una amenaza tan grande.",
+    "ukr": "Треба дочекатися появи найманців і ліквідувати їхнього лідера. Без нього найманці не матимуть згуртованості, тож стануть не такі небезпечні."
+  },
+  "pri_b35_task_reward_name": {
+    "eng": "One shot: talk to Kovalsky",
+    "fra": "Mise à mort : parler à Kovalsky.",
+    "ger": "Ein Schuss: Mit Kowalski reden",
+    "ita": "Occasione unica: parla con Kovalsky",
+    "pol": "Jeden strzał: porozmawiaj z Kowalskim",
+    "rus": "Один выстрел: поговорить с Ковальским",
+    "spa": "Un disparo: habla con Kovalsky",
+    "ukr": "Один постріл: поговорити з Ковальським"
+  },
+  "pri_b35_task_reward_text": {
+    "eng": "Report the mission results to Kovalsky.",
+    "fra": "Faites votre rapport à Kovalsky.",
+    "ger": "Berichten Sie Kowalski vom Ausgang der Mission.",
+    "ita": "Aggiorna Kovalsky sull'esito della missione.",
+    "pol": "Złóż raport o wynikach misji Kowalskiemu. ",
+    "rus": "Необходимо сообщить Ковальскому о результатах операции.",
+    "spa": "Informa a Kovalsky del resultado de la misión.",
+    "ukr": "Слід повідомити Ковальському про результати операції."
+  },
   "pri_b305_check_unknown_signal_1_name": {
     "eng": "Unknown: investigate the source of the signal",
     "fra": "Inconnu : enquêter sur la source du signal.",
@@ -1038,105 +1138,5 @@
     "rus": "Нужно воспользоваться лифтом, чтобы попасть в лабораторию Х8, которая находится под зданием КБО «Юбилейный».",
     "spa": "Tienes que usar el ascensor para bajar al laboratorio X8, que está bajo la estación de servicio de Yubileiny.",
     "ukr": "Треба скористатися ліфтом, щоби потрапити до лабораторії Х8, котра знаходиться під будівлею КБО «Ювілейний»."
-  },
-  "pri_b35_task_envoy_name": {
-    "eng": "One shot: eliminate the messenger",
-    "fra": "Mise à mort : éliminer le messager.",
-    "ger": "Ein Schuss: Boten ausschalten",
-    "ita": "Occasione unica: elimina il messaggero",
-    "pol": "Jeden strzał: wyeliminuj posłańca",
-    "rus": "Один выстрел: ликвидировать посланника",
-    "spa": "Un disparo: elimina al mensajero",
-    "ukr": "Один постріл: ліквідувати посланця"
-  },
-  "pri_b35_task_envoy_text": {
-    "eng": "You must eliminate the messenger. With him dead, the mercenaries won't be able to find the laboratory.",
-    "fra": "Éliminez le messager. Sans lui, les mercenaires ne pourront pas trouver le laboratoire.",
-    "ger": "Sie müssen den Boten eliminieren. Wenn er tot ist, werden die Söldner das Labor nicht finden können.",
-    "ita": "Devi eliminare il messaggero, così i mercenari non potranno trovare il laboratorio.",
-    "pol": "Musisz wyeliminować posłańca. Bez niego najemnicy nie będą w stanie odnaleźć laboratorium.",
-    "rus": "Надо ликвидировать посланника: без него наёмники не смогут обнаружить лабораторию.",
-    "spa": "Debes eliminar al mensajero. Si muere, los mercenarios no podrán encontrar el laboratorio.",
-    "ukr": "Треба ліквідувати посланця: без нього найманці не зможуть знайти лабораторію."
-  },
-  "pri_b35_task_envoy_wait_name": {
-    "eng": "One shot: wait for the client's people",
-    "fra": "Mise à mort : attendre les hommes du client.",
-    "ger": "Ein Schuss: Auf die Männer des Auftraggebers warten",
-    "ita": "Occasione unica: attendi gli uomini del cliente",
-    "pol": "Jeden strzał: poczekaj na ludzi klienta",
-    "rus": "Один выстрел: дождаться появления людей заказчика",
-    "spa": "Un disparo: espera al equipo del cliente",
-    "ukr": "Один постріл: дочекатися появи людей замовника"
-  },
-  "pri_b35_task_envoy_wait_text": {
-    "eng": "Wait for the client's people to show up and kill their leader. With him dead, the mercenaries won't be able to find the laboratory.",
-    "fra": "Attendez les hommes du client et tuez leur chef. Sans lui, les mercenaires ne pourront pas trouver le laboratoire.",
-    "ger": "Warten Sie auf die Männer des Auftraggebers und töten Sie dann ihren Anführer. Wenn er tot ist, werden die Söldner das Labor nicht finden können.",
-    "ita": "Attendi gli uomini del cliente e uccidi il loro leader, così i mercenari non potranno trovare il laboratorio.",
-    "pol": "Poczekaj na ludzi klienta i zabij ich dowódcę. Bez niego najemnicy nie będą w stanie odnaleźć laboratorium.",
-    "rus": "Надо дождаться появления людей заказчика и ликвидировать их лидера. Без него наёмники не смогут обнаружить лабораторию.",
-    "spa": "Espera a que aparezca el equipo del cliente y mata a su líder. Si muere, los mercenarios no podrán encontrar el laboratorio.",
-    "ukr": "Треба дочекатися появи людей замовника і ліквідувати їхнього лідера. Без нього найманці не зможуть знайти лабораторію."
-  },
-  "pri_b35_task_merc_name": {
-    "eng": "One shot: kill the mercenary squad leader",
-    "fra": "Mise à mort : tuer le chef des mercenaires.",
-    "ger": "Ein Schuss: Anführer des Söldnertrupps töten",
-    "ita": "Occasione unica: uccidi il leader della squadra dei mercenari",
-    "pol": "Jeden strzał: zabij dowódcę drużyny najemników",
-    "rus": "Один выстрел: ликвидировать лидера наёмников",
-    "spa": "Un disparo: mata al líder del escuadrón mercenario",
-    "ukr": "Один постріл: ліквідувати лідера найманців"
-  },
-  "pri_b35_task_merc_text": {
-    "eng": "You must kill the mercenary squad leader. With him dead, the mercenaries will be disorganized and not much of a threat.",
-    "fra": "Éliminez le chef des mercenaires. Sans lui, les mercenaires ne pourront pas trouver le laboratoire.",
-    "ger": "Sie müssen den Anführer des Söldnertrupps ausschalten. Wenn er tot ist, werden die Söldner keine große Gefahr mehr darstellen.",
-    "ita": "Devi uccidere il leader della squadra dei mercenari, così i mercenari saranno allo sbando e molto meno pericolosi.",
-    "pol": "Musisz zabić dowódcę drużyny najemników. Bez niego będą zdezorganizowani i niegroźni.",
-    "rus": "Нужно ликвидировать лидера наёмников: без него наёмники утратят сплочённость и будут не так опасны.",
-    "spa": "Debes matar al líder del escuadrón mercenario. Si muere, los mercenarios se desbandarán y no supondrán una amenaza tan grande.",
-    "ukr": "Треба ліквідувати лідера найманців: без нього найманці не матимуть згуртованості, тож стануть не такі небезпечні."
-  },
-  "pri_b35_task_merc_wait_name": {
-    "eng": "One shot: wait for the mercenaries to appear",
-    "fra": "Mise à mort : attendre l'arrivée des mercenaires.",
-    "ger": "Ein Schuss: Auf die Söldner warten",
-    "ita": "Occasione unica: attendi l'arrivo dei mercenari",
-    "pol": "Jeden strzał: poczekaj, aż pojawią się najemnicy",
-    "rus": "Один выстрел: дождаться появления наёмников",
-    "spa": "Un disparo: espera a que aparezcan los mercenarios",
-    "ukr": "Один постріл: дочекатися появи найманців"
-  },
-  "pri_b35_task_merc_wait_text": {
-    "eng": "You must wait for the mercenaries to show up and kill their leader. With him dead, the mercenaries will be disorganized and not much of a threat.",
-    "fra": "Attendez l'arrivée des mercenaires et tuez leur chef. Sans lui, les mercenaires ne pourront pas trouver le laboratoire.",
-    "ger": "Warten Sie auf die Söldner und töten Sie dann ihren Anführer. Wenn er tot ist, werden die Söldner keine große Gefahr mehr darstellen.",
-    "ita": "Attendi i mercenari e uccidi il loro leader, così i mercenari saranno allo sbando e molto meno pericolosi.",
-    "pol": "Musisz poczekać, aż pojawią się najemnicy i zabij ich dowódcę. Bez niego będą zdezorganizowani i niegroźni.",
-    "rus": "Надо дождаться появления наёмников и ликвидировать их лидера: без него наёмники утратят сплочённость и будут не так опасны.",
-    "spa": "Debes esperar a que aparezcan los mercenarios y matar a su líder. Si muere, los mercenarios se desbandarán y no supondrán una amenaza tan grande.",
-    "ukr": "Треба дочекатися появи найманців і ліквідувати їхнього лідера. Без нього найманці не матимуть згуртованості, тож стануть не такі небезпечні."
-  },
-  "pri_b35_task_reward_name": {
-    "eng": "One shot: talk to Kovalsky",
-    "fra": "Mise à mort : parler à Kovalsky.",
-    "ger": "Ein Schuss: Mit Kowalski reden",
-    "ita": "Occasione unica: parla con Kovalsky",
-    "pol": "Jeden strzał: porozmawiaj z Kowalskim",
-    "rus": "Один выстрел: поговорить с Ковальским",
-    "spa": "Un disparo: habla con Kovalsky",
-    "ukr": "Один постріл: поговорити з Ковальським"
-  },
-  "pri_b35_task_reward_text": {
-    "eng": "Report the mission results to Kovalsky.",
-    "fra": "Faites votre rapport à Kovalsky.",
-    "ger": "Berichten Sie Kowalski vom Ausgang der Mission.",
-    "ita": "Aggiorna Kovalsky sull'esito della missione.",
-    "pol": "Złóż raport o wynikach misji Kowalskiemu. ",
-    "rus": "Необходимо сообщить Ковальскому о результатах операции.",
-    "spa": "Informa a Kovalsky del resultado de la misión.",
-    "ukr": "Слід повідомити Ковальському про результати операції."
   }
 }
