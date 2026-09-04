@@ -7,6 +7,10 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+env:
+  npm_config_audit: "false"
+  npm_config_fund: "false"
+
 jobs:
   test:
     runs-on: ubuntu-latest
