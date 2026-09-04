@@ -83,7 +83,7 @@ export async function packGame(parameters: IPackParameters): Promise<void> {
 
       if (isCompressionRequired) {
         log.info("Starting assets DB compress", "\n");
-        await compress({ clean: true, verbose: parameters.verbose, include: "all" });
+        compress({ clean: true, verbose: parameters.verbose, include: "all" });
       } else {
         log.info("Skip compression step");
       }

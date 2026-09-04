@@ -4,18 +4,18 @@ import * as path from "node:path";
 import { blue, blueBright } from "chalk";
 
 import { GAME_DATA_UI_DIR, RESOURCES_DIR, XRF_UTILS_PATH } from "#/globals";
-import { IIconsCommandParameters } from "#/icons/run";
+import { ISpritesCommandParameters } from "#/sprites/run";
 import { NodeLogger } from "#/utils/logging";
 import { TimeTracker } from "#/utils/timing";
 
 const log: NodeLogger = NodeLogger.forFile(__filename);
 
-export function unpackTextureDescriptions(parameters: IIconsCommandParameters): void {
-  log.info(blueBright("Unpack texture descriptions"), parameters);
+export function unpackDescriptionSprites(parameters: ISpritesCommandParameters): void {
+  log.info(blueBright("Unpack description sprites"), parameters);
 
   const timeTracker: TimeTracker = new TimeTracker().start();
 
-  const command: string = `${XRF_UTILS_PATH} texture unpack-texture-description --description ${path.resolve(
+  const command: string = `${XRF_UTILS_PATH} sprite unpack-description --description ${path.resolve(
     GAME_DATA_UI_DIR,
     "textures_descr",
     parameters.description ?? ""
@@ -30,5 +30,9 @@ export function unpackTextureDescriptions(parameters: IIconsCommandParameters): 
     stdio: "inherit",
   });
 
-  log.info("Successfully executed pack descriptions command, took:", timeTracker.end().getDuration() / 1000, "sec");
+  log.info(
+    "Successfully executed unpack description sprites command, took:",
+    timeTracker.end().getDuration() / 1000,
+    "sec"
+  );
 }

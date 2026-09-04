@@ -18,7 +18,6 @@ installation use [`config.json`](config.json); review its paths before using `li
 - [`compress`](compress/README.md) compresses the built `gamedata` into archives.
 - [`engine`](engine/README.md) selects, inspects, and restores bundled engine variants.
 - [`format`](format/README.md) formats LTX files.
-- [`icons`](icons/README.md) packs and unpacks equipment and UI icon sprites.
 - [`link`](link/README.md) creates and removes development junctions for the game, `gamedata`, and logs.
 - [`logs`](logs/README.md) prints the tail of the linked engine log.
 - [`open`](open/README.md) opens the configured game or project directory in the operating system file manager.
@@ -26,6 +25,7 @@ installation use [`config.json`](config.json); review its paths before using `li
 - [`parse`](parse/README.md) writes a directory tree as JSON.
 - [`particles`](particles/README.md) packs and unpacks `particles.xr` files.
 - [`spawn`](spawn/README.md) unpacks ALife spawn files.
+- [`sprites`](sprites/README.md) packs and unpacks the equipment sprite and UI description sprites.
 - [`start`](start/README.md) launches the configured game executable.
 - [`test`](test/README.md) runs the Jest test suite.
 - [`utils`](utils/README.md) contains shared implementation helpers; it has no standalone command.

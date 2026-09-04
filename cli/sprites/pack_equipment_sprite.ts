@@ -4,7 +4,7 @@ import * as path from "node:path";
 import { blue, blueBright } from "chalk";
 
 import { GAME_DATA_LTX_CONFIGS_DIR, RESOURCES_DIR, XRF_UTILS_PATH } from "#/globals";
-import { IIconsCommandParameters } from "#/icons/run";
+import { ISpritesCommandParameters } from "#/sprites/run";
 import { NodeLogger } from "#/utils/logging";
 import { TimeTracker } from "#/utils/timing";
 
@@ -13,12 +13,12 @@ const log: NodeLogger = NodeLogger.forFile(__filename);
 /**
  * Assemble DDS sprite files based on many small DDS elements.
  */
-export async function packEquipmentIcons(parameters: IIconsCommandParameters): Promise<void> {
-  log.info(blueBright("Unpack equipment icons:"), parameters);
+export async function packEquipmentSprite(parameters: ISpritesCommandParameters): Promise<void> {
+  log.info(blueBright("Pack equipment sprite:"), parameters);
 
   const timeTracker: TimeTracker = new TimeTracker().start();
 
-  const command: string = `${XRF_UTILS_PATH} texture pack-equipment-icons --system-ltx ${path.resolve(
+  const command: string = `${XRF_UTILS_PATH} sprite pack-equipment --system-ltx ${path.resolve(
     GAME_DATA_LTX_CONFIGS_DIR,
     "system.ltx"
   )} --source ${path.resolve(RESOURCES_DIR, "textures_unpacked", "ui", "ui_icon_equipment")} --output ${path.resolve(
@@ -34,5 +34,5 @@ export async function packEquipmentIcons(parameters: IIconsCommandParameters): P
     stdio: "inherit",
   });
 
-  log.info("Successfully executed pack icons command, took:", timeTracker.end().getDuration() / 1000, "sec");
+  log.info("Successfully executed pack equipment sprite command, took:", timeTracker.end().getDuration() / 1000, "sec");
 }
