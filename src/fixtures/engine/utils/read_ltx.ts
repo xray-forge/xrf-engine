@@ -39,3 +39,13 @@ export async function readInGameTestLtx(file: string): Promise<string> {
 export function readInGameTestLtxFromTest(...parts: Array<string>): Promise<string> {
   return readInGameTestLtx(resolveInGameTestPath(...parts));
 }
+
+/**
+ * Read an LTX file relative to the test currently executed by Jest.
+ *
+ * @param content - LTX file raw text content.
+ * @returns Trimmed file without empty lines.
+ */
+export function trimInGameTestLtxFromTest(content: string): string {
+  return content.split("\n").filter(Boolean).join("\n") + "\n";
+}

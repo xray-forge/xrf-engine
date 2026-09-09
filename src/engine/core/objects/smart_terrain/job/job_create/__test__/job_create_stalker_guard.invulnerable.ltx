@@ -1,11 +1,13 @@
 [logic@test_smart_guard_1_walk]
 active = walker@test_smart_guard_1_walk
+
 [walker@test_smart_guard_1_walk]
 meet = meet@generic_lager
 path_walk = guard_1_walk
 path_look = guard_1_look
 invulnerable = {=npc_in_zone(smart.safe_restr)} true
 out_restr = test_defend_restrictor
+
 [walker1@test_smart_guard_1_walk]
 meet = meet@generic_lager
 path_walk = guard_1_walk
@@ -15,18 +17,22 @@ on_info = {!is_obj_on_job(logic@follower_test_smart_guard_1_walk:3)} walker@test
 on_info2 = {=distance_to_obj_on_job_le(logic@follower_test_smart_guard_1_walk:3)} remark@test_smart_guard_1_walk
 invulnerable = {=npc_in_zone(smart.safe_restr)} true
 out_restr = test_defend_restrictor
+
 [remark@test_smart_guard_1_walk]
 anim = wait_na
 target = logic@follower_test_smart_guard_1_walk
 out_restr = test_defend_restrictor
+
 [logic@follower_test_smart_guard_1_walk]
 active = walker@follow_test_smart_guard_1_walk
+
 [walker@follow_test_smart_guard_1_walk]
 meet = meet@generic_lager
 path_walk = guard_1_walk
 path_look = guard_1_look
 on_info = {=distance_to_obj_on_job_le(logic@test_smart_guard_1_walk:3)} remark@follower_test_smart_guard_1_walk
 out_restr = test_defend_restrictor
+
 [remark@follower_test_smart_guard_1_walk]
 anim = wait_na
 target = logic@test_smart_guard_1_walk

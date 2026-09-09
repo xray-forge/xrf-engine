@@ -5,7 +5,7 @@ import { EJobPathType, EJobType } from "@/engine/core/objects/smart_terrain/job"
 import { createStalkerSniperJobs } from "@/engine/core/objects/smart_terrain/job/job_create/job_create_stalker_sniper";
 import { jobPreconditionSniper } from "@/engine/core/objects/smart_terrain/job/job_precondition";
 import { StringBuilder } from "@/engine/core/utils/string";
-import { MockSmartTerrain, readInGameTestLtxFromTest } from "@/fixtures/engine";
+import { MockSmartTerrain, readInGameTestLtxFromTest, trimInGameTestLtxFromTest } from "@/fixtures/engine";
 
 describe("jobs_general should correctly generate stalker patrol jobs", () => {
   it("should correctly generate default patrol jobs with no sniper patrols", async () => {
@@ -18,7 +18,9 @@ describe("jobs_general should correctly generate stalker patrol jobs", () => {
   });
 
   it("should correctly generate default sniper jobs with test smart", async () => {
-    const jobsLtx: string = await readInGameTestLtxFromTest("__test__", "job_create_stalker_sniper.default.ltx");
+    const jobsLtx: string = trimInGameTestLtxFromTest(
+      await readInGameTestLtxFromTest("__test__", "job_create_stalker_sniper.default.ltx")
+    );
 
     const terrain: SmartTerrain = MockSmartTerrain.mock("test_smart");
     const [jobs, builder] = createStalkerSniperJobs(terrain, new LuaTable(), new StringBuilder());
@@ -40,7 +42,9 @@ describe("jobs_general should correctly generate stalker patrol jobs", () => {
   });
 
   it("should correctly generate default sniper jobs with restrictor", async () => {
-    const jobsLtx: string = await readInGameTestLtxFromTest("__test__", "job_create_stalker_sniper.restrictor.ltx");
+    const jobsLtx: string = trimInGameTestLtxFromTest(
+      await readInGameTestLtxFromTest("__test__", "job_create_stalker_sniper.restrictor.ltx")
+    );
     const terrain: SmartTerrain = MockSmartTerrain.mock("test_smart");
 
     terrain.defendRestrictor = "test_defend_restrictor";

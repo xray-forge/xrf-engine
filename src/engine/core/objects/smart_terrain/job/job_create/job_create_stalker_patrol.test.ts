@@ -9,7 +9,7 @@ import { EJobPathType, EJobType } from "@/engine/core/objects/smart_terrain/job"
 import { createStalkerPatrolJobs } from "@/engine/core/objects/smart_terrain/job/job_create/job_create_stalker_patrol";
 import { jobPreconditionPatrol } from "@/engine/core/objects/smart_terrain/job/job_precondition";
 import { StringBuilder } from "@/engine/core/utils/string";
-import { MockSmartTerrain, readInGameTestLtxFromTest } from "@/fixtures/engine";
+import { MockSmartTerrain, readInGameTestLtxFromTest, trimInGameTestLtxFromTest } from "@/fixtures/engine";
 
 describe("should correctly generate stalker patrol jobs", () => {
   it("should correctly generate default patrol jobs with no patrols", async () => {
@@ -21,7 +21,9 @@ describe("should correctly generate stalker patrol jobs", () => {
   });
 
   it("should correctly generate default patrol jobs with test smart", async () => {
-    const jobsLtx: string = await readInGameTestLtxFromTest("__test__", "job_create_stalker_patrol.default.ltx");
+    const jobsLtx: string = trimInGameTestLtxFromTest(
+      await readInGameTestLtxFromTest("__test__", "job_create_stalker_patrol.default.ltx")
+    );
 
     const terrain: SmartTerrain = MockSmartTerrain.mock("test_smart");
     const [jobs, builder] = createStalkerPatrolJobs(terrain, new LuaTable(), new StringBuilder());
@@ -43,7 +45,9 @@ describe("should correctly generate stalker patrol jobs", () => {
   });
 
   it("should correctly generate default patrol jobs with restrictor", async () => {
-    const jobsLtx: string = await readInGameTestLtxFromTest("__test__", "job_create_stalker_patrol.restrictor.ltx");
+    const jobsLtx: string = trimInGameTestLtxFromTest(
+      await readInGameTestLtxFromTest("__test__", "job_create_stalker_patrol.restrictor.ltx")
+    );
 
     const terrain: SmartTerrain = MockSmartTerrain.mock("test_smart");
 
@@ -68,7 +72,9 @@ describe("should correctly generate stalker patrol jobs", () => {
   });
 
   it("should correctly generate default patrol jobs with ignore restrictor", async () => {
-    const jobsLtx: string = await readInGameTestLtxFromTest("__test__", "job_create_stalker_patrol.ignore.ltx");
+    const jobsLtx: string = trimInGameTestLtxFromTest(
+      await readInGameTestLtxFromTest("__test__", "job_create_stalker_patrol.ignore.ltx")
+    );
 
     const terrain: SmartTerrain = MockSmartTerrain.mock("test_smart");
 
@@ -102,7 +108,9 @@ describe("should correctly generate stalker patrol jobs", () => {
   });
 
   it("should correctly generate default patrol jobs with invulnerable state", async () => {
-    const jobsLtx: string = await readInGameTestLtxFromTest("__test__", "job_create_stalker_patrol.invulnerable.ltx");
+    const jobsLtx: string = trimInGameTestLtxFromTest(
+      await readInGameTestLtxFromTest("__test__", "job_create_stalker_patrol.invulnerable.ltx")
+    );
 
     const terrain: SmartTerrain = MockSmartTerrain.mock("test_smart");
 

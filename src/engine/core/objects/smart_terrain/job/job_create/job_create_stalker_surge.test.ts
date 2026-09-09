@@ -9,7 +9,7 @@ import { EJobPathType, EJobType } from "@/engine/core/objects/smart_terrain/job"
 import { createStalkerSurgeJobs } from "@/engine/core/objects/smart_terrain/job/job_create/job_create_stalker_surge";
 import { jobPreconditionSurge } from "@/engine/core/objects/smart_terrain/job/job_precondition";
 import { StringBuilder } from "@/engine/core/utils/string";
-import { MockSmartTerrain, readInGameTestLtxFromTest } from "@/fixtures/engine";
+import { MockSmartTerrain, readInGameTestLtxFromTest, trimInGameTestLtxFromTest } from "@/fixtures/engine";
 
 describe("jobs_general should correctly generate stalkers surge jobs", () => {
   it("should correctly generate surge jobs for stalkers when no patrols exist", async () => {
@@ -22,7 +22,9 @@ describe("jobs_general should correctly generate stalkers surge jobs", () => {
   });
 
   it("should correctly generate surge jobs for stalkers when patrols exist", async () => {
-    const surgeJobsLtx: string = await readInGameTestLtxFromTest("__test__", "job_create_stalker_surge.ltx");
+    const surgeJobsLtx: string = trimInGameTestLtxFromTest(
+      await readInGameTestLtxFromTest("__test__", "job_create_stalker_surge.ltx")
+    );
     const terrain: SmartTerrain = MockSmartTerrain.mock("test_smart");
 
     terrain.defendRestrictor = null;
@@ -44,9 +46,8 @@ describe("jobs_general should correctly generate stalkers surge jobs", () => {
   });
 
   it("should correctly generate surge jobs for stalkers when patrols exist with restrictors", async () => {
-    const surgeJobsLtx: string = await readInGameTestLtxFromTest(
-      "__test__",
-      "job_create_stalker_surge.restrictors.ltx"
+    const surgeJobsLtx: string = trimInGameTestLtxFromTest(
+      await readInGameTestLtxFromTest("__test__", "job_create_stalker_surge.restrictors.ltx")
     );
     const terrain: SmartTerrain = MockSmartTerrain.mock("test_smart");
 
@@ -70,7 +71,9 @@ describe("jobs_general should correctly generate stalkers surge jobs", () => {
   });
 
   it("should correctly generate surge jobs for stalkers when patrols exist, when in restrictor", async () => {
-    const surgeJobsLtx: string = await readInGameTestLtxFromTest("__test__", "job_create_stalker_surge.ignore.ltx");
+    const surgeJobsLtx: string = trimInGameTestLtxFromTest(
+      await readInGameTestLtxFromTest("__test__", "job_create_stalker_surge.ignore.ltx")
+    );
     const terrain: SmartTerrain = MockSmartTerrain.mock("test_smart");
     const object: GameObject = MockGameObject.mock({ name: "some_restrictor" });
 

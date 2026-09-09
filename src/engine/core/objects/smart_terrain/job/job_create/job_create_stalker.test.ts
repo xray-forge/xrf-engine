@@ -19,11 +19,18 @@ import {
   jobPreconditionWalker,
 } from "@/engine/core/objects/smart_terrain/job/job_precondition";
 import { StringBuilder } from "@/engine/core/utils/string";
-import { MockSmartCover, MockSmartTerrain, readInGameTestLtxFromTest } from "@/fixtures/engine";
+import {
+  MockSmartCover,
+  MockSmartTerrain,
+  readInGameTestLtxFromTest,
+  trimInGameTestLtxFromTest,
+} from "@/fixtures/engine";
 
 describe("should correctly generate stalker jobs", () => {
   it("should correctly generate default stalker jobs", async () => {
-    const defaultJobsLtx: string = await readInGameTestLtxFromTest("__test__", "job_create_stalker.default.ltx");
+    const defaultJobsLtx: string = trimInGameTestLtxFromTest(
+      await readInGameTestLtxFromTest("__test__", "job_create_stalker.default.ltx")
+    );
 
     const terrain: SmartTerrain = MockSmartTerrain.mock("test_smart");
     const cover: SmartCover = MockSmartCover.mock("test_smart_animpoint_1");
@@ -171,7 +178,9 @@ describe("should correctly generate stalker jobs", () => {
   });
 
   it("should correctly generate default stalker jobs for empty smart", async () => {
-    const defaultEmptyJobsLtx: string = await readInGameTestLtxFromTest("__test__", "job_create_stalker.empty.ltx");
+    const defaultEmptyJobsLtx: string = trimInGameTestLtxFromTest(
+      await readInGameTestLtxFromTest("__test__", "job_create_stalker.empty.ltx")
+    );
 
     const terrain: SmartTerrain = MockSmartTerrain.mock("test_smart_empty");
     const [jobs, builder] = createStalkerJobs(terrain, new LuaTable(), new StringBuilder());

@@ -5,11 +5,13 @@ import { SmartTerrain, SmartTerrainControl } from "@/engine/core/objects/smart_t
 import { EJobPathType, EJobType } from "@/engine/core/objects/smart_terrain/job";
 import { createStalkerPointJobs } from "@/engine/core/objects/smart_terrain/job/job_create/job_create_stalker_point";
 import { StringBuilder } from "@/engine/core/utils/string";
-import { MockSmartTerrain, readInGameTestLtxFromTest } from "@/fixtures/engine";
+import { MockSmartTerrain, readInGameTestLtxFromTest, trimInGameTestLtxFromTest } from "@/fixtures/engine";
 
 describe("should correctly generate stalkers point jobs", () => {
   it("should correctly generate point jobs for stalkers with empty smarts", async () => {
-    const pointJobsLtx: string = await readInGameTestLtxFromTest("__test__", "job_create_stalker_point.empty.ltx");
+    const pointJobsLtx: string = trimInGameTestLtxFromTest(
+      await readInGameTestLtxFromTest("__test__", "job_create_stalker_point.empty.ltx")
+    );
 
     const terrain: SmartTerrain = MockSmartTerrain.mock("empty_smart");
     const [jobs, builder] = createStalkerPointJobs(terrain, new LuaTable(), new StringBuilder());
@@ -26,7 +28,9 @@ describe("should correctly generate stalkers point jobs", () => {
     );
   });
   it("should correctly generate point jobs for stalkers", async () => {
-    const pointJobsLtx: string = await readInGameTestLtxFromTest("__test__", "job_create_stalker_point.default.ltx");
+    const pointJobsLtx: string = trimInGameTestLtxFromTest(
+      await readInGameTestLtxFromTest("__test__", "job_create_stalker_point.default.ltx")
+    );
 
     const terrain: SmartTerrain = MockSmartTerrain.mock("test_smart");
     const [jobs, builder] = createStalkerPointJobs(terrain, new LuaTable(), new StringBuilder());
@@ -44,9 +48,8 @@ describe("should correctly generate stalkers point jobs", () => {
   });
 
   it("should correctly generate point jobs for stalkers with extended smart terrains", async () => {
-    const pointJobsLtx: string = await readInGameTestLtxFromTest(
-      "__test__",
-      "job_create_stalker_point.restrictors.ltx"
+    const pointJobsLtx: string = trimInGameTestLtxFromTest(
+      await readInGameTestLtxFromTest("__test__", "job_create_stalker_point.restrictors.ltx")
     );
 
     const terrain: SmartTerrain = MockSmartTerrain.mock("test_smart");

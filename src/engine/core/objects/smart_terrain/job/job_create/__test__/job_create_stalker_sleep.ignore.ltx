@@ -1,12 +1,15 @@
 [logic@test_smart_sleep_1]
 active = sleeper@test_smart_sleep_1
+
 [sleeper@test_smart_sleep_1]
 path_main = sleep_1
 out_restr = def_restrictor_test
 combat_ignore_cond = {=npc_in_zone(smart.base_on_actor_control.ignore_zone)} true
 combat_ignore_keep_when_attacked = true
+
 [logic@test_smart_sleep_2]
 active = sleeper@test_smart_sleep_2
+
 [sleeper@test_smart_sleep_2]
 path_main = sleep_2
 out_restr = def_restrictor_test

@@ -8,7 +8,7 @@ import { EJobPathType, EJobType } from "@/engine/core/objects/smart_terrain/job"
 import { createStalkerCollectorJobs } from "@/engine/core/objects/smart_terrain/job/job_create/job_create_stalker_collector";
 import { jobPreconditionCollector } from "@/engine/core/objects/smart_terrain/job/job_precondition";
 import { StringBuilder } from "@/engine/core/utils/string";
-import { MockSmartTerrain, readInGameTestLtxFromTest } from "@/fixtures/engine";
+import { MockSmartTerrain, readInGameTestLtxFromTest, trimInGameTestLtxFromTest } from "@/fixtures/engine";
 
 describe("should correctly generate stalker collector jobs", () => {
   it("should correctly generate default collector jobs with no collector patrols", () => {
@@ -20,7 +20,9 @@ describe("should correctly generate stalker collector jobs", () => {
   });
 
   it("should correctly generate default collector jobs with test smart", async () => {
-    const jobsLtx: string = await readInGameTestLtxFromTest("__test__", "job_create_stalker_collector.default.ltx");
+    const jobsLtx: string = trimInGameTestLtxFromTest(
+      await readInGameTestLtxFromTest("__test__", "job_create_stalker_collector.default.ltx")
+    );
 
     const terrain: SmartTerrain = MockSmartTerrain.mock("test_smart");
     const [jobs, builder] = createStalkerCollectorJobs(terrain, new LuaTable(), new StringBuilder());
@@ -40,7 +42,9 @@ describe("should correctly generate stalker collector jobs", () => {
   });
 
   it("should correctly generate default collector jobs with restrictor", async () => {
-    const jobsLtx: string = await readInGameTestLtxFromTest("__test__", "job_create_stalker_collector.restrictor.ltx");
+    const jobsLtx: string = trimInGameTestLtxFromTest(
+      await readInGameTestLtxFromTest("__test__", "job_create_stalker_collector.restrictor.ltx")
+    );
 
     const terrain: SmartTerrain = MockSmartTerrain.mock("test_smart");
 
@@ -63,7 +67,9 @@ describe("should correctly generate stalker collector jobs", () => {
   });
 
   it("should correctly generate default collector jobs with ignore restrictor", async () => {
-    const jobsLtx: string = await readInGameTestLtxFromTest("__test__", "job_create_stalker_collector.ignore.ltx");
+    const jobsLtx: string = trimInGameTestLtxFromTest(
+      await readInGameTestLtxFromTest("__test__", "job_create_stalker_collector.ignore.ltx")
+    );
 
     const terrain: SmartTerrain = MockSmartTerrain.mock("test_smart");
 
@@ -93,9 +99,8 @@ describe("should correctly generate stalker collector jobs", () => {
   });
 
   it("should correctly generate default collector jobs with invulnerable state", async () => {
-    const jobsLtx: string = await readInGameTestLtxFromTest(
-      "__test__",
-      "job_create_stalker_collector.invulnerable.ltx"
+    const jobsLtx: string = trimInGameTestLtxFromTest(
+      await readInGameTestLtxFromTest("__test__", "job_create_stalker_collector.invulnerable.ltx")
     );
 
     const terrain: SmartTerrain = MockSmartTerrain.mock("test_smart");

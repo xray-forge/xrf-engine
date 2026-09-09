@@ -19,7 +19,12 @@ import {
   jobPreconditionWalker,
 } from "@/engine/core/objects/smart_terrain/job/job_precondition";
 import { EJobPathType, EJobType } from "@/engine/core/objects/smart_terrain/job/job_types";
-import { MockSmartCover, MockSmartTerrain, readInGameTestLtxFromTest } from "@/fixtures/engine";
+import {
+  MockSmartCover,
+  MockSmartTerrain,
+  readInGameTestLtxFromTest,
+  trimInGameTestLtxFromTest,
+} from "@/fixtures/engine";
 
 function getSmartTerrainTaskDetails(): AnyObject {
   return {
@@ -37,7 +42,9 @@ describe("jobs_create", () => {
   });
 
   it("should correctly generate default jobs", async () => {
-    const defaultJobsLtx: string = await readInGameTestLtxFromTest("__test__", "job_create.default.ltx");
+    const defaultJobsLtx: string = trimInGameTestLtxFromTest(
+      await readInGameTestLtxFromTest("__test__", "job_create.default.ltx")
+    );
 
     const terrain: SmartTerrain = MockSmartTerrain.mock("test_smart");
     const cover: SmartCover = MockSmartCover.mock("test_smart_animpoint_1");
@@ -222,7 +229,9 @@ describe("jobs_create", () => {
   });
 
   it("should correctly generate default jobs for empty smarts", async () => {
-    const emptyJobsLtx: string = await readInGameTestLtxFromTest("__test__", "job_create.empty.ltx");
+    const emptyJobsLtx: string = trimInGameTestLtxFromTest(
+      await readInGameTestLtxFromTest("__test__", "job_create.empty.ltx")
+    );
     const terrain: SmartTerrain = MockSmartTerrain.mock("test_smart_empty");
 
     terrain.on_register();
