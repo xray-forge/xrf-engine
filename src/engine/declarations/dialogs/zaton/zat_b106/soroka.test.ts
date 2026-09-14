@@ -9,6 +9,7 @@ import { infoPortions } from "@/engine/constants/info_portions";
 import { weapons } from "@/engine/constants/items/weapons";
 import { registry } from "@/engine/core/database";
 import { TreasureManager } from "@/engine/core/managers/treasures";
+import { giveInfoPortion } from "@/engine/core/utils/info_portion";
 import { giveMoneyToActor, transferItemsToActor } from "@/engine/core/utils/reward";
 import { callBinding, mockRegisteredActor, resetRegistry } from "@/fixtures/engine";
 
@@ -101,7 +102,7 @@ describe("zat_b106_soroka_reward", () => {
     ]) {
       mockActorWith([]);
       resetFunctionMock(giveMoneyToActor);
-      registry.actor.give_info_portion(portion);
+      giveInfoPortion(portion);
 
       callDialogsBinding("zat_b106_soroka_reward");
 
@@ -136,7 +137,7 @@ describe("zat_b106_soroka_gone", () => {
       infoPortions.jup_b25_flint_blame_done_to_freedom,
     ]) {
       mockActorWith([]);
-      registry.actor.give_info_portion(portion);
+      giveInfoPortion(portion);
       expect(callDialogsBinding("zat_b106_soroka_gone")).toBe(true);
     }
   });
@@ -145,7 +146,7 @@ describe("zat_b106_soroka_not_gone", () => {
   it("should invert the Flint blame outcome", () => {
     expect(callDialogsBinding("zat_b106_soroka_not_gone", [registry.actor, MockGameObject.mock()])).toBe(true);
 
-    registry.actor.give_info_portion(infoPortions.jup_b25_flint_blame_done_to_duty);
+    giveInfoPortion(infoPortions.jup_b25_flint_blame_done_to_duty);
     expect(callDialogsBinding("zat_b106_soroka_not_gone", [registry.actor, MockGameObject.mock()])).toBe(false);
   });
 });
