@@ -258,7 +258,7 @@ describe("ActionSmartCoverUse", () => {
   });
 
   it("should correctly check smart cover target with path", () => {
-   mockRegisteredActor();
+    mockRegisteredActor();
 
     const object: GameObject = MockGameObject.mock();
     const state: ISchemeSmartCoverState = mockSchemeState<ISchemeSmartCoverState>(EScheme.SMARTCOVER, {});
