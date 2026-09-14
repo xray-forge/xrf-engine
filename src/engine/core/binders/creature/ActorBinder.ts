@@ -1,6 +1,6 @@
 import { callback, level, LuabindClass, object_binder, time_global } from "xray16";
 import { GameObject, GameTask, NetPacket, NetReader, ServerActorObject, TTaskState } from "xray16/alias";
-import { ACTOR_ID, AnyObject, TCount, TDuration, TName, TSection, TTimestamp } from "xray16/lib";
+import { ACTOR_ID, TCount, TDuration, TName, TSection, TTimestamp } from "xray16/lib";
 import { $filename } from "xray16/macros";
 
 import {
@@ -192,14 +192,10 @@ export class ActorBinder extends object_binder {
       updateInfoPortionCache(info, true);
       eventsManager.emitEvent(EGameEvent.ACTOR_INFO_ADDED, object, info);
     });
-    // Todo: add `inventory_info_removed` to xray16 package typings.
-    object.set_callback(
-      (callback as unknown as AnyObject).inventory_info_removed as typeof callback.inventory_info,
-      (object: GameObject, info: string) => {
-        updateInfoPortionCache(info, false);
-        eventsManager.emitEvent(EGameEvent.ACTOR_INFO_REMOVED, object, info);
-      }
-    );
+    object.set_callback(callback.inventory_info_removed, (object: GameObject, info: string) => {
+      updateInfoPortionCache(info, false);
+      eventsManager.emitEvent(EGameEvent.ACTOR_INFO_REMOVED, object, info);
+    });
     object.set_callback(callback.take_item_from_box, (box: GameObject, item: GameObject) => {
       eventsManager.emitEvent(EGameEvent.ACTOR_TAKE_BOX_ITEM, box, item);
     });
@@ -235,11 +231,7 @@ export class ActorBinder extends object_binder {
     const object: GameObject = this.object;
 
     object.set_callback(callback.inventory_info, null);
-    // todo: Simplify type casting after OpenXray update.
-    object.set_callback(
-      (callback as unknown as AnyObject).inventory_info_removed as typeof callback.inventory_info,
-      null
-    );
+    object.set_callback(callback.inventory_info_removed, null);
     object.set_callback(callback.article_info, null);
     object.set_callback(callback.on_item_take, null);
     object.set_callback(callback.on_item_drop, null);
