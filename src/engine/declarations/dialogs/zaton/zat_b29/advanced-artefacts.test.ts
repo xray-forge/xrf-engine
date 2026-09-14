@@ -8,6 +8,7 @@ import { TInfoPortion } from "@/engine/constants/info_portions";
 import { weapons } from "@/engine/constants/items/weapons";
 import { AnomalyZoneBinder } from "@/engine/core/binders/zones/AnomalyZoneBinder";
 import { registry } from "@/engine/core/database";
+import { giveInfoPortion } from "@/engine/core/utils/info_portion";
 import { giveMoneyToActor, transferItemsFromActor, transferItemsToActor } from "@/engine/core/utils/reward";
 import {
   zatB29AfTable,
@@ -49,7 +50,7 @@ describe("zat_b29_create_af_in_anomaly", () => {
     const zone = { setForcedSpawnOverride: jest.fn() } as unknown as AnomalyZoneBinder;
 
     // Index 16 maps to the `gravi` anomaly type, whose first zone is zat_b14.
-    registry.actor.give_info_portion(zatB29InfopBringTable.get(16) as TInfoPortion);
+    giveInfoPortion(zatB29InfopBringTable.get(16) as TInfoPortion);
     registry.anomalyZones.set("zat_b14_anomal_zone", zone);
     jest.spyOn(math, "random").mockImplementation(() => 1);
 
@@ -62,7 +63,7 @@ describe("zat_b29_create_af_in_anomaly", () => {
     const zone = { setForcedSpawnOverride: jest.fn() } as unknown as AnomalyZoneBinder;
 
     // Index 19 maps to the `electra` anomaly type, whose second zone is zat_b100.
-    registry.actor.give_info_portion(zatB29InfopBringTable.get(19) as TInfoPortion);
+    giveInfoPortion(zatB29InfopBringTable.get(19) as TInfoPortion);
     registry.anomalyZones.set("zat_b100_anomal_zone", zone);
     jest.spyOn(math, "random").mockImplementation(() => 2);
 
@@ -73,9 +74,9 @@ describe("zat_b29_create_af_in_anomaly", () => {
 });
 describe("zat_b29_linker_give_adv_task", () => {
   it("should list every requested artefact and clear the bring markers", () => {
-    registry.actor.give_info_portion(zatB29InfopTable.get(16));
-    registry.actor.give_info_portion(zatB29InfopTable.get(17));
-    registry.actor.give_info_portion(zatB29InfopBringTable.get(16) as TInfoPortion);
+    giveInfoPortion(zatB29InfopTable.get(16));
+    giveInfoPortion(zatB29InfopTable.get(17));
+    giveInfoPortion(zatB29InfopBringTable.get(16) as TInfoPortion);
 
     const result: string = callDialogsBinding<string>("zat_b29_linker_give_adv_task", [
       registry.actor,
@@ -100,7 +101,7 @@ describe("zat_b29_actor_has_adv_task_af", () => {
     mockActorWith([zatB29AfTable.get(16)]);
     expect(callDialogsBinding("zat_b29_actor_has_adv_task_af")).toBe(false);
 
-    registry.actor.give_info_portion(zatB29InfopBringTable.get(16) as TInfoPortion);
+    giveInfoPortion(zatB29InfopBringTable.get(16) as TInfoPortion);
     expect(callDialogsBinding("zat_b29_actor_has_adv_task_af")).toBe(true);
   });
 });
@@ -109,7 +110,7 @@ describe("zat_b29_actor_do_not_has_adv_task_af", () => {
     expect(callDialogsBinding("zat_b29_actor_do_not_has_adv_task_af")).toBe(true);
 
     mockActorWith([zatB29AfTable.get(16)]);
-    registry.actor.give_info_portion(zatB29InfopBringTable.get(16) as TInfoPortion);
+    giveInfoPortion(zatB29InfopBringTable.get(16) as TInfoPortion);
     expect(callDialogsBinding("zat_b29_actor_do_not_has_adv_task_af")).toBe(false);
   });
 });
@@ -118,7 +119,7 @@ describe("zat_b29_linker_get_adv_task_af", () => {
     const npc: GameObject = MockGameObject.mock();
 
     mockActorWith([zatB29AfTable.get(16)]);
-    registry.actor.give_info_portion(zatB29InfopBringTable.get(16) as TInfoPortion);
+    giveInfoPortion(zatB29InfopBringTable.get(16) as TInfoPortion);
 
     callDialogsBinding("zat_b29_linker_get_adv_task_af", [registry.actor, npc]);
 
@@ -130,7 +131,7 @@ describe("zat_b29_linker_get_adv_task_af", () => {
     const npc: GameObject = MockGameObject.mock();
 
     mockActorWith([zatB29AfTable.get(20)]);
-    registry.actor.give_info_portion(zatB29InfopBringTable.get(20) as TInfoPortion);
+    giveInfoPortion(zatB29InfopBringTable.get(20) as TInfoPortion);
 
     callDialogsBinding("zat_b29_linker_get_adv_task_af", [registry.actor, npc]);
 
@@ -139,14 +140,14 @@ describe("zat_b29_linker_get_adv_task_af", () => {
 
   it("should reduce both rewards when the artefact came from a rival", () => {
     mockActorWith([zatB29AfTable.get(16)]);
-    registry.actor.give_info_portion(zatB29InfopBringTable.get(16) as TInfoPortion);
-    registry.actor.give_info_portion("zat_b29_linker_take_af_from_rival" as TInfoPortion);
+    giveInfoPortion(zatB29InfopBringTable.get(16) as TInfoPortion);
+    giveInfoPortion("zat_b29_linker_take_af_from_rival" as TInfoPortion);
     callDialogsBinding("zat_b29_linker_get_adv_task_af", [registry.actor, MockGameObject.mock()]);
     expect(giveMoneyToActor).toHaveBeenLastCalledWith(12000);
 
     mockActorWith([zatB29AfTable.get(20)]);
-    registry.actor.give_info_portion(zatB29InfopBringTable.get(20) as TInfoPortion);
-    registry.actor.give_info_portion("zat_b29_linker_take_af_from_rival" as TInfoPortion);
+    giveInfoPortion(zatB29InfopBringTable.get(20) as TInfoPortion);
+    giveInfoPortion("zat_b29_linker_take_af_from_rival" as TInfoPortion);
     callDialogsBinding("zat_b29_linker_get_adv_task_af", [registry.actor, MockGameObject.mock()]);
     expect(giveMoneyToActor).toHaveBeenLastCalledWith(18000);
   });
@@ -172,7 +173,7 @@ describe("zat_b29_actor_exchange", () => {
     const npc: GameObject = MockGameObject.mock();
 
     mockActorWith([weapons.wpn_groza]);
-    registry.actor.give_info_portion(zatB29InfopBringTable.get(16) as TInfoPortion);
+    giveInfoPortion(zatB29InfopBringTable.get(16) as TInfoPortion);
     (registry.actor as AnyObject).goodGun = weapons.wpn_groza;
 
     callDialogsBinding("zat_b29_actor_exchange", [registry.actor, npc]);
@@ -184,7 +185,7 @@ describe("zat_b29_actor_exchange", () => {
 
   it("should do nothing without a remembered weapon", () => {
     (registry.actor as AnyObject).goodGun = null;
-    registry.actor.give_info_portion(zatB29InfopBringTable.get(16) as TInfoPortion);
+    giveInfoPortion(zatB29InfopBringTable.get(16) as TInfoPortion);
 
     callDialogsBinding("zat_b29_actor_exchange", [registry.actor, MockGameObject.mock()]);
 

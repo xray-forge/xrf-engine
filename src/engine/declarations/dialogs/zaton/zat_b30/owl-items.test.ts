@@ -8,6 +8,7 @@ import { artefacts } from "@/engine/constants/items/artefacts";
 import { detectors } from "@/engine/constants/items/detectors";
 import { questItems } from "@/engine/constants/items/quest_items";
 import { registry } from "@/engine/core/database";
+import { giveInfoPortion } from "@/engine/core/utils/info_portion";
 import { callBinding, mockRegisteredActor, resetRegistry } from "@/fixtures/engine";
 
 function callDialogsBinding<T = boolean>(name: TName, args: AnyArgs = []): T {
@@ -71,7 +72,7 @@ describe("zat_b30_owl_stalker_trader_actor_has_item_to_sell", () => {
       mockActorWith([section]);
       expect(callDialogsBinding("zat_b30_owl_stalker_trader_actor_has_item_to_sell")).toBe(true);
 
-      registry.actor.give_info_portion(askedPortion);
+      giveInfoPortion(askedPortion);
       expect(callDialogsBinding("zat_b30_owl_stalker_trader_actor_has_item_to_sell")).toBe(false);
     }
   });
@@ -80,7 +81,7 @@ describe("zat_b30_owl_stalker_trader_actor_has_item_to_sell", () => {
     mockActorWith([detectors.detector_scientific]);
     expect(callDialogsBinding("zat_b30_owl_stalker_trader_actor_has_item_to_sell")).toBe(false);
 
-    registry.actor.give_info_portion(infoPortions.zat_b30_second_detector);
+    giveInfoPortion(infoPortions.zat_b30_second_detector);
     expect(callDialogsBinding("zat_b30_owl_stalker_trader_actor_has_item_to_sell")).toBe(true);
   });
 });
@@ -94,7 +95,7 @@ describe("zat_b30_owl_can_say_about_heli", () => {
 
     for (const [searched] of pairs) {
       expect(callDialogsBinding("zat_b30_owl_can_say_about_heli")).toBe(true);
-      registry.actor.give_info_portion(searched);
+      giveInfoPortion(searched);
     }
 
     expect(callDialogsBinding("zat_b30_owl_can_say_about_heli")).toBe(false);
@@ -106,7 +107,7 @@ describe("zat_b30_owl_can_say_about_heli", () => {
       infoPortions.zat_b30_owl_scat_2,
       infoPortions.zat_b30_owl_scat_3,
     ]) {
-      registry.actor.give_info_portion(portion);
+      giveInfoPortion(portion);
     }
 
     expect(callDialogsBinding("zat_b30_owl_can_say_about_heli")).toBe(false);

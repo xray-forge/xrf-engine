@@ -9,6 +9,7 @@ import { ammo } from "@/engine/constants/items/ammo";
 import { food } from "@/engine/constants/items/food";
 import { misc } from "@/engine/constants/items/misc";
 import { registry } from "@/engine/core/database";
+import { giveInfoPortion } from "@/engine/core/utils/info_portion";
 import { transferItemsFromActor, transferItemsToActor, transferMoneyFromActor } from "@/engine/core/utils/reward";
 import { callBinding, mockRegisteredActor, resetRegistry } from "@/fixtures/engine";
 
@@ -99,7 +100,7 @@ describe("zat_b3_actor_got_toolkit", () => {
 
   it("should ignore a toolkit that was already brought", () => {
     mockActorWith([misc.toolkit_1]);
-    registry.actor.give_info_portion(infoPortions.zat_b3_tech_instrument_1_brought);
+    giveInfoPortion(infoPortions.zat_b3_tech_instrument_1_brought);
 
     expect(callDialogsBinding("zat_b3_actor_got_toolkit")).toBe(false);
   });
@@ -138,16 +139,16 @@ describe("zat_b3_tech_drinks_precond", () => {
   it("should open while the tech has not seen the produce", () => {
     expect(callDialogsBinding("zat_b3_tech_drinks_precond")).toBe(true);
 
-    registry.actor.give_info_portion(infoPortions.zat_b3_tech_see_produce_62);
+    giveInfoPortion(infoPortions.zat_b3_tech_see_produce_62);
     expect(callDialogsBinding("zat_b3_tech_drinks_precond")).toBe(false);
   });
 
   it("should reopen after the gauss repair until the tech stops drinking", () => {
-    registry.actor.give_info_portion(infoPortions.zat_b3_tech_see_produce_62);
-    registry.actor.give_info_portion(infoPortions.zat_b3_gauss_repaired);
+    giveInfoPortion(infoPortions.zat_b3_tech_see_produce_62);
+    giveInfoPortion(infoPortions.zat_b3_gauss_repaired);
     expect(callDialogsBinding("zat_b3_tech_drinks_precond")).toBe(true);
 
-    registry.actor.give_info_portion(infoPortions.zat_b3_tech_drink_no_more);
+    giveInfoPortion(infoPortions.zat_b3_tech_drink_no_more);
     expect(callDialogsBinding("zat_b3_tech_drinks_precond")).toBe(false);
   });
 });

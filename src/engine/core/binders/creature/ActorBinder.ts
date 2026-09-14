@@ -22,6 +22,7 @@ import { EventsManager } from "@/engine/core/managers/events/EventsManager";
 import { SaveManager } from "@/engine/core/managers/save/SaveManager";
 import { alifeConfig } from "@/engine/core/managers/simulation/AlifeConfig";
 import { setStableAlifeObjectsUpdate, setUnlimitedAlifeObjectsUpdate } from "@/engine/core/utils/alife";
+import { updateInfoPortionCache } from "@/engine/core/utils/info_portion";
 import { LuaLogger } from "@/engine/core/utils/logging";
 
 const logger: LuaLogger = new LuaLogger($filename);
@@ -186,8 +187,14 @@ export class ActorBinder extends object_binder {
     const object: GameObject = this.object;
     const eventsManager: EventsManager = this.eventsManager;
 
+    // Covers engine-side grants (dialog XML, tasks, info chains) invisible to lua utils.
     object.set_callback(callback.inventory_info, (object: GameObject, info: string) => {
-      eventsManager.emitEvent(EGameEvent.ACTOR_INFO_UPDATE, object, info);
+      updateInfoPortionCache(info, true);
+      eventsManager.emitEvent(EGameEvent.ACTOR_INFO_ADDED, object, info);
+    });
+    object.set_callback(callback.inventory_info_removed, (object: GameObject, info: string) => {
+      updateInfoPortionCache(info, false);
+      eventsManager.emitEvent(EGameEvent.ACTOR_INFO_REMOVED, object, info);
     });
     object.set_callback(callback.take_item_from_box, (box: GameObject, item: GameObject) => {
       eventsManager.emitEvent(EGameEvent.ACTOR_TAKE_BOX_ITEM, box, item);
@@ -224,6 +231,7 @@ export class ActorBinder extends object_binder {
     const object: GameObject = this.object;
 
     object.set_callback(callback.inventory_info, null);
+    object.set_callback(callback.inventory_info_removed, null);
     object.set_callback(callback.article_info, null);
     object.set_callback(callback.on_item_take, null);
     object.set_callback(callback.on_item_drop, null);

@@ -4,6 +4,7 @@ import { type IRegistryObjectState } from "@/engine/core/database/database_types
 import { registerObject, unregisterObject } from "@/engine/core/database/objects";
 import { registry } from "@/engine/core/database/registry";
 import { type Actor } from "@/engine/core/objects/creature/Actor";
+import { invalidateInfoPortionsCache } from "@/engine/core/utils/info_portion";
 
 /**
  * Register new actor entry in db.
@@ -14,6 +15,9 @@ import { type Actor } from "@/engine/core/objects/creature/Actor";
  */
 export function registerActor(object: GameObject): IRegistryObjectState {
   registry.actor = object;
+
+  // New actor instance means unknown info portions state.
+  invalidateInfoPortionsCache();
 
   return registerObject(object);
 }
@@ -26,6 +30,8 @@ export function registerActor(object: GameObject): IRegistryObjectState {
 export function unregisterActor(): void {
   unregisterObject(registry.actor);
   registry.actor = null as unknown as GameObject;
+
+  invalidateInfoPortionsCache();
 }
 
 /**

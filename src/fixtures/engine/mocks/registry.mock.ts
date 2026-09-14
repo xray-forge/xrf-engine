@@ -37,6 +37,14 @@ export function mockRegisteredActor(
  */
 export function resetRegistry(): void {
   registry.actor = null as unknown as GameObject;
+  registry.cache = {
+    conditionLists: new LuaMap(),
+    gameVertexLevelIds: new LuaMap(),
+    graphDistances: new LuaMap(),
+    graphDistancesCount: 0,
+    infoPortions: new LuaMap(),
+    levelNames: new LuaMap(),
+  };
   registry.actorCombat = new LuaTable();
   registry.artefacts.parentZones = new LuaTable();
   registry.artefacts.points = new LuaTable();

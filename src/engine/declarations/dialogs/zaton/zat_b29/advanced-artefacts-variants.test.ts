@@ -4,6 +4,7 @@ import { AnyArgs, AnyObject, TName, TSection } from "xray16/lib";
 import { MockAlifeSimulator, MockGameObject } from "xray16/mocks";
 
 import { registry } from "@/engine/core/database";
+import { giveInfoPortion } from "@/engine/core/utils/info_portion";
 import { zatB29AfTable, zatB29InfopTable } from "@/engine/scripts/quests/zaton/zat_b29/advanced_artefacts_data";
 import { callBinding, mockRegisteredActor, resetRegistry } from "@/fixtures/engine";
 
@@ -39,7 +40,7 @@ describe.each([1, 2, 3, 4, 5, 6, 7, 8])("advanced artefact variant %i", (index: 
     mockActorWith([artefact]);
     expect(callDialogsBinding(`zat_b29_actor_has_adv_task_af_${index}`)).toBe(false);
 
-    registry.actor.give_info_portion(zatB29InfopTable.get(tableIndex));
+    giveInfoPortion(zatB29InfopTable.get(tableIndex));
     expect(callDialogsBinding(`zat_b29_actor_has_adv_task_af_${index}`)).toBe(true);
   });
 
@@ -48,11 +49,11 @@ describe.each([1, 2, 3, 4, 5, 6, 7, 8])("advanced artefact variant %i", (index: 
     const artefact = zatB29AfTable.get(tableIndex);
 
     expect(callDialogsBinding(`zat_b29_actor_do_not_has_adv_task_af_${index}`)).toBe(false);
-    registry.actor.give_info_portion(zatB29InfopTable.get(tableIndex));
+    giveInfoPortion(zatB29InfopTable.get(tableIndex));
     expect(callDialogsBinding(`zat_b29_actor_do_not_has_adv_task_af_${index}`)).toBe(true);
 
     mockActorWith([artefact]);
-    registry.actor.give_info_portion(zatB29InfopTable.get(tableIndex));
+    giveInfoPortion(zatB29InfopTable.get(tableIndex));
     expect(callDialogsBinding(`zat_b29_actor_do_not_has_adv_task_af_${index}`)).toBe(false);
   });
 });

@@ -83,8 +83,9 @@ describe("ActorBinder", () => {
     expect(eventsManager.emitEvent).toHaveBeenCalledTimes(2);
     expect(eventsManager.emitEvent).toHaveBeenCalledWith(EGameEvent.ACTOR_GO_OFFLINE, binder);
 
-    expect(actor.set_callback).toHaveBeenCalledTimes(10);
+    expect(actor.set_callback).toHaveBeenCalledTimes(11);
     expect(actor.set_callback).toHaveBeenCalledWith(callback.inventory_info, null);
+    // todo: Add here check for info removal.
     expect(actor.set_callback).toHaveBeenCalledWith(callback.article_info, null);
     expect(actor.set_callback).toHaveBeenCalledWith(callback.on_item_take, null);
     expect(actor.set_callback).toHaveBeenCalledWith(callback.on_item_drop, null);
@@ -130,8 +131,9 @@ describe("ActorBinder", () => {
     expect(state).not.toBeNull();
     expect(state.portableStore).not.toBeNull();
 
-    expect(actor.set_callback).toHaveBeenCalledTimes(8);
+    expect(actor.set_callback).toHaveBeenCalledTimes(9);
     expect(actor.set_callback).toHaveBeenCalledWith(callback.inventory_info, expect.any(Function));
+    // todo: Add here check for info removal.
     expect(actor.set_callback).toHaveBeenCalledWith(callback.take_item_from_box, expect.any(Function));
     expect(actor.set_callback).toHaveBeenCalledWith(callback.on_item_take, expect.any(Function));
     expect(actor.set_callback).toHaveBeenCalledWith(callback.on_item_drop, expect.any(Function));
@@ -246,7 +248,9 @@ describe("ActorBinder", () => {
     binder.reinit();
 
     MockGameObject.callCallback(actor, callback.inventory_info, actor, "test-info");
-    expect(eventsManager.emitEvent).toHaveBeenCalledWith(EGameEvent.ACTOR_INFO_UPDATE, actor, "test-info");
+    expect(eventsManager.emitEvent).toHaveBeenCalledWith(EGameEvent.ACTOR_INFO_ADDED, actor, "test-info");
+
+    // todo: Test info removal callback here.
 
     MockGameObject.callCallback(actor, callback.take_item_from_box, box, item);
     expect(eventsManager.emitEvent).toHaveBeenCalledWith(EGameEvent.ACTOR_TAKE_BOX_ITEM, box, item);

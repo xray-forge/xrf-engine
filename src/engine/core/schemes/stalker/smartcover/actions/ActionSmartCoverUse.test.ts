@@ -13,6 +13,7 @@ import { SmartCover } from "@/engine/core/objects/smart_cover";
 import { ISchemeSmartCoverState } from "@/engine/core/schemes/stalker/smartcover";
 import { ActionSmartCoverUse } from "@/engine/core/schemes/stalker/smartcover/actions/ActionSmartCoverUse";
 import { EScheme } from "@/engine/core/schemes/types";
+import { giveInfoPortion } from "@/engine/core/utils/info_portion";
 import { mockRegisteredActor, mockSchemeState, resetRegistry } from "@/fixtures/engine";
 
 jest.mock("@/engine/core/database/stalker");
@@ -257,7 +258,8 @@ describe("ActionSmartCoverUse", () => {
   });
 
   it("should correctly check smart cover target with path", () => {
-    const { actorGameObject } = mockRegisteredActor();
+    mockRegisteredActor();
+
     const object: GameObject = MockGameObject.mock();
     const state: ISchemeSmartCoverState = mockSchemeState<ISchemeSmartCoverState>(EScheme.SMARTCOVER, {});
     const action: ActionSmartCoverUse = new ActionSmartCoverUse(state);
@@ -271,7 +273,7 @@ describe("ActionSmartCoverUse", () => {
     expect(action.firePosition).toEqual(MockVector.mock(1, 1, 1));
     expect(action.object.set_smart_cover_target).toHaveBeenCalledWith(action.firePosition);
 
-    actorGameObject.give_info_portion("a");
+    giveInfoPortion("a");
 
     expect(() => action.updateSmartCoverTarget()).toThrow("There is no patrol path 'not-existing'.");
   });
