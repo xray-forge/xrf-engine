@@ -23,15 +23,6 @@ import { mockSchemeState, MockSmartCover, resetRegistry } from "@/fixtures/engin
 describe("AnimpointController", () => {
   beforeEach(() => {
     resetRegistry();
-
-    // todo: Update xrf sdk.
-    const mathMock = math as unknown as {
-      atan2(x: number, y: number): number;
-      deg(radians: number): number;
-    };
-
-    mathMock.atan2 = Math.atan2;
-    mathMock.deg = (radians: number): number => (radians * 180) / Math.PI;
   });
 
   it("should activate from a clean state and stop a stale camp activity", () => {
