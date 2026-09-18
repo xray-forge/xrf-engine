@@ -57,6 +57,60 @@ describe("AnimpointController", () => {
     expect(controller.stop).toHaveBeenCalledTimes(1);
   });
 
+  it.each([false, true])("should leave camp when disabled with an explicit stop=%s", (stopFirst) => {
+    const object: GameObject = MockGameObject.mock();
+    const campObject: GameObject = MockGameObject.mock();
+    const camp: CampController = {
+      object: campObject,
+      registerObject: jest.fn(),
+      unregisterObject: jest.fn(),
+    } as unknown as CampController;
+
+    const state: ISchemeAnimpointState = mockSchemeState<ISchemeAnimpointState>(EScheme.ANIMPOINT, {
+      coverName: "test_cover",
+      useCamp: true,
+      availableAnimations: $fromArray<EStalkerState>([EStalkerState.SIT]),
+      approvedActions: new LuaTable(),
+    });
+
+    const controller = new AnimpointController(object, state);
+
+    registry.camps.set(campObject.id(), camp);
+    jest.spyOn(campObject, "inside").mockReturnValue(true);
+    jest.spyOn(controller, "calculatePosition").mockImplementation(() => {
+      state.approvedActions = new LuaTable();
+    });
+
+    controller.position = MockVector.mock(1, 2, 3);
+    controller.start();
+    controller.currentAction = EStalkerState.SIT;
+
+    if (stopFirst) {
+      controller.stop();
+    }
+
+    state.useCamp = false;
+    controller.activate(object);
+
+    expect(camp.unregisterObject).toHaveBeenCalledTimes(1);
+    expect(controller.campController).toBeNull();
+
+    controller.start();
+
+    expect(camp.registerObject).toHaveBeenCalledTimes(1);
+    expect(controller.currentAction).toBe(EStalkerState.SIT);
+
+    controller.stop();
+
+    expect(camp.unregisterObject).toHaveBeenCalledTimes(1);
+
+    state.useCamp = true;
+    controller.start();
+
+    expect(camp.registerObject).toHaveBeenCalledTimes(2);
+    expect(controller.campController).toBe(camp);
+  });
+
   it("should select available non-camp and camp animations", () => {
     const object: GameObject = MockGameObject.mock();
     const state: ISchemeAnimpointState = mockSchemeState<ISchemeAnimpointState>(EScheme.ANIMPOINT, {

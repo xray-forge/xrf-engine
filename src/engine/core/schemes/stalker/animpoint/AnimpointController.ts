@@ -60,7 +60,7 @@ export class AnimpointController extends AbstractSchemeController<ISchemeAnimpoi
     this.calculatePosition();
 
     if (this.isStarted) {
-      if (!this.state.useCamp && this.coverName === this.state.coverName) {
+      if (!this.state.useCamp && !this.campController && this.coverName === this.state.coverName) {
         this.fillPossibleAnimationActions();
 
         const targetAction: EStalkerState = this.state.approvedActions.get(
@@ -282,9 +282,7 @@ export class AnimpointController extends AbstractSchemeController<ISchemeAnimpoi
   public start(): void {
     logger.info("Start: %s", this.object.name());
 
-    if (this.state.useCamp) {
-      this.campController = getCampZoneForPosition(this.position);
-    }
+    this.campController = this.state.useCamp ? getCampZoneForPosition(this.position) : null;
 
     this.fillPossibleAnimationActions();
 
@@ -309,6 +307,7 @@ export class AnimpointController extends AbstractSchemeController<ISchemeAnimpoi
 
     if (this.campController) {
       this.campController.unregisterObject(this.object.id());
+      this.campController = null;
     }
 
     this.isStarted = false;
