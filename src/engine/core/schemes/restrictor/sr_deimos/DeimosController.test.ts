@@ -171,6 +171,56 @@ describe("DeimosController", () => {
     expect(level.add_pp_effector).not.toHaveBeenCalled();
   });
 
+  it("should restart phased effects after switching away and returning", () => {
+    mockRegisteredActor();
+
+    const controller: DeimosController = new DeimosController(
+      MockGameObject.mock(),
+      createDeimosState({
+        movementSpeed: 42,
+        growingRate: 0.45,
+        loweringRate: 0.22,
+        disableBound: 0.2,
+        switchLowerBound: 0.4,
+        switchUpperBound: 0.75,
+      })
+    );
+    const manager: DeimosManager = getManager(DeimosManager);
+    const soundManager: SoundManager = getManager(SoundManager);
+
+    jest.spyOn(manager, "getActorMovementSpeed").mockReturnValue(0);
+    jest.spyOn(manager, "startPrimaryEffects");
+    jest.spyOn(manager, "startHeartbeat");
+    jest.spyOn(soundManager, "playLooped").mockImplementation(() => null);
+    jest.spyOn(soundManager, "stopLooped").mockImplementation(() => null);
+    jest.spyOn(soundManager, "setLoopedSoundVolume").mockImplementation(() => null);
+
+    for (let index: number = 0; index < 5; index += 1) {
+      controller.update();
+    }
+
+    expect(controller.phase).toBe(2);
+
+    controller.effectorActivatedAt = NOW;
+    replaceFunctionMock(trySwitchToAnotherSection, () => true);
+    controller.update();
+    controller.reset();
+
+    expect(soundManager.stopLooped).toHaveBeenCalledTimes(2);
+    expect(controller.effectorActivatedAt).toBe(0);
+
+    replaceFunctionMock(trySwitchToAnotherSection, () => false);
+    controller.state.intensity = 0;
+
+    for (let index: number = 0; index < 5; index += 1) {
+      controller.update();
+    }
+
+    expect(controller.phase).toBe(2);
+    expect(manager.startPrimaryEffects).toHaveBeenCalledTimes(2);
+    expect(manager.startHeartbeat).toHaveBeenCalledTimes(2);
+  });
+
   it("should do nothing while black screen is shown", () => {
     const object: GameObject = MockGameObject.mock();
     const controller: DeimosController = new DeimosController(object, createDeimosState());

@@ -128,5 +128,8 @@ export class DeimosController extends AbstractSchemeController<ISchemeDeimosStat
         deimosManager.removeSecondaryEffects();
       }
     }
+
+    this.phase = 0;
+    this.effectorActivatedAt = 0;
   }
 }
