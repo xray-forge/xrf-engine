@@ -45,7 +45,7 @@ describe("LightController", () => {
     expect(registry.lightZones.has(object.id())).toBe(true);
   });
 
-  it("should unregister zone when switching to another section", () => {
+  it("should unregister zone on deactivation", () => {
     const object: GameObject = MockGameObject.mock();
     const state: ISchemeLightState = mockSchemeState<ISchemeLightState>(EScheme.SR_LIGHT, { light: true });
     const controller: LightController = new LightController(object, state);
@@ -53,11 +53,19 @@ describe("LightController", () => {
     controller.activate();
     controller.update();
 
+    controller.deactivate();
+
+    expect(controller.active).toBe(false);
+    expect(registry.lightZones.has(object.id())).toBe(false);
+  });
+
+  it("should stop updating when switching to another section", () => {
+    const controller: LightController = new LightController(MockGameObject.mock(), mockSchemeState(EScheme.SR_LIGHT));
+
     replaceFunctionMock(trySwitchToAnotherSection, () => true);
     controller.update();
 
     expect(controller.active).toBe(false);
-    expect(registry.lightZones.has(object.id())).toBe(false);
   });
 
   it("should not report light state for inactive zone", () => {

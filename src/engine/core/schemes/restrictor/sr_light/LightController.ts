@@ -7,7 +7,6 @@ import { trySwitchToAnotherSection } from "@/engine/core/schemes/runtime/scheme_
 
 /**
  * Controller handling light scheme behaviour for a restrictor zone, registering it as a light zone for stalker checks.
- * Todo: Also unregister on deactivate?
  */
 export class LightController extends AbstractSchemeController<ISchemeLightState> {
   public active: boolean = false;
@@ -16,13 +15,17 @@ export class LightController extends AbstractSchemeController<ISchemeLightState>
     registry.lightZones.set(this.object.id(), this);
   }
 
+  public override deactivate(): void {
+    this.active = false;
+    registry.lightZones.delete(this.object.id());
+  }
+
   public update(): void {
     if (trySwitchToAnotherSection(this.object, this.state)) {
-      this.active = false;
-      registry.lightZones.delete(this.object.id());
-    } else {
-      this.active = true;
+      return;
     }
+
+    this.active = true;
   }
 
   /**
