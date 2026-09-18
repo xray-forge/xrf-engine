@@ -601,6 +601,25 @@ describe("MinigunController", () => {
     expect(car.SetParam).toHaveBeenCalledWith(CCar.eWpnDesiredPos, controller.targetFirePt);
   });
 
+  it.each([false, true])("should respect target tracking after activation: %s", (fireTrackTarget) => {
+    mockRegisteredActor({ position: MockVector.create(0, 0, 500) });
+
+    const { controller, car } = createController(
+      createMinigunState({ fireTarget: ACTOR, fireTrackTarget, fireRange: 5 })
+    );
+
+    controller.activate();
+    controller.startDirection = MockVector.create(0, 0, 1);
+    controller.stateShooting = EMinigunState.SHOOTING_ON;
+    controller.fastUpdate();
+
+    expect(controller.stateShooting).toBe(EMinigunState.NONE);
+    expect(car.SetParam).toHaveBeenLastCalledWith(
+      CCar.eWpnDesiredPos,
+      fireTrackTarget ? MockVector.create(0, 1, 500) : controller.startLookPos
+    );
+  });
+
   it("should correctly destroy car", () => {
     const { actorGameObject } = mockRegisteredActor();
     const { controller, car, object } = createController(createMinigunState({ onDeathInfo: null }));

@@ -437,7 +437,7 @@ export class MinigunController extends AbstractSchemeController<ISchemeMinigunSt
             this.rotToFiredir(this.startLookPos);
           }
 
-          if ($isNotNil(this.fireTrackTarget)) {
+          if (this.fireTrackTarget) {
             this.targetFirePt = this.targetObject!.position();
             this.targetFirePt.y = this.targetFirePt.y + 1.0;
             this.rotToFirepoint(this.targetFirePt);
