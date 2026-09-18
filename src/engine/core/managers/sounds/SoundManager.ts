@@ -1,3 +1,4 @@
+import { sound_object } from "xray16";
 import { GameObject, NetPacket, NetProcessor, SoundObject } from "xray16/alias";
 import { ACTOR_ID, AnyObject, assert, Nillable, TName, TNumberId, TRate, TStringId } from "xray16/lib";
 import { $filename } from "xray16/macros";
@@ -7,6 +8,7 @@ import { AbstractManager } from "@/engine/core/managers/abstract";
 import { EGameEvent, EventsManager } from "@/engine/core/managers/events";
 import { AbstractPlayableSound } from "@/engine/core/managers/sounds/objects/AbstractPlayableSound";
 import { LoopedSound } from "@/engine/core/managers/sounds/objects/LoopedSound";
+import { ObjectSound } from "@/engine/core/managers/sounds/objects/ObjectSound";
 import { soundsConfig } from "@/engine/core/managers/sounds/SoundsConfig";
 import { LuaLogger } from "@/engine/core/utils/logging";
 
@@ -96,6 +98,20 @@ export class SoundManager extends AbstractManager {
     }
 
     closeLoadMarker(reader, SoundManager.name + "Object");
+  }
+
+  /**
+   * Create an unplayed, independently owned sound from a random entry of a registered 3D theme.
+   * The caller controls its position, playback and cleanup; object-bound theme playback is unaffected.
+   *
+   * @param name - Theme registered in script_sound.ltx with type `3d`.
+   */
+  public createSpatialSound(name: TName): SoundObject {
+    const theme = soundsConfig.themes.get(name);
+
+    assert(theme instanceof ObjectSound, "Expected a registered 3D sound theme, got '%s'.", name);
+
+    return new sound_object(theme.soundPaths.get(math.random(1, theme.soundPaths.length())));
   }
 
   /**

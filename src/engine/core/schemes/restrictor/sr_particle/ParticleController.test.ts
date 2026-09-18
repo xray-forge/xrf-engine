@@ -1,9 +1,11 @@
 import { beforeEach, describe, expect, it, jest } from "@jest/globals";
 import { patrol } from "xray16";
 import { GameObject } from "xray16/alias";
-import { MockGameObject } from "xray16/mocks";
+import { MockGameObject, MockIniFile, MockPatrol, MockVector } from "xray16/mocks";
 import { resetFunctionMock } from "xray16/testing/utils";
 
+import { ObjectSound } from "@/engine/core/managers/sounds/objects/ObjectSound";
+import { soundsConfig } from "@/engine/core/managers/sounds/SoundsConfig";
 import { ParticleController } from "@/engine/core/schemes/restrictor/sr_particle/ParticleController";
 import {
   EParticleBehaviour,
@@ -100,6 +102,72 @@ describe("ParticleController", () => {
       time: 10_000,
       played: false,
     });
+  });
+
+  it.each([false, true])("should play and stop independent waypoint sounds with looped=%s", (looped) => {
+    const theme = new ObjectSound(
+      MockIniFile.mock("particle-sound.ltx", { particle_sound: { path: "some/path" } }),
+      "particle_sound"
+    );
+
+    soundsConfig.themes.set("particle_sound", theme);
+    MockPatrol.register("particle-sound-path", {
+      points: [
+        { name: "wp00|s=particle_sound|d=100", gvid: 1, lvid: 1, position: MockVector.create(1, 2, 3) },
+        { name: "wp01|s=particle_sound|d=200", gvid: 2, lvid: 2, position: MockVector.create(4, 5, 6) },
+      ],
+    });
+
+    const object = MockGameObject.mock();
+    const state = mockSchemeState<ISchemeParticleState>(EScheme.SR_PARTICLE, {
+      mode: EParticleBehaviour.COMPLEX,
+      path: "particle-sound-path",
+      name: "test_particle",
+      looped,
+    });
+    const controller = new ParticleController(object, state);
+
+    controller.activate();
+
+    const first = controller.particles.get(1);
+    const second = controller.particles.get(2);
+
+    expect(first.sound).toEqual(expect.objectContaining({ path: "some/path" }));
+    expect(second.sound).not.toBe(first.sound);
+    expect(first.sound!.play_at_pos).not.toHaveBeenCalled();
+    expect(theme.playback.length()).toBe(0);
+
+    controller.update();
+    jest.spyOn(Date, "now").mockReturnValue(10_150);
+    controller.update();
+
+    expect(first.sound!.play_at_pos).toHaveBeenCalledWith(object, controller.path!.point(0), 0);
+    expect(second.sound!.play_at_pos).not.toHaveBeenCalled();
+
+    jest.spyOn(Date, "now").mockReturnValue(10_250);
+    controller.update();
+
+    expect(second.sound!.play_at_pos).toHaveBeenCalledWith(object, controller.path!.point(1), 0);
+
+    first.particle.stop();
+    second.particle.stop();
+    jest.spyOn(Date, "now").mockReturnValue(10_350);
+    controller.update();
+
+    expect(first.sound!.play_at_pos).toHaveBeenCalledTimes(looped ? 2 : 1);
+    expect(second.sound!.play_at_pos).toHaveBeenCalledTimes(looped ? 2 : 1);
+
+    const firstSound = first.sound!;
+    const secondSound = second.sound!;
+
+    jest.spyOn(firstSound, "playing").mockReturnValue(true);
+    jest.spyOn(secondSound, "playing").mockReturnValue(true);
+    controller.deactivate();
+
+    expect(firstSound.stop).toHaveBeenCalledTimes(1);
+    expect(secondSound.stop).toHaveBeenCalledTimes(1);
+    expect(first.sound).toBeNull();
+    expect(second.sound).toBeNull();
   });
 
   it("should correctly deactivate", () => {

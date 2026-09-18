@@ -1,11 +1,11 @@
 import { beforeEach, describe, expect, it, jest } from "@jest/globals";
 import { GameObject } from "xray16/alias";
 import { ACTOR_ID, AnyObject, NIL } from "xray16/lib";
-import { EMockPacketDataType, MockGameObject, MockNetProcessor } from "xray16/mocks";
+import { EMockPacketDataType, MockGameObject, MockIniFile, MockNetProcessor } from "xray16/mocks";
 
 import { disposeManager, getManager } from "@/engine/core/database";
 import { EGameEvent, EventsManager } from "@/engine/core/managers/events";
-import { AbstractPlayableSound } from "@/engine/core/managers/sounds/objects";
+import { AbstractPlayableSound, ObjectSound } from "@/engine/core/managers/sounds/objects";
 import { SoundManager } from "@/engine/core/managers/sounds/SoundManager";
 import { SCRIPT_SOUND_LTX, soundsConfig } from "@/engine/core/managers/sounds/SoundsConfig";
 import { readIniThemesList } from "@/engine/core/managers/sounds/utils";
@@ -18,6 +18,40 @@ describe("SoundManager", () => {
     soundsConfig.themes = readIniThemesList(SCRIPT_SOUND_LTX);
     soundsConfig.playing = new LuaTable();
     soundsConfig.looped = new LuaTable();
+  });
+
+  it("should create independent random spatial sounds without starting theme playback", () => {
+    const theme = new ObjectSound(MockIniFile.mock("spatial.ltx", { spatial: { path: "some/path" } }), "spatial");
+
+    theme.soundPaths.set(1, "sounds/first");
+    theme.soundPaths.set(2, "sounds/second");
+    soundsConfig.themes.set("spatial", theme);
+
+    const random = jest.spyOn(math, "random").mockReturnValueOnce(2).mockReturnValueOnce(1);
+    const manager = getManager(SoundManager);
+    const first = manager.createSpatialSound("spatial");
+    const second = manager.createSpatialSound("spatial");
+
+    expect(first).toEqual(expect.objectContaining({ path: "sounds/second" }));
+    expect(second).toEqual(expect.objectContaining({ path: "sounds/first" }));
+    expect(first).not.toBe(second);
+    expect(first.play_at_pos).not.toHaveBeenCalled();
+    expect(second.play_at_pos).not.toHaveBeenCalled();
+    expect(random).toHaveBeenCalledWith(1, 2);
+    expect(theme.playback.length()).toBe(0);
+    expect(soundsConfig.playing.length()).toBe(0);
+    expect(soundsConfig.looped.length()).toBe(0);
+
+    random.mockRestore();
+  });
+
+  it("should reject unknown and non-spatial themes before creating spatial sounds", () => {
+    const manager = getManager(SoundManager);
+
+    expect(() => manager.createSpatialSound("missing-spatial-theme")).toThrow(
+      "Expected a registered 3D sound theme, got 'missing-spatial-theme'."
+    );
+    expect(() => manager.createSpatialSound("attack_begin")).toThrow("Expected a registered 3D sound theme");
   });
 
   it("should correctly initialize and destroy", () => {

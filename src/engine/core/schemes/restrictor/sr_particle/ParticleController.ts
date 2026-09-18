@@ -1,8 +1,11 @@
 import { particles_object, patrol, time_global } from "xray16";
 import { ParticlesObject, Patrol, Vector } from "xray16/alias";
-import { abort, LuaArray, Nillable, TCount, TName, TTimestamp } from "xray16/lib";
+import { LuaArray, Nillable, TCount, TName, TTimestamp } from "xray16/lib";
+import { $isNotNil } from "xray16/macros";
 
+import { getManager } from "@/engine/core/database";
 import { IWaypointData, parseWaypointsData } from "@/engine/core/ini";
+import { SoundManager } from "@/engine/core/managers/sounds/SoundManager";
 import { AbstractSchemeController } from "@/engine/core/schemes/base";
 import { particleConfig } from "@/engine/core/schemes/restrictor/sr_particle/ParticleConfig";
 import {
@@ -40,24 +43,10 @@ export class ParticleController extends AbstractSchemeController<ISchemeParticle
         const soundName: Nillable<TName> = waypointData.s as Nillable<TName>;
         const delay: TCount = waypointData["d"] ? (tonumber(waypointData["d"]) ?? 0) : 0;
 
-        /**
-         *     Local sound_name = nil
-         *            if flags[a - 1]["s"] ~= nil then
-         *               sound_name = flags[a - 1]["s"]
-         *            end.
-         *            Local snd_obj = nil
-         *            if sound_name ~= nil and sound_name ~= "" then
-         *               snd_obj = xr_sound.get_sound_object(sound_name, "random")
-         *            end.
-         */
-
-        if (soundName) {
-          abort("Dev trap: waypoint with sound for particles controller '%s' - '%s'.", soundName, this.state.path);
-        }
-
         this.particles.set(it, {
           particle: new particles_object(this.state.name),
-          sound: null,
+          sound:
+            $isNotNil(soundName) && soundName !== "" ? getManager(SoundManager).createSpatialSound(soundName) : null,
           delay,
           time: now,
           played: false,
