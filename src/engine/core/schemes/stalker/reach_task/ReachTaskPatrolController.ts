@@ -5,9 +5,11 @@ import {
   assertDefined,
   createEmptyVector,
   createVector,
+  LuaArray,
   Nillable,
   TCount,
   TDistance,
+  TIndex,
   TNumberId,
   TRate,
   vectorCross,
@@ -21,6 +23,7 @@ import { EPatrolFormation } from "@/engine/core/ai/patrol";
 import { EStalkerState } from "@/engine/core/animation/types";
 import { registry } from "@/engine/core/database/registry";
 import { type Squad } from "@/engine/core/objects/squad";
+import { type IReachTaskFormationSlot } from "@/engine/core/schemes/stalker/reach_task/reach_task_types";
 import { reachTaskConfig } from "@/engine/core/schemes/stalker/reach_task/ReachTaskConfig";
 import { LuaLogger } from "@/engine/core/utils/logging";
 import { getObjectSquad } from "@/engine/core/utils/squad";
@@ -109,8 +112,9 @@ export class ReachTaskPatrolController {
    * Recalculate each non-commander member direction and distance from the current formation template.
    */
   public resetPositions(): void {
-    const form_ = reachTaskConfig.FORMATIONS[this.formation as "back"];
-    let index = 1;
+    const formation: Nillable<LuaArray<IReachTaskFormationSlot>> = reachTaskConfig.FORMATIONS.get(this.formation);
+
+    let index: TIndex = 1;
 
     for (const [key, data] of this.objectsList) {
       const serverObject: Nillable<ServerCreatureObject> = registry.simulator.object(data.soldier)!;
@@ -125,12 +129,16 @@ export class ReachTaskPatrolController {
       }
 
       if (this.commanderId !== this.objectsList.get(key).soldier) {
+        assertDefined(formation, "Missing reach task formation template.");
+
+        const slot: IReachTaskFormationSlot = formation.get(index);
         const it = this.objectsList.get(key);
 
-        it.dir = form_[index].dir;
-        it.dist = form_[index].dist;
+        it.dir = slot.dir;
+        it.dist = slot.dist;
         it.vertex_id = -1;
         it.accepted = true;
+
         index = index + 1;
       }
     }

@@ -109,8 +109,8 @@ describe("ReachTaskPatrolController", () => {
 
     const slot = controller.objectsList.get(member.id());
 
-    expect(slot.dir).toBe(reachTaskConfig.FORMATIONS.back[1].dir);
-    expect(slot.dist).toBe(reachTaskConfig.FORMATIONS.back[1].dist);
+    expect(slot.dir).toEqual(MockVector.create(0.7, 0, -0.5));
+    expect(slot.dist).toBe(1.2);
     expect(slot.vertex_id).toBe(-1);
     expect(slot.accepted).toBe(true);
   });
@@ -126,6 +126,27 @@ describe("ReachTaskPatrolController", () => {
     replaceFunctionMock(getObjectSquad, () => null);
 
     expect(() => controller.resetPositions()).not.toThrow();
+  });
+
+  it("should accommodate a commander and all sixteen configured followers", () => {
+    const controller = new ReachTaskPatrolController(400);
+    const commander = MockGameObject.mock();
+    const members = Array.from({ length: 16 }, () => MockGameObject.mock());
+
+    withSquadCommander(commander.id());
+    registerPatrolObjects([commander, ...members]);
+
+    controller.addObjectToPatrol(commander);
+    members.forEach((member) => controller.addObjectToPatrol(member));
+
+    expect(controller.objectsCount).toBe(17);
+
+    members.forEach((member, index) => {
+      const slot = controller.objectsList.get(member.id());
+
+      expect(slot.dir).toBe(reachTaskConfig.FORMATIONS.get(EPatrolFormation.BACK)!.get(index + 1).dir);
+      expect(slot.dist).toBe(reachTaskConfig.FORMATIONS.get(EPatrolFormation.BACK)!.get(index + 1).dist);
+    });
   });
 
   it("should remove objects from patrol", () => {
