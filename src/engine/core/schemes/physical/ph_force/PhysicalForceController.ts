@@ -14,10 +14,7 @@ export class PhysicalForceController extends AbstractSchemeController<ISchemePhy
   public process: boolean = false;
 
   public override activate(): void {
-    if (this.state.delay !== 0) {
-      this.time = time_global() + this.state.delay;
-    }
-
+    this.time = time_global() + this.state.delay;
     this.process = false;
   }
 

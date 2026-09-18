@@ -51,7 +51,7 @@ describe("PhysicalForceController", () => {
     controller.process = true;
     controller.activate();
 
-    expect(controller.time).toBe(0);
+    expect(controller.time).toBe(NOW);
     expect(controller.process).toBe(false);
   });
 
@@ -75,6 +75,25 @@ describe("PhysicalForceController", () => {
 
     expect(object.set_const_force).not.toHaveBeenCalled();
     expect(controller.process).toBe(false);
+  });
+
+  it("should apply force immediately when reactivated without a pending delay", () => {
+    const object: GameObject = MockGameObject.mock();
+    const controller: PhysicalForceController = new PhysicalForceController(object, createForceState({ delay: 5000 }));
+
+    controller.activate();
+    controller.update();
+
+    expect(object.set_const_force).not.toHaveBeenCalled();
+
+    replaceFunctionMock(time_global, () => NOW + 100);
+    controller.state.delay = 0;
+    controller.activate();
+    controller.update();
+    controller.update();
+
+    expect(object.set_const_force).toHaveBeenCalledTimes(1);
+    expect(controller.process).toBe(true);
   });
 
   it("should apply force only once", () => {
