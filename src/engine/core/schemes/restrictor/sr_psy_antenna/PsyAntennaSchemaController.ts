@@ -30,7 +30,7 @@ export class PsyAntennaSchemaController extends AbstractSchemeController<IScheme
     }
 
     if (this.antennaState === EAntennaState.INSIDE) {
-      this.onZoneLeave();
+      this.onZoneLeave(loading);
     }
 
     this.antennaState = EAntennaState.VOID;
@@ -118,8 +118,10 @@ export class PsyAntennaSchemaController extends AbstractSchemeController<IScheme
 
   /**
    * Roll back the psy antenna effects applied to the shared antenna controller on zone leave.
+   *
+   * @param loading - Whether undoing a saved zone contribution before checking the restored actor position.
    */
-  public onZoneLeave(): void {
+  public onZoneLeave(loading: boolean = false): void {
     logger.info("Leave psy antenna zone");
 
     this.antennaState = EAntennaState.OUTSIDE;
@@ -130,7 +132,10 @@ export class PsyAntennaSchemaController extends AbstractSchemeController<IScheme
     this.antennaManager.muteSoundThreshold -= this.state.muteSoundThreshold;
     this.antennaManager.hitIntensity -= this.state.hitIntensity;
 
-    this.antennaManager.phantomSpawnProbability -= this.state.phantomProb;
+    // Phantom probability is not serialized; active zones rebuild it after loading.
+    if (!loading) {
+      this.antennaManager.phantomSpawnProbability -= this.state.phantomProb;
+    }
 
     if (this.state.postprocess === NIL) {
       return;

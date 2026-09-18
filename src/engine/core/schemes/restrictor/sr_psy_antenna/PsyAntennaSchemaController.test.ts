@@ -2,10 +2,16 @@ import { beforeEach, describe, expect, it, jest } from "@jest/globals";
 import { get_hud, level } from "xray16";
 import { GameObject } from "xray16/alias";
 import { NIL } from "xray16/lib";
-import { MockGameObject, MockVector } from "xray16/mocks";
+import { MockGameObject, MockNetProcessor, MockVector } from "xray16/mocks";
 import { replaceFunctionMock, resetFunctionMock } from "xray16/testing/utils";
 
-import { getManager, getPortableStoreValue, registerObject, setPortableStoreValue } from "@/engine/core/database";
+import {
+  disposeManager,
+  getManager,
+  getPortableStoreValue,
+  registerObject,
+  setPortableStoreValue,
+} from "@/engine/core/database";
 import { PsyAntennaManager } from "@/engine/core/managers/psy/PsyAntennaManager";
 import { PsyAntennaSchemaController } from "@/engine/core/schemes/restrictor/sr_psy_antenna/PsyAntennaSchemaController";
 import {
@@ -108,6 +114,90 @@ describe("PsyAntennaSchemaController", () => {
 
     expect(controller.antennaState).toBe(EAntennaState.OUTSIDE);
     expect(get_hud().enable_fake_indicators).toHaveBeenCalledWith(false);
+  });
+
+  it.each([true, false])("should rebuild loaded zone probability when actor remains inside: %s", (isActorInside) => {
+    const state: ISchemePsyAntennaState = createPsyAntennaState({ phantomProb: 0.3 });
+    const { antennaManager, controller, object } = createController(state);
+    const processor: MockNetProcessor = new MockNetProcessor();
+
+    controller.activate(object);
+    controller.save();
+    antennaManager.save(processor.asNetPacket());
+
+    disposeManager(PsyAntennaManager);
+
+    const loadedManager: PsyAntennaManager = getManager(PsyAntennaManager);
+
+    loadedManager.load(processor.asNetReader());
+    jest.mocked(object.inside).mockReturnValue(isActorInside);
+
+    const restoredController: PsyAntennaSchemaController = new PsyAntennaSchemaController(object, state);
+
+    restoredController.activate(object, true);
+
+    expect(loadedManager.phantomSpawnProbability).toBeCloseTo(isActorInside ? 0.3 : 0);
+    expect(loadedManager.hitIntensity).toBe(isActorInside ? 2 : 0);
+    expect(loadedManager.soundIntensityBase).toBe(isActorInside ? 1 : 0);
+    expect(loadedManager.muteSoundThreshold).toBe(isActorInside ? 3 : 0);
+    expect(processor.readDataOrder).toEqual(processor.writeDataOrder);
+    expect(processor.dataList).toHaveLength(0);
+
+    restoredController.deactivate();
+
+    expect(loadedManager.phantomSpawnProbability).toBeCloseTo(0);
+  });
+
+  it("should balance overlapping zone probabilities after loading and reactivation", () => {
+    const first = createController(createPsyAntennaState({ phantomProb: 0.3, postprocess: "psy.ppe" }));
+    const second = createController(createPsyAntennaState({ phantomProb: 0.2, postprocess: "psy.ppe" }));
+    const processor: MockNetProcessor = new MockNetProcessor();
+
+    first.controller.activate(first.object);
+    second.controller.activate(second.object);
+    first.controller.save();
+    second.controller.save();
+    first.antennaManager.save(processor.asNetPacket());
+
+    disposeManager(PsyAntennaManager);
+
+    const loadedManager: PsyAntennaManager = getManager(PsyAntennaManager);
+
+    loadedManager.load(processor.asNetReader());
+
+    const firstRestored: PsyAntennaSchemaController = new PsyAntennaSchemaController(
+      first.object,
+      first.controller.state
+    );
+    const secondRestored: PsyAntennaSchemaController = new PsyAntennaSchemaController(
+      second.object,
+      second.controller.state
+    );
+
+    firstRestored.activate(first.object, true);
+    secondRestored.activate(second.object, true);
+
+    expect(loadedManager.phantomSpawnProbability).toBeCloseTo(0.5);
+    expect(loadedManager.hitIntensity).toBe(4);
+    expect(loadedManager.soundIntensityBase).toBe(2);
+    expect(loadedManager.postprocess.get("psy.ppe").intensityBase).toBe(2);
+
+    firstRestored.deactivate();
+
+    expect(loadedManager.phantomSpawnProbability).toBeCloseTo(0.2);
+
+    firstRestored.activate(first.object);
+    firstRestored.activate(first.object);
+
+    expect(loadedManager.phantomSpawnProbability).toBeCloseTo(0.5);
+
+    firstRestored.deactivate();
+    secondRestored.deactivate();
+
+    expect(loadedManager.phantomSpawnProbability).toBeCloseTo(0);
+    expect(loadedManager.hitIntensity).toBe(0);
+    expect(loadedManager.soundIntensityBase).toBe(0);
+    expect(loadedManager.postprocess.get("psy.ppe").intensityBase).toBe(0);
   });
 
   it("should skip update when switching to another section", () => {
