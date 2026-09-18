@@ -60,8 +60,9 @@ export class TimerController extends AbstractSchemeController<ISchemeTimerState>
 
     this.state.timer.TextControl().SetTextST(globalTimeToString(valueTime));
 
-    if (this.state.onValue) {
-      const expectedValue: TTimestamp = tonumber(this.state.onValue.p1) as TTimestamp;
+    for (const index of $range(1, this.state.onValue.length())) {
+      const threshold = this.state.onValue.get(index);
+      const expectedValue: TTimestamp = threshold.value;
 
       if (
         (this.state.type === ETimerType.DECREMENT && valueTime <= expectedValue) ||
@@ -70,11 +71,14 @@ export class TimerController extends AbstractSchemeController<ISchemeTimerState>
         const nextSection: Nillable<TSection> = pickSectionFromCondList(
           registry.actor,
           this.object,
-          this.state.onValue.condlist
+          threshold.condlist
         );
 
         logger.info("Switch to another section: %s %s", this.object.name(), nextSection);
-        switchObjectSchemeToSection(this.object, this.state.ini!, nextSection);
+
+        if (switchObjectSchemeToSection(this.object, this.state.ini!, nextSection)) {
+          return;
+        }
       }
     }
   }

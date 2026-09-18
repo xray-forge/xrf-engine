@@ -52,6 +52,63 @@ describe("TimerController", () => {
     expect(hud.GetCustomStatic("hud_timer_text")).toBeNull();
   });
 
+  it.each([
+    { type: ETimerType.INCREMENT, start_value: 0, on_value: "3000|sr_idle@later|2000|nil" },
+    { type: ETimerType.DECREMENT, start_value: 5000, on_value: "1000|sr_idle@later|3000|nil" },
+  ])("should evaluate later thresholds in $type mode", (config) => {
+    registerActor(MockGameObject.mock());
+
+    const object = MockGameObject.mock();
+    const state = registerObject(object);
+    const ini = MockIniFile.mock("timer-thresholds.ltx", { sr_timer: config });
+
+    loadSchemeImplementation(SchemeTimer);
+    jest.spyOn(Date, "now").mockReturnValue(10_000);
+    activateSchemeBySection(object, ini, "sr_timer", null, false);
+
+    const controller: TimerController = getSchemeAction(getSchemeStateOptimistic(state, EScheme.SR_TIMER));
+
+    jest.spyOn(Date, "now").mockReturnValue(11_999);
+    controller.update();
+    expect(state.activeScheme).toBe(EScheme.SR_TIMER);
+
+    jest.spyOn(Date, "now").mockReturnValue(12_000);
+    controller.update();
+    expect(state.activeScheme).toBeNull();
+  });
+
+  it("should continue through unmet and effect-only entries and stop after switching", () => {
+    const actor = MockGameObject.mock();
+
+    registerActor(actor);
+
+    const object = MockGameObject.mock();
+    const state = registerObject(object);
+    const ini = MockIniFile.mock("timer-effects.ltx", {
+      sr_timer: {
+        on_value:
+          "1000|{+timer_missing}sr_idle@invalid|1000|%+timer_effect%|" + "1000|{+timer_effect}nil|1000|%+timer_stale%",
+      },
+    });
+
+    loadSchemeImplementation(SchemeTimer);
+    jest.spyOn(Date, "now").mockReturnValue(10_000);
+    activateSchemeBySection(object, ini, "sr_timer", null, false);
+
+    const controller: TimerController = getSchemeAction(getSchemeStateOptimistic(state, EScheme.SR_TIMER));
+
+    jest.spyOn(Date, "now").mockReturnValue(10_999);
+    controller.update();
+    expect(actor.give_info_portion).not.toHaveBeenCalled();
+
+    jest.spyOn(Date, "now").mockReturnValue(11_000);
+    controller.update();
+
+    expect(actor.give_info_portion).toHaveBeenCalledWith("timer_effect");
+    expect(actor.give_info_portion).not.toHaveBeenCalledWith("timer_stale");
+    expect(state.activeScheme).toBeNull();
+  });
+
   it("should correctly call updates", () => {
     registerActor(MockGameObject.mock());
 

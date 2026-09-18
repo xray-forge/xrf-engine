@@ -1,11 +1,12 @@
 import { GameObject, IniFile } from "xray16/alias";
-import { assert, TSection } from "xray16/lib";
-import { $filename } from "xray16/macros";
+import { assert, LuaArray, Nillable, TSection, TTimestamp } from "xray16/lib";
+import { $filename, $isNotNil } from "xray16/macros";
 
 import {
   getConfigSwitchConditions,
+  parseConditionsList,
+  parseParameters,
   readIniNumber,
-  readIniNumberAndConditionList,
   readIniString,
 } from "@/engine/core/ini";
 import { AbstractScheme } from "@/engine/core/schemes/base/AbstractScheme";
@@ -49,7 +50,26 @@ export class SchemeTimer extends AbstractScheme {
       state.startValue = readIniNumber(ini, section, "start_value", false, 0);
     }
 
-    state.onValue = readIniNumberAndConditionList(ini, section, "on_value");
+    state.onValue = new LuaTable();
+
+    const onValue: string = readIniString(ini, section, "on_value", false, null, "").trim();
+
+    if (onValue !== "") {
+      const parameters: LuaArray<string> = parseParameters(onValue);
+
+      assert(parameters.length() % 2 === 0, "Invalid on_value threshold list in section '%s'.", section);
+
+      for (let index = 1; index <= parameters.length(); index += 2) {
+        const value: Nillable<TTimestamp> = tonumber(parameters.get(index));
+        const condlist: string = parameters.get(index + 1).trim();
+
+        assert($isNotNil(value), "Invalid on_value threshold '%s' in section '%s'.", parameters.get(index), section);
+        assert(condlist !== "", "Invalid on_value condition list in section '%s'.", section);
+
+        table.insert(state.onValue, { value, condlist: parseConditionsList(condlist) });
+      }
+    }
+
     state.timerId = readIniString(ini, section, "timer_id", false, null, "hud_timer");
     state.string = readIniString(ini, section, "string", false);
 
