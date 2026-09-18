@@ -29,6 +29,8 @@ export class ParticleController extends AbstractSchemeController<ISchemeParticle
   public path: Nillable<Patrol> = null;
 
   public override activate(): void {
+    this.deactivate();
+
     const now: TTimestamp = time_global();
 
     if (this.state.mode === EParticleBehaviour.COMPLEX) {
@@ -79,14 +81,15 @@ export class ParticleController extends AbstractSchemeController<ISchemeParticle
         descriptor.particle.stop();
       }
 
-      descriptor.particle = null as unknown as ParticlesObject;
-
       if (descriptor.sound?.playing()) {
         descriptor.sound.stop();
       }
 
       descriptor.sound = null;
     }
+
+    this.particles = new LuaTable();
+    this.path = null;
   }
 
   public update(): void {

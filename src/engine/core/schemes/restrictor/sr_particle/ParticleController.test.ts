@@ -191,9 +191,76 @@ describe("ParticleController", () => {
     controller.update();
     controller.deactivate();
 
-    expect(controller.particles.length()).toBe(3);
+    expect(controller.particles.length()).toBe(0);
     expect(particles).toHaveLength(3);
     particles.forEach((particle) => expect(particle.stop).toHaveBeenCalledTimes(1));
+    controller.deactivate();
+    particles.forEach((particle) => expect(particle.stop).toHaveBeenCalledTimes(1));
+  });
+
+  it.each([EParticleBehaviour.SIMPLE, EParticleBehaviour.COMPLEX])(
+    "should discard stale particles when reactivated in mode %s with fewer entries",
+    (mode) => {
+      MockPatrol.register("short-particle-path", {
+        points: [
+          { name: "wp00", gvid: 1, lvid: 1, position: MockVector.create(1, 2, 3) },
+          { name: "wp01", gvid: 2, lvid: 2, position: MockVector.create(4, 5, 6) },
+        ],
+      });
+
+      const state = mockSchemeState<ISchemeParticleState>(EScheme.SR_PARTICLE, {
+        mode: EParticleBehaviour.COMPLEX,
+        path: "test-wp",
+        name: "test_particle",
+        looped: false,
+      });
+
+      const controller = new ParticleController(MockGameObject.mock(), state);
+
+      controller.activate();
+      expect(controller.particles.length()).toBe(3);
+      controller.deactivate();
+      state.mode = mode;
+      state.path = "short-particle-path";
+      controller.activate();
+      controller.update();
+
+      jest.spyOn(Date, "now").mockReturnValue(20_000);
+      controller.update();
+
+      expect(controller.particles.length()).toBe(mode === EParticleBehaviour.SIMPLE ? 1 : 2);
+      expect(controller.isEnded()).toBe(false);
+
+      for (const [, descriptor] of controller.particles) {
+        expect(descriptor.particle.playing()).toBe(true);
+        descriptor.particle.stop();
+      }
+
+      expect(controller.isEnded()).toBe(true);
+      expect(state.signals?.get("particle_end")).toBe(true);
+      controller.deactivate();
+      expect(controller.isEnded()).toBe(true);
+    }
+  );
+
+  it("should stop existing playback before activation replaces its descriptors", () => {
+    const state = mockSchemeState<ISchemeParticleState>(EScheme.SR_PARTICLE, {
+      mode: EParticleBehaviour.SIMPLE,
+      path: "simple_path",
+      name: "test_particle",
+    });
+
+    const controller = new ParticleController(MockGameObject.mock(), state);
+
+    controller.activate();
+    controller.update();
+
+    const particle = controller.particles.get(1).particle;
+
+    controller.activate();
+
+    expect(particle.stop).toHaveBeenCalledTimes(1);
+    expect(controller.particles.get(1).particle).not.toBe(particle);
   });
 
   it("should correctly update based on mode / started state", () => {
