@@ -402,4 +402,48 @@ describe("DeimosController", () => {
 
     expect(controller.reset).toHaveBeenCalledTimes(1);
   });
+
+  it.each([0, 0.2])("should stop all effects above the new intensity after a sudden drop to %s", (intensity) => {
+    mockRegisteredActor();
+    replaceFunctionMock(time_global, () => NOW);
+
+    const manager: DeimosManager = getManager(DeimosManager);
+    const soundManager: SoundManager = getManager(SoundManager);
+    const controller: DeimosController = new DeimosController(
+      MockGameObject.mock(),
+      createDeimosState({ movementSpeed: 42, growingRate: 0.45 })
+    );
+
+    jest.spyOn(manager, "getActorMovementSpeed").mockReturnValue(0);
+    jest.spyOn(soundManager, "playLooped").mockImplementation(() => null);
+    jest.spyOn(soundManager, "stopLooped").mockImplementation(() => null);
+    jest.spyOn(soundManager, "setLoopedSoundVolume").mockImplementation(() => null);
+
+    for (let index: number = 0; index < 8; index += 1) {
+      controller.update();
+    }
+
+    expect(controller.phase).toBe(2);
+    expect(soundManager.playLooped).toHaveBeenCalledWith(ACTOR_ID, "heartbeat");
+    expect(level.add_cam_effector).toHaveBeenCalled();
+
+    resetFunctionMock(level.remove_cam_effector);
+    resetFunctionMock(level.remove_pp_effector);
+    jest.mocked(manager.getActorMovementSpeed).mockReturnValue(42 + (controller.state.intensity - intensity) / 0.005);
+    controller.update();
+
+    expect(controller.state.intensity).toBeCloseTo(intensity);
+    expect(controller.phase).toBe(intensity === 0 ? 0 : 1);
+    expect(soundManager.stopLooped).toHaveBeenCalledWith(ACTOR_ID, "heartbeat");
+    expect(level.remove_cam_effector).toHaveBeenCalledWith(deimosConfig.CAMERA_EFFECTOR_ID);
+    expect(level.remove_pp_effector).toHaveBeenCalledWith(deimosConfig.POST_PROCESS_EFFECTOR_SECONDARY_ID);
+
+    if (intensity === 0) {
+      expect(soundManager.stopLooped).toHaveBeenCalledWith(ACTOR_ID, "noise");
+      expect(level.remove_pp_effector).toHaveBeenCalledWith(deimosConfig.POST_PROCESS_EFFECTOR_ID);
+    } else {
+      expect(soundManager.stopLooped).not.toHaveBeenCalledWith(ACTOR_ID, "noise");
+      expect(level.remove_pp_effector).not.toHaveBeenCalledWith(deimosConfig.POST_PROCESS_EFFECTOR_ID);
+    }
+  });
 });

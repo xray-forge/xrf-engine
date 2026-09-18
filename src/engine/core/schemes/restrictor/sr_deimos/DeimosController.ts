@@ -94,18 +94,23 @@ export class DeimosController extends AbstractSchemeController<ISchemeDeimosStat
         }
       }
     } else {
+      // One update can cross multiple thresholds; unwind each effect before lowering its phase.
+      if (this.state.intensity < this.state.switchUpperBound) {
+        deimosManager.removeSecondaryEffects();
+      }
+
+      if (this.state.intensity < this.state.switchLowerBound) {
+        if (this.phase > 1) {
+          deimosManager.stopHeartbeat(this.state.heartbeatSound);
+          this.phase = 1;
+        }
+      }
+
       if (this.state.intensity < this.state.disableBound) {
         if (this.phase > 0) {
           deimosManager.stopPrimaryEffects(this.state.noiseSound);
           this.phase = 0;
         }
-      } else if (this.state.intensity < this.state.switchLowerBound) {
-        if (this.phase > 1) {
-          deimosManager.stopHeartbeat(this.state.heartbeatSound);
-          this.phase = 1;
-        }
-      } else if (this.state.intensity < this.state.switchUpperBound) {
-        deimosManager.removeSecondaryEffects();
       }
     }
 
