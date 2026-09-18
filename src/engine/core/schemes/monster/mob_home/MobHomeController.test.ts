@@ -25,6 +25,7 @@ describe("MobHomeController", () => {
       monsterState: EMonsterState.NONE,
       isSmartTerrainPoint: false,
     });
+
     const controller: MobHomeController = new MobHomeController(object, state);
 
     jest.spyOn(controller, "getHomeParameters").mockImplementation(() => {
@@ -63,6 +64,7 @@ describe("MobHomeController", () => {
       monsterState: EMonsterState.NONE,
       isSmartTerrainPoint: false,
     });
+
     const controller: MobHomeController = new MobHomeController(object, state);
 
     const [name, minRadius, maxRadius, isAggressive, midRadius] = controller.getHomeParameters();
@@ -79,6 +81,7 @@ describe("MobHomeController", () => {
     const state: ISchemeMobHomeState = mockSchemeState<ISchemeMobHomeState>(EScheme.MOB_HOME, {
       homeWayPoint: "test-wp",
     });
+
     const controller: MobHomeController = new MobHomeController(object, state);
 
     const [name, minRadius, maxRadius, isAggressive, midRadius] = controller.getHomeParameters();
@@ -105,6 +108,7 @@ describe("MobHomeController", () => {
       homeWayPoint: "test-wp",
       isSmartTerrainPoint: true,
     });
+
     const controller: MobHomeController = new MobHomeController(object, state);
 
     const [name, minRadius, maxRadius, isAggressive, midRadius] = controller.getHomeParameters();
@@ -121,6 +125,7 @@ describe("MobHomeController", () => {
     const state: ISchemeMobHomeState = mockSchemeState<ISchemeMobHomeState>(EScheme.MOB_HOME, {
       homeWayPoint: "test-wp-home-radius",
     });
+
     const controller: MobHomeController = new MobHomeController(object, state);
 
     const [, minRadius, maxRadius, , midRadius] = controller.getHomeParameters();
@@ -138,6 +143,7 @@ describe("MobHomeController", () => {
       homeMinRadius: 100,
       homeWayPoint: "test-wp",
     });
+
     const controller: MobHomeController = new MobHomeController(object, state);
 
     expect(controller.getHomeParameters()[4]).toBe(120);
@@ -151,21 +157,40 @@ describe("MobHomeController", () => {
       homeMinRadius: 100,
       homeWayPoint: "test-wp",
     });
+
     const controller: MobHomeController = new MobHomeController(object, state);
 
     expect(controller.getHomeParameters()[4]).toBe(150);
   });
 
-  it("should fail when min radius is not smaller than max radius", () => {
+  it.each([null, 30, 50])("should activate equal home radiuses with configured mid radius %s", (homeMidRadius) => {
+    const object: GameObject = MockGameObject.mock();
+    const state: ISchemeMobHomeState = mockSchemeState<ISchemeMobHomeState>(EScheme.MOB_HOME, {
+      homeMaxRadius: 30,
+      homeMidRadius,
+      homeMinRadius: 30,
+      homeWayPoint: "test-wp",
+      monsterState: EMonsterState.NONE,
+    });
+
+    const controller: MobHomeController = new MobHomeController(object, state);
+
+    controller.activate();
+
+    expect(object.set_home).toHaveBeenCalledWith("test-wp", 30, 30, false, 30);
+  });
+
+  it("should fail when min radius exceeds max radius", () => {
     const object: GameObject = MockGameObject.mock();
     const state: ISchemeMobHomeState = mockSchemeState<ISchemeMobHomeState>(EScheme.MOB_HOME, {
       homeMaxRadius: 100,
       homeMinRadius: 200,
       homeWayPoint: "test-wp",
     });
+
     const controller: MobHomeController = new MobHomeController(object, state);
 
-    expect(() => controller.getHomeParameters()).toThrow("MobHome: Home min Radius MUST be < max radius.");
+    expect(() => controller.getHomeParameters()).toThrow("MobHome: Home min Radius MUST be <= max radius.");
   });
 
   it("should get home location without waypoint", () => {
@@ -173,6 +198,7 @@ describe("MobHomeController", () => {
     const state: ISchemeMobHomeState = mockSchemeState<ISchemeMobHomeState>(EScheme.MOB_HOME, {
       homeWayPoint: null,
     });
+
     const controller: MobHomeController = new MobHomeController(object, state);
 
     const [name, minRadius, maxRadius] = controller.getHomeParameters();

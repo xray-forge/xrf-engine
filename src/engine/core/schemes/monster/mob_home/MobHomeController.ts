@@ -74,8 +74,8 @@ export class MobHomeController extends AbstractSchemeController<ISchemeMobHomeSt
     }
 
     assert(
-      maxRadius > minRadius,
-      "MobHome: Home min Radius MUST be < max radius. Got: min radius = %d, max radius = %d.",
+      maxRadius >= minRadius,
+      "MobHome: Home min Radius MUST be <= max radius. Got: min radius = %d, max radius = %d.",
       minRadius,
       maxRadius
     );
