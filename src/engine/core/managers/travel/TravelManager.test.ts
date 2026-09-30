@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, jest } from "@jest/globals";
-import { clsid, time_global } from "xray16";
+import { clsid, level, time_global } from "xray16";
 import { GameObject, ServerCreatureObject, ServerGroupObject, ServerSmartZoneObject } from "xray16/alias";
 import { AnyObject, TRUE } from "xray16/lib";
 import {
@@ -15,11 +15,13 @@ import {
   MockVector,
 } from "xray16/mocks";
 
+import { postProcessors } from "@/engine/constants/animation";
 import { getManager, registerSimulator } from "@/engine/core/database";
 import { parseConditionsList } from "@/engine/core/ini";
 import { ActorInputManager, EActorControlHandle } from "@/engine/core/managers/actor";
 import { EGameEvent, EventsManager } from "@/engine/core/managers/events";
 import { simulationConfig } from "@/engine/core/managers/simulation/SimulationConfig";
+import { surgeConfig } from "@/engine/core/managers/surge/SurgeConfig";
 import { travelConfig } from "@/engine/core/managers/travel/TravelConfig";
 import { TravelManager } from "@/engine/core/managers/travel/TravelManager";
 import { getTravelPriceForSquad } from "@/engine/core/managers/travel/utils";
@@ -91,9 +93,7 @@ describe("TravelManager", () => {
 
     manager.initialize();
 
-    expect(manager.isTraveling).toBe(false);
-    expect(manager.isTravelTeleported).toBe(false);
-    expect(manager.travelingStartedAt).toBe(0);
+    expect(manager.activeTravel).toBeNull();
   });
 
   it("should correctly initialize travel dialog phrases", () => {
@@ -550,8 +550,20 @@ describe("TravelManager", () => {
 
     expect(object.stop_talk).toHaveBeenCalledTimes(1);
     expect(actorGameObject.give_money).toHaveBeenCalledWith(-100);
-    expect(manager.isTraveling).toBe(true);
-    expect(manager.isTravelTeleported).toBe(false);
+    expect(level.add_pp_effector).toHaveBeenCalledWith(
+      postProcessors.fade_in_out,
+      travelConfig.TRAVEL_FADE_PP_EFFECTOR_ID,
+      false
+    );
+    expect(manager.activeTravel).toEqual({
+      squad,
+      terrainId: terrain.id,
+      distance: 100,
+      actorPath: "test_actor_path",
+      squadPath: "test_squad_path",
+      startedAt: expect.any(Number),
+      isTeleported: false,
+    });
 
     MockPatrol.setup({
       test_actor_path: {
@@ -565,11 +577,22 @@ describe("TravelManager", () => {
       },
     });
     (time_global as unknown as jest.Mock).mockReturnValue(
-      manager.travelingStartedAt + travelConfig.TRAVEL_TELEPORT_DELAY
+      manager.activeTravel!.startedAt + travelConfig.TRAVEL_TELEPORT_DELAY
     );
     manager.update();
 
-    expect(manager.isTravelTeleported).toBe(true);
+    expect(manager.activeTravel?.isTeleported).toBe(true);
+    expect(actorGameObject.set_actor_position).toHaveBeenCalledTimes(1);
+    // 100 units of distance take 10 game minutes.
+    expect(level.change_game_time).toHaveBeenCalledWith(0, 0, 10);
+    expect(surgeConfig.IS_TIME_FORWARDED).toBe(true);
+
+    manager.update();
+
+    // The actor is teleported once per travel.
+    expect(actorGameObject.set_actor_position).toHaveBeenCalledTimes(1);
+
+    surgeConfig.IS_TIME_FORWARDED = false;
 
     simulationConfig.TERRAINS.delete("zat_stalker_base_smart");
     simulationConfig.TERRAIN_DESCRIPTORS.delete(terrain.id);
@@ -598,7 +621,8 @@ describe("TravelManager", () => {
 
     expect(object.stop_talk).toHaveBeenCalledTimes(1);
     expect(actorGameObject.give_money).not.toHaveBeenCalled();
-    expect(manager.isTraveling).toBe(true);
+    expect(manager.activeTravel?.squad).toBe(squad);
+    expect(manager.activeTravel?.terrainId).toBe(terrain.id);
   });
 
   it("should resolve active travel after the configured delay", () => {
@@ -607,16 +631,30 @@ describe("TravelManager", () => {
     const manager: TravelManager = getManager(TravelManager);
     const input: ActorInputManager = getManager(ActorInputManager);
 
-    manager.isTraveling = true;
-    manager.isTravelTeleported = true;
-    manager.travelingStartedAt = 0;
+    manager.activeTravel = {
+      squad: MockAlifeOnlineOfflineGroup.mock() as Squad,
+      terrainId: 1,
+      distance: 100,
+      actorPath: "test_actor_path",
+      squadPath: "test_squad_path",
+      startedAt: 0,
+      isTeleported: true,
+    };
     (time_global as unknown as jest.Mock).mockReturnValue(travelConfig.TRAVEL_RESOLVE_DELAY);
     jest.spyOn(input, "releaseControl");
 
     manager.update();
 
-    expect(manager.isTraveling).toBe(false);
+    expect(manager.activeTravel).toBeNull();
     expect(input.releaseControl).toHaveBeenCalledWith(EActorControlHandle.TRAVEL);
+  });
+
+  it("should reject traveler dialog phrases of unknown routes", () => {
+    const manager: TravelManager = getManager(TravelManager);
+
+    expect(() => manager.getTravelPriceByObjectPhrase(MockGameObject.mock(), "9999_1")).toThrow(
+      "Error in travel manager, not available smart name: '9999_1'."
+    );
   });
 
   it("should calculate dialog price from the same squad travel distance used for charging", () => {

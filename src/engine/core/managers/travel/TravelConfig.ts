@@ -13,6 +13,7 @@ export const travelConfig = {
   // Duration to delay UI visibility after fast travel.
   TRAVEL_TELEPORT_DELAY: readIniNumber(TRAVEL_CONFIG_LTX, "config", "travel_teleport_delay", false, 3_000),
   TRAVEL_RESOLVE_DELAY: readIniNumber(TRAVEL_CONFIG_LTX, "config", "travel_resolve_delay", false, 6_000),
+  TRAVEL_FADE_PP_EFFECTOR_ID: 613,
   // List of travel paths / dialogs.
   TRAVEL_LOCATIONS: readIniSectionAsStringMap(TRAVEL_CONFIG_LTX, "locations"),
   TRAVEL_DESCRIPTORS_BY_NAME: DESCRIPTORS_BY_NAME,

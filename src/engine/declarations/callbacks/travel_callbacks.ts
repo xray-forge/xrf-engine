@@ -14,16 +14,16 @@ extern("travel_callbacks", {
     getManager(TravelManager).getSquadCurrentActionDescription(actor, object),
   can_actor_move_with_squad: (actor: GameObject, object: GameObject): boolean =>
     getManager(TravelManager).canActorMoveWithSquad(actor, object),
-  can_squad_take_actor: (actor: GameObject, object: GameObject): boolean =>
-    getManager(TravelManager).canSquadTakeActor(actor, object),
+  can_squad_take_actor: (object: GameObject, actor: GameObject): boolean =>
+    getManager(TravelManager).canSquadTakeActor(object, actor),
   cannot_squad_take_actor: (object: GameObject, actor: GameObject, dialogId: TStringId, phraseId: TStringId): boolean =>
     !getManager(TravelManager).canSquadTakeActor(object, actor, dialogId, phraseId),
   on_travel_together_with_squad: (
-    object: GameObject,
     actor: GameObject,
+    object: GameObject,
     dialogId: TStringId,
     phraseId: TStringId
-  ): void => getManager(TravelManager).onTravelTogetherWithSquad(object, actor, dialogId, phraseId),
+  ): void => getManager(TravelManager).onTravelTogetherWithSquad(actor, object, dialogId, phraseId),
   on_travel_to_specific_smart_with_squad: (
     actor: GameObject,
     object: GameObject,

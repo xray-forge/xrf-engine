@@ -15,7 +15,6 @@ import {
   TNumberId,
   TRUE,
   TStringId,
-  TTimestamp,
   vectorToString,
 } from "xray16/lib";
 import { $filename, $isNil, $isNotNil } from "xray16/macros";
@@ -38,9 +37,9 @@ import {
   releaseSimulationSquad,
 } from "@/engine/core/managers/simulation/utils";
 import { surgeConfig } from "@/engine/core/managers/surge/SurgeConfig";
-import { ITravelRouteDescriptor } from "@/engine/core/managers/travel/travel_types";
+import { ITravelDescriptor, ITravelRouteDescriptor } from "@/engine/core/managers/travel/travel_types";
 import { travelConfig } from "@/engine/core/managers/travel/TravelConfig";
-import { getTravelPriceForSquad } from "@/engine/core/managers/travel/utils";
+import { getTravelPriceByDistance, getTravelPriceForSquad } from "@/engine/core/managers/travel/utils";
 import { SmartTerrain } from "@/engine/core/objects/smart_terrain/SmartTerrain";
 import type { Squad } from "@/engine/core/objects/squad/Squad";
 import { ESquadActionType } from "@/engine/core/objects/squad/squad_types";
@@ -63,15 +62,7 @@ const logger: LuaLogger = new LuaLogger($filename, { file: "travel", mode: ELuaL
  * Todo: Move some pure methods to utils.
  */
 export class TravelManager extends AbstractManager {
-  public isTraveling: boolean = false;
-  public isTravelTeleported: boolean = false;
-  public travelingStartedAt: TTimestamp = 0;
-
-  private travelToSmartId: Nillable<TNumberId> = null;
-  private travelDistance: Nillable<TDuration> = null;
-  private travelActorPath: Nillable<TName> = null;
-  private travelSquadPath: Nillable<TName> = null;
-  private travelSquad: Nillable<Squad> = null;
+  public activeTravel: Nillable<ITravelDescriptor> = null;
 
   public override initialize(): void {
     const eventsManager: EventsManager = getManager(EventsManager);
@@ -365,12 +356,7 @@ export class TravelManager extends AbstractManager {
     prevPhraseId: TStringId,
     phraseId: TStringId
   ): boolean {
-    const terrainName: Nillable<TName> = travelConfig.TRAVEL_DESCRIPTORS_BY_PHRASE.get(phraseId);
-
-    if ($isNil(terrainName)) {
-      abort("Error in travel manager, not available smart name: '%s'.", tostring(phraseId));
-    }
-
+    const terrainName: TName = this.getRouteTerrainName(phraseId);
     const squad: Nillable<Squad> = getObjectSquad(object);
 
     if ($isNil(squad)) {
@@ -388,12 +374,8 @@ export class TravelManager extends AbstractManager {
    * @returns Travel price based on the distance to the destination terrain.
    */
   public getTravelPriceByObjectPhrase(object: GameObject, phraseId: TStringId): TCount {
-    const terrainName: TName = travelConfig.TRAVEL_DESCRIPTORS_BY_PHRASE.get(
-      string.sub(phraseId, 1, string.len(phraseId) - 2)
-    );
-
     const squad: Nillable<Squad> = getObjectSquad(object);
-    const terrain: Nillable<SmartTerrain> = getSimulationTerrainByName(terrainName);
+    const terrain: Nillable<SmartTerrain> = getSimulationTerrainByName(this.getRouteTerrainName(phraseId));
 
     assert(squad, "Cannot calculate travel price without squad.");
     assert(terrain, "Cannot calculate travel price without destination terrain.");
@@ -437,85 +419,33 @@ export class TravelManager extends AbstractManager {
   }
 
   /**
-   * Tick of active actor update when teleporting from one place to another.
-   *
-   * Todo: Probably add some 'isTraveling' checker with assertion of types.
+   * Advance the active travel: teleport once the screen faded out, then return actor controls.
    */
   public override update(): void {
-    if (!this.isTraveling) {
+    const travel: Nillable<ITravelDescriptor> = this.activeTravel;
+
+    if (!travel) {
       return;
     }
 
-    // Wait till prepare.
-    if (time_global() - this.travelingStartedAt < travelConfig.TRAVEL_TELEPORT_DELAY) {
+    const elapsed: TDuration = time_global() - travel.startedAt;
+
+    if (elapsed < travelConfig.TRAVEL_TELEPORT_DELAY) {
       return;
     }
 
-    if (!this.isTravelTeleported) {
-      logger.info("Teleporting actor on travel: %s %s", this.travelSquadPath, this.travelActorPath);
-
-      this.isTravelTeleported = true;
-
-      const point: Patrol = new patrol(this.travelActorPath!);
-      const direction: TDirection = -point.point(1).sub(point.point(0)).getH();
-
-      // todo: Why releasing enemies? Probably not needed.
-      for (const [, squad] of getSimulationTerrainDescriptorById(this.travelToSmartId!)!.assignedSquads) {
-        if ($isNil(getStoryIdByObjectId(squad.id)) && isAnySquadMemberEnemyToActor(squad)) {
-          releaseSimulationSquad(squad);
-        }
-      }
-
-      const currentSmartId: Nillable<TNumberId> = this.travelSquad!.assignedTerrainId;
-
-      if ($isNotNil(currentSmartId)) {
-        logger.info("Leave smart on traveling: '%s' from '%s'", this.travelSquad!.name(), currentSmartId);
-
-        assignSimulationSquadToTerrain(this.travelSquad!, null);
-        assignSimulationSquadToTerrain(this.travelSquad!, currentSmartId);
-      }
-
-      const position: Vector = new patrol(this.travelSquadPath!).point(0);
-
-      logger.info("Set squad position: '%s' -> '%s'", this.travelSquad!.name(), vectorToString(position));
-
-      setSquadPosition(this.travelSquad as Squad, position);
-
-      registry.actor.set_actor_direction(direction);
-      registry.actor.set_actor_position(point.point(0));
-
-      const timeTookInMinutes: TDuration = this.travelDistance! / 10;
-      const hours: TDuration = math.floor(timeTookInMinutes / 60);
-      const minutes: TDuration = timeTookInMinutes - hours * 60;
-
-      level.change_game_time(0, hours, minutes);
-
-      surgeConfig.IS_TIME_FORWARDED = true;
-
-      logger.info(
-        "Forwarded time on travel: '%s', '%s', '%s:%s'",
-        this.travelSquadPath,
-        this.travelActorPath,
-        hours,
-        minutes
-      );
+    if (!travel.isTeleported) {
+      travel.isTeleported = true;
+      this.teleport(travel);
     }
 
-    // Wait till resolve.
-    if (time_global() - this.travelingStartedAt < travelConfig.TRAVEL_RESOLVE_DELAY) {
+    if (elapsed < travelConfig.TRAVEL_RESOLVE_DELAY) {
       return;
     }
 
     logger.info("Finish traveling");
 
-    this.isTraveling = false;
-
-    this.travelingStartedAt = 0;
-    this.travelActorPath = null;
-    this.travelSquadPath = null;
-    this.travelSquad = null;
-    this.travelDistance = null;
-    this.travelToSmartId = null;
+    this.activeTravel = null;
 
     getManager(ActorInputManager).releaseControl(EActorControlHandle.TRAVEL);
   }
@@ -534,43 +464,18 @@ export class TravelManager extends AbstractManager {
     dialogId: TStringId,
     phraseId: TStringId
   ): void {
-    const travelPhraseId: TStringId = string.sub(phraseId, 1, string.len(phraseId) - 3);
-    const terrainName: TName = travelConfig.TRAVEL_DESCRIPTORS_BY_PHRASE.get(travelPhraseId);
-    const terrain: Nillable<SmartTerrain> = getSimulationTerrainByName(terrainName)!;
-    const squad: Squad = getObjectSquad(object) as Squad;
+    const terrainName: TName = this.getRouteTerrainName(phraseId);
+    const terrain: SmartTerrain = getSimulationTerrainByName(terrainName)!;
+    const squad: Squad = getObjectSquad(object)!;
+    const distance: TDistance = getServerDistanceBetween(squad, terrain);
+    const price: TCount = getTravelPriceByDistance(distance);
 
-    logger.info("Actor travel with squad: '%s' -> '%s'", squad.name(), terrainName);
+    logger.info("Actor travel with squad: '%s' -> '%s', '%s' for '%s'", squad.name(), terrainName, distance, price);
 
-    createGameAutoSave("st_save_uni_travel_generic");
-
-    object.stop_talk();
-
-    getManager(ActorInputManager).acquireControl(
-      EActorControlHandle.TRAVEL,
-      "travel",
-      EActorControlPolicy.INPUT_AND_INDICATORS
-    );
-
-    level.add_pp_effector(postProcessors.fade_in_out, 613, false);
-
-    // todo: Alife distance vs abs distance.
-    const distance: TDistance = getServerDistanceBetween(squad!, terrain);
-    const price: TCount = getTravelPriceForSquad(squad, terrain);
-
-    logger.info("Actor travel distance and price: '%s' -> '%s'", distance, price);
+    this.startTravel(object, squad, terrain, distance);
 
     actor.give_money(-price);
     getManager(NotificationManager).sendMoneyRelocatedNotification(ENotificationDirection.OUT, price);
-
-    this.isTravelTeleported = false;
-    this.isTraveling = true;
-
-    this.travelActorPath = terrain.travelerActorPointName;
-    this.travelSquadPath = terrain.travelerSquadPointName;
-    this.travelToSmartId = terrain.id;
-    this.travelSquad = squad;
-    this.travelDistance = distance;
-    this.travelingStartedAt = time_global();
   }
 
   /**
@@ -588,11 +493,24 @@ export class TravelManager extends AbstractManager {
     dialogId: TStringId,
     phraseId: TStringId
   ): void {
-    createGameAutoSave("st_save_uni_travel_generic");
-
     const squad: Squad = getObjectSquad(object)!;
-    const squadTargetId: Nillable<TNumberId> = squad.assignedTargetId;
-    const terrain: SmartTerrain = registry.simulator.object<SmartTerrain>(squadTargetId!)!;
+    const terrain: SmartTerrain = registry.simulator.object<SmartTerrain>(squad.assignedTargetId!)!;
+
+    logger.info("Actor travel together with squad: '%s' -> '%s'", squad.name(), terrain.name());
+
+    this.startTravel(object, squad, terrain, getServerDistanceBetween(squad, terrain));
+  }
+
+  /**
+   * Start traveling with the squad after saving the game: fade the screen out and lock actor controls.
+   *
+   * @param object - Squad member game object the actor talks to.
+   * @param squad - Squad the actor travels with.
+   * @param terrain - Smart terrain to travel to.
+   * @param distance - Server graph distance of the route.
+   */
+  protected startTravel(object: GameObject, squad: Squad, terrain: SmartTerrain, distance: TDistance): void {
+    createGameAutoSave("st_save_uni_travel_generic");
 
     object.stop_talk();
 
@@ -602,17 +520,80 @@ export class TravelManager extends AbstractManager {
       EActorControlPolicy.INPUT_AND_INDICATORS
     );
 
-    level.add_pp_effector(postProcessors.fade_in_out, 613, false);
+    level.add_pp_effector(postProcessors.fade_in_out, travelConfig.TRAVEL_FADE_PP_EFFECTOR_ID, false);
 
-    this.isTravelTeleported = false;
-    this.isTraveling = true;
+    this.activeTravel = {
+      squad,
+      terrainId: terrain.id,
+      distance,
+      actorPath: terrain.travelerActorPointName,
+      squadPath: terrain.travelerSquadPointName,
+      startedAt: time_global(),
+      isTeleported: false,
+    };
+  }
 
-    this.travelDistance = getServerDistanceBetween(squad, terrain);
-    this.travelActorPath = terrain.travelerActorPointName;
-    this.travelSquadPath = terrain.travelerSquadPointName;
-    this.travelToSmartId = terrain.id;
-    this.travelSquad = squad;
-    this.travelingStartedAt = time_global();
+  /**
+   * Teleport the actor and squad to the travel destination while the screen is faded out, forwarding game time.
+   *
+   * @param travel - Active travel to teleport for.
+   */
+  protected teleport(travel: ITravelDescriptor): void {
+    logger.info("Teleporting actor on travel: %s %s", travel.squadPath, travel.actorPath);
+
+    const point: Patrol = new patrol(travel.actorPath);
+    const direction: TDirection = -point.point(1).sub(point.point(0)).getH();
+
+    // Hostile squads at the destination are released, so the actor does not arrive into a fight, as in vanilla.
+    for (const [, squad] of getSimulationTerrainDescriptorById(travel.terrainId)!.assignedSquads) {
+      if ($isNil(getStoryIdByObjectId(squad.id)) && isAnySquadMemberEnemyToActor(squad)) {
+        releaseSimulationSquad(squad);
+      }
+    }
+
+    const currentTerrainId: Nillable<TNumberId> = travel.squad.assignedTerrainId;
+
+    if ($isNotNil(currentTerrainId)) {
+      logger.info("Leave smart on traveling: '%s' from '%s'", travel.squad.name(), currentTerrainId);
+
+      assignSimulationSquadToTerrain(travel.squad, null);
+      assignSimulationSquadToTerrain(travel.squad, currentTerrainId);
+    }
+
+    const position: Vector = new patrol(travel.squadPath).point(0);
+
+    logger.info("Set squad position: '%s' -> '%s'", travel.squad.name(), vectorToString(position));
+
+    setSquadPosition(travel.squad, position);
+
+    registry.actor.set_actor_direction(direction);
+    registry.actor.set_actor_position(point.point(0));
+
+    // The route takes a game minute per 10 units of its distance, as in vanilla.
+    const timeTookInMinutes: TDuration = travel.distance / 10;
+    const hours: TDuration = math.floor(timeTookInMinutes / 60);
+    const minutes: TDuration = timeTookInMinutes - hours * 60;
+
+    level.change_game_time(0, hours, minutes);
+
+    surgeConfig.IS_TIME_FORWARDED = true;
+
+    logger.info("Forwarded time on travel: '%s:%s'", hours, minutes);
+  }
+
+  /**
+   * @param phraseId - Traveler dialog phrase of a route, or of one of its answers as `<route>_<answer>`.
+   * @returns Name of the smart terrain the route leads to.
+   */
+  protected getRouteTerrainName(phraseId: TStringId): TName {
+    const [routePhraseId] = string.match(phraseId, "[^_]+");
+    const terrainName: Nillable<TName> = travelConfig.TRAVEL_DESCRIPTORS_BY_PHRASE.get(routePhraseId as TStringId);
+
+    if ($isNil(terrainName)) {
+      abort("Error in travel manager, not available smart name: '%s'.", tostring(phraseId));
+    }
+
+    return terrainName;
   }
 
   /**
@@ -623,13 +604,7 @@ export class TravelManager extends AbstractManager {
   public onDebugDump(data: AnyObject): AnyObject {
     data[this.constructor.name] = {
       travelConfig: travelConfig,
-      isTraveling: this.isTraveling,
-      travelingStartedAt: this.travelingStartedAt,
-      travelToSmartId: this.travelToSmartId,
-      travelDistance: this.travelDistance,
-      travelActorPath: this.travelActorPath,
-      travelSquadPath: this.travelSquadPath,
-      travelSquad: this.travelSquad,
+      activeTravel: this.activeTravel,
     };
 
     return data;
