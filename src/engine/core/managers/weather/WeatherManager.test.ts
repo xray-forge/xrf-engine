@@ -54,7 +54,7 @@ describe("WeatherManager", () => {
     expect(weatherConfig.IS_UNDERGROUND_WEATHER).toBe(false);
     expect(manager.weatherPeriod).toBe("good");
     expect(manager.weatherSection).toBe("atmosfear_clear_foggy");
-    expect(String(getFunctionMock(level.set_weather).mock.calls[0][0]).startsWith("af3_slight_")).toBeTruthy();
+    expect(String(getFunctionMock(level.set_weather).mock.calls[0][0])).toMatch(/^w_(clear|partly|foggy)$/);
 
     jest.spyOn(level, "name").mockImplementation(() => "jupiter_underground");
 
@@ -80,7 +80,6 @@ describe("WeatherManager", () => {
             foggy: 0.1,
             partly: 0.2,
             rain: 0.1,
-            thunder: 0.1,
             veryfoggy: 0.1,
           }),
           weatherName: "dynamic_default",

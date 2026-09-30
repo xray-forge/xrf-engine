@@ -37,7 +37,6 @@ import { EGameEvent, EventsManager } from "@/engine/core/managers/events";
 import { SurgeManager } from "@/engine/core/managers/surge";
 import {
   getLevelWeatherDescriptor,
-  getMoonPhase,
   getNextPeriodChangeHour,
   getNextWeatherFromGraph,
   isPreBlowoutWeather,
@@ -45,8 +44,8 @@ import {
 } from "@/engine/core/managers/weather/utils";
 import { resetDof, updateDof } from "@/engine/core/managers/weather/utils/weather_dof";
 import {
+  ATMOSFEAR_CYCLE_PREFIX,
   ATMOSFEAR_WEATHER,
-  EWeatherPeriod,
   EWeatherPeriodType,
   IWeatherState,
   TWeatherGraph,
@@ -255,15 +254,7 @@ export class WeatherManager extends AbstractManager {
 
       const weatherState: IWeatherState = this.weatherState.get(weatherSection);
 
-      // Compose actual weather based on:
-      // - night brightness
-      // - weather type
-      // - moon phase
-      nextWeather = `af3_${weatherConfig.ATMOSFEAR_CONFIG.nightBrightness}_${weatherState.currentState}`;
-
-      if (weatherState.currentState === EWeatherPeriod.CLEAR || weatherState.currentState === EWeatherPeriod.PARTLY) {
-        nextWeather += `_${getMoonPhase(game.get_game_time(), weatherConfig.ATMOSFEAR_CONFIG.moonPhasePeriod)}`;
-      }
+      nextWeather = `${ATMOSFEAR_CYCLE_PREFIX}${weatherState.currentState}`;
 
       if (now) {
         this.currentWeatherSection = weatherState.currentState;

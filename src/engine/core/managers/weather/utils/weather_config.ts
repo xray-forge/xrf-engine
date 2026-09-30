@@ -5,40 +5,13 @@ import { $filename } from "xray16/macros";
 
 import { readIniNumber, readIniString } from "@/engine/core/ini";
 import {
-  EWeatherMoonPeriod,
-  EWeatherNightBrightness,
+  ATMOSFEAR_CYCLE_PREFIX,
   EWeatherPeriod,
-  IAtmosfearConfig,
   IAtmosfearLevelWeatherConfig,
 } from "@/engine/core/managers/weather/weather_types";
 import { LuaLogger } from "@/engine/core/utils/logging";
 
 const logger: LuaLogger = new LuaLogger($filename);
-
-/**
- * @param ini - Ini file to read atmosfear configuration from.
- * @returns Global level configuration for atmosfear.
- */
-export function readAtmosfearConfig(ini: IniFile): IAtmosfearConfig {
-  return {
-    moonPhasePeriod: readIniString(
-      ini,
-      "atmosfear_default_parameters",
-      "moon_phase_period",
-      false,
-      null,
-      EWeatherMoonPeriod.DAYS_8
-    ),
-    nightBrightness: readIniString(
-      ini,
-      "atmosfear_default_parameters",
-      "night_brightness",
-      false,
-      null,
-      EWeatherNightBrightness.SLIGHT
-    ),
-  };
-}
 
 /**
  * Read fog distance based on current weather cycles/periods.
@@ -54,11 +27,7 @@ export function readFogDistances(ini: IniFile): LuaTable<TSection, LuaTable<TSec
     const [, cycle] = ini.r_line("dof_kernels", index, "", "");
 
     const weatherCycle: LuaTable<TSection, TDistance> = new LuaTable();
-    const weatherCycleLtx: IniFile = new ini_file(
-      `environment\\weathers\\af3_dark_${cycle}${
-        cycle === EWeatherPeriod.CLEAR || cycle === EWeatherPeriod.PARTLY ? "_0" : ""
-      }.ltx`
-    );
+    const weatherCycleLtx: IniFile = new ini_file(`environment\\weathers\\${ATMOSFEAR_CYCLE_PREFIX}${cycle}.ltx`);
 
     for (const index of $range(0, 23)) {
       const timePeriod: TSection = hoursToWeatherPeriod(index);

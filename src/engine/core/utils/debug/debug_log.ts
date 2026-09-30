@@ -1,4 +1,4 @@
-import { cast_planner, CTime, relation_registry } from "xray16";
+import { cast_planner, CTime, relation_registry, time_global } from "xray16";
 import { ActionPlanner, GameObject } from "xray16/alias";
 import { gameTimeToString, NIL, Nillable, TLabel, TName, TNumberId } from "xray16/lib";
 import { $filename, $isNotNil } from "xray16/macros";
@@ -43,7 +43,7 @@ export function logObjectPlannerState(object: GameObject): void {
   logger.pushSeparator();
   logger.info("Print object planner state report: %s", object.name());
 
-  const plannerShowPrefix: TLabel = `${logger.getFullPrefix()} [${object.name()}]`;
+  const plannerShowPrefix: TLabel = `[${time_global()}][${$filename}] [${object.name()}]`;
   const actionPlanner: Nillable<ActionPlanner> = object.motivation_action_manager();
 
   if (!actionPlanner) {

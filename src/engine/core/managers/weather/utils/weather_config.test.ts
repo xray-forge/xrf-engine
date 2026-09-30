@@ -1,41 +1,8 @@
 import { describe, expect, it } from "@jest/globals";
 import { MockIniFile } from "xray16/mocks";
 
-import { EWeatherMoonPeriod, EWeatherNightBrightness } from "@/engine/core/managers/weather";
-import {
-  readAtmosfearConfig,
-  readFogDistances,
-  readLevelWeathersConfiguration,
-} from "@/engine/core/managers/weather/utils/weather_config";
-import { WEATHER_MANAGER_LEVELS_LTX, WEATHER_MANAGER_LTX } from "@/engine/core/managers/weather/WeatherConfig";
-
-describe("readAtmosfearConfig", () => {
-  it("should correctly read values", () => {
-    expect(readAtmosfearConfig(WEATHER_MANAGER_LTX)).toEqual({
-      moonPhasePeriod: EWeatherMoonPeriod.DAYS_8,
-      nightBrightness: EWeatherNightBrightness.SLIGHT,
-    });
-
-    expect(
-      readAtmosfearConfig(
-        MockIniFile.mock("test.ltx", {
-          atmosfear_default_parameters: {
-            moon_phase_period: "d28",
-            night_brightness: "dark",
-          },
-        })
-      )
-    ).toEqual({
-      moonPhasePeriod: EWeatherMoonPeriod.DAYS_28,
-      nightBrightness: EWeatherNightBrightness.DARK,
-    });
-
-    expect(readAtmosfearConfig(MockIniFile.mock("empty.ltx", {}))).toEqual({
-      moonPhasePeriod: EWeatherMoonPeriod.DAYS_8,
-      nightBrightness: EWeatherNightBrightness.SLIGHT,
-    });
-  });
-});
+import { readFogDistances, readLevelWeathersConfiguration } from "@/engine/core/managers/weather/utils/weather_config";
+import { WEATHER_MANAGER_LEVELS_LTX } from "@/engine/core/managers/weather/WeatherConfig";
 
 describe("readLevelWeathersConfiguration", () => {
   it("should correctly read values", () => {
