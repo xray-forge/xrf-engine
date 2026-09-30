@@ -1,9 +1,8 @@
 import { level } from "xray16";
-import { AnyObject, executeConsoleCommand, getConsoleFloatCommand, TDuration } from "xray16/lib";
+import { AnyObject, Nillable, TDuration } from "xray16/lib";
 import { $filename } from "xray16/macros";
 
 import { animations, postProcessors } from "@/engine/constants/animation";
-import { consoleCommands } from "@/engine/constants/console_commands";
 import { infoPortions } from "@/engine/constants/info_portions";
 import { getManager, registry } from "@/engine/core/database";
 import { AbstractManager } from "@/engine/core/managers/abstract";
@@ -16,6 +15,7 @@ import { WeatherManager } from "@/engine/core/managers/weather/WeatherManager";
 import { SleepDialog } from "@/engine/core/ui/game/sleep";
 import { disableInfoPortion, giveInfoPortion } from "@/engine/core/utils/info_portion";
 import { LuaLogger } from "@/engine/core/utils/logging";
+import { getEffectsVolume, getMusicVolume, setEffectsVolume, setMusicVolume } from "@/engine/core/utils/sound";
 
 const logger: LuaLogger = new LuaLogger($filename);
 
@@ -24,6 +24,8 @@ const logger: LuaLogger = new LuaLogger($filename);
  */
 export class SleepManager extends AbstractManager {
   public nextSleepDuration: TDuration = 0;
+  // Created on first use.
+  public sleepDialog: Nillable<SleepDialog> = null;
 
   public override initialize(): void {
     const eventsManager: EventsManager = getManager(EventsManager);
@@ -43,12 +45,11 @@ export class SleepManager extends AbstractManager {
   public showSleepDialog(): void {
     logger.info("Show sleep dialog");
 
-    if (!sleepConfig.SLEEP_DIALOG) {
-      sleepConfig.SLEEP_DIALOG = new SleepDialog(this);
+    if (!this.sleepDialog) {
+      this.sleepDialog = new SleepDialog(this);
     }
 
-    sleepConfig.SLEEP_DIALOG.uiTimeTrack.SetCurrentValue();
-    sleepConfig.SLEEP_DIALOG.show();
+    this.sleepDialog.show();
   }
 
   /**
@@ -66,13 +67,13 @@ export class SleepManager extends AbstractManager {
 
     giveInfoPortion(infoPortions.actor_is_sleeping);
 
-    registry.musicVolume = getConsoleFloatCommand(consoleCommands.snd_volume_music);
-    registry.effectsVolume = getConsoleFloatCommand(consoleCommands.snd_volume_eff);
+    registry.musicVolume = getMusicVolume();
+    registry.effectsVolume = getEffectsVolume();
 
-    executeConsoleCommand(consoleCommands.snd_volume_music, 0);
-    executeConsoleCommand(consoleCommands.snd_volume_eff, 0);
+    setMusicVolume(0);
+    setEffectsVolume(0);
 
-    getManager(SurgeManager).setSkipResurrectMessage();
+    getManager(SurgeManager).enableSkipNotification();
   }
 
   /**
@@ -85,11 +86,8 @@ export class SleepManager extends AbstractManager {
     level.change_game_time(0, this.nextSleepDuration, 0);
 
     getManager(WeatherManager).forceWeatherChange();
+    // A surge slept through ends on its next update, stopping its weather effect as time was forwarded.
     surgeConfig.IS_TIME_FORWARDED = true;
-
-    if (surgeConfig.IS_STARTED && level.is_wfx_playing()) {
-      level.stop_weather_fx();
-    }
 
     registry.actor.power = 1;
 
@@ -104,8 +102,8 @@ export class SleepManager extends AbstractManager {
 
     getManager(ActorInputManager).releaseGameUiControl(EActorControlHandle.SLEEP);
 
-    executeConsoleCommand(consoleCommands.snd_volume_music, registry.musicVolume);
-    executeConsoleCommand(consoleCommands.snd_volume_eff, registry.effectsVolume);
+    setMusicVolume(registry.musicVolume);
+    setEffectsVolume(registry.effectsVolume);
 
     registry.musicVolume = 0;
     registry.effectsVolume = 0;

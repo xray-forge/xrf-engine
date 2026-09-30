@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it, jest } from "@jest/globals";
 import { level } from "xray16";
 import { Console } from "xray16/alias";
 import { AnyObject } from "xray16/lib";
-import { MockConsole, MockCUITrackBar } from "xray16/mocks";
+import { MockConsole } from "xray16/mocks";
 
 import { animations, postProcessors } from "@/engine/constants/animation";
 import { consoleCommands } from "@/engine/constants/console_commands";
@@ -10,7 +10,7 @@ import { infoPortions } from "@/engine/constants/info_portions";
 import { disposeManager, getManager, registry } from "@/engine/core/database";
 import { ActorInputManager, EActorControlHandle, EActorControlPolicy } from "@/engine/core/managers/actor";
 import { EGameEvent, EventsManager } from "@/engine/core/managers/events";
-import { sleepConfig, SleepManager } from "@/engine/core/managers/sleep";
+import { SleepManager } from "@/engine/core/managers/sleep";
 import { surgeConfig, SurgeManager } from "@/engine/core/managers/surge";
 import { WeatherManager } from "@/engine/core/managers/weather";
 import { SleepDialog } from "@/engine/core/ui/game/sleep";
@@ -19,7 +19,6 @@ import { mockRegisteredActor, resetRegistry } from "@/fixtures/engine";
 
 jest.mock("@/engine/core/ui/game/sleep", () => ({
   SleepDialog: class {
-    public uiTimeTrack = MockCUITrackBar.mock();
     public show = jest.fn();
   },
 }));
@@ -29,7 +28,6 @@ describe("SleepManager", () => {
     resetRegistry();
     MockConsole.reset();
 
-    sleepConfig.SLEEP_DIALOG = null;
     surgeConfig.IS_STARTED = false;
     surgeConfig.IS_TIME_FORWARDED = false;
   });
@@ -48,28 +46,26 @@ describe("SleepManager", () => {
   });
 
   it("should correctly show and initialize sleep dialog", () => {
-    expect(sleepConfig.SLEEP_DIALOG).toBeNull();
-
     const sleepManager: SleepManager = getManager(SleepManager);
+
+    expect(sleepManager.sleepDialog).toBeNull();
 
     sleepManager.showSleepDialog();
 
-    expect(sleepConfig.SLEEP_DIALOG).toBeInstanceOf(SleepDialog);
-    expect(sleepConfig.SLEEP_DIALOG?.show).toHaveBeenCalled();
-    expect(sleepConfig.SLEEP_DIALOG?.uiTimeTrack.SetCurrentValue).toHaveBeenCalled();
+    expect(sleepManager.sleepDialog).toBeInstanceOf(SleepDialog);
+    expect(sleepManager.sleepDialog?.show).toHaveBeenCalled();
   });
 
   it("should correctly show and initialize sleep dialog if already dialog exists", () => {
     const sleepManager: SleepManager = getManager(SleepManager);
     const sleepDialog: SleepDialog = new SleepDialog(sleepManager);
 
-    sleepConfig.SLEEP_DIALOG = sleepDialog;
+    sleepManager.sleepDialog = sleepDialog;
 
     sleepManager.showSleepDialog();
 
-    expect(sleepConfig.SLEEP_DIALOG).toBe(sleepDialog);
+    expect(sleepManager.sleepDialog).toBe(sleepDialog);
     expect(sleepDialog.show).toHaveBeenCalled();
-    expect(sleepDialog.uiTimeTrack.SetCurrentValue).toHaveBeenCalled();
   });
 
   it("should correctly start sleeping", () => {
@@ -94,7 +90,7 @@ describe("SleepManager", () => {
     const actorInputManager: ActorInputManager = getManager(ActorInputManager);
 
     jest.spyOn(actorInputManager, "acquireControl").mockImplementation(jest.fn());
-    jest.spyOn(surgeManager, "setSkipResurrectMessage").mockImplementation(jest.fn());
+    jest.spyOn(surgeManager, "enableSkipNotification").mockImplementation(jest.fn());
 
     expect(sleepManager.nextSleepDuration).toBe(0);
 
@@ -116,7 +112,7 @@ describe("SleepManager", () => {
     expect(level.add_pp_effector).toHaveBeenCalledWith(postProcessors.sleep_fade, 11, false);
 
     expect(hasInfoPortion(infoPortions.actor_is_sleeping)).toBe(true);
-    expect(surgeManager.setSkipResurrectMessage).toHaveBeenCalled();
+    expect(surgeManager.enableSkipNotification).toHaveBeenCalled();
 
     expect(registry.musicVolume).toBe(0.25);
     expect(registry.effectsVolume).toBe(0.35);
@@ -137,7 +133,7 @@ describe("SleepManager", () => {
     jest.spyOn(weatherManager, "forceWeatherChange").mockImplementation(jest.fn());
     jest.spyOn(eventsManager, "emitEvent").mockImplementation(jest.fn());
 
-    jest.spyOn(level, "is_wfx_playing").mockReturnValueOnce(true);
+    jest.spyOn(level, "is_wfx_playing").mockReturnValue(true);
 
     sleepManager.nextSleepDuration = 6;
     sleepManager.onStartSleeping();
@@ -152,7 +148,8 @@ describe("SleepManager", () => {
 
     expect(weatherManager.forceWeatherChange).toHaveBeenCalledTimes(1);
     expect(surgeConfig.IS_TIME_FORWARDED).toBe(true);
-    expect(level.stop_weather_fx).toHaveBeenCalledTimes(1);
+    // The surge slept through stops its own weather effect once it ends.
+    expect(level.stop_weather_fx).not.toHaveBeenCalled();
 
     expect(actorGameObject.power).toBe(1);
     expect(eventsManager.emitEvent).toHaveBeenCalledWith(EGameEvent.ACTOR_START_SLEEP);

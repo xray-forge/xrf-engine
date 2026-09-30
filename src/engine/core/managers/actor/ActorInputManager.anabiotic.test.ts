@@ -1,9 +1,7 @@
 import { beforeEach, describe, expect, it, jest } from "@jest/globals";
-import { game, level } from "xray16";
-import { GameObject, ServerObject, Time } from "xray16/alias";
-import { AnyObject, createTime } from "xray16/lib";
+import { level } from "xray16";
+import { GameObject, ServerObject } from "xray16/alias";
 import { MockAlifeItem, MockGameObject } from "xray16/mocks";
-import { replaceFunctionMock, resetFunctionMock } from "xray16/testing/utils";
 
 import { animations, postProcessors } from "@/engine/constants/animation";
 import { drugs } from "@/engine/constants/items/drugs";
@@ -12,26 +10,15 @@ import { EActorControlHandle, EActorControlPolicy } from "@/engine/core/managers
 import { ActorInputManager } from "@/engine/core/managers/actor/ActorInputManager";
 import { surgeConfig } from "@/engine/core/managers/surge/SurgeConfig";
 import { SurgeManager } from "@/engine/core/managers/surge/SurgeManager";
-import { killAllSurgeUnhidden } from "@/engine/core/managers/surge/utils/surge_kill";
 import { WeatherManager } from "@/engine/core/managers/weather/WeatherManager";
 import { hasInfoPortion } from "@/engine/core/utils/info_portion";
 import { mockRegisteredActor, resetRegistry } from "@/fixtures/engine";
-
-jest.mock("@/engine/core/managers/surge/utils/surge_kill", () => ({
-  ...jest.requireActual<AnyObject>("@/engine/core/managers/surge/utils/surge_kill"),
-  killAllSurgeUnhidden: jest.fn(),
-}));
 
 describe("ActorInputManager anabiotic handling", () => {
   beforeEach(() => {
     resetRegistry();
     registerSimulator();
     mockRegisteredActor();
-
-    resetFunctionMock(killAllSurgeUnhidden);
-
-    surgeConfig.IS_STARTED = false;
-    surgeConfig.IS_TIME_FORWARDED = false;
   });
 
   it("onActorUseItem should ignore missing objects and non-anabiotic items", () => {
@@ -59,70 +46,31 @@ describe("ActorInputManager anabiotic handling", () => {
     expect(manager.processAnabioticItemUsage).toHaveBeenCalledTimes(1);
   });
 
-  it("onAnabioticSleep should advance the game time and refresh the weather", () => {
+  it("onAnabioticSleep should pass the slept minutes through the surge before advancing the game time", () => {
     const manager: ActorInputManager = getManager(ActorInputManager);
+    const surgeManager: SurgeManager = getManager(SurgeManager);
     const weatherManager: WeatherManager = getManager(WeatherManager);
 
+    jest.spyOn(surgeManager, "forwardSurgeTime").mockImplementation(jest.fn());
     jest.spyOn(weatherManager, "forceWeatherChange").mockImplementation(jest.fn());
-    jest.spyOn(Math, "random").mockImplementation(() => 0);
 
     manager.onAnabioticSleep();
 
+    const minutes: number = jest.mocked(surgeManager.forwardSurgeTime).mock.calls[0][0];
+
+    expect(minutes).toBeGreaterThanOrEqual(35);
+    expect(minutes).toBeLessThanOrEqual(45);
     expect(level.add_cam_effector).toHaveBeenCalledWith(
       animations.camera_effects_surge_01,
       10,
       false,
       "engine.on_anabiotic_wake_up"
     );
-    expect(level.change_game_time).toHaveBeenCalledWith(0, 0, expect.any(Number));
+    expect(level.change_game_time).toHaveBeenCalledWith(0, 0, minutes);
+    expect(jest.mocked(surgeManager.forwardSurgeTime).mock.invocationCallOrder[0]).toBeLessThan(
+      jest.mocked(level.change_game_time).mock.invocationCallOrder[0]
+    );
     expect(weatherManager.forceWeatherChange).toHaveBeenCalledTimes(1);
-    expect(killAllSurgeUnhidden).toHaveBeenCalledTimes(0);
-  });
-
-  it("onAnabioticSleep should end an active surge that would be slept through", () => {
-    const manager: ActorInputManager = getManager(ActorInputManager);
-    const surgeManager: SurgeManager = getManager(SurgeManager);
-    const weatherManager: WeatherManager = getManager(WeatherManager);
-    const now: Time = createTime(2012, 6, 12, 20, 15, 30, 200);
-
-    surgeConfig.IS_STARTED = true;
-
-    // Almost no surge time left, so sleeping 35-45 minutes skips past its end.
-    jest.spyOn(now, "diffSec").mockImplementation(() => surgeConfig.DURATION);
-    replaceFunctionMock(game.get_game_time, () => now);
-    replaceFunctionMock(level.get_time_factor, () => 1);
-
-    jest.spyOn(weatherManager, "forceWeatherChange").mockImplementation(jest.fn());
-    jest.spyOn(surgeManager, "endSurge").mockImplementation(jest.fn());
-
-    manager.onAnabioticSleep();
-
-    expect(surgeConfig.IS_TIME_FORWARDED).toBe(true);
-    expect(surgeManager.isUiDisabled).toBe(true);
-    expect(killAllSurgeUnhidden).toHaveBeenCalledTimes(1);
-    expect(surgeManager.endSurge).toHaveBeenCalledTimes(1);
-  });
-
-  it("onAnabioticSleep should leave a long running surge alone", () => {
-    const manager: ActorInputManager = getManager(ActorInputManager);
-    const surgeManager: SurgeManager = getManager(SurgeManager);
-    const weatherManager: WeatherManager = getManager(WeatherManager);
-    const now: Time = createTime(2012, 6, 12, 20, 15, 30, 200);
-
-    surgeConfig.IS_STARTED = true;
-
-    jest.spyOn(now, "diffSec").mockImplementation(() => 0);
-    replaceFunctionMock(game.get_game_time, () => now);
-    replaceFunctionMock(level.get_time_factor, () => 1_000);
-
-    jest.spyOn(weatherManager, "forceWeatherChange").mockImplementation(jest.fn());
-    jest.spyOn(surgeManager, "endSurge").mockImplementation(jest.fn());
-
-    manager.onAnabioticSleep();
-
-    expect(surgeConfig.IS_TIME_FORWARDED).toBe(false);
-    expect(killAllSurgeUnhidden).toHaveBeenCalledTimes(0);
-    expect(surgeManager.endSurge).toHaveBeenCalledTimes(0);
   });
 
   it("onAnabioticWakeUp should restore volumes and release the ui lock", () => {

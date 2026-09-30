@@ -153,10 +153,12 @@ describe("SleepDialog ui component", () => {
     const dialog: SleepDialog = new SleepDialog(manager);
 
     jest.spyOn(dialog, "initializeDisplay").mockImplementation(jest.fn());
+    jest.spyOn(dialog.uiTimeTrack, "SetCurrentValue");
 
     dialog.show();
 
     expect(hasInfoPortion(infoPortions.sleep_active)).toBe(true);
+    expect(dialog.uiTimeTrack.SetCurrentValue).toHaveBeenCalled();
     expect(dialog.initializeDisplay).toHaveBeenCalled();
     expect(dialog.ShowDialog).toHaveBeenCalledWith(true);
   });

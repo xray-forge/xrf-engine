@@ -3,6 +3,7 @@ import { GameObject, Hit, NetPacket, NetProcessor, Time } from "xray16/alias";
 import {
   ACTOR_ID,
   AnyObject,
+  createTime,
   createVector,
   Nillable,
   readTimeFromPacket,
@@ -13,7 +14,6 @@ import {
   TNumberId,
   TRUE,
   TSection,
-  TTimestamp,
   writeTimeToPacket,
   Z_VECTOR,
 } from "xray16/lib";
@@ -59,20 +59,25 @@ import { LuaLogger } from "@/engine/core/utils/logging";
 const logger: LuaLogger = new LuaLogger($filename);
 
 /**
+ * Schedule surges and run their stages: warnings, effects, damage and the kill of everyone left outside a cover.
+ *
  * Todo: Separate manager to handle artefacts spawn / ownership etc in parallel, do not mix logic.
  */
 export class SurgeManager extends AbstractManager {
   // Whether manager should respawn artefacts for specific level.
   public respawnArtefactsForLevel: LuaTable<TName, boolean> = new LuaTable();
-  public currentDuration: TTimestamp = 0;
+  // Surge time of the last stage update, see `getElapsedSurgeTime`.
+  public currentDuration: TDuration = 0;
 
   public isEffectorSet: boolean = false;
+  // Whether the surge was loaded running, so its looped effects are restored on its next stage update.
   public isAfterGameLoad: boolean = false;
   public isUiDisabled: boolean = false;
   public isTaskGiven: boolean = false;
   public isSecondMessageGiven: boolean = false;
-  public isSkipMessageToggled: boolean = false;
   public isBlowoutSoundStarted: boolean = false;
+  // Whether the next surge skipped while time is forwarded is reported to the actor.
+  public shouldNotifySkip: boolean = true;
 
   public initializedAt: Time = game.get_game_time();
   public lastSurgeAt: Time = game.get_game_time();
@@ -142,15 +147,8 @@ export class SurgeManager extends AbstractManager {
   public override load(reader: NetProcessor): void {
     openLoadMarker(reader, SurgeManager.name);
 
-    this.currentDuration = 0;
-    this.isTaskGiven = false;
-    this.isEffectorSet = false;
-    this.isSecondMessageGiven = false;
-    this.isUiDisabled = false;
-    this.isSkipMessageToggled = false;
-    this.isBlowoutSoundStarted = false;
-    this.surgeMessage = "";
-    this.surgeTaskSection = "";
+    this.resetSurgeState();
+    this.shouldNotifySkip = true;
     this.respawnArtefactsForLevel = new LuaTable();
 
     surgeConfig.IS_FINISHED = reader.r_bool();
@@ -172,7 +170,7 @@ export class SurgeManager extends AbstractManager {
     }
 
     this.nextScheduledSurgeDelay = reader.r_u32();
-    this.isAfterGameLoad = true;
+    this.isAfterGameLoad = surgeConfig.IS_STARTED;
 
     const count: TCount = reader.r_u16();
 
@@ -184,10 +182,10 @@ export class SurgeManager extends AbstractManager {
   }
 
   /**
-   * Reset the flag controlling whether the surge resurrect message is skipped.
+   * Report the next surge skipped while time is forwarded, as one slept through.
    */
-  public setSkipResurrectMessage(): void {
-    this.isSkipMessageToggled = false;
+  public enableSkipNotification(): void {
+    this.shouldNotifySkip = true;
   }
 
   /**
@@ -223,6 +221,38 @@ export class SurgeManager extends AbstractManager {
    */
   public getTimeToNextSurge(now: Time = game.get_game_time()): TDuration {
     return this.nextScheduledSurgeDelay - now.diffSec(this.lastSurgeAt);
+  }
+
+  /**
+   * @param now - Current game time.
+   * @returns Real seconds at the current time factor since the surge started, the unit of its duration and stages.
+   */
+  public getElapsedSurgeTime(now: Time = game.get_game_time()): TDuration {
+    return math.ceil(now.diffSec(this.initializedAt) / level.get_time_factor());
+  }
+
+  /**
+   * Let game minutes pass at once through an active surge, killing and ending it when they outlast its time left.
+   *
+   * @param minutes - Game minutes about to pass, as while the actor sleeps on an anabiotic.
+   */
+  public forwardSurgeTime(minutes: TDuration): void {
+    if (!surgeConfig.IS_STARTED) {
+      return;
+    }
+
+    const remainingMinutes: TDuration =
+      ((surgeConfig.DURATION - this.getElapsedSurgeTime()) * level.get_time_factor()) / 60;
+
+    if (minutes > remainingMinutes) {
+      logger.info("Surge passed while time is forwarded: %s", minutes);
+
+      surgeConfig.IS_TIME_FORWARDED = true;
+      this.isUiDisabled = true;
+
+      killAllSurgeUnhidden();
+      this.endSurge();
+    }
   }
 
   /**
@@ -268,27 +298,28 @@ export class SurgeManager extends AbstractManager {
   public start(isForced?: boolean): void {
     logger.info("Surge start");
 
-    const [Y, M, D, h, m, s, ms] = this.lastSurgeAt.get(0, 0, 0, 0, 0, 0, 0);
-
     if (isForced) {
       this.initializedAt = game.get_game_time();
     } else {
-      this.initializedAt.set(Y, M, D, h, m, s + this.nextScheduledSurgeDelay, ms);
-    }
+      const [Y, M, D, h, m, s, ms] = this.lastSurgeAt.get(0, 0, 0, 0, 0, 0, 0);
 
-    const diffSec: TDuration = math.ceil(game.get_game_time().diffSec(this.initializedAt) / level.get_time_factor());
+      // A due surge starts when it was scheduled, which is long past once time was forwarded over it.
+      this.initializedAt = createTime(Y, M, D, h, m, s + this.nextScheduledSurgeDelay, ms);
+    }
 
     if (!isSurgeEnabledOnLevel(level.name())) {
       logger.info("Surge is not enabled on level");
 
-      this.isSkipMessageToggled = true;
+      this.shouldNotifySkip = false;
       this.skipSurge();
 
       return;
     }
 
-    if (diffSec + 6 > surgeConfig.DURATION) {
-      logger.info("Surge can be considered skipped: %s", diffSec + 6);
+    const elapsed: TDuration = this.getElapsedSurgeTime();
+
+    if (elapsed + 6 > surgeConfig.DURATION) {
+      logger.info("Surge can be considered skipped: %s", elapsed + 6);
 
       this.skipSurge();
     } else {
@@ -312,31 +343,12 @@ export class SurgeManager extends AbstractManager {
 
     const [Y, M, D, h, m, s, ms] = this.initializedAt.get(0, 0, 0, 0, 0, 0, 0);
 
-    this.lastSurgeAt.set(Y, M, D, h, m, s + surgeConfig.DURATION, ms);
-
-    surgeConfig.IS_STARTED = false;
-    surgeConfig.IS_FINISHED = true;
-
-    for (const [level] of surgeConfig.RESPAWN_ARTEFACTS_LEVELS) {
-      this.respawnArtefactsForLevel.set(level, true);
-    }
-
-    this.nextScheduledSurgeDelay = math.random(surgeConfig.INTERVAL_MIN, surgeConfig.INTERVAL_MAX);
-    this.surgeMessage = "";
-    this.surgeTaskSection = "";
-    this.isTaskGiven = false;
-
-    this.isEffectorSet = false;
-    this.isSecondMessageGiven = false;
-    this.isUiDisabled = false;
-    this.isBlowoutSoundStarted = false;
-    this.currentDuration = 0;
-
+    this.finishSurge(createTime(Y, M, D, h, m, s + surgeConfig.DURATION, ms));
     this.respawnArtefactsAndReplaceAnomalyZones();
 
-    EventsManager.emitEvent(EGameEvent.SURGE_SKIPPED, !this.isSkipMessageToggled);
+    EventsManager.emitEvent(EGameEvent.SURGE_SKIPPED, this.shouldNotifySkip);
 
-    this.isSkipMessageToggled = true;
+    this.shouldNotifySkip = false;
   }
 
   /**
@@ -347,6 +359,44 @@ export class SurgeManager extends AbstractManager {
   public endSurge(manual?: boolean): void {
     logger.info("Ending surge: %s", manual);
 
+    this.finishSurge(game.get_game_time());
+
+    const soundManager: SoundManager = getManager(SoundManager);
+
+    // Both loops are stopped whatever stage the surge reached, stopping one that is not playing does nothing.
+    soundManager.stopLooped(ACTOR_ID, "blowout_rumble");
+    soundManager.stopLooped(ACTOR_ID, "surge_earthquake_sound_looped");
+
+    level.remove_pp_effector(surgeConfig.SURGE_SHOCK_PP_EFFECTOR_ID);
+    level.remove_cam_effector(surgeConfig.EARTHQUAKE_CAM_EFFECTOR_ID);
+
+    // The surge weather effect runs its course unless the surge is cut short.
+    if ((manual || surgeConfig.IS_TIME_FORWARDED) && level.is_wfx_playing()) {
+      level.stop_weather_fx();
+      getManager(WeatherManager).forceWeatherChange();
+    }
+
+    for (const [, signalLight] of registry.signalLights) {
+      signalLight.stopFly();
+    }
+
+    // A surge loaded running that ends before its next stage update still kills.
+    if (this.isAfterGameLoad) {
+      this.isAfterGameLoad = false;
+      killAllSurgeUnhidden();
+    }
+
+    this.respawnArtefactsAndReplaceAnomalyZones();
+
+    EventsManager.emitEvent(EGameEvent.SURGE_ENDED);
+  }
+
+  /**
+   * Mark the surge finished and schedule the next one.
+   *
+   * @param finishedAt - Game time the surge finished at, counted from for the next one.
+   */
+  protected finishSurge(finishedAt: Time): void {
     surgeConfig.IS_STARTED = false;
     surgeConfig.IS_FINISHED = true;
 
@@ -354,47 +404,24 @@ export class SurgeManager extends AbstractManager {
       this.respawnArtefactsForLevel.set(level, true);
     }
 
-    this.lastSurgeAt = game.get_game_time();
+    this.lastSurgeAt = finishedAt;
     this.nextScheduledSurgeDelay = math.random(surgeConfig.INTERVAL_MIN, surgeConfig.INTERVAL_MAX);
-    this.surgeMessage = "";
-    this.surgeTaskSection = "";
+
+    this.resetSurgeState();
+  }
+
+  /**
+   * Reset the state a single surge runs with: its stages, message and task.
+   */
+  protected resetSurgeState(): void {
+    this.currentDuration = 0;
     this.isTaskGiven = false;
-
-    const soundManager: SoundManager = getManager(SoundManager);
-
-    if (this.isEffectorSet) {
-      soundManager.stopLooped(ACTOR_ID, "blowout_rumble");
-    }
-
-    if (this.isSecondMessageGiven) {
-      soundManager.stopLooped(ACTOR_ID, "surge_earthquake_sound_looped");
-    }
-
-    level.remove_pp_effector(surgeConfig.SURGE_SHOCK_PP_EFFECTOR_ID);
-    level.remove_cam_effector(surgeConfig.EARTHQUAKE_CAM_EFFECTOR_ID);
-
-    if (manual || (surgeConfig.IS_TIME_FORWARDED && level.is_wfx_playing())) {
-      level.stop_weather_fx();
-      getManager(WeatherManager).forceWeatherChange();
-    }
-
+    this.isBlowoutSoundStarted = false;
     this.isEffectorSet = false;
     this.isSecondMessageGiven = false;
     this.isUiDisabled = false;
-    this.isBlowoutSoundStarted = false;
-    this.currentDuration = 0;
-
-    for (const [, signalLight] of registry.signalLights) {
-      signalLight.stopFly();
-    }
-
-    if (this.isAfterGameLoad) {
-      killAllSurgeUnhidden();
-    }
-
-    this.respawnArtefactsAndReplaceAnomalyZones();
-
-    EventsManager.emitEvent(EGameEvent.SURGE_ENDED);
+    this.surgeMessage = "";
+    this.surgeTaskSection = "";
   }
 
   /**
@@ -452,9 +479,7 @@ export class SurgeManager extends AbstractManager {
       return this.start();
     }
 
-    const surgeDuration: TDuration = math.ceil(
-      game.get_game_time().diffSec(this.initializedAt) / level.get_time_factor()
-    );
+    const surgeDuration: TDuration = this.getElapsedSurgeTime();
 
     if (this.currentDuration !== surgeDuration) {
       this.currentDuration = surgeDuration;
@@ -611,10 +636,11 @@ export class SurgeManager extends AbstractManager {
       isUiDisabled: this.isUiDisabled,
       isTaskGiven: this.isTaskGiven,
       isSecondMessageGiven: this.isSecondMessageGiven,
-      isSkipMessageToggled: this.isSkipMessageToggled,
       isBlowoutSoundStarted: this.isBlowoutSoundStarted,
+      shouldNotifySkip: this.shouldNotifySkip,
       initializedAt: this.initializedAt,
       lastSurgeAt: this.lastSurgeAt,
+      nextScheduledSurgeDelay: this.nextScheduledSurgeDelay,
       surgeMessage: this.surgeMessage,
       surgeTaskSection: this.surgeTaskSection,
     };

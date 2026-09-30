@@ -1,15 +1,6 @@
 import { game, get_hud, level } from "xray16";
 import { GameHud, GameObject, NetPacket, NetProcessor, Time } from "xray16/alias";
-import {
-  AnyObject,
-  Nillable,
-  readTimeFromPacket,
-  TDuration,
-  TName,
-  TNumberId,
-  TRate,
-  writeTimeToPacket,
-} from "xray16/lib";
+import { AnyObject, Nillable, readTimeFromPacket, TDuration, TName, TNumberId, writeTimeToPacket } from "xray16/lib";
 import { $filename, $isNil, $isNotNil } from "xray16/macros";
 
 import { animations, postProcessors } from "@/engine/constants/animation";
@@ -36,7 +27,6 @@ import { actorConfig } from "@/engine/core/managers/actor/ActorConfig";
 import { EGameEvent, EventsManager } from "@/engine/core/managers/events";
 import { surgeConfig } from "@/engine/core/managers/surge/SurgeConfig";
 import type { SurgeManager } from "@/engine/core/managers/surge/SurgeManager";
-import { killAllSurgeUnhidden } from "@/engine/core/managers/surge/utils/surge_kill";
 import { WeatherManager } from "@/engine/core/managers/weather";
 import { disableInfoPortion, giveInfoPortion } from "@/engine/core/utils/info_portion";
 import { LuaLogger } from "@/engine/core/utils/logging";
@@ -515,24 +505,11 @@ export class ActorInputManager extends AbstractManager {
   public onAnabioticSleep(): void {
     level.add_cam_effector(animations.camera_effects_surge_01, 10, false, "engine.on_anabiotic_wake_up");
 
-    const random: number = math.random(35, 45);
-    const surgeManager: SurgeManager = getManagerByName("SurgeManager") as SurgeManager;
+    const minutes: TDuration = math.random(35, 45);
 
-    if (surgeConfig.IS_STARTED) {
-      const timeFactor: TRate = level.get_time_factor();
-      const timeDiffInSeconds: TDuration = math.ceil(
-        game.get_game_time().diffSec(surgeManager.initializedAt) / timeFactor
-      );
+    (getManagerByName("SurgeManager") as SurgeManager).forwardSurgeTime(minutes);
 
-      if (random > ((surgeConfig.DURATION - timeDiffInSeconds) * timeFactor) / 60) {
-        surgeConfig.IS_TIME_FORWARDED = true;
-        surgeManager.isUiDisabled = true;
-        killAllSurgeUnhidden();
-        surgeManager.endSurge();
-      }
-    }
-
-    level.change_game_time(0, 0, random);
+    level.change_game_time(0, 0, minutes);
     getManager(WeatherManager).forceWeatherChange();
   }
 

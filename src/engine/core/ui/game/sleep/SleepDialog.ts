@@ -143,6 +143,7 @@ export class SleepDialog extends CUIScriptWnd {
 
     // Handle cases when actor cannot sleep because of various factors.
     if (canActorSleep()) {
+      this.uiTimeTrack.SetCurrentValue();
       this.initializeDisplay();
       this.ShowDialog(true);
     } else {
