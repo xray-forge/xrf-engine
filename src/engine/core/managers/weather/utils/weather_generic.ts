@@ -1,42 +1,8 @@
-import { FS, getFS, level } from "xray16";
-import { containsSubstring, LuaArray, Nillable, TDuration, TName, TPath, TRate, TTimestamp } from "xray16/lib";
-import { $isNotNil } from "xray16/macros";
+import { level } from "xray16";
+import { containsSubstring, Nillable, TDuration, TName, TRate } from "xray16/lib";
 
-import { roots } from "@/engine/constants/roots";
-import {
-  EWeatherPeriodType,
-  IAtmosfearLevelWeatherConfig,
-  TWeatherGraph,
-} from "@/engine/core/managers/weather/weather_types";
+import { EWeatherPeriodType, ILevelWeatherPeriods, TWeatherGraph } from "@/engine/core/managers/weather/weather_types";
 import { weatherConfig } from "@/engine/core/managers/weather/WeatherConfig";
-
-/**
- * Get list all possible weather configs to set.
- * Checks environment configs list and fills list with possible ltx files describing weather cycles.
- *
- * @returns Array containing all possible weather names.
- */
-export function getPossibleWeathersList(): LuaArray<TName> {
-  const list: LuaArray<TName> = new LuaTable();
-  const fs: FS = getFS();
-
-  if ($isNotNil(lfs)) {
-    const weathersFolder: TPath = fs.update_path(roots.gameConfig, "environment\\weathers");
-
-    const [, directory] = lfs.dir(weathersFolder);
-    let directoryItem: Nillable<TName> = directory.next();
-
-    while (directoryItem) {
-      if (string.sub(directoryItem, -4) === ".ltx") {
-        table.insert(list, string.sub(directoryItem, 0, directoryItem.length - 4));
-      }
-
-      directoryItem = directory.next();
-    }
-  }
-
-  return list;
-}
 
 /**
  * Get one of possible weathers from change weather graph.
@@ -69,29 +35,26 @@ export function getNextWeatherFromGraph(graph: TWeatherGraph): TName {
 }
 
 /**
- * @returns Descriptor of level weather periods, defaults for unknown levels.
+ * @returns Dynamic weather periods of the current level, defaults for levels without their own.
  */
-export function getLevelWeatherDescriptor(): IAtmosfearLevelWeatherConfig {
-  return (
-    weatherConfig.ATMOSFEAR_LEVEL_CONFIGS.get(level.name()) ?? weatherConfig.ATMOSFEAR_LEVEL_CONFIGS.get("default")
-  );
+export function getLevelWeatherPeriods(): ILevelWeatherPeriods {
+  return weatherConfig.LEVEL_WEATHER_PERIODS.get(level.name()) ?? weatherConfig.LEVEL_WEATHER_PERIODS.get("default");
 }
 
 /**
- * Get next period change hour based on previous change and configuration of level periods.
- * Randomizes change between max period duration and 2/3 of duration.
+ * Get how long a weather period lasts on the current level.
+ * Randomized between 2/3 of the configured length and the full length, plus the hour it starts in.
  *
- * @param period - Type of current weather period.
- * @param lastPeriodChangedAt - Hour of last period change.
- * @returns Next hour to change period.
+ * @param period - Type of weather period.
+ * @returns Period duration in game seconds.
  */
-export function getNextPeriodChangeHour(period: EWeatherPeriodType, lastPeriodChangedAt: TTimestamp): TTimestamp {
+export function getWeatherPeriodDuration(period: EWeatherPeriodType): TDuration {
   const length: TDuration =
     period === EWeatherPeriodType.GOOD
-      ? getLevelWeatherDescriptor().periodGoodLength
-      : getLevelWeatherDescriptor().periodBadLength;
+      ? getLevelWeatherPeriods().periodGoodLength
+      : getLevelWeatherPeriods().periodBadLength;
 
-  return (lastPeriodChangedAt + 1 + math.random(math.ceil((length * 2) / 3), length)) % 24;
+  return (1 + math.random(math.ceil((length * 2) / 3), length)) * 3600;
 }
 
 /**

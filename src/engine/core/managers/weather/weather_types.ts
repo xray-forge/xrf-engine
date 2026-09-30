@@ -1,18 +1,18 @@
 import { Nillable, TDuration, TName, TProbability, TSection } from "xray16/lib";
 
 /**
- * Name of atmosfear weather base.
+ * Level `weathers` value for dynamic weather: period graphs of weather states, `dynamic_<period>` sections.
  *
  * @inline
  */
-export const ATMOSFEAR_WEATHER: TName = "atmosfear";
+export const DYNAMIC_WEATHER: TName = "dynamic";
 
 /**
- * Prefix of the weather cycles atmosfear weather plays, one per weather state.
+ * Prefix of the weather cycles dynamic weather plays, one per weather state.
  *
  * @inline
  */
-export const ATMOSFEAR_CYCLE_PREFIX: TName = "w_";
+export const WEATHER_CYCLE_PREFIX: TName = "w_";
 
 /**
  * Type of active period.
@@ -42,9 +42,9 @@ export const enum EWeatherPeriod {
 export type TWeatherGraph = LuaTable<TName, TProbability>;
 
 /**
- * Definition of generic level weather configuration.
+ * Dynamic weather periods of a level, with their lengths in hours.
  */
-export interface IAtmosfearLevelWeatherConfig {
+export interface ILevelWeatherPeriods {
   periodGood: EWeatherPeriod;
   periodGoodLength: TDuration;
   periodBad: EWeatherPeriod;

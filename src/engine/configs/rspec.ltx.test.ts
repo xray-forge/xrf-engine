@@ -2,7 +2,7 @@ import { describe, expect, it } from "@jest/globals";
 
 import { readInGameTestLtxFromTest } from "@/fixtures/engine";
 
-const SHARED_CONFIG: string = "rspec_atmosfear.ltx";
+const SHARED_CONFIG: string = "rspec_shared.ltx";
 const PRESET_CONFIGS: Array<string> = [
   "rspec_minimum.ltx",
   "rspec_low.ltx",

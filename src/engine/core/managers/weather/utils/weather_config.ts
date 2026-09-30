@@ -1,57 +1,17 @@
-import { ini_file } from "xray16";
 import { IniFile } from "xray16/alias";
-import { hoursToWeatherPeriod, TCount, TDistance, TName, TSection } from "xray16/lib";
-import { $filename } from "xray16/macros";
+import { TName } from "xray16/lib";
 
 import { readIniNumber, readIniString } from "@/engine/core/ini";
-import {
-  ATMOSFEAR_CYCLE_PREFIX,
-  EWeatherPeriod,
-  IAtmosfearLevelWeatherConfig,
-} from "@/engine/core/managers/weather/weather_types";
-import { LuaLogger } from "@/engine/core/utils/logging";
-
-const logger: LuaLogger = new LuaLogger($filename);
+import { EWeatherPeriod, ILevelWeatherPeriods } from "@/engine/core/managers/weather/weather_types";
 
 /**
- * Read fog distance based on current weather cycles/periods.
- *
- * @param ini - Target ini to read fog distances from.
- * @returns Object defining weather fog distance based on active cycle and daytime.
- */
-export function readFogDistances(ini: IniFile): LuaTable<TSection, LuaTable<TSection, TDistance>> {
-  const distances: LuaTable<TSection, LuaTable<TSection, TDistance>> = new LuaTable();
-  const count: TCount = ini.line_count("dof_kernels");
-
-  for (const index of $range(0, count - 1)) {
-    const [, cycle] = ini.r_line("dof_kernels", index, "", "");
-
-    const weatherCycle: LuaTable<TSection, TDistance> = new LuaTable();
-    const weatherCycleLtx: IniFile = new ini_file(`environment\\weathers\\${ATMOSFEAR_CYCLE_PREFIX}${cycle}.ltx`);
-
-    for (const index of $range(0, 23)) {
-      const timePeriod: TSection = hoursToWeatherPeriod(index);
-
-      weatherCycle.set(timePeriod, readIniNumber(weatherCycleLtx, timePeriod, "fog_distance", false, 500));
-    }
-
-    distances.set(cycle, weatherCycle);
-  }
-
-  logger.info("Read fog distances for %s cycles", count);
-
-  return distances;
-}
-
-/**
- * Read configuration of level weathers.
- * Defines periods and durations of weather for specific levels.
+ * Read dynamic weather periods of levels, with defaults for levels the file does not list.
  *
  * @param ini - File to read data from or fallback to defaults.
- * @returns Configuration of weather for levels.
+ * @returns Weather periods by level name, `default` for unlisted levels.
  */
-export function readLevelWeathersConfiguration(ini: IniFile): LuaTable<TName, IAtmosfearLevelWeatherConfig> {
-  const list: LuaTable<TName, IAtmosfearLevelWeatherConfig> = new LuaTable();
+export function readLevelWeatherPeriods(ini: IniFile): LuaTable<TName, ILevelWeatherPeriods> {
+  const list: LuaTable<TName, ILevelWeatherPeriods> = new LuaTable();
 
   list.set("default", {
     periodBad: EWeatherPeriod.FOGGY_RAINY,

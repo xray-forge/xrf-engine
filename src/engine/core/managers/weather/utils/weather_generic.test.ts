@@ -1,31 +1,17 @@
 import { describe, expect, it, jest } from "@jest/globals";
 import { level } from "xray16";
-import { TName, TProbability, TSection } from "xray16/lib";
+import { TProbability, TSection } from "xray16/lib";
 import { $fromObject } from "xray16/macros";
-import { replaceFunctionMock } from "xray16/testing/utils";
 
 import { EWeatherPeriodType, TWeatherGraph } from "@/engine/core/managers/weather";
 import {
-  getLevelWeatherDescriptor,
-  getNextPeriodChangeHour,
+  getLevelWeatherPeriods,
   getNextWeatherFromGraph,
-  getPossibleWeathersList,
+  getWeatherPeriodDuration,
   isIndoorWeather,
   isPreBlowoutWeather,
   isTransitionWeather,
 } from "@/engine/core/managers/weather/utils/weather_generic";
-
-describe("getPossibleWeathersList", () => {
-  it("should correctly get list of weathers", () => {
-    replaceFunctionMock(lfs.dir, () => {
-      const list: Array<TName> = [".", "..", "a.ltx", "b.ltx", "c.ltx", "another.xml"];
-
-      return [null, { next: () => list.shift() }];
-    });
-
-    expect(getPossibleWeathersList()).toEqualLuaArrays(["a", "b", "c"]);
-  });
-});
 
 describe("getNextWeatherFromGraph", () => {
   it("should correctly get next possible weather from graph", () => {
@@ -57,10 +43,10 @@ describe("getNextWeatherFromGraph", () => {
   });
 });
 
-describe("getLevelWeatherDescriptor", () => {
-  it("should get descriptors of levels", () => {
+describe("getLevelWeatherPeriods", () => {
+  it("should get weather periods of levels", () => {
     jest.spyOn(level, "name").mockImplementationOnce(() => "unknown");
-    expect(getLevelWeatherDescriptor()).toEqual({
+    expect(getLevelWeatherPeriods()).toEqual({
       periodBad: "foggy_rainy",
       periodBadLength: 6,
       periodGood: "clear_foggy",
@@ -68,7 +54,7 @@ describe("getLevelWeatherDescriptor", () => {
     });
 
     jest.spyOn(level, "name").mockImplementationOnce(() => "zaton");
-    expect(getLevelWeatherDescriptor()).toEqual({
+    expect(getLevelWeatherPeriods()).toEqual({
       periodBad: "rainy",
       periodBadLength: 6,
       periodGood: "clear_foggy",
@@ -76,7 +62,7 @@ describe("getLevelWeatherDescriptor", () => {
     });
 
     jest.spyOn(level, "name").mockImplementationOnce(() => "jupiter");
-    expect(getLevelWeatherDescriptor()).toEqual({
+    expect(getLevelWeatherPeriods()).toEqual({
       periodBad: "foggy_rainy",
       periodBadLength: 4,
       periodGood: "clear",
@@ -85,41 +71,41 @@ describe("getLevelWeatherDescriptor", () => {
   });
 });
 
-describe("getNextPeriodChangeHour", () => {
-  it("should correctly get next weather change hour for zaton", () => {
+describe("getWeatherPeriodDuration", () => {
+  it("should get period durations for zaton", () => {
     jest.spyOn(level, "name").mockImplementationOnce(() => "zaton");
     jest.spyOn(math, "random").mockImplementationOnce((_, max) => max || 0);
-    expect(getNextPeriodChangeHour(EWeatherPeriodType.GOOD, 0)).toBe(7);
+    expect(getWeatherPeriodDuration(EWeatherPeriodType.GOOD)).toBe(7 * 3600);
 
     jest.spyOn(level, "name").mockImplementationOnce(() => "zaton");
     jest.spyOn(math, "random").mockImplementationOnce((min) => min || 0);
-    expect(getNextPeriodChangeHour(EWeatherPeriodType.GOOD, 0)).toBe(5);
+    expect(getWeatherPeriodDuration(EWeatherPeriodType.GOOD)).toBe(5 * 3600);
 
     jest.spyOn(level, "name").mockImplementationOnce(() => "zaton");
     jest.spyOn(math, "random").mockImplementationOnce((_, max) => max || 0);
-    expect(getNextPeriodChangeHour(EWeatherPeriodType.BAD, 23)).toBe(6);
+    expect(getWeatherPeriodDuration(EWeatherPeriodType.BAD)).toBe(7 * 3600);
 
     jest.spyOn(level, "name").mockImplementationOnce(() => "zaton");
     jest.spyOn(math, "random").mockImplementationOnce((min) => min || 0);
-    expect(getNextPeriodChangeHour(EWeatherPeriodType.BAD, 23)).toBe(4);
+    expect(getWeatherPeriodDuration(EWeatherPeriodType.BAD)).toBe(5 * 3600);
   });
 
-  it("should correctly get next weather change hour for jupiter", () => {
+  it("should get period durations for jupiter", () => {
     jest.spyOn(level, "name").mockImplementationOnce(() => "jupiter");
     jest.spyOn(math, "random").mockImplementationOnce((_, max) => max || 0);
-    expect(getNextPeriodChangeHour(EWeatherPeriodType.GOOD, 0)).toBe(9);
+    expect(getWeatherPeriodDuration(EWeatherPeriodType.GOOD)).toBe(9 * 3600);
 
     jest.spyOn(level, "name").mockImplementationOnce(() => "jupiter");
     jest.spyOn(math, "random").mockImplementationOnce((min) => min || 0);
-    expect(getNextPeriodChangeHour(EWeatherPeriodType.GOOD, 0)).toBe(7);
+    expect(getWeatherPeriodDuration(EWeatherPeriodType.GOOD)).toBe(7 * 3600);
 
     jest.spyOn(level, "name").mockImplementationOnce(() => "jupiter");
     jest.spyOn(math, "random").mockImplementationOnce((_, max) => max || 0);
-    expect(getNextPeriodChangeHour(EWeatherPeriodType.BAD, 5)).toBe(10);
+    expect(getWeatherPeriodDuration(EWeatherPeriodType.BAD)).toBe(5 * 3600);
 
     jest.spyOn(level, "name").mockImplementationOnce(() => "jupiter");
     jest.spyOn(math, "random").mockImplementationOnce((min) => min || 0);
-    expect(getNextPeriodChangeHour(EWeatherPeriodType.BAD, 5)).toBe(9);
+    expect(getWeatherPeriodDuration(EWeatherPeriodType.BAD)).toBe(4 * 3600);
   });
 });
 
@@ -145,7 +131,7 @@ describe("isPreBlowoutWeather", () => {
   });
 });
 
-describe("isPreBlowoutWeather", () => {
+describe("isTransitionWeather", () => {
   it("should check isTransitionWeather weathers", () => {
     expect(isTransitionWeather("transition_default")).toBe(true);
     expect(isTransitionWeather("transition")).toBe(true);

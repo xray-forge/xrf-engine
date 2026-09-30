@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, jest } from "@jest/globals";
 import { game, level } from "xray16";
-import { AnyObject, NIL, TName, TProbability } from "xray16/lib";
+import { AnyObject, TName, TProbability } from "xray16/lib";
 import { $fromObject } from "xray16/macros";
 import { EMockPacketDataType, MockNetProcessor } from "xray16/mocks";
 import { getFunctionMock, resetFunctionMock } from "xray16/testing/utils";
@@ -21,6 +21,7 @@ describe("WeatherManager", () => {
     weatherConfig.IS_UNDERGROUND_WEATHER = false;
 
     resetFunctionMock(level.is_wfx_playing);
+    resetFunctionMock(level.set_weather);
     getFunctionMock(level.is_wfx_playing).mockReturnValue(false);
   });
 
@@ -29,6 +30,7 @@ describe("WeatherManager", () => {
     const eventsManager: EventsManager = getManager(EventsManager);
 
     expect(weatherManager.weatherPeriod).toBe("good");
+    expect(weatherManager.weatherPeriodDuration).toBe(0);
     expect(weatherManager.lastUpdatedAtHour).toBe(0);
     expect(weatherManager.weatherFxTime).toBe(0);
 
@@ -46,44 +48,49 @@ describe("WeatherManager", () => {
     const manager: WeatherManager = getManager(WeatherManager);
     const eventsManager: EventsManager = getManager(EventsManager);
 
+    jest.spyOn(level, "name").mockImplementation(() => "zaton");
+
     eventsManager.emitEvent(EGameEvent.ACTOR_GO_ONLINE);
 
-    jest.spyOn(level, "name").mockImplementation(() => "zaton");
-
-    expect(level.name()).toBe("zaton");
     expect(weatherConfig.IS_UNDERGROUND_WEATHER).toBe(false);
     expect(manager.weatherPeriod).toBe("good");
-    expect(manager.weatherSection).toBe("atmosfear_clear_foggy");
+    expect(manager.weatherPeriodDuration).toBeGreaterThan(0);
+    expect(manager.weatherSection).toBe("dynamic_clear_foggy");
     expect(String(getFunctionMock(level.set_weather).mock.calls[0][0])).toMatch(/^w_(clear|partly|foggy)$/);
+  });
 
-    jest.spyOn(level, "name").mockImplementation(() => "jupiter_underground");
+  it("should play the named cycle for levels with fixed weather", () => {
+    const manager: WeatherManager = getManager(WeatherManager);
 
-    expect(level.name()).toBe("jupiter_underground");
-    expect(weatherConfig.IS_UNDERGROUND_WEATHER).toBe(false);
+    manager.weatherConditionList = parseConditionsList("indoor");
+    manager.updateWeather(true);
 
-    jest.spyOn(level, "name").mockImplementation(() => "zaton");
+    expect(manager.weatherSection).toBe("indoor");
+    expect(manager.weatherState).toEqualLuaTables({});
+    expect(level.set_weather).toHaveBeenCalledWith("indoor", true);
   });
 
   it("should correctly set state", () => {
     const manager: WeatherManager = getManager(WeatherManager);
 
-    manager.setStateAsString("dynamic_default=clear,cloudy");
+    manager.setStateAsString("dynamic_clear=clear,partly;atmosfear_clear=clear,partly");
 
     expect(table.size(manager.weatherState)).toBe(1);
     expect(manager.weatherState).toEqualLuaTables(
       $fromObject<string, IWeatherState>({
-        dynamic_default: {
+        dynamic_clear: {
           currentState: "clear",
           weatherGraph: $fromObject<TName, TProbability>({
-            clear: 0.2,
-            cloudy: 0.2,
-            foggy: 0.1,
-            partly: 0.2,
-            rain: 0.1,
-            veryfoggy: 0.1,
+            clear: 0.5,
+            cloudy: 0,
+            foggy: 0,
+            partly: 0.5,
+            rain: 0,
+            storm: 0,
+            veryfoggy: 0,
           }),
-          weatherName: "dynamic_default",
-          nextState: "cloudy",
+          weatherName: "dynamic_clear",
+          nextState: "partly",
         },
       })
     );
@@ -93,11 +100,9 @@ describe("WeatherManager", () => {
     const manager: WeatherManager = getManager(WeatherManager);
     const processor: MockNetProcessor = new MockNetProcessor();
 
-    manager.setStateAsString("dynamic_default=clear,cloudy");
+    manager.setStateAsString("dynamic_clear=clear,partly");
     manager.weatherSection = "test_weather";
     manager.weatherPeriod = EWeatherPeriodType.GOOD;
-    manager.weatherLastPeriodChangeHour = 9;
-    manager.weatherNextPeriodChangeHour = 13;
     manager.lastUpdatedAtHour = 11;
 
     manager.save(processor.asNetPacket());
@@ -105,14 +110,18 @@ describe("WeatherManager", () => {
     expect(processor.writeDataOrder).toEqual([
       EMockPacketDataType.STRING,
       EMockPacketDataType.STRING,
-      EMockPacketDataType.U32,
-      EMockPacketDataType.U32,
+      EMockPacketDataType.U8,
+      EMockPacketDataType.U8,
+      EMockPacketDataType.U8,
+      EMockPacketDataType.U8,
+      EMockPacketDataType.U8,
+      EMockPacketDataType.U8,
+      EMockPacketDataType.U16,
       EMockPacketDataType.U32,
       EMockPacketDataType.STRING,
       EMockPacketDataType.STRING,
       EMockPacketDataType.U16,
     ]);
-    expect(processor.dataList).toEqual(["test_weather", "good", 9, 13, 11, "dynamic_default=clear,cloudy", NIL, 7]);
 
     disposeManager(WeatherManager);
 
@@ -123,26 +132,72 @@ describe("WeatherManager", () => {
     expect(processor.readDataOrder).toEqual(processor.writeDataOrder);
     expect(processor.dataList).toHaveLength(0);
     expect(newManager).not.toBe(manager);
+    expect(newManager.weatherSection).toBe("test_weather");
+    expect(newManager.lastUpdatedAtHour).toBe(11);
+    expect(newManager.weatherPeriodChangedAt.diffSec(manager.weatherPeriodChangedAt)).toBe(0);
     expect(manager.weatherState).toEqual(newManager.weatherState);
     expect(manager.weatherFx).toEqual(newManager.weatherFx);
   });
 
-  it("should change weather periods when the scheduled hour is reached", () => {
+  it("should keep weather periods until their duration passed", () => {
     const manager: WeatherManager = getManager(WeatherManager);
     const surgeManager: SurgeManager = getManager(SurgeManager);
+    const changedAt = game.get_game_time();
+    const now = { diffSec: (it: unknown) => (it === changedAt ? 1800 : 0) };
 
-    jest.spyOn(level, "get_time_hours").mockReturnValue(12);
-    surgeManager.lastSurgeAt = game.get_game_time();
-    surgeManager.nextScheduledSurgeDelay = 10_000;
+    surgeManager.nextScheduledSurgeDelay = 100_000;
     manager.weatherPeriod = EWeatherPeriodType.GOOD;
-    manager.weatherNextPeriodChangeHour = 12;
+    manager.weatherPeriodChangedAt = changedAt;
+    manager.weatherPeriodDuration = 3600;
+
+    jest.spyOn(game, "get_game_time").mockImplementationOnce(() => now as never);
+
+    manager.changePeriod();
+
+    expect(manager.weatherPeriod).toBe(EWeatherPeriodType.GOOD);
+    expect(manager.weatherPeriodChangedAt).toBe(changedAt);
+    expect(manager.isWeatherPeriodTransition).toBe(false);
+  });
+
+  it("should change weather periods after a time skip past their change", () => {
+    const manager: WeatherManager = getManager(WeatherManager);
+    const surgeManager: SurgeManager = getManager(SurgeManager);
+    const changedAt = game.get_game_time();
+    const now = { diffSec: (it: unknown) => (it === changedAt ? 8 * 3600 : 0) };
+
+    surgeManager.nextScheduledSurgeDelay = 100_000;
+    manager.weatherPeriod = EWeatherPeriodType.GOOD;
+    manager.weatherPeriodChangedAt = changedAt;
+    manager.weatherPeriodDuration = 3600;
+
+    jest.spyOn(game, "get_game_time").mockImplementationOnce(() => now as never);
 
     manager.changePeriod();
 
     expect(manager.weatherPeriod).toBe(EWeatherPeriodType.BAD);
-    expect(manager.weatherLastPeriodChangeHour).toBe(12);
-    expect(manager.weatherNextPeriodChangeHour).not.toBe(12);
+    expect(manager.weatherPeriodChangedAt).toBe(now);
+    expect(manager.weatherPeriodDuration).toBeGreaterThan(0);
     expect(manager.isWeatherPeriodTransition).toBe(true);
+  });
+
+  it("should hold the weather period an hour longer before a surge", () => {
+    const manager: WeatherManager = getManager(WeatherManager);
+    const surgeManager: SurgeManager = getManager(SurgeManager);
+    const changedAt = game.get_game_time();
+    const now = { diffSec: (it: unknown) => (it === changedAt ? 3600 : 100_000 - 3000) };
+
+    surgeManager.nextScheduledSurgeDelay = 100_000;
+    manager.weatherPeriod = EWeatherPeriodType.GOOD;
+    manager.weatherPeriodChangedAt = changedAt;
+    manager.weatherPeriodDuration = 3600;
+
+    jest.spyOn(game, "get_game_time").mockImplementationOnce(() => now as never);
+
+    manager.changePeriod();
+
+    expect(manager.isWeatherPeriodPreBlowout).toBe(true);
+    expect(manager.weatherPeriodDuration).toBe(7200);
+    expect(manager.weatherPeriod).toBe(EWeatherPeriodType.GOOD);
   });
 
   it("should force the next weather update to apply immediately", () => {
@@ -160,7 +215,6 @@ describe("WeatherManager", () => {
   it("should advance hourly state and update weather", () => {
     const manager: WeatherManager = getManager(WeatherManager);
 
-    manager.initializedAt = game.get_game_time();
     manager.lastUpdatedAtHour = 5;
     jest.spyOn(level, "get_time_hours").mockReturnValue(6);
     jest.spyOn(manager, "changePeriod").mockImplementation(jest.fn());
