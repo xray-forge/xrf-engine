@@ -84,14 +84,11 @@ export class SleepManager extends AbstractManager {
     level.add_cam_effector(animations.camera_effects_sleep, 10, false, "engine.on_finish_sleeping");
     level.change_game_time(0, this.nextSleepDuration, 0);
 
-    const weatherManager: WeatherManager = getManager(WeatherManager);
-
-    weatherManager.forceWeatherChange();
+    getManager(WeatherManager).forceWeatherChange();
     surgeConfig.IS_TIME_FORWARDED = true;
 
-    if (surgeConfig.IS_STARTED && weatherManager.weatherFx) {
+    if (surgeConfig.IS_STARTED && level.is_wfx_playing()) {
       level.stop_weather_fx();
-      weatherManager.forceWeatherChange();
     }
 
     registry.actor.power = 1;

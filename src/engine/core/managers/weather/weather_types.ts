@@ -1,4 +1,4 @@
-import { Nillable, TDuration, TName, TProbability, TSection } from "xray16/lib";
+import { TDuration, TName, TProbability } from "xray16/lib";
 
 /**
  * Level `weathers` value for dynamic weather: period graphs of weather states, `dynamic_<period>` sections.
@@ -24,7 +24,7 @@ export const enum EWeatherPeriodType {
 }
 
 /**
- * Actual weather period.
+ * Weather period a level plays, the `dynamic_<period>` graph of its good or bad weather.
  */
 export const enum EWeatherPeriod {
   CLEAR = "clear",
@@ -32,12 +32,11 @@ export const enum EWeatherPeriod {
   FOGGY = "foggy",
   FOGGY_RAINY = "foggy_rainy",
   RAINY = "rainy",
-  PARTLY = "partly",
   STORMY = "stormy",
 }
 
 /**
- * Weather graph defining transitions between weathers.
+ * Weather graph: weights of the weather states it picks one of every game hour.
  */
 export type TWeatherGraph = LuaTable<TName, TProbability>;
 
@@ -49,14 +48,4 @@ export interface ILevelWeatherPeriods {
   periodGoodLength: TDuration;
   periodBad: EWeatherPeriod;
   periodBadLength: TDuration;
-}
-
-/**
- * State of weather manager describing current graph node.
- */
-export interface IWeatherState {
-  currentState: Nillable<TSection>;
-  nextState: Nillable<TSection>;
-  weatherName: TName;
-  weatherGraph: TWeatherGraph;
 }

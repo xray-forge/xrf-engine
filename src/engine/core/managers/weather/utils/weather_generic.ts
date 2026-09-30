@@ -58,16 +58,6 @@ export function getWeatherPeriodDuration(period: EWeatherPeriodType): TDuration 
 }
 
 /**
- * Check if weather section is indoors.
- *
- * @param weather - Section of weather to check.
- * @returns Whether weather section is indoor.
- */
-export function isIndoorWeather(weather: TName): boolean {
-  return containsSubstring(weather, "indoor");
-}
-
-/**
  * Check if weather section is pre-blowout.
  *
  * @param weather - Section of weather to check.

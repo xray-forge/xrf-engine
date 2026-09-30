@@ -2,15 +2,12 @@ import { game, level } from "xray16";
 import { NetPacket, NetProcessor, Time } from "xray16/alias";
 import {
   AnyObject,
-  assert,
-  LuaArray,
   NIL,
   Nillable,
   readTimeFromPacket,
   StringNillable,
   TDuration,
   TName,
-  TProbability,
   TSection,
   TTimestamp,
   writeTimeToPacket,
@@ -36,7 +33,7 @@ import {
 } from "@/engine/core/ini";
 import { AbstractManager } from "@/engine/core/managers/abstract";
 import { EGameEvent, EventsManager } from "@/engine/core/managers/events";
-import { SurgeManager } from "@/engine/core/managers/surge";
+import type { SurgeManager } from "@/engine/core/managers/surge/SurgeManager";
 import {
   getLevelWeatherPeriods,
   getNextWeatherFromGraph,
@@ -47,44 +44,41 @@ import {
 import {
   DYNAMIC_WEATHER,
   EWeatherPeriodType,
-  IWeatherState,
   TWeatherGraph,
   WEATHER_CYCLE_PREFIX,
 } from "@/engine/core/managers/weather/weather_types";
 import { DYNAMIC_WEATHER_GRAPHS_LTX, weatherConfig } from "@/engine/core/managers/weather/WeatherConfig";
-import { executeConsoleCommandsFromSection } from "@/engine/core/utils/console";
 import { isUndergroundLevel } from "@/engine/core/utils/level";
 import { LuaLogger } from "@/engine/core/utils/logging";
 
 const logger: LuaLogger = new LuaLogger($filename);
 
 /**
- * Initialize weather and manage updating of it hourly.
+ * Play the level's weather: a cycle it names, or dynamic weather, which picks a state of its period's graph hourly.
  */
 export class WeatherManager extends AbstractManager {
-  public shouldForceWeatherChangeOnTimeChange: boolean = false;
-
   public weatherPeriod: EWeatherPeriodType = EWeatherPeriodType.GOOD;
   public weatherPeriodChangedAt: Time = game.get_game_time();
-  // Game seconds the current period lasts from its change.
+  // Game seconds the current period lasts from its change, rolled for the level on every actor spawn.
   public weatherPeriodDuration: TDuration = 0;
-
   public isWeatherPeriodTransition: boolean = false;
   public isWeatherPeriodPreBlowout: boolean = false;
 
-  public weatherFx: Nillable<TName> = null;
-  public weatherFxTime: TTimestamp = 0;
-
-  public weatherSection: TSection = "";
   public weatherConditionList: TConditionList = new LuaTable();
+  // Section the level plays: a weather graph, or a cycle played as it is.
+  public weatherSection: TSection = "";
+  // State of the weather graph playing, null for a cycle played as it is.
+  public weatherState: Nillable<TName> = null;
 
   public lastUpdatedAtHour: TTimestamp = 0;
+  public shouldForceWeatherChangeOnTimeChange: boolean = false;
 
-  // Map of states for weather sections, where key is name and value is probability.
-  public weatherState: LuaTable<TName, IWeatherState> = new LuaTable();
+  // Weather effect playing when the game was saved, resumed once the actor spawns.
+  public savedWeatherFx: Nillable<TName> = null;
+  public savedWeatherFxTime: TTimestamp = 0;
 
-  // Map of weathers change graphs for weather section, where key is name and value is probability.
-  public graphs: LuaTable<TName, TWeatherGraph> = new LuaTable();
+  // Weather graphs read so far, by section.
+  public graphs: LuaTable<TSection, TWeatherGraph> = new LuaTable();
 
   public override initialize(): void {
     const eventsManager: EventsManager = getManager(EventsManager);
@@ -92,9 +86,6 @@ export class WeatherManager extends AbstractManager {
     eventsManager.registerCallback(EGameEvent.DUMP_LUA_DATA, this.onDebugDump, this);
     eventsManager.registerCallback(EGameEvent.ACTOR_UPDATE_2500, this.update, this);
     eventsManager.registerCallback(EGameEvent.ACTOR_GO_ONLINE, this.onActorNetworkSpawn, this);
-
-    // Apply settings for console if any exist.
-    executeConsoleCommandsFromSection("weather_console_settings", DYNAMIC_WEATHER_GRAPHS_LTX);
   }
 
   public override destroy(): void {
@@ -107,28 +98,26 @@ export class WeatherManager extends AbstractManager {
 
   /**
    * Load current state / related info.
+   * Runs before the actor spawns, which plays the weather loaded here.
    */
   public override load(reader: NetProcessor): void {
     openLoadMarker(reader, WeatherManager.name);
 
     this.weatherSection = reader.r_stringZ();
-    this.weatherPeriod = reader.r_stringZ();
 
+    const weatherState: StringNillable = reader.r_stringZ();
+
+    this.weatherState = weatherState === NIL ? null : weatherState;
+    this.weatherPeriod = reader.r_stringZ();
+    this.weatherPeriodChangedAt = readTimeFromPacket(reader) ?? game.get_game_time();
     this.isWeatherPeriodTransition = isTransitionWeather(this.weatherSection);
     this.isWeatherPeriodPreBlowout = isPreBlowoutWeather(this.weatherSection);
-
-    this.weatherPeriodChangedAt = readTimeFromPacket(reader) ?? game.get_game_time();
-    this.lastUpdatedAtHour = reader.r_u32();
-
-    const stateString: string = reader.r_stringZ();
-
-    this.setStateAsString(stateString);
 
     const weatherFx: StringNillable = reader.r_stringZ();
 
     if (weatherFx !== NIL) {
-      this.weatherFx = weatherFx;
-      this.weatherFxTime = reader.r_float();
+      this.savedWeatherFx = weatherFx;
+      this.savedWeatherFxTime = reader.r_float();
     }
 
     closeLoadMarker(reader, WeatherManager.name);
@@ -141,63 +130,55 @@ export class WeatherManager extends AbstractManager {
     openSaveMarker(packet, WeatherManager.name);
 
     packet.w_stringZ(this.weatherSection);
+    packet.w_stringZ(tostring(this.weatherState));
     packet.w_stringZ(this.weatherPeriod);
-
     writeTimeToPacket(packet, this.weatherPeriodChangedAt);
-    packet.w_u32(this.lastUpdatedAtHour);
 
-    packet.w_stringZ(this.getStateAsString());
-    packet.w_stringZ(tostring(this.weatherFx));
-
-    if (this.weatherFx) {
+    if (level.is_wfx_playing()) {
+      packet.w_stringZ(level.get_weather());
       packet.w_float(level.get_wfx_time());
+    } else {
+      packet.w_stringZ(NIL);
     }
 
     closeSaveMarker(packet, WeatherManager.name);
   }
 
   /**
-   * Generic update iteration.
+   * Advance the weather once every game hour: change the period when it is over, then play a new state.
    */
   public override update(): void {
     const hour: TTimestamp = level.get_time_hours();
 
-    this.weatherFx = level.is_wfx_playing() ? level.get_weather() : null;
-
-    if (this.lastUpdatedAtHour !== hour) {
-      this.lastUpdatedAtHour = hour;
-
-      for (const [, state] of this.weatherState) {
-        state.currentState = state.nextState;
-        state.nextState = getNextWeatherFromGraph(state.weatherGraph);
-      }
-
-      this.changePeriod();
-      this.updateWeather();
+    if (this.lastUpdatedAtHour === hour) {
+      return;
     }
+
+    this.lastUpdatedAtHour = hour;
+    this.changePeriod();
+
+    // A weather graph plays a new state every game hour.
+    this.weatherState = null;
+    this.updateWeather();
   }
 
   /**
-   * Try to change current weather based on current cycle, period and state.
+   * Play the weather section the level picks now, keeping the state it plays while the section stays the same.
    *
-   * @param now - Whether weather should be changed immediately.
+   * @param now - Whether the weather is switched to at once rather than blended into.
    */
-  public updateWeather(now?: boolean): void {
-    let weatherSection: TSection = pickSectionFromCondList(
-      registry.actor,
-      registry.actor,
-      this.weatherConditionList
-    ) as TSection;
+  public updateWeather(now: boolean = false): void {
+    let section: TSection = pickSectionFromCondList(registry.actor, registry.actor, this.weatherConditionList)!;
 
-    if (weatherSection === DYNAMIC_WEATHER) {
+    if (section === DYNAMIC_WEATHER) {
       if (this.isWeatherPeriodTransition) {
-        weatherSection += "_transition";
+        section += "_transition";
         this.isWeatherPeriodTransition = false;
       } else if (this.isWeatherPeriodPreBlowout) {
-        weatherSection += "_pre_blowout";
+        section += "_pre_blowout";
         this.isWeatherPeriodPreBlowout = false;
       } else {
-        weatherSection = `${weatherSection}_${
+        section += `_${
           this.weatherPeriod === EWeatherPeriodType.GOOD
             ? getLevelWeatherPeriods().periodGood
             : getLevelWeatherPeriods().periodBad
@@ -205,50 +186,25 @@ export class WeatherManager extends AbstractManager {
       }
     }
 
-    this.weatherSection = weatherSection;
+    const graph: Nillable<TWeatherGraph> = this.getGraphBySection(section);
 
-    logger.info("Current weather section is: %s", weatherSection);
-
-    const graph: Nillable<TWeatherGraph> = this.getGraphBySection(weatherSection);
-    let nextWeather: TName;
-
-    if (graph) {
-      if (
-        !this.weatherState.get(weatherSection) ||
-        this.weatherState.get(weatherSection).weatherName !== weatherSection
-      ) {
-        this.weatherState = new LuaTable();
-        this.weatherState.set(weatherSection, {
-          currentState: getNextWeatherFromGraph(graph),
-          nextState: getNextWeatherFromGraph(graph),
-          weatherName: weatherSection,
-          weatherGraph: graph,
-        });
-      }
-
-      nextWeather = `${WEATHER_CYCLE_PREFIX}${this.weatherState.get(weatherSection).currentState}`;
-    } else {
-      this.weatherState.delete(weatherSection);
-      nextWeather = weatherSection;
+    if (!graph) {
+      this.weatherState = null;
+    } else if (!this.weatherState || section !== this.weatherSection) {
+      this.weatherState = getNextWeatherFromGraph(graph);
     }
 
-    // Force change now if marked as needed.
-    if (this.shouldForceWeatherChangeOnTimeChange) {
-      now = true;
-      this.shouldForceWeatherChangeOnTimeChange = false;
-    }
+    this.weatherSection = section;
 
-    if (now) {
-      this.lastUpdatedAtHour = level.get_time_hours();
-    }
+    const cycle: TName = this.weatherState ? `${WEATHER_CYCLE_PREFIX}${this.weatherState}` : section;
+    const isForced: boolean = now || this.shouldForceWeatherChangeOnTimeChange;
 
-    if (this.weatherFx) {
-      level.start_weather_fx_from_time(this.weatherFx, this.weatherFxTime);
-      logger.info("Start weather FX: %s %s %s", this.weatherFx, this.weatherFxTime, now);
-    } else {
-      level.set_weather(nextWeather, now === true);
-      logger.info("Updated weather: %s %s %s %s", weatherSection, nextWeather, this.weatherFx, now);
-    }
+    this.shouldForceWeatherChangeOnTimeChange = false;
+
+    // Forcing drops a playing weather effect, so during one the cycle is only recorded for the engine to return to.
+    level.set_weather(cycle, isForced && !level.is_wfx_playing());
+
+    logger.info("Updated weather: %s %s %s", section, cycle, isForced);
   }
 
   /**
@@ -258,15 +214,13 @@ export class WeatherManager extends AbstractManager {
   public changePeriod(): void {
     const now: Time = game.get_game_time();
     const surgeManager: SurgeManager = getManagerByName("SurgeManager") as SurgeManager;
-    const timeToSurge: TDuration = math.floor(
-      surgeManager.nextScheduledSurgeDelay - now.diffSec(surgeManager.lastSurgeAt)
-    );
+    const timeToSurge: TDuration = surgeManager.getTimeToNextSurge(now);
 
+    // Weather darkens for the two game hours before a surge and while one plays, holding the period over it.
     if (timeToSurge < 7200 || level.is_wfx_playing()) {
       logger.info("Activate pre-blowout period: %s", timeToSurge);
 
       this.isWeatherPeriodPreBlowout = true;
-      // Hold the current period over the surge.
       this.weatherPeriodDuration += 3600;
     }
 
@@ -290,57 +244,6 @@ export class WeatherManager extends AbstractManager {
   }
 
   /**
-   * Read serialized string and transform it into current state.
-   */
-  public setStateAsString(stateString: string): void {
-    this.weatherState = new LuaTable();
-
-    for (const weatherString of string.gfind(stateString, "[^;]+")) {
-      const [, , groupName, currentState, nextState] = string.find(weatherString, "([^=]+)=([^,]+),([^,]+)");
-
-      assert(
-        groupName,
-        "WeatherManager::setStateAsString got malformed state string '%s', '%s' parsed as '%'.",
-        stateString,
-        weatherString,
-        groupName
-      );
-
-      const graphName: TName = groupName as TName;
-      const graph: Nillable<LuaTable<TName, TProbability>> = this.getGraphBySection(graphName);
-
-      if (graph) {
-        logger.info("Change weather graph: %s", stateString);
-
-        this.weatherState.set(graphName, {
-          currentState: currentState as TName,
-          nextState: nextState as TName,
-          weatherName: graphName,
-          weatherGraph: graph,
-        });
-      }
-    }
-  }
-
-  /**
-   * Transform current state into string.
-   *
-   * @returns String containing level states, example: `dynamic_clear=clear,partly;another=cloudy,rainy`.
-   */
-  public getStateAsString(): string {
-    const levelStrings: LuaArray<string> = new LuaTable();
-
-    for (const [, weatherState] of this.weatherState) {
-      table.insert(
-        levelStrings,
-        weatherState.weatherName + "=" + weatherState.currentState + "," + weatherState.nextState
-      );
-    }
-
-    return table.concat(levelStrings, ";");
-  }
-
-  /**
    * Get weather changes graph by section name.
    *
    * @param section - Name of the section to parse / read.
@@ -360,7 +263,7 @@ export class WeatherManager extends AbstractManager {
 
   /**
    * Handle actor net spawn.
-   * Detect current level and environment, reset and re-init states.
+   * Read the level's weather and play it at once, resuming a weather effect the game was saved during.
    */
   protected onActorNetworkSpawn(): void {
     const levelName: TName = level.name();
@@ -370,16 +273,19 @@ export class WeatherManager extends AbstractManager {
 
     weatherConfig.IS_UNDERGROUND_WEATHER = isUndergroundLevel(levelName);
 
-    this.weatherSection = levelWeather;
     this.weatherConditionList = parseConditionsList(levelWeather);
-
-    logger.info("Possible weathers condition list: %s", levelWeather);
-
     // Period lengths are per level, so the running period's length is rolled for the level just entered.
     this.weatherPeriodDuration = getWeatherPeriodDuration(this.weatherPeriod);
-
     this.lastUpdatedAtHour = level.get_time_hours();
     this.updateWeather(true);
+
+    // Resumed once its cycle is set, so the level returns to that cycle when the effect ends.
+    if (this.savedWeatherFx) {
+      logger.info("Resume weather FX: %s %s", this.savedWeatherFx, this.savedWeatherFxTime);
+
+      level.start_weather_fx_from_time(this.savedWeatherFx, this.savedWeatherFxTime);
+      this.savedWeatherFx = null;
+    }
   }
 
   /**
@@ -390,18 +296,18 @@ export class WeatherManager extends AbstractManager {
   public onDebugDump(data: AnyObject): AnyObject {
     data[this.constructor.name] = {
       weatherConfig: weatherConfig,
-      shouldForceWeatherChangeOnTimeChange: this.shouldForceWeatherChangeOnTimeChange,
       weatherPeriod: this.weatherPeriod,
       weatherPeriodChangedAt: this.weatherPeriodChangedAt,
       weatherPeriodDuration: this.weatherPeriodDuration,
       isWeatherPeriodTransition: this.isWeatherPeriodTransition,
       isWeatherPeriodPreBlowout: this.isWeatherPeriodPreBlowout,
-      weatherFx: this.weatherFx,
-      weatherFxTime: this.weatherFxTime,
-      weatherSection: this.weatherSection,
       weatherConditionList: this.weatherConditionList,
-      lastUpdatedAtHour: this.lastUpdatedAtHour,
+      weatherSection: this.weatherSection,
       weatherState: this.weatherState,
+      lastUpdatedAtHour: this.lastUpdatedAtHour,
+      shouldForceWeatherChangeOnTimeChange: this.shouldForceWeatherChangeOnTimeChange,
+      savedWeatherFx: this.savedWeatherFx,
+      savedWeatherFxTime: this.savedWeatherFxTime,
       graphs: this.graphs,
     };
 

@@ -218,6 +218,14 @@ export class SurgeManager extends AbstractManager {
   }
 
   /**
+   * @param now - Current game time.
+   * @returns Game seconds until the next surge is due, negative once it is overdue.
+   */
+  public getTimeToNextSurge(now: Time = game.get_game_time()): TDuration {
+    return this.nextScheduledSurgeDelay - now.diffSec(this.lastSurgeAt);
+  }
+
+  /**
    * Give the actor the task to hide from the surge unless the task section is disabled.
    */
   protected giveSurgeHideTask(): void {
@@ -365,7 +373,7 @@ export class SurgeManager extends AbstractManager {
     level.remove_pp_effector(surgeConfig.SURGE_SHOCK_PP_EFFECTOR_ID);
     level.remove_cam_effector(surgeConfig.EARTHQUAKE_CAM_EFFECTOR_ID);
 
-    if (manual || (surgeConfig.IS_TIME_FORWARDED && getManager(WeatherManager).weatherFx)) {
+    if (manual || (surgeConfig.IS_TIME_FORWARDED && level.is_wfx_playing())) {
       level.stop_weather_fx();
       getManager(WeatherManager).forceWeatherChange();
     }
@@ -419,7 +427,7 @@ export class SurgeManager extends AbstractManager {
       const currentGameTime: Time = game.get_game_time();
 
       if (surgeConfig.IS_TIME_FORWARDED) {
-        const diff: TCount = math.abs(this.nextScheduledSurgeDelay - currentGameTime.diffSec(this.lastSurgeAt));
+        const diff: TCount = math.abs(this.getTimeToNextSurge(currentGameTime));
 
         if (diff < surgeConfig.INTERVAL_MIN_AFTER_TIME_FORWARD) {
           logger.info("Time forward, reschedule from: %s", this.nextScheduledSurgeDelay);
@@ -434,7 +442,7 @@ export class SurgeManager extends AbstractManager {
       }
 
       if (
-        currentGameTime.diffSec(this.lastSurgeAt) < this.nextScheduledSurgeDelay ||
+        this.getTimeToNextSurge(currentGameTime) > 0 ||
         pickSectionFromCondList(registry.actor, null, surgeConfig.CAN_START_SURGE) !== TRUE ||
         !getNearestAvailableSurgeCover(registry.actor)
       ) {

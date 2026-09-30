@@ -8,7 +8,6 @@ import {
   getLevelWeatherPeriods,
   getNextWeatherFromGraph,
   getWeatherPeriodDuration,
-  isIndoorWeather,
   isPreBlowoutWeather,
   isTransitionWeather,
 } from "@/engine/core/managers/weather/utils/weather_generic";
@@ -106,17 +105,6 @@ describe("getWeatherPeriodDuration", () => {
     jest.spyOn(level, "name").mockImplementationOnce(() => "jupiter");
     jest.spyOn(math, "random").mockImplementationOnce((min) => min || 0);
     expect(getWeatherPeriodDuration(EWeatherPeriodType.BAD)).toBe(4 * 3600);
-  });
-});
-
-describe("isIndoorWeather", () => {
-  it("should check indoor weathers", () => {
-    expect(isIndoorWeather("indoor_default")).toBe(true);
-    expect(isIndoorWeather("indoor")).toBe(true);
-    expect(isIndoorWeather("dynamic_default")).toBe(false);
-    expect(isIndoorWeather("dynamic")).toBe(false);
-    expect(isIndoorWeather("default")).toBe(false);
-    expect(isIndoorWeather("another")).toBe(false);
   });
 });
 

@@ -137,7 +137,7 @@ describe("SleepManager", () => {
     jest.spyOn(weatherManager, "forceWeatherChange").mockImplementation(jest.fn());
     jest.spyOn(eventsManager, "emitEvent").mockImplementation(jest.fn());
 
-    weatherManager.weatherFx = "test-fx";
+    jest.spyOn(level, "is_wfx_playing").mockReturnValueOnce(true);
 
     sleepManager.nextSleepDuration = 6;
     sleepManager.onStartSleeping();
@@ -150,7 +150,7 @@ describe("SleepManager", () => {
     );
     expect(level.change_game_time).toHaveBeenCalledWith(0, 6, 0);
 
-    expect(weatherManager.forceWeatherChange).toHaveBeenCalledTimes(2);
+    expect(weatherManager.forceWeatherChange).toHaveBeenCalledTimes(1);
     expect(surgeConfig.IS_TIME_FORWARDED).toBe(true);
     expect(level.stop_weather_fx).toHaveBeenCalledTimes(1);
 
