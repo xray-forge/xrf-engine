@@ -5,6 +5,7 @@ export const actorConfig = {
   // Input configuration:
   IS_WEAPON_HIDDEN: false,
   IS_WEAPON_HIDDEN_IN_DIALOG: false,
-  IS_ACTOR_NIGHT_VISION_ENABLED: false,
-  IS_ACTOR_TORCH_ENABLED: false,
+  // Whether a UI lock turned the actor night vision or torch off, to turn it back on once released.
+  IS_NIGHT_VISION_TURNED_OFF: false,
+  IS_TORCH_TURNED_OFF: false,
 };

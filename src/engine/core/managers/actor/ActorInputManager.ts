@@ -3,15 +3,11 @@ import { GameHud, GameObject, NetPacket, NetProcessor, Time } from "xray16/alias
 import { AnyObject, Nillable, readTimeFromPacket, TDuration, TName, TNumberId, writeTimeToPacket } from "xray16/lib";
 import { $filename, $isNil, $isNotNil } from "xray16/macros";
 
-import { animations, postProcessors } from "@/engine/constants/animation";
-import { infoPortions } from "@/engine/constants/info_portions";
-import { drugs } from "@/engine/constants/items/drugs";
 import { misc } from "@/engine/constants/items/misc";
 import {
   closeLoadMarker,
   closeSaveMarker,
   getManager,
-  getManagerByName,
   openLoadMarker,
   openSaveMarker,
   registry,
@@ -25,13 +21,8 @@ import {
 } from "@/engine/core/managers/actor/actor_input_types";
 import { actorConfig } from "@/engine/core/managers/actor/ActorConfig";
 import { EGameEvent, EventsManager } from "@/engine/core/managers/events";
-import { surgeConfig } from "@/engine/core/managers/surge/SurgeConfig";
-import type { SurgeManager } from "@/engine/core/managers/surge/SurgeManager";
-import { WeatherManager } from "@/engine/core/managers/weather";
-import { disableInfoPortion, giveInfoPortion } from "@/engine/core/utils/info_portion";
 import { LuaLogger } from "@/engine/core/utils/logging";
 import { isActorInNoWeaponZone } from "@/engine/core/utils/position";
-import { getEffectsVolume, getMusicVolume, setEffectsVolume, setMusicVolume } from "@/engine/core/utils/sound";
 
 const logger: LuaLogger = new LuaLogger($filename);
 
@@ -53,7 +44,6 @@ export class ActorInputManager extends AbstractManager {
     eventsManager.registerCallback(EGameEvent.ACTOR_UPDATE, this.onUpdate, this);
     eventsManager.registerCallback(EGameEvent.ACTOR_FIRST_UPDATE, this.onFirstUpdate, this);
     eventsManager.registerCallback(EGameEvent.ACTOR_GO_ONLINE, this.onActorGoOnline, this);
-    eventsManager.registerCallback(EGameEvent.ACTOR_USE_ITEM, this.onActorUseItem, this);
   }
 
   public override destroy(): void {
@@ -63,7 +53,6 @@ export class ActorInputManager extends AbstractManager {
     eventsManager.unregisterCallback(EGameEvent.ACTOR_UPDATE, this.onUpdate);
     eventsManager.unregisterCallback(EGameEvent.ACTOR_FIRST_UPDATE, this.onFirstUpdate);
     eventsManager.unregisterCallback(EGameEvent.ACTOR_GO_ONLINE, this.onActorGoOnline);
-    eventsManager.unregisterCallback(EGameEvent.ACTOR_USE_ITEM, this.onActorUseItem);
   }
 
   public override save(packet: NetPacket): void {
@@ -213,22 +202,21 @@ export class ActorInputManager extends AbstractManager {
   }
 
   /**
-   * Enables night vision for actor UI.
+   * Turn actor night vision back on when `disableActorNightVision` turned it off.
    */
   public enableActorNightVision(): void {
     logger.info("Enable actor night vision");
 
     const nightVision: Nillable<GameObject> = registry.actor.object(misc.device_torch);
 
-    // `IS_ACTOR_NIGHT_VISION_ENABLED` flags that this handler previously turned night vision off and owes a restore.
-    if (nightVision && !nightVision.night_vision_enabled() && actorConfig.IS_ACTOR_NIGHT_VISION_ENABLED) {
+    if (nightVision && !nightVision.night_vision_enabled() && actorConfig.IS_NIGHT_VISION_TURNED_OFF) {
       nightVision.enable_night_vision(true);
-      actorConfig.IS_ACTOR_NIGHT_VISION_ENABLED = false;
+      actorConfig.IS_NIGHT_VISION_TURNED_OFF = false;
     }
   }
 
   /**
-   * Disables night vision for actor UI.
+   * Turn actor night vision off, remembering to turn it back on.
    */
   public disableActorNightVision(): void {
     logger.info("Disable actor night vision");
@@ -237,26 +225,26 @@ export class ActorInputManager extends AbstractManager {
 
     if (nightVision && nightVision.night_vision_enabled()) {
       nightVision.enable_night_vision(false);
-      actorConfig.IS_ACTOR_NIGHT_VISION_ENABLED = true;
+      actorConfig.IS_NIGHT_VISION_TURNED_OFF = true;
     }
   }
 
   /**
-   * Enables actor torch.
+   * Turn actor torch back on when `disableActorTorch` turned it off.
    */
   public enableActorTorch(): void {
     logger.info("Enable actor torch");
 
     const torch: Nillable<GameObject> = registry.actor.object(misc.device_torch);
 
-    if (torch && !torch.torch_enabled() && !actorConfig.IS_ACTOR_TORCH_ENABLED) {
+    if (torch && !torch.torch_enabled() && actorConfig.IS_TORCH_TURNED_OFF) {
       torch.enable_torch(true);
-      actorConfig.IS_ACTOR_TORCH_ENABLED = true;
+      actorConfig.IS_TORCH_TURNED_OFF = false;
     }
   }
 
   /**
-   * Disables actor torch.
+   * Turn actor torch off, remembering to turn it back on.
    */
   public disableActorTorch(): void {
     logger.info("Disable actor torch");
@@ -265,7 +253,7 @@ export class ActorInputManager extends AbstractManager {
 
     if (torch && torch.torch_enabled()) {
       torch.enable_torch(false);
-      actorConfig.IS_ACTOR_TORCH_ENABLED = false;
+      actorConfig.IS_TORCH_TURNED_OFF = true;
     }
   }
 
@@ -292,24 +280,6 @@ export class ActorInputManager extends AbstractManager {
    */
   public disableGameUiOnly(): void {
     this.acquireControl(EActorControlHandle.SCRIPT_UI, "script-ui", EActorControlPolicy.UI_ONLY, true);
-  }
-
-  /**
-   * Lock actor UI while consuming an anabiotic and start its effects.
-   */
-  public processAnabioticItemUsage(): void {
-    this.acquireControl(EActorControlHandle.ANABIOTIC, "anabiotic", EActorControlPolicy.UI_ONLY, true);
-
-    level.add_cam_effector(animations.camera_effects_surge_02, 10, false, "engine.on_anabiotic_sleep");
-    level.add_pp_effector(postProcessors.surge_fade, 11, false);
-
-    giveInfoPortion(infoPortions.anabiotic_in_process);
-
-    registry.musicVolume = getMusicVolume();
-    registry.effectsVolume = getEffectsVolume();
-
-    setMusicVolume(0);
-    setEffectsVolume(0);
   }
 
   /**
@@ -485,69 +455,6 @@ export class ActorInputManager extends AbstractManager {
   }
 
   /**
-   * Handle actor item use.
-   * Mainly to intercept and properly handle anabiotic.
-   */
-  public onActorUseItem(object: Nillable<GameObject>): void {
-    if (!object) {
-      return;
-    }
-
-    if (registry.simulator.object(object.id())?.section_name() === drugs.drug_anabiotic) {
-      logger.info("On actor anabiotic use: %s", object.name());
-      this.processAnabioticItemUsage();
-    }
-  }
-
-  /**
-   * Handle start of anabiotic sleep, apply wake-up camera effector, advance game time and end surge if active.
-   */
-  public onAnabioticSleep(): void {
-    level.add_cam_effector(animations.camera_effects_surge_01, 10, false, "engine.on_anabiotic_wake_up");
-
-    const minutes: TDuration = math.random(35, 45);
-
-    (getManagerByName("SurgeManager") as SurgeManager).forwardSurgeTime(minutes);
-
-    level.change_game_time(0, 0, minutes);
-    getManager(WeatherManager).forceWeatherChange();
-  }
-
-  /**
-   * Handle wake-up from anabiotic sleep, restore game UI and sound volumes, and clear the in-process info portion.
-   */
-  public onAnabioticWakeUp(): void {
-    this.releaseGameUiControl(EActorControlHandle.ANABIOTIC);
-
-    setMusicVolume(registry.musicVolume);
-    setEffectsVolume(registry.effectsVolume);
-
-    registry.effectsVolume = 0;
-    registry.musicVolume = 0;
-
-    disableInfoPortion(infoPortions.anabiotic_in_process);
-  }
-
-  /**
-   * Handle start of surge survival by applying the sleep camera effector for the surge survive sequence.
-   */
-  public onSurgeSurviveStart(): void {
-    level.add_cam_effector(
-      animations.camera_effects_surge_01,
-      surgeConfig.SLEEP_CAM_EFFECTOR_ID,
-      false,
-      "engine.surge_survive_end"
-    );
-  }
-
-  /**
-   * Release surge UI control after survival ends.
-   */
-  public onSurgeSurviveEnd(): void {
-    this.releaseGameUiControl(EActorControlHandle.SURGE);
-  }
-
-  /**
    * Handle actor keyboard input pressing.
    *
    * @param key - Key code.
@@ -576,6 +483,11 @@ export class ActorInputManager extends AbstractManager {
   public onDebugDump(data: AnyObject): AnyObject {
     data[this.constructor.name] = {
       activeSlot: registry.actor.active_slot(),
+      memoizedItemSlot: this.memoizedItemSlot,
+      activePolicy: this.getActiveControlPolicy(),
+      locks: this.locks,
+      disabledInputAt: this.disabledInputAt,
+      disabledInputDuration: this.disabledInputDuration,
       actorConfig: actorConfig,
     };
 

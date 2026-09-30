@@ -4,12 +4,10 @@ import { registry } from "@/engine/core/database/registry";
 
 describe("registry storage", () => {
   it("storage to contain all fields", () => {
-    expect(Object.keys(registry)).toHaveLength(44);
+    expect(Object.keys(registry)).toHaveLength(42);
   });
 
   it("storage to initialize with correct data", () => {
-    expect(registry.musicVolume).toBe(0);
-    expect(registry.effectsVolume).toBe(0);
     expect(registry.simulator).toBeNull();
     expect(registry.actorServer).toBeNull();
     expect(registry.actor).toBeNull();

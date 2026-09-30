@@ -5,8 +5,10 @@ import { ACTOR_ID, AnyObject, createTime, createVector } from "xray16/lib";
 import { EMockPacketDataType, MockCArtefact, MockGameObject, MockNetProcessor } from "xray16/mocks";
 import { replaceFunctionMock, resetFunctionMock } from "xray16/testing/utils";
 
+import { animations } from "@/engine/constants/animation";
 import { AnomalyZoneBinder } from "@/engine/core/binders/zones";
 import { disposeManager, getManager, registry } from "@/engine/core/database";
+import { ActorInputManager, EActorControlHandle } from "@/engine/core/managers/actor";
 import { EGameEvent, EventsManager } from "@/engine/core/managers/events";
 import { updateAnomalyZonesDisplay } from "@/engine/core/managers/map/utils";
 import { SoundManager } from "@/engine/core/managers/sounds/SoundManager";
@@ -525,6 +527,30 @@ describe("SurgeManager", () => {
     expect(manager.respawnArtefactsForLevel.has(level.name())).toBe(false);
     expect(anomalyZone.respawnArtefactsAndChangeLayers).toHaveBeenCalledTimes(1);
     expect(updateAnomalyZonesDisplay).toHaveBeenCalledTimes(1);
+  });
+
+  it("should wake the actor knocked out by a survived surge", () => {
+    const manager: SurgeManager = getManager(SurgeManager);
+
+    manager.onSurgeSurviveStart();
+
+    expect(level.add_cam_effector).toHaveBeenCalledWith(
+      animations.camera_effects_surge_01,
+      surgeConfig.SURVIVE_CAM_EFFECTOR_ID,
+      false,
+      "engine.surge_survive_end"
+    );
+  });
+
+  it("should show actor UI once the actor woke up from a survived surge", () => {
+    const manager: SurgeManager = getManager(SurgeManager);
+    const actorInputManager: ActorInputManager = getManager(ActorInputManager);
+
+    jest.spyOn(actorInputManager, "releaseGameUiControl").mockImplementation(jest.fn());
+
+    manager.onSurgeSurviveEnd();
+
+    expect(actorInputManager.releaseGameUiControl).toHaveBeenCalledWith(EActorControlHandle.SURGE);
   });
 
   it("should correctly handle actor going online", () => {

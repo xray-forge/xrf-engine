@@ -6,10 +6,10 @@ import { $filename, $isNil } from "xray16/macros";
 import { animations, postProcessors } from "@/engine/constants/animation";
 import { infoPortions } from "@/engine/constants/info_portions";
 import { TLevel } from "@/engine/constants/levels";
-import { getManagerByName, isStoryObject, registry } from "@/engine/core/database";
+import { getManager, isStoryObject, registry } from "@/engine/core/database";
 import { pickSectionFromCondList } from "@/engine/core/ini";
 import { EActorControlHandle, EActorControlPolicy } from "@/engine/core/managers/actor/actor_input_types";
-import type { ActorInputManager } from "@/engine/core/managers/actor/ActorInputManager";
+import { ActorInputManager } from "@/engine/core/managers/actor/ActorInputManager";
 import { EGameEvent, EventsManager } from "@/engine/core/managers/events";
 import { getSimulationSquads } from "@/engine/core/managers/simulation/utils";
 import { surgeConfig } from "@/engine/core/managers/surge/SurgeConfig";
@@ -145,7 +145,7 @@ export function killAllSurgeUnhidden(): void {
         EventsManager.emitEvent(EGameEvent.SURGE_SURVIVED_WITH_ANABIOTIC);
       }
 
-      getManagerByName<ActorInputManager>("ActorInputManager")?.acquireControl(
+      getManager(ActorInputManager).acquireControl(
         EActorControlHandle.SURGE,
         "surge",
         EActorControlPolicy.UI_ONLY,
@@ -158,11 +158,11 @@ export function killAllSurgeUnhidden(): void {
       if (pickSectionFromCondList(actor, null, surgeConfig.CAN_SURVIVE_SURGE) === TRUE) {
         level.add_cam_effector(
           animations.camera_effects_surge_02,
-          surgeConfig.SLEEP_CAM_EFFECTOR_ID,
+          surgeConfig.SURVIVE_CAM_EFFECTOR_ID,
           false,
           "engine.surge_survive_start"
         );
-        level.add_pp_effector(postProcessors.surge_fade, surgeConfig.SLEEP_FADE_PP_EFFECTOR_ID, false);
+        level.add_pp_effector(postProcessors.surge_fade, surgeConfig.SURVIVE_FADE_PP_EFFECTOR_ID, false);
         actor.health -= 0.05;
       } else {
         actor.kill(actor);

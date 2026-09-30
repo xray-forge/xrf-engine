@@ -1,13 +1,14 @@
 import { beforeEach, describe, expect, it, jest } from "@jest/globals";
 import { level } from "xray16";
-import { Console } from "xray16/alias";
+import { Console, GameObject, ServerObject } from "xray16/alias";
 import { AnyObject } from "xray16/lib";
-import { MockConsole } from "xray16/mocks";
+import { MockAlifeItem, MockConsole, MockGameObject } from "xray16/mocks";
 
 import { animations, postProcessors } from "@/engine/constants/animation";
 import { consoleCommands } from "@/engine/constants/console_commands";
 import { infoPortions } from "@/engine/constants/info_portions";
-import { disposeManager, getManager, registry } from "@/engine/core/database";
+import { drugs } from "@/engine/constants/items/drugs";
+import { disposeManager, getManager, registerSimulator } from "@/engine/core/database";
 import { ActorInputManager, EActorControlHandle, EActorControlPolicy } from "@/engine/core/managers/actor";
 import { EGameEvent, EventsManager } from "@/engine/core/managers/events";
 import { SleepManager } from "@/engine/core/managers/sleep";
@@ -37,8 +38,9 @@ describe("SleepManager", () => {
 
     const eventsManager: EventsManager = getManager(EventsManager);
 
-    expect(eventsManager.getSubscribersCount()).toBe(1);
+    expect(eventsManager.getSubscribersCount()).toBe(2);
     expect(eventsManager.getEventSubscribersCount(EGameEvent.DUMP_LUA_DATA)).toBe(1);
+    expect(eventsManager.getEventSubscribersCount(EGameEvent.ACTOR_USE_ITEM)).toBe(1);
 
     disposeManager(SleepManager);
 
@@ -114,8 +116,8 @@ describe("SleepManager", () => {
     expect(hasInfoPortion(infoPortions.actor_is_sleeping)).toBe(true);
     expect(surgeManager.enableSkipNotification).toHaveBeenCalled();
 
-    expect(registry.musicVolume).toBe(0.25);
-    expect(registry.effectsVolume).toBe(0.35);
+    expect(sleepManager.musicVolume).toBe(0.25);
+    expect(sleepManager.effectsVolume).toBe(0.35);
 
     expect(console.execute).toHaveBeenCalledWith("snd_volume_music 0");
     expect(console.execute).toHaveBeenCalledWith("snd_volume_eff 0");
@@ -169,8 +171,8 @@ describe("SleepManager", () => {
     giveInfoPortion(infoPortions.actor_is_sleeping);
     giveInfoPortion(infoPortions.sleep_active);
 
-    registry.musicVolume = 0.51;
-    registry.effectsVolume = 0.52;
+    sleepManager.musicVolume = 0.51;
+    sleepManager.effectsVolume = 0.52;
 
     sleepManager.onFinishSleeping();
 
@@ -179,14 +181,117 @@ describe("SleepManager", () => {
     expect(console.execute).toHaveBeenCalledWith("snd_volume_music 0.51");
     expect(console.execute).toHaveBeenCalledWith("snd_volume_eff 0.52");
 
-    expect(registry.musicVolume).toBe(0);
-    expect(registry.effectsVolume).toBe(0);
+    expect(sleepManager.musicVolume).toBe(0);
+    expect(sleepManager.effectsVolume).toBe(0);
 
     expect(hasInfoPortion(infoPortions.tutorial_sleep)).toBe(true);
     expect(hasInfoPortion(infoPortions.actor_is_sleeping)).toBe(false);
     expect(hasInfoPortion(infoPortions.sleep_active)).toBe(false);
 
     expect(eventsManager.emitEvent).toHaveBeenCalledWith(EGameEvent.ACTOR_FINISH_SLEEP);
+  });
+
+  it("should fall asleep only on anabiotic items", () => {
+    registerSimulator();
+
+    const sleepManager: SleepManager = getManager(SleepManager);
+    const item: ServerObject = MockAlifeItem.mock();
+    const anabiotic: ServerObject = MockAlifeItem.mock({ section: drugs.drug_anabiotic });
+
+    jest.spyOn(sleepManager, "startAnabioticSleep").mockImplementation(jest.fn());
+
+    EventsManager.emitEvent(EGameEvent.ACTOR_USE_ITEM, null);
+    EventsManager.emitEvent(EGameEvent.ACTOR_USE_ITEM, MockGameObject.mock({ id: item.id }));
+
+    expect(sleepManager.startAnabioticSleep).not.toHaveBeenCalled();
+
+    EventsManager.emitEvent(EGameEvent.ACTOR_USE_ITEM, MockGameObject.mock({ id: anabiotic.id }) as GameObject);
+
+    expect(sleepManager.startAnabioticSleep).toHaveBeenCalledTimes(1);
+  });
+
+  it("should correctly start anabiotic sleep", () => {
+    mockRegisteredActor();
+
+    const console: Console = MockConsole.getInstanceMock();
+    const sleepManager: SleepManager = getManager(SleepManager);
+    const actorInputManager: ActorInputManager = getManager(ActorInputManager);
+
+    jest.spyOn(console, "get_float").mockReturnValueOnce(0.9).mockReturnValue(0.8);
+    jest.spyOn(actorInputManager, "acquireControl").mockImplementation(jest.fn());
+
+    sleepManager.startAnabioticSleep();
+
+    expect(actorInputManager.acquireControl).toHaveBeenCalledWith(
+      EActorControlHandle.ANABIOTIC,
+      "anabiotic",
+      EActorControlPolicy.UI_ONLY,
+      true
+    );
+    expect(level.add_cam_effector).toHaveBeenCalledWith(
+      animations.camera_effects_surge_02,
+      10,
+      false,
+      "engine.on_anabiotic_sleep"
+    );
+    expect(level.add_pp_effector).toHaveBeenCalledWith(postProcessors.surge_fade, 11, false);
+    expect(hasInfoPortion(infoPortions.anabiotic_in_process)).toBe(true);
+
+    expect(sleepManager.musicVolume).toBe(0.9);
+    expect(sleepManager.effectsVolume).toBe(0.8);
+    expect(console.execute).toHaveBeenCalledWith("snd_volume_music 0");
+    expect(console.execute).toHaveBeenCalledWith("snd_volume_eff 0");
+  });
+
+  it("should pass the anabiotic sleep through the surge before advancing the game time", () => {
+    const sleepManager: SleepManager = getManager(SleepManager);
+    const surgeManager: SurgeManager = getManager(SurgeManager);
+    const weatherManager: WeatherManager = getManager(WeatherManager);
+
+    jest.spyOn(surgeManager, "forwardSurgeTime").mockImplementation(jest.fn());
+    jest.spyOn(weatherManager, "forceWeatherChange").mockImplementation(jest.fn());
+
+    sleepManager.onAnabioticSleep();
+
+    const minutes: number = jest.mocked(surgeManager.forwardSurgeTime).mock.calls[0][0];
+
+    expect(minutes).toBeGreaterThanOrEqual(35);
+    expect(minutes).toBeLessThanOrEqual(45);
+    expect(level.add_cam_effector).toHaveBeenCalledWith(
+      animations.camera_effects_surge_01,
+      10,
+      false,
+      "engine.on_anabiotic_wake_up"
+    );
+    expect(level.change_game_time).toHaveBeenCalledWith(0, 0, minutes);
+    expect(jest.mocked(surgeManager.forwardSurgeTime).mock.invocationCallOrder[0]).toBeLessThan(
+      jest.mocked(level.change_game_time).mock.invocationCallOrder[0]
+    );
+    expect(weatherManager.forceWeatherChange).toHaveBeenCalledTimes(1);
+  });
+
+  it("should correctly wake up from anabiotic sleep", () => {
+    mockRegisteredActor();
+
+    const console: Console = MockConsole.getInstanceMock();
+    const sleepManager: SleepManager = getManager(SleepManager);
+    const actorInputManager: ActorInputManager = getManager(ActorInputManager);
+
+    jest.spyOn(actorInputManager, "releaseGameUiControl").mockImplementation(jest.fn());
+
+    giveInfoPortion(infoPortions.anabiotic_in_process);
+
+    sleepManager.musicVolume = 0.7;
+    sleepManager.effectsVolume = 0.4;
+
+    sleepManager.onAnabioticWakeUp();
+
+    expect(actorInputManager.releaseGameUiControl).toHaveBeenCalledWith(EActorControlHandle.ANABIOTIC);
+    expect(console.execute).toHaveBeenCalledWith("snd_volume_music 0.7");
+    expect(console.execute).toHaveBeenCalledWith("snd_volume_eff 0.4");
+    expect(sleepManager.musicVolume).toBe(0);
+    expect(sleepManager.effectsVolume).toBe(0);
+    expect(hasInfoPortion(infoPortions.anabiotic_in_process)).toBe(false);
   });
 
   it("should correctly handle debug dump event", () => {

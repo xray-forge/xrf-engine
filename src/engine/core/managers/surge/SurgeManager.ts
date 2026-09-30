@@ -34,6 +34,7 @@ import {
 } from "@/engine/core/database";
 import { pickSectionFromCondList } from "@/engine/core/ini";
 import { AbstractManager } from "@/engine/core/managers/abstract";
+import { ActorInputManager, EActorControlHandle } from "@/engine/core/managers/actor";
 import { EGameEvent, EventsManager } from "@/engine/core/managers/events";
 import { updateAnomalyZonesDisplay } from "@/engine/core/managers/map/utils";
 import { SoundManager } from "@/engine/core/managers/sounds/SoundManager";
@@ -612,6 +613,25 @@ export class SurgeManager extends AbstractManager {
 
       (object.get_artefact() as CArtefact).FollowByPath("NULL", 0, createVector(500, 500, 500));
     }
+  }
+
+  /**
+   * Wake the actor knocked out by a surge they survive.
+   */
+  public onSurgeSurviveStart(): void {
+    level.add_cam_effector(
+      animations.camera_effects_surge_01,
+      surgeConfig.SURVIVE_CAM_EFFECTOR_ID,
+      false,
+      "engine.surge_survive_end"
+    );
+  }
+
+  /**
+   * Show actor UI once the actor woke up from a surge they survived.
+   */
+  public onSurgeSurviveEnd(): void {
+    getManager(ActorInputManager).releaseGameUiControl(EActorControlHandle.SURGE);
   }
 
   /**

@@ -6,6 +6,7 @@ import { resetFunctionMock } from "xray16/testing/utils";
 import * as database from "@/engine/core/database";
 import { parseConditionsList } from "@/engine/core/ini";
 import { EActorControlHandle, EActorControlPolicy } from "@/engine/core/managers/actor/actor_input_types";
+import { ActorInputManager } from "@/engine/core/managers/actor/ActorInputManager";
 import { getSimulationSquads } from "@/engine/core/managers/simulation/utils";
 import { surgeConfig } from "@/engine/core/managers/surge/SurgeConfig";
 import {
@@ -107,9 +108,9 @@ describe("killAllSurgeUnhidden", () => {
   });
 
   it("should apply the survival effect and actor input lock when the actor can survive the surge", () => {
-    const controlManager: AnyObject = { acquireControl: jest.fn() };
+    const controlManager: ActorInputManager = database.getManager(ActorInputManager);
 
-    database.registry.managersByName.set("ActorInputManager", controlManager as never);
+    jest.spyOn(controlManager, "acquireControl").mockImplementation(jest.fn());
     (getNearestAvailableSurgeCover as jest.Mock).mockReturnValue({ inside: jest.fn(() => false) });
     setSimulationSquads();
 

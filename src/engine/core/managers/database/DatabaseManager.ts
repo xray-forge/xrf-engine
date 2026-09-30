@@ -55,8 +55,6 @@ export class DatabaseManager extends AbstractManager {
       actor: registry.actor,
       actorServer: registry.actorServer,
       activeSmartTerrainId: registry.activeSmartTerrainId,
-      musicVolume: registry.musicVolume,
-      effectsVolume: registry.effectsVolume,
       managers: Object.keys(registry.managers).map((it) => it.name),
       schemes: Object.keys(registry.schemes),
       schemesCount: table.size(registry.schemes),

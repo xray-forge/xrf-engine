@@ -31,8 +31,6 @@ import type { ERelation } from "@/engine/core/utils/relation";
  * Stores up-to-date game state.
  */
 export const registry = {
-  musicVolume: 0,
-  effectsVolume: 0,
   /**
    * Current simulator, injected on game start.
    */

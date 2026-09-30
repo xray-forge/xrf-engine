@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, jest } from "@jest/globals";
-import { game, get_console, get_hud, level } from "xray16";
-import { Console, GameHud, GameObject, Time } from "xray16/alias";
+import { game, get_hud, level } from "xray16";
+import { GameHud, GameObject, Time } from "xray16/alias";
 import { AnyObject } from "xray16/lib";
 import { EMockPacketDataType, MockGameObject, MockNetProcessor } from "xray16/mocks";
 import { replaceFunctionMock } from "xray16/testing/utils";
@@ -27,11 +27,10 @@ describe("ActorInputManager", () => {
 
     const eventsManager: EventsManager = getManager(EventsManager);
 
-    expect(eventsManager.getSubscribersCount()).toBe(5);
+    expect(eventsManager.getSubscribersCount()).toBe(4);
     expect(eventsManager.getEventSubscribersCount(EGameEvent.ACTOR_UPDATE)).toBe(1);
     expect(eventsManager.getEventSubscribersCount(EGameEvent.ACTOR_FIRST_UPDATE)).toBe(1);
     expect(eventsManager.getEventSubscribersCount(EGameEvent.ACTOR_GO_ONLINE)).toBe(1);
-    expect(eventsManager.getEventSubscribersCount(EGameEvent.ACTOR_USE_ITEM)).toBe(1);
     expect(eventsManager.getEventSubscribersCount(EGameEvent.DUMP_LUA_DATA)).toBe(1);
 
     disposeManager(ActorInputManager);
@@ -166,7 +165,7 @@ describe("ActorInputManager", () => {
     const torch: GameObject = MockGameObject.mock({ section: "device_torch" });
 
     manager.enableActorNightVision();
-    expect(actorConfig.IS_ACTOR_NIGHT_VISION_ENABLED).toBe(false);
+    expect(actorConfig.IS_NIGHT_VISION_TURNED_OFF).toBe(false);
 
     const inventory: Map<string | number, GameObject> = MockGameObject.asMock(registry.actor).objectInventory;
 
@@ -174,14 +173,14 @@ describe("ActorInputManager", () => {
 
     // Night vision is off and no restore is owed:
     manager.enableActorNightVision();
-    expect(actorConfig.IS_ACTOR_NIGHT_VISION_ENABLED).toBe(false);
+    expect(actorConfig.IS_NIGHT_VISION_TURNED_OFF).toBe(false);
     expect(torch.enable_night_vision).not.toHaveBeenCalled();
 
     // Night vision is currently on -> disabling turns it off and records that a restore is owed:
     jest.spyOn(torch, "night_vision_enabled").mockImplementation(() => true);
 
     manager.disableActorNightVision();
-    expect(actorConfig.IS_ACTOR_NIGHT_VISION_ENABLED).toBe(true);
+    expect(actorConfig.IS_NIGHT_VISION_TURNED_OFF).toBe(true);
     expect(torch.enable_night_vision).toHaveBeenCalledTimes(1);
     expect(torch.enable_night_vision).toHaveBeenNthCalledWith(1, false);
 
@@ -189,7 +188,7 @@ describe("ActorInputManager", () => {
     jest.spyOn(torch, "night_vision_enabled").mockImplementation(() => false);
 
     manager.enableActorNightVision();
-    expect(actorConfig.IS_ACTOR_NIGHT_VISION_ENABLED).toBe(false);
+    expect(actorConfig.IS_NIGHT_VISION_TURNED_OFF).toBe(false);
     expect(torch.enable_night_vision).toHaveBeenCalledTimes(2);
     expect(torch.enable_night_vision).toHaveBeenNthCalledWith(2, true);
   });
@@ -199,26 +198,32 @@ describe("ActorInputManager", () => {
     const torch: GameObject = MockGameObject.mock({ section: "device_torch" });
 
     manager.enableActorTorch();
-    expect(actorConfig.IS_ACTOR_TORCH_ENABLED).toBe(false);
+    expect(actorConfig.IS_TORCH_TURNED_OFF).toBe(false);
 
     const inventory: Map<string | number, GameObject> = MockGameObject.asMock(registry.actor).objectInventory;
 
     inventory.set("device_torch", torch);
 
+    // Torch is off and was not turned off by a lock, so it stays off:
     manager.enableActorTorch();
-    expect(actorConfig.IS_ACTOR_TORCH_ENABLED).toBe(true);
-    expect(torch.enable_torch).toHaveBeenCalledWith(true);
+    expect(actorConfig.IS_TORCH_TURNED_OFF).toBe(false);
+    expect(torch.enable_torch).not.toHaveBeenCalled();
 
-    manager.enableActorTorch();
-    expect(actorConfig.IS_ACTOR_TORCH_ENABLED).toBe(true);
-    expect(torch.enable_torch).toHaveBeenCalledTimes(1);
-
+    // Torch is on -> disabling turns it off and records that a restore is owed:
     jest.spyOn(torch, "torch_enabled").mockImplementation(() => true);
 
     manager.disableActorTorch();
-    expect(actorConfig.IS_ACTOR_TORCH_ENABLED).toBe(false);
+    expect(actorConfig.IS_TORCH_TURNED_OFF).toBe(true);
+    expect(torch.enable_torch).toHaveBeenCalledTimes(1);
+    expect(torch.enable_torch).toHaveBeenNthCalledWith(1, false);
+
+    // Torch is off again with a restore owed -> enabling restores it and clears the flag:
+    jest.spyOn(torch, "torch_enabled").mockImplementation(() => false);
+
+    manager.enableActorTorch();
+    expect(actorConfig.IS_TORCH_TURNED_OFF).toBe(false);
     expect(torch.enable_torch).toHaveBeenCalledTimes(2);
-    expect(torch.enable_torch).toHaveBeenNthCalledWith(2, false);
+    expect(torch.enable_torch).toHaveBeenNthCalledWith(2, true);
   });
 
   it("should correctly disable and enable game UI", () => {
@@ -269,34 +274,6 @@ describe("ActorInputManager", () => {
     expect(registry.actor.restore_weapon).toHaveBeenCalledTimes(2);
     expect(actorConfig.IS_WEAPON_HIDDEN_IN_DIALOG).toBe(false);
     expect(actorConfig.IS_WEAPON_HIDDEN).toBe(false);
-  });
-
-  it("should process anabiotics usage", () => {
-    const console: Console = get_console();
-    const manager: ActorInputManager = getManager(ActorInputManager);
-
-    jest.spyOn(console, "get_float").mockReturnValueOnce(0.9).mockReturnValue(0.8);
-
-    manager.processAnabioticItemUsage();
-
-    expect(level.disable_input).toHaveBeenCalledTimes(1);
-    expect(level.add_cam_effector).toHaveBeenCalledWith(
-      "camera_effects\\surge_02.anm",
-      10,
-      false,
-      "engine.on_anabiotic_sleep"
-    );
-    expect(level.add_pp_effector).toHaveBeenCalledWith("surge_fade.ppe", 11, false);
-    expect(registry.actor.give_info_portion).toHaveBeenCalledWith("anabiotic_in_process");
-
-    expect(registry.musicVolume).toBe(0.9);
-    expect(registry.effectsVolume).toBe(0.8);
-
-    expect(console.execute).toHaveBeenCalledWith("snd_volume_music 0");
-    expect(console.execute).toHaveBeenCalledWith("snd_volume_eff 0");
-
-    expect(registry.musicVolume).toBe(0.9);
-    expect(registry.effectsVolume).toBe(0.8);
   });
 
   it("should correctly handle first update event", () => {

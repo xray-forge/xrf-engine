@@ -59,14 +59,12 @@ export function resetRegistry(): void {
     store: {},
     objects: new LuaTable(),
   };
-  registry.effectsVolume = 0;
   registry.extensions = new LuaTable();
   registry.helicopter.storage = new LuaTable();
   registry.helicopter.enemies = new LuaTable();
   registry.helicopter.enemyIndex = 0;
   registry.managers = new LuaTable();
   registry.managersByName = new LuaTable();
-  registry.musicVolume = 0;
   registry.noWeaponZones = new LuaTable();
   registry.objects = new LuaTable();
   registry.offlineObjects = new LuaTable();

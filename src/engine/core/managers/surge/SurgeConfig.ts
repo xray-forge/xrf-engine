@@ -40,8 +40,9 @@ export const surgeConfig = {
   // Effectors.
   SURGE_SHOCK_PP_EFFECTOR_ID: 1,
   EARTHQUAKE_CAM_EFFECTOR_ID: 2,
-  SLEEP_CAM_EFFECTOR_ID: 3,
-  SLEEP_FADE_PP_EFFECTOR_ID: 4,
+  // Effectors of the actor knocked out by a surge they survive.
+  SURVIVE_CAM_EFFECTOR_ID: 3,
+  SURVIVE_FADE_PP_EFFECTOR_ID: 4,
   // Detailed.
   SURGE_COVERS: new LuaTable<TIndex, ISurgeCoverDescriptor>(),
   IMMUNE_SQUAD_COMMUNITIES: readIniSectionAsSet(SURGE_MANAGER_CONFIG_LTX, "immune_squad_communities"),
