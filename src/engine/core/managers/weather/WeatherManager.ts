@@ -58,7 +58,8 @@ const logger: LuaLogger = new LuaLogger($filename);
  */
 export class WeatherManager extends AbstractManager {
   public weatherPeriod: EWeatherPeriodType = EWeatherPeriodType.GOOD;
-  public weatherPeriodChangedAt: Time = game.get_game_time();
+  // Null until the actor first spawns, as game time does not exist yet while the game starts and creates managers.
+  public weatherPeriodChangedAt: Nillable<Time> = null;
   // Game seconds the current period lasts from its change, rolled for the level on every actor spawn.
   public weatherPeriodDuration: TDuration = 0;
   public isWeatherPeriodTransition: boolean = false;
@@ -111,7 +112,7 @@ export class WeatherManager extends AbstractManager {
 
     this.weatherState = weatherState === NIL ? null : weatherState;
     this.weatherPeriod = reader.r_stringZ();
-    this.weatherPeriodChangedAt = readTimeFromPacket(reader) ?? game.get_game_time();
+    this.weatherPeriodChangedAt = readTimeFromPacket(reader);
     this.isWeatherPeriodTransition = isTransitionWeather(this.weatherSection);
     this.isWeatherPeriodPreBlowout = isPreBlowoutWeather(this.weatherSection);
 
@@ -226,7 +227,7 @@ export class WeatherManager extends AbstractManager {
       this.weatherPeriodDuration += 3600;
     }
 
-    if (now.diffSec(this.weatherPeriodChangedAt) >= this.weatherPeriodDuration) {
+    if (now.diffSec(this.weatherPeriodChangedAt!) >= this.weatherPeriodDuration) {
       this.weatherPeriod =
         this.weatherPeriod === EWeatherPeriodType.GOOD ? EWeatherPeriodType.BAD : EWeatherPeriodType.GOOD;
       this.weatherPeriodChangedAt = now;
@@ -276,6 +277,12 @@ export class WeatherManager extends AbstractManager {
     weatherConfig.IS_UNDERGROUND_WEATHER = isUndergroundLevel(levelName);
 
     this.weatherConditionList = parseConditionsList(levelWeather);
+
+    // The first period of a new game starts here, once game time exists.
+    if (!this.weatherPeriodChangedAt) {
+      this.weatherPeriodChangedAt = game.get_game_time();
+    }
+
     // Period lengths are per level, so the running period's length is rolled for the level just entered.
     this.weatherPeriodDuration = getWeatherPeriodDuration(this.weatherPeriod);
     this.lastUpdatedAtHour = level.get_time_hours();

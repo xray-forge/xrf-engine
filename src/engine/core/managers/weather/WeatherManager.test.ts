@@ -30,6 +30,7 @@ describe("WeatherManager", () => {
     const eventsManager: EventsManager = getManager(EventsManager);
 
     expect(weatherManager.weatherPeriod).toBe("good");
+    expect(weatherManager.weatherPeriodChangedAt).toBeNull();
     expect(weatherManager.weatherPeriodDuration).toBe(0);
     expect(weatherManager.weatherState).toBeNull();
     expect(weatherManager.savedWeatherFx).toBeNull();
@@ -43,6 +44,40 @@ describe("WeatherManager", () => {
     disposeManager(WeatherManager);
 
     expect(eventsManager.getSubscribersCount()).toBe(0);
+  });
+
+  it("should not read game time while created, as the game starts before game time exists", () => {
+    const getGameTime = jest.spyOn(game, "get_game_time");
+
+    getGameTime.mockClear();
+    getManager(WeatherManager);
+
+    expect(getGameTime).not.toHaveBeenCalled();
+  });
+
+  it("should start the first weather period on actor spawn", () => {
+    const manager: WeatherManager = getManager(WeatherManager);
+    const now = game.get_game_time();
+
+    jest.spyOn(level, "name").mockImplementation(() => "zaton");
+    jest.spyOn(game, "get_game_time").mockImplementationOnce(() => now);
+
+    EventsManager.emitEvent(EGameEvent.ACTOR_GO_ONLINE);
+
+    expect(manager.weatherPeriodChangedAt).toBe(now);
+  });
+
+  it("should keep the loaded weather period on actor spawn", () => {
+    const manager: WeatherManager = getManager(WeatherManager);
+    const changedAt = game.get_game_time();
+
+    jest.spyOn(level, "name").mockImplementation(() => "zaton");
+
+    manager.weatherPeriodChangedAt = changedAt;
+
+    EventsManager.emitEvent(EGameEvent.ACTOR_GO_ONLINE);
+
+    expect(manager.weatherPeriodChangedAt).toBe(changedAt);
   });
 
   it("should play a state of the level graph on actor spawn", () => {
@@ -136,6 +171,7 @@ describe("WeatherManager", () => {
     manager.weatherSection = "dynamic_clear";
     manager.weatherState = "partly";
     manager.weatherPeriod = EWeatherPeriodType.BAD;
+    manager.weatherPeriodChangedAt = game.get_game_time();
 
     manager.save(processor.asNetPacket());
 
@@ -166,7 +202,7 @@ describe("WeatherManager", () => {
     expect(newManager.weatherSection).toBe("dynamic_clear");
     expect(newManager.weatherState).toBe("partly");
     expect(newManager.weatherPeriod).toBe(EWeatherPeriodType.BAD);
-    expect(newManager.weatherPeriodChangedAt.diffSec(manager.weatherPeriodChangedAt)).toBe(0);
+    expect(newManager.weatherPeriodChangedAt!.diffSec(manager.weatherPeriodChangedAt!)).toBe(0);
     expect(newManager.savedWeatherFx).toBeNull();
   });
 
