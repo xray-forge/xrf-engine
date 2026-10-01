@@ -1,7 +1,7 @@
 import { level } from "xray16";
 import { GameObject } from "xray16/alias";
-import { MAX_U8, Nillable, TName, TNumberId, TRate, TRUE, TStringId } from "xray16/lib";
-import { $filename, $isNil, $isNotNil } from "xray16/macros";
+import { MAX_U8, TName, TNumberId, TRate, TRUE, TStringId } from "xray16/lib";
+import { $isNil, $isNotNil } from "xray16/macros";
 
 import { registry } from "@/engine/core/database";
 import {
@@ -11,10 +11,7 @@ import {
 } from "@/engine/core/managers/dialogs/dialog_types";
 import { getObjectCommunity } from "@/engine/core/utils/community";
 import { hasInfoPortion } from "@/engine/core/utils/info_portion";
-import { LuaLogger } from "@/engine/core/utils/logging";
 import { isObjectWounded } from "@/engine/core/utils/planner";
-
-const logger: LuaLogger = new LuaLogger($filename);
 
 /**
  * Set the priority of a phrase to the maximum value for the given object.
@@ -41,27 +38,23 @@ export function setPhraseHighestPriority(
  * @param phrases - Map of available phrases keyed by phrase id.
  * @param priorities - Map of phrase priorities per object.
  * @param object - Game object the phrase is evaluated for.
- * @param phraseId - Identifier of the phrase to reset, may be null.
+ * @param phraseId - Identifier of the phrase to reset.
  */
 export function resetPhrasePriority(
   phrases: TPhrasesAvailableMap,
   priorities: TPhrasesPriorityMap,
   object: GameObject,
-  phraseId: Nillable<TStringId>
+  phraseId: TStringId
 ): void {
   const objectId: TNumberId = object.id();
 
-  if (!phraseId) {
-    logger.info("Null provided for resetPhrasePriority method");
-  }
-
   if (priorities.has(objectId)) {
-    priorities.get(objectId).set(phraseId!, -1);
+    priorities.get(objectId).set(phraseId, -1);
   } else {
     priorities.set(objectId, new LuaTable());
     priorities
       .get(objectId)
-      .set(phraseId!, calculatePhrasePriority(phrases.get(phraseId!), priorities, object, phraseId!));
+      .set(phraseId, calculatePhrasePriority(phrases.get(phraseId), priorities, object, phraseId));
   }
 }
 
@@ -80,9 +73,9 @@ export function getHighestPriorityPhrase(
 ): LuaMultiReturn<[TRate, TStringId | 0]> {
   const objectId: TNumberId = object.id();
 
-  // No priorities set for an object, just reset.
+  // No priorities set for an object yet, start them empty, vanilla resets an undefined phrase here and fails.
   if ($isNil(priorities.get(objectId))) {
-    resetPhrasePriority(phrases, priorities, object, null);
+    priorities.set(objectId, new LuaTable());
 
     return $multi(-1, 0);
   }

@@ -71,4 +71,12 @@ describe("getHighestPriorityPhrase", () => {
 
     expect(getHighestPriorityPhrase(phrases, priorities, object)).toEqual([3, "second"]);
   });
+
+  it("should start empty priorities for objects without them", () => {
+    const object: GameObject = MockGameObject.mock();
+    const priorities: TPhrasesPriorityMap = new LuaTable();
+
+    expect(getHighestPriorityPhrase(new LuaTable(), priorities, object)).toEqual([-1, 0]);
+    expect(priorities.get(object.id())).toEqualLuaTables({});
+  });
 });

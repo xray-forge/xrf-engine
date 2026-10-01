@@ -12,9 +12,9 @@ import { EGameEvent, EventsManager } from "@/engine/core/managers/events";
  * Manager of dialogs interaction / scripting when actor is speaking to stalker objects.
  */
 export class DialogManager extends AbstractManager {
-  // Table of phrases which have been disabled during a conversation.
+  // Phrases disabled until the next conversation with the object | object id -> phrase id -> boolean.
   public disabledPhrases: LuaTable<TNumberId, LuaTable<TStringId, boolean>> = new LuaTable();
-  // Table of phrases which have been disabled during a conversation | object id -> phrase id -> boolean.
+  // Phrases disabled by quests for the rest of the game session | object id -> phrase id -> boolean.
   public questDisabledPhrases: LuaTable<TNumberId, LuaTable<TStringId, boolean>> = new LuaTable();
 
   public priorityTable: LuaTable<EGenericPhraseCategory, TPhrasesPriorityMap> = $fromObject({
@@ -27,8 +27,6 @@ export class DialogManager extends AbstractManager {
 
   public override initialize(): void {
     const eventsManager: EventsManager = getManager(EventsManager);
-
-    // todo: Find event when stop object interaction.
 
     eventsManager.registerCallback(EGameEvent.DUMP_LUA_DATA, this.onDebugDump, this);
     eventsManager.registerCallback(EGameEvent.STALKER_INTERACTION, this.onInteractWithObject, this);
@@ -116,6 +114,7 @@ export class DialogManager extends AbstractManager {
 
   /**
    * Store currently active speaker as side effect of interaction with game object.
+   * Kept after the talk window closes, as the engine closes it before opening upgrades that read the speaker.
    *
    * @param object - Game object interacting with.
    */

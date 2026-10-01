@@ -151,16 +151,15 @@ describe("shouldHidePhraseCategory", () => {
     expect(shouldHidePhraseCategory(object, EGenericPhraseCategory.HELLO)).toBe(true);
   });
 
-  it("should throw for an object with no priorities recorded yet", () => {
+  it("should hide categories of an object with no priorities recorded yet", () => {
     const object: GameObject = MockGameObject.mock();
     const manager: DialogManager = getManager(DialogManager);
 
     manager.priorityTable.set(EGenericPhraseCategory.HELLO, new LuaTable());
     dialogConfig.PHRASES.set(EGenericPhraseCategory.HELLO, new LuaTable());
 
-    // `getHighestPriorityPhrase` resets with a null phrase id, and `resetPhrasePriority` then
-    // dereferences the missing phrase descriptor. Pinned as current behaviour, not as intended.
-    expect(() => shouldHidePhraseCategory(object, EGenericPhraseCategory.HELLO)).toThrow();
+    expect(shouldHidePhraseCategory(object, EGenericPhraseCategory.HELLO)).toBe(true);
+    expect(manager.priorityTable.get(EGenericPhraseCategory.HELLO).get(object.id())).toEqualLuaTables({});
   });
 
   it("should show categories holding a positively prioritized phrase", () => {
