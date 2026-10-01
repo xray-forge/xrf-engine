@@ -1,6 +1,6 @@
-import { game_graph, time_global } from "xray16";
+import { game_graph } from "xray16";
 import { GameObject, NetPacket, NetProcessor, ServerObject } from "xray16/alias";
-import { AnyObject, Nillable, TCount, TNumberId } from "xray16/lib";
+import { AnyObject, Nillable, TCount, TIndex, TNumberId } from "xray16/lib";
 import { $filename, $isNil } from "xray16/macros";
 
 import {
@@ -12,7 +12,6 @@ import {
   registry,
 } from "@/engine/core/database";
 import { AbstractManager } from "@/engine/core/managers/abstract";
-import { IReleaseDescriptor } from "@/engine/core/managers/death/death_types";
 import { deathConfig } from "@/engine/core/managers/death/DeathConfig";
 import { canReleaseObjectCorpse, getFarthestCorpseToRelease } from "@/engine/core/managers/death/utils/death_utils";
 import { EGameEvent, EventsManager } from "@/engine/core/managers/events";
@@ -23,10 +22,11 @@ import { resetTable } from "@/engine/core/utils/table";
 const logger: LuaLogger = new LuaLogger($filename);
 
 /**
- * Manage persisting dead bodies.
- * Release the most further of them from time to time to keep up with limits.
+ * Manage persisting stalker corpses, as vanilla does.
+ * Release the farthest of them when there are more than the limit.
  *
- * Todo: EGameEvent.BEFORE_LEVEL_CHANGE -> call releaseCorpses?
+ * Only corpses of the actor level are tracked: loading on another level drops the list,
+ * and corpses of a level are registered again when they come online.
  */
 export class ReleaseBodyManager extends AbstractManager {
   public override initialize(): void {
@@ -50,8 +50,8 @@ export class ReleaseBodyManager extends AbstractManager {
 
     packet.w_u16(count);
 
-    for (const [, v] of deathConfig.RELEASE_OBJECTS_REGISTRY) {
-      packet.w_u16(v.id);
+    for (const [, id] of deathConfig.RELEASE_OBJECTS_REGISTRY) {
+      packet.w_u16(id);
     }
 
     const levelId: TNumberId = game_graph().vertex(registry.actorServer.m_game_vertex_id).level_id();
@@ -69,10 +69,7 @@ export class ReleaseBodyManager extends AbstractManager {
     resetTable(deathConfig.RELEASE_OBJECTS_REGISTRY);
 
     for (const index of $range(1, count)) {
-      deathConfig.RELEASE_OBJECTS_REGISTRY.set(index, {
-        id: reader.r_u16(),
-        diedAt: null,
-      } as IReleaseDescriptor);
+      deathConfig.RELEASE_OBJECTS_REGISTRY.set(index, reader.r_u16());
     }
 
     const levelId: TNumberId = reader.r_u16();
@@ -96,8 +93,8 @@ export class ReleaseBodyManager extends AbstractManager {
       return;
     }
 
-    for (const [, descriptor] of deathConfig.RELEASE_OBJECTS_REGISTRY) {
-      if (descriptor.id === object.id()) {
+    for (const [, id] of deathConfig.RELEASE_OBJECTS_REGISTRY) {
+      if (id === object.id()) {
         return;
       }
     }
@@ -109,10 +106,7 @@ export class ReleaseBodyManager extends AbstractManager {
       deathConfig.MAX_BODY_COUNT
     );
 
-    table.insert(deathConfig.RELEASE_OBJECTS_REGISTRY, {
-      id: object.id(),
-      diedAt: time_global(),
-    });
+    table.insert(deathConfig.RELEASE_OBJECTS_REGISTRY, object.id());
 
     if (deathConfig.RELEASE_OBJECTS_REGISTRY.length() > deathConfig.MAX_BODY_COUNT) {
       this.releaseCorpses();
@@ -127,10 +121,9 @@ export class ReleaseBodyManager extends AbstractManager {
     logger.info("Try to release corpses");
 
     for (let index: TCount = deathConfig.RELEASE_OBJECTS_REGISTRY.length(); index > 0; index--) {
-      const object: Nillable<ServerObject> = registry.simulator.object(
-        deathConfig.RELEASE_OBJECTS_REGISTRY.get(index).id
-      );
+      const object: Nillable<ServerObject> = registry.simulator.object(deathConfig.RELEASE_OBJECTS_REGISTRY.get(index));
 
+      // Keep alive creatures, the server sees a creature that has just died as alive until its next update.
       if (object && isCreature(object)) {
         continue;
       }
@@ -141,21 +134,17 @@ export class ReleaseBodyManager extends AbstractManager {
     const countToRelease: TCount = deathConfig.RELEASE_OBJECTS_REGISTRY.length() - deathConfig.MAX_BODY_COUNT;
 
     for (const _ of $range(1, countToRelease)) {
-      const [index, descriptor] = getFarthestCorpseToRelease(deathConfig.RELEASE_OBJECTS_REGISTRY);
+      const [index, object] = getFarthestCorpseToRelease(deathConfig.RELEASE_OBJECTS_REGISTRY);
 
       // Nothing to release, can skip further checks.
-      if ($isNil(index)) {
+      if ($isNil(object)) {
         return;
       }
 
-      const object: Nillable<ServerObject> = registry.simulator.object((descriptor as IReleaseDescriptor).id);
+      logger.info("Releasing object: %s", object.name());
 
-      if (object && isCreature(object)) {
-        logger.info("Releasing object: %s", object.name());
-        registry.simulator.release(object, true);
-      }
-
-      table.remove(deathConfig.RELEASE_OBJECTS_REGISTRY, index);
+      registry.simulator.release(object, true);
+      table.remove(deathConfig.RELEASE_OBJECTS_REGISTRY, index as TIndex);
     }
   }
 

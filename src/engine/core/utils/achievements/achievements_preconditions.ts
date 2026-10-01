@@ -1,4 +1,4 @@
-import { ACTOR_ID } from "xray16/lib";
+import { ACTOR_ID, TName } from "xray16/lib";
 
 import { communities } from "@/engine/constants/communities";
 import { infoPortions } from "@/engine/constants/info_portions";
@@ -6,6 +6,7 @@ import { getManager, registry } from "@/engine/core/database";
 import { EGameEvent, EventsManager } from "@/engine/core/managers/events";
 import { ENotificationType, ITipNotification } from "@/engine/core/managers/notifications";
 import { StatisticsManager } from "@/engine/core/managers/statistics";
+import { achievementsConfig } from "@/engine/core/utils/achievements/achievements_config";
 import { achievementsIcons } from "@/engine/core/utils/achievements/achievements_icons";
 import { EAchievement } from "@/engine/core/utils/achievements/achievements_types";
 import { giveInfoPortion, hasFewInfoPortions, hasInfoPortion, hasInfoPortions } from "@/engine/core/utils/info_portion";
@@ -169,8 +170,7 @@ export function hasAchievedHeraldOfJustice(): boolean {
 
 /**
  * Check whether actor achieved seeker achievement.
- * It is given as reward for collecting all unique game artefacts.
- * By default, in COP there are 22 unique artefact sections.
+ * It is given as reward for collecting every artefact that is not a quest one.
  *
  * @returns Whether actor has seeker achievement.
  */
@@ -179,9 +179,12 @@ export function hasAchievedSeeker(): boolean {
     return true;
   }
 
-  // Require unique artefacts count to be found for seeker achievement.
-  if (table.size(getManager(StatisticsManager).actorStatistics.collectedArtefacts) < 22) {
-    return false;
+  const collectedArtefacts: LuaTable<TName, boolean> = getManager(StatisticsManager).actorStatistics.collectedArtefacts;
+
+  for (const [, section] of achievementsConfig.SEEKER_ARTEFACTS) {
+    if (!collectedArtefacts.get(section)) {
+      return false;
+    }
   }
 
   giveInfoPortion(infoPortions.sim_bandit_attack_harder);

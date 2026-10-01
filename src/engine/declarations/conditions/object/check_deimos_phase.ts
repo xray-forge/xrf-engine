@@ -1,7 +1,7 @@
 import { GameObject } from "xray16/alias";
 import { extern, Nillable } from "xray16/lib";
 
-import { isDeimosPhaseActive } from "@/engine/core/schemes/restrictor/sr_deimos";
+import { EDeimosBound, isDeimosPhaseActive } from "@/engine/core/schemes/restrictor/sr_deimos";
 
 /**
  * Check if deimos phase is active in restrictor object.
@@ -15,10 +15,7 @@ extern(
   (
     _: GameObject,
     object: GameObject,
-    [bounds, direction]: [
-      Nillable<"disable_bound" | "lower_bound" | "upper_bound">,
-      Nillable<"increasing" | "decreasing">,
-    ]
+    [bounds, direction]: [Nillable<EDeimosBound>, Nillable<"increasing" | "decreasing">]
   ): boolean => {
     return bounds && direction ? isDeimosPhaseActive(object, bounds, direction === "increasing") : false;
   }

@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, jest } from "@jest/globals";
 import { level } from "xray16";
 import { GameObject } from "xray16/alias";
-import { MockGameObject, MockNetProcessor } from "xray16/mocks";
+import { MockGameObject, MockNetProcessor, MockVector } from "xray16/mocks";
 
 import { getManager, registerZone, registry } from "@/engine/core/database";
 import { DeimosManager } from "@/engine/core/managers/deimos";
@@ -13,6 +13,24 @@ import { mockRegisteredActor, mockSchemeState, resetRegistry } from "@/fixtures/
 describe("DeimosManager", () => {
   beforeEach(() => {
     resetRegistry();
+  });
+
+  it("should update only while the actor is present", () => {
+    const manager: DeimosManager = getManager(DeimosManager);
+
+    expect(manager.canUpdate()).toBe(false);
+
+    mockRegisteredActor();
+
+    expect(manager.canUpdate()).toBe(true);
+  });
+
+  it("should report actor movement speed", () => {
+    const { actorGameObject } = mockRegisteredActor();
+
+    jest.spyOn(actorGameObject, "get_movement_speed").mockImplementation(() => MockVector.mock(3, 0, 4));
+
+    expect(getManager(DeimosManager).getActorMovementSpeed()).toBe(5);
   });
 
   it("should preserve weapon zoom inertia when starting and stopping Deimos camera effects", () => {

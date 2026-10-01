@@ -11195,7 +11195,7 @@
         },
         {
           "name": "[bounds, direction]",
-          "type": "[Nillable<(\"disable_bound\" | \"lower_bound\" | \"upper_bound\")>, Nillable<(\"increasing\" | \"decreasing\")>]"
+          "type": "[Nillable<EDeimosBound>, Nillable<(\"increasing\" | \"decreasing\")>]"
         }
       ],
       "returns": "boolean",

@@ -1,10 +1,8 @@
 import { time_global } from "xray16";
 import { GameObject, ServerObject, Vector } from "xray16/alias";
-import { LuaArray, Nillable, TDistance, TIndex, TTimestamp } from "xray16/lib";
-import { $isNil } from "xray16/macros";
+import { LuaArray, Nillable, TDistance, TIndex, TNumberId, TTimestamp } from "xray16/lib";
 
 import { getStoryIdByObjectId, registry } from "@/engine/core/database";
-import { IReleaseDescriptor } from "@/engine/core/managers/death";
 import { deathConfig } from "@/engine/core/managers/death/DeathConfig";
 import { dropConfig } from "@/engine/core/managers/drop/DropConfig";
 import { isCreature } from "@/engine/core/utils/class_ids";
@@ -33,38 +31,42 @@ export function canReleaseObjectCorpse(object: GameObject): boolean {
 }
 
 /**
- * @param descriptors - List of descriptors to check for release.
- * @returns Multiple values with descriptor and index of release object.
+ * Online corpses wait the idle time from the engine death time, which is the moment a corpse died or came online.
+ * Offline corpses are out of the actor's reach and need no wait.
+ *
+ * @param ids - Identifiers of corpses to check for release.
+ * @returns Index of the farthest corpse that can be released and its server object, or nulls when there is none.
  */
 export function getFarthestCorpseToRelease(
-  descriptors: LuaArray<IReleaseDescriptor>
-): LuaMultiReturn<[null, null] | [TIndex, IReleaseDescriptor]> {
+  ids: LuaArray<TNumberId>
+): LuaMultiReturn<[null, null] | [TIndex, ServerObject]> {
   const now: TTimestamp = time_global();
   const position: Vector = registry.actor.position();
 
   let releaseObjectIndex: Nillable<TIndex> = null;
-  let releaseObjectDescriptor: Nillable<IReleaseDescriptor> = null;
+  let releaseObject: Nillable<ServerObject> = null;
   let releaseObjectDistance: TDistance = deathConfig.MIN_DISTANCE_SQR;
 
-  for (const [index, descriptor] of descriptors) {
-    const object: Nillable<ServerObject> = registry.simulator.object(descriptor.id);
-    const gameObject: Nillable<GameObject> = registry.objects.get(descriptor.id)?.object;
+  for (const [index, id] of ids) {
+    const object: Nillable<ServerObject> = registry.simulator.object(id);
 
-    // May also contain objects that are being registered after game load.
-    if (object && isCreature(object) && !object.alive() && (!gameObject || canReleaseObjectCorpse(gameObject))) {
-      // todo: Check timestamp and only then check distance as small optimization?
+    if (object && isCreature(object) && !object.alive()) {
       const distanceToCorpseSqr: TDistance = position.distance_to_sqr(object.position);
 
-      if (
-        ($isNil(descriptor.diedAt) || now >= descriptor.diedAt + deathConfig.IDLE_AFTER_DEATH) &&
-        distanceToCorpseSqr > releaseObjectDistance
-      ) {
-        releaseObjectDistance = distanceToCorpseSqr;
-        releaseObjectIndex = index;
-        releaseObjectDescriptor = descriptor;
+      if (distanceToCorpseSqr > releaseObjectDistance) {
+        const gameObject: Nillable<GameObject> = registry.objects.get(id)?.object;
+
+        if (
+          !gameObject ||
+          (now - gameObject.death_time() >= deathConfig.IDLE_AFTER_DEATH && canReleaseObjectCorpse(gameObject))
+        ) {
+          releaseObjectDistance = distanceToCorpseSqr;
+          releaseObjectIndex = index;
+          releaseObject = object;
+        }
       }
     }
   }
 
-  return $multi(releaseObjectIndex as TIndex, releaseObjectDescriptor as IReleaseDescriptor);
+  return $multi(releaseObjectIndex as TIndex, releaseObject as ServerObject);
 }

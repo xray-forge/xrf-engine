@@ -65,8 +65,7 @@ export function getNearestCorpseToLoot(
   let nearestCorpsePosition: Nillable<Vector> = null;
   let nearestCorpseObject: Nillable<GameObject> = null;
 
-  for (const [, descriptor] of deathConfig.RELEASE_OBJECTS_REGISTRY) {
-    const id: TNumberId = descriptor.id;
+  for (const [, id] of deathConfig.RELEASE_OBJECTS_REGISTRY) {
     const registryState: Nillable<IRegistryObjectState> = registry.objects.get(id);
     const corpseObject: Nillable<GameObject> = $isNil(registryState) ? null : registryState.object;
 

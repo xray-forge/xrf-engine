@@ -1,36 +1,35 @@
-import { clsid } from "xray16";
-import {
-  GameObject,
-  NetPacket,
-  NetProcessor,
-  ServerCreatureObject,
-  ServerObject,
-  TClassId,
-  Vector,
-} from "xray16/alias";
+import { GameObject, NetPacket, NetProcessor, ServerCreatureObject, Vector } from "xray16/alias";
 import {
   ACTOR_ID,
   AnyObject,
   assert,
   NIL,
   Nillable,
-  PartialRecord,
   StringNillable,
   TCount,
   TName,
   TNumberId,
   TRate,
 } from "xray16/lib";
-import { $filename, $fromObject, $isNotNil } from "xray16/macros";
+import { $filename, $isNil } from "xray16/macros";
 
-import { TInventoryItem } from "@/engine/constants/items";
 import { TArtefact } from "@/engine/constants/items/artefacts";
-import { TWeapon, weapons } from "@/engine/constants/items/weapons";
+import { TWeapon } from "@/engine/constants/items/weapons";
 import { TMonster } from "@/engine/constants/monsters";
-import { getManager, getPortableStoreValue, registry, setPortableStoreValue } from "@/engine/core/database";
+import {
+  closeLoadMarker,
+  closeSaveMarker,
+  getManager,
+  getPortableStoreValue,
+  openLoadMarker,
+  openSaveMarker,
+  registry,
+  setPortableStoreValue,
+} from "@/engine/core/database";
 import { AbstractManager } from "@/engine/core/managers/abstract";
 import { EGameEvent, EventsManager } from "@/engine/core/managers/events";
 import { IActorStatistics, PS_ANABIOTICS_USED } from "@/engine/core/managers/statistics/statistics_types";
+import { statisticsConfig } from "@/engine/core/managers/statistics/StatisticsConfig";
 import type { TaskObject } from "@/engine/core/managers/tasks";
 import type { ITreasureDescriptor } from "@/engine/core/managers/treasures";
 import { isArtefact } from "@/engine/core/utils/class_ids";
@@ -55,62 +54,10 @@ export class StatisticsManager extends AbstractManager {
     collectedArtefacts: new LuaTable(),
   };
 
-  public weaponsStatistics: LuaTable<TName, TCount> = $fromObject<TName, TCount>({
-    abakan: 0,
-    ak74: 0,
-    ak74u: 0,
-    beretta: 0,
-    bm16: 0,
-    colt1911: 0,
-    desert: 0,
-    f1: 0,
-    fn2000: 0,
-    fort: 0,
-    g36: 0,
-    gauss: 0,
-    groza: 0,
-    hpsa: 0,
-    knife: 0,
-    l85: 0,
-    lr300: 0,
-    mp5: 0,
-    pb: 0,
-    pkm: 0,
-    pm: 0,
-    protecta: 0,
-    rg: 0,
-    rgd5: 0,
-    rpg7: 0,
-    sig220: 0,
-    sig550: 0,
-    spas12: 0,
-    svd: 0,
-    svu: 0,
-    toz34: 0,
-    usp45: 0,
-    val: 0,
-    vintorez: 0,
-    walther: 0,
-    wincheaster1300: 0,
-  });
-
+  // Damage the actor has dealt with each weapon kind.
+  public weaponsStatistics: LuaTable<TName, TRate> = new LuaTable();
+  // Artefacts the actor has taken, so taking one again is not counted.
   public takenArtefacts: LuaTable<TNumberId, TNumberId> = new LuaTable();
-
-  public monsterClassesMap: PartialRecord<TClassId, TName> = {
-    [clsid.bloodsucker_s]: "bloodsucker",
-    [clsid.boar_s]: "boar",
-    [clsid.burer_s]: "burer",
-    [clsid.chimera_s]: "chimera",
-    [clsid.controller_s]: "controller",
-    [clsid.dog_s]: "dog",
-    [clsid.flesh_s]: "flesh",
-    [clsid.gigant_s]: "gigant",
-    [clsid.poltergeist_s]: "poltergeist",
-    [clsid.psy_dog_s]: "psy_dog",
-    [clsid.pseudodog_s]: "pseudodog",
-    [clsid.snork_s]: "snork",
-    [clsid.tushkano_s]: "tushkano",
-  };
 
   public override initialize(): void {
     const eventsManager: EventsManager = getManager(EventsManager);
@@ -145,6 +92,8 @@ export class StatisticsManager extends AbstractManager {
   }
 
   public override load(reader: NetProcessor): void {
+    openLoadMarker(reader, StatisticsManager.name);
+
     this.actorStatistics = {} as IActorStatistics;
     this.actorStatistics.surgesCount = reader.r_u16();
     this.actorStatistics.completedTasksCount = reader.r_u16();
@@ -167,10 +116,10 @@ export class StatisticsManager extends AbstractManager {
     const weaponsCount: TCount = reader.r_u8();
 
     for (const _ of $range(1, weaponsCount)) {
-      const k: TWeapon = reader.r_stringZ();
-      const v: TCount = reader.r_float();
+      const kind: TName = reader.r_stringZ();
+      const damage: TRate = reader.r_float();
 
-      this.weaponsStatistics.set(k, v);
+      this.weaponsStatistics.set(kind, damage);
     }
 
     this.actorStatistics.collectedArtefacts = new LuaTable();
@@ -178,24 +127,27 @@ export class StatisticsManager extends AbstractManager {
     const artefactsCount: TCount = reader.r_u8();
 
     for (const _ of $range(1, artefactsCount)) {
-      const k: TArtefact = reader.r_stringZ();
-      const v: boolean = reader.r_bool();
+      const section: TArtefact = reader.r_stringZ();
 
-      this.actorStatistics.collectedArtefacts.set(k, v);
+      this.actorStatistics.collectedArtefacts.set(section, true);
     }
 
     this.takenArtefacts = new LuaTable();
 
-    const takenArtefactsCount: TCount = reader.r_u8();
+    const takenArtefactsCount: TCount = reader.r_u16();
 
     for (const _ of $range(1, takenArtefactsCount)) {
-      const k: TNumberId = reader.r_u32();
+      const id: TNumberId = reader.r_u16();
 
-      this.takenArtefacts.set(k, k);
+      this.takenArtefacts.set(id, id);
     }
+
+    closeLoadMarker(reader, StatisticsManager.name);
   }
 
   public override save(packet: NetPacket): void {
+    openSaveMarker(packet, StatisticsManager.name);
+
     packet.w_u16(this.actorStatistics.surgesCount);
     packet.w_u16(this.actorStatistics.completedTasksCount);
     packet.w_u32(this.actorStatistics.killedMonstersCount);
@@ -206,30 +158,26 @@ export class StatisticsManager extends AbstractManager {
     packet.w_stringZ(tostring(this.actorStatistics.bestKilledMonster));
     packet.w_stringZ(tostring(this.actorStatistics.favoriteWeapon));
 
-    const weaponsCount: TCount = table.size(this.weaponsStatistics);
+    packet.w_u8(table.size(this.weaponsStatistics));
 
-    packet.w_u8(weaponsCount);
-
-    for (const [section, damageDone] of this.weaponsStatistics) {
-      packet.w_stringZ(tostring(section));
-      packet.w_float(damageDone);
+    for (const [kind, damage] of this.weaponsStatistics) {
+      packet.w_stringZ(kind);
+      packet.w_float(damage);
     }
 
-    const artefactsCount: TCount = table.size(this.actorStatistics.collectedArtefacts);
+    packet.w_u8(table.size(this.actorStatistics.collectedArtefacts));
 
-    packet.w_u8(artefactsCount);
-
-    for (const [section, isCollected] of this.actorStatistics.collectedArtefacts) {
-      packet.w_stringZ(tostring(section));
-      packet.w_bool(isCollected);
+    for (const [section] of this.actorStatistics.collectedArtefacts) {
+      packet.w_stringZ(section);
     }
 
-    const takenArtefactsCount: TCount = table.size(this.takenArtefacts);
+    packet.w_u16(table.size(this.takenArtefacts));
 
-    packet.w_u8(takenArtefactsCount);
     for (const [id] of this.takenArtefacts) {
-      packet.w_u32(id);
+      packet.w_u16(id);
     }
+
+    closeSaveMarker(packet, StatisticsManager.name);
   }
 
   /**
@@ -266,25 +214,17 @@ export class StatisticsManager extends AbstractManager {
    * @param item - Game object picked up.
    */
   public onActorCollectedItem(item: GameObject): void {
-    if (!isArtefact(item)) {
+    const itemId: TNumberId = item.id();
+
+    if (!isArtefact(item) || this.takenArtefacts.has(itemId)) {
       return;
     }
 
-    logger.info("Increment collected artefacts count");
+    logger.info("Increment collected artefacts count: %s", item.section());
 
-    const artefactId: TNumberId = item.id();
-
-    if (!this.takenArtefacts.has(artefactId)) {
-      this.actorStatistics.collectedArtefactsCount += 1;
-      this.takenArtefacts.set(artefactId, artefactId);
-
-      // todo: Probably section vs section name should be checked and simplified.
-      const serverObject: Nillable<ServerObject> = registry.simulator.object(artefactId);
-
-      if (serverObject && serverObject.section_name()) {
-        this.actorStatistics.collectedArtefacts.set(serverObject.section_name(), true);
-      }
-    }
+    this.takenArtefacts.set(itemId, itemId);
+    this.actorStatistics.collectedArtefactsCount += 1;
+    this.actorStatistics.collectedArtefacts.set(item.section(), true);
   }
 
   /**
@@ -331,41 +271,25 @@ export class StatisticsManager extends AbstractManager {
       return;
     }
 
-    const activeActorItem: Nillable<GameObject> = registry.actor.active_item();
+    const activeItem: Nillable<GameObject> = registry.actor.active_item();
 
-    if (activeActorItem) {
-      const serverObject: Nillable<ServerObject> = registry.simulator.object(activeActorItem.id());
+    if ($isNil(activeItem)) {
+      return;
+    }
 
-      if (serverObject) {
-        const sectionName: TName = serverObject.section_name();
-
-        for (const weapon of string.gfind(sectionName, "%w+")) {
-          const damage: Nillable<TCount> = this.weaponsStatistics.get(weapon);
-
-          if ($isNotNil(damage)) {
-            this.weaponsStatistics.set(weapon, damage + amount);
-          }
-        }
+    // Variants such as `wpn_ak74u_snag` count towards the kind named by a word of their section.
+    for (const kind of string.gfind(activeItem.section(), "%w+")) {
+      if (statisticsConfig.WEAPON_KINDS.has(kind)) {
+        this.weaponsStatistics.set(kind, (this.weaponsStatistics.get(kind) ?? 0) + amount);
       }
     }
 
-    let total: TCount = 0;
+    let favoriteWeaponDamage: TRate = 0;
 
-    // todo: Why so complex? Probably just use normal namings
-    for (const [weapon, value] of this.weaponsStatistics) {
-      if (value > total) {
-        total = value;
-        if (weapon === ("rgd5" as TInventoryItem) || weapon === ("f1" as TInventoryItem)) {
-          this.actorStatistics.favoriteWeapon = ("grenade_" + weapon) as TWeapon;
-        } else {
-          this.actorStatistics.favoriteWeapon = ("wpn_" + weapon) as TWeapon;
-        }
-
-        if (weapon === ("desert" as TInventoryItem)) {
-          this.actorStatistics.favoriteWeapon = weapons.wpn_desert_eagle;
-        } else if (weapon === ("rg" as TInventoryItem)) {
-          this.actorStatistics.favoriteWeapon = weapons["wpn_rg-6"];
-        }
+    for (const [kind, damage] of this.weaponsStatistics) {
+      if (damage > favoriteWeaponDamage) {
+        favoriteWeaponDamage = damage;
+        this.actorStatistics.favoriteWeapon = statisticsConfig.WEAPON_KINDS.get(kind);
       }
     }
   }
@@ -381,7 +305,7 @@ export class StatisticsManager extends AbstractManager {
       return;
     }
 
-    let community: Nillable<TName> = this.monsterClassesMap[object.clsid()] as Nillable<TName>;
+    let community: Nillable<TName> = statisticsConfig.MONSTER_KINDS[object.clsid()];
 
     assert(
       community,

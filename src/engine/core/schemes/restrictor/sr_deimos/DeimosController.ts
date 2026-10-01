@@ -1,6 +1,6 @@
 import { time_global } from "xray16";
-import { clamp, TIndex, TRate, TTimestamp } from "xray16/lib";
-import { $isNil } from "xray16/macros";
+import { clamp, Nillable, TIndex, TRate, TTimestamp } from "xray16/lib";
+import { $isNotNil } from "xray16/macros";
 
 import { getManager } from "@/engine/core/database";
 import { DeimosManager } from "@/engine/core/managers/deimos";
@@ -22,14 +22,10 @@ export class DeimosController extends AbstractSchemeController<ISchemeDeimosStat
       return;
     }
 
-    const currentSpeed = deimosManager.getActorMovementSpeed();
-    const restoredIntensity = deimosManager.consumeRestoredIntensity();
+    const currentSpeed: TRate = deimosManager.getActorMovementSpeed();
+    const restoredIntensity: Nillable<TRate> = deimosManager.consumeRestoredIntensity();
 
-    if ($isNil(currentSpeed)) {
-      return;
-    }
-
-    if (!$isNil(restoredIntensity)) {
+    if ($isNotNil(restoredIntensity)) {
       this.state.intensity = restoredIntensity;
 
       if (this.state.intensity > this.state.disableBound) {

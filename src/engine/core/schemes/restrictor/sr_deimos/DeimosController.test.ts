@@ -7,8 +7,8 @@ import { replaceFunctionMock, resetFunctionMock } from "xray16/testing/utils";
 
 import { getManager } from "@/engine/core/database";
 import { DeimosManager } from "@/engine/core/managers/deimos";
+import { deimosConfig } from "@/engine/core/managers/deimos/DeimosConfig";
 import { SoundManager } from "@/engine/core/managers/sounds";
-import { deimosConfig } from "@/engine/core/schemes/restrictor/sr_deimos/DeimosConfig";
 import { DeimosController } from "@/engine/core/schemes/restrictor/sr_deimos/DeimosController";
 import { ISchemeDeimosState } from "@/engine/core/schemes/restrictor/sr_deimos/sr_deimos_types";
 import { trySwitchToAnotherSection } from "@/engine/core/schemes/runtime";

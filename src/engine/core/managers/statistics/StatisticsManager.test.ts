@@ -1,16 +1,9 @@
 import { beforeEach, describe, expect, it } from "@jest/globals";
 import { clsid } from "xray16";
 import { GameObject } from "xray16/alias";
-import { AnyObject, TName } from "xray16/lib";
+import { AnyObject, TName, TNumberId, TRate } from "xray16/lib";
 import { $fromObject } from "xray16/macros";
-import {
-  EMockPacketDataType,
-  MockAlifeMonsterBase,
-  MockAlifeObject,
-  MockGameObject,
-  MockNetProcessor,
-  MockVector,
-} from "xray16/mocks";
+import { EMockPacketDataType, MockAlifeMonsterBase, MockGameObject, MockNetProcessor, MockVector } from "xray16/mocks";
 import { replaceFunctionMock } from "xray16/testing/utils";
 
 import { weapons } from "@/engine/constants/items/weapons";
@@ -123,54 +116,48 @@ describe("StatisticsManager", () => {
 
   it("should correctly handle taking artefacts", () => {
     const manager: StatisticsManager = getManager(StatisticsManager);
-    const firstClient: GameObject = MockGameObject.mock({ clsid: clsid.art_black_drops });
-    const secondClient: GameObject = MockGameObject.mock({ clsid: clsid.art_bast_artefact });
-    const thirdClient: GameObject = MockGameObject.mock({ clsid: clsid.art_zuda });
-
-    MockAlifeObject.mock({ id: firstClient.id(), section: "af_first" });
-    MockAlifeObject.mock({ id: secondClient.id(), section: "af_first" });
-    MockAlifeObject.mock({ id: thirdClient.id(), section: "af_second" });
+    const first: GameObject = MockGameObject.mock({ clsid: clsid.art_black_drops, section: "af_first" });
+    const second: GameObject = MockGameObject.mock({ clsid: clsid.art_bast_artefact, section: "af_first" });
+    const third: GameObject = MockGameObject.mock({ clsid: clsid.art_zuda, section: "af_second" });
 
     expect(manager.actorStatistics.collectedArtefactsCount).toBe(0);
 
     EventsManager.emitEvent(EGameEvent.ACTOR_ITEM_TAKE, MockGameObject.mock());
-    EventsManager.emitEvent(EGameEvent.ACTOR_ITEM_TAKE, firstClient);
-    EventsManager.emitEvent(EGameEvent.ACTOR_ITEM_TAKE, firstClient);
-    EventsManager.emitEvent(EGameEvent.ACTOR_ITEM_TAKE, firstClient);
-    EventsManager.emitEvent(EGameEvent.ACTOR_ITEM_TAKE, firstClient);
-    EventsManager.emitEvent(EGameEvent.ACTOR_ITEM_TAKE, secondClient);
-    EventsManager.emitEvent(EGameEvent.ACTOR_ITEM_TAKE, secondClient);
-    EventsManager.emitEvent(EGameEvent.ACTOR_ITEM_TAKE, secondClient);
-    EventsManager.emitEvent(EGameEvent.ACTOR_ITEM_TAKE, thirdClient);
-    EventsManager.emitEvent(EGameEvent.ACTOR_ITEM_TAKE, thirdClient);
+    EventsManager.emitEvent(EGameEvent.ACTOR_ITEM_TAKE, first);
+    EventsManager.emitEvent(EGameEvent.ACTOR_ITEM_TAKE, first);
+    EventsManager.emitEvent(EGameEvent.ACTOR_ITEM_TAKE, first);
+    EventsManager.emitEvent(EGameEvent.ACTOR_ITEM_TAKE, first);
+    EventsManager.emitEvent(EGameEvent.ACTOR_ITEM_TAKE, second);
+    EventsManager.emitEvent(EGameEvent.ACTOR_ITEM_TAKE, second);
+    EventsManager.emitEvent(EGameEvent.ACTOR_ITEM_TAKE, second);
+    EventsManager.emitEvent(EGameEvent.ACTOR_ITEM_TAKE, third);
+    EventsManager.emitEvent(EGameEvent.ACTOR_ITEM_TAKE, third);
 
     expect(manager.actorStatistics.collectedArtefactsCount).toBe(3);
-    expect(manager.actorStatistics.collectedArtefacts.length()).toBe(2);
-    expect(manager.actorStatistics.collectedArtefacts.has("af_first")).toBe(true);
-    expect(manager.actorStatistics.collectedArtefacts.has("af_second")).toBe(true);
+    expect(manager.actorStatistics.collectedArtefacts).toEqualLuaTables({ af_first: true, af_second: true });
+    expect(manager.takenArtefacts).toEqualLuaTables({
+      [first.id()]: first.id(),
+      [second.id()]: second.id(),
+      [third.id()]: third.id(),
+    });
   });
 
   it("should correctly handle dealing damage to an object", () => {
     const manager: StatisticsManager = getManager(StatisticsManager);
-    const ak74: GameObject = MockGameObject.mock();
-    const desertEagle: GameObject = MockGameObject.mock();
-    const desertEagleNimble: GameObject = MockGameObject.mock();
+    const ak74: GameObject = MockGameObject.mock({ section: weapons.wpn_ak74 });
+    const desertEagle: GameObject = MockGameObject.mock({ section: weapons.wpn_desert_eagle });
+    const desertEagleNimble: GameObject = MockGameObject.mock({ section: weapons.wpn_desert_eagle_nimble });
+    const grenade: GameObject = MockGameObject.mock({ section: weapons.grenade_rgd5 });
+    const binoculars: GameObject = MockGameObject.mock({ section: weapons.wpn_binoc });
     const actor: GameObject = MockGameObject.mockActor();
     const target: GameObject = MockGameObject.mock();
 
     registerActor(actor);
 
-    MockAlifeObject.mock({ id: ak74.id(), section: weapons.wpn_ak74 });
-    MockAlifeObject.mock({ id: desertEagle.id(), section: weapons.wpn_desert_eagle });
-    MockAlifeObject.mock({ id: desertEagleNimble.id(), section: weapons.wpn_desert_eagle_nimble });
-
     EventsManager.emitEvent(EGameEvent.MONSTER_HIT, target, 100, MockVector.mock(), actor);
     EventsManager.emitEvent(EGameEvent.MONSTER_HIT, target, 100, MockVector.mock(), MockGameObject.mock());
 
-    expect(manager.weaponsStatistics.length()).toBe(36);
-    (manager.weaponsStatistics as unknown as Map<string, number>).forEach((value, _) => {
-      expect(value).toBe(0);
-    });
+    expect(manager.weaponsStatistics).toEqualLuaTables({});
     expect(manager.actorStatistics.favoriteWeapon).toBeNull();
 
     replaceFunctionMock(actor.active_item, () => ak74);
@@ -179,29 +166,38 @@ describe("StatisticsManager", () => {
     EventsManager.emitEvent(EGameEvent.STALKER_HIT, target, 150, MockVector.mock(), actor);
     EventsManager.emitEvent(EGameEvent.MONSTER_HIT, target, 150, MockVector.mock(), MockGameObject.mock());
 
-    expect(manager.weaponsStatistics.get("ak74")).toBe(250);
-    expect(manager.weaponsStatistics.get("desert")).toBe(0);
-    expect(manager.actorStatistics.favoriteWeapon).toBe("wpn_ak74");
+    expect(manager.weaponsStatistics).toEqualLuaTables({ ak74: 250 });
+    expect(manager.actorStatistics.favoriteWeapon).toBe(weapons.wpn_ak74);
 
     replaceFunctionMock(actor.active_item, () => desertEagle);
 
     EventsManager.emitEvent(EGameEvent.MONSTER_HIT, target, 100, MockVector.mock(), actor);
-    expect(manager.actorStatistics.favoriteWeapon).toBe("wpn_ak74");
+    expect(manager.actorStatistics.favoriteWeapon).toBe(weapons.wpn_ak74);
     EventsManager.emitEvent(EGameEvent.MONSTER_HIT, target, 300, MockVector.mock(), actor);
     EventsManager.emitEvent(EGameEvent.MONSTER_HIT, target, 300, MockVector.mock(), MockGameObject.mock());
 
-    expect(manager.weaponsStatistics.get("ak74")).toBe(250);
-    expect(manager.weaponsStatistics.get("desert")).toBe(400);
-    expect(manager.actorStatistics.favoriteWeapon).toBe("wpn_desert_eagle");
+    expect(manager.weaponsStatistics).toEqualLuaTables({ ak74: 250, desert: 400 });
+    expect(manager.actorStatistics.favoriteWeapon).toBe(weapons.wpn_desert_eagle);
 
     replaceFunctionMock(actor.active_item, () => desertEagleNimble);
 
     EventsManager.emitEvent(EGameEvent.STALKER_HIT, target, 100, MockVector.mock(), actor);
 
-    expect(manager.weaponsStatistics.get("ak74")).toBe(250);
-    expect(manager.weaponsStatistics.get("desert")).toBe(500);
-    expect(manager.actorStatistics.favoriteWeapon).toBe("wpn_desert_eagle");
-    expect(manager.weaponsStatistics.length()).toBe(36);
+    expect(manager.weaponsStatistics).toEqualLuaTables({ ak74: 250, desert: 500 });
+    expect(manager.actorStatistics.favoriteWeapon).toBe(weapons.wpn_desert_eagle);
+
+    replaceFunctionMock(actor.active_item, () => binoculars);
+
+    EventsManager.emitEvent(EGameEvent.STALKER_HIT, target, 1000, MockVector.mock(), actor);
+
+    expect(manager.weaponsStatistics).toEqualLuaTables({ ak74: 250, desert: 500 });
+
+    replaceFunctionMock(actor.active_item, () => grenade);
+
+    EventsManager.emitEvent(EGameEvent.MONSTER_HIT, target, 600, MockVector.mock(), actor);
+
+    expect(manager.weaponsStatistics).toEqualLuaTables({ ak74: 250, desert: 500, rgd5: 600 });
+    expect(manager.actorStatistics.favoriteWeapon).toBe(weapons.grenade_rgd5);
   });
 
   it("should correctly handle monster kills", () => {
@@ -264,99 +260,11 @@ describe("StatisticsManager", () => {
       favoriteWeapon: "wpn_ak74",
       bestKilledMonster: "bloodsucker_strong",
     };
+    oldManager.weaponsStatistics = $fromObject<TName, TRate>({ ak74: 250, desert: 100 });
+    oldManager.takenArtefacts = $fromObject<TNumberId, TNumberId>({ 300: 300, 1_000: 1_000 });
 
     oldManager.save(processor.asNetPacket());
 
-    expect(processor.dataList).toEqual([
-      1,
-      40,
-      30,
-      4,
-      24,
-      10,
-      16,
-      "bloodsucker_strong",
-      "wpn_ak74",
-      36,
-      "abakan",
-      0,
-      "ak74",
-      0,
-      "ak74u",
-      0,
-      "beretta",
-      0,
-      "bm16",
-      0,
-      "colt1911",
-      0,
-      "desert",
-      0,
-      "f1",
-      0,
-      "fn2000",
-      0,
-      "fort",
-      0,
-      "g36",
-      0,
-      "gauss",
-      0,
-      "groza",
-      0,
-      "hpsa",
-      0,
-      "knife",
-      0,
-      "l85",
-      0,
-      "lr300",
-      0,
-      "mp5",
-      0,
-      "pb",
-      0,
-      "pkm",
-      0,
-      "pm",
-      0,
-      "protecta",
-      0,
-      "rg",
-      0,
-      "rgd5",
-      0,
-      "rpg7",
-      0,
-      "sig220",
-      0,
-      "sig550",
-      0,
-      "spas12",
-      0,
-      "svd",
-      0,
-      "svu",
-      0,
-      "toz34",
-      0,
-      "usp45",
-      0,
-      "val",
-      0,
-      "vintorez",
-      0,
-      "walther",
-      0,
-      "wincheaster1300",
-      0,
-      2,
-      "af_1",
-      true,
-      "af_2",
-      true,
-      0,
-    ]);
     expect(processor.writeDataOrder).toEqual([
       EMockPacketDataType.U16,
       EMockPacketDataType.U16,
@@ -372,80 +280,36 @@ describe("StatisticsManager", () => {
       EMockPacketDataType.F32,
       EMockPacketDataType.STRING,
       EMockPacketDataType.F32,
-      EMockPacketDataType.STRING,
-      EMockPacketDataType.F32,
-      EMockPacketDataType.STRING,
-      EMockPacketDataType.F32,
-      EMockPacketDataType.STRING,
-      EMockPacketDataType.F32,
-      EMockPacketDataType.STRING,
-      EMockPacketDataType.F32,
-      EMockPacketDataType.STRING,
-      EMockPacketDataType.F32,
-      EMockPacketDataType.STRING,
-      EMockPacketDataType.F32,
-      EMockPacketDataType.STRING,
-      EMockPacketDataType.F32,
-      EMockPacketDataType.STRING,
-      EMockPacketDataType.F32,
-      EMockPacketDataType.STRING,
-      EMockPacketDataType.F32,
-      EMockPacketDataType.STRING,
-      EMockPacketDataType.F32,
-      EMockPacketDataType.STRING,
-      EMockPacketDataType.F32,
-      EMockPacketDataType.STRING,
-      EMockPacketDataType.F32,
-      EMockPacketDataType.STRING,
-      EMockPacketDataType.F32,
-      EMockPacketDataType.STRING,
-      EMockPacketDataType.F32,
-      EMockPacketDataType.STRING,
-      EMockPacketDataType.F32,
-      EMockPacketDataType.STRING,
-      EMockPacketDataType.F32,
-      EMockPacketDataType.STRING,
-      EMockPacketDataType.F32,
-      EMockPacketDataType.STRING,
-      EMockPacketDataType.F32,
-      EMockPacketDataType.STRING,
-      EMockPacketDataType.F32,
-      EMockPacketDataType.STRING,
-      EMockPacketDataType.F32,
-      EMockPacketDataType.STRING,
-      EMockPacketDataType.F32,
-      EMockPacketDataType.STRING,
-      EMockPacketDataType.F32,
-      EMockPacketDataType.STRING,
-      EMockPacketDataType.F32,
-      EMockPacketDataType.STRING,
-      EMockPacketDataType.F32,
-      EMockPacketDataType.STRING,
-      EMockPacketDataType.F32,
-      EMockPacketDataType.STRING,
-      EMockPacketDataType.F32,
-      EMockPacketDataType.STRING,
-      EMockPacketDataType.F32,
-      EMockPacketDataType.STRING,
-      EMockPacketDataType.F32,
-      EMockPacketDataType.STRING,
-      EMockPacketDataType.F32,
-      EMockPacketDataType.STRING,
-      EMockPacketDataType.F32,
-      EMockPacketDataType.STRING,
-      EMockPacketDataType.F32,
-      EMockPacketDataType.STRING,
-      EMockPacketDataType.F32,
-      EMockPacketDataType.STRING,
-      EMockPacketDataType.F32,
-      EMockPacketDataType.STRING,
-      EMockPacketDataType.F32,
       EMockPacketDataType.U8,
       EMockPacketDataType.STRING,
-      EMockPacketDataType.BOOLEAN,
       EMockPacketDataType.STRING,
-      EMockPacketDataType.BOOLEAN,
-      EMockPacketDataType.U8,
+      EMockPacketDataType.U16,
+      EMockPacketDataType.U16,
+      EMockPacketDataType.U16,
+      EMockPacketDataType.U16,
+    ]);
+    expect(processor.dataList).toEqual([
+      1,
+      40,
+      30,
+      4,
+      24,
+      10,
+      16,
+      "bloodsucker_strong",
+      "wpn_ak74",
+      2,
+      "ak74",
+      250,
+      "desert",
+      100,
+      2,
+      "af_1",
+      "af_2",
+      2,
+      300,
+      1_000,
+      20,
     ]);
 
     disposeManager(StatisticsManager);
@@ -470,6 +334,8 @@ describe("StatisticsManager", () => {
       favoriteWeapon: "wpn_ak74",
       bestKilledMonster: "bloodsucker_strong",
     });
+    expect(newManager.weaponsStatistics).toEqualLuaTables({ ak74: 250, desert: 100 });
+    expect(newManager.takenArtefacts).toEqualLuaTables({ 300: 300, 1_000: 1_000 });
   });
 
   it("should correctly handle debug dump event", () => {

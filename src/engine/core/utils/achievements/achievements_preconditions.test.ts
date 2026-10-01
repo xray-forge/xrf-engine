@@ -11,6 +11,7 @@ import { getManager, registerActor, registry } from "@/engine/core/database";
 import { EGameEvent, EventsManager } from "@/engine/core/managers/events";
 import { ENotificationType, ITipNotification } from "@/engine/core/managers/notifications";
 import { StatisticsManager } from "@/engine/core/managers/statistics";
+import { achievementsConfig } from "@/engine/core/utils/achievements/achievements_config";
 import { achievementsIcons } from "@/engine/core/utils/achievements/achievements_icons";
 import {
   hasAchievedBalanceAdvocate,
@@ -544,9 +545,20 @@ describe("hasAchievedSeeker precondition", () => {
 
     statisticsManager.actorStatistics.collectedArtefacts = new LuaTable();
 
-    for (const it of $range(1, 22)) {
-      statisticsManager.actorStatistics.collectedArtefacts.set("af_" + it, true);
+    // Quest artefacts do not replace the ones to collect.
+    for (const [, section] of achievementsConfig.SEEKER_ARTEFACTS) {
+      if (section !== artefacts.af_ice) {
+        statisticsManager.actorStatistics.collectedArtefacts.set(section, true);
+      }
     }
+
+    statisticsManager.actorStatistics.collectedArtefacts.set(artefacts.af_compass, true);
+    statisticsManager.actorStatistics.collectedArtefacts.set(artefacts.af_oasis_heart, true);
+
+    expect(hasAchievedSeeker()).toBeFalsy();
+    expect(onNotification).not.toHaveBeenCalled();
+
+    statisticsManager.actorStatistics.collectedArtefacts.set(artefacts.af_ice, true);
 
     expect(hasAchievedSeeker()).toBeTruthy();
     expect(onNotification).toHaveBeenCalledTimes(1);

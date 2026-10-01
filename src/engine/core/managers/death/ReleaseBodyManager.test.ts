@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, jest } from "@jest/globals";
 import { GameObject, ServerHumanObject, ServerObject } from "xray16/alias";
-import { AnyObject } from "xray16/lib";
+import { AnyObject, TNumberId } from "xray16/lib";
 import { $fromArray } from "xray16/macros";
 import {
   EMockPacketDataType,
@@ -18,7 +18,6 @@ import {
   registerStoryLink,
   registry,
 } from "@/engine/core/database";
-import { IReleaseDescriptor } from "@/engine/core/managers/death/death_types";
 import { deathConfig } from "@/engine/core/managers/death/DeathConfig";
 import { ReleaseBodyManager } from "@/engine/core/managers/death/ReleaseBodyManager";
 import { EGameEvent, EventsManager } from "@/engine/core/managers/events";
@@ -96,7 +95,7 @@ describe("ReleaseBodyManager", () => {
     manager.registerCorpse(object);
     manager.registerCorpse(object);
 
-    expect(deathConfig.RELEASE_OBJECTS_REGISTRY).toEqualLuaArrays([{ id: object.id(), diedAt: 60_000 }]);
+    expect(deathConfig.RELEASE_OBJECTS_REGISTRY).toEqualLuaArrays([object.id()]);
   });
 
   it("should correctly try releasing", () => {
@@ -112,16 +111,7 @@ describe("ReleaseBodyManager", () => {
     jest.spyOn(registry.actor.position(), "distance_to_sqr").mockImplementation(() => deathConfig.MIN_DISTANCE_SQR + 1);
 
     deathConfig.MAX_BODY_COUNT = 0;
-    deathConfig.RELEASE_OBJECTS_REGISTRY = $fromArray<IReleaseDescriptor>([
-      { id: 10, diedAt: 40_000 },
-      { id: 11, diedAt: 40_000 },
-      { id: 12, diedAt: 40_000 },
-      { id: 13, diedAt: 40_000 },
-      { id: 14, diedAt: 40_000 },
-      { id: 15, diedAt: 40_000 },
-      { id: first.id, diedAt: 0 },
-      { id: second.id, diedAt: null },
-    ]);
+    deathConfig.RELEASE_OBJECTS_REGISTRY = $fromArray<TNumberId>([10, 11, 12, 13, 14, 15, first.id, second.id]);
 
     manager.releaseCorpses();
 
@@ -140,16 +130,12 @@ describe("ReleaseBodyManager", () => {
     jest.spyOn(registry.actor.position(), "distance_to_sqr").mockImplementation(() => deathConfig.MIN_DISTANCE_SQR + 1);
 
     deathConfig.MAX_BODY_COUNT = 0;
-    deathConfig.RELEASE_OBJECTS_REGISTRY = $fromArray<IReleaseDescriptor>([
-      { id: 10, diedAt: null },
-      { id: alive.id, diedAt: null },
-      { id: nonCreature.id, diedAt: null },
-    ]);
+    deathConfig.RELEASE_OBJECTS_REGISTRY = $fromArray<TNumberId>([10, alive.id, nonCreature.id]);
 
     manager.releaseCorpses();
 
     expect(registry.simulator.release).not.toHaveBeenCalled();
-    expect(deathConfig.RELEASE_OBJECTS_REGISTRY).toEqualLuaArrays([{ id: alive.id, diedAt: null }]);
+    expect(deathConfig.RELEASE_OBJECTS_REGISTRY).toEqualLuaArrays([alive.id]);
   });
 
   it("should preserve a corpse that becomes protected before release", () => {
@@ -167,13 +153,14 @@ describe("ReleaseBodyManager", () => {
 
     deathConfig.MAX_BODY_COUNT = 0;
     jest.spyOn(Date, "now").mockImplementation(() => 120_000);
+    jest.spyOn(object, "death_time").mockImplementation(() => 0);
 
     jest.spyOn(registry.actor.position(), "distance_to_sqr").mockImplementation(() => deathConfig.MIN_DISTANCE_SQR + 1);
 
     manager.releaseCorpses();
 
     expect(registry.simulator.release).not.toHaveBeenCalled();
-    expect(deathConfig.RELEASE_OBJECTS_REGISTRY).toEqualLuaArrays([{ id: object.id(), diedAt: 60_000 }]);
+    expect(deathConfig.RELEASE_OBJECTS_REGISTRY).toEqualLuaArrays([object.id()]);
   });
 
   it("should release another eligible corpse when a farther corpse is protected", () => {
@@ -191,10 +178,11 @@ describe("ReleaseBodyManager", () => {
     registerObject(protectedObject);
     manager.registerCorpse(protectedObject);
     MockGameObject.asMock(protectedObject).objectInventory.set(item.section(), item);
-    table.insert(deathConfig.RELEASE_OBJECTS_REGISTRY, { id: releasableServerObject.id, diedAt: null });
+    table.insert(deathConfig.RELEASE_OBJECTS_REGISTRY, releasableServerObject.id);
 
     deathConfig.MAX_BODY_COUNT = 0;
     jest.spyOn(Date, "now").mockImplementation(() => 120_000);
+    jest.spyOn(protectedObject, "death_time").mockImplementation(() => 0);
     jest.spyOn(registry.actor.position(), "distance_to_sqr").mockImplementation((position) => {
       return position === protectedServerObject.position
         ? deathConfig.MIN_DISTANCE_SQR + 2
@@ -205,7 +193,7 @@ describe("ReleaseBodyManager", () => {
 
     expect(registry.simulator.release).toHaveBeenCalledTimes(1);
     expect(registry.simulator.release).toHaveBeenCalledWith(releasableServerObject, true);
-    expect(deathConfig.RELEASE_OBJECTS_REGISTRY).toEqualLuaArrays([{ id: protectedObject.id(), diedAt: 60_000 }]);
+    expect(deathConfig.RELEASE_OBJECTS_REGISTRY).toEqualLuaArrays([protectedObject.id()]);
   });
 
   it("should correctly save/load", () => {
@@ -214,12 +202,7 @@ describe("ReleaseBodyManager", () => {
     const manager: ReleaseBodyManager = getManager(ReleaseBodyManager);
     const processor: MockNetProcessor = new MockNetProcessor();
 
-    deathConfig.RELEASE_OBJECTS_REGISTRY = $fromArray<IReleaseDescriptor>([
-      { id: 10, diedAt: 4_000 },
-      { id: 11, diedAt: 5_000 },
-      { id: 12, diedAt: 6_000 },
-      { id: 13, diedAt: null },
-    ]);
+    deathConfig.RELEASE_OBJECTS_REGISTRY = $fromArray<TNumberId>([10, 11, 12, 13]);
 
     manager.save(processor.asNetPacket());
 
@@ -243,12 +226,7 @@ describe("ReleaseBodyManager", () => {
     expect(processor.readDataOrder).toEqual(processor.writeDataOrder);
     expect(processor.dataList).toHaveLength(0);
 
-    expect(deathConfig.RELEASE_OBJECTS_REGISTRY).toEqualLuaArrays([
-      { id: 10, diedAt: null },
-      { id: 11, diedAt: null },
-      { id: 12, diedAt: null },
-      { id: 13, diedAt: null },
-    ]);
+    expect(deathConfig.RELEASE_OBJECTS_REGISTRY).toEqualLuaArrays([10, 11, 12, 13]);
   });
 
   it("should correctly save/load when level is changed", () => {
@@ -257,10 +235,7 @@ describe("ReleaseBodyManager", () => {
     const manager: ReleaseBodyManager = getManager(ReleaseBodyManager);
     const processor: MockNetProcessor = new MockNetProcessor();
 
-    deathConfig.RELEASE_OBJECTS_REGISTRY = $fromArray<IReleaseDescriptor>([
-      { id: 10, diedAt: 4_000 },
-      { id: 11, diedAt: 5_000 },
-    ]);
+    deathConfig.RELEASE_OBJECTS_REGISTRY = $fromArray<TNumberId>([10, 11]);
 
     manager.save(processor.asNetPacket());
 

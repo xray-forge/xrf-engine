@@ -1,7 +1,7 @@
 import { level } from "xray16";
 import { NetPacket, NetProcessor } from "xray16/alias";
-import { ACTOR_ID, Nillable, TIndex, TRate, TStringId } from "xray16/lib";
-import { $isNil } from "xray16/macros";
+import { ACTOR_ID, Nillable, TIndex, TName, TRate, TStringId } from "xray16/lib";
+import { $isNotNil } from "xray16/macros";
 
 import {
   closeLoadMarker,
@@ -12,7 +12,7 @@ import {
   registry,
 } from "@/engine/core/database";
 import { AbstractManager } from "@/engine/core/managers/abstract";
-import { deimosConfig } from "@/engine/core/managers/deimos/deimos_config";
+import { deimosConfig } from "@/engine/core/managers/deimos/DeimosConfig";
 import { SoundManager } from "@/engine/core/managers/sounds";
 import { ISchemeDeimosState } from "@/engine/core/schemes/restrictor/sr_deimos/sr_deimos_types";
 import { getSchemeStateByKeyOptimistic } from "@/engine/core/schemes/state";
@@ -65,14 +65,14 @@ export class DeimosManager extends AbstractManager {
    * @returns Whether it is valid to update Deimos gameplay and screen effects now.
    */
   public canUpdate(): boolean {
-    return !$isNil(registry.actor) && !isBlackScreen();
+    return $isNotNil(registry.actor) && !isBlackScreen();
   }
 
   /**
-   * @returns Current actor movement speed or `null` while the actor is unavailable.
+   * @returns Current actor movement speed.
    */
-  public getActorMovementSpeed(): Nillable<TRate> {
-    return $isNil(registry.actor) ? null : registry.actor.get_movement_speed().magnitude();
+  public getActorMovementSpeed(): TRate {
+    return registry.actor.get_movement_speed().magnitude();
   }
 
   /**
@@ -94,9 +94,9 @@ export class DeimosManager extends AbstractManager {
    * @param postProcess - Primary post-process effector name without the `.ppe` extension.
    * @param noiseSound - Looped noise sound section to play for the actor.
    */
-  public startPrimaryEffects(postProcess: TStringId, noiseSound: string): void {
+  public startPrimaryEffects(postProcess: TStringId, noiseSound: TName): void {
     level.add_pp_effector(`${postProcess}.ppe`, deimosConfig.POST_PROCESS_EFFECTOR_ID, true);
-    getManager(SoundManager).playLooped(this.getActorId(), noiseSound);
+    getManager(SoundManager).playLooped(ACTOR_ID, noiseSound);
   }
 
   /**
@@ -104,8 +104,8 @@ export class DeimosManager extends AbstractManager {
    *
    * @param heartbeatSound - Looped heartbeat sound section to play for the actor.
    */
-  public startHeartbeat(heartbeatSound: string): void {
-    getManager(SoundManager).playLooped(this.getActorId(), heartbeatSound);
+  public startHeartbeat(heartbeatSound: TName): void {
+    getManager(SoundManager).playLooped(ACTOR_ID, heartbeatSound);
   }
 
   /**
@@ -116,15 +116,14 @@ export class DeimosManager extends AbstractManager {
    * @param noiseSound - Looped noise sound section whose volume is updated.
    * @param heartbeatSound - Looped heartbeat sound section whose volume is updated in phase two.
    */
-  public updateEffectStrengths(phase: TIndex, intensity: TRate, noiseSound: string, heartbeatSound: string): void {
+  public updateEffectStrengths(phase: TIndex, intensity: TRate, noiseSound: TName, heartbeatSound: TName): void {
     const soundManager: SoundManager = getManager(SoundManager);
-    const actorId: number = this.getActorId();
 
     level.set_pp_effector_factor(deimosConfig.POST_PROCESS_EFFECTOR_ID, intensity);
-    soundManager.setLoopedSoundVolume(actorId, noiseSound, intensity);
+    soundManager.setLoopedSoundVolume(ACTOR_ID, noiseSound, intensity);
 
     if (phase > 1) {
-      soundManager.setLoopedSoundVolume(actorId, heartbeatSound, intensity);
+      soundManager.setLoopedSoundVolume(ACTOR_ID, heartbeatSound, intensity);
     }
   }
 
@@ -135,7 +134,7 @@ export class DeimosManager extends AbstractManager {
    * @param postProcess - Secondary post-process effector name without the `.ppe` extension.
    * @param healthLost - Health delta applied to the actor by the engine's delta-style health setter.
    */
-  public triggerHighIntensityEffects(cameraEffector: TStringId, postProcess: TStringId, healthLost: number): void {
+  public triggerHighIntensityEffects(cameraEffector: TStringId, postProcess: TStringId, healthLost: TRate): void {
     level.add_cam_effector(`camera_effects\\${cameraEffector}.anm`, deimosConfig.CAMERA_EFFECTOR_ID, false, "");
     level.add_pp_effector(`${postProcess}.ppe`, deimosConfig.POST_PROCESS_EFFECTOR_SECONDARY_ID, false);
     registry.actor.health = -healthLost;
@@ -146,8 +145,8 @@ export class DeimosManager extends AbstractManager {
    *
    * @param noiseSound - Looped noise sound section to stop for the actor.
    */
-  public stopPrimaryEffects(noiseSound: string): void {
-    getManager(SoundManager).stopLooped(this.getActorId(), noiseSound);
+  public stopPrimaryEffects(noiseSound: TName): void {
+    getManager(SoundManager).stopLooped(ACTOR_ID, noiseSound);
     level.remove_pp_effector(deimosConfig.POST_PROCESS_EFFECTOR_ID);
   }
 
@@ -156,8 +155,8 @@ export class DeimosManager extends AbstractManager {
    *
    * @param heartbeatSound - Looped heartbeat sound section to stop for the actor.
    */
-  public stopHeartbeat(heartbeatSound: string): void {
-    getManager(SoundManager).stopLooped(this.getActorId(), heartbeatSound);
+  public stopHeartbeat(heartbeatSound: TName): void {
+    getManager(SoundManager).stopLooped(ACTOR_ID, heartbeatSound);
   }
 
   /**
@@ -166,12 +165,5 @@ export class DeimosManager extends AbstractManager {
   public removeSecondaryEffects(): void {
     level.remove_cam_effector(deimosConfig.CAMERA_EFFECTOR_ID);
     level.remove_pp_effector(deimosConfig.POST_PROCESS_EFFECTOR_SECONDARY_ID);
-  }
-
-  /**
-   * @returns Current actor identifier, or the engine actor identifier while the actor object is unavailable.
-   */
-  private getActorId(): number {
-    return $isNil(registry.actor) ? ACTOR_ID : registry.actor.id();
   }
 }

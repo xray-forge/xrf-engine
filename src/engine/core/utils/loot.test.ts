@@ -98,7 +98,7 @@ describe("getNearestCorpseToLoot", () => {
     [selected, farther, claimed].forEach((corpse: GameObject) => {
       const state: IRegistryObjectState = registerObject(corpse);
 
-      table.insert(deathConfig.RELEASE_OBJECTS_REGISTRY, { id: corpse.id(), diedAt: 0 });
+      table.insert(deathConfig.RELEASE_OBJECTS_REGISTRY, corpse.id());
       expect(state.object).toBe(corpse);
     });
 
