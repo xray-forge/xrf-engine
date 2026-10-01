@@ -6,7 +6,12 @@ import { drugs, TMedkit } from "@/engine/constants/items/drugs";
 import { misc } from "@/engine/constants/items/misc";
 import { getManager, registry } from "@/engine/core/database";
 import { ActorInputManager } from "@/engine/core/managers/actor";
-import { ENotificationDirection, NotificationManager } from "@/engine/core/managers/notifications";
+import { EGameEvent, EventsManager } from "@/engine/core/managers/events";
+import {
+  ENotificationDirection,
+  ENotificationType,
+  IItemRelocatedNotification,
+} from "@/engine/core/managers/notifications/notifications_types";
 import { breakObjectDialog, getNpcSpeaker } from "@/engine/core/utils/dialog";
 import { actorHasMedKit, getActorAvailableMedKit, getAnyObjectPistol } from "@/engine/core/utils/item";
 import { LuaLogger } from "@/engine/core/utils/logging";
@@ -102,7 +107,12 @@ extern("dialogs.transfer_any_pistol_from_actor", (firstSpeaker: GameObject, seco
 
   if (pistol) {
     registry.actor.transfer_item(pistol, getNpcSpeaker(firstSpeaker, secondSpeaker));
-    getManager(NotificationManager).sendItemRelocatedNotification(ENotificationDirection.OUT, pistol.section());
+
+    EventsManager.emitEvent<IItemRelocatedNotification>(EGameEvent.NOTIFICATION, {
+      type: ENotificationType.ITEM,
+      direction: ENotificationDirection.OUT,
+      itemSection: pistol.section(),
+    });
   }
 });
 

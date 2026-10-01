@@ -6,9 +6,9 @@ import { $fromObject } from "xray16/macros";
 import { MockGameObject } from "xray16/mocks";
 
 import { EMonsterState } from "@/engine/constants/monsters";
-import { getManager } from "@/engine/core/database";
 import { parseConditionsList } from "@/engine/core/ini";
-import { NotificationManager } from "@/engine/core/managers/notifications";
+import { EGameEvent, EventsManager } from "@/engine/core/managers/events";
+import { ENotificationType } from "@/engine/core/managers/notifications/notifications_types";
 import { ISchemeMobRemarkState } from "@/engine/core/schemes/monster/mob_remark/mob_remark_types";
 import { MobRemarkController } from "@/engine/core/schemes/monster/mob_remark/MobRemarkController";
 import { EScheme } from "@/engine/core/schemes/types";
@@ -56,10 +56,9 @@ describe("MobRemarkController", () => {
       animationMovement: true,
     });
     const controller: MobRemarkController = new MobRemarkController(object, state);
-    const notificationManager: NotificationManager = getManager(NotificationManager);
 
     jest.spyOn(object, "get_script").mockImplementation(() => true);
-    jest.spyOn(notificationManager, "sendTipNotification").mockImplementation(jest.fn());
+    jest.spyOn(EventsManager, "emitEvent");
 
     controller.activate();
     controller.update();
@@ -68,6 +67,9 @@ describe("MobRemarkController", () => {
     expect(controller.isActionEndSignalled).toBe(true);
     expect(state.signals).toEqualLuaTables({ action_end: true });
     expect(object.enable_talk).toHaveBeenCalledTimes(1);
-    expect(notificationManager.sendTipNotification).toHaveBeenCalledWith("test_tip");
+    expect(EventsManager.emitEvent).toHaveBeenCalledWith(EGameEvent.NOTIFICATION, {
+      type: ENotificationType.TIP,
+      caption: "test_tip",
+    });
   });
 });

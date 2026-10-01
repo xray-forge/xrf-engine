@@ -54,7 +54,7 @@ const logger: LuaLogger = new LuaLogger($filename);
  * Manager for processing of notifications on different game events.
  * Display information about new treasures, quests or items/money operations.
  *
- * Todo: Handle notification events from app-level events without direct imports.
+ * Other code sends notifications by emitting `EGameEvent.NOTIFICATION`, without importing this manager.
  */
 export class NotificationManager extends AbstractManager {
   public override initialize(): void {
@@ -125,7 +125,7 @@ export class NotificationManager extends AbstractManager {
    * Send notification with information about actor money transfer.
    */
   public sendMoneyRelocatedNotification(direction: ENotificationDirection, amount: TCount): void {
-    logger.info("Show relocate money message: %s %s %s", direction, amount, amount);
+    logger.info("Show relocate money message: %s %s", direction, amount);
 
     const notificationTitle: TLabel = game.translate_string(
       direction === ENotificationDirection.IN ? "general_in_money" : "general_out_money"
@@ -217,7 +217,7 @@ export class NotificationManager extends AbstractManager {
     const notificationDescription: string = game.translate_string(task.get_title()) + ".";
     const notificationIcon: TName = task.get_icon_name() ?? "ui_iconsTotal_storyline";
     const notificationDuration: TDuration =
-      newState === "updated"
+      newState === ETaskState.UPDATED
         ? notificationsConfig.DEFAULT_NOTIFICATION_SHOW_DURATION
         : notificationsConfig.QUEST_NOTIFICATION_SHOW_DURATION;
 
@@ -246,11 +246,14 @@ export class NotificationManager extends AbstractManager {
 
     // Verify whether sender can send notifications.
     // todo: Probably here check ID from sender object if it is provided?
-    if ($isNotNil(senderId)) {
+    const senderObjectId: Nillable<TNumberId> = $isNotNil(senderId) ? getObjectIdByStoryId(senderId) : null;
+
+    // A sender that does not exist in the game sends the tip as it is, as in vanilla `news_manager.send_tip`.
+    if ($isNotNil(senderObjectId)) {
       const simulator: Nillable<AlifeSimulator> = registry.simulator;
 
       if ($isNotNil(simulator)) {
-        const serverObject: Nillable<Stalker> = simulator.object(getObjectIdByStoryId(senderId)!) as Stalker;
+        const serverObject: Nillable<Stalker> = simulator.object<Stalker>(senderObjectId);
 
         if ($isNotNil(serverObject)) {
           // Check if sender is not wounded.
@@ -312,7 +315,7 @@ export class NotificationManager extends AbstractManager {
 
     let pointName: TName = "";
 
-    // todo: Probably name and number id problem? Not real condition?
+    // Point is a smart terrain ID or a translatable label, which finds no terrain.
     if (point) {
       const terrainDescriptor: Nillable<ISmartTerrainDescriptor> = getSimulationTerrainDescriptorById(
         point as TNumberId
@@ -382,6 +385,7 @@ export class NotificationManager extends AbstractManager {
   /**
    * Send flexible notification.
    * In case of generic UI just show notification element, in case of dialog show it as message in history.
+   * Without `newsType`, the engine news type is its default one.
    */
   public onSendGenericNotification(
     isFlexible: boolean,
@@ -390,7 +394,7 @@ export class NotificationManager extends AbstractManager {
     notificationIcon: TName,
     delay: TDuration,
     showTime: TDuration,
-    type: Nillable<TNumberId> = null
+    newsType: Nillable<TNumberId> = null
   ): void {
     logger.info("Send generic notification: '%s', '%s', '%s'", notificationTitle, notificationText, notificationIcon);
 
@@ -401,10 +405,10 @@ export class NotificationManager extends AbstractManager {
        * Call correct method based on LUA binding signature.
        * Different methods are called based on different params count.
        */
-      if ($isNil(type)) {
+      if ($isNil(newsType)) {
         registry.actor.give_game_news(notificationTitle, notificationText, notificationIcon, delay, showTime);
       } else {
-        registry.actor.give_game_news(notificationTitle, notificationText, notificationIcon, delay, showTime, type);
+        registry.actor.give_game_news(notificationTitle, notificationText, notificationIcon, delay, showTime, newsType);
       }
     }
   }

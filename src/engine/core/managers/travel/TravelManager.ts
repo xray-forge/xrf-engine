@@ -28,7 +28,11 @@ import { AbstractManager } from "@/engine/core/managers/abstract";
 import { ActorInputManager, EActorControlHandle, EActorControlPolicy } from "@/engine/core/managers/actor";
 import { EGameEvent, EventsManager } from "@/engine/core/managers/events";
 import { mapDisplayConfig } from "@/engine/core/managers/map/MapDisplayConfig";
-import { ENotificationDirection, NotificationManager } from "@/engine/core/managers/notifications";
+import {
+  ENotificationDirection,
+  ENotificationType,
+  IMoneyRelocatedNotification,
+} from "@/engine/core/managers/notifications/notifications_types";
 import { TSimulationObject } from "@/engine/core/managers/simulation/types";
 import {
   assignSimulationSquadToTerrain,
@@ -475,7 +479,12 @@ export class TravelManager extends AbstractManager {
     this.startTravel(object, squad, terrain, distance);
 
     actor.give_money(-price);
-    getManager(NotificationManager).sendMoneyRelocatedNotification(ENotificationDirection.OUT, price);
+
+    EventsManager.emitEvent<IMoneyRelocatedNotification>(EGameEvent.NOTIFICATION, {
+      type: ENotificationType.MONEY,
+      direction: ENotificationDirection.OUT,
+      amount: price,
+    });
   }
 
   /**

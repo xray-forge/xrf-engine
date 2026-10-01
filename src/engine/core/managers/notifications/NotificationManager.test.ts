@@ -396,6 +396,19 @@ describe("NotificationManager", () => {
     expect(notificationManager.onSendGenericNotification).toHaveBeenCalledTimes(0);
   });
 
+  it("should send tips of senders that are not in the game without looking them up", () => {
+    const notificationManager: NotificationManager = getManager(NotificationManager);
+
+    notificationManager.onPlayPdaNotificationSound = jest.fn();
+    notificationManager.onSendGenericNotification = jest.fn();
+    jest.spyOn(registry.simulator, "object");
+
+    notificationManager.sendTipNotification("test_simple", null, 0, 0, "not_registered_sid");
+
+    expect(registry.simulator.object).not.toHaveBeenCalled();
+    expect(notificationManager.onSendGenericNotification).toHaveBeenCalledTimes(1);
+  });
+
   it("should not send sound notifications for sounds without a speaker faction", () => {
     const notificationManager: NotificationManager = getManager(NotificationManager);
 

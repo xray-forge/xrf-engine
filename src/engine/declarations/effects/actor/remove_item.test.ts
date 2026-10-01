@@ -2,8 +2,9 @@ import { beforeAll, beforeEach, describe, expect, it, jest } from "@jest/globals
 import { GameObject, ServerObject } from "xray16/alias";
 import { MockAlifeObject, MockGameObject } from "xray16/mocks";
 
-import { getManager, registerSimulator, registry } from "@/engine/core/database";
-import { ENotificationDirection, NotificationManager } from "@/engine/core/managers/notifications";
+import { registerSimulator, registry } from "@/engine/core/database";
+import { EGameEvent, EventsManager } from "@/engine/core/managers/events";
+import { ENotificationDirection, ENotificationType } from "@/engine/core/managers/notifications/notifications_types";
 import { callXrEffect, mockRegisteredActor, resetRegistry } from "@/fixtures/engine";
 
 beforeAll(() => {
@@ -17,12 +18,11 @@ beforeEach(() => {
 
 describe("remove_item", () => {
   it("should release items from actor inventory", () => {
-    const notificationManager: NotificationManager = getManager(NotificationManager);
     const item: GameObject = MockGameObject.mock({ section: "test_section" });
     const serverItem: ServerObject = MockAlifeObject.mock({ id: item.id() });
     const { actorGameObject } = mockRegisteredActor({ inventory: [["test_section", item]] });
 
-    jest.spyOn(notificationManager, "sendItemRelocatedNotification").mockImplementation(jest.fn());
+    jest.spyOn(EventsManager, "emitEvent");
 
     expect(() => callXrEffect("remove_item", actorGameObject, MockGameObject.mock())).toThrow(
       "Wrong parameters in function 'remove_item'."
@@ -35,10 +35,11 @@ describe("remove_item", () => {
 
     expect(registry.simulator.release).toHaveBeenCalledTimes(1);
     expect(registry.simulator.release).toHaveBeenCalledWith(serverItem, true);
-    expect(notificationManager.sendItemRelocatedNotification).toHaveBeenCalledTimes(1);
-    expect(notificationManager.sendItemRelocatedNotification).toHaveBeenCalledWith(
-      ENotificationDirection.OUT,
-      "test_section"
-    );
+    expect(EventsManager.emitEvent).toHaveBeenCalledTimes(1);
+    expect(EventsManager.emitEvent).toHaveBeenCalledWith(EGameEvent.NOTIFICATION, {
+      type: ENotificationType.ITEM,
+      direction: ENotificationDirection.OUT,
+      itemSection: "test_section",
+    });
   });
 });

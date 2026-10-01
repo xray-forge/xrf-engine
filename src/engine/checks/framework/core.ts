@@ -12,8 +12,9 @@ import {
 } from "xray16/lib";
 import { $isNil, $isNotNil } from "xray16/macros";
 
-import { getManager, registry } from "@/engine/core/database";
-import { NotificationManager } from "@/engine/core/managers/notifications";
+import { registry } from "@/engine/core/database";
+import { EGameEvent, EventsManager } from "@/engine/core/managers/events";
+import { ENotificationType, ITipNotification } from "@/engine/core/managers/notifications/notifications_types";
 import { openLogFile } from "@/engine/core/utils/logging";
 
 const PREFIX: TLabel = "[check]";
@@ -77,7 +78,11 @@ export function reportBanner(name: TName): void {
 export function notify(base: string, ...args: AnyArgs): void {
   const text: TLabel = string.format(base, ...args);
   const [isCompleted, caught] = pcall(() =>
-    getManager(NotificationManager).sendTipNotification(text, null, null, 15_000)
+    EventsManager.emitEvent<ITipNotification>(EGameEvent.NOTIFICATION, {
+      type: ENotificationType.TIP,
+      caption: text,
+      showtime: 15_000,
+    })
   );
 
   if (!isCompleted) {

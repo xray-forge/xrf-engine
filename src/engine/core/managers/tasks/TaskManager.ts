@@ -6,7 +6,7 @@ import { $filename } from "xray16/macros";
 import { closeLoadMarker, closeSaveMarker, getManager, openLoadMarker, openSaveMarker } from "@/engine/core/database";
 import { AbstractManager } from "@/engine/core/managers/abstract";
 import { EGameEvent, EventsManager } from "@/engine/core/managers/events";
-import { NotificationManager } from "@/engine/core/managers/notifications";
+import { ENotificationType, ITaskUpdatedNotification } from "@/engine/core/managers/notifications/notifications_types";
 import { TASK_MANAGER_CONFIG_LTX, taskConfig } from "@/engine/core/managers/tasks/TaskConfig";
 import { TaskObject } from "@/engine/core/managers/tasks/TaskObject";
 import { ETaskState } from "@/engine/core/managers/tasks/types";
@@ -124,10 +124,11 @@ export class TaskManager extends AbstractManager {
     logger.info("Task state update: %s %s %s", taskId, state, state !== task.fail);
 
     if (state !== task.fail) {
-      getManager(NotificationManager).sendTaskNotification(
-        state === task.completed ? ETaskState.COMPLETED : ETaskState.NEW,
-        taskObject
-      );
+      EventsManager.emitEvent<ITaskUpdatedNotification>(EGameEvent.NOTIFICATION, {
+        type: ENotificationType.TASK,
+        state: state === task.completed ? ETaskState.COMPLETED : ETaskState.NEW,
+        task: taskObject,
+      });
     }
 
     if (state === task.fail || state === task.completed) {

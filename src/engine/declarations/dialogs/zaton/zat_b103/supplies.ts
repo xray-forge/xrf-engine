@@ -4,8 +4,13 @@ import { $fromArray } from "xray16/macros";
 
 import { food, TFoodItem } from "@/engine/constants/items/food";
 import { misc } from "@/engine/constants/items/misc";
-import { getManager, registry } from "@/engine/core/database";
-import { ENotificationDirection, NotificationManager } from "@/engine/core/managers/notifications";
+import { registry } from "@/engine/core/database";
+import { EGameEvent, EventsManager } from "@/engine/core/managers/events";
+import {
+  ENotificationDirection,
+  ENotificationType,
+  IItemRelocatedNotification,
+} from "@/engine/core/managers/notifications/notifications_types";
 import { getNpcSpeaker } from "@/engine/core/utils/dialog";
 import { transferItemsFromActor } from "@/engine/core/utils/reward";
 
@@ -20,7 +25,6 @@ extern("dialogs_zaton.zat_b103_transfer_merc_supplies", (firstSpeaker: GameObjec
   const actor: GameObject = registry.actor;
   let it: TCount = 6;
 
-  const newsManager: NotificationManager = getManager(NotificationManager);
   const itemSections: LuaArray<TFoodItem> = $fromArray<TFoodItem>([food.conserva, food.kolbasa, food.bread]);
 
   for (const [_k, section] of itemSections) {
@@ -34,7 +38,12 @@ extern("dialogs_zaton.zat_b103_transfer_merc_supplies", (firstSpeaker: GameObjec
     }, actor);
 
     if (j - it !== 0) {
-      newsManager.sendItemRelocatedNotification(ENotificationDirection.OUT, section, j - it);
+      EventsManager.emitEvent<IItemRelocatedNotification>(EGameEvent.NOTIFICATION, {
+        type: ENotificationType.ITEM,
+        direction: ENotificationDirection.OUT,
+        itemSection: section,
+        amount: j - it,
+      });
     }
   }
 });

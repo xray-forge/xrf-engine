@@ -28,7 +28,11 @@ import { pickSectionFromCondList } from "@/engine/core/ini";
 import { AbstractManager } from "@/engine/core/managers/abstract";
 import { EGameEvent, EventsManager } from "@/engine/core/managers/events";
 import { removeTreasureMapSpot, showTreasureMapSpot } from "@/engine/core/managers/map/utils";
-import { ETreasureState, NotificationManager } from "@/engine/core/managers/notifications";
+import {
+  ENotificationType,
+  ETreasureState,
+  ITreasureNotification,
+} from "@/engine/core/managers/notifications/notifications_types";
 import { treasureConfig } from "@/engine/core/managers/treasures/TreasureConfig";
 import { ITreasureDescriptor, ITreasureItemsDescriptor } from "@/engine/core/managers/treasures/treasures_types";
 import { LuaLogger } from "@/engine/core/utils/logging";
@@ -275,7 +279,10 @@ export class TreasureManager extends AbstractManager {
 
     // Just notify actor. todo: check empty as condlist?
     if (descriptor.itemsToFindRemain === 0 && !descriptor.empty) {
-      getManager(NotificationManager).sendTreasureNotification(ETreasureState.LOOTED_TREASURE_COORDINATES);
+      EventsManager.emitEvent<ITreasureNotification>(EGameEvent.NOTIFICATION, {
+        type: ENotificationType.TREASURE,
+        state: ETreasureState.LOOTED_TREASURE_COORDINATES,
+      });
 
       return logger.info("Already empty treasure given: %s", treasureId);
     }
@@ -287,7 +294,11 @@ export class TreasureManager extends AbstractManager {
 
     descriptor.given = true;
     showTreasureMapSpot(this.treasuresRestrictorByName.get(treasureId), descriptor);
-    getManager(NotificationManager).sendTreasureNotification(ETreasureState.NEW_TREASURE_COORDINATES);
+
+    EventsManager.emitEvent<ITreasureNotification>(EGameEvent.NOTIFICATION, {
+      type: ENotificationType.TREASURE,
+      state: ETreasureState.NEW_TREASURE_COORDINATES,
+    });
   }
 
   /**
@@ -423,7 +434,11 @@ export class TreasureManager extends AbstractManager {
         EventsManager.emitEvent(EGameEvent.TREASURE_FOUND, treasure);
 
         removeTreasureMapSpot(this.treasuresRestrictorByName.get(treasureId as TStringId), treasure);
-        getManager(NotificationManager).sendTreasureNotification(ETreasureState.FOUND_TREASURE);
+
+        EventsManager.emitEvent<ITreasureNotification>(EGameEvent.NOTIFICATION, {
+          type: ENotificationType.TREASURE,
+          state: ETreasureState.FOUND_TREASURE,
+        });
 
         logger.info("Secret now is empty: %s", treasureId);
       }

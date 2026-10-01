@@ -31,7 +31,7 @@ export function hasAchievedPioneer(): boolean {
     EventsManager.emitEvent<ITipNotification>(EGameEvent.NOTIFICATION, {
       type: ENotificationType.TIP,
       caption: "st_ach_pioneer",
-      senderId: achievementsIcons[EAchievement.PIONEER],
+      sender: achievementsIcons[EAchievement.PIONEER],
     });
 
     return true;
@@ -60,7 +60,7 @@ export function hasAchievedMutantHunter(): boolean {
     EventsManager.emitEvent<ITipNotification>(EGameEvent.NOTIFICATION, {
       type: ENotificationType.TIP,
       caption: "st_ach_mutant_hunter",
-      senderId: achievementsIcons[EAchievement.MUTANT_HUNTER],
+      sender: achievementsIcons[EAchievement.MUTANT_HUNTER],
     });
 
     return true;
@@ -83,7 +83,7 @@ export function hasAchievedDetective(): boolean {
     EventsManager.emitEvent<ITipNotification>(EGameEvent.NOTIFICATION, {
       type: ENotificationType.TIP,
       caption: "st_ach_detective",
-      senderId: achievementsIcons[EAchievement.DETECTIVE],
+      sender: achievementsIcons[EAchievement.DETECTIVE],
     });
 
     return true;
@@ -106,7 +106,7 @@ export function hasAchievedOneOfLads(): boolean {
     EventsManager.emitEvent<ITipNotification>(EGameEvent.NOTIFICATION, {
       type: ENotificationType.TIP,
       caption: "st_ach_one_of_the_lads",
-      senderId: achievementsIcons[EAchievement.ONE_OF_THE_LADS],
+      sender: achievementsIcons[EAchievement.ONE_OF_THE_LADS],
     });
 
     return true;
@@ -129,7 +129,7 @@ export function hasAchievedKingpin(): boolean {
     EventsManager.emitEvent<ITipNotification>(EGameEvent.NOTIFICATION, {
       type: ENotificationType.TIP,
       caption: "st_ach_kingpin",
-      senderId: achievementsIcons[EAchievement.KINGPIN],
+      sender: achievementsIcons[EAchievement.KINGPIN],
     });
 
     return true;
@@ -158,7 +158,7 @@ export function hasAchievedHeraldOfJustice(): boolean {
     EventsManager.emitEvent<ITipNotification>(EGameEvent.NOTIFICATION, {
       type: ENotificationType.TIP,
       caption: "st_ach_herald_of_justice",
-      senderId: achievementsIcons[EAchievement.HERALD_OF_JUSTICE],
+      sender: achievementsIcons[EAchievement.HERALD_OF_JUSTICE],
     });
 
     return true;
@@ -190,7 +190,7 @@ export function hasAchievedSeeker(): boolean {
   EventsManager.emitEvent<ITipNotification>(EGameEvent.NOTIFICATION, {
     type: ENotificationType.TIP,
     caption: "st_ach_seeker",
-    senderId: achievementsIcons[EAchievement.SEEKER],
+    sender: achievementsIcons[EAchievement.SEEKER],
   });
 
   return true;
@@ -210,7 +210,7 @@ export function hasAchievedBattleSystemsMaster(): boolean {
     EventsManager.emitEvent<ITipNotification>(EGameEvent.NOTIFICATION, {
       type: ENotificationType.TIP,
       caption: "st_ach_battle_systems_master",
-      senderId: achievementsIcons[EAchievement.BATTLE_SYSTEMS_MASTER],
+      sender: achievementsIcons[EAchievement.BATTLE_SYSTEMS_MASTER],
     });
 
     return true;
@@ -239,7 +239,7 @@ export function hasAchievedHighTechMaster(): boolean {
     EventsManager.emitEvent<ITipNotification>(EGameEvent.NOTIFICATION, {
       type: ENotificationType.TIP,
       caption: "st_ach_high_tech_master",
-      senderId: achievementsIcons[EAchievement.HIGH_TECH_MASTER],
+      sender: achievementsIcons[EAchievement.HIGH_TECH_MASTER],
     });
 
     return true;
@@ -262,7 +262,7 @@ export function hasAchievedSkilledStalker(): boolean {
     EventsManager.emitEvent<ITipNotification>(EGameEvent.NOTIFICATION, {
       type: ENotificationType.TIP,
       caption: "st_ach_skilled_stalker",
-      senderId: achievementsIcons[EAchievement.SKILLED_STALKER],
+      sender: achievementsIcons[EAchievement.SKILLED_STALKER],
     });
 
     return true;
@@ -291,7 +291,7 @@ export function hasAchievedLeader(): boolean {
     EventsManager.emitEvent<ITipNotification>(EGameEvent.NOTIFICATION, {
       type: ENotificationType.TIP,
       caption: "st_ach_leader",
-      senderId: achievementsIcons[EAchievement.LEADER],
+      sender: achievementsIcons[EAchievement.LEADER],
     });
 
     return true;
@@ -328,7 +328,7 @@ export function hasAchievedDiplomat(): boolean {
     EventsManager.emitEvent<ITipNotification>(EGameEvent.NOTIFICATION, {
       type: ENotificationType.TIP,
       caption: "st_ach_diplomat",
-      senderId: achievementsIcons[EAchievement.DIPLOMAT],
+      sender: achievementsIcons[EAchievement.DIPLOMAT],
     });
 
     return true;
@@ -365,7 +365,7 @@ export function hasAchievedResearchMan(): boolean {
     EventsManager.emitEvent<ITipNotification>(EGameEvent.NOTIFICATION, {
       type: ENotificationType.TIP,
       caption: "st_ach_research_man",
-      senderId: achievementsIcons[EAchievement.RESEARCH_MAN],
+      sender: achievementsIcons[EAchievement.RESEARCH_MAN],
     });
 
     return true;
@@ -395,7 +395,7 @@ export function hasAchievedFriendOfDuty(): boolean {
     EventsManager.emitEvent<ITipNotification>(EGameEvent.NOTIFICATION, {
       type: ENotificationType.TIP,
       caption: "st_ach_friend_of_duty",
-      senderId: achievementsIcons[EAchievement.FRIEND_OF_DUTY],
+      sender: achievementsIcons[EAchievement.FRIEND_OF_DUTY],
     });
 
     return true;
@@ -425,7 +425,7 @@ export function hasAchievedFriendOfFreedom(): boolean {
     EventsManager.emitEvent<ITipNotification>(EGameEvent.NOTIFICATION, {
       type: ENotificationType.TIP,
       caption: "st_ach_friend_of_freedom",
-      senderId: achievementsIcons[EAchievement.FRIEND_OF_FREEDOM],
+      sender: achievementsIcons[EAchievement.FRIEND_OF_FREEDOM],
     });
 
     return true;
@@ -454,7 +454,7 @@ export function hasAchievedBalanceAdvocate(): boolean {
     EventsManager.emitEvent<ITipNotification>(EGameEvent.NOTIFICATION, {
       type: ENotificationType.TIP,
       caption: "st_ach_balance_advocate",
-      senderId: achievementsIcons[EAchievement.BALANCE_ADVOCATE],
+      sender: achievementsIcons[EAchievement.BALANCE_ADVOCATE],
     });
 
     return true;
@@ -477,7 +477,7 @@ export function hasAchievedWealthy(): boolean {
     EventsManager.emitEvent<ITipNotification>(EGameEvent.NOTIFICATION, {
       type: ENotificationType.TIP,
       caption: "st_ach_wealthy",
-      senderId: achievementsIcons[EAchievement.WEALTHY],
+      sender: achievementsIcons[EAchievement.WEALTHY],
     });
 
     return true;
@@ -500,7 +500,7 @@ export function hasAchievedKeeperOfSecrets(): boolean {
     EventsManager.emitEvent<ITipNotification>(EGameEvent.NOTIFICATION, {
       type: ENotificationType.TIP,
       caption: "st_ach_keeper_of_secrets",
-      senderId: achievementsIcons[EAchievement.KEEPER_OF_SECRETS],
+      sender: achievementsIcons[EAchievement.KEEPER_OF_SECRETS],
     });
 
     return true;
@@ -523,7 +523,7 @@ export function hasAchievedMarkedByZone(): boolean {
     EventsManager.emitEvent<ITipNotification>(EGameEvent.NOTIFICATION, {
       type: ENotificationType.TIP,
       caption: "st_ach_marked_by_zone",
-      senderId: achievementsIcons[EAchievement.MARKED_BY_ZONE],
+      sender: achievementsIcons[EAchievement.MARKED_BY_ZONE],
     });
 
     return true;
@@ -568,7 +568,7 @@ export function hasAchievedInformationDealer(): boolean {
     EventsManager.emitEvent<ITipNotification>(EGameEvent.NOTIFICATION, {
       type: ENotificationType.TIP,
       caption: "st_ach_information_dealer",
-      senderId: achievementsIcons[EAchievement.INFORMATION_DEALER],
+      sender: achievementsIcons[EAchievement.INFORMATION_DEALER],
     });
 
     return true;
@@ -600,7 +600,7 @@ export function hasAchievedFriendOfStalkers(): boolean {
     EventsManager.emitEvent<ITipNotification>(EGameEvent.NOTIFICATION, {
       type: ENotificationType.TIP,
       caption: "st_ach_friend_of_stalkers",
-      senderId: achievementsIcons[EAchievement.FRIEND_OF_STALKERS],
+      sender: achievementsIcons[EAchievement.FRIEND_OF_STALKERS],
     });
 
     return true;

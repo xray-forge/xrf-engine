@@ -10,6 +10,7 @@ import { parseConditionsList } from "@/engine/core/ini";
 import { EGameEvent, EventsManager } from "@/engine/core/managers/events";
 import { removeTreasureMapSpot, showTreasureMapSpot } from "@/engine/core/managers/map/utils";
 import { ETreasureState, NotificationManager } from "@/engine/core/managers/notifications";
+import { ENotificationType } from "@/engine/core/managers/notifications/notifications_types";
 import { TREASURE_MANAGER_CONFIG_LTX, treasureConfig } from "@/engine/core/managers/treasures/TreasureConfig";
 import { TreasureManager } from "@/engine/core/managers/treasures/TreasureManager";
 import { ETreasureType, ITreasureDescriptor } from "@/engine/core/managers/treasures/treasures_types";
@@ -329,14 +330,12 @@ describe("TreasureManager", () => {
 
   it("should correctly handle actor taking item", () => {
     const eventsManager: EventsManager = getManager(EventsManager);
-    const notificationManager: NotificationManager = getManager(NotificationManager);
     const treasureManager: TreasureManager = getManager(TreasureManager);
     const first: GameObject = MockGameObject.mock();
     const second: GameObject = MockGameObject.mock();
 
     expect(() => treasureManager.onActorItemTake(first)).not.toThrow();
 
-    jest.spyOn(notificationManager, "sendTreasureNotification").mockImplementation(jest.fn());
     jest.spyOn(eventsManager, "emitEvent").mockImplementation(jest.fn());
 
     treasureManager.treasuresRestrictorByItem.set(second.id(), 55);
@@ -350,7 +349,10 @@ describe("TreasureManager", () => {
     expect(treasure.checked).toBe(true);
 
     expect(removeTreasureMapSpot).toHaveBeenCalledWith(55, treasure);
-    expect(notificationManager.sendTreasureNotification).toHaveBeenCalledWith(ETreasureState.FOUND_TREASURE);
+    expect(eventsManager.emitEvent).toHaveBeenCalledWith(EGameEvent.NOTIFICATION, {
+      type: ENotificationType.TREASURE,
+      state: ETreasureState.FOUND_TREASURE,
+    });
     expect(eventsManager.emitEvent).toHaveBeenCalledWith(EGameEvent.TREASURE_FOUND, treasure);
   });
 

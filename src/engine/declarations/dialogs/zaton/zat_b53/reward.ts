@@ -4,8 +4,13 @@ import { AnyCallable, extern, getExtern, Nillable } from "xray16/lib";
 import { artefacts } from "@/engine/constants/items/artefacts";
 import { detectors } from "@/engine/constants/items/detectors";
 import { drugs, TDrugItem } from "@/engine/constants/items/drugs";
-import { getManager, registry } from "@/engine/core/database";
-import { ENotificationDirection, NotificationManager } from "@/engine/core/managers/notifications";
+import { registry } from "@/engine/core/database";
+import { EGameEvent, EventsManager } from "@/engine/core/managers/events";
+import {
+  ENotificationDirection,
+  ENotificationType,
+  IItemRelocatedNotification,
+} from "@/engine/core/managers/notifications/notifications_types";
 import { getNpcSpeaker } from "@/engine/core/utils/dialog";
 import { actorHasItem } from "@/engine/core/utils/item";
 import { transferItemsToActor } from "@/engine/core/utils/reward";
@@ -51,7 +56,14 @@ extern("dialogs_zaton.zat_b53_transfer_medkit_to_npc", (firstSpeaker: GameObject
   }
 
   registry.simulator.release(registry.simulator.object(actor.object(section)!.id()), true);
-  getManager(NotificationManager).sendItemRelocatedNotification(ENotificationDirection.OUT, section, 1);
+
+  EventsManager.emitEvent<IItemRelocatedNotification>(EGameEvent.NOTIFICATION, {
+    type: ENotificationType.ITEM,
+    direction: ENotificationDirection.OUT,
+    itemSection: section,
+    amount: 1,
+  });
+
   actor.change_character_reputation(10);
 });
 

@@ -20,14 +20,7 @@ import { $filename, $isNil, $isNotNil } from "xray16/macros";
 
 import { TLevel } from "@/engine/constants/levels";
 import { mapMarks } from "@/engine/constants/map_marks";
-import {
-  closeLoadMarker,
-  closeSaveMarker,
-  getManager,
-  openLoadMarker,
-  openSaveMarker,
-  registry,
-} from "@/engine/core/database";
+import { closeLoadMarker, closeSaveMarker, openLoadMarker, openSaveMarker, registry } from "@/engine/core/database";
 import {
   parseConditionsList,
   parseNumberOptional,
@@ -39,7 +32,7 @@ import {
   TConditionList,
 } from "@/engine/core/ini";
 import { EGameEvent, EventsManager } from "@/engine/core/managers/events";
-import { NotificationManager } from "@/engine/core/managers/notifications";
+import { ENotificationType, ITaskUpdatedNotification } from "@/engine/core/managers/notifications/notifications_types";
 import { taskConfig } from "@/engine/core/managers/tasks/TaskConfig";
 import { ETaskState, ETaskStatus, POSSIBLE_STATES } from "@/engine/core/managers/tasks/types";
 import { addGuiderSpot, giveTaskReward, removeGuiderSpot } from "@/engine/core/managers/tasks/utils";
@@ -241,7 +234,11 @@ export class TaskObject {
     }
 
     if (isTaskUpdated && !this.isNotificationOnUpdateMuted) {
-      getManager(NotificationManager).sendTaskNotification(ETaskState.UPDATED, this.task);
+      EventsManager.emitEvent<ITaskUpdatedNotification>(EGameEvent.NOTIFICATION, {
+        type: ENotificationType.TASK,
+        state: ETaskState.UPDATED,
+        task: this.task,
+      });
     }
 
     for (const [, conditionList] of this.conditionLists) {
@@ -339,13 +336,21 @@ export class TaskObject {
 
     switch (this.state) {
       case ETaskState.FAIL:
-        getManager(NotificationManager).sendTaskNotification(ETaskState.FAIL, task);
+        EventsManager.emitEvent<ITaskUpdatedNotification>(EGameEvent.NOTIFICATION, {
+          type: ENotificationType.TASK,
+          state: ETaskState.FAIL,
+          task: task,
+        });
         EventsManager.emitEvent(EGameEvent.TASK_FAILED, this);
         break;
 
       case ETaskState.REVERSED:
         pickSectionFromCondList(registry.actor, registry.actor, this.onReversed);
-        getManager(NotificationManager).sendTaskNotification(ETaskState.REVERSED, task);
+        EventsManager.emitEvent<ITaskUpdatedNotification>(EGameEvent.NOTIFICATION, {
+          type: ENotificationType.TASK,
+          state: ETaskState.REVERSED,
+          task: task,
+        });
         EventsManager.emitEvent(EGameEvent.TASK_REVERSED, this);
         break;
 

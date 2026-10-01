@@ -39,13 +39,13 @@ import { EAchievement } from "@/engine/core/utils/achievements/achievements_type
 import { disableInfoPortion, giveInfoPortion, hasInfoPortion } from "@/engine/core/utils/info_portion";
 import { mockRegisteredActor, resetRegistry } from "@/fixtures/engine";
 
-function mockNotificationListener(caption: string, senderId: string): (notification: ITipNotification) => void {
+function mockNotificationListener(caption: string, sender: string): (notification: ITipNotification) => void {
   const eventsManager: EventsManager = getManager(EventsManager);
 
   const onNotification = jest.fn((notification: ITipNotification) => {
     expect(notification.type).toBe(ENotificationType.TIP);
     expect(notification.caption).toBe(caption);
-    expect(notification.senderId).toBe(senderId);
+    expect(notification.sender).toBe(sender);
   });
 
   eventsManager.registerCallback(EGameEvent.NOTIFICATION, onNotification);

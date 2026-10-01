@@ -3,9 +3,10 @@ import { Cond } from "xray16/alias";
 import { LuaArray, TDuration, TName } from "xray16/lib";
 import { $isNil, $isNotNil } from "xray16/macros";
 
-import { getManager, registry, setMonsterState } from "@/engine/core/database";
+import { registry, setMonsterState } from "@/engine/core/database";
 import { parseStringsList, pickSectionFromCondList } from "@/engine/core/ini";
-import { NotificationManager } from "@/engine/core/managers/notifications";
+import { EGameEvent, EventsManager } from "@/engine/core/managers/events";
+import { ENotificationType, ITipNotification } from "@/engine/core/managers/notifications/notifications_types";
 import { AbstractSchemeController } from "@/engine/core/schemes/base";
 import { ISchemeMobRemarkState } from "@/engine/core/schemes/monster/mob_remark/mob_remark_types";
 import { scriptCaptureMonster, scriptCommandMonster } from "@/engine/core/schemes/runtime";
@@ -62,7 +63,10 @@ export class MobRemarkController extends AbstractSchemeController<ISchemeMobRema
       this.isTipSent = true;
 
       if (this.state.tip) {
-        getManager(NotificationManager).sendTipNotification(this.state.tip);
+        EventsManager.emitEvent<ITipNotification>(EGameEvent.NOTIFICATION, {
+          type: ENotificationType.TIP,
+          caption: this.state.tip,
+        });
       }
     }
 
