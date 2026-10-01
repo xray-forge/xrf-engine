@@ -1,6 +1,4 @@
-import { get_hud, level } from "xray16";
 import { GameObject } from "xray16/alias";
-import { NIL } from "xray16/lib";
 import { $filename } from "xray16/macros";
 
 import { getManager, getPortableStoreValue, registry, setPortableStoreValue } from "@/engine/core/database";
@@ -29,8 +27,9 @@ export class PsyAntennaSchemaController extends AbstractSchemeController<IScheme
       this.antennaState = getPortableStoreValue(this.object.id(), "inside")!;
     }
 
+    // Effects of a zone saved inside are taken away, and added back below if the actor is still there.
     if (this.antennaState === EAntennaState.INSIDE) {
-      this.onZoneLeave(loading);
+      this.onZoneLeave();
     }
 
     this.antennaState = EAntennaState.VOID;
@@ -72,78 +71,23 @@ export class PsyAntennaSchemaController extends AbstractSchemeController<IScheme
   }
 
   /**
-   * Apply the psy antenna effects to the shared antenna controller and register post-process effectors on zone enter.
+   * Add the psy effects of the zone on actor enter.
    */
   public onZoneEnter(): void {
     logger.info("Enter psy antenna zone");
 
     this.antennaState = EAntennaState.INSIDE;
-
-    get_hud().enable_fake_indicators(true);
-
-    this.antennaManager.soundIntensityBase = this.antennaManager.soundIntensityBase + this.state.intensity;
-    this.antennaManager.muteSoundThreshold = this.antennaManager.muteSoundThreshold + this.state.muteSoundThreshold;
-    this.antennaManager.hitIntensity = this.antennaManager.hitIntensity + this.state.hitIntensity;
-    this.antennaManager.phantomSpawnProbability = this.antennaManager.phantomSpawnProbability + this.state.phantomProb;
-
-    this.antennaManager.noStatic = this.state.noStatic;
-    this.antennaManager.noMumble = this.state.noMumble;
-    this.antennaManager.hitType = this.state.hitType;
-    this.antennaManager.hitFreq = this.state.hitFreq;
-
-    if (this.state.postprocess === NIL) {
-      return;
-    }
-
-    if (!this.antennaManager.postprocess.has(this.state.postprocess)) {
-      this.antennaManager.postprocessCount += 1;
-      this.antennaManager.postprocessNextId += 1;
-      this.antennaManager.postprocess.set(this.state.postprocess, {
-        intensityBase: 0,
-        intensity: 0,
-        idx: this.antennaManager.postprocessNextId,
-      });
-
-      level.add_pp_effector(
-        this.state.postprocess,
-        this.antennaManager.postprocess.get(this.state.postprocess).idx,
-        true
-      );
-      level.set_pp_effector_factor(this.antennaManager.postprocess.get(this.state.postprocess).idx, 0.01);
-    }
-
-    this.antennaManager.postprocess.get(this.state.postprocess).intensityBase =
-      this.antennaManager.postprocess.get(this.state.postprocess).intensityBase + this.state.intensity;
+    this.antennaManager.addZoneEffects(this.state);
   }
 
   /**
-   * Roll back the psy antenna effects applied to the shared antenna controller on zone leave.
-   *
-   * @param loading - Whether undoing a saved zone contribution before checking the restored actor position.
+   * Take the psy effects of the zone away on actor leave.
    */
-  public onZoneLeave(loading: boolean = false): void {
+  public onZoneLeave(): void {
     logger.info("Leave psy antenna zone");
 
     this.antennaState = EAntennaState.OUTSIDE;
-
-    get_hud().enable_fake_indicators(false);
-
-    this.antennaManager.soundIntensityBase -= this.state.intensity;
-    this.antennaManager.muteSoundThreshold -= this.state.muteSoundThreshold;
-    this.antennaManager.hitIntensity -= this.state.hitIntensity;
-
-    // Phantom probability is not serialized; active zones rebuild it after loading.
-    if (!loading) {
-      this.antennaManager.phantomSpawnProbability -= this.state.phantomProb;
-    }
-
-    if (this.state.postprocess === NIL) {
-      return;
-    }
-
-    if (this.antennaManager.postprocess.has(this.state.postprocess)) {
-      this.antennaManager.postprocess.get(this.state.postprocess).intensityBase -= this.state.intensity;
-    }
+    this.antennaManager.removeZoneEffects(this.state);
   }
 
   public save(): void {

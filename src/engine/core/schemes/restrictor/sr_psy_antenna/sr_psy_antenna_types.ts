@@ -1,22 +1,11 @@
-import type { TName, TProbability, TRate } from "xray16/lib";
-
+import type { IPsyZoneEffects } from "@/engine/core/managers/psy/psy_antenna_types";
 import type { IBaseSchemeState } from "@/engine/core/schemes/state";
 import type { EScheme } from "@/engine/core/schemes/types";
 
 /**
- * State of psy antenna scheme.
+ * State of psy antenna scheme: the psy effects of its zone.
  */
-export interface ISchemePsyAntennaState extends IBaseSchemeState {
-  intensity: TRate;
-  postprocess: TName;
-  hitIntensity: TRate;
-  phantomProb: TProbability;
-  muteSoundThreshold: TRate;
-  noStatic: boolean;
-  noMumble: boolean;
-  hitType: string;
-  hitFreq: TRate;
-}
+export interface ISchemePsyAntennaState extends IBaseSchemeState, IPsyZoneEffects {}
 
 /**
  * Possible states of psy antenna.

@@ -125,6 +125,26 @@ describe("MusicManager dynamic theme state", () => {
     expect(manager.forceFade).toBe(true);
   });
 
+  it("getThemeState should stop looking once an enemy is close enough for combat music", () => {
+    const { actorGameObject } = mockRegisteredActor();
+    const manager: MusicManager = getManager(MusicManager);
+    const first: GameObject = MockGameObject.mock();
+    const second: GameObject = MockGameObject.mock();
+
+    jest.spyOn(first, "best_enemy").mockReturnValue(actorGameObject);
+    jest.spyOn(second, "best_enemy").mockReturnValue(actorGameObject);
+
+    registerObject(first);
+    registerObject(second);
+    registry.stalkers.set(first.id(), true);
+    registry.stalkers.set(second.id(), true);
+
+    jest.spyOn(actorGameObject.position(), "distance_to_sqr").mockImplementation(() => 1);
+
+    expect(manager.getThemeState()).toBe(EDynamicMusicState.START);
+    expect(actorGameObject.position().distance_to_sqr).toHaveBeenCalledTimes(1);
+  });
+
   it("getThemeState should ignore stalkers fighting someone else", () => {
     const { actorGameObject } = mockRegisteredActor();
     const manager: MusicManager = getManager(MusicManager);
@@ -160,37 +180,46 @@ describe("MusicManager fading", () => {
     replaceFunctionMock(time_global, () => 1_000_000);
   });
 
-  it("fadeTheme should be throttled between steps", () => {
-    const manager: MusicManager = getManager(MusicManager);
-
-    manager.previousFadeStepAppliedAt = 1_000_000;
-    manager.dynamicThemeVolume = 0;
-    manager.fadeToThemeVolume = 1;
-
-    manager.fadeTheme();
-
-    expect(manager.dynamicThemeVolume).toBe(0);
-  });
-
-  it("fadeTheme should step the volume up and down", () => {
+  it("fadeTheme should move the volume by the steps the elapsed time covers", () => {
     const manager: MusicManager = getManager(MusicManager);
 
     manager.gameAmbientVolume = 1;
     manager.volumeChangeStep = 0.1;
-    manager.previousFadeStepAppliedAt = 0;
     manager.forceFade = false;
 
     manager.dynamicThemeVolume = 0.5;
     manager.fadeToThemeVolume = 1;
-    manager.fadeTheme();
+    manager.fadeTheme(musicConfig.THEME_FADE_STEP_DURATION);
 
     expect(manager.dynamicThemeVolume).toBeCloseTo(0.6, 5);
 
-    manager.previousFadeStepAppliedAt = 0;
-    manager.fadeToThemeVolume = 0;
-    manager.fadeTheme();
+    manager.fadeTheme(musicConfig.THEME_FADE_STEP_DURATION * 2);
 
-    expect(manager.dynamicThemeVolume).toBeCloseTo(0.5, 5);
+    expect(manager.dynamicThemeVolume).toBeCloseTo(0.8, 5);
+
+    manager.fadeToThemeVolume = 0;
+    manager.fadeTheme(musicConfig.THEME_FADE_STEP_DURATION);
+
+    expect(manager.dynamicThemeVolume).toBeCloseTo(0.7, 5);
+  });
+
+  it("fadeTheme should stop at the target volume", () => {
+    const manager: MusicManager = getManager(MusicManager);
+
+    manager.gameAmbientVolume = 1;
+    manager.volumeChangeStep = 0.1;
+    manager.forceFade = false;
+
+    manager.dynamicThemeVolume = 0.95;
+    manager.fadeToThemeVolume = 1;
+    manager.fadeTheme(musicConfig.THEME_FADE_STEP_DURATION * 10);
+
+    expect(manager.dynamicThemeVolume).toBe(1);
+
+    manager.fadeToThemeVolume = 0.9;
+    manager.fadeTheme(musicConfig.THEME_FADE_STEP_DURATION * 10);
+
+    expect(manager.dynamicThemeVolume).toBe(0.9);
   });
 
   it("fadeTheme should jump straight to the target when forced", () => {
@@ -198,54 +227,39 @@ describe("MusicManager fading", () => {
 
     manager.gameAmbientVolume = 1;
     manager.forceFade = true;
-    manager.previousFadeStepAppliedAt = 0;
 
     manager.dynamicThemeVolume = 0.9;
     manager.fadeToThemeVolume = 0.1;
-    manager.fadeTheme();
+    manager.fadeTheme(1);
 
     expect(manager.dynamicThemeVolume).toBe(0.1);
 
-    manager.previousFadeStepAppliedAt = 0;
     manager.fadeToThemeVolume = 0.8;
-    manager.fadeTheme();
+    manager.fadeTheme(1);
 
     expect(manager.dynamicThemeVolume).toBe(0.8);
   });
 
-  it("fadeAmbient should be throttled between steps", () => {
-    const manager: MusicManager = getManager(MusicManager);
-
-    manager.previousFadeStepAppliedAt = 1_000_000;
-    manager.themeAmbientVolume = 0;
-    manager.fadeToAmbientVolume = 1;
-
-    manager.fadeAmbient();
-
-    expect(manager.themeAmbientVolume).toBe(0);
-  });
-
-  it("fadeAmbient should step the volume up and down and apply it", () => {
+  it("fadeAmbient should move the volume by the elapsed time and apply it", () => {
     const manager: MusicManager = getManager(MusicManager);
     const console: Console = get_console();
 
     manager.gameAmbientVolume = 1;
     manager.volumeChangeStep = 0.1;
-    manager.previousFadeStepAppliedAt = 0;
     manager.forceFade = false;
 
     manager.themeAmbientVolume = 0.5;
     manager.fadeToAmbientVolume = 1;
-    manager.fadeAmbient();
+    manager.fadeAmbient(musicConfig.AMBIENT_FADE_STEP_DURATION);
 
     expect(manager.themeAmbientVolume).toBeCloseTo(0.6, 5);
     expect(console.execute).toHaveBeenCalled();
 
-    manager.previousFadeStepAppliedAt = 0;
+    // The game music fades slower than the theme for the same time.
     manager.fadeToAmbientVolume = 0;
-    manager.fadeAmbient();
+    manager.fadeAmbient(musicConfig.THEME_FADE_STEP_DURATION);
 
-    expect(manager.themeAmbientVolume).toBeCloseTo(0.5, 5);
+    expect(manager.themeAmbientVolume).toBeCloseTo(0.55, 5);
   });
 
   it("fadeAmbient should jump straight to the target when forced", () => {
@@ -253,19 +267,35 @@ describe("MusicManager fading", () => {
 
     manager.gameAmbientVolume = 1;
     manager.forceFade = true;
-    manager.previousFadeStepAppliedAt = 0;
 
     manager.themeAmbientVolume = 0.9;
     manager.fadeToAmbientVolume = 0.2;
-    manager.fadeAmbient();
+    manager.fadeAmbient(1);
 
     expect(manager.themeAmbientVolume).toBe(0.2);
 
-    manager.previousFadeStepAppliedAt = 0;
     manager.fadeToAmbientVolume = 0.7;
-    manager.fadeAmbient();
+    manager.fadeAmbient(1);
 
     expect(manager.themeAmbientVolume).toBe(0.7);
+  });
+
+  it("should fade by the time elapsed between music updates", () => {
+    mockRegisteredActor();
+
+    const manager: MusicManager = getManager(MusicManager);
+
+    manager.areThemesInitialized = true;
+    manager.nextTrackStartAt = 2_000_000;
+
+    jest.spyOn(manager, "getThemeState").mockReturnValue(EDynamicMusicState.IDLE);
+    jest.spyOn(manager, "isThemeFading").mockReturnValue(true);
+    jest.spyOn(manager, "fadeTheme").mockImplementation(jest.fn());
+
+    manager.onActorUpdate(200);
+    manager.onActorUpdate(150);
+
+    expect(manager.fadeTheme).toHaveBeenCalledWith(350);
   });
 });
 

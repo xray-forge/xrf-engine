@@ -264,14 +264,13 @@ describe("PsyAntennaSchemaController", () => {
       createPsyAntennaState({ postprocess: "psy_antenna.ppe" }),
       true
     );
-    const nextId: number = antennaManager.postprocessNextId + 1;
+    const nextId: number = antennaManager.postprocessLastId + 1;
 
     controller.onZoneEnter();
 
-    expect(antennaManager.postprocessCount).toBe(1);
-    expect(antennaManager.postprocessNextId).toBe(nextId);
+    expect(antennaManager.postprocessLastId).toBe(nextId);
     expect(antennaManager.postprocess.get("psy_antenna.ppe")).toEqual({
-      idx: nextId,
+      id: nextId,
       intensity: 0,
       intensityBase: 1,
     });
@@ -285,11 +284,10 @@ describe("PsyAntennaSchemaController", () => {
       true
     );
 
-    antennaManager.postprocess.set("psy_antenna.ppe", { idx: 1500, intensity: 0, intensityBase: 5 });
+    antennaManager.postprocess.set("psy_antenna.ppe", { id: 1500, intensity: 0, intensityBase: 5 });
 
     controller.onZoneEnter();
 
-    expect(antennaManager.postprocessCount).toBe(0);
     expect(antennaManager.postprocess.get("psy_antenna.ppe").intensityBase).toBe(6);
     expect(level.add_pp_effector).not.toHaveBeenCalled();
   });
@@ -304,7 +302,7 @@ describe("PsyAntennaSchemaController", () => {
     antennaManager.muteSoundThreshold = 5;
     antennaManager.hitIntensity = 6;
     antennaManager.phantomSpawnProbability = 0.7;
-    antennaManager.postprocess.set("psy_antenna.ppe", { idx: 1500, intensity: 0, intensityBase: 5 });
+    antennaManager.postprocess.set("psy_antenna.ppe", { id: 1500, intensity: 0, intensityBase: 5 });
 
     controller.onZoneLeave();
 

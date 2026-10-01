@@ -4,7 +4,6 @@ import {
   abort,
   AnyObject,
   clamp,
-  getConsoleFloatCommand,
   LuaArray,
   Nillable,
   TDistance,
@@ -17,7 +16,6 @@ import {
 } from "xray16/lib";
 import { $filename, $isNil, $isNotNil } from "xray16/macros";
 
-import { consoleCommands } from "@/engine/constants/console_commands";
 import { getManager, registry } from "@/engine/core/database";
 import { AbstractManager } from "@/engine/core/managers/abstract";
 import { EGameEvent } from "@/engine/core/managers/events/events_types";
@@ -28,24 +26,21 @@ import { EDynamicMusicState } from "@/engine/core/managers/sounds/sounds_types";
 import { SurgeManager } from "@/engine/core/managers/surge/SurgeManager";
 import { LuaLogger } from "@/engine/core/utils/logging";
 import { isObjectInSilenceZone } from "@/engine/core/utils/position";
-import { setMusicVolume } from "@/engine/core/utils/sound";
+import { getMusicVolume, setMusicVolume } from "@/engine/core/utils/sound";
 
 const logger: LuaLogger = new LuaLogger($filename);
 
 /**
- * Manager handling dynamic game music.
- * Main purpose is to turn off combat music when fighting.
+ * Manager handling dynamic game music: combat themes while stalkers fight the actor, fading the game music around them.
  */
 export class MusicManager extends AbstractManager {
   public themes: LuaArray<LuaArray<TName>> = new LuaTable();
   public theme: Nillable<StereoSound> = null;
   public updateDelta: TDuration = 0;
 
-  public previousFadeStepAppliedAt: TTimestamp = 0;
-
   public themeAmbientVolume: TRate = 0;
   public dynamicThemeVolume: TRate = 0;
-  public gameAmbientVolume: TRate = getConsoleFloatCommand(consoleCommands.snd_volume_music);
+  public gameAmbientVolume: TRate = getMusicVolume();
   public fadeToAmbientVolume: TRate = 0;
   public fadeToThemeVolume: TRate = 0;
   public volumeChangeStep: TRate = 0;
@@ -195,52 +190,26 @@ export class MusicManager extends AbstractManager {
     this.forceFade = false;
 
     if (actor.alive()) {
-      if (!isObjectInSilenceZone(registry.actor)) {
-        const actorPosition: Vector = actor.position();
-        const actorId: TNumberId = actor.id();
+      if (!isObjectInSilenceZone(actor)) {
+        const nearestEnemyDistanceSqr: Nillable<TDistance> = this.getNearestEnemyDistanceSqr(actor);
 
-        let nearestEnemy: Nillable<GameObject> = null;
-        let nearestEnemyDistanceSqr: TDistance = 10_000;
-
-        // todo: No need to check every enemy, just find at least one who meets threshold and flag 'true'
-        // todo: No need to check every enemy, just check same location.
-        for (const [objectId] of registry.stalkers) {
-          const object: Nillable<GameObject> = registry.objects.get(objectId).object;
-          const enemy: Nillable<GameObject> = object.best_enemy();
-
-          if (enemy && enemy.id() === actorId) {
-            const dist: TDistance = actorPosition.distance_to_sqr(object.position());
-
-            if (dist < nearestEnemyDistanceSqr) {
-              nearestEnemy = object;
-              nearestEnemyDistanceSqr = dist;
-            }
-          }
-        }
-
-        if ($isNotNil(nearestEnemy)) {
+        // Enemies farther than `MAX_DIST` count as none, so the theme fades out and finishes below.
+        if ($isNotNil(nearestEnemyDistanceSqr)) {
           if (nearestEnemyDistanceSqr < musicConfig.MIN_DIST * musicConfig.MIN_DIST) {
             this.forceFade = true;
             this.fadeToThemeVolume = this.gameAmbientVolume;
             this.fadeToAmbientVolume = 0;
 
             return this.theme ? EDynamicMusicState.IDLE : EDynamicMusicState.START;
-          } else if (nearestEnemyDistanceSqr > musicConfig.MAX_DIST * musicConfig.MAX_DIST) {
-            if (this.theme) {
-              this.fadeToThemeVolume = 0;
+          }
+
+          if (this.theme) {
+            if (this.wasInSilence) {
+              this.wasInSilence = false;
               this.fadeToAmbientVolume = this.gameAmbientVolume;
-
-              return EDynamicMusicState.IDLE;
             }
-          } else {
-            if (this.theme) {
-              if (this.wasInSilence) {
-                this.wasInSilence = false;
-                this.fadeToAmbientVolume = this.gameAmbientVolume;
-              }
 
-              return EDynamicMusicState.IDLE;
-            }
+            return EDynamicMusicState.IDLE;
           }
         }
       } else if (this.theme) {
@@ -269,70 +238,84 @@ export class MusicManager extends AbstractManager {
   }
 
   /**
-   * Gradually adjust dynamic theme volume towards the target theme volume by one fade step.
+   * Fade dynamic theme volume towards the target theme volume for the elapsed time.
+   *
+   * @param elapsed - Milliseconds passed since the previous music update.
    */
-  public fadeTheme(): void {
-    const now: TTimestamp = time_global();
-
-    if (now - this.previousFadeStepAppliedAt <= musicConfig.THEME_FADE_UPDATE_STEP) {
-      return;
-    }
-
-    this.previousFadeStepAppliedAt = now;
-
+  public fadeTheme(elapsed: TDuration): void {
     this.fadeToThemeVolume = clamp(this.fadeToThemeVolume, 0, this.gameAmbientVolume);
-
-    if (this.dynamicThemeVolume > this.fadeToThemeVolume) {
-      if (this.forceFade) {
-        this.dynamicThemeVolume = this.fadeToThemeVolume;
-      } else {
-        this.dynamicThemeVolume = this.dynamicThemeVolume - this.volumeChangeStep;
-      }
-
-      this.dynamicThemeVolume = clamp(this.dynamicThemeVolume, this.fadeToThemeVolume, this.dynamicThemeVolume);
-    } else if (this.dynamicThemeVolume < this.fadeToThemeVolume) {
-      if (this.forceFade) {
-        this.dynamicThemeVolume = this.fadeToThemeVolume;
-      } else {
-        this.dynamicThemeVolume = this.dynamicThemeVolume + this.volumeChangeStep;
-      }
-
-      this.dynamicThemeVolume = clamp(this.dynamicThemeVolume, this.dynamicThemeVolume, this.fadeToThemeVolume);
-    }
+    this.dynamicThemeVolume = this.getNextFadeVolume(
+      this.dynamicThemeVolume,
+      this.fadeToThemeVolume,
+      elapsed,
+      musicConfig.THEME_FADE_STEP_DURATION
+    );
   }
 
   /**
-   * Gradually adjust ambient music volume towards the target ambient volume by one fade step and apply it.
+   * Fade game music volume towards the target ambient volume for the elapsed time and apply it.
+   *
+   * @param elapsed - Milliseconds passed since the previous music update.
    */
-  public fadeAmbient(): void {
-    const now: TTimestamp = time_global();
-
-    if (now - this.previousFadeStepAppliedAt <= musicConfig.AMBIENT_FADE_UPDATE_DELTA) {
-      return;
-    }
-
-    this.previousFadeStepAppliedAt = now;
+  public fadeAmbient(elapsed: TDuration): void {
     this.fadeToAmbientVolume = clamp(this.fadeToAmbientVolume, 0, this.gameAmbientVolume);
-
-    if (this.themeAmbientVolume > this.fadeToAmbientVolume) {
-      if (this.forceFade) {
-        this.themeAmbientVolume = this.fadeToAmbientVolume;
-      } else {
-        this.themeAmbientVolume = this.themeAmbientVolume - this.volumeChangeStep;
-      }
-
-      this.themeAmbientVolume = clamp(this.themeAmbientVolume, this.fadeToAmbientVolume, this.themeAmbientVolume);
-    } else if (this.themeAmbientVolume < this.fadeToAmbientVolume) {
-      if (this.forceFade) {
-        this.themeAmbientVolume = this.fadeToAmbientVolume;
-      } else {
-        this.themeAmbientVolume = this.themeAmbientVolume + this.volumeChangeStep;
-      }
-
-      this.themeAmbientVolume = clamp(this.themeAmbientVolume, this.themeAmbientVolume, this.fadeToAmbientVolume);
-    }
+    this.themeAmbientVolume = this.getNextFadeVolume(
+      this.themeAmbientVolume,
+      this.fadeToAmbientVolume,
+      elapsed,
+      musicConfig.AMBIENT_FADE_STEP_DURATION
+    );
 
     setMusicVolume(this.themeAmbientVolume);
+  }
+
+  /**
+   * @param current - Current volume.
+   * @param target - Volume to fade to.
+   * @param elapsed - Milliseconds passed since the previous music update.
+   * @param stepDuration - Milliseconds one volume change step takes.
+   * @returns Volume moved towards the target for the elapsed time, or the target at once when the fade is forced.
+   */
+  protected getNextFadeVolume(current: TRate, target: TRate, elapsed: TDuration, stepDuration: TDuration): TRate {
+    if (this.forceFade) {
+      return target;
+    }
+
+    const change: TRate = (this.volumeChangeStep * elapsed) / stepDuration;
+
+    return current > target ? math.max(current - change, target) : math.min(current + change, target);
+  }
+
+  /**
+   * @param actor - Actor game object.
+   * @returns Squared distance to the nearest stalker fighting the actor within `MAX_DIST`, or null when none is.
+   */
+  protected getNearestEnemyDistanceSqr(actor: GameObject): Nillable<TDistance> {
+    const actorPosition: Vector = actor.position();
+    const actorId: TNumberId = actor.id();
+    const combatDistanceSqr: TDistance = musicConfig.MIN_DIST * musicConfig.MIN_DIST;
+
+    let nearestDistanceSqr: Nillable<TDistance> = null;
+
+    for (const [objectId] of registry.stalkers) {
+      const object: GameObject = registry.objects.get(objectId).object;
+      const enemy: Nillable<GameObject> = object.best_enemy();
+
+      if (enemy && enemy.id() === actorId) {
+        const distanceSqr: TDistance = actorPosition.distance_to_sqr(object.position());
+
+        if (distanceSqr < (nearestDistanceSqr ?? musicConfig.MAX_DIST * musicConfig.MAX_DIST)) {
+          nearestDistanceSqr = distanceSqr;
+
+          // Any enemy this close starts combat music alike, so the rest are not checked.
+          if (distanceSqr < combatDistanceSqr) {
+            return distanceSqr;
+          }
+        }
+      }
+    }
+
+    return nearestDistanceSqr;
   }
 
   /**
@@ -343,11 +326,13 @@ export class MusicManager extends AbstractManager {
   public onActorUpdate(delta: TDuration): void {
     this.updateDelta += delta;
 
-    if (this.updateDelta > musicConfig.LOGIC_UPDATE_STEP) {
-      this.updateDelta = 0;
-    } else {
+    if (this.updateDelta <= musicConfig.LOGIC_UPDATE_STEP) {
       return;
     }
+
+    const elapsed: TDuration = this.updateDelta;
+
+    this.updateDelta = 0;
 
     const surgeManager: SurgeManager = getManager(SurgeManager);
 
@@ -355,11 +340,11 @@ export class MusicManager extends AbstractManager {
       if (surgeManager.isKillingAll()) {
         this.forceFade = true;
         this.fadeToAmbientVolume = this.gameAmbientVolume;
-        this.fadeAmbient();
+        this.fadeAmbient(elapsed);
         this.forceFade = false;
       } else {
         this.fadeToAmbientVolume = 0;
-        this.fadeAmbient();
+        this.fadeAmbient(elapsed);
       }
     }
 
@@ -382,9 +367,9 @@ export class MusicManager extends AbstractManager {
         this.startTheme();
       } else if (state === EDynamicMusicState.IDLE) {
         if (this.isThemeFading()) {
-          this.fadeTheme();
+          this.fadeTheme(elapsed);
         } else if (this.isAmbientFading()) {
-          this.fadeAmbient();
+          this.fadeAmbient(elapsed);
         }
 
         if (time_global() > this.nextTrackStartAt) {
@@ -416,7 +401,7 @@ export class MusicManager extends AbstractManager {
    * Handle hide main menu event.
    */
   public onMainMenuOff(): void {
-    this.gameAmbientVolume = getConsoleFloatCommand(consoleCommands.snd_volume_music);
+    this.gameAmbientVolume = getMusicVolume();
 
     if (this.theme?.isPlaying()) {
       if (IsDynamicMusic()) {
@@ -439,7 +424,6 @@ export class MusicManager extends AbstractManager {
       themes: this.themes,
       theme: this.theme,
       updateDelta: this.updateDelta,
-      previousFadeStepAppliedAt: this.previousFadeStepAppliedAt,
       themeAmbientVolume: this.themeAmbientVolume,
       dynamicThemeVolume: this.dynamicThemeVolume,
       gameAmbientVolume: this.gameAmbientVolume,

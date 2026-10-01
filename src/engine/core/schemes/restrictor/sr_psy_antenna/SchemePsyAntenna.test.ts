@@ -124,8 +124,8 @@ describe("PsyAntennaSchemaController post-process allocation", () => {
     const firstEffect = manager.postprocess.get("first.ppe");
     const secondEffect = manager.postprocess.get("second.ppe");
 
-    expect(firstEffect.idx).toBe(1501);
-    expect(secondEffect.idx).toBe(1502);
+    expect(firstEffect.id).toBe(1501);
+    expect(secondEffect.id).toBe(1502);
 
     firstEffect.intensity = 0;
     expect(manager.updatePostprocess(firstEffect)).toBe(false);
@@ -135,7 +135,7 @@ describe("PsyAntennaSchemaController post-process allocation", () => {
 
     third.onZoneEnter();
 
-    expect(manager.postprocess.get("third.ppe").idx).toBe(1503);
-    expect(manager.postprocess.get("third.ppe").idx).not.toBe(secondEffect.idx);
+    expect(manager.postprocess.get("third.ppe").id).toBe(1503);
+    expect(manager.postprocess.get("third.ppe").id).not.toBe(secondEffect.id);
   });
 });
