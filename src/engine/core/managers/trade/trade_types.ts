@@ -13,13 +13,15 @@ export interface ITradeManagerDescriptor {
   buyCondition: TConditionList;
   buyItemFactorCondition: TConditionList;
   sellCondition: TConditionList;
-  buySupplies: TConditionList;
+  buySupplies: Nillable<TConditionList>;
+  // Discounts section picker, parsed once as the engine asks for discounts on every item price.
+  discounts: Nillable<TConditionList>;
   // Lifecycle configuration:
   updateAt: TTimestamp;
   resupplyAt: TTimestamp;
   // Currently used buy condition.
   currentBuyCondition: Nillable<TSection>;
   currentSellCondition: Nillable<TSection>;
-  currentBuyItemConditionFactor: TRate;
+  currentBuyItemConditionFactor: Nillable<TRate>;
   currentBuySupplies: Nillable<TSection>;
 }

@@ -13,7 +13,6 @@ import {
 } from "xray16/lib";
 import { $filename, $isNil } from "xray16/macros";
 
-import { TAnimationSequenceElement } from "@/engine/core/animation/types";
 import {
   closeLoadMarker,
   closeSaveMarker,
@@ -77,7 +76,7 @@ export class TradeManager extends AbstractManager {
     const sellCondlist: Nillable<string> = readIniString(iniFile, "trader", "sell_condition", true);
     const buyCondlist: Nillable<string> = readIniString(iniFile, "trader", "buy_condition", true);
     const buySuppliesCondlist: Nillable<string> = readIniString(iniFile, "trader", "buy_supplies", false);
-    const buyItemFactorCondlist: Nillable<string> = readIniString(
+    const buyItemFactorCondlist: string = readIniString(
       iniFile,
       "trader",
       "buy_item_condition_factor",
@@ -85,6 +84,7 @@ export class TradeManager extends AbstractManager {
       null,
       "0.7"
     );
+    const discountsCondlist: string = readIniString(iniFile, "trader", "discounts", false, null, "");
 
     if ($isNil(buyCondlist) || $isNil(sellCondlist)) {
       abort("Wrong trade manager configuration used for game object: '%s'.", object.name());
@@ -98,11 +98,13 @@ export class TradeManager extends AbstractManager {
       sellCondition: parseConditionsList(sellCondlist),
       buyCondition: parseConditionsList(buyCondlist),
       buySupplies: $isNil(buySuppliesCondlist) ? null : parseConditionsList(buySuppliesCondlist),
-      buyItemFactorCondition: $isNil(buyItemFactorCondlist) ? null : parseConditionsList(buyItemFactorCondlist),
+      buyItemFactorCondition: parseConditionsList(buyItemFactorCondlist),
+      discounts: discountsCondlist === "" ? null : parseConditionsList(discountsCondlist),
       currentSellCondition: null,
       currentBuyCondition: null,
+      currentBuyItemConditionFactor: null,
       currentBuySupplies: null,
-    } as ITradeManagerDescriptor;
+    };
   }
 
   /**
@@ -123,7 +125,7 @@ export class TradeManager extends AbstractManager {
 
     logger.info("Updating trade state for: '%s', next at '%s'", object.name(), tradeDescriptor.updateAt);
 
-    const buyCondition: Nillable<TAnimationSequenceElement> = pickSectionFromCondList(
+    const buyCondition: Nillable<TSection> = pickSectionFromCondList(
       registry.actor,
       object,
       tradeDescriptor.buyCondition
@@ -142,7 +144,7 @@ export class TradeManager extends AbstractManager {
       tradeDescriptor.sellCondition
     );
 
-    assertNonEmptyString(sellCondition, "Wrong section in buy_condition condlist for object '%s'.", object.name());
+    assertNonEmptyString(sellCondition, "Wrong section in sell_condition condlist for object '%s'.", object.name());
 
     if (tradeDescriptor.currentSellCondition !== sellCondition) {
       logger.info("Change object sell condition: %s %s", object.name(), sellCondition);
@@ -155,7 +157,7 @@ export class TradeManager extends AbstractManager {
     )!;
 
     if (tradeDescriptor.currentBuyItemConditionFactor !== buyItemConditionFactor) {
-      logger.info("Change object buy condition factor: %s %s", object.name(), sellCondition);
+      logger.info("Change object buy condition factor: %s %s", object.name(), buyItemConditionFactor);
       object.buy_item_condition_factor(buyItemConditionFactor);
       tradeDescriptor.currentBuyItemConditionFactor = buyItemConditionFactor;
     }
@@ -171,14 +173,13 @@ export class TradeManager extends AbstractManager {
       tradeDescriptor.buySupplies
     );
 
-    assertNonEmptyString(buySupplies, "Wrong section in buy_condition condlist for object '%s'.", object.name());
+    assertNonEmptyString(buySupplies, "Wrong section in buy_supplies condlist for object '%s'.", object.name());
 
-    if (tradeDescriptor.currentBuySupplies !== buySupplies || tradeDescriptor.resupplyAt <= now) {
-      logger.info("Change object buy supplies condition: %s %s", object.name(), sellCondition);
-      object.buy_supplies(tradeDescriptor.config, buySupplies);
-      tradeDescriptor.currentBuySupplies = buySupplies;
-      tradeDescriptor.resupplyAt = now + tradeConfig.RESUPPLY_PERIOD;
-    }
+    // Traders restock every resupply period, whether the supplies section changed or not.
+    logger.info("Resupply object: %s %s", object.name(), buySupplies);
+    object.buy_supplies(tradeDescriptor.config, buySupplies);
+    tradeDescriptor.currentBuySupplies = buySupplies;
+    tradeDescriptor.resupplyAt = now + tradeConfig.RESUPPLY_PERIOD;
   }
 
   /**
@@ -187,19 +188,16 @@ export class TradeManager extends AbstractManager {
    */
   public getBuyDiscountForObject(objectId: TNumberId): TRate {
     const tradeDescriptor: ITradeManagerDescriptor = registry.trade.get(objectId);
-    const data: string = readIniString(tradeDescriptor.config, "trader", "discounts", false, null, "");
 
-    if (data === "") {
-      return 1;
-    } else {
-      return readIniNumber(
-        tradeDescriptor.config,
-        pickSectionFromCondList(registry.actor, null, parseConditionsList(data)) as TSection,
-        "buy",
-        false,
-        1
-      );
-    }
+    return $isNil(tradeDescriptor.discounts)
+      ? 1
+      : readIniNumber(
+          tradeDescriptor.config,
+          pickSectionFromCondList(registry.actor, null, tradeDescriptor.discounts)!,
+          "buy",
+          false,
+          1
+        );
   }
 
   /**
@@ -207,20 +205,17 @@ export class TradeManager extends AbstractManager {
    * @returns Discount rate for object ID based on currently active trading section.
    */
   public getSellDiscountForObject(objectId: TNumberId): TRate {
-    const tradeManagerDescriptor: ITradeManagerDescriptor = registry.trade.get(objectId);
-    const data: string = readIniString(tradeManagerDescriptor.config, "trader", "discounts", false, null, "");
+    const tradeDescriptor: ITradeManagerDescriptor = registry.trade.get(objectId);
 
-    if (data === "") {
-      return 1;
-    } else {
-      return readIniNumber(
-        tradeManagerDescriptor.config,
-        pickSectionFromCondList(registry.actor, null, parseConditionsList(data))!,
-        "sell",
-        false,
-        1
-      );
-    }
+    return $isNil(tradeDescriptor.discounts)
+      ? 1
+      : readIniNumber(
+          tradeDescriptor.config,
+          pickSectionFromCondList(registry.actor, null, tradeDescriptor.discounts)!,
+          "sell",
+          false,
+          1
+        );
   }
 
   /**

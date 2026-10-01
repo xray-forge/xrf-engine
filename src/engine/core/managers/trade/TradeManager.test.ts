@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it } from "@jest/globals";
+import { beforeEach, describe, expect, it, jest } from "@jest/globals";
 import { time_global } from "xray16";
 import { GameObject, IniFile } from "xray16/alias";
 import { AnyObject } from "xray16/lib";
@@ -53,6 +53,8 @@ describe("TradeManager class implementation", () => {
       buyItemFactorCondition: parseConditionsList("0.7"),
       sellCondition: parseConditionsList("generic_sell"),
       buySupplies: parseConditionsList("{+tier4} tier4, {+tier3} supplies_tier_3, {+tier2} tier2, tier1"),
+      discounts: parseConditionsList("{+first} low_discounts, discounts_section"),
+      currentBuyItemConditionFactor: null,
       currentBuySupplies: null,
       currentBuyCondition: null,
       currentSellCondition: null,
@@ -81,6 +83,7 @@ describe("TradeManager class implementation", () => {
       buyItemFactorCondition: parseConditionsList("0.7"),
       sellCondition: parseConditionsList("generic_sell"),
       buySupplies: parseConditionsList("{+tier4} tier4, {+tier3} supplies_tier_3, {+tier2} tier2, tier1"),
+      discounts: parseConditionsList("{+first} low_discounts, discounts_section"),
       currentBuySupplies: "tier1",
       currentBuyCondition: "generic_buy",
       currentSellCondition: "generic_sell",
@@ -139,6 +142,22 @@ describe("TradeManager class implementation", () => {
     tradeManager.initializeForObject(object, ini.fname());
 
     expect(tradeManager.getBuyDiscountForObject(object.id())).toBe(0.3);
+  });
+
+  it("should not read discounts config again on every item price", () => {
+    const tradeManager: TradeManager = getManager(TradeManager);
+    const object: GameObject = MockGameObject.mock();
+    const ini: IniFile = loadIniFile("managers\\trade\\trade_generic.ltx");
+
+    tradeManager.initializeForObject(object, ini.fname());
+
+    const readString = jest.spyOn(ini, "r_string");
+
+    readString.mockClear();
+
+    expect(tradeManager.getBuyDiscountForObject(object.id())).toBe(0.3);
+    expect(tradeManager.getSellDiscountForObject(object.id())).toBe(0.5);
+    expect(readString).not.toHaveBeenCalledWith("trader", "discounts");
   });
 
   it("should correctly save and load data when not initialized", () => {
@@ -209,6 +228,8 @@ describe("TradeManager class implementation", () => {
       buyItemFactorCondition: parseConditionsList("0.7"),
       sellCondition: parseConditionsList("generic_sell"),
       buySupplies: parseConditionsList("{+tier4} tier4, {+tier3} supplies_tier_3, {+tier2} tier2, tier1"),
+      discounts: parseConditionsList("{+first} low_discounts, discounts_section"),
+      currentBuyItemConditionFactor: null,
       currentBuyCondition: null,
       currentBuySupplies: null,
       currentSellCondition: null,
@@ -274,6 +295,8 @@ describe("TradeManager class implementation", () => {
       buyItemFactorCondition: parseConditionsList("0.7"),
       sellCondition: parseConditionsList("generic_sell"),
       buySupplies: parseConditionsList("{+tier4} tier4, {+tier3} supplies_tier_3, {+tier2} tier2, tier1"),
+      discounts: parseConditionsList("{+first} low_discounts, discounts_section"),
+      currentBuyItemConditionFactor: null,
       currentBuyCondition: "generic_buy",
       currentBuySupplies: "tier1",
       currentSellCondition: "generic_sell",
