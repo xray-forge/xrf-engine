@@ -297,13 +297,18 @@ export class NotificationManager extends AbstractManager {
    */
   public sendSoundNotification(
     object: Nillable<GameObject>,
-    faction: TName,
+    faction: Nillable<TName>,
     point: Nillable<TName | TNumberId>,
     soundPath: TPath,
     soundCaption: Nillable<TLabel> = null,
     delay: TDuration = 0
   ): void {
     // logger.format("Send sound notification: %s %s %s %s", object?.name(), soundPath, soundCaption, faction);
+
+    // Sounds without a speaker faction show no notification, as in vanilla `news_manager.send_sound`.
+    if ($isNil(faction)) {
+      return;
+    }
 
     let pointName: TName = "";
 

@@ -61,7 +61,7 @@ describe("HelicopterBinder", () => {
     binder.reinit();
     binder.state.activeScheme = EScheme.HELI_MOVE;
     setSchemeState(binder.state, EScheme.HELI_MOVE, schemeState);
-    jest.spyOn(soundManager, "update").mockImplementation(jest.fn());
+    jest.spyOn(soundManager, "updateObject").mockImplementation(jest.fn());
 
     binder.update(16);
 
@@ -74,7 +74,7 @@ describe("HelicopterBinder", () => {
     expect(initializeObjectSchemeLogic).toHaveBeenCalledTimes(1);
     expect(initializeObjectSchemeLogic).toHaveBeenCalledWith(object, binder.state, false, ESchemeType.HELICOPTER);
     expect(emitSchemeEvent).toHaveBeenCalledWith(schemeState, ESchemeEvent.UPDATE, 16);
-    expect(soundManager.update).toHaveBeenLastCalledWith(object.id());
+    expect(soundManager.updateObject).toHaveBeenLastCalledWith(object.id());
   });
 
   it("should correctly handle going online and offline when spawn disabled", () => {

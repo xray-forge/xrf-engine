@@ -72,7 +72,7 @@ describe("SoundManager", () => {
   it("should correctly handle object updates with no sounds", () => {
     const object: GameObject = MockGameObject.mock();
 
-    expect(() => getManager(SoundManager).update(object.id())).not.toThrow();
+    expect(() => getManager(SoundManager).updateObject(object.id())).not.toThrow();
   });
 
   it("should correctly handle object updates with playing sounds", () => {
@@ -84,7 +84,7 @@ describe("SoundManager", () => {
 
     soundsConfig.playing.set(object.id(), sound as unknown as AbstractPlayableSound);
 
-    getManager(SoundManager).update(object.id());
+    getManager(SoundManager).updateObject(object.id());
 
     expect(sound.isPlaying).toHaveBeenCalledTimes(1);
     expect(sound.onSoundPlayEnded).toHaveBeenCalledTimes(0);
@@ -100,7 +100,7 @@ describe("SoundManager", () => {
 
     soundsConfig.playing.set(object.id(), sound as unknown as AbstractPlayableSound);
 
-    getManager(SoundManager).update(object.id());
+    getManager(SoundManager).updateObject(object.id());
 
     expect(sound.isPlaying).toHaveBeenCalledTimes(1);
     expect(sound.onSoundPlayEnded).toHaveBeenCalledTimes(1);
@@ -296,7 +296,8 @@ describe("SoundManager", () => {
 
     manager.stopLooped(object.id(), "looped_example");
 
-    expect(theme.stop).toHaveBeenCalledTimes(0);
+    // Stopped even when not playing, so the sound releases what it keeps for the object.
+    expect(theme.stop).toHaveBeenCalledTimes(1);
     expect(soundsConfig.looped.length()).toBe(0);
 
     jest.spyOn(theme, "isPlaying").mockImplementation(() => true);
@@ -310,7 +311,7 @@ describe("SoundManager", () => {
     manager.stopLooped(object.id(), "looped_example");
 
     expect(soundsConfig.looped.length()).toBe(0);
-    expect(theme.stop).toHaveBeenCalledTimes(1);
+    expect(theme.stop).toHaveBeenCalledTimes(2);
   });
 
   it("should correctly stop all looped sounds for objects", () => {
@@ -331,7 +332,7 @@ describe("SoundManager", () => {
 
     manager.stopAllLooped(object.id());
 
-    expect(theme.stop).toHaveBeenCalledTimes(0);
+    expect(theme.stop).toHaveBeenCalledTimes(1);
     expect(soundsConfig.looped.length()).toBe(0);
 
     jest.spyOn(theme, "isPlaying").mockImplementation(() => true);
@@ -345,7 +346,7 @@ describe("SoundManager", () => {
     manager.stopAllLooped(object.id());
 
     expect(soundsConfig.looped.length()).toBe(0);
-    expect(theme.stop).toHaveBeenCalledTimes(1);
+    expect(theme.stop).toHaveBeenCalledTimes(2);
   });
 
   it("should correctly set looped sound volume", () => {
@@ -381,12 +382,12 @@ describe("SoundManager", () => {
   it("should correctly handle update event for actor", () => {
     const manager: SoundManager = getManager(SoundManager);
 
-    jest.spyOn(manager, "update").mockImplementation(jest.fn());
+    jest.spyOn(manager, "updateObject").mockImplementation(jest.fn());
 
     manager.onActorUpdate();
 
-    expect(manager.update).toHaveBeenCalledTimes(1);
-    expect(manager.update).toHaveBeenCalledWith(ACTOR_ID);
+    expect(manager.updateObject).toHaveBeenCalledTimes(1);
+    expect(manager.updateObject).toHaveBeenCalledWith(ACTOR_ID);
   });
 
   it("should correctly handle actor going offline", () => {
@@ -408,14 +409,6 @@ describe("SoundManager", () => {
 
     expect(data).toEqual({ SoundManager: expect.any(Object) });
     expect(manager.onDebugDump({})).toEqual({ SoundManager: expect.any(Object) });
-  });
-
-  it("play should ignore requests without a theme name", () => {
-    const manager: SoundManager = getManager(SoundManager);
-    const object: GameObject = MockGameObject.mock();
-
-    expect(manager.play(object.id(), null)).toBeNull();
-    expect(soundsConfig.playing.length()).toBe(0);
   });
 
   it("play should not register the theme when playback did not start", () => {
@@ -452,7 +445,7 @@ describe("SoundManager", () => {
     expect(soundsConfig.looped.length()).toBe(0);
   });
 
-  it("stop should skip looped sounds that already finished", () => {
+  it("stop should release looped sounds that already finished", () => {
     const manager: SoundManager = getManager(SoundManager);
     const object: GameObject = MockGameObject.mock();
     const looped: AbstractPlayableSound = soundsConfig.themes.get("looped_example");
@@ -464,7 +457,8 @@ describe("SoundManager", () => {
     manager.playLooped(object.id(), "looped_example");
     manager.stop(object.id());
 
-    expect(looped.stop).toHaveBeenCalledTimes(0);
+    expect(looped.stop).toHaveBeenCalledTimes(1);
+    expect(looped.stop).toHaveBeenCalledWith(object.id());
     expect(soundsConfig.looped.length()).toBe(0);
   });
 

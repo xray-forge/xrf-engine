@@ -75,7 +75,7 @@ describe("NpcSound playback lifecycle", () => {
     const ini: IniFile = MockIniFile.mock("test.ltx", { test_missing_object: { path: "test\\theme" } });
     const sound: NpcSound = new NpcSound(ini, "test_missing_object");
 
-    expect(sound.play(9_999, "faction", null, "message")).toBe(false);
+    expect(sound.play(9_999, "faction", null)).toBe(false);
   });
 
   it("play should wait out the idle interval after the previous sound", () => {
@@ -87,11 +87,11 @@ describe("NpcSound playback lifecycle", () => {
     sound.onSoundPlayEnded(object.id());
 
     // Idle time is randomized between the configured bounds, so playback is blocked right away.
-    expect(sound.play(object.id(), "faction", null, "message")).toBe(false);
+    expect(sound.play(object.id(), "faction", null)).toBe(false);
 
     replaceFunctionMock(time_global, () => 10_000_000);
 
-    expect(sound.play(object.id(), "faction", null, "message")).toBe(true);
+    expect(sound.play(object.id(), "faction", null)).toBe(true);
   });
 
   it("play should be rejected once the group sound is taken", () => {
@@ -100,7 +100,7 @@ describe("NpcSound playback lifecycle", () => {
     sound.initializeObject(object);
     sound.canPlayGroupSound = false;
 
-    expect(sound.play(object.id(), "faction", null, "message")).toBe(false);
+    expect(sound.play(object.id(), "faction", null)).toBe(false);
   });
 
   it("isPlaying should follow the object voice and pda sound state", () => {
@@ -117,7 +117,7 @@ describe("NpcSound playback lifecycle", () => {
     expect(sound.isPlaying(object.id())).toBe(true);
 
     replaceFunctionMock(object.active_sound_count, () => 0);
-    sound.play(object.id(), "faction", null, "message");
+    sound.play(object.id(), "faction", null);
 
     getPlayback(sound, object).pdaSoundObject = { playing: () => true, stop: jest.fn() } as never;
 
@@ -128,7 +128,7 @@ describe("NpcSound playback lifecycle", () => {
     const { sound, object } = createRegisteredSound("test_stop");
 
     sound.initializeObject(object);
-    sound.play(object.id(), "faction", null, "message");
+    sound.play(object.id(), "faction", null);
 
     const pdaSound = { playing: () => true, stop: jest.fn() };
 
@@ -167,7 +167,7 @@ describe("NpcSound playback lifecycle", () => {
     const { sound, object } = createRegisteredSound("test_reset_pda");
 
     sound.initializeObject(object);
-    sound.play(object.id(), "faction", null, "message");
+    sound.play(object.id(), "faction", null);
 
     const playback: INpcSoundPlayback = getPlayback(sound, object);
     const pdaSound = { playing: () => true, stop: jest.fn() };
@@ -210,7 +210,7 @@ describe("NpcSound playback lifecycle", () => {
     jest.spyOn(sound, "selectNextSound").mockImplementation(() => 0);
     jest.spyOn(object.position(), "distance_to_sqr").mockImplementation(() => 1_000);
 
-    expect(sound.play(object.id(), "faction", null, "message")).toBe(true);
+    expect(sound.play(object.id(), "faction", null)).toBe(true);
 
     const playback: INpcSoundPlayback = getPlayback(sound, object);
 
@@ -278,7 +278,7 @@ describe("NpcSound playback lifecycle", () => {
     const { sound, object } = createRegisteredSound("test_invalidate");
 
     sound.initializeObject(object);
-    sound.play(object.id(), "faction", null, "message");
+    sound.play(object.id(), "faction", null);
 
     const pdaSound = { playing: () => true, stop: jest.fn() };
 

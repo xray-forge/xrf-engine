@@ -124,7 +124,7 @@ export class RestrictorBinder extends object_binder {
     }
 
     if (soundsConfig.playing.has(objectId)) {
-      getManager(SoundManager).update(objectId);
+      getManager(SoundManager).updateObject(objectId);
     }
   }
 

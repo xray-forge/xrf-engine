@@ -65,9 +65,6 @@ describe("NpcSound", () => {
     expect(sound.playback).toEqualLuaTables({});
     expect(sound.resolvedSoundPaths).toEqualLuaTables({});
     expect(sound.shuffle).toBe(ESoundPlaylistType.RANDOM);
-    expect(sound.faction).toBe("");
-    expect(sound.point).toBe("");
-    expect(sound.message).toBe("");
     expect(sound.canPlayGroupSound).toBe(true);
     expect(sound.groupPlayback).toEqual({
       idleTime: null,
@@ -117,9 +114,6 @@ describe("NpcSound", () => {
     expect(sound.playback).toEqualLuaTables({});
     expect(sound.resolvedSoundPaths).toEqualLuaTables({});
     expect(sound.shuffle).toBe(ESoundPlaylistType.SEQUENCE);
-    expect(sound.faction).toBe("army");
-    expect(sound.point).toBe("test_point");
-    expect(sound.message).toBe("test_message");
     expect(sound.canPlayGroupSound).toBe(true);
     expect(sound.groupPlayback).toEqual({
       idleTime: null,
@@ -257,7 +251,7 @@ describe("NpcSound lazy initialization", () => {
 
     fileSystem.setMock(roots.gameSounds, "characters_voice\\test\\lazy_theme_pda.ogg", false);
 
-    expect(sound.play(object.id(), "faction", null, "message")).toBe(true);
+    expect(sound.play(object.id(), "faction", null)).toBe(true);
 
     expect(object.add_sound).toHaveBeenCalledTimes(1);
     expect(object.play_sound).toHaveBeenCalledTimes(1);
@@ -266,13 +260,13 @@ describe("NpcSound lazy initialization", () => {
     expect(sound.canPlaySound.get(object.id())).toBe(false);
 
     // Play availability consumed -> no replay, no re-initialization.
-    expect(sound.play(object.id(), "faction", null, "message")).toBe(false);
+    expect(sound.play(object.id(), "faction", null)).toBe(false);
     expect(object.add_sound).toHaveBeenCalledTimes(1);
 
     // After reset the same registration is reused without engine re-registration.
     sound.reset(object.id());
 
-    expect(sound.play(object.id(), "faction", null, "message")).toBe(true);
+    expect(sound.play(object.id(), "faction", null)).toBe(true);
     expect(object.add_sound).toHaveBeenCalledTimes(1);
     expect(object.play_sound).toHaveBeenCalledTimes(2);
   });
@@ -288,8 +282,8 @@ describe("NpcSound lazy initialization", () => {
     registerObject(stalkerObject);
     registerObject(monsterObject);
 
-    expect(sound.play(stalkerObject.id(), "faction", null, "message")).toBe(false);
-    expect(sound.play(monsterObject.id(), "faction", null, "message")).toBe(false);
+    expect(sound.play(stalkerObject.id(), "faction", null)).toBe(false);
+    expect(sound.play(monsterObject.id(), "faction", null)).toBe(false);
 
     expect(stalkerObject.add_sound).not.toHaveBeenCalled();
     expect(monsterObject.add_sound).not.toHaveBeenCalled();
@@ -383,12 +377,12 @@ describe("NpcSound lazy initialization", () => {
 
     fileSystem.setMock(roots.gameSounds, "characters_voice\\test\\group_theme_pda.ogg", false);
 
-    expect(sound.play(object.id(), "faction", null, "message")).toBe(true);
+    expect(sound.play(object.id(), "faction", null)).toBe(true);
     expect(sound.canPlayGroupSound).toBe(false);
     expect(sound.canPlaySound.has(object.id())).toBe(false);
 
     // Group availability consumed -> no replay, no re-initialization.
-    expect(sound.play(object.id(), "faction", null, "message")).toBe(false);
+    expect(sound.play(object.id(), "faction", null)).toBe(false);
     expect(object.add_sound).toHaveBeenCalledTimes(1);
   });
 
@@ -404,7 +398,7 @@ describe("NpcSound lazy initialization", () => {
 
     fileSystem.setMock(roots.gameSounds, "characters_voice\\test\\invalidate_theme_pda.ogg", false);
 
-    expect(sound.play(object.id(), "faction", null, "message")).toBe(true);
+    expect(sound.play(object.id(), "faction", null)).toBe(true);
 
     const firstId: TNumberId = (sound.objects.get(object.id()) as INpcSoundDescriptor).id;
 

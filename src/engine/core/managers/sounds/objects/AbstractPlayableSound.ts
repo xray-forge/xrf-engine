@@ -1,5 +1,5 @@
 import { GameObject, IniFile, NetPacket, NetProcessor, SoundObject } from "xray16/alias";
-import { AnyArgs, Nillable, TNumberId, TPath, TRate, TSection } from "xray16/lib";
+import { Nillable, TName, TNumberId, TPath, TRate, TSection } from "xray16/lib";
 
 import { readIniString } from "@/engine/core/ini";
 import { EPlayableSound } from "@/engine/core/managers/sounds/sounds_types";
@@ -21,12 +21,12 @@ export abstract class AbstractPlayableSound {
   }
 
   /**
-   * Check whether the sound is currently playing.
+   * Check whether the sound is currently playing for an object.
    *
-   * @param args - Nillable arguments passed by overriding implementations.
+   * @param _objectId - Identifier of the object playing the sound.
    * @returns Whether the sound object exists and is playing.
    */
-  public isPlaying(...args: AnyArgs): boolean {
+  public isPlaying(_objectId: TNumberId): boolean {
     return this.soundObject ? this.soundObject.playing() : false;
   }
 
@@ -41,11 +41,11 @@ export abstract class AbstractPlayableSound {
   }
 
   /**
-   * Stop the sound if a sound object currently exists.
+   * Stop the sound playing for an object.
    *
-   * @param args - Nillable arguments passed by overriding implementations.
+   * @param _objectId - Identifier of the object playing the sound.
    */
-  public stop(...args: AnyArgs): void {
+  public stop(_objectId: TNumberId): void {
     if (this.soundObject) {
       this.soundObject.stop();
     }
@@ -73,19 +73,21 @@ export abstract class AbstractPlayableSound {
   }
 
   /**
-   * Play the sound.
+   * Play the sound for an object.
    *
-   * @param args - Arguments required by the concrete sound implementation.
+   * @param objectId - Identifier of the object to play the sound for.
+   * @param faction - Faction the sound notification shows the speaker of.
+   * @param point - Smart terrain ID or translatable label the sound notification shows the speaker at.
    * @returns Whether the sound started playing successfully.
    */
-  public abstract play(...args: AnyArgs): boolean;
+  public abstract play(objectId: TNumberId, faction?: Nillable<TName>, point?: Nillable<TName | TNumberId>): boolean;
 
   /**
-   * Reset the sound state.
+   * Reset the sound state of an object, before it plays the sound again at once.
    *
-   * @param args - Arguments required by the concrete sound implementation.
+   * @param _objectId - Identifier of the object playing the sound.
    */
-  public reset(...args: AnyArgs): void {}
+  public reset(_objectId: TNumberId): void {}
 
   /**
    * Handle the event when sound playback has ended for an object.

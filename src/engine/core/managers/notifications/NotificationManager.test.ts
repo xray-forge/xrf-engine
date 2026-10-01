@@ -396,6 +396,15 @@ describe("NotificationManager", () => {
     expect(notificationManager.onSendGenericNotification).toHaveBeenCalledTimes(0);
   });
 
+  it("should not send sound notifications for sounds without a speaker faction", () => {
+    const notificationManager: NotificationManager = getManager(NotificationManager);
+
+    notificationManager.onSendGenericNotification = jest.fn();
+    notificationManager.sendSoundNotification(null, null, "test_point", "characters_voice\\human_02\\military\\attack");
+
+    expect(notificationManager.onSendGenericNotification).not.toHaveBeenCalled();
+  });
+
   it("should correctly send sound notifications", () => {
     const notificationManager: NotificationManager = getManager(NotificationManager);
 

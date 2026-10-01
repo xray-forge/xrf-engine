@@ -38,9 +38,6 @@ describe("ActorSound", () => {
     expect(sound.minIdle).toBe(4);
     expect(sound.maxIdle).toBe(6);
     expect(sound.random).toBe(75);
-    expect(sound.faction).toBe("stalker");
-    expect(sound.point).toBe("camp");
-    expect(sound.message).toBe("hello");
   });
 
   it("should start one actor sound and prevent a concurrent replay", () => {
@@ -50,11 +47,11 @@ describe("ActorSound", () => {
       "test_actor_sound"
     );
 
-    expect(sound.play(actor, "stalker", "camp", "hello")).toBe(true);
+    expect(sound.play(actor.id(), "stalker", "camp")).toBe(true);
     expect(sound.soundObject?.play_at_pos).toHaveBeenCalledWith(actor, expect.anything(), 0, undefined);
     expect(sound.soundObject?.volume).toBe(0.8);
     expect(sound.canPlaySound).toBe(false);
-    expect(sound.play(actor, "stalker", "camp", "hello")).toBe(false);
+    expect(sound.play(actor.id(), "stalker", "camp")).toBe(false);
   });
 
   it("should restore availability and schedule its idle interval when playback ends", () => {
@@ -65,7 +62,7 @@ describe("ActorSound", () => {
     );
 
     replaceFunctionMock(time_global, () => 250);
-    sound.play(actor, "stalker", "camp", "hello");
+    sound.play(actor.id(), "stalker", "camp");
 
     sound.onSoundPlayEnded(actor.id());
 

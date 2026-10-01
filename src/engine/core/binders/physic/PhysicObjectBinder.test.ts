@@ -126,7 +126,7 @@ describe("PhysicObjectBinder", () => {
 
     mockRegisteredActor();
 
-    jest.spyOn(getManager(SoundManager), "update").mockImplementation(jest.fn());
+    jest.spyOn(getManager(SoundManager), "updateObject").mockImplementation(jest.fn());
 
     expect(binder.isInitialized).toBe(false);
 
@@ -152,7 +152,7 @@ describe("PhysicObjectBinder", () => {
       ESchemeEvent.UPDATE,
       150
     );
-    expect(getManager(SoundManager).update).toHaveBeenCalledWith(object.id());
+    expect(getManager(SoundManager).updateObject).toHaveBeenCalledWith(object.id());
 
     binder.update(150);
 

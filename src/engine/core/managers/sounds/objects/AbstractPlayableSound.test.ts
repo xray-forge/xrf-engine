@@ -44,17 +44,17 @@ describe("AbstractPlayableSound", () => {
   it("should report playing state based on the sound object", () => {
     const sound: TestPlayableSound = new TestPlayableSound(ini, "test_sound");
 
-    expect(sound.isPlaying()).toBe(false);
+    expect(sound.isPlaying(1)).toBe(false);
 
     const soundObject: SoundObject = MockSoundObject.mock("test\\sound.ogg");
 
     sound.soundObject = soundObject;
 
     jest.spyOn(soundObject, "playing").mockImplementation(() => true);
-    expect(sound.isPlaying()).toBe(true);
+    expect(sound.isPlaying(1)).toBe(true);
 
     jest.spyOn(soundObject, "playing").mockImplementation(() => false);
-    expect(sound.isPlaying()).toBe(false);
+    expect(sound.isPlaying(1)).toBe(false);
   });
 
   it("should expose the shared sound object for any object id", () => {
@@ -73,10 +73,10 @@ describe("AbstractPlayableSound", () => {
     const sound: TestPlayableSound = new TestPlayableSound(ini, "test_sound");
     const soundObject: SoundObject = MockSoundObject.mock("test\\sound.ogg");
 
-    expect(() => sound.stop()).not.toThrow();
+    expect(() => sound.stop(1)).not.toThrow();
 
     sound.soundObject = soundObject;
-    sound.stop();
+    sound.stop(1);
 
     expect(soundObject.stop).toHaveBeenCalledTimes(1);
   });
@@ -101,7 +101,7 @@ describe("AbstractPlayableSound", () => {
     const object: GameObject = MockGameObject.mock();
     const processor: MockNetProcessor = new MockNetProcessor();
 
-    expect(() => sound.reset()).not.toThrow();
+    expect(() => sound.reset(1)).not.toThrow();
     expect(() => sound.onSoundPlayEnded(1)).not.toThrow();
     expect(() => sound.save(processor.asNetPacket())).not.toThrow();
     expect(() => sound.load(processor.asNetProcessor())).not.toThrow();

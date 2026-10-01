@@ -9,6 +9,7 @@ import {
   TCount,
   TDuration,
   TIndex,
+  TName,
   TNumberId,
   TPath,
   TSection,
@@ -48,9 +49,6 @@ export class ObjectSound extends AbstractPlayableSound {
   public readonly playback: LuaTable<TNumberId, IObjectSoundPlayback> = new LuaTable();
 
   public shuffle: ESoundPlaylistType;
-  public faction: string;
-  public point: string;
-  public message: string;
 
   public minIdle: TDuration;
   public maxIdle: TDuration;
@@ -65,9 +63,6 @@ export class ObjectSound extends AbstractPlayableSound {
     this.minIdle = tonumber(interval.get(1))!;
     this.maxIdle = tonumber(interval.get(2))!;
     this.rnd = tonumber(interval.get(3))!;
-    this.faction = readIniString(ini, section, "faction", false, null, "");
-    this.point = readIniString(ini, section, "point", false, null, "");
-    this.message = readIniString(ini, section, "message", false, null, "");
 
     const fs: FS = getFS();
 
@@ -89,12 +84,11 @@ export class ObjectSound extends AbstractPlayableSound {
    * Start playing the next sound from the object position, optionally adding a PDA variant for distant actors.
    *
    * @param objectId - Id of the game object emitting the sound.
-   * @param faction - Faction associated with the sound notification.
-   * @param point - Point label associated with the sound notification.
-   * @param message - Message associated with the sound notification.
+   * @param faction - Faction the sound notification shows the speaker of.
+   * @param point - Smart terrain ID or translatable label the sound notification shows the speaker at.
    * @returns Whether the sound playback was started.
    */
-  public play(objectId: TNumberId, faction: string, point: string, message: string): boolean {
+  public play(objectId: TNumberId, faction?: Nillable<TName>, point?: Nillable<TName | TNumberId>): boolean {
     const object: Nillable<GameObject> = registry.objects.get(objectId)?.object;
 
     if (!object) {
@@ -120,7 +114,7 @@ export class ObjectSound extends AbstractPlayableSound {
       return false;
     }
 
-    logger.info("Play object sound: %s %s %s %s", object.name(), faction, point, message);
+    logger.info("Play object sound: %s %s %s", object.name(), faction, point);
 
     const fs: FS = getFS();
     const soundPath: Nillable<TPath> = this.soundPaths.get(playback.playedSoundIndex!);

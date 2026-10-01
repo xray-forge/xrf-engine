@@ -97,10 +97,13 @@ export class StoryPlaybackController {
       return;
     }
 
-    if ($isNotNil(soundsConfig.playing.get(this.lastPlayingObjectId!))) {
-      if ($isNotNil(registry.objects.get(this.lastPlayingObjectId!)?.object?.best_enemy())) {
+    const lastPlayingObjectId: Nillable<TNumberId> = this.lastPlayingObjectId;
+
+    // Wait for the previous phrase to finish, breaking the story off when its speaker gets into a fight.
+    if ($isNotNil(lastPlayingObjectId) && soundsConfig.playing.has(lastPlayingObjectId)) {
+      if ($isNotNil(registry.objects.get(lastPlayingObjectId)?.object?.best_enemy())) {
         this.story = null;
-        soundsConfig.playing.get(this.lastPlayingObjectId!).stop(this.lastPlayingObjectId);
+        soundsConfig.playing.get(lastPlayingObjectId).stop(lastPlayingObjectId);
       }
 
       return;

@@ -64,15 +64,15 @@ describe("ActorSound playback lifecycle", () => {
 
     replaceFunctionMock(time_global, () => 10_000);
 
-    expect(sound.play(object, "faction", "point", "message")).toBe(true);
+    expect(sound.play(object.id(), "faction", "point")).toBe(true);
 
     sound.onSoundPlayEnded(object.id());
 
-    expect(sound.play(object, "faction", "point", "message")).toBe(false);
+    expect(sound.play(object.id(), "faction", "point")).toBe(false);
 
     replaceFunctionMock(time_global, () => 10_000_000);
 
-    expect(sound.play(object, "faction", "point", "message")).toBe(true);
+    expect(sound.play(object.id(), "faction", "point")).toBe(true);
   });
 
   it("play should stop once the sequence playlist is exhausted", () => {
@@ -81,7 +81,7 @@ describe("ActorSound playback lifecycle", () => {
 
     sound.playedSoundIndex = -1;
 
-    expect(sound.play(object, "faction", "point", "message")).toBe(false);
+    expect(sound.play(object.id(), "faction", "point")).toBe(false);
   });
 
   it("onSoundPlayEnded should emit the theme end signal on the last sound", () => {
@@ -96,7 +96,7 @@ describe("ActorSound playback lifecycle", () => {
     state.activeScheme = EScheme.ANIMPOINT;
     state[EScheme.ANIMPOINT] = { signals } as never;
 
-    sound.play(object, "faction", "point", "message");
+    sound.play(object.id(), "faction", "point");
     sound.onSoundPlayEnded(object.id());
 
     expect(signals.get("theme_end")).toBe(true);
@@ -124,7 +124,7 @@ describe("ActorSound playback lifecycle", () => {
     state.activeScheme = EScheme.ANIMPOINT;
     state[EScheme.ANIMPOINT] = { signals } as never;
 
-    sound.play(object, "faction", "point", "message");
+    sound.play(object.id(), "faction", "point");
 
     expect(sound.playedSoundIndex).toBe(1);
 

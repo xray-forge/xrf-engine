@@ -1,7 +1,7 @@
 import { action_base, hit, LuabindClass, object, time_global } from "xray16";
 import { GameObject, Hit } from "xray16/alias";
 import { abort, NIL, TName, TNumberId, TRUE, TSection, TTimestamp } from "xray16/lib";
-import { $filename, $isNil } from "xray16/macros";
+import { $filename, $isNil, $isNotNil } from "xray16/macros";
 
 import { EStalkerState } from "@/engine/core/animation/types";
 import {
@@ -146,7 +146,9 @@ export class ActionWounded extends action_base {
 
     // Play call for help not more often than once per 5 seconds.
     if (now > this.nextSoundPlayAt) {
-      getManager(SoundManager).play(objectId, woundControllerSound === NIL ? null : woundControllerSound);
+      if ($isNotNil(woundControllerSound) && woundControllerSound !== NIL) {
+        getManager(SoundManager).play(objectId, woundControllerSound);
+      }
 
       this.nextSoundPlayAt = now + schemeWoundedConfig.CALL_FOR_HELP_PERIOD;
     }

@@ -1,6 +1,6 @@
 import { EGameObjectRelation, GameObject } from "xray16/alias";
 import { FALSE, NIL, Nillable, TCount, TName, TRUE } from "xray16/lib";
-import { $filename } from "xray16/macros";
+import { $filename, $isNotNil } from "xray16/macros";
 
 import { getManager, IRegistryObjectState, registry } from "@/engine/core/database";
 import { pickSectionFromCondList } from "@/engine/core/ini";
@@ -76,7 +76,7 @@ export function activateMeetWithObject(object: GameObject): void {
   const actor: GameObject = registry.actor;
   const sound: Nillable<TName> = pickSectionFromCondList(actor, object, state.useSound);
 
-  if (tostring(sound) !== NIL) {
+  if ($isNotNil(sound) && sound !== NIL) {
     logger.info("Play meet sound: '%s' - '%s'", object.name(), sound);
     getManager(SoundManager).play(object.id(), sound);
   }

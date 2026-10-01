@@ -98,7 +98,7 @@ export interface ITipNotification extends INotification {
  */
 export interface ISoundNotification extends INotification {
   object?: Nillable<GameObject>;
-  faction: TName;
+  faction: Nillable<TName>;
   point: Nillable<TName | TNumberId>;
   soundPath: TPath;
   soundCaption?: Nillable<TLabel>;

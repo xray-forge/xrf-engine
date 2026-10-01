@@ -157,7 +157,9 @@ export class ActionCombatCamping extends action_base implements ISchemeEventHand
           { animation: true }
         );
 
-        getManager(SoundManager).play(this.object.id(), this.state.attackSound);
+        if ($isNotNil(this.state.attackSound)) {
+          getManager(SoundManager).play(this.object.id(), this.state.attackSound);
+        }
       } else {
         const memoryPosition: Vector = this.object.memory_position(this.enemy);
 

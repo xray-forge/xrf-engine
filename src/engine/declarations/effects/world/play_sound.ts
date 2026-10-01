@@ -1,5 +1,6 @@
 import { GameObject } from "xray16/alias";
 import { abort, extern, Nillable, TName, TNumberId } from "xray16/lib";
+import { $isNotNil } from "xray16/macros";
 
 import { TCommunity } from "@/engine/constants/communities";
 import { getManager } from "@/engine/core/database";
@@ -30,6 +31,8 @@ extern(
       abort("Stalker '%s' is dead while trying to play theme sound '%s'.", object.name(), theme);
     }
 
-    getManager(SoundManager).play(object.id(), theme, faction, terrainId);
+    if ($isNotNil(theme)) {
+      getManager(SoundManager).play(object.id(), theme, faction, terrainId);
+    }
   }
 );

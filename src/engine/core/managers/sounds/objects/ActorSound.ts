@@ -1,5 +1,5 @@
 import { FS, get_hud, getFS, sound_object, time_global } from "xray16";
-import { GameObject, IniFile, NetPacket, NetProcessor } from "xray16/alias";
+import { IniFile, NetPacket, NetProcessor } from "xray16/alias";
 import {
   assert,
   createEmptyVector,
@@ -10,6 +10,7 @@ import {
   TCount,
   TDuration,
   TIndex,
+  TName,
   TNumberId,
   TPath,
   TSection,
@@ -32,8 +33,6 @@ const logger: LuaLogger = new LuaLogger($filename);
 
 /**
  * Playable sound played in 2D from the actor, used for actor voice lines and dialogue.
- *
- * Todo: Probably enums for playlist types.
  */
 export class ActorSound extends AbstractPlayableSound {
   public static readonly type: EPlayableSound = EPlayableSound.ACTOR;
@@ -45,9 +44,6 @@ export class ActorSound extends AbstractPlayableSound {
   public isPrefixed: boolean;
   public canPlaySound: boolean = true;
 
-  public faction: string;
-  public point: string;
-  public message: string;
   public shuffle: ESoundPlaylistType;
 
   public playedSoundIndex: Nillable<TIndex> = null;
@@ -75,9 +71,6 @@ export class ActorSound extends AbstractPlayableSound {
     this.minIdle = tonumber(interval.get(1))!;
     this.maxIdle = tonumber(interval.get(2))!;
     this.random = tonumber(interval.get(3))!;
-    this.faction = readIniString(ini, section, "faction", false, null, "");
-    this.point = readIniString(ini, section, "point", false, null, "");
-    this.message = readIniString(ini, section, "message", false, null, "");
 
     const fs: FS = getFS();
 
@@ -98,13 +91,12 @@ export class ActorSound extends AbstractPlayableSound {
   /**
    * Start playing the next sound from the playlist as a 2D sound attached to the actor.
    *
-   * @param object - Game object associated with the playback request.
-   * @param faction - Faction associated with the sound notification.
-   * @param point - Point label associated with the sound notification.
-   * @param message - Message associated with the sound notification.
+   * @param _objectId - Identifier of the object the playback is requested for, the sound plays for the actor.
+   * @param faction - Faction the sound notification shows the speaker of.
+   * @param point - Smart terrain ID or translatable label the sound notification shows the speaker at.
    * @returns Whether the sound playback was started.
    */
-  public play(object: GameObject, faction: string, point: string, message: string): boolean {
+  public play(_objectId: TNumberId, faction?: Nillable<TName>, point?: Nillable<TName | TNumberId>): boolean {
     if (!this.canPlaySound) {
       return false;
     }

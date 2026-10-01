@@ -37,9 +37,6 @@ describe("ObjectSound", () => {
     expect(sound.minIdle).toBe(2);
     expect(sound.maxIdle).toBe(4);
     expect(sound.rnd).toBe(80);
-    expect(sound.faction).toBe("dolg");
-    expect(sound.point).toBe("base");
-    expect(sound.message).toBe("warning");
   });
 
   it("should lazily initialize independent playback state for each object", () => {
@@ -115,7 +112,7 @@ describe("ObjectSound", () => {
 
     registerObject(object);
     replaceFunctionMock(time_global, () => 250);
-    expect(sound.play(object.id(), "dolg", "base", "warning")).toBe(true);
+    expect(sound.play(object.id(), "dolg", "base")).toBe(true);
 
     sound.onSoundPlayEnded(object.id());
 
@@ -143,8 +140,8 @@ describe("ObjectSound", () => {
     registerObject(first);
     registerObject(second);
 
-    expect(sound.play(first.id(), "dolg", "base", "warning")).toBe(true);
-    expect(sound.play(second.id(), "dolg", "base", "warning")).toBe(true);
+    expect(sound.play(first.id(), "dolg", "base")).toBe(true);
+    expect(sound.play(second.id(), "dolg", "base")).toBe(true);
 
     const firstPlayback = sound.playback.get(first.id());
     const secondPlayback = sound.playback.get(second.id());

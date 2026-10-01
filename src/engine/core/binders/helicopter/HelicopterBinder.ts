@@ -89,7 +89,7 @@ export class HelicopterBinder extends object_binder {
       }
     }
 
-    getManager(SoundManager).update(this.object.id());
+    getManager(SoundManager).updateObject(this.object.id());
   }
 
   public override net_spawn(object: ServerObject): boolean {

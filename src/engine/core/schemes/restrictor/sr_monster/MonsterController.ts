@@ -104,7 +104,10 @@ export class MonsterController extends AbstractSchemeController<ISchemeMonsterSt
         this.current = copyVector(targetPosition);
       }
 
-      this.soundObject = getManager(SoundManager).play(this.object.id(), this.state.soundObject);
+      this.soundObject = $isNotNil(this.state.soundObject)
+        ? getManager(SoundManager).play(this.object.id(), this.state.soundObject)
+        : null;
+
       if (this.soundObject && this.soundObject.playing()) {
         this.soundObject.set_position(this.current);
       }

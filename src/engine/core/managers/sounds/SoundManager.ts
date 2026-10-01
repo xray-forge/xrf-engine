@@ -1,7 +1,7 @@
 import { sound_object } from "xray16";
 import { GameObject, NetPacket, NetProcessor, SoundObject } from "xray16/alias";
 import { ACTOR_ID, AnyObject, assert, Nillable, TName, TNumberId, TRate, TStringId } from "xray16/lib";
-import { $filename } from "xray16/macros";
+import { $filename, $isNotNil } from "xray16/macros";
 
 import { closeLoadMarker, closeSaveMarker, getManager, openLoadMarker, openSaveMarker } from "@/engine/core/database";
 import { AbstractManager } from "@/engine/core/managers/abstract";
@@ -15,9 +15,10 @@ import { LuaLogger } from "@/engine/core/utils/logging";
 const logger: LuaLogger = new LuaLogger($filename);
 
 /**
- * Manager of game effects/sounds/voices triggered from script engine.
+ * Manager of game effects/sounds/voices triggered from script engine, played from `script_sound.ltx` themes.
  *
- * Todo: Unify looped and non-looped play-stop methods?
+ * An object plays one theme at a time with `play`, replaced only by themes that play always,
+ * and any number of looped themes by name with `playLooped`, which run until stopped.
  */
 export class SoundManager extends AbstractManager {
   public override initialize(): void {
@@ -36,7 +37,13 @@ export class SoundManager extends AbstractManager {
     eventsManager.unregisterCallback(EGameEvent.ACTOR_UPDATE, this.onActorUpdate);
   }
 
-  public override update(objectId: TNumberId): void {
+  /**
+   * Finish the theme an object plays once it stopped playing, letting it play the next one.
+   * Called from the update of objects that play themes.
+   *
+   * @param objectId - Target object ID to update sound for.
+   */
+  public updateObject(objectId: TNumberId): void {
     const sound: Nillable<AbstractPlayableSound> = soundsConfig.playing.get(objectId);
 
     if (sound && !sound.isPlaying(objectId)) {
@@ -115,53 +122,43 @@ export class SoundManager extends AbstractManager {
   }
 
   /**
-   * Play sound for provided object.
-   * Based on parsed themes library defined with `script_sounds.ltx`.
-   *
-   * Todo: Get rid of nullable name type.
+   * Play a theme for provided object, unless it plays another one that the theme does not replace.
+   * Based on parsed themes library defined with `script_sound.ltx`.
    *
    * @param objectId - Target object ID to play sound for.
-   * @param name - Name of the sound.
-   * @param faction - Faction of the object to play sound.
-   * @param point - ? Todo.
-   * @returns Playing sound object.
+   * @param name - Name of the theme.
+   * @param faction - Faction the sound notification shows the speaker of, no notification when missing.
+   * @param point - Smart terrain ID or translatable label the sound notification shows the speaker at.
+   * @returns Sound object of the theme the object plays.
    */
   public play(
     objectId: TNumberId,
-    name: Nillable<TStringId>,
+    name: TStringId,
     faction: Nillable<TName> = null,
-    point: Nillable<TNumberId> = null
+    point: Nillable<TName | TNumberId> = null
   ): Nillable<SoundObject> {
-    if (!name) {
-      return null;
-    }
-
     const theme: Nillable<AbstractPlayableSound> = soundsConfig.themes.get(name);
-    const sound: Nillable<AbstractPlayableSound> = soundsConfig.playing.get(
-      objectId
-    ) as Nillable<AbstractPlayableSound>;
+    const sound: Nillable<AbstractPlayableSound> = soundsConfig.playing.get(objectId);
 
     assert(theme, "Not existing sound theme '%s' provided for playing with object '%s'.", name, objectId);
     assert(theme.type !== LoopedSound.type, "Trying to start sound '%s' with incorrect play method.", name);
 
-    if (!sound || theme.shouldPlayAlways) {
-      if (sound) {
-        logger.info("Reset sound before forced play: %s %s %s %s", objectId, name, faction, point);
-        sound.reset(objectId);
-      }
-
-      if (theme.play(objectId, faction, point)) {
-        logger.info("Start sound play: %s %s %s %s", objectId, name, faction, point);
-
-        soundsConfig.playing.set(objectId, theme);
-
-        return theme.getSoundObject(objectId);
-      }
-
-      return theme.getSoundObject(objectId);
-    } else {
+    if ($isNotNil(sound) && !theme.shouldPlayAlways) {
       return sound.getSoundObject(objectId);
     }
+
+    if ($isNotNil(sound)) {
+      logger.info("Reset sound before forced play: %s %s %s %s", objectId, name, faction, point);
+      sound.reset(objectId);
+    }
+
+    if (theme.play(objectId, faction, point)) {
+      logger.info("Start sound play: %s %s %s %s", objectId, name, faction, point);
+
+      soundsConfig.playing.set(objectId, theme);
+    }
+
+    return theme.getSoundObject(objectId);
   }
 
   /**
@@ -170,30 +167,15 @@ export class SoundManager extends AbstractManager {
    * @param objectId - Target object ID to stop all sounds for.
    */
   public stop(objectId: TNumberId): void {
-    const sound: Nillable<AbstractPlayableSound> = soundsConfig.playing.get(
-      objectId
-    ) as Nillable<AbstractPlayableSound>;
+    const sound: Nillable<AbstractPlayableSound> = soundsConfig.playing.get(objectId);
 
-    if (sound) {
+    if ($isNotNil(sound)) {
       logger.info("Stop sound play: %s %s", objectId, sound.section);
       sound.stop(objectId);
       soundsConfig.playing.delete(objectId);
     }
 
-    const looped: Nillable<LuaTable<TName, AbstractPlayableSound>> = soundsConfig.looped.get(objectId) as Nillable<
-      LuaTable<TName, AbstractPlayableSound>
-    >;
-
-    if (looped) {
-      for (const [, sound] of looped) {
-        if (sound.isPlaying(objectId)) {
-          logger.info("Stop looped sound play: %s %s", objectId, sound.section);
-          sound.stop(objectId);
-        }
-      }
-
-      soundsConfig.looped.delete(objectId);
-    }
+    this.stopAllLooped(objectId);
   }
 
   /**
@@ -240,10 +222,8 @@ export class SoundManager extends AbstractManager {
       return;
     }
 
-    if (sound.isPlaying(objectId)) {
-      sound.stop(objectId);
-    }
-
+    // Stopped even when it ended on its own, so the sound releases what it keeps for the object.
+    sound.stop(objectId);
     collection.delete(name);
 
     if (collection.length() === 0) {
@@ -264,9 +244,8 @@ export class SoundManager extends AbstractManager {
     }
 
     for (const [, sound] of collection) {
-      if (sound.isPlaying(objectId)) {
-        sound.stop(objectId);
-      }
+      logger.info("Stop looped sound play: %s %s", objectId, sound.section);
+      sound.stop(objectId);
     }
 
     soundsConfig.looped.delete(objectId);
@@ -296,7 +275,7 @@ export class SoundManager extends AbstractManager {
    * Handle actor generic update.
    */
   public onActorUpdate(): void {
-    this.update(ACTOR_ID);
+    this.updateObject(ACTOR_ID);
   }
 
   /**

@@ -120,7 +120,7 @@ describe("RestrictorBinder", () => {
 
     getManager(EventsManager).registerCallback(EGameEvent.RESTRICTOR_ZONE_VISITED, onVisit);
 
-    jest.spyOn(soundManager, "update").mockImplementation(jest.fn());
+    jest.spyOn(soundManager, "updateObject").mockImplementation(jest.fn());
 
     binder.net_spawn(serverObject);
 
@@ -137,8 +137,8 @@ describe("RestrictorBinder", () => {
     expect(initializeObjectSchemeLogic).toHaveBeenCalledTimes(1);
     expect(initializeObjectSchemeLogic).toHaveBeenCalledWith(binder.object, objectState, false, ESchemeType.RESTRICTOR);
 
-    expect(soundManager.update).toHaveBeenCalledTimes(1);
-    expect(soundManager.update).toHaveBeenCalledWith(serverObject.id);
+    expect(soundManager.updateObject).toHaveBeenCalledTimes(1);
+    expect(soundManager.updateObject).toHaveBeenCalledWith(serverObject.id);
 
     expect(emitSchemeEvent).toHaveBeenCalledTimes(1);
     expect(emitSchemeEvent).toHaveBeenCalledWith(
@@ -163,13 +163,13 @@ describe("RestrictorBinder", () => {
     expect(hasInfoPortion(binder.object.name() + "_visited")).toBe(true);
     expect(onVisit).toHaveBeenCalledTimes(1);
     expect(onVisit).toHaveBeenCalledWith(binder.object, binder);
-    expect(soundManager.update).toHaveBeenCalledTimes(3);
+    expect(soundManager.updateObject).toHaveBeenCalledTimes(3);
 
     soundsConfig.playing.delete(serverObject.id);
     binder.update(2555);
 
     expect(onVisit).toHaveBeenCalledTimes(1);
-    expect(soundManager.update).toHaveBeenCalledTimes(3);
+    expect(soundManager.updateObject).toHaveBeenCalledTimes(3);
   });
 
   it("waits for the actor before initializing schemes and checking the visit distance", () => {

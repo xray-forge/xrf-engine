@@ -41,7 +41,7 @@ export class LoopedSound extends AbstractPlayableSound {
         object,
         object.position(),
         0,
-        // todo: Check if bitmasking originally works. 1+0=1 so probably no point in a such play.
+        // The engine `s3d` flag is 0, so this plays the sound in 3D and looped.
         (sound_object.s3d + sound_object.looped) as TSoundObjectType
       );
 

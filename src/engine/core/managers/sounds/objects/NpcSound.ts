@@ -90,9 +90,6 @@ export class NpcSound extends AbstractPlayableSound {
   public readonly resolvedSoundPaths: LuaMap<TPath, LuaArray<TPath>> = new LuaTable();
 
   public readonly shuffle: ESoundPlaylistType;
-  public readonly faction: string;
-  public readonly point: string;
-  public readonly message: string;
 
   public canPlayGroupSound: boolean = true;
   public groupPlayback: INpcSoundPlayback = {
@@ -122,10 +119,6 @@ export class NpcSound extends AbstractPlayableSound {
     this.minIdle = idle.get(1);
     this.maxIdle = idle.get(2);
     this.random = idle.get(3);
-
-    this.faction = readIniString(ini, section, "faction", false, null, "");
-    this.point = readIniString(ini, section, "point", false, null, "");
-    this.message = readIniString(ini, section, "message", false, null, "");
 
     this.availableCommunities = readIniStringSet(
       ini,
@@ -186,12 +179,11 @@ export class NpcSound extends AbstractPlayableSound {
    * Select and play the next NPC sound for the object, optionally play a PDA sound and emit a notification.
    *
    * @param objectId - Identifier of the object to play the sound for.
-   * @param faction - Faction used for the sound notification.
-   * @param point - Optional point label describing the sound source.
-   * @param message - Message label associated with the sound.
+   * @param faction - Faction the sound notification shows the speaker of, the speaker community when missing.
+   * @param point - Smart terrain ID or translatable label the sound notification shows the speaker at.
    * @returns Whether a sound started playing.
    */
-  public play(objectId: TNumberId, faction: string, point: Nillable<string>, message: TLabel): boolean {
+  public play(objectId: TNumberId, faction?: Nillable<TName>, point?: Nillable<TName | TNumberId>): boolean {
     const object: Nillable<GameObject> = registry.objects.get(objectId)?.object;
 
     if ($isNil(object)) {
@@ -225,7 +217,7 @@ export class NpcSound extends AbstractPlayableSound {
       return false;
     }
 
-    logger.info("Play NPC sound for: '%s', '%s', '%s', '%s'", object.name(), faction, point, message);
+    logger.info("Play NPC sound for: '%s', '%s', '%s'", object.name(), faction, point);
 
     playback.playingStartedAt = null;
 

@@ -262,7 +262,7 @@ export class StalkerBinder extends object_binder {
     }
 
     if (isObjectAlive) {
-      getManager(SoundManager).update(objectId);
+      getManager(SoundManager).updateObject(objectId);
       updateObjectMeetAvailability(object, state);
       initializeObjectInvulnerability(object, state);
     } else {

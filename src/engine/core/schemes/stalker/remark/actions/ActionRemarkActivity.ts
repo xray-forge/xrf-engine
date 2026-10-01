@@ -161,7 +161,10 @@ export class ActionRemarkActivity extends action_base implements ISchemeEventHan
     } else if (this.state === STATE_SOUND) {
       if (this.sndScheduled === true) {
         this.sndStarted = true;
-        getManager(SoundManager).play(this.object.id(), this.st.snd);
+
+        if ($isNotNil(this.st.snd)) {
+          getManager(SoundManager).play(this.object.id(), this.st.snd);
+        }
       }
 
       if (this.animEndSignalled === false) {

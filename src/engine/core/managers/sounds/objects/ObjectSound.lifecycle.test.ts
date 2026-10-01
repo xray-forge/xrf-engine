@@ -62,7 +62,7 @@ describe("ObjectSound playback lifecycle", () => {
   it("play should be rejected for objects missing from the registry", () => {
     const { sound } = createSound("test_no_object");
 
-    expect(sound.play(9_999, "faction", "point", "message")).toBe(false);
+    expect(sound.play(9_999, "faction", "point")).toBe(false);
   });
 
   it("play should wait for the previous sound to finish", () => {
@@ -70,32 +70,32 @@ describe("ObjectSound playback lifecycle", () => {
 
     replaceFunctionMock(time_global, () => 10_000);
 
-    expect(sound.play(object.id(), "faction", "point", "message")).toBe(true);
+    expect(sound.play(object.id(), "faction", "point")).toBe(true);
 
     sound.onSoundPlayEnded(object.id());
 
-    expect(sound.play(object.id(), "faction", "point", "message")).toBe(false);
+    expect(sound.play(object.id(), "faction", "point")).toBe(false);
 
     replaceFunctionMock(time_global, () => 10_000_000);
 
-    expect(sound.play(object.id(), "faction", "point", "message")).toBe(true);
+    expect(sound.play(object.id(), "faction", "point")).toBe(true);
   });
 
   it("play should be rejected while the object sound is still busy", () => {
     const { sound, object } = createSound("test_busy");
 
-    expect(sound.play(object.id(), "faction", "point", "message")).toBe(true);
-    expect(sound.play(object.id(), "faction", "point", "message")).toBe(false);
+    expect(sound.play(object.id(), "faction", "point")).toBe(true);
+    expect(sound.play(object.id(), "faction", "point")).toBe(false);
   });
 
   it("play should stop when the sequence playlist is exhausted", () => {
     const { sound, object } = createSound("test_exhausted", { shuffle: "seq" });
 
-    sound.play(object.id(), "faction", "point", "message");
+    sound.play(object.id(), "faction", "point");
     sound.playback.get(object.id()).playedSoundIndex = -1;
     sound.playback.get(object.id()).canPlay = true;
 
-    expect(sound.play(object.id(), "faction", "point", "message")).toBe(false);
+    expect(sound.play(object.id(), "faction", "point")).toBe(false);
   });
 
   it("play should add a pda sound for a distant actor", () => {
@@ -105,7 +105,7 @@ describe("ObjectSound playback lifecycle", () => {
 
     jest.spyOn(object.position(), "distance_to_sqr").mockImplementation(() => 500);
 
-    expect(sound.play(object.id(), "faction", "point", "message")).toBe(true);
+    expect(sound.play(object.id(), "faction", "point")).toBe(true);
     expect(sound.playback.get(object.id()).pdaSoundObject?.volume).toBe(0.8);
   });
 
@@ -114,7 +114,7 @@ describe("ObjectSound playback lifecycle", () => {
 
     expect(sound.isPlaying(object.id())).toBe(false);
 
-    sound.play(object.id(), "faction", "point", "message");
+    sound.play(object.id(), "faction", "point");
 
     const soundObject: SoundObject = sound.getSoundObject(object.id()) as SoundObject;
 
@@ -143,7 +143,7 @@ describe("ObjectSound playback lifecycle", () => {
   it("stop should stop both the 3d and the pda sound objects", () => {
     const { sound, object } = createSound("test_stop_both");
 
-    sound.play(object.id(), "faction", "point", "message");
+    sound.play(object.id(), "faction", "point");
 
     const soundObject: SoundObject = sound.getSoundObject(object.id()) as SoundObject;
     const pdaSound = { playing: () => true, stop: jest.fn() };
@@ -219,7 +219,7 @@ describe("ObjectSound playback lifecycle", () => {
     state.activeScheme = EScheme.ANIMPOINT;
     state[EScheme.ANIMPOINT] = { signals } as never;
 
-    sound.play(object.id(), "faction", "point", "message");
+    sound.play(object.id(), "faction", "point");
     sound.playback.get(object.id()).playedSoundIndex = 0 as TIndex;
     sound.onSoundPlayEnded(object.id());
 
@@ -236,7 +236,7 @@ describe("ObjectSound playback lifecycle", () => {
     state.activeScheme = EScheme.ANIMPOINT;
     state[EScheme.ANIMPOINT] = { signals } as never;
 
-    sound.play(object.id(), "faction", "point", "message");
+    sound.play(object.id(), "faction", "point");
     sound.playback.get(object.id()).playedSoundIndex = sound.soundPaths.length();
     sound.onSoundPlayEnded(object.id());
 
@@ -253,7 +253,7 @@ describe("ObjectSound playback lifecycle", () => {
   it("onSoundPlayEnded should be inert without an active scheme", () => {
     const { sound, object } = createSound("test_ended_no_scheme");
 
-    sound.play(object.id(), "faction", "point", "message");
+    sound.play(object.id(), "faction", "point");
 
     expect(() => sound.onSoundPlayEnded(object.id())).not.toThrow();
     expect(sound.playback.get(object.id()).canPlay).toBe(true);

@@ -112,7 +112,7 @@ export class PhysicObjectBinder extends object_binder {
       emitSchemeEvent(getActiveSchemeStateOptimistic(this.state), ESchemeEvent.UPDATE, delta);
     }
 
-    getManager(SoundManager).update(this.object.id());
+    getManager(SoundManager).updateObject(this.object.id());
   }
 
   public override net_save_relevant(): boolean {
