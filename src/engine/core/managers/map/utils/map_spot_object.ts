@@ -3,7 +3,6 @@ import { AlifeSimulator, GameObject, ServerObject } from "xray16/alias";
 import { FALSE, NIL, Nillable, TName, TNumberId, TRUE, TSection, TStringId } from "xray16/lib";
 import { $filename } from "xray16/macros";
 
-import { mapMarks } from "@/engine/constants/map_marks";
 import { IRegistryObjectState, registry } from "@/engine/core/database";
 import { parseConditionsList, pickSectionFromCondList, readIniString } from "@/engine/core/ini";
 import { IMapMarkDescriptor } from "@/engine/core/managers/map";
@@ -64,13 +63,12 @@ export function updateObjectMapSpot(
         level.map_add_object_spot(objectId, descriptor.icon, descriptor.hint);
       }
     } else {
-      // Is it really needed?
-
-      Object.values(mapMarks).forEach((it) => {
-        if (level.map_has_object_spot(objectId, it) !== 0) {
-          level.map_remove_object_spot(objectId, it);
+      // Only level spots belong here, squads, tasks and treasures own the other spots of the object, as in vanilla.
+      for (const [, descriptor] of mapDisplayConfig.MAP_MARKS) {
+        if (level.map_has_object_spot(objectId, descriptor.icon) !== 0) {
+          level.map_remove_object_spot(objectId, descriptor.icon);
         }
-      });
+      }
     }
   }
 }

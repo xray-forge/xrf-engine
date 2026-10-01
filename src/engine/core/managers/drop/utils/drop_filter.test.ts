@@ -20,12 +20,26 @@ describe("filterObjectDeathLoot", () => {
     registerSimulator();
   });
 
-  it("should skip filtering when keep items is defined", () => {
-    const object: GameObject = MockGameObject.mock({ spawnIni: MockIniFile.mock("test.ltx", { keep_items: {} }) });
+  it("should keep items of objects marked with keep items except the equipment excluded from loot", () => {
+    const [ak74u, ak74uServer] = mockInSimulator({ section: weapons.wpn_ak74u, clsid: clsid.wpn_ak74_s });
+    const [akAmmo] = mockInSimulator({ section: ammo["ammo_5.45x39_ap"], clsid: clsid.wpn_ammo });
+    const [pda, pdaServer] = mockInSimulator({ section: misc.device_pda, clsid: clsid.device_pda });
+    const object: GameObject = MockGameObject.mock({
+      spawnIni: MockIniFile.mock("test.ltx", { keep_items: {} }),
+      inventory: [
+        [ak74u.id(), ak74u],
+        [akAmmo.id(), akAmmo],
+        [pda.id(), pda],
+      ],
+    });
 
     filterObjectDeathLoot(object);
 
-    expect(object.iterate_inventory).toHaveBeenCalledTimes(0);
+    expect(registry.simulator.release).toHaveBeenCalledTimes(1);
+    expect(registry.simulator.release).toHaveBeenCalledWith(pdaServer, true);
+    // Kept weapons are not degraded either.
+    expect(ak74u.set_condition).not.toHaveBeenCalled();
+    expect(registry.simulator.release).not.toHaveBeenCalledWith(ak74uServer, true);
   });
 
   it("should filter items with empty inventory", () => {

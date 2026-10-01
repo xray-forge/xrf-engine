@@ -16,14 +16,19 @@ import { isAmmoSection, isExcludedFromLootDropItemSection, isLootableItemSection
 export function filterObjectDeathLoot(object: GameObject): void {
   const simulator: AlifeSimulator = registry.simulator;
   const ini: Nillable<IniFile> = object.spawn_ini();
-
-  // Object is marked as excluded from filtering.
-  // todo: Check jub_b10_drunk and remove if it is not needed.
-  if (ini && ini.section_exist("keep_items")) {
-    return;
-  }
+  // Objects marked to keep their items, like the jup_b10 drunk whose death effect spawns his loot.
+  const isKeepingItems: boolean = ini?.section_exist("keep_items") === true;
 
   object.iterate_inventory((object: GameObject, item: GameObject): void => {
+    // Kept items still lose the equipment excluded from loot, as in vanilla.
+    if (isKeepingItems) {
+      if (isExcludedFromLootDropItemSection(item.section())) {
+        simulator.release(simulator.object(item.id()), true);
+      }
+
+      return;
+    }
+
     if (shouldFilterLootItem(item)) {
       simulator.release(simulator.object(item.id()), true);
     } else {

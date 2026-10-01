@@ -9,12 +9,11 @@ import { EGameEvent, EventsManager } from "@/engine/core/managers/events";
 
 /**
  * Manage objects loot after death.
- *
- * Todo: Maybe add reset method and re-assign all 5 objects with info on each reset to clear information.
  */
 export class DropManager extends AbstractManager {
   public override initialize(): void {
-    // Read after game is started and level/simulation is initialized.
+    // Read after game is started and level/simulation is initialized, the only part of drop config that depends on
+    // the level and difficulty, the rest of it is static.
     dropConfig.ITEMS_DROP_COUNT_BY_LEVEL = readIniDropCountByLevel(DROP_MANAGER_CONFIG_LTX);
 
     const manager: EventsManager = getManager(EventsManager);
