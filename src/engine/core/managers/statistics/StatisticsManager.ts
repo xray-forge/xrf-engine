@@ -1,10 +1,12 @@
-import { GameObject, NetPacket, NetProcessor, ServerCreatureObject, Vector } from "xray16/alias";
+import { clsid } from "xray16";
+import { GameObject, NetPacket, NetProcessor, ServerCreatureObject, TClassId, Vector } from "xray16/alias";
 import {
   ACTOR_ID,
   AnyObject,
   assert,
   NIL,
   Nillable,
+  PartialRecord,
   StringNillable,
   TCount,
   TName,
@@ -29,7 +31,6 @@ import {
 import { AbstractManager } from "@/engine/core/managers/abstract";
 import { EGameEvent, EventsManager } from "@/engine/core/managers/events";
 import { IActorStatistics, PS_ANABIOTICS_USED } from "@/engine/core/managers/statistics/statistics_types";
-import { statisticsConfig } from "@/engine/core/managers/statistics/StatisticsConfig";
 import type { TaskObject } from "@/engine/core/managers/tasks";
 import type { ITreasureDescriptor } from "@/engine/core/managers/treasures";
 import { isArtefact, isWeapon } from "@/engine/core/utils/class_ids";
@@ -58,6 +59,23 @@ export class StatisticsManager extends AbstractManager {
   public weaponsStatistics: LuaTable<TWeapon, TRate> = new LuaTable();
   // Artefacts the actor has taken, so taking one again is not counted.
   public takenArtefacts: LuaTable<TNumberId, TNumberId> = new LuaTable();
+
+  // Built with the manager, as class IDs do not exist yet while scripts load.
+  public monsterClassesMap: PartialRecord<TClassId, TName> = {
+    [clsid.bloodsucker_s]: "bloodsucker",
+    [clsid.boar_s]: "boar",
+    [clsid.burer_s]: "burer",
+    [clsid.chimera_s]: "chimera",
+    [clsid.controller_s]: "controller",
+    [clsid.dog_s]: "dog",
+    [clsid.flesh_s]: "flesh",
+    [clsid.gigant_s]: "gigant",
+    [clsid.poltergeist_s]: "poltergeist",
+    [clsid.psy_dog_s]: "psy_dog",
+    [clsid.pseudodog_s]: "pseudodog",
+    [clsid.snork_s]: "snork",
+    [clsid.tushkano_s]: "tushkano",
+  };
 
   public override initialize(): void {
     const eventsManager: EventsManager = getManager(EventsManager);
@@ -300,7 +318,7 @@ export class StatisticsManager extends AbstractManager {
       return;
     }
 
-    let community: Nillable<TName> = statisticsConfig.MONSTER_KINDS[object.clsid()];
+    let community: Nillable<TName> = this.monsterClassesMap[object.clsid()];
 
     assert(
       community,
