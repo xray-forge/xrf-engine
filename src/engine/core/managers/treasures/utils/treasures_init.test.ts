@@ -6,6 +6,12 @@ import { ETreasureType } from "@/engine/core/managers/treasures";
 import { readIniTreasuresList } from "@/engine/core/managers/treasures/utils/treasures_init";
 
 describe("readIniTreasuresList", () => {
+  it("should name listed treasures that have no section", () => {
+    expect(() => readIniTreasuresList(MockIniFile.mock("test.ltx", { list: { jup_b1_secret: null } }))).toThrow(
+      "There is no section 'jup_b1_secret' in treasures.ltx."
+    );
+  });
+
   it("should correctly read", () => {
     expect(readIniTreasuresList(MockIniFile.mock("test.ltx", {}))).toEqualLuaTables({});
 

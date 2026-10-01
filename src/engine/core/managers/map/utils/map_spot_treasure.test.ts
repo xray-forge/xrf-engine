@@ -65,4 +65,22 @@ describe("removeTreasureMapSpot", () => {
     removeTreasureMapSpot(555, { type: ETreasureType.UNIQUE } as ITreasureDescriptor);
     expect(level.map_remove_object_spot).toHaveBeenCalledWith(555, mapMarks.treasure_unique);
   });
+
+  it("should remove both common and typed spots whatever enhanced mode is now", () => {
+    resetFunctionMock(level.map_remove_object_spot);
+    treasureConfig.ENHANCED_MODE_ENABLED = false;
+
+    removeTreasureMapSpot(25, { type: ETreasureType.RARE } as ITreasureDescriptor);
+
+    expect(level.map_remove_object_spot).toHaveBeenCalledTimes(2);
+    expect(level.map_remove_object_spot).toHaveBeenCalledWith(25, mapMarks.treasure);
+    expect(level.map_remove_object_spot).toHaveBeenCalledWith(25, mapMarks.treasure_rare);
+
+    resetFunctionMock(level.map_remove_object_spot);
+
+    removeTreasureMapSpot(10, { type: ETreasureType.COMMON } as ITreasureDescriptor);
+
+    expect(level.map_remove_object_spot).toHaveBeenCalledTimes(1);
+    expect(level.map_remove_object_spot).toHaveBeenCalledWith(10, mapMarks.treasure);
+  });
 });

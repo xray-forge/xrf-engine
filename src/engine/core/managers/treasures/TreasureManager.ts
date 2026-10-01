@@ -13,7 +13,7 @@ import {
   TStringId,
   TTimestamp,
 } from "xray16/lib";
-import { $filename } from "xray16/macros";
+import { $filename, $isNil } from "xray16/macros";
 
 import { SECRET_SECTION } from "@/engine/constants/sections";
 import {
@@ -215,16 +215,15 @@ export class TreasureManager extends AbstractManager {
    * @param treasureId - Section ID of the treasure to spawn.
    */
   protected spawnTreasure(treasureId: TStringId): void {
-    // logger.format("Spawn treasure ID: %s", treasureId);
+    const secret: Nillable<ITreasureDescriptor> = treasureConfig.TREASURES.get(treasureId);
 
-    assert(treasureConfig.TREASURES.get(treasureId), "There is no stored secret with id:", treasureId);
+    assert(secret, "There is no stored secret with id: '%s'.", treasureId);
 
-    if (treasureConfig.TREASURES.get(treasureId).given) {
+    if (secret.given) {
       return logger.info("Spawned secret is already given: %s", treasureId);
     }
 
     const simulator: AlifeSimulator = registry.simulator;
-    const secret: ITreasureDescriptor = treasureConfig.TREASURES.get(treasureId);
 
     for (const [section, itemParameters] of secret.items) {
       for (const secretIndex of $range(1, itemParameters.length())) {
@@ -277,7 +276,7 @@ export class TreasureManager extends AbstractManager {
       return logger.info("Already given treasure: %s", treasureId);
     }
 
-    // Just notify actor. todo: check empty as condlist?
+    // Looted already, unless an empty condition decides when it is empty instead of its items, as in vanilla.
     if (descriptor.itemsToFindRemain === 0 && !descriptor.empty) {
       EventsManager.emitEvent<ITreasureNotification>(EGameEvent.NOTIFICATION, {
         type: ENotificationType.TREASURE,
@@ -411,6 +410,11 @@ export class TreasureManager extends AbstractManager {
   public onActorItemTake(object: GameObject): void {
     const objectId: TNumberId = object.id();
     const restrictorId: Nillable<TNumberId> = this.treasuresRestrictorByItem.get(objectId);
+
+    // Most taken items are not treasure items, skip looking their restrictor up.
+    if ($isNil(restrictorId)) {
+      return;
+    }
 
     let treasureId: Nillable<TStringId> = null;
 

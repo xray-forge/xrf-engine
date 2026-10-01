@@ -33,7 +33,7 @@ export function readIniTreasuresList(ini: IniFile): LuaTable<TSection, ITreasure
   for (const it of $range(0, totalSecretsCount - 1)) {
     const [, treasureSection] = ini.r_line<TStringId>("list", it, "", "");
 
-    assert(ini.section_exist(treasureSection), "There is no section '%s' in treasures.ltx.", it);
+    assert(ini.section_exist(treasureSection), "There is no section '%s' in treasures.ltx.", treasureSection);
 
     let cost: TCount = 0;
 

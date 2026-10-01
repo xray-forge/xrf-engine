@@ -18,12 +18,19 @@ export function showTreasureMapSpot(id: TNumberId, descriptor: ITreasureDescript
 
 /**
  * Remove treasure spot for treasure descriptor.
+ * Removes both the common and the typed spot, as enhanced mode can be toggled after the spot was shown.
  *
  * @param id - Treasure restrictor ID to remove from game map.
  * @param descriptor - Treasure descriptor.
  */
 export function removeTreasureMapSpot(id: TNumberId, descriptor: ITreasureDescriptor): void {
-  level.map_remove_object_spot(id, getTreasureMapSpot(descriptor));
+  const typedSpot: TName = getTypedTreasureMapSpot(descriptor);
+
+  level.map_remove_object_spot(id, mapMarks.treasure);
+
+  if (typedSpot !== mapMarks.treasure) {
+    level.map_remove_object_spot(id, typedSpot);
+  }
 }
 
 /**
@@ -31,10 +38,14 @@ export function removeTreasureMapSpot(id: TNumberId, descriptor: ITreasureDescri
  * @returns Icon name for provided descriptor, based on treasure type.
  */
 export function getTreasureMapSpot(descriptor: ITreasureDescriptor): TName {
-  if (!treasureConfig.ENHANCED_MODE_ENABLED) {
-    return mapMarks.treasure;
-  }
+  return treasureConfig.ENHANCED_MODE_ENABLED ? getTypedTreasureMapSpot(descriptor) : mapMarks.treasure;
+}
 
+/**
+ * @param descriptor - Descriptor of treasure object to get mark for.
+ * @returns Icon name for provided descriptor type, as shown in enhanced mode.
+ */
+export function getTypedTreasureMapSpot(descriptor: ITreasureDescriptor): TName {
   switch (descriptor.type) {
     case ETreasureType.RARE:
       return mapMarks.treasure_rare;

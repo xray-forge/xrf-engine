@@ -251,6 +251,14 @@ describe("TreasureManager", () => {
     expect(manager["spawnTreasure"]).toHaveBeenNthCalledWith(3, "jup_b3_secret");
   });
 
+  it("should name the missing treasure when spawning an unknown one", () => {
+    const manager: TreasureManager = getManager(TreasureManager);
+
+    expect(() => manager["spawnTreasure"]("not_existing_secret")).toThrow(
+      "There is no stored secret with id: 'not_existing_secret'."
+    );
+  });
+
   it("should register items declared in a treasure spawn ini", () => {
     const manager: TreasureManager = getManager(TreasureManager);
     const item: ServerObject = MockAlifeObject.mock();
@@ -337,6 +345,13 @@ describe("TreasureManager", () => {
     expect(() => treasureManager.onActorItemTake(first)).not.toThrow();
 
     jest.spyOn(eventsManager, "emitEvent").mockImplementation(jest.fn());
+
+    // Items that are not part of a treasure change nothing.
+    treasureManager.treasuresRestrictorByName.set("jup_b1_secret", 55);
+    treasureManager.onActorItemTake(first);
+
+    expect(treasureConfig.TREASURES.get("jup_b1_secret").itemsToFindRemain).toBe(0);
+    expect(eventsManager.emitEvent).not.toHaveBeenCalled();
 
     treasureManager.treasuresRestrictorByItem.set(second.id(), 55);
     treasureManager.treasuresRestrictorByName.set("jup_b1_secret", 55);
