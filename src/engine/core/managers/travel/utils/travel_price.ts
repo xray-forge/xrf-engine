@@ -1,8 +1,12 @@
-import { TCount, TDistance } from "xray16/lib";
+import { GameObject } from "xray16/alias";
+import { assert, Nillable, TCount, TDistance, TStringId } from "xray16/lib";
 
+import { getSimulationTerrainByName } from "@/engine/core/managers/simulation/utils";
+import { getTravelRouteTerrainName } from "@/engine/core/managers/travel/utils/travel_route";
 import { SmartTerrain } from "@/engine/core/objects/smart_terrain/SmartTerrain";
 import type { Squad } from "@/engine/core/objects/squad/Squad";
 import { getServerDistanceBetween } from "@/engine/core/utils/position";
+import { getObjectSquad } from "@/engine/core/utils/squad";
 
 /**
  * Calculate the rounded money cost for a travel distance.
@@ -25,4 +29,21 @@ export function getTravelPriceByDistance(distance: TDistance): TCount {
  */
 export function getTravelPriceForSquad(squad: Squad, terrain: SmartTerrain): TCount {
   return getTravelPriceByDistance(getServerDistanceBetween(squad, terrain));
+}
+
+/**
+ * Calculate the price of the route a traveler dialog phrase leads to, for the squad of the object.
+ *
+ * @param object - Squad member game object being talked to.
+ * @param phraseId - Identifier of the phrase mapped to a destination smart terrain.
+ * @returns Travel price based on the distance to the destination terrain.
+ */
+export function getTravelPriceByPhrase(object: GameObject, phraseId: TStringId): TCount {
+  const squad: Nillable<Squad> = getObjectSquad(object);
+  const terrain: Nillable<SmartTerrain> = getSimulationTerrainByName(getTravelRouteTerrainName(phraseId));
+
+  assert(squad, "Cannot calculate travel price without squad.");
+  assert(terrain, "Cannot calculate travel price without destination terrain.");
+
+  return getTravelPriceForSquad(squad, terrain);
 }

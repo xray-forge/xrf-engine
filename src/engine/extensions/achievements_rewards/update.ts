@@ -47,7 +47,7 @@ export function updateDetectiveAchievementRewardSpawn(): void {
     EventsManager.emitEvent<ITipNotification>(EGameEvent.NOTIFICATION, {
       type: ENotificationType.TIP,
       caption: "st_detective_news",
-      senderId: notificationsIcons.got_medicine,
+      sender: notificationsIcons.got_medicine,
     });
 
     achievementRewardsConfig.LAST_DETECTIVE_ACHIEVEMENT_SPAWN_AT = game.get_game_time();
@@ -77,7 +77,7 @@ export function updateMutantHunterAchievementSpawn(): void {
     EventsManager.emitEvent<ITipNotification>(EGameEvent.NOTIFICATION, {
       type: ENotificationType.TIP,
       caption: "st_mutant_hunter_news",
-      senderId: notificationsIcons.got_ammo,
+      sender: notificationsIcons.got_ammo,
     });
 
     achievementRewardsConfig.LAST_MUTANT_HUNTER_ACHIEVEMENT_SPAWN_AT = game.get_game_time();

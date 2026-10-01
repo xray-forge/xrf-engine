@@ -32,7 +32,7 @@ import { IActorStatistics, PS_ANABIOTICS_USED } from "@/engine/core/managers/sta
 import { statisticsConfig } from "@/engine/core/managers/statistics/StatisticsConfig";
 import type { TaskObject } from "@/engine/core/managers/tasks";
 import type { ITreasureDescriptor } from "@/engine/core/managers/treasures";
-import { isArtefact } from "@/engine/core/utils/class_ids";
+import { isArtefact, isWeapon } from "@/engine/core/utils/class_ids";
 import { LuaLogger } from "@/engine/core/utils/logging";
 
 const logger: LuaLogger = new LuaLogger($filename);
@@ -54,8 +54,8 @@ export class StatisticsManager extends AbstractManager {
     collectedArtefacts: new LuaTable(),
   };
 
-  // Damage the actor has dealt with each weapon kind.
-  public weaponsStatistics: LuaTable<TName, TRate> = new LuaTable();
+  // Damage the actor has dealt with each weapon section.
+  public weaponsStatistics: LuaTable<TWeapon, TRate> = new LuaTable();
   // Artefacts the actor has taken, so taking one again is not counted.
   public takenArtefacts: LuaTable<TNumberId, TNumberId> = new LuaTable();
 
@@ -113,13 +113,13 @@ export class StatisticsManager extends AbstractManager {
 
     this.weaponsStatistics = new LuaTable();
 
-    const weaponsCount: TCount = reader.r_u8();
+    const weaponsCount: TCount = reader.r_u16();
 
     for (const _ of $range(1, weaponsCount)) {
-      const kind: TName = reader.r_stringZ();
+      const section: TWeapon = reader.r_stringZ();
       const damage: TRate = reader.r_float();
 
-      this.weaponsStatistics.set(kind, damage);
+      this.weaponsStatistics.set(section, damage);
     }
 
     this.actorStatistics.collectedArtefacts = new LuaTable();
@@ -158,10 +158,10 @@ export class StatisticsManager extends AbstractManager {
     packet.w_stringZ(tostring(this.actorStatistics.bestKilledMonster));
     packet.w_stringZ(tostring(this.actorStatistics.favoriteWeapon));
 
-    packet.w_u8(table.size(this.weaponsStatistics));
+    packet.w_u16(table.size(this.weaponsStatistics));
 
-    for (const [kind, damage] of this.weaponsStatistics) {
-      packet.w_stringZ(kind);
+    for (const [section, damage] of this.weaponsStatistics) {
+      packet.w_stringZ(section);
       packet.w_float(damage);
     }
 
@@ -273,24 +273,19 @@ export class StatisticsManager extends AbstractManager {
 
     const activeItem: Nillable<GameObject> = registry.actor.active_item();
 
-    if ($isNil(activeItem)) {
+    if (!isWeapon(activeItem)) {
       return;
     }
 
-    // Variants such as `wpn_ak74u_snag` count towards the kind named by a word of their section.
-    for (const kind of string.gfind(activeItem.section(), "%w+")) {
-      if (statisticsConfig.WEAPON_KINDS.has(kind)) {
-        this.weaponsStatistics.set(kind, (this.weaponsStatistics.get(kind) ?? 0) + amount);
-      }
-    }
+    const section: TWeapon = activeItem.section();
+    const damage: TRate = (this.weaponsStatistics.get(section) ?? 0) + amount;
+    const favoriteWeapon: Nillable<TWeapon> = this.actorStatistics.favoriteWeapon;
 
-    let favoriteWeaponDamage: TRate = 0;
+    this.weaponsStatistics.set(section, damage);
 
-    for (const [kind, damage] of this.weaponsStatistics) {
-      if (damage > favoriteWeaponDamage) {
-        favoriteWeaponDamage = damage;
-        this.actorStatistics.favoriteWeapon = statisticsConfig.WEAPON_KINDS.get(kind);
-      }
+    // Only the hit weapon gains damage, so it either passes the favorite one or nothing changes.
+    if ($isNil(favoriteWeapon) || damage > (this.weaponsStatistics.get(favoriteWeapon) ?? 0)) {
+      this.actorStatistics.favoriteWeapon = section;
     }
   }
 

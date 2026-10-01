@@ -234,10 +234,11 @@ export class NotificationManager extends AbstractManager {
 
   /**
    * Send generic tip notification.
+   * The sender is the icon the tip shows, the sender ID is the story object that speaks it.
    */
   public sendTipNotification(
     caption: TLabel,
-    sender: Nillable<TNotificationIcon | TNotificationIconKey | GameObject> = null,
+    sender: Nillable<TNotificationIcon | TNotificationIconKey> = null,
     delay: Nillable<TDuration> = 0,
     showtime: Nillable<TDuration> = notificationsConfig.DEFAULT_NOTIFICATION_SHOW_DURATION,
     senderId: Nillable<TStringId> = null
@@ -245,7 +246,6 @@ export class NotificationManager extends AbstractManager {
     logger.info("Show tip notification: %s %s %s %s", caption, delay, showtime, senderId);
 
     // Verify whether sender can send notifications.
-    // todo: Probably here check ID from sender object if it is provided?
     const senderObjectId: Nillable<TNumberId> = $isNotNil(senderId) ? getObjectIdByStoryId(senderId) : null;
 
     // A sender that does not exist in the game sends the tip as it is, as in vanilla `news_manager.send_tip`.
@@ -271,17 +271,10 @@ export class NotificationManager extends AbstractManager {
 
     const notificationTitle: TLabel = game.translate_string("st_tip");
     const notificationDescription: TLabel = game.translate_string(caption);
-    let notificationIcon: TName = "ui_iconsTotal_grouping";
-
-    // If sender is game object, check sender character icon to display instead of generic one.
-    if (sender) {
-      // In case of string check if it is name of icon (original schemas use it) or fallback to just string.
-      if (type(sender) === "string") {
-        notificationIcon = notificationsIcons[sender as TNotificationIconKey] || (sender as TNotificationIcon);
-      } else {
-        notificationIcon = (sender as GameObject).character_icon();
-      }
-    }
+    // Sender is a notification icon key, as original schemes use, or an icon texture itself.
+    const notificationIcon: TName = $isNil(sender)
+      ? "ui_iconsTotal_grouping"
+      : (notificationsIcons[sender as TNotificationIconKey] ?? sender);
 
     this.onPlayPdaNotificationSound();
     this.onSendGenericNotification(

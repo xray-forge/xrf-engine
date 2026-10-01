@@ -134,11 +134,11 @@ describe("NotificationManager", () => {
       type: ENotificationType.TIP,
       caption: "caption",
       delay: 500,
-      sender: registry.actor,
+      sender: "can_resupply",
       showtime: 128,
       senderId: "sid",
     });
-    expect(notificationManager.sendTipNotification).toHaveBeenCalledWith("caption", registry.actor, 500, 128, "sid");
+    expect(notificationManager.sendTipNotification).toHaveBeenCalledWith("caption", "can_resupply", 500, 128, "sid");
   });
 
   it("should correctly send money relocation notifications", () => {
@@ -358,14 +358,14 @@ describe("NotificationManager", () => {
 
     notificationManager.onPlayPdaNotificationSound = jest.fn();
     notificationManager.onSendGenericNotification = jest.fn();
-    notificationManager.sendTipNotification("another", sender, 1024, 50, "test-sid");
+    notificationManager.sendTipNotification("another", null, 1024, 50, "test-sid");
 
     expect(notificationManager.onPlayPdaNotificationSound).toHaveBeenCalledTimes(1);
     expect(notificationManager.onSendGenericNotification).toHaveBeenCalledWith(
       false,
       "translated_st_tip",
       "translated_another",
-      "test_character_icon",
+      "ui_iconsTotal_grouping",
       1024,
       50,
       0
@@ -376,7 +376,7 @@ describe("NotificationManager", () => {
 
     notificationManager.onPlayPdaNotificationSound = jest.fn();
     notificationManager.onSendGenericNotification = jest.fn();
-    notificationManager.sendTipNotification("another", sender, 1024, 50, "test-sid");
+    notificationManager.sendTipNotification("another", null, 1024, 50, "test-sid");
 
     expect(notificationManager.onPlayPdaNotificationSound).toHaveBeenCalledTimes(0);
     expect(notificationManager.onSendGenericNotification).toHaveBeenCalledTimes(0);
@@ -390,7 +390,7 @@ describe("NotificationManager", () => {
       },
     } as ISchemeWoundedState;
 
-    notificationManager.sendTipNotification("another", sender, 1024, 50, "test-sid");
+    notificationManager.sendTipNotification("another", null, 1024, 50, "test-sid");
 
     expect(notificationManager.onPlayPdaNotificationSound).toHaveBeenCalledTimes(0);
     expect(notificationManager.onSendGenericNotification).toHaveBeenCalledTimes(0);

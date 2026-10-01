@@ -3,7 +3,7 @@ import { TCount, TName, TStringId } from "xray16/lib";
 
 import { TLevel } from "@/engine/constants/levels";
 import { parseConditionsList } from "@/engine/core/ini";
-import { ITravelRouteDescriptor } from "@/engine/core/managers/travel";
+import { ITravelRouteDescriptor } from "@/engine/core/managers/travel/travel_types";
 
 /**
  * Read list of travel routes descriptors / phrases configuration.

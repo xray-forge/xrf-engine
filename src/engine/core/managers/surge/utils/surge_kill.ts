@@ -53,7 +53,7 @@ export function killAllSurgeUnhiddenAfterActorDeath(): void {
 
           const object: Nillable<GameObject> = registry.objects.get(member.object.id)?.object;
 
-          // todo: What is the difference here?
+          // Online members die on the client to run their death callbacks, offline ones only leave the squad and die.
           if ($isNil(object)) {
             member.object.kill();
           } else {

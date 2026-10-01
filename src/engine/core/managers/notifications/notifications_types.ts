@@ -12,7 +12,7 @@ import {
   TTimestamp,
 } from "xray16/lib";
 
-import { TNotificationIcon } from "@/engine/core/managers/notifications/index";
+import { TNotificationIcon, TNotificationIconKey } from "@/engine/core/managers/notifications/notifications_icons";
 import { ETaskState } from "@/engine/core/managers/tasks/types";
 
 /**
@@ -88,7 +88,7 @@ export interface ITreasureNotification extends INotification {
 export interface ITipNotification extends INotification {
   caption: TLabel;
   delay?: Nillable<TDuration>;
-  sender?: Nillable<TNotificationIcon | GameObject>;
+  sender?: Nillable<TNotificationIcon | TNotificationIconKey>;
   showtime?: Nillable<TTimestamp>;
   senderId?: Nillable<TStringId>;
 }

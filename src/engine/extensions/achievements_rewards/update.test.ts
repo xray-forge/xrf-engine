@@ -74,7 +74,7 @@ describe("achievement rewards extension", () => {
     expect(eventsManager.emitEvent).toHaveBeenCalledWith(EGameEvent.NOTIFICATION, {
       type: ENotificationType.TIP,
       caption: "st_detective_news",
-      senderId: notificationsIcons.got_medicine,
+      sender: notificationsIcons.got_medicine,
     });
     expect(registry.simulator.create).toHaveBeenCalledTimes(4);
     expect(registry.simulator.create_ammo).toHaveBeenCalledTimes(0);
@@ -108,7 +108,7 @@ describe("achievement rewards extension", () => {
     expect(eventsManager.emitEvent).toHaveBeenCalledWith(EGameEvent.NOTIFICATION, {
       type: ENotificationType.TIP,
       caption: "st_mutant_hunter_news",
-      senderId: notificationsIcons.got_ammo,
+      sender: notificationsIcons.got_ammo,
     });
     expect(registry.simulator.create).not.toHaveBeenCalled();
     expect(registry.simulator.create_ammo).toHaveBeenCalledTimes(5);

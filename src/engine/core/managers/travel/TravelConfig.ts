@@ -1,8 +1,11 @@
 import { ini_file } from "xray16";
 import { IniFile } from "xray16/alias";
+import { TName } from "xray16/lib";
+import { $fromObject } from "xray16/macros";
 
+import { communities, TCommunity } from "@/engine/constants/communities";
 import { readIniNumber, readIniSectionAsStringMap } from "@/engine/core/ini";
-import { readIniTravelDialogs } from "@/engine/core/managers/travel/utils";
+import { readIniTravelDialogs } from "@/engine/core/managers/travel/utils/travel_init";
 
 export const TRAVEL_CONFIG_LTX: IniFile = new ini_file("managers\\travel_manager.ltx");
 const [DESCRIPTORS_BY_NAME, DESCRIPTORS_BY_PHRASE] = readIniTravelDialogs(TRAVEL_CONFIG_LTX);
@@ -18,4 +21,7 @@ export const travelConfig = {
   TRAVEL_LOCATIONS: readIniSectionAsStringMap(TRAVEL_CONFIG_LTX, "locations"),
   TRAVEL_DESCRIPTORS_BY_NAME: DESCRIPTORS_BY_NAME,
   TRAVEL_DESCRIPTORS_BY_PHRASE: DESCRIPTORS_BY_PHRASE,
+  // Communities that traveler texts name differently, like `dm_duty_doing_nothing_1` for `dolg`.
+  // todo: Probably revisit duty/dolg naming.
+  TEXT_COMMUNITIES: $fromObject({ [communities.dolg]: "duty" }) as LuaTable<TCommunity, TName>,
 };

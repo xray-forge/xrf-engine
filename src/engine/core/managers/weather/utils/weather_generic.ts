@@ -13,7 +13,7 @@ import { weatherConfig } from "@/engine/core/managers/weather/WeatherConfig";
 export function getNextWeatherFromGraph(graph: TWeatherGraph): TName {
   let totalProbability: TRate = 0;
 
-  // todo: Probably store total probability in graph or supply as parameter.
+  // Probabilities are weights, they do not have to add up to 1.
   for (const [, probability] of graph) {
     totalProbability += probability;
   }

@@ -6,7 +6,7 @@ import { $fromObject } from "xray16/macros";
 import { EMockPacketDataType, MockAlifeMonsterBase, MockGameObject, MockNetProcessor, MockVector } from "xray16/mocks";
 import { replaceFunctionMock } from "xray16/testing/utils";
 
-import { weapons } from "@/engine/constants/items/weapons";
+import { TWeapon, weapons } from "@/engine/constants/items/weapons";
 import { disposeManager, getManager, registerActor, registerSimulator } from "@/engine/core/database";
 import { EGameEvent, EventsManager } from "@/engine/core/managers/events";
 import { StatisticsManager } from "@/engine/core/managers/statistics";
@@ -144,11 +144,17 @@ describe("StatisticsManager", () => {
 
   it("should correctly handle dealing damage to an object", () => {
     const manager: StatisticsManager = getManager(StatisticsManager);
-    const ak74: GameObject = MockGameObject.mock({ section: weapons.wpn_ak74 });
-    const desertEagle: GameObject = MockGameObject.mock({ section: weapons.wpn_desert_eagle });
-    const desertEagleNimble: GameObject = MockGameObject.mock({ section: weapons.wpn_desert_eagle_nimble });
-    const grenade: GameObject = MockGameObject.mock({ section: weapons.grenade_rgd5 });
-    const binoculars: GameObject = MockGameObject.mock({ section: weapons.wpn_binoc });
+    const ak74: GameObject = MockGameObject.mock({ clsid: clsid.wpn_ak74_s, section: weapons.wpn_ak74 });
+    const desertEagle: GameObject = MockGameObject.mock({ clsid: clsid.wpn_pm_s, section: weapons.wpn_desert_eagle });
+    const desertEagleNimble: GameObject = MockGameObject.mock({
+      clsid: clsid.wpn_pm_s,
+      section: weapons.wpn_desert_eagle_nimble,
+    });
+    const grenade: GameObject = MockGameObject.mock({
+      clsid: clsid.wpn_grenade_rgd5_s,
+      section: weapons.grenade_rgd5,
+    });
+    const medkit: GameObject = MockGameObject.mock({ clsid: clsid.obj_food_s, section: "medkit" });
     const actor: GameObject = MockGameObject.mockActor();
     const target: GameObject = MockGameObject.mock();
 
@@ -166,7 +172,7 @@ describe("StatisticsManager", () => {
     EventsManager.emitEvent(EGameEvent.STALKER_HIT, target, 150, MockVector.mock(), actor);
     EventsManager.emitEvent(EGameEvent.MONSTER_HIT, target, 150, MockVector.mock(), MockGameObject.mock());
 
-    expect(manager.weaponsStatistics).toEqualLuaTables({ ak74: 250 });
+    expect(manager.weaponsStatistics).toEqualLuaTables({ [weapons.wpn_ak74]: 250 });
     expect(manager.actorStatistics.favoriteWeapon).toBe(weapons.wpn_ak74);
 
     replaceFunctionMock(actor.active_item, () => desertEagle);
@@ -176,27 +182,32 @@ describe("StatisticsManager", () => {
     EventsManager.emitEvent(EGameEvent.MONSTER_HIT, target, 300, MockVector.mock(), actor);
     EventsManager.emitEvent(EGameEvent.MONSTER_HIT, target, 300, MockVector.mock(), MockGameObject.mock());
 
-    expect(manager.weaponsStatistics).toEqualLuaTables({ ak74: 250, desert: 400 });
+    expect(manager.weaponsStatistics).toEqualLuaTables({ [weapons.wpn_ak74]: 250, [weapons.wpn_desert_eagle]: 400 });
     expect(manager.actorStatistics.favoriteWeapon).toBe(weapons.wpn_desert_eagle);
 
     replaceFunctionMock(actor.active_item, () => desertEagleNimble);
 
     EventsManager.emitEvent(EGameEvent.STALKER_HIT, target, 100, MockVector.mock(), actor);
 
-    expect(manager.weaponsStatistics).toEqualLuaTables({ ak74: 250, desert: 500 });
+    expect(manager.weaponsStatistics).toEqualLuaTables({
+      [weapons.wpn_ak74]: 250,
+      [weapons.wpn_desert_eagle]: 400,
+      [weapons.wpn_desert_eagle_nimble]: 100,
+    });
     expect(manager.actorStatistics.favoriteWeapon).toBe(weapons.wpn_desert_eagle);
 
-    replaceFunctionMock(actor.active_item, () => binoculars);
+    replaceFunctionMock(actor.active_item, () => medkit);
 
     EventsManager.emitEvent(EGameEvent.STALKER_HIT, target, 1000, MockVector.mock(), actor);
 
-    expect(manager.weaponsStatistics).toEqualLuaTables({ ak74: 250, desert: 500 });
+    expect(manager.weaponsStatistics.has("medkit" as TWeapon)).toBe(false);
+    expect(manager.actorStatistics.favoriteWeapon).toBe(weapons.wpn_desert_eagle);
 
     replaceFunctionMock(actor.active_item, () => grenade);
 
     EventsManager.emitEvent(EGameEvent.MONSTER_HIT, target, 600, MockVector.mock(), actor);
 
-    expect(manager.weaponsStatistics).toEqualLuaTables({ ak74: 250, desert: 500, rgd5: 600 });
+    expect(manager.weaponsStatistics.get(weapons.grenade_rgd5)).toBe(600);
     expect(manager.actorStatistics.favoriteWeapon).toBe(weapons.grenade_rgd5);
   });
 
@@ -260,7 +271,10 @@ describe("StatisticsManager", () => {
       favoriteWeapon: "wpn_ak74",
       bestKilledMonster: "bloodsucker_strong",
     };
-    oldManager.weaponsStatistics = $fromObject<TName, TRate>({ ak74: 250, desert: 100 });
+    oldManager.weaponsStatistics = $fromObject<TName, TRate>({
+      [weapons.wpn_ak74]: 250,
+      [weapons.wpn_desert_eagle]: 100,
+    }) as LuaTable<TWeapon, TRate>;
     oldManager.takenArtefacts = $fromObject<TNumberId, TNumberId>({ 300: 300, 1_000: 1_000 });
 
     oldManager.save(processor.asNetPacket());
@@ -275,7 +289,7 @@ describe("StatisticsManager", () => {
       EMockPacketDataType.U32,
       EMockPacketDataType.STRING,
       EMockPacketDataType.STRING,
-      EMockPacketDataType.U8,
+      EMockPacketDataType.U16,
       EMockPacketDataType.STRING,
       EMockPacketDataType.F32,
       EMockPacketDataType.STRING,
@@ -299,9 +313,9 @@ describe("StatisticsManager", () => {
       "bloodsucker_strong",
       "wpn_ak74",
       2,
-      "ak74",
+      weapons.wpn_ak74,
       250,
-      "desert",
+      weapons.wpn_desert_eagle,
       100,
       2,
       "af_1",
@@ -334,7 +348,10 @@ describe("StatisticsManager", () => {
       favoriteWeapon: "wpn_ak74",
       bestKilledMonster: "bloodsucker_strong",
     });
-    expect(newManager.weaponsStatistics).toEqualLuaTables({ ak74: 250, desert: 100 });
+    expect(newManager.weaponsStatistics).toEqualLuaTables({
+      [weapons.wpn_ak74]: 250,
+      [weapons.wpn_desert_eagle]: 100,
+    });
     expect(newManager.takenArtefacts).toEqualLuaTables({ 300: 300, 1_000: 1_000 });
   });
 
