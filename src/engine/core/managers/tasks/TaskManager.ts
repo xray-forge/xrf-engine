@@ -1,7 +1,7 @@
 import { task } from "xray16";
 import { GameTask, NetPacket, NetProcessor, TTaskState } from "xray16/alias";
 import { AnyObject, assert, Nillable, TCount, TStringId } from "xray16/lib";
-import { $filename } from "xray16/macros";
+import { $filename, $isNotNil } from "xray16/macros";
 
 import { closeLoadMarker, closeSaveMarker, getManager, openLoadMarker, openSaveMarker } from "@/engine/core/database";
 import { AbstractManager } from "@/engine/core/managers/abstract";
@@ -132,9 +132,9 @@ export class TaskManager extends AbstractManager {
     }
 
     if (state === task.fail || state === task.completed) {
-      const activeTask: Nillable<TaskObject> = taskConfig.ACTIVE_TASKS.get(taskId) as Nillable<TaskObject>;
+      const activeTask: Nillable<TaskObject> = taskConfig.ACTIVE_TASKS.get(taskId);
 
-      if (activeTask) {
+      if ($isNotNil(activeTask)) {
         activeTask.onDeactivate(taskObject);
         taskConfig.ACTIVE_TASKS.delete(taskId);
       }

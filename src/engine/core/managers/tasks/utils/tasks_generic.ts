@@ -4,7 +4,7 @@ import { $isNil, $isNotNil } from "xray16/macros";
 
 import { mapMarks } from "@/engine/constants/map_marks";
 import { getObjectIdByStoryId } from "@/engine/core/database";
-import { GUIDERS_BY_LEVEL } from "@/engine/core/managers/tasks/TaskConfig";
+import { taskConfig } from "@/engine/core/managers/tasks/TaskConfig";
 
 /**
  * Add a map spot for the guider leading from one level to another, marking it as storyline or secondary.
@@ -14,7 +14,7 @@ import { GUIDERS_BY_LEVEL } from "@/engine/core/managers/tasks/TaskConfig";
  * @param isStoryline - Whether the spot represents a storyline task instead of a secondary one.
  */
 export function addGuiderSpot(from: TName, to: TName, isStoryline: boolean): void {
-  const guiderStoryId: Nillable<TStringId> = GUIDERS_BY_LEVEL.get(from)?.get(to);
+  const guiderStoryId: Nillable<TStringId> = taskConfig.GUIDERS_BY_LEVEL.get(from)?.get(to);
 
   if ($isNil(guiderStoryId)) {
     return;
@@ -39,7 +39,7 @@ export function addGuiderSpot(from: TName, to: TName, isStoryline: boolean): voi
  * @param from - Name of the level whose guider spots should be removed.
  */
 export function removeGuiderSpot(from: TName): void {
-  const guidersByLevel: Nillable<LuaTable<TName, TStringId>> = GUIDERS_BY_LEVEL.get(from);
+  const guidersByLevel: Nillable<LuaTable<TName, TStringId>> = taskConfig.GUIDERS_BY_LEVEL.get(from);
 
   if (!guidersByLevel) {
     return;

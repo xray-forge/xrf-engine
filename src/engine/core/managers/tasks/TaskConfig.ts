@@ -10,23 +10,22 @@ import type { TaskObject } from "@/engine/core/managers/tasks/TaskObject";
 
 export const TASK_MANAGER_CONFIG_LTX: IniFile = new ini_file("managers\\task_manager.ltx");
 
-// todo: move to config
-export const GUIDERS_BY_LEVEL: LuaTable<TName, LuaTable<TName, TStringId>> = $fromObject({
-  [levels.zaton]: $fromObject({
-    [levels.jupiter]: storyIds.zat_b215_stalker_guide_zaton,
-    [levels.pripyat]: storyIds.zat_b215_stalker_guide_zaton,
-  }),
-  [levels.jupiter]: $fromObject({
-    [levels.zaton]: storyIds.zat_b215_stalker_guide_jupiter,
-    [levels.pripyat]: storyIds.jup_b43_stalker_assistant,
-  }),
-  [levels.pripyat]: $fromObject({
-    [levels.zaton]: storyIds.jup_b43_stalker_assistant_pri,
-    [levels.jupiter]: storyIds.jup_b43_stalker_assistant_pri,
-  }),
-} as Record<TName, LuaTable<TName, TName>>);
-
 export const taskConfig = {
+  // Story IDs of guiders that lead from a level to the level of a task target, by levels.
+  GUIDERS_BY_LEVEL: $fromObject<TName, LuaTable<TName, TStringId>>({
+    [levels.zaton]: $fromObject<TName, TStringId>({
+      [levels.jupiter]: storyIds.zat_b215_stalker_guide_zaton,
+      [levels.pripyat]: storyIds.zat_b215_stalker_guide_zaton,
+    }),
+    [levels.jupiter]: $fromObject<TName, TStringId>({
+      [levels.zaton]: storyIds.zat_b215_stalker_guide_jupiter,
+      [levels.pripyat]: storyIds.jup_b43_stalker_assistant,
+    }),
+    [levels.pripyat]: $fromObject<TName, TStringId>({
+      [levels.zaton]: storyIds.jup_b43_stalker_assistant_pri,
+      [levels.jupiter]: storyIds.jup_b43_stalker_assistant_pri,
+    }),
+  }),
   // Update period is randomized in min-max range to spread active tasks re-checks across frames.
   UPDATE_CHECK_PERIOD_MIN: 500,
   UPDATE_CHECK_PERIOD_MAX: 1000,
