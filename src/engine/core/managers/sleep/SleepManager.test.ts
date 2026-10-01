@@ -129,10 +129,8 @@ describe("SleepManager", () => {
     surgeConfig.IS_STARTED = true;
 
     const sleepManager: SleepManager = getManager(SleepManager);
-    const weatherManager: WeatherManager = getManager(WeatherManager);
     const eventsManager: EventsManager = getManager(EventsManager);
 
-    jest.spyOn(weatherManager, "forceWeatherChange").mockImplementation(jest.fn());
     jest.spyOn(eventsManager, "emitEvent").mockImplementation(jest.fn());
 
     jest.spyOn(level, "is_wfx_playing").mockReturnValue(true);
@@ -147,9 +145,7 @@ describe("SleepManager", () => {
       "engine.on_finish_sleeping"
     );
     expect(level.change_game_time).toHaveBeenCalledWith(0, 6, 0);
-
-    expect(weatherManager.forceWeatherChange).toHaveBeenCalledTimes(1);
-    expect(surgeConfig.IS_TIME_FORWARDED).toBe(true);
+    expect(eventsManager.emitEvent).toHaveBeenCalledWith(EGameEvent.GAME_TIME_FORWARDED);
     // The surge slept through stops its own weather effect once it ends.
     expect(level.stop_weather_fx).not.toHaveBeenCalled();
 

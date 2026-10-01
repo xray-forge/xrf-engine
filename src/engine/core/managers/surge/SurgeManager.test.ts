@@ -46,7 +46,8 @@ describe("SurgeManager", () => {
 
     getManager(SurgeManager);
 
-    expect(eventsManager.getSubscribersCount()).toBe(4);
+    expect(eventsManager.getSubscribersCount()).toBe(5);
+    expect(eventsManager.getEventSubscribersCount(EGameEvent.GAME_TIME_FORWARDED)).toBe(1);
     expect(eventsManager.getEventSubscribersCount(EGameEvent.DUMP_LUA_DATA)).toBe(1);
     expect(eventsManager.getEventSubscribersCount(EGameEvent.ACTOR_GO_ONLINE)).toBe(1);
     expect(eventsManager.getEventSubscribersCount(EGameEvent.ACTOR_UPDATE)).toBe(1);
@@ -611,6 +612,14 @@ describe("SurgeManager", () => {
     expect(artefact.FollowByPath).toHaveBeenCalledTimes(1);
     expect(artefact.FollowByPath).toHaveBeenCalledWith("NULL", 0, createVector(500, 500, 500));
     expect(registry.artefacts.ways.has(object.id())).toBe(false);
+  });
+
+  it("should note game time forwarded for its schedule", () => {
+    getManager(SurgeManager);
+
+    EventsManager.emitEvent(EGameEvent.GAME_TIME_FORWARDED);
+
+    expect(surgeConfig.IS_TIME_FORWARDED).toBe(true);
   });
 
   it("should correctly handle debug dump event", () => {

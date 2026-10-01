@@ -86,6 +86,7 @@ export class WeatherManager extends AbstractManager {
     eventsManager.registerCallback(EGameEvent.DUMP_LUA_DATA, this.onDebugDump, this);
     eventsManager.registerCallback(EGameEvent.ACTOR_UPDATE_2500, this.update, this);
     eventsManager.registerCallback(EGameEvent.ACTOR_GO_ONLINE, this.onActorNetworkSpawn, this);
+    eventsManager.registerCallback(EGameEvent.GAME_TIME_FORWARDED, this.onGameTimeForwarded, this);
   }
 
   public override destroy(): void {
@@ -94,6 +95,7 @@ export class WeatherManager extends AbstractManager {
     eventsManager.unregisterCallback(EGameEvent.DUMP_LUA_DATA, this.onDebugDump);
     eventsManager.unregisterCallback(EGameEvent.ACTOR_UPDATE_2500, this.update);
     eventsManager.unregisterCallback(EGameEvent.ACTOR_GO_ONLINE, this.onActorNetworkSpawn);
+    eventsManager.unregisterCallback(EGameEvent.GAME_TIME_FORWARDED, this.onGameTimeForwarded);
   }
 
   /**
@@ -286,6 +288,13 @@ export class WeatherManager extends AbstractManager {
       level.start_weather_fx_from_time(this.savedWeatherFx, this.savedWeatherFxTime);
       this.savedWeatherFx = null;
     }
+  }
+
+  /**
+   * Handle game time jumping forward, switching to the weather of the new time at once rather than blending into it.
+   */
+  public onGameTimeForwarded(): void {
+    this.forceWeatherChange();
   }
 
   /**

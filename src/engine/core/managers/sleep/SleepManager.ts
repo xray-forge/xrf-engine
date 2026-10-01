@@ -11,10 +11,9 @@ import { AbstractManager } from "@/engine/core/managers/abstract";
 import { ActorInputManager, EActorControlHandle, EActorControlPolicy } from "@/engine/core/managers/actor";
 import { EGameEvent, EventsManager } from "@/engine/core/managers/events";
 import { sleepConfig } from "@/engine/core/managers/sleep/SleepConfig";
-import { surgeConfig } from "@/engine/core/managers/surge/SurgeConfig";
 import { SurgeManager } from "@/engine/core/managers/surge/SurgeManager";
-import { WeatherManager } from "@/engine/core/managers/weather/WeatherManager";
 import { SleepDialog } from "@/engine/core/ui/game/sleep";
+import { forwardGameTime } from "@/engine/core/utils/game";
 import { disableInfoPortion, giveInfoPortion } from "@/engine/core/utils/info_portion";
 import { LuaLogger } from "@/engine/core/utils/logging";
 import { getEffectsVolume, getMusicVolume, setEffectsVolume, setMusicVolume } from "@/engine/core/utils/sound";
@@ -118,11 +117,8 @@ export class SleepManager extends AbstractManager {
       false,
       "engine.on_finish_sleeping"
     );
-    level.change_game_time(0, this.nextSleepDuration, 0);
 
-    getManager(WeatherManager).forceWeatherChange();
-    // A surge slept through ends on its next update, stopping its weather effect as time was forwarded.
-    surgeConfig.IS_TIME_FORWARDED = true;
+    forwardGameTime(this.nextSleepDuration);
 
     registry.actor.power = 1;
 
@@ -188,9 +184,7 @@ export class SleepManager extends AbstractManager {
     logger.info("On anabiotic sleep: %s", minutes);
 
     getManager(SurgeManager).forwardSurgeTime(minutes);
-
-    level.change_game_time(0, 0, minutes);
-    getManager(WeatherManager).forceWeatherChange();
+    forwardGameTime(0, minutes);
   }
 
   /**

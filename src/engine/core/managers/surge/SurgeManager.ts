@@ -102,6 +102,7 @@ export class SurgeManager extends AbstractManager {
     eventsManager.registerCallback(EGameEvent.ACTOR_GO_ONLINE, this.onActorGoOnline, this);
     eventsManager.registerCallback(EGameEvent.ACTOR_UPDATE, this.update, this);
     eventsManager.registerCallback(EGameEvent.ACTOR_ITEM_TAKE, this.onActorItemTake, this);
+    eventsManager.registerCallback(EGameEvent.GAME_TIME_FORWARDED, this.onGameTimeForwarded, this);
   }
 
   public override destroy(): void {
@@ -111,6 +112,7 @@ export class SurgeManager extends AbstractManager {
     eventsManager.unregisterCallback(EGameEvent.ACTOR_GO_ONLINE, this.onActorGoOnline);
     eventsManager.unregisterCallback(EGameEvent.ACTOR_UPDATE, this.update);
     eventsManager.unregisterCallback(EGameEvent.ACTOR_ITEM_TAKE, this.onActorItemTake);
+    eventsManager.unregisterCallback(EGameEvent.GAME_TIME_FORWARDED, this.onGameTimeForwarded);
   }
 
   public override save(packet: NetPacket): void {
@@ -632,6 +634,14 @@ export class SurgeManager extends AbstractManager {
    */
   public onSurgeSurviveEnd(): void {
     getManager(ActorInputManager).releaseGameUiControl(EActorControlHandle.SURGE);
+  }
+
+  /**
+   * Handle game time jumping forward.
+   * A surge due right after the jump is put off, and one slept through ends on its next update, stopping its weather.
+   */
+  public onGameTimeForwarded(): void {
+    surgeConfig.IS_TIME_FORWARDED = true;
   }
 
   /**

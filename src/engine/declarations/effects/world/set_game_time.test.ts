@@ -3,7 +3,7 @@ import { level } from "xray16";
 import { MockGameObject } from "xray16/mocks";
 
 import { getManager } from "@/engine/core/database";
-import { surgeConfig } from "@/engine/core/managers/surge/SurgeConfig";
+import { surgeConfig, SurgeManager } from "@/engine/core/managers/surge";
 import { WeatherManager } from "@/engine/core/managers/weather";
 import { callXrEffect, resetRegistry } from "@/fixtures/engine";
 
@@ -18,6 +18,8 @@ beforeEach(() => {
 describe("set_game_time", () => {
   it("should advance the clock to the next requested time and force weather refresh", () => {
     const weatherManager: WeatherManager = getManager(WeatherManager);
+
+    getManager(SurgeManager);
 
     jest.spyOn(level, "get_time_hours").mockReturnValue(12);
     jest.spyOn(level, "get_time_minutes").mockReturnValue(30);

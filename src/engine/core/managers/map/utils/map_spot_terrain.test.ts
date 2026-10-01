@@ -241,7 +241,8 @@ working = 0
     terrain.maxStayingSquadsCount = 10;
     terrain.stayingObjectsCount = 3;
 
-    terrain.lastRespawnUpdatedAt = createTime(2015, 2, 14, 14, 25, 30, 100);
+    // Respawned an hour before the mocked current game time.
+    terrain.lastRespawnUpdatedAt = createTime(2012, 6, 12, 8, 30, 0, 0);
     terrain.spawnedSquadsList.set("test-1", { num: 3 });
     terrain.spawnedSquadsList.set("test-2", { num: 3 });
 
@@ -270,7 +271,7 @@ squad_id = 155
 capacity = 6\\10
 arriving_objects = 1
 staying_objects = 3
-[spawn_state] (tts: -83163600)
+[spawn_state] (tts: -2600)
 test-1 -> 3\\3
 test-2 -> 3\\3
 [assigned]

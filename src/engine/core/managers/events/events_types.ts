@@ -527,6 +527,10 @@ export enum EGameEvent {
    */
   BEFORE_LEVEL_CHANGE,
   /**
+   * Game time jumped forward at once, as on sleep, travel or a script effect.
+   */
+  GAME_TIME_FORWARDED,
+  /**
    * Dumping data from lua.
    */
   DUMP_LUA_DATA,

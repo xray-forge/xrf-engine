@@ -1,17 +1,14 @@
-import { level } from "xray16";
 import { GameObject } from "xray16/alias";
 import { extern } from "xray16/lib";
 import { $filename } from "xray16/macros";
 
-import { getManager } from "@/engine/core/database";
-import { surgeConfig } from "@/engine/core/managers/surge/SurgeConfig";
-import { WeatherManager } from "@/engine/core/managers/weather/WeatherManager";
+import { forwardGameTime } from "@/engine/core/utils/game";
 import { LuaLogger } from "@/engine/core/utils/logging";
 
 export const logger: LuaLogger = new LuaLogger($filename);
 
 /**
- * Forward the in-game clock by the provided hours and minutes and force a weather change.
+ * Forward the in-game clock by the provided hours and minutes.
  *
  * @param actor - Actor game object initiating the effect.
  * @param object - Game object owning the logics scheme.
@@ -26,8 +23,6 @@ extern(
     const hours: number = tonumber(hoursString)!;
     const minutes: number = tonumber(minutesString) ?? 0;
 
-    level.change_game_time(0, hours, minutes);
-    getManager(WeatherManager).forceWeatherChange();
-    surgeConfig.IS_TIME_FORWARDED = true;
+    forwardGameTime(hours, minutes);
   }
 );

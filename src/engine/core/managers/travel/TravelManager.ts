@@ -36,7 +36,6 @@ import {
   getSimulationTerrainDescriptorById,
   releaseSimulationSquad,
 } from "@/engine/core/managers/simulation/utils";
-import { surgeConfig } from "@/engine/core/managers/surge/SurgeConfig";
 import { ITravelDescriptor, ITravelRouteDescriptor } from "@/engine/core/managers/travel/travel_types";
 import { travelConfig } from "@/engine/core/managers/travel/TravelConfig";
 import { getTravelPriceByDistance, getTravelPriceForSquad } from "@/engine/core/managers/travel/utils";
@@ -46,6 +45,7 @@ import { ESquadActionType } from "@/engine/core/objects/squad/squad_types";
 import { setSquadPosition } from "@/engine/core/objects/squad/utils";
 import { isSmartTerrain, isSquad } from "@/engine/core/utils/class_ids";
 import { getObjectCommunity } from "@/engine/core/utils/community";
+import { forwardGameTime } from "@/engine/core/utils/game";
 import { createGameAutoSave } from "@/engine/core/utils/game_save";
 import { hasInfoPortion } from "@/engine/core/utils/info_portion";
 import { ELuaLoggerMode, LuaLogger } from "@/engine/core/utils/logging";
@@ -574,11 +574,7 @@ export class TravelManager extends AbstractManager {
     const hours: TDuration = math.floor(timeTookInMinutes / 60);
     const minutes: TDuration = timeTookInMinutes - hours * 60;
 
-    level.change_game_time(0, hours, minutes);
-
-    surgeConfig.IS_TIME_FORWARDED = true;
-
-    logger.info("Forwarded time on travel: '%s:%s'", hours, minutes);
+    forwardGameTime(hours, minutes);
   }
 
   /**

@@ -128,8 +128,16 @@ describe("ActorInputManager", () => {
 
     newActorInputManager.save(restoredProcessor.asNetPacket());
 
-    expect(restoredProcessor.writeDataOrder).toEqual(savedDataOrder);
-    expect(restoredProcessor.dataList).toEqual(savedData);
+    // The travel lock is dropped on load, as no travel goes on after it.
+    expect(restoredProcessor.writeDataOrder).toEqual([...savedDataOrder.slice(0, 16), ...savedDataOrder.slice(20)]);
+    expect(restoredProcessor.dataList).toEqual([
+      ...savedData.slice(0, 11),
+      2,
+      ...savedData.slice(12, 16),
+      ...savedData.slice(20, 24),
+      // Marker of the saved size, short of the dropped lock.
+      20,
+    ]);
 
     jest.clearAllMocks();
 
@@ -140,14 +148,40 @@ describe("ActorInputManager", () => {
     expect(level.enable_input).not.toHaveBeenCalled();
     expect(registry.actor.activate_slot).toHaveBeenCalledWith(10);
 
-    newActorInputManager.releaseControl(EActorControlHandle.TRAVEL, false);
-
-    expect(level.disable_input).toHaveBeenCalledTimes(2);
-    expect(level.enable_input).not.toHaveBeenCalled();
-
     newActorInputManager.releaseControl(EActorControlHandle.TIMED, false);
 
     expect(level.enable_input).toHaveBeenCalledTimes(1);
+  });
+
+  it("should drop locks of sequences not resumed after load, giving back the item slot they put away", () => {
+    const manager: ActorInputManager = getManager(ActorInputManager);
+    const processor: MockNetProcessor = new MockNetProcessor();
+
+    replaceFunctionMock(registry.actor.active_slot, () => EActiveItemSlot.PRIMARY);
+
+    manager.acquireControl(EActorControlHandle.ANABIOTIC, "anabiotic", EActorControlPolicy.UI_ONLY, true);
+    manager.acquireControl(EActorControlHandle.SLEEP, "sleep", EActorControlPolicy.FULL_UI);
+
+    expect(registry.actor.activate_slot).toHaveBeenCalledWith(EActiveItemSlot.NONE);
+
+    replaceFunctionMock(registry.actor.active_slot, () => EActiveItemSlot.NONE);
+
+    manager.save(processor.asNetPacket());
+
+    disposeManager(ActorInputManager);
+
+    const newManager: ActorInputManager = getManager(ActorInputManager);
+
+    jest.clearAllMocks();
+    newManager.load(processor.asNetReader());
+
+    expect(processor.dataList).toHaveLength(0);
+    expect(level.enable_input).toHaveBeenCalledTimes(1);
+    expect(level.disable_input).not.toHaveBeenCalled();
+
+    newManager.onFirstUpdate();
+
+    expect(registry.actor.activate_slot).toHaveBeenCalledWith(EActiveItemSlot.PRIMARY);
   });
 
   it("should correctly toggle inactive input state", () => {

@@ -21,7 +21,6 @@ import { parseConditionsList } from "@/engine/core/ini";
 import { ActorInputManager, EActorControlHandle } from "@/engine/core/managers/actor";
 import { EGameEvent, EventsManager } from "@/engine/core/managers/events";
 import { simulationConfig } from "@/engine/core/managers/simulation/SimulationConfig";
-import { surgeConfig } from "@/engine/core/managers/surge/SurgeConfig";
 import { travelConfig } from "@/engine/core/managers/travel/TravelConfig";
 import { TravelManager } from "@/engine/core/managers/travel/TravelManager";
 import { getTravelPriceForSquad } from "@/engine/core/managers/travel/utils";
@@ -546,6 +545,8 @@ describe("TravelManager", () => {
     });
     MockVector.DEFAULT_DISTANCE = 100;
 
+    jest.spyOn(EventsManager, "emitEvent");
+
     manager.onTravelToSpecificSmartWithSquad(actorGameObject, object, "1000", "1000_11");
 
     expect(object.stop_talk).toHaveBeenCalledTimes(1);
@@ -585,14 +586,12 @@ describe("TravelManager", () => {
     expect(actorGameObject.set_actor_position).toHaveBeenCalledTimes(1);
     // 100 units of distance take 10 game minutes.
     expect(level.change_game_time).toHaveBeenCalledWith(0, 0, 10);
-    expect(surgeConfig.IS_TIME_FORWARDED).toBe(true);
+    expect(EventsManager.emitEvent).toHaveBeenCalledWith(EGameEvent.GAME_TIME_FORWARDED);
 
     manager.update();
 
     // The actor is teleported once per travel.
     expect(actorGameObject.set_actor_position).toHaveBeenCalledTimes(1);
-
-    surgeConfig.IS_TIME_FORWARDED = false;
 
     simulationConfig.TERRAINS.delete("zat_stalker_base_smart");
     simulationConfig.TERRAIN_DESCRIPTORS.delete(terrain.id);

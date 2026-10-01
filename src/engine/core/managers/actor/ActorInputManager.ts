@@ -98,17 +98,26 @@ export class ActorInputManager extends AbstractManager {
     this.locks = new LuaTable();
 
     const controlsCount: number = reader.r_u8();
+    let isSlotReleased: boolean = false;
 
     for (const _ of $range(1, controlsCount)) {
       const handle: TName = reader.r_stringZ();
       const reason: TName = reader.r_stringZ();
       const policy: EActorControlPolicy = reader.r_u8() as EActorControlPolicy;
+      const resetSlot: boolean = reader.r_bool();
 
-      this.locks.set(handle, {
-        reason,
-        policy,
-        resetSlot: reader.r_bool(),
-      });
+      if (this.isResumedAfterLoad(handle)) {
+        this.locks.set(handle, { reason, policy, resetSlot });
+      } else {
+        logger.info("Drop actor control lock of a sequence not resumed after load: %s", handle);
+        isSlotReleased = isSlotReleased || resetSlot;
+      }
+    }
+
+    // A dropped lock gives back the item slot it put away.
+    if (isSlotReleased && !this.hasUiControl() && this.memoizedItemSlot !== EActiveItemSlot.NONE) {
+      this.activeItemSlot = this.memoizedItemSlot;
+      this.memoizedItemSlot = EActiveItemSlot.NONE;
     }
 
     closeLoadMarker(reader, ActorInputManager.name);
@@ -324,6 +333,17 @@ export class ActorInputManager extends AbstractManager {
     }
 
     return result;
+  }
+
+  /**
+   * Script UI locks are released by scheme logic that goes on after a load, and timed locks are saved with their expiry.
+   * Sleep, anabiotic, surge survival, travel and outro run on effector callbacks or timers that a load does not resume.
+   *
+   * @param handle - Control lock owner.
+   * @returns Whether the lock owner resumes after a game load, so its saved lock is restored.
+   */
+  private isResumedAfterLoad(handle: TName): boolean {
+    return handle === EActorControlHandle.SCRIPT_UI || handle === EActorControlHandle.TIMED;
   }
 
   /**

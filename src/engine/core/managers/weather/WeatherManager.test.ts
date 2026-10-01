@@ -34,10 +34,11 @@ describe("WeatherManager", () => {
     expect(weatherManager.weatherState).toBeNull();
     expect(weatherManager.savedWeatherFx).toBeNull();
 
-    expect(eventsManager.getSubscribersCount()).toBe(3);
+    expect(eventsManager.getSubscribersCount()).toBe(4);
     expect(eventsManager.getEventSubscribersCount(EGameEvent.DUMP_LUA_DATA)).toBe(1);
     expect(eventsManager.getEventSubscribersCount(EGameEvent.ACTOR_UPDATE_2500)).toBe(1);
     expect(eventsManager.getEventSubscribersCount(EGameEvent.ACTOR_GO_ONLINE)).toBe(1);
+    expect(eventsManager.getEventSubscribersCount(EGameEvent.GAME_TIME_FORWARDED)).toBe(1);
 
     disposeManager(WeatherManager);
 
@@ -293,6 +294,14 @@ describe("WeatherManager", () => {
     expect(manager.changePeriod).toHaveBeenCalledTimes(1);
     expect(manager.updateWeather).toHaveBeenCalledTimes(1);
     expect(stateOnUpdate).toBeNull();
+  });
+
+  it("should switch to the weather of the new time at once after game time is forwarded", () => {
+    const manager: WeatherManager = getManager(WeatherManager);
+
+    EventsManager.emitEvent(EGameEvent.GAME_TIME_FORWARDED);
+
+    expect(manager.shouldForceWeatherChangeOnTimeChange).toBe(true);
   });
 
   it("should correctly handle debug dump event", () => {
