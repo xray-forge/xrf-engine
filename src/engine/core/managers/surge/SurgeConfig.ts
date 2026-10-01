@@ -48,5 +48,4 @@ export const surgeConfig = {
   IMMUNE_SQUAD_COMMUNITIES: readIniSectionAsSet(SURGE_MANAGER_CONFIG_LTX, "immune_squad_communities"),
   SURGE_DISABLED_LEVELS: readIniSectionAsSet(SURGE_MANAGER_CONFIG_LTX, "surge_disabled_levels"),
   UNDERGROUND_LEVELS: readIniSectionAsSet(SURGE_MANAGER_CONFIG_LTX, "surge_underground_levels"),
-  RESPAWN_ARTEFACTS_LEVELS: readIniSectionAsSet(SURGE_MANAGER_CONFIG_LTX, "surge_respawn_artefacts_levels"),
 };

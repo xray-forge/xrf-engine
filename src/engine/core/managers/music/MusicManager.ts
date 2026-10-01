@@ -18,15 +18,14 @@ import {
 import { $filename, $isNil, $isNotNil } from "xray16/macros";
 
 import { consoleCommands } from "@/engine/constants/console_commands";
-import { getManager, getManagerByName, registry } from "@/engine/core/database";
+import { getManager, registry } from "@/engine/core/database";
 import { AbstractManager } from "@/engine/core/managers/abstract";
 import { EGameEvent } from "@/engine/core/managers/events/events_types";
 import { EventsManager } from "@/engine/core/managers/events/EventsManager";
 import { musicConfig } from "@/engine/core/managers/music/MusicConfig";
 import { StereoSound } from "@/engine/core/managers/sounds/objects";
 import { EDynamicMusicState } from "@/engine/core/managers/sounds/sounds_types";
-import { surgeConfig } from "@/engine/core/managers/surge/SurgeConfig";
-import { type SurgeManager } from "@/engine/core/managers/surge/SurgeManager";
+import { SurgeManager } from "@/engine/core/managers/surge/SurgeManager";
 import { LuaLogger } from "@/engine/core/utils/logging";
 import { isObjectInSilenceZone } from "@/engine/core/utils/position";
 import { setMusicVolume } from "@/engine/core/utils/sound";
@@ -350,9 +349,9 @@ export class MusicManager extends AbstractManager {
       return;
     }
 
-    const surgeManager: Nillable<SurgeManager> = getManagerByName<SurgeManager>("SurgeManager");
+    const surgeManager: SurgeManager = getManager(SurgeManager);
 
-    if (surgeConfig.IS_STARTED && surgeManager?.isBlowoutSoundStarted) {
+    if (surgeManager.isBlowoutSoundPlaying()) {
       if (surgeManager.isKillingAll()) {
         this.forceFade = true;
         this.fadeToAmbientVolume = this.gameAmbientVolume;

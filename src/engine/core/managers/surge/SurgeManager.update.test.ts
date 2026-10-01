@@ -89,17 +89,6 @@ describe("SurgeManager update stages", () => {
     }
   });
 
-  it("should respawn artefacts for the level when it was flagged", () => {
-    surgeConfig.IS_STARTED = false;
-    manager.respawnArtefactsForLevel.set(level.name(), true);
-
-    jest.spyOn(manager, "respawnArtefactsAndReplaceAnomalyZones").mockImplementation(jest.fn());
-
-    manager.update();
-
-    expect(manager.respawnArtefactsAndReplaceAnomalyZones).toHaveBeenCalledTimes(1);
-  });
-
   it("should reschedule the next surge after time was forwarded", () => {
     const now: Time = createTime(2012, 6, 12, 20, 15, 30, 200);
 

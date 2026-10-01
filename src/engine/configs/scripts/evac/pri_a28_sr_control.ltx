@@ -9,7 +9,7 @@ on_info2 = {+pri_a28_evacuation_start -pri_b305_fifth_cam_end} sr_idle@clear_sma
 
 [sr_idle@start_surge]
 $scheme = $sr_idle
-on_info = {!surge_started} sr_idle@stop_surge %=set_surge_mess_and_task(empty:empty) =start_surge%, sr_idle@stop_surge %=set_surge_mess_and_task(empty:empty)%
+on_info = {!surge_started} sr_idle@stop_surge %=set_surge_task(empty) =start_surge%, sr_idle@stop_surge %=set_surge_task(empty)%
 
 [sr_idle@stop_surge]
 $scheme = $sr_idle

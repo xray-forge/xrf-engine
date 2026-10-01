@@ -14,6 +14,7 @@ import {
 import { IExtensionsDescriptor } from "@/engine/core/extensions";
 import { TAbstractCoreManagerConstructor } from "@/engine/core/managers/abstract";
 import { ActorInputManager } from "@/engine/core/managers/actor";
+import { ArtefactManager } from "@/engine/core/managers/artefacts";
 import { ReleaseBodyManager } from "@/engine/core/managers/death/ReleaseBodyManager";
 import { DeimosManager } from "@/engine/core/managers/deimos";
 import { EGameEvent, EventsManager } from "@/engine/core/managers/events";
@@ -85,6 +86,7 @@ describe("SaveManager", () => {
       WeatherManager,
       ReleaseBodyManager,
       SurgeManager,
+      ArtefactManager,
       PsyAntennaManager,
       SoundManager,
       StatisticsManager,

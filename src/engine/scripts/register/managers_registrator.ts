@@ -3,6 +3,7 @@ import { $filename } from "xray16/macros";
 import { initializeManager } from "@/engine/core/database";
 import { TAbstractCoreManagerConstructor } from "@/engine/core/managers/abstract";
 import { ActorInputManager, ActorInventoryMenuManager } from "@/engine/core/managers/actor";
+import { ArtefactManager } from "@/engine/core/managers/artefacts";
 import { DatabaseManager } from "@/engine/core/managers/database";
 import { ReleaseBodyManager } from "@/engine/core/managers/death";
 import { DebugManager } from "@/engine/core/managers/debug";
@@ -38,6 +39,7 @@ export function registerManagers(): void {
   const managers: Array<TAbstractCoreManagerConstructor> = [
     ActorInputManager,
     ActorInventoryMenuManager,
+    ArtefactManager,
     DatabaseManager,
     DebugManager,
     DialogManager,

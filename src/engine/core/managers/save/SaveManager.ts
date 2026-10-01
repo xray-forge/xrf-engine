@@ -6,6 +6,7 @@ import { getManager, initializeManager, registry } from "@/engine/core/database"
 import { loadExtension, saveExtension } from "@/engine/core/extensions";
 import { AbstractManager } from "@/engine/core/managers/abstract";
 import { ActorInputManager } from "@/engine/core/managers/actor";
+import { ArtefactManager } from "@/engine/core/managers/artefacts";
 import { ReleaseBodyManager } from "@/engine/core/managers/death";
 import { DeimosManager } from "@/engine/core/managers/deimos";
 import { EGameEvent, EventsManager } from "@/engine/core/managers/events";
@@ -48,6 +49,7 @@ export class SaveManager extends AbstractManager {
     getManager(WeatherManager).save(packet);
     getManager(ReleaseBodyManager).save(packet);
     getManager(SurgeManager).save(packet);
+    getManager(ArtefactManager).save(packet);
     PsyAntennaManager.save(packet);
     getManager(SoundManager).save(packet);
     getManager(StatisticsManager).save(packet);
@@ -67,6 +69,7 @@ export class SaveManager extends AbstractManager {
     getManager(WeatherManager).load(reader);
     getManager(ReleaseBodyManager).load(reader);
     getManager(SurgeManager).load(reader);
+    getManager(ArtefactManager).load(reader);
     PsyAntennaManager.load(reader);
     getManager(SoundManager).load(reader);
     getManager(StatisticsManager).load(reader);

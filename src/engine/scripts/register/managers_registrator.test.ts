@@ -3,6 +3,7 @@ import { AnyObject } from "xray16/lib";
 
 import { registry } from "@/engine/core/database";
 import { ActorInputManager, ActorInventoryMenuManager } from "@/engine/core/managers/actor";
+import { ArtefactManager } from "@/engine/core/managers/artefacts";
 import { DatabaseManager } from "@/engine/core/managers/database";
 import { ReleaseBodyManager } from "@/engine/core/managers/death";
 import { DebugManager } from "@/engine/core/managers/debug";
@@ -38,11 +39,12 @@ describe("managers_registrator entry point", () => {
   it("registerSchemeModules should correctly re-register required managers", () => {
     registerManagers();
 
-    expect((registry.managers as AnyObject).size).toBe(26);
+    expect((registry.managers as AnyObject).size).toBe(27);
 
     [
       ActorInputManager,
       ActorInventoryMenuManager,
+      ArtefactManager,
       DatabaseManager,
       DebugManager,
       DialogManager,

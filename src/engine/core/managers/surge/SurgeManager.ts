@@ -1,17 +1,12 @@
-import { CArtefact, game, hit, level } from "xray16";
+import { game, hit, level } from "xray16";
 import { GameObject, Hit, NetPacket, NetProcessor, Time } from "xray16/alias";
 import {
   ACTOR_ID,
   AnyObject,
   createTime,
-  createVector,
   Nillable,
   readTimeFromPacket,
-  TCount,
   TDuration,
-  TLabel,
-  TName,
-  TNumberId,
   TRUE,
   TSection,
   writeTimeToPacket,
@@ -21,9 +16,7 @@ import { $filename } from "xray16/macros";
 
 import { animations, postProcessors } from "@/engine/constants/animation";
 import { infoPortions } from "@/engine/constants/info_portions";
-import { TLevel } from "@/engine/constants/levels";
 import { taskIds } from "@/engine/constants/task_ids";
-import type { AnomalyZoneBinder } from "@/engine/core/binders/zones";
 import {
   closeLoadMarker,
   closeSaveMarker,
@@ -36,7 +29,6 @@ import { pickSectionFromCondList } from "@/engine/core/ini";
 import { AbstractManager } from "@/engine/core/managers/abstract";
 import { ActorInputManager, EActorControlHandle } from "@/engine/core/managers/actor";
 import { EGameEvent, EventsManager } from "@/engine/core/managers/events";
-import { updateAnomalyZonesDisplay } from "@/engine/core/managers/map/utils";
 import { SoundManager } from "@/engine/core/managers/sounds/SoundManager";
 import { surgeConfig } from "@/engine/core/managers/surge/SurgeConfig";
 import {
@@ -51,7 +43,6 @@ import {
 } from "@/engine/core/managers/surge/utils";
 import { TaskManager } from "@/engine/core/managers/tasks";
 import { WeatherManager } from "@/engine/core/managers/weather/WeatherManager";
-import { isArtefact } from "@/engine/core/utils/class_ids";
 import { isBlackScreen } from "@/engine/core/utils/game";
 import { createGameAutoSave } from "@/engine/core/utils/game_save";
 import { hasInfoPortion } from "@/engine/core/utils/info_portion";
@@ -61,12 +52,9 @@ const logger: LuaLogger = new LuaLogger($filename);
 
 /**
  * Schedule surges and run their stages: warnings, effects, damage and the kill of everyone left outside a cover.
- *
- * Todo: Separate manager to handle artefacts spawn / ownership etc in parallel, do not mix logic.
+ * Artefacts respawning after a surge are the `ArtefactManager` concern, following surge events.
  */
 export class SurgeManager extends AbstractManager {
-  // Whether manager should respawn artefacts for specific level.
-  public respawnArtefactsForLevel: LuaTable<TName, boolean> = new LuaTable();
   // Surge time of the last stage update, see `getElapsedSurgeTime`.
   public currentDuration: TDuration = 0;
 
@@ -83,7 +71,7 @@ export class SurgeManager extends AbstractManager {
   public initializedAt: Time = game.get_game_time();
   public lastSurgeAt: Time = game.get_game_time();
 
-  public surgeMessage: TLabel = "";
+  // Task given to hide from the surge, the generic one when empty, none when `empty`.
   public surgeTaskSection: TSection = "";
 
   /**
@@ -101,7 +89,6 @@ export class SurgeManager extends AbstractManager {
     eventsManager.registerCallback(EGameEvent.DUMP_LUA_DATA, this.onDebugDump, this);
     eventsManager.registerCallback(EGameEvent.ACTOR_GO_ONLINE, this.onActorGoOnline, this);
     eventsManager.registerCallback(EGameEvent.ACTOR_UPDATE, this.update, this);
-    eventsManager.registerCallback(EGameEvent.ACTOR_ITEM_TAKE, this.onActorItemTake, this);
     eventsManager.registerCallback(EGameEvent.GAME_TIME_FORWARDED, this.onGameTimeForwarded, this);
   }
 
@@ -111,7 +98,6 @@ export class SurgeManager extends AbstractManager {
     eventsManager.unregisterCallback(EGameEvent.DUMP_LUA_DATA, this.onDebugDump);
     eventsManager.unregisterCallback(EGameEvent.ACTOR_GO_ONLINE, this.onActorGoOnline);
     eventsManager.unregisterCallback(EGameEvent.ACTOR_UPDATE, this.update);
-    eventsManager.unregisterCallback(EGameEvent.ACTOR_ITEM_TAKE, this.onActorItemTake);
     eventsManager.unregisterCallback(EGameEvent.GAME_TIME_FORWARDED, this.onGameTimeForwarded);
   }
 
@@ -132,17 +118,10 @@ export class SurgeManager extends AbstractManager {
       packet.w_bool(this.isUiDisabled);
       packet.w_bool(this.isBlowoutSoundStarted);
 
-      packet.w_stringZ(this.surgeMessage);
       packet.w_stringZ(this.surgeTaskSection);
     }
 
     packet.w_u32(this.nextScheduledSurgeDelay);
-
-    packet.w_u16(table.size(this.respawnArtefactsForLevel));
-
-    for (const [level] of this.respawnArtefactsForLevel) {
-      packet.w_stringZ(level);
-    }
 
     closeSaveMarker(packet, SurgeManager.name);
   }
@@ -152,7 +131,6 @@ export class SurgeManager extends AbstractManager {
 
     this.resetSurgeState();
     this.shouldNotifySkip = true;
-    this.respawnArtefactsForLevel = new LuaTable();
 
     surgeConfig.IS_FINISHED = reader.r_bool();
     surgeConfig.IS_STARTED = reader.r_bool();
@@ -168,18 +146,11 @@ export class SurgeManager extends AbstractManager {
       this.isUiDisabled = reader.r_bool();
       this.isBlowoutSoundStarted = reader.r_bool();
 
-      this.surgeMessage = reader.r_stringZ();
       this.surgeTaskSection = reader.r_stringZ();
     }
 
     this.nextScheduledSurgeDelay = reader.r_u32();
     this.isAfterGameLoad = surgeConfig.IS_STARTED;
-
-    const count: TCount = reader.r_u16();
-
-    for (const _ of $range(1, count)) {
-      this.respawnArtefactsForLevel.set(reader.r_stringZ(), true);
-    }
 
     closeLoadMarker(reader, SurgeManager.name);
   }
@@ -201,21 +172,19 @@ export class SurgeManager extends AbstractManager {
   }
 
   /**
-   * Set the message label displayed to the actor during the surge.
-   *
-   * @param message - Message label to display for the next surge.
-   */
-  public setSurgeMessage(message: TLabel): void {
-    this.surgeMessage = message;
-  }
-
-  /**
    * Check whether the surge is in its lethal phase killing unhidden objects.
    *
    * @returns Whether the surge is started and currently killing all unhidden objects.
    */
   public isKillingAll(): boolean {
     return surgeConfig.IS_STARTED && this.isUiDisabled;
+  }
+
+  /**
+   * @returns Whether the surge is started and its blowout rumble plays.
+   */
+  public isBlowoutSoundPlaying(): boolean {
+    return surgeConfig.IS_STARTED && this.isBlowoutSoundStarted;
   }
 
   /**
@@ -347,7 +316,6 @@ export class SurgeManager extends AbstractManager {
     const [Y, M, D, h, m, s, ms] = this.initializedAt.get(0, 0, 0, 0, 0, 0, 0);
 
     this.finishSurge(createTime(Y, M, D, h, m, s + surgeConfig.DURATION, ms));
-    this.respawnArtefactsAndReplaceAnomalyZones();
 
     EventsManager.emitEvent(EGameEvent.SURGE_SKIPPED, this.shouldNotifySkip);
 
@@ -389,8 +357,6 @@ export class SurgeManager extends AbstractManager {
       killAllSurgeUnhidden();
     }
 
-    this.respawnArtefactsAndReplaceAnomalyZones();
-
     EventsManager.emitEvent(EGameEvent.SURGE_ENDED);
   }
 
@@ -403,10 +369,6 @@ export class SurgeManager extends AbstractManager {
     surgeConfig.IS_STARTED = false;
     surgeConfig.IS_FINISHED = true;
 
-    for (const [level] of surgeConfig.RESPAWN_ARTEFACTS_LEVELS) {
-      this.respawnArtefactsForLevel.set(level, true);
-    }
-
     this.lastSurgeAt = finishedAt;
     this.nextScheduledSurgeDelay = math.random(surgeConfig.INTERVAL_MIN, surgeConfig.INTERVAL_MAX);
 
@@ -414,7 +376,7 @@ export class SurgeManager extends AbstractManager {
   }
 
   /**
-   * Reset the state a single surge runs with: its stages, message and task.
+   * Reset the state a single surge runs with: its stages and task.
    */
   protected resetSurgeState(): void {
     this.currentDuration = 0;
@@ -423,25 +385,7 @@ export class SurgeManager extends AbstractManager {
     this.isEffectorSet = false;
     this.isSecondMessageGiven = false;
     this.isUiDisabled = false;
-    this.surgeMessage = "";
     this.surgeTaskSection = "";
-  }
-
-  /**
-   * Respawn artefacts and change layers in all anomaly zones, then refresh the map display.
-   */
-  public respawnArtefactsAndReplaceAnomalyZones(): void {
-    const levelName: TLevel = level.name();
-
-    if (this.respawnArtefactsForLevel.get(levelName)) {
-      this.respawnArtefactsForLevel.delete(levelName);
-    }
-
-    for (const [, anomalyZone] of registry.anomalyZones) {
-      anomalyZone.respawnArtefactsAndChangeLayers();
-    }
-
-    updateAnomalyZonesDisplay();
   }
 
   public override update(): void {
@@ -449,15 +393,11 @@ export class SurgeManager extends AbstractManager {
       return;
     }
 
-    if (this.respawnArtefactsForLevel.get(level.name())) {
-      this.respawnArtefactsAndReplaceAnomalyZones();
-    }
-
     if (!surgeConfig.IS_STARTED) {
       const currentGameTime: Time = game.get_game_time();
 
       if (surgeConfig.IS_TIME_FORWARDED) {
-        const diff: TCount = math.abs(this.getTimeToNextSurge(currentGameTime));
+        const diff: TDuration = math.abs(this.getTimeToNextSurge(currentGameTime));
 
         if (diff < surgeConfig.INTERVAL_MIN_AFTER_TIME_FORWARD) {
           logger.info("Time forward, reschedule from: %s", this.nextScheduledSurgeDelay);
@@ -596,28 +536,6 @@ export class SurgeManager extends AbstractManager {
   }
 
   /**
-   * Handle actor taking artefacts.
-   *
-   * @param object - Taken by actor game object.
-   */
-  public onActorItemTake(object: GameObject): void {
-    if (isArtefact(object)) {
-      logger.info("On artefact take: %s", object.name());
-
-      const id: TNumberId = object.id();
-      const zone: Nillable<AnomalyZoneBinder> = registry.artefacts.parentZones.get(id) as Nillable<AnomalyZoneBinder>;
-
-      if (zone) {
-        zone.onArtefactTaken(id);
-      } else {
-        registry.artefacts.ways.delete(id);
-      }
-
-      (object.get_artefact() as CArtefact).FollowByPath("NULL", 0, createVector(500, 500, 500));
-    }
-  }
-
-  /**
    * Wake the actor knocked out by a surge they survive.
    */
   public onSurgeSurviveStart(): void {
@@ -659,7 +577,6 @@ export class SurgeManager extends AbstractManager {
   public onDebugDump(data: AnyObject): AnyObject {
     data[this.constructor.name] = {
       surgeConfig: surgeConfig,
-      respawnArtefactsForLevel: this.respawnArtefactsForLevel,
       currentDuration: this.currentDuration,
       isEffectorSet: this.isEffectorSet,
       isAfterGameLoad: this.isAfterGameLoad,
@@ -671,7 +588,6 @@ export class SurgeManager extends AbstractManager {
       initializedAt: this.initializedAt,
       lastSurgeAt: this.lastSurgeAt,
       nextScheduledSurgeDelay: this.nextScheduledSurgeDelay,
-      surgeMessage: this.surgeMessage,
       surgeTaskSection: this.surgeTaskSection,
     };
 

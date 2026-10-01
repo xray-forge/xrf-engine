@@ -1,12 +1,11 @@
 import { beforeEach, describe, expect, it, jest } from "@jest/globals";
-import { CArtefact, clsid, game, level } from "xray16";
+import { game, level } from "xray16";
 import { GameObject, Time } from "xray16/alias";
-import { ACTOR_ID, AnyObject, createTime, createVector } from "xray16/lib";
-import { EMockPacketDataType, MockCArtefact, MockGameObject, MockNetProcessor } from "xray16/mocks";
+import { ACTOR_ID, AnyObject, createTime } from "xray16/lib";
+import { EMockPacketDataType, MockGameObject, MockNetProcessor } from "xray16/mocks";
 import { replaceFunctionMock, resetFunctionMock } from "xray16/testing/utils";
 
 import { animations } from "@/engine/constants/animation";
-import { AnomalyZoneBinder } from "@/engine/core/binders/zones";
 import { disposeManager, getManager, registry } from "@/engine/core/database";
 import { ActorInputManager, EActorControlHandle } from "@/engine/core/managers/actor";
 import { EGameEvent, EventsManager } from "@/engine/core/managers/events";
@@ -46,12 +45,11 @@ describe("SurgeManager", () => {
 
     getManager(SurgeManager);
 
-    expect(eventsManager.getSubscribersCount()).toBe(5);
+    expect(eventsManager.getSubscribersCount()).toBe(4);
     expect(eventsManager.getEventSubscribersCount(EGameEvent.GAME_TIME_FORWARDED)).toBe(1);
     expect(eventsManager.getEventSubscribersCount(EGameEvent.DUMP_LUA_DATA)).toBe(1);
     expect(eventsManager.getEventSubscribersCount(EGameEvent.ACTOR_GO_ONLINE)).toBe(1);
     expect(eventsManager.getEventSubscribersCount(EGameEvent.ACTOR_UPDATE)).toBe(1);
-    expect(eventsManager.getEventSubscribersCount(EGameEvent.ACTOR_ITEM_TAKE)).toBe(1);
 
     disposeManager(SurgeManager);
 
@@ -80,9 +78,8 @@ describe("SurgeManager", () => {
       EMockPacketDataType.U16,
       EMockPacketDataType.U32,
       EMockPacketDataType.U16,
-      EMockPacketDataType.U16,
     ]);
-    expect(processor.dataList).toEqual([true, false, 12, 6, 12, 9, 30, 0, 0, 4500, 0, 11]);
+    expect(processor.dataList).toEqual([true, false, 12, 6, 12, 9, 30, 0, 0, 4500, 10]);
 
     disposeManager(SurgeManager);
 
@@ -111,11 +108,7 @@ describe("SurgeManager", () => {
     manager.isSecondMessageGiven = true;
     manager.isUiDisabled = true;
     manager.isBlowoutSoundStarted = true;
-    manager.surgeMessage = "test_message";
     manager.surgeTaskSection = "test_task";
-
-    manager.respawnArtefactsForLevel.set("jupiter", true);
-    manager.respawnArtefactsForLevel.set("new_level", true);
 
     manager.save(processor.asNetPacket());
 
@@ -144,11 +137,7 @@ describe("SurgeManager", () => {
       EMockPacketDataType.BOOLEAN,
       EMockPacketDataType.BOOLEAN,
       EMockPacketDataType.STRING,
-      EMockPacketDataType.STRING,
       EMockPacketDataType.U32,
-      EMockPacketDataType.U16,
-      EMockPacketDataType.STRING,
-      EMockPacketDataType.STRING,
       EMockPacketDataType.U16,
     ]);
     expect(processor.dataList).toEqual([
@@ -173,13 +162,9 @@ describe("SurgeManager", () => {
       true,
       true,
       true,
-      "test_message",
       "test_task",
       530,
-      2,
-      "jupiter",
-      "new_level",
-      27,
+      23,
     ]);
 
     disposeManager(SurgeManager);
@@ -199,12 +184,7 @@ describe("SurgeManager", () => {
     expect(newManager.isSecondMessageGiven).toBe(true);
     expect(newManager.isUiDisabled).toBe(true);
     expect(newManager.isBlowoutSoundStarted).toBe(true);
-    expect(newManager.surgeMessage).toBe("test_message");
     expect(newManager.surgeTaskSection).toBe("test_task");
-    expect(newManager.respawnArtefactsForLevel).toEqualLuaTables({
-      jupiter: true,
-      new_level: true,
-    });
 
     surgeConfig.IS_STARTED = false;
   });
@@ -223,9 +203,7 @@ describe("SurgeManager", () => {
     manager.isUiDisabled = true;
     manager.shouldNotifySkip = false;
     manager.isBlowoutSoundStarted = true;
-    manager.surgeMessage = "stale_message";
     manager.surgeTaskSection = "stale_task";
-    manager.respawnArtefactsForLevel.set("jupiter", true);
 
     manager.load(processor.asNetReader());
 
@@ -236,9 +214,7 @@ describe("SurgeManager", () => {
     expect(manager.isUiDisabled).toBe(false);
     expect(manager.shouldNotifySkip).toBe(true);
     expect(manager.isBlowoutSoundStarted).toBe(false);
-    expect(manager.surgeMessage).toBe("");
     expect(manager.surgeTaskSection).toBe("");
-    expect(manager.respawnArtefactsForLevel).toEqualLuaTables({});
     expect(processor.readDataOrder).toEqual(processor.writeDataOrder);
     expect(processor.dataList).toHaveLength(0);
   });
@@ -299,12 +275,33 @@ describe("SurgeManager", () => {
     expect(manager.surgeTaskSection).toBe("custom_surge_task");
   });
 
-  it("should correctly set surge message", () => {
+  it("should check whether the blowout rumble of a started surge plays", () => {
     const manager: SurgeManager = getManager(SurgeManager);
 
-    manager.setSurgeMessage("custom_surge_message");
+    manager.isBlowoutSoundStarted = true;
 
-    expect(manager.surgeMessage).toBe("custom_surge_message");
+    expect(manager.isBlowoutSoundPlaying()).toBe(false);
+
+    surgeConfig.IS_STARTED = true;
+
+    expect(manager.isBlowoutSoundPlaying()).toBe(true);
+
+    manager.isBlowoutSoundStarted = false;
+
+    expect(manager.isBlowoutSoundPlaying()).toBe(false);
+  });
+
+  it("should report a skipped and an ended surge for artefacts to respawn", () => {
+    const manager: SurgeManager = getManager(SurgeManager);
+
+    jest.spyOn(EventsManager, "emitEvent");
+
+    manager.initializedAt = createTime(2012, 6, 12, 10, 0, 0, 0);
+    manager.skipSurge();
+    manager.endSurge();
+
+    expect(EventsManager.emitEvent).toHaveBeenCalledWith(EGameEvent.SURGE_SKIPPED, true);
+    expect(EventsManager.emitEvent).toHaveBeenCalledWith(EGameEvent.SURGE_ENDED);
   });
 
   it("should correctly check if is killing all now", () => {
@@ -514,22 +511,6 @@ describe("SurgeManager", () => {
     expect(manager.start).toHaveBeenCalledWith();
   });
 
-  it("should correctly replace anomalies and respawn artefacts", () => {
-    const manager: SurgeManager = getManager(SurgeManager);
-    const anomalyZone: AnomalyZoneBinder = {
-      respawnArtefactsAndChangeLayers: jest.fn(),
-    } as unknown as AnomalyZoneBinder;
-
-    manager.respawnArtefactsForLevel.set(level.name(), true);
-    registry.anomalyZones.set("test_zone", anomalyZone);
-
-    manager.respawnArtefactsAndReplaceAnomalyZones();
-
-    expect(manager.respawnArtefactsForLevel.has(level.name())).toBe(false);
-    expect(anomalyZone.respawnArtefactsAndChangeLayers).toHaveBeenCalledTimes(1);
-    expect(updateAnomalyZonesDisplay).toHaveBeenCalledTimes(1);
-  });
-
   it("should wake the actor knocked out by a survived surge", () => {
     const manager: SurgeManager = getManager(SurgeManager);
 
@@ -562,56 +543,6 @@ describe("SurgeManager", () => {
     manager.onActorGoOnline();
 
     expect(initializeSurgeCovers).toHaveBeenCalledTimes(1);
-  });
-
-  it("should correctly handle actor taking generic items", () => {
-    const object: GameObject = MockGameObject.mock();
-    const manager: SurgeManager = getManager(SurgeManager);
-
-    manager.onActorItemTake(object);
-
-    expect(object.get_artefact).toHaveBeenCalledTimes(0);
-  });
-
-  it("should correctly handle actor taking artefacts from anomaly zones", () => {
-    const object: GameObject = MockGameObject.mock();
-    const manager: SurgeManager = getManager(SurgeManager);
-    const artefact: CArtefact = MockCArtefact.mock();
-    const zone: AnomalyZoneBinder = new AnomalyZoneBinder(MockGameObject.mock());
-
-    jest.spyOn(object, "clsid").mockImplementation(() => clsid.artefact_s);
-    jest.spyOn(object, "get_artefact").mockImplementation(() => artefact);
-    jest.spyOn(zone, "onArtefactTaken").mockImplementation(jest.fn());
-
-    registry.artefacts.parentZones.set(object.id(), zone);
-
-    manager.onActorItemTake(object);
-
-    expect(zone.onArtefactTaken).toHaveBeenCalledTimes(1);
-    expect(zone.onArtefactTaken).toHaveBeenCalledWith(object.id());
-    expect(object.get_artefact).toHaveBeenCalledTimes(1);
-    expect(artefact.FollowByPath).toHaveBeenCalledTimes(1);
-    expect(artefact.FollowByPath).toHaveBeenCalledWith("NULL", 0, createVector(500, 500, 500));
-  });
-
-  it("should correctly handle actor taking artefacts from world", () => {
-    const object: GameObject = MockGameObject.mock();
-    const manager: SurgeManager = getManager(SurgeManager);
-    const artefact: CArtefact = MockCArtefact.mock();
-
-    jest.spyOn(object, "clsid").mockImplementation(() => clsid.artefact_s);
-    jest.spyOn(object, "get_artefact").mockImplementation(() => artefact);
-
-    registry.artefacts.ways.set(object.id(), "path_example");
-
-    expect(registry.artefacts.ways.has(object.id())).toBe(true);
-
-    manager.onActorItemTake(object);
-
-    expect(object.get_artefact).toHaveBeenCalledTimes(1);
-    expect(artefact.FollowByPath).toHaveBeenCalledTimes(1);
-    expect(artefact.FollowByPath).toHaveBeenCalledWith("NULL", 0, createVector(500, 500, 500));
-    expect(registry.artefacts.ways.has(object.id())).toBe(false);
   });
 
   it("should note game time forwarded for its schedule", () => {

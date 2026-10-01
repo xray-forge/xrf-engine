@@ -10375,11 +10375,11 @@
       },
       "params": [
         {
-          "name": "actor",
+          "name": "object",
           "type": "GameObject"
         },
         {
-          "name": "object",
+          "name": "actor",
           "type": "GameObject"
         }
       ],
@@ -10614,11 +10614,11 @@
       },
       "params": [
         {
-          "name": "object",
+          "name": "actor",
           "type": "GameObject"
         },
         {
-          "name": "actor",
+          "name": "object",
           "type": "GameObject"
         },
         {
@@ -14032,7 +14032,7 @@
     },
     "xr_effects.forward_game_time": {
       "doc": {
-        "description": "Forward the in-game clock by the provided hours and minutes and force a weather change."
+        "description": "Forward the in-game clock by the provided hours and minutes."
       },
       "params": [
         {
@@ -15634,7 +15634,7 @@
     },
     "xr_effects.set_game_time": {
       "doc": {
-        "description": "Advance the in-game clock to the provided hours and minutes and force a weather change."
+        "description": "Advance the in-game clock to the provided hours and minutes."
       },
       "params": [
         {
@@ -15822,9 +15822,9 @@
       "returns": "void",
       "source": "effects/relation/set_squads_enemies.ts"
     },
-    "xr_effects.set_surge_mess_and_task": {
+    "xr_effects.set_surge_task": {
       "doc": {
-        "description": "Set the surge notification message and Nillablely the surge task."
+        "description": "Set the task given to hide from the next surge, `empty` giving no task."
       },
       "params": [
         {
@@ -15836,12 +15836,12 @@
           "type": "GameObject"
         },
         {
-          "name": "[label, task]",
-          "type": "[TLabel, Nillable<TSection>]"
+          "name": "[task]",
+          "type": "[TSection]"
         }
       ],
       "returns": "void",
-      "source": "effects/world/set_surge_mess_and_task.ts"
+      "source": "effects/world/set_surge_task.ts"
     },
     "xr_effects.set_torch_state": {
       "doc": {
