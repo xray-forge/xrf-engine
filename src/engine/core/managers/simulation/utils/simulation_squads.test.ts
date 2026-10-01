@@ -1,13 +1,13 @@
 import { beforeEach, describe, expect, it, jest } from "@jest/globals";
 import { clsid, patrol } from "xray16";
-import { Patrol, ServerCreatureObject } from "xray16/alias";
+import { GameObject, Patrol, ServerCreatureObject } from "xray16/alias";
 import { TNumberId } from "xray16/lib";
 import { $fromArray } from "xray16/macros";
-import { MockAlifeHumanStalker, MockAlifeSimulator, MockIniFile } from "xray16/mocks";
+import { MockAlifeHumanStalker, MockAlifeSimulator, MockGameObject, MockIniFile } from "xray16/mocks";
 import { resetFunctionMock } from "xray16/testing/utils";
 
 import { communities } from "@/engine/constants/communities";
-import { registerSimulator, registry, SYSTEM_INI } from "@/engine/core/database";
+import { registerObject, registerSimulator, registry, SYSTEM_INI } from "@/engine/core/database";
 import { updateSquadMapSpot } from "@/engine/core/managers/map/utils";
 import { simulationConfig } from "@/engine/core/managers/simulation/SimulationConfig";
 import { getSimulationSquads } from "@/engine/core/managers/simulation/utils/simulation_data";
@@ -325,6 +325,7 @@ describe("releaseSimulationSquad", () => {
     squad.mockAddMember(first);
     squad.mockAddMember(second);
     assignSimulationSquadToTerrain(squad, terrain.id);
+    jest.spyOn(squad, "onReleased");
 
     releaseSimulationSquad(squad);
 
@@ -332,6 +333,7 @@ describe("releaseSimulationSquad", () => {
     expect(squad.npc_count()).toBe(0);
     expect(registry.simulator.release).toHaveBeenCalledWith(first, true);
     expect(registry.simulator.release).toHaveBeenCalledWith(second, true);
+    expect(squad.onReleased).toHaveBeenCalledTimes(1);
   });
 });
 
@@ -360,6 +362,41 @@ describe("setupSimulationObjectSquadAndGroup", () => {
     setupSimulationObjectSquadAndGroup(object);
 
     expect(object.squad).toBe(404);
+    expect(object.group).toBe(777);
+  });
+
+  it("should change the team of online objects once with their final squad and group", () => {
+    const terrain: SmartTerrain = MockSmartTerrain.mock();
+    const squad: MockSquad = MockSquad.mock();
+    const object: ServerCreatureObject = MockAlifeHumanStalker.mock();
+    const gameObject: GameObject = MockGameObject.mock({ id: object.id });
+
+    registerObject(gameObject);
+    terrain.squadId = 404;
+    squad.assignedTerrainId = terrain.id;
+    object.group_id = squad.id;
+    jest.spyOn(terrain, "clsid").mockImplementation(() => clsid.smart_terrain);
+    simulationConfig.GROUP_ID_BY_LEVEL_NAME.set("zaton", 777);
+    MockAlifeSimulator.addToRegistry(terrain);
+    MockAlifeSimulator.addToRegistry(squad);
+    MockAlifeSimulator.addToRegistry(object);
+
+    setupSimulationObjectSquadAndGroup(object);
+
+    expect(gameObject.change_team).toHaveBeenCalledTimes(1);
+    expect(gameObject.change_team).toHaveBeenCalledWith(object.team, 404, 777);
+  });
+
+  it("should set no terrain squad for objects without a squad", () => {
+    const object: ServerCreatureObject = MockAlifeHumanStalker.mock();
+
+    object.squad = 404;
+    simulationConfig.GROUP_ID_BY_LEVEL_NAME.set("zaton", 777);
+    MockAlifeSimulator.addToRegistry(object);
+
+    setupSimulationObjectSquadAndGroup(object);
+
+    expect(object.squad).toBe(0);
     expect(object.group).toBe(777);
   });
 });

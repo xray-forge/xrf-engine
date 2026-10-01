@@ -6,10 +6,7 @@ import { registry } from "@/engine/core/database";
 import { parseStringsList } from "@/engine/core/ini";
 import { SIMULATION_LTX, simulationConfig } from "@/engine/core/managers/simulation/SimulationConfig";
 import { getSimulationTerrains } from "@/engine/core/managers/simulation/utils/simulation_data";
-import {
-  assignSimulationSquadToTerrain,
-  createSimulationSquad,
-} from "@/engine/core/managers/simulation/utils/simulation_squads";
+import { createSimulationSquad } from "@/engine/core/managers/simulation/utils/simulation_squads";
 import { SmartTerrain } from "@/engine/core/objects/smart_terrain";
 import { LuaLogger } from "@/engine/core/utils/logging";
 
@@ -32,9 +29,9 @@ export function initializeDefaultSimulationSquads(): void {
   for (const serverLevel of game_graph().levels()) {
     const levelSectionName: TSection = `start_position_${registry.simulator.level_name(serverLevel.id)}`;
 
-    // No definitions for the level section.
+    // No definitions for the level, the next levels may still have them.
     if (!SIMULATION_LTX.section_exist(levelSectionName)) {
-      return;
+      continue;
     }
 
     const levelSquadsCount: TCount = SIMULATION_LTX.line_count(levelSectionName);
@@ -49,7 +46,7 @@ export function initializeDefaultSimulationSquads(): void {
 
         assert(terrain, "Wrong smart name '%s' in start position spawning.", name);
 
-        assignSimulationSquadToTerrain(createSimulationSquad(terrain, field), terrain.id);
+        createSimulationSquad(terrain, field);
       }
     }
   }

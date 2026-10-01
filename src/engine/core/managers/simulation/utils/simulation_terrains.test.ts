@@ -48,7 +48,6 @@ describe("registerTerrain / unregisterTerrain", () => {
     const descriptor: Nillable<ISmartTerrainDescriptor> = getSimulationTerrainDescriptorById(terrain.id);
 
     expect(descriptor?.assignedSquads).toEqualLuaTables({});
-    expect(descriptor?.assignedSquadsCount).toBe(0);
     expect(descriptor?.terrain).toBe(terrain);
 
     expect(getSimulationTerrainByName(terrain.name())).toBe(terrain);
@@ -110,6 +109,5 @@ describe("initializeSimulationTerrain", () => {
     resetSimulationDataCache();
 
     expect(getSimulationTerrainAssignedSquadsCount(terrain.id)).toBe(2);
-    expect(simulationConfig.TERRAIN_DESCRIPTORS.get(terrain.id).assignedSquadsCount).toBe(2);
   });
 });

@@ -183,6 +183,10 @@ export enum EGameEvent {
    */
   SQUAD_UNREGISTERED,
   /**
+   * Squad and its members released by the simulation, the engine unregisters the empty squad later.
+   */
+  SQUAD_RELEASED,
+  /**
    * Smart terrain registered.
    */
   SMART_TERRAIN_REGISTER,

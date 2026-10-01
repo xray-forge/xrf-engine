@@ -13,14 +13,11 @@ import {
   readIniString,
   readIniTwoNumbers,
 } from "@/engine/core/ini";
-import { removeSquadMapSpot, updateSquadMapSpot } from "@/engine/core/managers/map/utils/map_spot_squad";
+import { updateSquadMapSpot } from "@/engine/core/managers/map/utils/map_spot_squad";
 import { updateTerrainMapSpot } from "@/engine/core/managers/map/utils/map_spot_terrain";
 import { simulationConfig } from "@/engine/core/managers/simulation/SimulationConfig";
 import { ISmartTerrainDescriptor } from "@/engine/core/managers/simulation/types";
-import {
-  getSimulationTerrainAssignedSquadsCount,
-  invalidateSimulationTerrainAssignedSquadsCount,
-} from "@/engine/core/managers/simulation/utils/simulation_data";
+import { invalidateSimulationTerrainAssignedSquadsCount } from "@/engine/core/managers/simulation/utils/simulation_data";
 import { SmartTerrain } from "@/engine/core/objects/smart_terrain";
 import type { Squad } from "@/engine/core/objects/squad";
 import { ESquadActionType } from "@/engine/core/objects/squad/squad_types";
@@ -138,7 +135,7 @@ export function createSimulationSquadMembers(squad: Squad, spawnTerrain: SmartTe
     abort("Unexpected attempt to spawn an empty squad '%s'.", squadSection);
   }
 
-  logger.info("Create squad members: %s %s %s %s", squad.name(), spawnTerrain?.name(), spawnPointData, spawnPoint);
+  logger.info("Create squad members: %s %s %s %s", squad.name(), spawnTerrain.name(), spawnPointData, spawnPoint);
 
   let baseSpawnPosition: Vector;
   let baseLevelVertexId: TNumberId;
@@ -185,9 +182,7 @@ export function createSimulationSquadMembers(squad: Squad, spawnTerrain: SmartTe
 
 /**
  * Release squad and squad members.
- * Un-assigns squad from smart terrain and then releases all squad members.
- *
- * Todo: part of smart terrain class?
+ * Un-assigns squad from smart terrain and then releases all squad members, the engine then releases the empty squad.
  *
  * @param squad - Target squad object to remove with members including.
  */
@@ -202,7 +197,7 @@ export function releaseSimulationSquad(squad: Squad): void {
     squadMembers.set(squadMember.id, true);
   }
 
-  // Second loop is to prevent iteration breaking when iterating + mutating?
+  // Unregistering a member while iterating squad members would invalidate the engine iterator.
   for (const [id] of squadMembers) {
     const object: Nillable<ServerObject> = registry.simulator.object(id);
 
@@ -212,53 +207,32 @@ export function releaseSimulationSquad(squad: Squad): void {
     }
   }
 
-  // todo: onReleased callback in squad object.
-  // todo: global event in events manager.
-  removeSquadMapSpot(squad);
+  squad.onReleased();
 }
 
 /**
- * Set up team, squad and group identifiers for the simulation object based on its level and assigned terrain.
- *
- * Todo: Seems too complex.
+ * Set up team, squad and group identifiers for the simulation object.
+ * Group is the one of the current level, squad is the one of the terrain its squad heads to or stays in.
  *
  * @param object - Server creature object to set up squad and group for.
  */
 export function setupSimulationObjectSquadAndGroup(object: ServerCreatureObject): void {
-  const levelName: TLevel = level.name();
-  const groupId: TNumberId = simulationConfig.GROUP_ID_BY_LEVEL_NAME.get(levelName) ?? 0;
-
-  // Reload, probably not needed.
-  object = registry.simulator.object(object.id)!;
-
-  // todo: Check, probably magic or unused code with duplicated changeTeam calls.
-  setObjectTeamSquadGroup(object, object.team, object.squad, groupId);
-
+  const groupId: TNumberId = simulationConfig.GROUP_ID_BY_LEVEL_NAME.get(level.name() as TLevel) ?? 0;
   const squad: Nillable<Squad> = registry.simulator.object<Squad>(object.group_id);
-
-  if (!squad) {
-    return setObjectTeamSquadGroup(object, object.team, 0, object.group);
-  }
 
   let terrain: Nillable<SmartTerrain> = null;
 
-  if (squad.currentAction && squad.currentAction.type === ESquadActionType.REACH_TARGET) {
+  if (squad?.currentAction?.type === ESquadActionType.REACH_TARGET) {
     terrain = registry.simulator.object<SmartTerrain>(squad.assignedTargetId!);
-  } else if ($isNotNil(squad.assignedTerrainId)) {
+  } else if ($isNotNil(squad?.assignedTerrainId)) {
     terrain = registry.simulator.object<SmartTerrain>(squad.assignedTerrainId);
   }
 
-  if (!terrain) {
-    return setObjectTeamSquadGroup(object, object.team, 0, object.group);
-  }
+  // A squad heading to another squad or the actor takes no terrain squad.
+  const squadId: TNumberId = terrain?.clsid() === clsid.smart_terrain ? terrain.squadId : 0;
 
-  let objectSquadId: TNumberId = 0;
-
-  if (terrain.clsid() === clsid.smart_terrain) {
-    objectSquadId = terrain.squadId;
-  }
-
-  setObjectTeamSquadGroup(object, object.team, objectSquadId, object.group);
+  // Set once, as an online object changes its team on the client and its server fields are not updated at once.
+  setObjectTeamSquadGroup(object, object.team, squadId, groupId);
 }
 
 /**
@@ -292,7 +266,6 @@ export function assignSimulationSquadToTerrain(squad: Squad, terrainId: Nillable
 
     oldTerrainDescriptor.assignedSquads.delete(squad.id);
     invalidateSimulationTerrainAssignedSquadsCount(oldTerrainId as TNumberId);
-    oldTerrainDescriptor.assignedSquadsCount = getSimulationTerrainAssignedSquadsCount(oldTerrainId as TNumberId);
 
     updateTerrainMapSpot(oldTerrain);
   }
@@ -306,7 +279,6 @@ export function assignSimulationSquadToTerrain(squad: Squad, terrainId: Nillable
 
     newTerrainDescriptor.assignedSquads.set(squad.id, squad);
     invalidateSimulationTerrainAssignedSquadsCount(terrainId);
-    newTerrainDescriptor.assignedSquadsCount = getSimulationTerrainAssignedSquadsCount(terrainId);
 
     updateTerrainMapSpot(newTerrainDescriptor.terrain);
   }

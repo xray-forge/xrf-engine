@@ -7,7 +7,10 @@ import { pickSectionFromCondList } from "@/engine/core/ini";
 import { forgeConfig } from "@/engine/core/managers/forge/ForgeConfig";
 import { mapDisplayConfig } from "@/engine/core/managers/map/MapDisplayConfig";
 import { ISmartTerrainDescriptor } from "@/engine/core/managers/simulation/types";
-import { getSimulationTerrainDescriptorById } from "@/engine/core/managers/simulation/utils/simulation_data";
+import {
+  getSimulationTerrainAssignedSquadsCount,
+  getSimulationTerrainDescriptorById,
+} from "@/engine/core/managers/simulation/utils/simulation_data";
 import { SmartTerrain } from "@/engine/core/objects/smart_terrain/SmartTerrain";
 import { smartTerrainConfig } from "@/engine/core/objects/smart_terrain/SmartTerrainConfig";
 import { getSmartTerrainNameCaption } from "@/engine/core/objects/smart_terrain/utils/smart_terrain_generic_utils";
@@ -101,7 +104,7 @@ export function getTerrainMapSpotHint(terrain: SmartTerrain): TLabel {
       terrain.online,
       terrain.simulationRole,
       terrain.squadId,
-      terrainDescriptor.assignedSquadsCount,
+      getSimulationTerrainAssignedSquadsCount(terrain.id),
       terrain.maxStayingSquadsCount
     );
 

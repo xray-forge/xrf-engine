@@ -1,4 +1,6 @@
 import { beforeEach, describe, expect, it, jest } from "@jest/globals";
+import { game_graph } from "xray16";
+import { ServerObject } from "xray16/alias";
 import { TName, TNumberId } from "xray16/lib";
 import { $fromObject } from "xray16/macros";
 import { resetFunctionMock } from "xray16/testing/utils";
@@ -40,7 +42,8 @@ describe("initializeDefaultSimulationSquads", () => {
     initializeDefaultSimulationSquads();
 
     expect(createSimulationSquad).toHaveBeenCalledTimes(8);
-    expect(assignSimulationSquadToTerrain).toHaveBeenCalledTimes(8);
+    // Created squads are assigned to their terrain on creation.
+    expect(assignSimulationSquadToTerrain).not.toHaveBeenCalled();
 
     expect(createSimulationSquad).toHaveBeenCalledWith(terrainZatStalkerBase, "zat_a2_stalker_nimble_squad");
     expect(createSimulationSquad).toHaveBeenCalledWith(terrainZatStalkerBase, "zat_b30_owl_stalker_trader_squad");
@@ -52,6 +55,22 @@ describe("initializeDefaultSimulationSquads", () => {
     expect(createSimulationSquad).toHaveBeenCalledWith(terrainPriA16, "pri_a22_military_merkulov_squad");
     expect(createSimulationSquad).toHaveBeenCalledWith(terrainPriA16, "pri_a22_military_skelja_squad");
     expect(createSimulationSquad).toHaveBeenCalledWith(terrainPriA16, "pri_a22_military_yarmoshuk_squad");
+  });
+
+  it("should spawn squads of next levels when a level has no start positions", () => {
+    simulationConfig.IS_SIMULATION_INITIALIZED = false;
+
+    MockSmartTerrain.mockRegistered("pri_a16");
+    MockSmartTerrain.mockRegistered("zat_stalker_base_smart");
+    MockSmartTerrain.mockRegistered("jup_b41");
+
+    jest
+      .mocked(game_graph().levels)
+      .mockReturnValueOnce([{ id: 4 }, { id: 1 }, { id: 2 }, { id: 3 }] as unknown as LuaIterable<ServerObject>);
+
+    initializeDefaultSimulationSquads();
+
+    expect(createSimulationSquad).toHaveBeenCalledTimes(8);
   });
 
   it("should not initialize if initialized", () => {
@@ -75,7 +94,7 @@ describe("destroySimulationData", () => {
     simulationConfig.IS_SIMULATION_INITIALIZED = true;
     simulationConfig.TERRAINS = $fromObject<TName, SmartTerrain>({ a: MockSmartTerrain.mock() });
     simulationConfig.TERRAIN_DESCRIPTORS = $fromObject<TNumberId, ISmartTerrainDescriptor>({
-      1: { terrain: MockSmartTerrain.mock(), assignedSquads: new LuaTable(), assignedSquadsCount: 0 },
+      1: { terrain: MockSmartTerrain.mock(), assignedSquads: new LuaTable() },
     });
     simulationConfig.SQUADS = $fromObject<TNumberId, Squad>({ 1: MockSquad.mock() });
 

@@ -8,6 +8,7 @@ import {
   simulationPreconditionNear,
   simulationPreconditionNearAndDay,
   simulationPreconditionNearAndNight,
+  simulationPreconditionNearDayFight,
   simulationPreconditionNight,
   simulationPreconditionNotSurge,
   simulationPreconditionSurge,
@@ -122,6 +123,47 @@ describe("simulationPreconditionNear", () => {
     resetPositionCache();
     jest.spyOn(game_graph().vertex(first.m_game_vertex_id).game_point(), "distance_to").mockImplementation(() => 150.5);
     expect(simulationPreconditionNear(first, second)).toBe(false);
+  });
+});
+
+describe("simulationPreconditionNearDayFight", () => {
+  it("should check graph distance between objects in fighting hours outside of surges", () => {
+    const first: Squad = MockSquad.mock();
+    const second: Squad = MockSquad.mock();
+
+    resetPositionCache();
+    surgeConfig.IS_STARTED = false;
+    jest.spyOn(game_graph().vertex(first.m_game_vertex_id).game_point(), "distance_to").mockImplementation(() => 150);
+
+    jest.spyOn(level, "get_time_hours").mockImplementation(() => 7);
+    expect(simulationPreconditionNearDayFight(first, second)).toBe(false);
+
+    jest.spyOn(level, "get_time_hours").mockImplementation(() => 8);
+    expect(simulationPreconditionNearDayFight(first, second)).toBe(true);
+
+    jest.spyOn(level, "get_time_hours").mockImplementation(() => 18);
+    expect(simulationPreconditionNearDayFight(first, second)).toBe(true);
+
+    jest.spyOn(level, "get_time_hours").mockImplementation(() => 19);
+    expect(simulationPreconditionNearDayFight(first, second)).toBe(false);
+
+    jest.spyOn(level, "get_time_hours").mockImplementation(() => 12);
+    surgeConfig.IS_STARTED = true;
+    expect(simulationPreconditionNearDayFight(first, second)).toBe(false);
+
+    surgeConfig.IS_STARTED = false;
+  });
+
+  it("should not fight distant targets", () => {
+    const first: Squad = MockSquad.mock();
+    const second: Squad = MockSquad.mock();
+
+    resetPositionCache();
+    surgeConfig.IS_STARTED = false;
+    jest.spyOn(game_graph().vertex(first.m_game_vertex_id).game_point(), "distance_to").mockImplementation(() => 150.5);
+    jest.spyOn(level, "get_time_hours").mockImplementation(() => 12);
+
+    expect(simulationPreconditionNearDayFight(first, second)).toBe(false);
   });
 });
 

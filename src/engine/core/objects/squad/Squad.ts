@@ -44,7 +44,7 @@ import {
   TConditionList,
 } from "@/engine/core/ini";
 import { EGameEvent, EventsManager } from "@/engine/core/managers/events";
-import { updateSquadMapSpot } from "@/engine/core/managers/map/utils";
+import { removeSquadMapSpot, updateSquadMapSpot } from "@/engine/core/managers/map/utils";
 import { simulationActivities } from "@/engine/core/managers/simulation/activity";
 import { simulationConfig } from "@/engine/core/managers/simulation/SimulationConfig";
 import { ESimulationTerrainRole, ISimulationTarget, TSimulationObject } from "@/engine/core/managers/simulation/types";
@@ -703,6 +703,15 @@ export class Squad extends cse_alife_online_offline_group implements ISimulation
         registry.goodwill.sympathy.set(member.id, sympathy);
       }
     }
+  }
+
+  /**
+   * Handle release of the squad members by the simulation, before the engine unregisters the empty squad.
+   */
+  public onReleased(): void {
+    removeSquadMapSpot(this);
+
+    EventsManager.emitEvent(EGameEvent.SQUAD_RELEASED, this);
   }
 
   /**

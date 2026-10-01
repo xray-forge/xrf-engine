@@ -46,6 +46,22 @@ describe("Squad object", () => {
     expect(onSquadUnregister).toHaveBeenCalledWith(squad);
   });
 
+  it("should forget its map spot and emit release event when released", () => {
+    const eventsManager: EventsManager = getManager(EventsManager);
+    const squad: Squad = MockSquad.mock();
+    const onSquadReleased = jest.fn();
+
+    eventsManager.registerCallback(EGameEvent.SQUAD_RELEASED, onSquadReleased);
+    squad.currentMapSpotId = 1000;
+    squad.currentMapSpotSection = "test_spot";
+
+    squad.onReleased();
+
+    expect(squad.currentMapSpotId).toBeNull();
+    expect(squad.currentMapSpotSection).toBeNull();
+    expect(onSquadReleased).toHaveBeenCalledWith(squad);
+  });
+
   it("should correctly handle member death when not empty", () => {
     const squad: MockSquad = MockSquad.mock();
     const first: ServerHumanObject = MockAlifeHumanStalker.mock();

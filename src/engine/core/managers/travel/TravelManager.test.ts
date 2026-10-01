@@ -109,7 +109,6 @@ describe("TravelManager", () => {
     simulationConfig.TERRAIN_DESCRIPTORS.set(terrain.id, {
       terrain: terrain,
       assignedSquads: new LuaTable(),
-      assignedSquadsCount: 0,
     });
     MockVector.DEFAULT_DISTANCE = 100;
 

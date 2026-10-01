@@ -5,7 +5,7 @@ import { readIniNumber } from "@/engine/core/ini";
 
 export const ALIFE_CONFIG_LTX: IniFile = new ini_file("alife.ltx");
 
-// todo: Move to simulation?
+// Values of the engine alife config used by scripts.
 export const alifeConfig = {
   OBJECT_CAPTURE_SCRIPT_NAME: "xrf",
   SWITCH_DISTANCE: readIniNumber(ALIFE_CONFIG_LTX, "alife", "switch_distance", true),

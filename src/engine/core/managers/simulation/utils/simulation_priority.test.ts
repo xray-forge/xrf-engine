@@ -83,7 +83,7 @@ describe("getSlicedSimulationTargets", () => {
     MockVector.DEFAULT_DISTANCE = 20;
   });
 
-  it("should rotate slice slots and keep last-written survivors sorted by priority", () => {
+  it("should keep the highest priority targets ordered from the highest", () => {
     const squad: Squad = MockSquad.mock({ behaviour: $fromObject<string, string>({ a: "1" }) });
 
     registry.simulationObjects.set(squad.id, squad);
@@ -91,7 +91,7 @@ describe("getSlicedSimulationTargets", () => {
     const targets: Array<Squad> = [10, 20, 30, 40, 50, 60, 70].map((rate) => mockSimulationTargetSquad(rate));
     const result = getSlicedSimulationTargets(squad, 5);
 
-    // Rotation: targets 6 and 7 overwrite slots 1 and 2, self squad is excluded.
+    // The two lowest targets drop out, self squad is excluded.
     expect(result.length()).toBe(5);
     expect(result.get(1).priority).toBeCloseTo(76.65);
     expect(result.get(1).target).toBe(targets[6]);
@@ -102,17 +102,31 @@ describe("getSlicedSimulationTargets", () => {
     expect(result.get(5).priority).toBeCloseTo(34.65);
   });
 
-  it("should overwrite slots on rotation even when the newcomer has lower priority", () => {
+  it("should not let a lower priority target replace higher ones", () => {
     const squad: Squad = MockSquad.mock({ behaviour: $fromObject<string, string>({ a: "1" }) });
     const targets: Array<Squad> = [10, 20, 30, 40, 50].map((rate) => mockSimulationTargetSquad(rate));
-    const weakest: Squad = mockSimulationTargetSquad(1);
+
+    mockSimulationTargetSquad(1);
+
     const result = getSlicedSimulationTargets(squad, 5);
 
-    // Sixth target wraps to slot 1 and replaces the previous record regardless of priority.
     expect(result.length()).toBe(5);
-    expect(result.get(5).priority).toBeCloseTo(4.2);
-    expect(result.get(5).target).toBe(weakest);
     expect(result.get(1).target).toBe(targets[4]);
+    expect(result.get(5).target).toBe(targets[0]);
+    expect(result.get(5).priority).toBeCloseTo(13.65);
+  });
+
+  it("should order targets that come in any order", () => {
+    const squad: Squad = MockSquad.mock({ behaviour: $fromObject<string, string>({ a: "1" }) });
+    const targets: Array<Squad> = [40, 70, 10, 60, 20, 50, 30].map((rate) => mockSimulationTargetSquad(rate));
+    const result = getSlicedSimulationTargets(squad, 5);
+
+    expect(result.length()).toBe(5);
+    expect(result.get(1).target).toBe(targets[1]);
+    expect(result.get(2).target).toBe(targets[3]);
+    expect(result.get(3).target).toBe(targets[5]);
+    expect(result.get(4).target).toBe(targets[0]);
+    expect(result.get(5).target).toBe(targets[6]);
   });
 
   it("should reuse the shared scratch buffer and trim stale records between calls", () => {

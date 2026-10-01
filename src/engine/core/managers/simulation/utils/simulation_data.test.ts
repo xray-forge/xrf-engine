@@ -172,12 +172,10 @@ describe("getSimulationTerrainDescriptors", () => {
     expect(descriptors.get(first.id)).toEqualLuaTables({
       terrain: first,
       assignedSquads: {},
-      assignedSquadsCount: 0,
     });
     expect(descriptors.get(second.id)).toEqualLuaTables({
       terrain: second,
       assignedSquads: {},
-      assignedSquadsCount: 0,
     });
   });
 });
@@ -244,11 +242,9 @@ describe("getSimulationTerrainDescriptorById", () => {
     const secondDescriptor: Nillable<ISmartTerrainDescriptor> = getSimulationTerrainDescriptorById(second.id);
 
     expect(firstDescriptor?.terrain).toBe(first);
-    expect(firstDescriptor?.assignedSquadsCount).toBe(0);
     expect(firstDescriptor?.assignedSquads).toEqualLuaTables({});
 
     expect(secondDescriptor?.terrain).toBe(second);
-    expect(secondDescriptor?.assignedSquadsCount).toBe(0);
     expect(secondDescriptor?.assignedSquads).toEqualLuaTables({});
   });
 });

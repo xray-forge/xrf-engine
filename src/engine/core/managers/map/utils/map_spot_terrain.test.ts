@@ -257,10 +257,11 @@ working = 0
       terrain.id
     ) as ISmartTerrainDescriptor;
 
-    descriptor.assignedSquadsCount = 6;
-
     squads.forEach((it) => descriptor.assignedSquads.set(it.id, it));
-    squads.forEach((it, index) => jest.spyOn(it, "getScriptedSimulationTarget").mockImplementation(() => index));
+    // Squads following scripted targets do not take terrain capacity.
+    squads.forEach((it, index) =>
+      jest.spyOn(it, "getScriptedSimulationTarget").mockImplementation(() => (index < 4 ? null : index))
+    );
 
     expect(getTerrainMapSpotHint(terrain).replaceAll("\\n", "\n")).toBe(
       `[translated_st_test_smart_name] (${terrain.name()}) (${terrain.id})
@@ -268,17 +269,17 @@ available = true
 online = true
 simulation_role = surge
 squad_id = 155
-capacity = 6\\10
+capacity = 4\\10
 arriving_objects = 1
 staying_objects = 3
 [spawn_state] (tts: -2600)
 test-1 -> 3\\3
 test-2 -> 3\\3
 [assigned]
-${squads[0].name()} -> 0
-${squads[1].name()} -> 1
-${squads[2].name()} -> 2
-${squads[3].name()} -> 3
+${squads[0].name()} -> null
+${squads[1].name()} -> null
+${squads[2].name()} -> null
+${squads[3].name()} -> null
 ${squads[4].name()} -> 4
 ${squads[5].name()} -> 5
 [properties]

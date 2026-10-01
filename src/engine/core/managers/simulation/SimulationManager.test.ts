@@ -89,7 +89,7 @@ describe("SimulationManager", () => {
     simulationConfig.IS_SIMULATION_INITIALIZED = true;
     simulationConfig.TERRAINS = $fromObject<TName, SmartTerrain>({ a: MockSmartTerrain.mock() });
     simulationConfig.TERRAIN_DESCRIPTORS = $fromObject<TNumberId, ISmartTerrainDescriptor>({
-      1: { terrain: MockSmartTerrain.mock(), assignedSquads: new LuaTable(), assignedSquadsCount: 0 },
+      1: { terrain: MockSmartTerrain.mock(), assignedSquads: new LuaTable() },
     });
     simulationConfig.SQUADS = $fromObject<TNumberId, Squad>({ 1: MockSquad.mock() });
 

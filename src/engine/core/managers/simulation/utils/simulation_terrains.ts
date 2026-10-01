@@ -25,7 +25,6 @@ export function registerSimulationTerrain(terrain: SmartTerrain): void {
   simulationConfig.TERRAIN_DESCRIPTORS.set(terrain.id, {
     terrain: terrain,
     assignedSquads: new LuaTable(),
-    assignedSquadsCount: 0,
   });
 }
 

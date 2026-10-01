@@ -13,7 +13,7 @@ describe("EventsManager", () => {
   it("should correctly initialize", () => {
     const manager: EventsManager = getManager(EventsManager);
 
-    expect(table.size(manager.callbacks)).toBe(131);
+    expect(table.size(manager.callbacks)).toBe(132);
 
     Object.keys(manager.callbacks).forEach((it) => {
       expect(table.size(manager.callbacks[it as unknown as EGameEvent])).toBe(0);

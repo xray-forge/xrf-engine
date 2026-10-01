@@ -1,5 +1,5 @@
 import type { ALifeSmartTerrainTask } from "xray16/alias";
-import type { Nillable, PartialRecord, TCount, TName, TNumberId, TRate } from "xray16/lib";
+import type { Nillable, PartialRecord, TName, TNumberId, TRate } from "xray16/lib";
 
 import type { TCommunity } from "@/engine/constants/communities";
 import type { Actor } from "@/engine/core/objects/creature/Actor";
@@ -40,7 +40,6 @@ export type TSimulationObject = Squad | SmartTerrain | Actor;
 export interface ISmartTerrainDescriptor {
   terrain: SmartTerrain;
   assignedSquads: LuaTable<TNumberId, Squad>;
-  assignedSquadsCount: TCount;
 }
 
 /**

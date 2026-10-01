@@ -13,16 +13,6 @@ import { areObjectsOnSameLevel, getServerDistanceBetween } from "@/engine/core/u
 const SLICED_TARGETS_BUFFER: LuaArray<IAvailableSimulationTargetDescriptor> = new LuaTable();
 
 /**
- * Hoisted sort comparator to avoid closure allocation on every sort call.
- */
-function compareSimulationTargetsByPriority(
-  first: IAvailableSimulationTargetDescriptor,
-  second: IAvailableSimulationTargetDescriptor
-): boolean {
-  return first.priority > second.priority;
-}
-
-/**
  * Evaluates simulation priority by distance.
  * Used as normalizer to pick better tasks based on distance from object.
  *
@@ -66,8 +56,7 @@ export function evaluateSimulationPriority(target: TSimulationObject, squad: Squ
 }
 
 /**
- * Get sliced available simulation targets for an object.
- * Targets are sorted by priority and count / rotation is based on slice parameter.
+ * Get the highest priority simulation targets for a squad, ordered from the highest.
  *
  * Note: returns a shared scratch buffer rewritten on every call - read results immediately,
  * do not retain the reference between calls.
@@ -83,32 +72,38 @@ export function getSlicedSimulationTargets(
   const availableTargets: LuaArray<IAvailableSimulationTargetDescriptor> = SLICED_TARGETS_BUFFER;
   const squadId: TNumberId = squad.id;
 
-  let index: TIndex = 1;
   let filled: TCount = 0;
 
   for (const [, target] of registry.simulationObjects) {
     const priority: TRate = target.id === squadId ? 0 : evaluateSimulationPriority(target, squad);
 
-    if (priority > 0) {
-      const existing: Nillable<IAvailableSimulationTargetDescriptor> = availableTargets.get(index);
+    // A full slice only takes targets above its lowest one, which drops out.
+    if (priority > 0 && (filled < slice || priority > availableTargets.get(slice).priority)) {
+      if (filled < slice) {
+        filled += 1;
+      }
 
-      // Slots are overwritten in rotation, existing records are mutated in place to avoid garbage.
-      if ($isNil(existing)) {
+      let index: TIndex = filled;
+
+      // Records are mutated in place to avoid garbage.
+      if ($isNil(availableTargets.get(index))) {
         availableTargets.set(index, { target, priority });
-      } else {
-        existing.target = target;
-        existing.priority = priority;
       }
 
-      if (index > filled) {
-        filled = index;
+      // Shift lower priority records down to keep the slice ordered.
+      while (index > 1 && availableTargets.get(index - 1).priority < priority) {
+        const lower: IAvailableSimulationTargetDescriptor = availableTargets.get(index);
+        const higher: IAvailableSimulationTargetDescriptor = availableTargets.get(index - 1);
+
+        lower.target = higher.target;
+        lower.priority = higher.priority;
+        index -= 1;
       }
 
-      if (index === slice) {
-        index = 1;
-      } else {
-        index += 1;
-      }
+      const record: IAvailableSimulationTargetDescriptor = availableTargets.get(index);
+
+      record.target = target;
+      record.priority = priority;
     }
   }
 
@@ -117,13 +112,11 @@ export function getSlicedSimulationTargets(
     availableTargets.delete(it);
   }
 
-  table.sort(availableTargets, compareSimulationTargetsByPriority);
-
   return availableTargets;
 }
 
 /**
- * Get simulation target for squad participating in alife.
+ * Get simulation target for squad participating in alife, picked at random among the five highest priority ones.
  *
  * @param squad - Squad to generate simulation target for.
  * @returns Simulation object to target or null based on priorities.

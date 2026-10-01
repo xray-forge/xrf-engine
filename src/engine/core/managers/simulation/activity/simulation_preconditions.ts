@@ -67,6 +67,17 @@ export function simulationPreconditionNear(squad: Squad, target: ServerObject): 
 }
 
 /**
+ * Duty and Freedom fight targets near them from 8 to 19, outside of surges.
+ *
+ * @param squad - Target squad to check.
+ * @param target - Squad activity target.
+ * @returns Whether squad and squad target are near (based on object vertexes), currently fighting hours.
+ */
+export function simulationPreconditionNearDayFight(squad: Squad, target: ServerObject): boolean {
+  return isInTimeInterval(8, 19) && !surgeConfig.IS_STARTED && simulationPreconditionNear(squad, target);
+}
+
+/**
  * @param squad - Target squad to check.
  * @param target - Squad activity target.
  * @returns Whether squad and squad target are near (based on object vertexes), currently day.

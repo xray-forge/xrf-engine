@@ -13,6 +13,7 @@ import {
   simulationPreconditionNear,
   simulationPreconditionNearAndDay,
   simulationPreconditionNearAndNight,
+  simulationPreconditionNearDayFight,
   simulationPreconditionNight,
   simulationPreconditionNotSurge,
   simulationPreconditionSurge,
@@ -21,7 +22,6 @@ import { ESimulationRole, ISimulationActivityDescriptor } from "@/engine/core/ma
 import { surgeConfig } from "@/engine/core/managers/surge/SurgeConfig";
 import { Squad } from "@/engine/core/objects/squad/Squad";
 import { hasInfoPortion } from "@/engine/core/utils/info_portion";
-import { getServerDistanceBetween } from "@/engine/core/utils/position";
 import { isAnySquadMemberEnemyToActor } from "@/engine/core/utils/relation";
 
 /**
@@ -53,7 +53,7 @@ export const simulationActivities: LuaTable<TCommunity, ISimulationActivityDescr
   [communities.bandit]: {
     [ESimulationRole.SQUAD]: {
       stalker: (squad: Squad, target: ServerObject) =>
-        isInTimeInterval(8, 21) && !surgeConfig.IS_STARTED && getServerDistanceBetween(squad, target) <= 150,
+        isInTimeInterval(8, 21) && !surgeConfig.IS_STARTED && simulationPreconditionNear(squad, target),
     },
     [ESimulationRole.SMART_TERRAIN]: {
       base: (squad: Squad, target: ServerObject) => {
@@ -72,22 +72,16 @@ export const simulationActivities: LuaTable<TCommunity, ISimulationActivityDescr
       resource: null,
     },
     [ESimulationRole.ACTOR]: (squad: Squad, target: ServerObject) =>
-      hasInfoPortion(infoPortions.sim_bandit_attack_harder) && getServerDistanceBetween(squad, target) <= 150,
+      hasInfoPortion(infoPortions.sim_bandit_attack_harder) && simulationPreconditionNear(squad, target),
   },
   [communities.dolg]: {
     [ESimulationRole.SQUAD]: {
-      freedom: (squad: Squad, target: ServerObject) =>
-        isInTimeInterval(8, 19) && !surgeConfig.IS_STARTED && getServerDistanceBetween(squad, target) <= 150,
-      monster_predatory_day: (squad: Squad, target: ServerObject) =>
-        isInTimeInterval(8, 19) && !surgeConfig.IS_STARTED && getServerDistanceBetween(squad, target) <= 150,
-      monster_predatory_night: (squad: Squad, target: ServerObject) =>
-        isInTimeInterval(8, 19) && !surgeConfig.IS_STARTED && getServerDistanceBetween(squad, target) <= 150,
-      monster_vegetarian: (squad: Squad, target: ServerObject) =>
-        isInTimeInterval(8, 19) && !surgeConfig.IS_STARTED && getServerDistanceBetween(squad, target) <= 150,
-      monster_zombied_day: (squad: Squad, target: ServerObject) =>
-        isInTimeInterval(8, 19) && !surgeConfig.IS_STARTED && getServerDistanceBetween(squad, target) <= 150,
-      monster_special: (squad: Squad, target: ServerObject) =>
-        isInTimeInterval(8, 19) && !surgeConfig.IS_STARTED && getServerDistanceBetween(squad, target) <= 150,
+      freedom: simulationPreconditionNearDayFight,
+      monster_predatory_day: simulationPreconditionNearDayFight,
+      monster_predatory_night: simulationPreconditionNearDayFight,
+      monster_vegetarian: simulationPreconditionNearDayFight,
+      monster_zombied_day: simulationPreconditionNearDayFight,
+      monster_special: simulationPreconditionNearDayFight,
     },
     [ESimulationRole.SMART_TERRAIN]: {
       base: (squad: Squad, target: ServerObject) =>
@@ -105,8 +99,7 @@ export const simulationActivities: LuaTable<TCommunity, ISimulationActivityDescr
   },
   [communities.freedom]: {
     [ESimulationRole.SQUAD]: {
-      dolg: (squad: Squad, target: ServerObject) =>
-        isInTimeInterval(8, 19) && !surgeConfig.IS_STARTED && getServerDistanceBetween(squad, target) <= 150,
+      dolg: simulationPreconditionNearDayFight,
     },
     [ESimulationRole.SMART_TERRAIN]: {
       base: (squad: Squad, target: ServerObject) =>
