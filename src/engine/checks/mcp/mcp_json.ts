@@ -1,6 +1,7 @@
 import { AnyArgs, AnyObject, Nillable } from "xray16/lib";
 import { $isNotNil } from "xray16/macros";
 
+import { describeUserdata } from "@/engine/checks/mcp/mcp_userdata";
 import { mcpConfig } from "@/engine/checks/mcp/McpConfig";
 
 /**
@@ -40,7 +41,8 @@ const ESCAPES: Record<string, string> = createEscapes();
 
 /**
  * Encode a Lua value as one line of JSON.
- * Tables starting at index 1 are arrays, other tables objects; functions and userdata become placeholder strings.
+ * Tables starting at index 1 are arrays, other tables objects; engine objects become their names and functions
+ * placeholder strings.
  *
  * @param value - Value to encode.
  * @returns JSON text without line breaks.
@@ -69,6 +71,8 @@ function encodeValue(value: unknown, depth: number, seen: LuaTable<AnyNotNil, bo
     return number !== number || number - number !== 0 ? "null" : tostring(number);
   } else if (valueType === "string") {
     return encodeString(value as string);
+  } else if (valueType === "userdata") {
+    return encodeString(describeUserdata(value));
   } else if (valueType !== "table") {
     return encodeString(`<${valueType}>`);
   }
@@ -91,8 +95,24 @@ function encodeValue(value: unknown, depth: number, seen: LuaTable<AnyNotNil, bo
 
     text = "[" + parts.join(",") + "]";
   } else {
+    let otherKeys: Nillable<LuaTable<string, number>> = null;
+
     for (const [key, item] of pairs(value as AnyObject)) {
-      parts.push(encodeString(tostring(key)) + ":" + encodeValue(item, depth + 1, seen));
+      const keyType: string = type(key);
+      let name: string;
+
+      if (keyType === "string" || keyType === "number") {
+        name = tostring(key);
+      } else {
+        // Other keys may have no `tostring` operator, and the names they get may repeat in one table.
+        const kind: string = keyType === "userdata" ? describeUserdata(key) : string.format("<%s>", keyType);
+        const count: number = ((otherKeys ??= new LuaTable()).get(kind) ?? 0) + 1;
+
+        otherKeys.set(kind, count);
+        name = string.format("%s#%d", kind, count);
+      }
+
+      parts.push(encodeString(name) + ":" + encodeValue(item, depth + 1, seen));
     }
 
     text = "{" + parts.join(",") + "}";

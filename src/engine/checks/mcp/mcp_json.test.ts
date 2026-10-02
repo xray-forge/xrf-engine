@@ -1,7 +1,19 @@
-import { describe, expect, it } from "@jest/globals";
+import { describe, expect, it, jest } from "@jest/globals";
+import { GameObject, Time } from "xray16/alias";
 import { AnyObject } from "xray16/lib";
+import { MockCTime, MockGameObject, mockType } from "xray16/mocks";
 
 import { decodeJson, encodeJson } from "@/engine/checks/mcp/mcp_json";
+
+type TLuaType = ReturnType<typeof type>;
+
+/**
+ * @param value - Value to name the Lua type of.
+ * @returns Its Lua type, as the jest globals answer it.
+ */
+function mockLuaType(value: unknown): TLuaType {
+  return mockType(value) as TLuaType;
+}
 
 describe("encodeJson", () => {
   it("should encode primitives", () => {
@@ -49,6 +61,22 @@ describe("encodeJson", () => {
     }
 
     expect(encodeJson(deep)).toContain("<depth_limit>");
+  });
+
+  it("should name engine objects", () => {
+    const time: Time = MockCTime.mock(2012, 8, 3, 9, 0, 59, 0);
+    const object: GameObject = MockGameObject.mock({ id: 7, name: "bandit" });
+
+    jest
+      .mocked(type)
+      .mockImplementation((value: unknown) => (value === time || value === object ? "userdata" : mockLuaType(value)));
+
+    expect(JSON.parse(encodeJson({ at: time, who: [object] }))).toEqual({
+      at: "<CTime 2012-08-03 09:00:59.000>",
+      who: ["<game_object 7 bandit>"],
+    });
+
+    jest.mocked(type).mockImplementation(mockLuaType);
   });
 
   it("should encode the same table twice when it is not a cycle", () => {

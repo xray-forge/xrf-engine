@@ -144,10 +144,30 @@ export class McpEndpoint {
   }
 
   /**
-   * @param message - Response or event to send as one line.
+   * Send a response or event as one line, answering an error instead when it cannot be encoded, as an error here
+   * would escape into the actor update and end the game.
+   *
+   * @param message - Response or event to send.
    */
   public send(message: IMcpResponse | IMcpEvent | AnyObject): void {
-    this.transport.write(encodeJson(message) + "\n");
+    const [isEncoded, encoded] = pcall(encodeJson, message);
+
+    if (isEncoded) {
+      this.transport.write((encoded as string) + "\n");
+
+      return;
+    }
+
+    logger.info("Cannot encode an answer: %s", encoded);
+
+    this.transport.write(
+      encodeJson({
+        id: (message as AnyObject).id ?? null,
+        ok: false,
+        error: string.format("Cannot encode the answer: %s", tostring(encoded)),
+        at: { timeGlobal: time_global(), level: this.getLevelName() },
+      }) + "\n"
+    );
   }
 
   /**

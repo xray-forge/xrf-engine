@@ -3,6 +3,7 @@ import { get_console, time_global } from "xray16";
 import { AnyObject, Nillable } from "xray16/lib";
 import { replaceFunctionMock } from "xray16/testing/utils";
 
+import * as mcpJson from "@/engine/checks/mcp/mcp_json";
 import { IMcpTransport } from "@/engine/checks/mcp/mcp_types";
 import { mcpConfig } from "@/engine/checks/mcp/McpConfig";
 import { McpEndpoint } from "@/engine/checks/mcp/McpEndpoint";
@@ -142,6 +143,24 @@ describe("McpEndpoint", () => {
       ok: false,
       error: expect.stringContaining("needs a string 'command'"),
     });
+  });
+
+  it("should answer an error instead of raising when an answer cannot be encoded", () => {
+    const [endpoint, transport] = createConnectedEndpoint();
+    const encode = jest.spyOn(mcpJson, "encodeJson").mockImplementationOnce(() => {
+      throw new Error("No such operator defined");
+    });
+
+    transport.incoming.push(JSON.stringify({ id: "a", kind: "status" }) + "\n");
+
+    expect(() => endpoint.update()).not.toThrow();
+    expect(transport.messages()[0]).toMatchObject({
+      id: "a",
+      ok: false,
+      error: expect.stringContaining("Cannot encode the answer"),
+    });
+
+    encode.mockRestore();
   });
 
   it("should run deferred work only once its answer has been sent", () => {
