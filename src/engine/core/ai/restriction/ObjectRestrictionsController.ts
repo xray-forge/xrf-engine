@@ -9,7 +9,7 @@ import { LuaLogger } from "@/engine/core/utils/logging";
 const logger: LuaLogger = new LuaLogger($filename);
 
 /**
- * Per-object controller synchronizing dynamic restrictors with the active logic section.
+ * Per-object controller synchronizing the object's own restrictors, without the level defaults, with its logic.
  */
 export class ObjectRestrictionsController {
   /**
@@ -53,11 +53,11 @@ export class ObjectRestrictionsController {
   public constructor(object: GameObject) {
     this.object = object;
 
-    for (const [, name] of parseStringsList(this.object.out_restrictions())) {
+    for (const [, name] of parseStringsList(this.object.base_out_restrictions())) {
       this.baseOutRestrictions.set(name, true);
     }
 
-    for (const [, name] of parseStringsList(this.object.in_restrictions())) {
+    for (const [, name] of parseStringsList(this.object.base_in_restrictions())) {
       this.baseInRestrictions.set(name, true);
     }
   }
@@ -76,7 +76,7 @@ export class ObjectRestrictionsController {
     // Update OUT restrictors based on active / ini restrictors.
     const outRestrictorString: string = readIniString(ini, section, "out_restr", false, null, "");
     const newOutRestrictors: LuaArray<TName> = parseStringsList(outRestrictorString);
-    const oldOutRestrictors: LuaArray<TName> = parseStringsList(this.object.out_restrictions());
+    const oldOutRestrictors: LuaArray<TName> = parseStringsList(this.object.base_out_restrictions());
 
     let restrictorsToAdd: LuaArray<TName> = new LuaTable();
     let restrictorsToRemove: LuaArray<TName> = new LuaTable();
@@ -126,7 +126,7 @@ export class ObjectRestrictionsController {
     // Update IN restrictors based on active / ini restrictors.
     const inRestrictorString: string = readIniString(ini, section, "in_restr", false, null, "");
     const newInRestrictors: LuaArray<TName> = parseStringsList(inRestrictorString);
-    const oldInRestrictors: LuaArray<TName> = parseStringsList(this.object.in_restrictions());
+    const oldInRestrictors: LuaArray<TName> = parseStringsList(this.object.base_in_restrictions());
 
     restrictorsToAdd = new LuaTable();
     restrictorsToRemove = new LuaTable();

@@ -1,13 +1,26 @@
 import { describe, expect, it, jest } from "@jest/globals";
 import { GameObject } from "xray16/alias";
-import { MockGameObject, MockIniFile } from "xray16/mocks";
+import { IMockGameObjectConfig, MockGameObject, MockIniFile } from "xray16/mocks";
 
 import { ObjectRestrictionsController } from "@/engine/core/ai/restriction";
 import { IRegistryObjectState, registerObject, registry } from "@/engine/core/database";
 
+/**
+ * @param config - Object configuration.
+ * @returns Object whose own restrictors are all it has, as a mock carries no level defaults.
+ */
+function mockRestrictedObject(config: IMockGameObjectConfig = {}): GameObject {
+  const object: GameObject = MockGameObject.mock(config);
+
+  jest.mocked(object.base_in_restrictions).mockImplementation(() => object.in_restrictions());
+  jest.mocked(object.base_out_restrictions).mockImplementation(() => object.out_restrictions());
+
+  return object;
+}
+
 describe("ObjectRestrictionsController", () => {
   it("caches one controller and captures the initial restrictors", () => {
-    const object: GameObject = MockGameObject.mock({
+    const object: GameObject = mockRestrictedObject({
       inRestrictions: "base-in-a, base-in-b",
       outRestrictions: "base-out-a, base-out-b",
     });
@@ -28,7 +41,7 @@ describe("ObjectRestrictionsController", () => {
   });
 
   it("replaces dynamic in and out restrictors while preserving the initial ones", () => {
-    const object: GameObject = MockGameObject.mock({
+    const object: GameObject = mockRestrictedObject({
       inRestrictions: "base-in",
       outRestrictions: "base-out",
     });
@@ -57,7 +70,7 @@ describe("ObjectRestrictionsController", () => {
   });
 
   it("removes dynamic restrictors when the next section omits both fields", () => {
-    const object: GameObject = MockGameObject.mock({
+    const object: GameObject = mockRestrictedObject({
       inRestrictions: "base-in",
       outRestrictions: "base-out",
     });
@@ -83,7 +96,7 @@ describe("ObjectRestrictionsController", () => {
   });
 
   it("does not call the engine when synchronization is already satisfied", () => {
-    const object: GameObject = MockGameObject.mock();
+    const object: GameObject = mockRestrictedObject();
     const state: IRegistryObjectState = registerObject(object);
 
     state.ini = MockIniFile.mock("test.ltx", {
@@ -109,7 +122,7 @@ describe("ObjectRestrictionsController", () => {
   });
 
   it("ignores literal nil restrictors", () => {
-    const object: GameObject = MockGameObject.mock({
+    const object: GameObject = mockRestrictedObject({
       inRestrictions: "base-in",
       outRestrictions: "base-out",
     });
@@ -126,5 +139,20 @@ describe("ObjectRestrictionsController", () => {
 
     expect(object.in_restrictions()).toBe("base-in");
     expect(object.out_restrictions()).toBe("base-out");
+  });
+
+  it("leaves the level default restrictors to the engine", () => {
+    const object: GameObject = MockGameObject.mock({ inRestrictions: "own-in,level-default", outRestrictions: "" });
+    const state: IRegistryObjectState = registerObject(object);
+
+    jest.mocked(object.base_in_restrictions).mockReturnValue("own-in");
+    jest.mocked(object.base_out_restrictions).mockReturnValue("");
+    state.ini = MockIniFile.mock("test.ltx", { "walker@test": {} });
+
+    const controller: ObjectRestrictionsController = ObjectRestrictionsController.syncForObject(object, "walker@test");
+
+    expect(controller.baseInRestrictions.has("level-default")).toBeFalsy();
+    expect(object.remove_restrictions).not.toHaveBeenCalled();
+    expect(object.add_restrictions).not.toHaveBeenCalled();
   });
 });
