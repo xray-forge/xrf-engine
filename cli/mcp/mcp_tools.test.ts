@@ -150,10 +150,38 @@ describe("game MCP tools", () => {
       flushlog: true,
       mcp: true,
     });
-    expect(client.waitForReady).toHaveBeenCalledWith(120_000, null);
+    expect(client.waitForReady).toHaveBeenCalledWith(120_000, null, expect.any(AbortSignal));
     expect(client.textEncoding).toBe("windows-1251");
     expect(JSON.parse(textOf(result)).session).toBe("session-1");
   });
+
+  it("should stop waiting and show the engine error when the game process exits before it greets", async () => {
+    const { call, client, context, directory } = setup();
+
+    directories.push(directory);
+    fs.writeFileSync(
+      path.join(directory, "openxray_test.log"),
+      "Loading objects...\nFATAL ERROR\n[error] Description   : Saved game doesn't correspond to the spawn\n"
+    );
+    jest
+      .mocked(context.isGameRunning)
+      .mockResolvedValueOnce(false)
+      .mockResolvedValueOnce(true)
+      .mockResolvedValue(false);
+    client.waitForReady.mockImplementationOnce(
+      (_timeout, _session, signal) =>
+        new Promise((_, reject) =>
+          signal?.addEventListener("abort", () => reject(new Error("Stopped waiting for the game.")))
+        )
+    );
+
+    const result: IToolResult = await call("game_start", { timeoutSeconds: 60 });
+
+    expect(result.isError).toBe(true);
+    expect(textOf(result)).toContain("The game process exited before it greeted");
+    expect(textOf(result)).toContain("FATAL ERROR\n[error] Description   : Saved game doesn't correspond to the spawn");
+    expect(textOf(result)).not.toContain("Loading objects");
+  }, 10_000);
 
   it("should refuse to start a game without the endpoint, beside a running one, or a load without a save", async () => {
     const { call, context, client, directory } = setup();

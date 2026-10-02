@@ -149,12 +149,17 @@ export class McpPipeClient {
    *
    * @param timeoutMs - How long to wait.
    * @param previousSession - Session to wait past, as the one running before a start or load.
+   * @param signal - Signal to stop waiting early, as when the game process exits.
    * @returns The greeting.
    */
-  public async waitForReady(timeoutMs: number, previousSession: Nullable<string> = null): Promise<IGameEvent> {
+  public async waitForReady(
+    timeoutMs: number,
+    previousSession: Nullable<string> = null,
+    signal: Optional<AbortSignal> = undefined
+  ): Promise<IGameEvent> {
     const deadline: number = Date.now() + timeoutMs;
 
-    while (Date.now() < deadline) {
+    while (Date.now() < deadline && !signal?.aborted) {
       if (this.session && this.session !== previousSession) {
         return { event: "ready", session: this.session, level: this.level };
       }
@@ -166,7 +171,7 @@ export class McpPipeClient {
       await new Promise((resolve) => setTimeout(resolve, 100));
     }
 
-    throw new Error(`No game greeted within ${timeoutMs} ms.`);
+    throw new Error(signal?.aborted ? "Stopped waiting for the game." : `No game greeted within ${timeoutMs} ms.`);
   }
 
   /**

@@ -174,6 +174,16 @@ describe("McpPipeClient", () => {
     expect(ready.session).toBe("session-2");
   });
 
+  it("should stop waiting for a greeting once its signal aborts", async () => {
+    const client: McpPipeClient = new McpPipeClient(createPipeName());
+    const stop: AbortController = new AbortController();
+    const waiting: Promise<IGameEvent> = client.waitForReady(5_000, null, stop.signal);
+
+    stop.abort();
+
+    await expect(waiting).rejects.toThrow("Stopped waiting for the game.");
+  });
+
   it("should fail requests still waiting when the connection closes", async () => {
     const [client, endpoint] = await setup((_, socket) => socket.destroy());
 

@@ -27,6 +27,109 @@ export interface IGameToolsContext {
 const SCREENSHOT_WAIT_MS: number = 10_000;
 const QUIT_WAIT_MS: number = 30_000;
 const FLOW_WAIT_MS: number = 60_000;
+const PROCESS_POLL_MS: number = 1_000;
+// How long a launched game may take to show up as a process before it counts as gone.
+const PROCESS_START_GRACE_MS: number = 15_000;
+const CRASH_LINES: number = 20;
+
+/**
+ * @param milliseconds - How long to sleep.
+ * @param signal - Signal ending the sleep early.
+ * @returns Promise resolved once the time passed or the signal fired.
+ */
+function sleep(milliseconds: number, signal: AbortSignal): Promise<void> {
+  return new Promise((resolve) => {
+    const timer: NodeJS.Timeout = setTimeout(resolve, milliseconds);
+
+    signal.addEventListener("abort", () => {
+      clearTimeout(timer);
+      resolve();
+    });
+  });
+}
+
+/**
+ * @param logPath - Game log to read.
+ * @param lines - How many last lines.
+ * @param encoding - Game text encoding.
+ * @returns The last lines, each decoded as the game wrote it.
+ */
+async function readGameLog(logPath: string, lines: number, encoding: string): Promise<string> {
+  // Latin-1 keeps every byte, so each line decodes as the game wrote it.
+  const raw: string = await readLastLinesOfFile(logPath, lines, "latin1");
+
+  return raw
+    .split("\n")
+    .map((line) => decodeGameText(Buffer.from(line, "latin1"), encoding))
+    .join("\n");
+}
+
+/**
+ * @param context - What the tools reach outside the pipe.
+ * @returns Engine log lines from its last fatal error on, or its last lines when it has none.
+ */
+async function readEngineCrash(context: IGameToolsContext): Promise<string> {
+  const logPath: Nullable<string> = await context.getEngineLogPath();
+
+  if (!logPath || !fs.existsSync(logPath)) {
+    return "No engine log found.";
+  }
+
+  const lines: Array<string> = (await readGameLog(logPath, 150, await context.getTextEncoding())).split("\n");
+  const fatalAt: number = lines.findLastIndex((line) => line.includes("FATAL ERROR"));
+
+  return (fatalAt >= 0 ? lines.slice(fatalAt, fatalAt + CRASH_LINES) : lines.slice(-CRASH_LINES)).join("\n").trim();
+}
+
+/**
+ * Wait until the game greets past a session, failing at once with the engine's error when its process exits first.
+ *
+ * @param context - What the tools reach outside the pipe.
+ * @param timeoutMs - How long to wait.
+ * @param previousSession - Session to wait past.
+ * @returns The greeting, or why the game is gone.
+ */
+async function waitForGreeting(
+  context: IGameToolsContext,
+  timeoutMs: number,
+  previousSession: Nullable<string>
+): Promise<IToolResult> {
+  const stop: AbortController = new AbortController();
+  const startedAt: number = Date.now();
+
+  let hasRun: boolean = false;
+  let hasExited: boolean = false;
+
+  const watch: Promise<void> = (async () => {
+    while (!stop.signal.aborted) {
+      await sleep(PROCESS_POLL_MS, stop.signal);
+
+      if (stop.signal.aborted) {
+        return;
+      }
+
+      if (await context.isGameRunning()) {
+        hasRun = true;
+      } else if (hasRun || Date.now() - startedAt > PROCESS_START_GRACE_MS) {
+        hasExited = true;
+        stop.abort();
+      }
+    }
+  })();
+
+  try {
+    return text(JSON.stringify(await context.client.waitForReady(timeoutMs, previousSession, stop.signal), null, 2));
+  } catch (error) {
+    if (hasExited) {
+      return text(`The game process exited before it greeted. Engine log:\n${await readEngineCrash(context)}`, true);
+    }
+
+    throw error;
+  } finally {
+    stop.abort();
+    await watch;
+  }
+}
 
 /**
  * @param text - Text to answer with.
@@ -175,7 +278,7 @@ export function createGameTools(context: IGameToolsContext): Array<IMcpTool> {
         // The launch refreshes the settings copy, whose language may have changed since.
         client.textEncoding = await context.getTextEncoding();
 
-        return text(JSON.stringify(await client.waitForReady((timeoutSeconds as number) * 1000, previous), null, 2));
+        return waitForGreeting(context, (timeoutSeconds as number) * 1000, previous);
       },
     },
     {
@@ -312,16 +415,7 @@ export function createGameTools(context: IGameToolsContext): Array<IMcpTool> {
           return text(`No ${file} log found.`, true);
         }
 
-        const encoding: string = await context.getTextEncoding();
-        // Latin-1 keeps every byte, so each line decodes as the game wrote it.
-        const raw: string = await readLastLinesOfFile(logPath, lines as number, "latin1");
-
-        return text(
-          raw
-            .split("\n")
-            .map((line) => decodeGameText(Buffer.from(line, "latin1"), encoding))
-            .join("\n")
-        );
+        return text(await readGameLog(logPath, lines as number, await context.getTextEncoding()));
       },
     },
     {
@@ -332,15 +426,10 @@ export function createGameTools(context: IGameToolsContext): Array<IMcpTool> {
         timeoutSeconds: { type: "integer", minimum: 1, maximum: 900, default: 300, description: "How long to wait." },
       }),
       call: async ({ previousSession, timeoutSeconds }) =>
-        text(
-          JSON.stringify(
-            await client.waitForReady(
-              (timeoutSeconds as number) * 1000,
-              (previousSession as Optional<string>) ?? client.session
-            ),
-            null,
-            2
-          )
+        waitForGreeting(
+          context,
+          (timeoutSeconds as number) * 1000,
+          (previousSession as Optional<string>) ?? client.session
         ),
     },
     {
