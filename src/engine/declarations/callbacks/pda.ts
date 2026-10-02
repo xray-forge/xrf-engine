@@ -7,7 +7,7 @@ import { ActorInventoryMenuManager } from "@/engine/core/managers/actor/ActorInv
 import { PdaManager } from "@/engine/core/managers/pda/PdaManager";
 import { LuaLogger } from "@/engine/core/utils/logging";
 
-export const logger: LuaLogger = new LuaLogger($filename);
+const logger: LuaLogger = new LuaLogger($filename);
 
 /** PDA callbacks. */
 extern("pda", {

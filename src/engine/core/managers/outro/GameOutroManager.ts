@@ -1,6 +1,6 @@
 import { game, get_hud, sound_object } from "xray16";
 import { ESoundObjectType, SoundObject } from "xray16/alias";
-import { AnyCallablesModule, AnyObject, getExtern, Nillable } from "xray16/lib";
+import { AnyObject, Nillable } from "xray16/lib";
 import { $filename } from "xray16/macros";
 
 import { gameTutorials } from "@/engine/constants/game_tutorials";
@@ -16,10 +16,12 @@ import { LuaLogger } from "@/engine/core/utils/logging";
 const logger: LuaLogger = new LuaLogger($filename);
 
 /**
- * Manager to handle audio during game outro scenes.
+ * Play the end of the game: the outro scenes with their music, then the credits.
  */
 export class GameOutroManager extends AbstractManager {
   public sound: Nillable<SoundObject> = null;
+  // Whether the credits rolled after the outro, kept after the game disconnects for the main menu to return.
+  public isGameoverCreditsStarted: boolean = false;
 
   public override initialize(): void {
     const eventsManager: EventsManager = getManager(EventsManager);
@@ -48,7 +50,7 @@ export class GameOutroManager extends AbstractManager {
   public startSound(): void {
     logger.info("Start outro sound");
 
-    this.sound = new sound_object("music_outro");
+    this.sound = new sound_object(gameOutroConfig.MUSIC);
     this.sound.play(null, 0.0, ESoundObjectType.S2D);
 
     this.setSoundVolume(1.0);
@@ -97,7 +99,18 @@ export class GameOutroManager extends AbstractManager {
     getManager(ActorInputManager).releaseControl(EActorControlHandle.OUTRO);
 
     disconnectFromGame();
-    getExtern<AnyCallablesModule>("xr_effects").game_credits(); // todo: Move from effects
+    this.startCredits();
+  }
+
+  /**
+   * Roll the game credits once the game has ended.
+   */
+  public startCredits(): void {
+    logger.info("Start game credits");
+
+    this.isGameoverCreditsStarted = true;
+
+    game.start_tutorial(gameTutorials.credits_seq);
   }
 
   /**
@@ -131,6 +144,7 @@ export class GameOutroManager extends AbstractManager {
     data[this.constructor.name] = {
       gameOutroConfig: gameOutroConfig,
       sound: this.sound,
+      isGameoverCreditsStarted: this.isGameoverCreditsStarted,
     };
 
     return data;

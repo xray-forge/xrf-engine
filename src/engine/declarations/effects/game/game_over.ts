@@ -2,18 +2,19 @@ import { executeConsoleCommand, extern } from "xray16/lib";
 import { $filename } from "xray16/macros";
 
 import { consoleCommands } from "@/engine/constants/console_commands";
+import { getManager } from "@/engine/core/database";
+import { GameOutroManager } from "@/engine/core/managers/outro";
 import { LuaLogger } from "@/engine/core/utils/logging";
-import { gameState } from "@/engine/declarations/effects/game/shared";
 
 const logger: LuaLogger = new LuaLogger($filename);
 
 /**
- * Handle gave over credits.
+ * Return to the main menu once the credits rolled after the outro have ended.
  */
 extern("xr_effects.game_over", (): void => {
   logger.info("Game over, credits sequence ended");
 
-  if (!gameState.isGameoverCreditsStarted) {
+  if (!getManager(GameOutroManager).isGameoverCreditsStarted) {
     return;
   }
 

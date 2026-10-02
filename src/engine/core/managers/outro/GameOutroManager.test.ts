@@ -1,8 +1,9 @@
 import { beforeEach, describe, expect, it, jest } from "@jest/globals";
-import { game, sound_object } from "xray16";
+import { game, get_console, sound_object } from "xray16";
 import { ESoundObjectType, SoundObject } from "xray16/alias";
 import { AnyObject } from "xray16/lib";
 import { MockSoundObject } from "xray16/mocks";
+import { resetFunctionMock } from "xray16/testing/utils";
 
 import { disposeManager, getManager } from "@/engine/core/database";
 import { ActorInputManager, EActorControlHandle, EActorControlPolicy } from "@/engine/core/managers/actor";
@@ -15,6 +16,7 @@ import { mockRegisteredActor, resetRegistry } from "@/fixtures/engine";
 describe("GameOutroManager", () => {
   beforeEach(() => {
     resetRegistry();
+    resetFunctionMock(game.start_tutorial);
   });
 
   it("should correctly initialize and destroy", () => {
@@ -25,6 +27,7 @@ describe("GameOutroManager", () => {
     const manager: GameOutroManager = getManager(GameOutroManager);
 
     expect(manager.sound).toBeNull();
+    expect(manager.isGameoverCreditsStarted).toBe(false);
 
     expect(eventsManager.getSubscribersCount()).toBe(1);
     expect(eventsManager.getEventSubscribersCount(EGameEvent.DUMP_LUA_DATA)).toBe(1);
@@ -53,7 +56,7 @@ describe("GameOutroManager", () => {
     expect(gameOutroManager.sound?.play).toHaveBeenCalledTimes(1);
     expect(gameOutroManager.sound?.play).toHaveBeenCalledWith(null, 0.0, ESoundObjectType.S2D);
     expect(gameOutroManager.sound?.volume).toBe(1);
-    expect((gameOutroManager.sound as unknown as MockSoundObject).path).toBe("music_outro");
+    expect((gameOutroManager.sound as unknown as MockSoundObject).path).toBe("music\\outro");
   });
 
   it("should correctly stop outro sound", () => {
@@ -89,14 +92,12 @@ describe("GameOutroManager", () => {
     );
   });
 
-  it("should release outro input control when stopping the black screen sequence", () => {
+  it("should release outro input control and roll the credits when stopping the black screen sequence", () => {
     const outro: GameOutroManager = getManager(GameOutroManager);
     const input: ActorInputManager = getManager(ActorInputManager);
-    const credits: jest.Mock = jest.fn();
 
     mockRegisteredActor();
 
-    (_G as AnyObject)["xr_effects"] = { game_credits: credits };
     jest.spyOn(input, "releaseControl");
     outro.startBlackScreenAndSound();
 
@@ -106,7 +107,19 @@ describe("GameOutroManager", () => {
 
     expect(sound.stop).toHaveBeenCalledTimes(1);
     expect(input.releaseControl).toHaveBeenCalledWith(EActorControlHandle.OUTRO);
-    expect(credits).toHaveBeenCalledTimes(1);
+    expect(get_console().execute).toHaveBeenCalledWith("disconnect");
+    expect(game.start_tutorial).toHaveBeenCalledWith("credits_seq");
+    expect(outro.isGameoverCreditsStarted).toBe(true);
+  });
+
+  it("should roll the game credits and remember they started", () => {
+    const outro: GameOutroManager = getManager(GameOutroManager);
+
+    outro.startCredits();
+
+    expect(game.start_tutorial).toHaveBeenCalledTimes(1);
+    expect(game.start_tutorial).toHaveBeenCalledWith("credits_seq");
+    expect(outro.isGameoverCreditsStarted).toBe(true);
   });
 
   it("should apply the configured fade-in volume to the outro sound", () => {

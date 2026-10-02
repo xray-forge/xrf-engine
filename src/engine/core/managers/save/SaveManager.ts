@@ -156,6 +156,7 @@ export class SaveManager extends AbstractManager {
 
   /**
    * When actor created and re-initialized.
+   * Creates the surge manager here rather than at game start, as it reads game time while created.
    */
   public onActorReinit(): void {
     initializeManager(SurgeManager);

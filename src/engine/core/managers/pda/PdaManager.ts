@@ -20,7 +20,7 @@ export class PdaManager extends AbstractManager {
     const statisticsManager: StatisticsManager = getManager(StatisticsManager);
 
     switch (section) {
-      case EPdaStatSection.UNKNOWN:
+      case EPdaStatSection.TIME_IN_ZONE:
         return "00:00:00";
       case EPdaStatSection.SURGES:
         return tostring(statisticsManager.actorStatistics.surgesCount);
@@ -60,8 +60,8 @@ export class PdaManager extends AbstractManager {
   }
 
   /**
-   * Fill faction state.
-   * Todo: Faction warfare from CS?
+   * Fill faction state with the placeholder values of vanilla.
+   * Used only by the faction war page from Clear Sky, which no PDA tab of the game opens.
    *
    * @param state - State object to fill.
    * @returns Updated state object.

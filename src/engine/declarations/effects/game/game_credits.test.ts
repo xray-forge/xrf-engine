@@ -3,13 +3,16 @@ import { game } from "xray16";
 import { MockGameObject } from "xray16/mocks";
 import { resetFunctionMock } from "xray16/testing/utils";
 
-import { callXrEffect } from "@/fixtures/engine";
+import { getManager } from "@/engine/core/database";
+import { GameOutroManager } from "@/engine/core/managers/outro";
+import { callXrEffect, resetRegistry } from "@/fixtures/engine";
 
 beforeAll(() => {
   require("@/engine/declarations/effects/game/game_credits");
 });
 
 beforeEach(() => {
+  resetRegistry();
   resetFunctionMock(game.start_tutorial);
 });
 
@@ -21,5 +24,6 @@ describe("game_credits", () => {
 
     expect(game.start_tutorial).toHaveBeenCalledTimes(1);
     expect(game.start_tutorial).toHaveBeenCalledWith("credits_seq");
+    expect(getManager(GameOutroManager).isGameoverCreditsStarted).toBe(true);
   });
 });

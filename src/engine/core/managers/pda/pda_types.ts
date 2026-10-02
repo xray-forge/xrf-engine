@@ -32,7 +32,8 @@ export const iconByKilledMonsters: PartialRecord<TMonster, TName> = {
  * Section of PDA statistics layout.
  */
 export const enum EPdaStatSection {
-  UNKNOWN,
+  // Time spent in the zone, filled by the engine itself for layouts with actor info as the ranking page has.
+  TIME_IN_ZONE,
   SURGES,
   COMPLETED_QUESTS,
   KILLED_MONSTERS,

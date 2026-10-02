@@ -10,7 +10,7 @@ describe("PdaManager", () => {
   it("should correctly get stat by section", () => {
     const manager: PdaManager = getManager(PdaManager);
 
-    expect(manager.getStatisticsLabel(EPdaStatSection.UNKNOWN)).toBe("00:00:00");
+    expect(manager.getStatisticsLabel(EPdaStatSection.TIME_IN_ZONE)).toBe("00:00:00");
     expect(manager.getStatisticsLabel(EPdaStatSection.SURGES)).toBe("0");
     expect(manager.getStatisticsLabel(EPdaStatSection.COMPLETED_QUESTS)).toBe("0");
     expect(manager.getStatisticsLabel(EPdaStatSection.KILLED_MONSTERS)).toBe("0");
@@ -28,7 +28,7 @@ describe("PdaManager", () => {
     statisticsManager.actorStatistics.collectedArtefactsCount = 13;
     statisticsManager.actorStatistics.collectedTreasuresCount = 15;
 
-    expect(manager.getStatisticsLabel(EPdaStatSection.UNKNOWN)).toBe("00:00:00");
+    expect(manager.getStatisticsLabel(EPdaStatSection.TIME_IN_ZONE)).toBe("00:00:00");
     expect(manager.getStatisticsLabel(EPdaStatSection.SURGES)).toBe("5");
     expect(manager.getStatisticsLabel(EPdaStatSection.COMPLETED_QUESTS)).toBe("7");
     expect(manager.getStatisticsLabel(EPdaStatSection.KILLED_MONSTERS)).toBe("9");
