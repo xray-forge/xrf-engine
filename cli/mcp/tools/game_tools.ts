@@ -3,10 +3,13 @@ import * as path from "node:path";
 
 import { discoverChecks, ICheckDescriptor } from "#/checks/utils/discover_checks";
 import { IMcpTool } from "#/mcp/mcp_tool_types";
-import { answer, IGameToolsContext, schema, text } from "#/mcp/tools/tool_kit";
+import { IGameResponse } from "#/mcp/McpPipeClient";
+import { answer, IGameToolsContext, json, schema, sleep, text } from "#/mcp/tools/tool_kit";
 import { Nullable } from "#/utils/types";
 
 const FLOW_WAIT_MS: number = 60_000;
+const WAIT_POLL_MS: number = 1_000;
+const WAIT_CHECK_MS: number = 5_000;
 
 /**
  * @param name - Flow identity (`quests_zat_b14`), source (`quests/zat_b14.flow.ts`) or launcher (`flow_quests_zat_b14`).
@@ -51,8 +54,13 @@ export function createGameTools(context: IGameToolsContext): Array<IMcpTool> {
       name: "game_lua",
       description:
         "Run Lua in the game and return its value as JSON. Tried as an expression first, so `level.name()` works " +
-        "without `return`. Game objects come back as placeholders; return their fields instead. Pass `file` to run a " +
-        "probe kept under target/mcp/probes instead of `code`.",
+        "without `return`. Engine objects come back named, such as `<game_object 0 actor>`. Chunks see `mcp`, the " +
+        "in-game utilities of src/engine/checks/mcp/mcp_probe.ts under their own names: registry, getManagerByName, " +
+        "getGameObjects, getNearestGameObject, getServerObjects, getNearestServerObject, getObjectByStoryId, " +
+        "getServerObjectByStoryId, getSimulationSquads, getObjectSquad, getSquadMembers, killSquadMember, " +
+        "teleportActorNearPosition, teleportActorToPosition, giveItemsToActor, giveMoneyToActor, giveInfoPortion, " +
+        "hasInfoPortion, forwardGameTime and more. Globals a chunk sets stay for later chunks until a load. Pass " +
+        "`file` to run a probe kept under target/mcp/probes instead of `code`.",
       inputSchema: schema({
         code: { type: "string", minLength: 1, description: "Lua expression or chunk." },
         file: { type: "string", minLength: 1, description: "Lua file, relative to target/mcp/probes." },
@@ -78,6 +86,56 @@ export function createGameTools(context: IGameToolsContext): Array<IMcpTool> {
         const chunk: string = probe ? fs.readFileSync(probe, "utf8") : (code as string);
 
         return answer(await client.request("lua", { code: chunk }, (timeoutSeconds as number) * 1000));
+      },
+    },
+    {
+      name: "game_wait",
+      description:
+        "Let the game run for `seconds`, or until the Lua expression `until` is truthy, checked every second, and " +
+        "answer with the game status, or with the last value of `until`. Use it to let a load settle or to follow a " +
+        "surge, a sleep or a travel; the game may be silent while it loads.",
+      inputSchema: schema(
+        {
+          seconds: { type: "integer", minimum: 1, maximum: 600, description: "Longest time to wait." },
+          until: { type: "string", minLength: 1, description: "Lua expression ending the wait once truthy." },
+        },
+        ["seconds"]
+      ),
+      call: async ({ seconds, until }) => {
+        const started: number = Date.now();
+        const deadline: number = started + (seconds as number) * 1000;
+
+        if (until === undefined) {
+          await sleep(deadline - started);
+
+          return answer(await client.request("status"));
+        }
+
+        let last: Nullable<IGameResponse> = null;
+        let failure: Nullable<string> = null;
+
+        while (Date.now() < deadline) {
+          try {
+            last = await client.request("lua", { code: until }, WAIT_CHECK_MS);
+            failure = last.ok ? null : (last.error ?? null);
+          } catch (error) {
+            failure = (error as Error).message;
+          }
+
+          // Lua truth: only nil and false fail.
+          if (last?.ok && last.result !== null && last.result !== undefined && last.result !== false) {
+            return json({ matched: true, waitedSeconds: (Date.now() - started) / 1000, value: last.result });
+          }
+
+          await sleep(Math.min(WAIT_POLL_MS, Math.max(deadline - Date.now(), 0)));
+        }
+
+        return json({
+          matched: false,
+          waitedSeconds: (Date.now() - started) / 1000,
+          value: last?.result ?? null,
+          error: failure,
+        });
       },
     },
     {

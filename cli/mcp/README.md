@@ -30,7 +30,11 @@ output.
 - `game_status` reports the session, level, game time, actor, and the time since the previous actor update.
 - `game_console` runs a console command after answering; follow a `load` with `game_wait_ready`.
 - `game_lua` runs Lua and returns its value as JSON, trying it as an expression first. It takes the code itself or a
-  probe `file` under `target/mcp/probes`.
+  probe `file` under `target/mcp/probes`. Chunks share one environment over the game's globals, so a global one
+  chunk sets stays for the next until a load, and they see `mcp`, the in-game utilities
+  `src/engine/checks/mcp/mcp_probe.ts` re-exports under their own names, such as `registry`, `getManagerByName`,
+  `getNearestGameObject`, `getSquadMembers`, `teleportActorToPosition`, `giveItemsToActor` and `forwardGameTime`.
+- `game_wait` lets the game run for `seconds`, or until the Lua expression `until` is truthy, checked every second.
 - `game_flow` runs an in-game check flow by identity, source path or launcher name, and returns its report lines.
 - `game_screenshot` returns the image scaled down to `width` (1600 by default) and keeps the full one under
   `target/mcp/screenshots`.

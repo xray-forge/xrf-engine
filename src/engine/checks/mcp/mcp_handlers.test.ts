@@ -34,6 +34,8 @@ describe("mcp handlers", () => {
   afterEach(() => {
     delete globals.loadstring;
     delete globals.package;
+    delete globals.setfenv;
+    delete globals.setmetatable;
   });
 
   it("should queue console commands, screenshots and quitting to run after the answer", () => {
@@ -59,12 +61,19 @@ describe("mcp handlers", () => {
   });
 
   it("should run a Lua chunk as an expression first, then as statements", () => {
+    globals.setfenv = jest.fn();
+    globals.setmetatable = jest.fn((table: AnyObject) => table);
     globals.loadstring = jest.fn((code: string) =>
       code === "return 1 + 1" ? [() => 2] : code === "local x = 3 return x" ? [() => 3] : [null, "syntax"]
     );
 
     expect(runLuaChunk("1 + 1")).toBe(2);
     expect(runLuaChunk("local x = 3 return x")).toBe(3);
+    expect(globals.setfenv).toHaveBeenCalledWith(
+      expect.any(Function),
+      expect.objectContaining({ mcp: expect.anything() })
+    );
+    expect(globals.setmetatable).toHaveBeenCalledTimes(1);
     expect(() => runLuaChunk("???")).toThrow("Cannot compile Lua: syntax");
     expect(
       MCP_HANDLERS[EMcpRequestKind.LUA](createRequest(EMcpRequestKind.LUA, { code: "1 + 1" }), context).result

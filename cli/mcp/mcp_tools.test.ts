@@ -83,6 +83,7 @@ describe("game MCP tools", () => {
   });
 
   afterEach(() => {
+    jest.useRealTimers();
     directories.forEach((it) => fs.rmSync(it, { recursive: true, force: true }));
   });
 
@@ -109,6 +110,7 @@ describe("game MCP tools", () => {
       "game_screenshot",
       "game_start",
       "game_status",
+      "game_wait",
       "game_wait_ready",
     ]);
   });
@@ -408,6 +410,41 @@ describe("game MCP tools", () => {
 
     expect(context.startGame).toHaveBeenCalledWith(expect.objectContaining({ load: "mcp_bar", mcp: true }));
     expect(textOf(await call("game_start", { mode: "load", save: "mcp_missing" }))).toContain("No save 'mcp_missing'");
+  });
+
+  it("should wait for a time, or until a Lua expression holds", async () => {
+    const { call, client, directory } = setup();
+
+    directories.push(directory);
+    jest.useFakeTimers();
+    client.request
+      .mockRejectedValueOnce(new Error("The game did not answer."))
+      .mockResolvedValueOnce({ id: "1", ok: true, result: false })
+      .mockResolvedValueOnce({ id: "2", ok: true, result: 207 });
+
+    const matched: Promise<IToolResult> = call("game_wait", { seconds: 10, until: "surge.finished and elapsed" });
+
+    await jest.advanceTimersByTimeAsync(2_000);
+
+    expect(JSON.parse(textOf(await matched))).toEqual({ matched: true, waitedSeconds: 2, value: 207 });
+    expect(client.request).toHaveBeenLastCalledWith("lua", { code: "surge.finished and elapsed" }, 5_000);
+
+    client.request.mockResolvedValue({ id: "3", ok: true, result: null });
+
+    const missed: Promise<IToolResult> = call("game_wait", { seconds: 3, until: "false" });
+
+    await jest.advanceTimersByTimeAsync(3_000);
+
+    expect(JSON.parse(textOf(await missed))).toMatchObject({ matched: false, waitedSeconds: 3, value: null });
+
+    client.request.mockResolvedValue({ id: "4", ok: true, result: { level: "zaton" } });
+
+    const status: Promise<IToolResult> = call("game_wait", { seconds: 5 });
+
+    await jest.advanceTimersByTimeAsync(5_000);
+
+    expect(JSON.parse(textOf(await status))).toEqual({ level: "zaton" });
+    expect(client.request).toHaveBeenLastCalledWith("status");
   });
 
   it("should quit the game and wait until its connection and process are gone", async () => {

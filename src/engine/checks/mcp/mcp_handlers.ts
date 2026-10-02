@@ -1,10 +1,11 @@
 import { game, get_console, level, time_global } from "xray16";
 import { GameObject, Vector } from "xray16/alias";
 import { abort, AnyObject, gameTimeToString, Nillable } from "xray16/lib";
-import { $isNotNil } from "xray16/macros";
+import { $isNil, $isNotNil } from "xray16/macros";
 
 import { collectReportedLines, ICheckFailure, ICheckResult } from "@/engine/checks/framework/core";
 import { run } from "@/engine/checks/framework/entry";
+import * as mcp from "@/engine/checks/mcp/mcp_probe";
 import { EMcpRequestKind, IMcpHandlerContext, IMcpRequest, TMcpHandler } from "@/engine/checks/mcp/mcp_types";
 import { registry } from "@/engine/core/database";
 
@@ -23,6 +24,20 @@ function readStringArgument(request: IMcpRequest, name: string): string {
   return value as string;
 }
 
+let chunkEnvironment: Nillable<AnyObject> = null;
+
+/**
+ * @returns Environment chunks run in: `mcp` utilities over the game's globals, keeping the globals a chunk sets for the
+ *   next chunks without leaking them into the game.
+ */
+function getChunkEnvironment(): AnyObject {
+  if ($isNil(chunkEnvironment)) {
+    chunkEnvironment = setmetatable({ mcp }, { __index: _G });
+  }
+
+  return chunkEnvironment;
+}
+
 /**
  * Run a Lua chunk, read as an expression first so `level.name()` works without `return`.
  *
@@ -39,6 +54,8 @@ export function runLuaChunk(code: string): unknown {
   if (!chunk) {
     abort("Cannot compile Lua: %s", error);
   }
+
+  setfenv(chunk, getChunkEnvironment());
 
   return (chunk as () => unknown)();
 }
