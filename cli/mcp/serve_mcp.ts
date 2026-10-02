@@ -1,7 +1,13 @@
 import * as fs from "node:fs";
 import * as path from "node:path";
 
-import { TARGET_GAME_DATA_MCP_EXTENSION_DIR, TARGET_MCP_SCREENSHOTS_DIR } from "#/globals/paths";
+import {
+  TARGET_GAME_DATA_MCP_EXTENSION_DIR,
+  TARGET_MCP_DUMPS_DIR,
+  TARGET_MCP_PROBES_DIR,
+  TARGET_MCP_SAVES_DIR,
+  TARGET_MCP_SCREENSHOTS_DIR,
+} from "#/globals/paths";
 import { getLogFilePath } from "#/logs/logs_lines";
 import { isGameProcessRunning } from "#/mcp/game_process";
 import { moveScreenshot, scaleScreenshot } from "#/mcp/game_screenshot";
@@ -18,8 +24,9 @@ const INSTRUCTIONS: string =
   "`npm run cli -- mcp build`, then call game_start. The game answers in a level and, once a game has started, in " +
   "the main menu; loading, intros, the outro and credits are silent, so follow them with game_log. Save through " +
   "game_console before anything that can kill the actor or end the game, and call game_wait_ready after a load. " +
-  "In the main menu `load <save>` fails without a running game; start one with " +
-  "`start server(<save>/single/alife/load) client(localhost)` instead.";
+  "Load saves with game_load, which picks the right console command in a level or the main menu. Keep test saves " +
+  "with game_save in the bank under target/mcp/saves, Lua probes under target/mcp/probes (game_lua `file`), and " +
+  "compare manager state with game_dump; check game_errors after each step.";
 
 /**
  * Resolve the game text encoding, the default one without a configured game: the tools still serve then, and starting a
@@ -63,6 +70,7 @@ export async function serveMcp(): Promise<void> {
     { name: "xrf-game", version: "1.0.0" },
     createGameTools({
       client,
+      workspace: { dumps: TARGET_MCP_DUMPS_DIR, saves: TARGET_MCP_SAVES_DIR, probes: TARGET_MCP_PROBES_DIR },
       startGame,
       isGameRunning,
       isEndpointBuilt: () => fs.existsSync(TARGET_GAME_DATA_MCP_EXTENSION_DIR),

@@ -15,6 +15,9 @@ export function setupMcpCommands(command: Command): void {
   mcpCommand
     .command("build")
     .description("transpile the game MCP endpoint into gamedata and write its extension")
+    .addOption(
+      new Option("-s, --scripts", "build the game scripts first, as a scripts-only build would").default(false)
+    )
     .addOption(new Option("-v, --verbose", "print verbose logs").default(false))
     .action(buildMcp);
 

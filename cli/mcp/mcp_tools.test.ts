@@ -5,9 +5,11 @@ import * as path from "node:path";
 import { afterEach, beforeEach, describe, expect, it, jest } from "@jest/globals";
 
 import { IToolResult } from "#/mcp/mcp_tool_types";
-import { createGameTools, findFlow, IGameToolsContext, waitForScreenshot } from "#/mcp/mcp_tools";
+import { createGameTools, IGameToolsContext } from "#/mcp/mcp_tools";
 import { McpPipeClient } from "#/mcp/McpPipeClient";
 import { IJsonRpcResponse, McpStdioServer } from "#/mcp/McpStdioServer";
+import { findFlow } from "#/mcp/tools/game_tools";
+import { waitForScreenshot } from "#/mcp/tools/screenshot_tools";
 import { EGameDifficulty } from "#/start/start_game";
 import { Nullable } from "#/utils/types";
 
@@ -32,10 +34,15 @@ function setup(): {
   } as unknown as jest.Mocked<McpPipeClient>;
   const context: IGameToolsContext = {
     client,
+    workspace: {
+      dumps: path.join(directory, "dumps"),
+      saves: path.join(directory, "saves"),
+      probes: path.join(directory, "probes"),
+    },
     startGame: jest.fn(async () => {}),
     isGameRunning: jest.fn(async () => false),
     isEndpointBuilt: () => true,
-    getPaths: async () => ({ logs: directory, screenshots: directory }),
+    getPaths: async () => ({ logs: directory, screenshots: directory, savedgames: path.join(directory, "saves_game") }),
     getEngineLogPath: async () => path.join(directory, "openxray_test.log"),
     getTextEncoding: async () => "windows-1251",
     keepScreenshot: jest.fn((file: string) => `${file}.kept`),
@@ -90,10 +97,15 @@ describe("game MCP tools", () => {
         .sort()
     ).toEqual([
       "game_console",
+      "game_dump",
+      "game_errors",
       "game_flow",
+      "game_load",
       "game_log",
       "game_lua",
       "game_quit",
+      "game_save",
+      "game_saves",
       "game_screenshot",
       "game_start",
       "game_status",
@@ -275,6 +287,129 @@ describe("game MCP tools", () => {
     expect((await call("game_log", { file: "checks" })).isError).toBe(true);
   });
 
+  it("should run a probe file from the workspace, needing either code or a file", async () => {
+    const { call, client, context, directory } = setup();
+
+    directories.push(directory);
+    fs.mkdirSync(context.workspace.probes, { recursive: true });
+    fs.writeFileSync(path.join(context.workspace.probes, "probe.lua"), "return level.name()");
+
+    await call("game_lua", { file: "probe.lua" });
+
+    expect(client.request).toHaveBeenLastCalledWith("lua", { code: "return level.name()" }, 30_000);
+    expect(textOf(await call("game_lua", { code: "1", file: "probe.lua" }))).toBe("Pass either 'code' or 'file'.");
+    expect(textOf(await call("game_lua", { file: "missing.lua" }))).toContain("No probe at");
+  });
+
+  it("should filter log lines by a pattern and summarize log problems", async () => {
+    const { call, directory } = setup();
+
+    directories.push(directory);
+    fs.writeFileSync(
+      path.join(directory, "openxray_test.log"),
+      [
+        "Starting engine...",
+        "[LUA]  [1][ReleaseBodyManager][info] Register corpse object: bandit, 1/15",
+        "! SV:ge_destroy: [11222] not found on server",
+        "! SV:ge_destroy: [13421] not found on server",
+        "[LUA]  [2][ReleaseBodyManager][info] Register corpse object: stalker, 2/15",
+      ].join("\n")
+    );
+
+    expect(textOf(await call("game_log", { match: "register corpse", lines: 1 }))).toBe(
+      "5: [LUA]  [2][ReleaseBodyManager][info] Register corpse object: stalker, 2/15"
+    );
+    expect(textOf(await call("game_log", { match: "nothing like it" }))).toBe("No engine log line matches.");
+    expect(textOf(await call("game_errors"))).toBe(
+      "engine log: 2 problem lines in 1 kinds.\n- 2x (first at line 3) ! SV:ge_destroy: [11222] not found on server"
+    );
+  });
+
+  it("should keep a dump in the workspace and compare a later one with it", async () => {
+    const { call, client, context, directory } = setup();
+
+    directories.push(directory);
+    client.request.mockResolvedValueOnce({
+      id: "1",
+      ok: true,
+      result: { WeatherManager: { weatherPeriodDuration: 21_600, nextUpdateAt: 1 } },
+    });
+
+    expect(JSON.parse(textOf(await call("game_dump", { name: "before" })))).toEqual({
+      file: path.join(context.workspace.dumps, "before.json"),
+      managers: { WeatherManager: 48 },
+    });
+
+    client.request.mockResolvedValueOnce({
+      id: "2",
+      ok: true,
+      result: { WeatherManager: { weatherPeriodDuration: 25_200, nextUpdateAt: 2 } },
+    });
+
+    const compared: string = textOf(
+      await call("game_dump", { name: "after", managers: "WeatherManager", compareWith: "before" })
+    );
+
+    expect(compared).toContain("1 differences in 1 managers, 1 clock or ignored fields left out.");
+    expect(compared).toContain("~ weatherPeriodDuration: 21600 -> 25200");
+    expect(fs.existsSync(path.join(context.workspace.dumps, "after.diff.txt"))).toBe(true);
+    expect(client.request).toHaveBeenLastCalledWith(
+      "lua",
+      { code: expect.stringContaining("local only = { WeatherManager = true }") },
+      60_000
+    );
+    expect(textOf(await call("game_dump", { name: "next", compareWith: "missing" }))).toContain("No dump 'missing'");
+    expect(textOf(await call("game_dump", { name: "../escape" }))).toContain("Dump names take");
+  });
+
+  it("should bank a save, list it and load it back in a level, the main menu, or a new game process", async () => {
+    const { call, client, context, directory } = setup();
+    const { savedgames } = await context.getPaths();
+
+    directories.push(directory);
+    fs.mkdirSync(savedgames, { recursive: true });
+    client.request.mockImplementation(async (kind: string, args?: Record<string, unknown>) => {
+      if (kind === "console" && String(args?.command).startsWith("save ")) {
+        fs.writeFileSync(path.join(savedgames, "mcp_bar.scop"), "save");
+        fs.writeFileSync(path.join(savedgames, "mcp_bar.scopx"), "xrf");
+      }
+
+      return { id: "1", ok: true, result: { level: "zaton", gameTime: "09:50 08/03/2012" } };
+    });
+
+    expect(JSON.parse(textOf(await call("game_save", { name: "mcp_bar", note: "bar" })))).toMatchObject({
+      name: "mcp_bar",
+      files: ["mcp_bar.scop", "mcp_bar.scopx"],
+      level: "zaton",
+      note: "bar",
+    });
+    expect(JSON.parse(textOf(await call("game_saves")))).toHaveLength(1);
+    expect(textOf(await call("game_save", { name: "bad name" }))).toContain("Save names take");
+
+    fs.rmSync(path.join(savedgames, "mcp_bar.scop"));
+    jest.mocked(context.isGameRunning).mockResolvedValue(true);
+
+    await call("game_load", { name: "mcp_bar" });
+
+    expect(fs.existsSync(path.join(savedgames, "mcp_bar.scop"))).toBe(true);
+    expect(client.request).toHaveBeenCalledWith("console", { command: "load mcp_bar" });
+
+    client.request.mockResolvedValue({ id: "1", ok: true, result: {} });
+
+    await call("game_load", { name: "mcp_bar" });
+
+    expect(client.request).toHaveBeenCalledWith("console", {
+      command: "start server(mcp_bar/single/alife/load) client(localhost)",
+    });
+
+    jest.mocked(context.isGameRunning).mockResolvedValue(false);
+
+    await call("game_load", { name: "mcp_bar" });
+
+    expect(context.startGame).toHaveBeenCalledWith(expect.objectContaining({ load: "mcp_bar", mcp: true }));
+    expect(textOf(await call("game_start", { mode: "load", save: "mcp_missing" }))).toContain("No save 'mcp_missing'");
+  });
+
   it("should quit the game and wait until its connection and process are gone", async () => {
     const { call, client, context, directory } = setup();
 
@@ -289,5 +424,19 @@ describe("game MCP tools", () => {
     client.waitForClose.mockResolvedValueOnce(false);
 
     expect(textOf(await call("game_quit"))).toBe("The game did not close its connection in time.");
+  });
+
+  it("should take a connection closed before the quit answer as the quit", async () => {
+    const { call, client, directory } = setup();
+
+    directories.push(directory);
+    client.request.mockRejectedValueOnce(new Error("The game connection closed before answering."));
+
+    expect(textOf(await call("game_quit"))).toBe("The game quit.");
+
+    client.isConnected.mockReturnValueOnce(true);
+    client.request.mockRejectedValueOnce(new Error("Timed out."));
+
+    expect(await call("game_quit")).toMatchObject({ isError: true, content: [{ text: "Timed out." }] });
   });
 });

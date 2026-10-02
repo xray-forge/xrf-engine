@@ -3,7 +3,9 @@ import * as path from "node:path";
 
 import { blueBright, green, yellowBright } from "chalk";
 
+import { build, EBuildTarget } from "#/build/build";
 import { transpileChecks } from "#/checks/build_checks";
+import { default as config } from "#/config.json";
 import { TARGET_GAME_DATA_CHECKS_MCP_DIR, TARGET_GAME_DATA_MCP_EXTENSION_DIR } from "#/globals/paths";
 import { NodeLogger } from "#/utils/logging";
 import { TimeTracker } from "#/utils/timing";
@@ -21,6 +23,7 @@ export const MCP_EXTENSION_FILES: Array<{ file: string; module: string; emitted:
 ];
 
 export interface IBuildMcpParameters {
+  scripts?: boolean;
   verbose?: boolean;
 }
 
@@ -31,6 +34,18 @@ export interface IBuildMcpParameters {
  * running this command is the only way it reaches gamedata.
  */
 export async function buildMcp(parameters: IBuildMcpParameters = {}): Promise<void> {
+  if (parameters.scripts) {
+    await build({
+      include: [EBuildTarget.SCRIPTS],
+      exclude: [],
+      filter: [],
+      assetOverrides: true,
+      luaLogs: true,
+      language: config.locale,
+      verbose: parameters.verbose,
+    });
+  }
+
   NodeLogger.IS_VERBOSE = Boolean(parameters.verbose);
 
   log.info(blueBright("Build game MCP endpoint"));
