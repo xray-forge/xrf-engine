@@ -284,6 +284,32 @@ describe("ActorInputManager", () => {
     expect(registry.actor.activate_slot).toHaveBeenLastCalledWith(EActiveItemSlot.PRIMARY);
   });
 
+  it("should give back the item slot a UI-only lock put away once released with restore", () => {
+    const manager: ActorInputManager = getManager(ActorInputManager);
+
+    jest.spyOn(registry.actor, "active_slot").mockReturnValue(EActiveItemSlot.PRIMARY);
+    jest.spyOn(registry.actor, "item_in_slot").mockReturnValue(MockGameObject.mock());
+
+    manager.acquireControl(EActorControlHandle.SURGE, "surge", EActorControlPolicy.UI_ONLY, true);
+
+    expect(registry.actor.activate_slot).toHaveBeenCalledWith(EActiveItemSlot.NONE);
+
+    manager.releaseGameUiControl(EActorControlHandle.SURGE, true);
+
+    expect(registry.actor.activate_slot).toHaveBeenLastCalledWith(EActiveItemSlot.PRIMARY);
+  });
+
+  it("should keep the active item slot under a UI-only lock that does not reset it", () => {
+    const manager: ActorInputManager = getManager(ActorInputManager);
+
+    jest.spyOn(registry.actor, "active_slot").mockReturnValue(EActiveItemSlot.PRIMARY);
+
+    manager.acquireControl(EActorControlHandle.OUTRO, "outro", EActorControlPolicy.UI_ONLY, false);
+
+    expect(level.show_weapon).toHaveBeenCalledWith(false);
+    expect(registry.actor.activate_slot).not.toHaveBeenCalled();
+  });
+
   it("should expire timed input and restore dialog and no-weapon state on update", () => {
     const manager: ActorInputManager = getManager(ActorInputManager);
 

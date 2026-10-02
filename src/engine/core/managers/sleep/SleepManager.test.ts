@@ -102,7 +102,8 @@ describe("SleepManager", () => {
     expect(actorInputManager.acquireControl).toHaveBeenCalledWith(
       EActorControlHandle.SLEEP,
       "sleep",
-      EActorControlPolicy.FULL_UI
+      EActorControlPolicy.FULL_UI,
+      true
     );
 
     expect(level.add_cam_effector).toHaveBeenCalledWith(
@@ -172,7 +173,7 @@ describe("SleepManager", () => {
 
     sleepManager.onFinishSleeping();
 
-    expect(actorInputManager.releaseGameUiControl).toHaveBeenCalledWith(EActorControlHandle.SLEEP);
+    expect(actorInputManager.releaseGameUiControl).toHaveBeenCalledWith(EActorControlHandle.SLEEP, true);
 
     expect(console.execute).toHaveBeenCalledWith("snd_volume_music 0.51");
     expect(console.execute).toHaveBeenCalledWith("snd_volume_eff 0.52");
@@ -282,7 +283,7 @@ describe("SleepManager", () => {
 
     sleepManager.onAnabioticWakeUp();
 
-    expect(actorInputManager.releaseGameUiControl).toHaveBeenCalledWith(EActorControlHandle.ANABIOTIC);
+    expect(actorInputManager.releaseGameUiControl).toHaveBeenCalledWith(EActorControlHandle.ANABIOTIC, true);
     expect(console.execute).toHaveBeenCalledWith("snd_volume_music 0.7");
     expect(console.execute).toHaveBeenCalledWith("snd_volume_eff 0.4");
     expect(sleepManager.musicVolume).toBe(0);

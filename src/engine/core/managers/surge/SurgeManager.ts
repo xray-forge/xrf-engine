@@ -551,7 +551,7 @@ export class SurgeManager extends AbstractManager {
    * Show actor UI once the actor woke up from a surge they survived.
    */
   public onSurgeSurviveEnd(): void {
-    getManager(ActorInputManager).releaseGameUiControl(EActorControlHandle.SURGE);
+    getManager(ActorInputManager).releaseGameUiControl(EActorControlHandle.SURGE, true);
   }
 
   /**

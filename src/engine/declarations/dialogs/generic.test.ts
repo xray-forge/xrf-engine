@@ -191,7 +191,7 @@ describe("disable_ui", () => {
 
     callDialogsBinding("disable_ui");
     expect(actorInputManager.disableGameUi).toHaveBeenCalledTimes(1);
-    expect(actorInputManager.disableGameUi).toHaveBeenCalledWith(false);
+    expect(actorInputManager.disableGameUi).toHaveBeenCalledWith(true);
   });
 });
 

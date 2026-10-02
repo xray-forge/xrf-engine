@@ -95,7 +95,7 @@ export class ActorInputManager extends AbstractManager {
     this.activeItemSlot = reader.r_u8();
     this.memoizedItemSlot = reader.r_u8();
 
-    this.locks = new LuaTable();
+    this.locks = new LuaMap();
 
     const controlsCount: number = reader.r_u8();
     let isSlotReleased: boolean = false;
@@ -308,7 +308,7 @@ export class ActorInputManager extends AbstractManager {
     if (policy === EActorControlPolicy.FULL_UI) {
       this.hideGameUi(this.hasResetSlotControl(), true);
     } else if (policy === EActorControlPolicy.UI_ONLY) {
-      this.hideGameUi(true, false);
+      this.hideGameUi(this.hasResetSlotControl(), false);
     } else if (policy === EActorControlPolicy.INPUT_AND_INDICATORS) {
       level.hide_indicators_safe();
     } else if ((policy === EActorControlPolicy.INPUT || !policy) && restoreUi) {

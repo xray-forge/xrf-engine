@@ -88,7 +88,7 @@ export class SleepManager extends AbstractManager {
 
     this.nextSleepDuration = hours;
 
-    getManager(ActorInputManager).acquireControl(EActorControlHandle.SLEEP, "sleep", EActorControlPolicy.FULL_UI);
+    getManager(ActorInputManager).acquireControl(EActorControlHandle.SLEEP, "sleep", EActorControlPolicy.FULL_UI, true);
 
     level.add_cam_effector(
       animations.camera_effects_sleep,
@@ -131,7 +131,7 @@ export class SleepManager extends AbstractManager {
   public onFinishSleeping(): void {
     logger.info("On finish sleeping");
 
-    getManager(ActorInputManager).releaseGameUiControl(EActorControlHandle.SLEEP);
+    getManager(ActorInputManager).releaseGameUiControl(EActorControlHandle.SLEEP, true);
 
     this.restoreSound();
 
@@ -193,7 +193,7 @@ export class SleepManager extends AbstractManager {
   public onAnabioticWakeUp(): void {
     logger.info("On anabiotic wake up");
 
-    getManager(ActorInputManager).releaseGameUiControl(EActorControlHandle.ANABIOTIC);
+    getManager(ActorInputManager).releaseGameUiControl(EActorControlHandle.ANABIOTIC, true);
 
     this.restoreSound();
 

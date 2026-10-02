@@ -127,7 +127,7 @@ extern("dialogs.have_actor_any_pistol", (): boolean => {
  * Disable actor game UI (including torch and night vision).
  */
 extern("dialogs.disable_ui", (): void => {
-  getManager(ActorInputManager).disableGameUi(false);
+  getManager(ActorInputManager).disableGameUi(true);
 });
 
 /**

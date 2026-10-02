@@ -532,7 +532,7 @@ describe("SurgeManager", () => {
 
     manager.onSurgeSurviveEnd();
 
-    expect(actorInputManager.releaseGameUiControl).toHaveBeenCalledWith(EActorControlHandle.SURGE);
+    expect(actorInputManager.releaseGameUiControl).toHaveBeenCalledWith(EActorControlHandle.SURGE, true);
   });
 
   it("should correctly handle actor going online", () => {
