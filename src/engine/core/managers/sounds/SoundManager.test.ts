@@ -5,7 +5,7 @@ import { EMockPacketDataType, MockGameObject, MockIniFile, MockNetProcessor } fr
 
 import { disposeManager, getManager } from "@/engine/core/database";
 import { EGameEvent, EventsManager } from "@/engine/core/managers/events";
-import { AbstractPlayableSound, ObjectSound } from "@/engine/core/managers/sounds/objects";
+import { AbstractPlayableSound, LoopedSound, ObjectSound } from "@/engine/core/managers/sounds/objects";
 import { SoundManager } from "@/engine/core/managers/sounds/SoundManager";
 import { SCRIPT_SOUND_LTX, soundsConfig } from "@/engine/core/managers/sounds/SoundsConfig";
 import { readIniThemesList } from "@/engine/core/managers/sounds/utils";
@@ -312,6 +312,34 @@ describe("SoundManager", () => {
 
     expect(soundsConfig.looped.length()).toBe(0);
     expect(theme.stop).toHaveBeenCalledTimes(2);
+  });
+
+  it("should keep tracking the other loops of an object when one of them stops", () => {
+    const manager: SoundManager = getManager(SoundManager);
+    const object: GameObject = MockGameObject.mock();
+    const first: AbstractPlayableSound = soundsConfig.themes.get("looped_example");
+    const second: LoopedSound = new LoopedSound(SCRIPT_SOUND_LTX, "looped_example");
+
+    soundsConfig.themes.set("looped_second", second);
+    [first, second].forEach((it) => {
+      jest.spyOn(it, "play").mockImplementation(() => true);
+      jest.spyOn(it, "stop").mockImplementation(() => {});
+    });
+
+    manager.playLooped(object.id(), "looped_example");
+    manager.playLooped(object.id(), "looped_second");
+
+    // Lua answers 0 for the length of a table keyed by names, which the mock does not.
+    jest.spyOn(soundsConfig.looped.get(object.id()), "length").mockReturnValue(0);
+
+    manager.stopLooped(object.id(), "looped_example");
+
+    expect(soundsConfig.looped.get(object.id()).has("looped_second")).toBe(true);
+
+    manager.stopLooped(object.id(), "looped_second");
+
+    expect(second.stop).toHaveBeenCalledWith(object.id());
+    expect(soundsConfig.looped.has(object.id())).toBe(false);
   });
 
   it("should correctly stop all looped sounds for objects", () => {

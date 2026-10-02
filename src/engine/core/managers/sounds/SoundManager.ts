@@ -11,6 +11,7 @@ import { LoopedSound } from "@/engine/core/managers/sounds/objects/LoopedSound";
 import { ObjectSound } from "@/engine/core/managers/sounds/objects/ObjectSound";
 import { soundsConfig } from "@/engine/core/managers/sounds/SoundsConfig";
 import { LuaLogger } from "@/engine/core/utils/logging";
+import { isEmpty } from "@/engine/core/utils/table";
 
 const logger: LuaLogger = new LuaLogger($filename);
 
@@ -226,7 +227,8 @@ export class SoundManager extends AbstractManager {
     sound.stop(objectId);
     collection.delete(name);
 
-    if (collection.length() === 0) {
+    // Keyed by theme names, so its Lua length is 0 whatever it holds.
+    if (isEmpty(collection)) {
       soundsConfig.looped.delete(objectId);
     }
   }
