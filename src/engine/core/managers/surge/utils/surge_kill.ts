@@ -1,7 +1,7 @@
 import { hit, level } from "xray16";
 import { GameObject, Hit } from "xray16/alias";
 import { LuaArray, Nillable, TRUE, Z_VECTOR } from "xray16/lib";
-import { $filename, $isNil } from "xray16/macros";
+import { $filename } from "xray16/macros";
 
 import { animations, postProcessors } from "@/engine/constants/animation";
 import { infoPortions } from "@/engine/constants/info_portions";
@@ -22,6 +22,7 @@ import { isImmuneToSurgeSquad } from "@/engine/core/managers/surge/utils/surge_g
 import { hasInfoPortion } from "@/engine/core/utils/info_portion";
 import { LuaLogger } from "@/engine/core/utils/logging";
 import { isObjectOnLevel } from "@/engine/core/utils/position";
+import { getSquadMembers, killSquadMember } from "@/engine/core/utils/squad/squad_members";
 
 const logger: LuaLogger = new LuaLogger($filename);
 
@@ -34,11 +35,11 @@ export function killAllSurgeUnhiddenAfterActorDeath(): void {
 
   for (const [, squad] of getSimulationSquads()) {
     if (isObjectOnLevel(squad, levelName) && !isImmuneToSurgeSquad(squad)) {
-      for (const member of squad.squad_members()) {
+      for (const [, member] of getSquadMembers(squad)) {
         let isInSurgeCover: boolean = false;
 
         for (const [, coverObject] of surgeCovers) {
-          if (coverObject.inside(member.object.position)) {
+          if (coverObject.inside(member.position)) {
             isInSurgeCover = true;
             break;
           }
@@ -47,18 +48,11 @@ export function killAllSurgeUnhiddenAfterActorDeath(): void {
         if (!isInSurgeCover) {
           logger.info(
             "Releasing object from squad after actors death because of surge: %s %s",
-            member.object.name(),
+            member.name(),
             squad.name()
           );
 
-          const object: Nillable<GameObject> = registry.objects.get(member.object.id)?.object;
-
-          // Online members die on the client to run their death callbacks, offline ones only leave the squad and die.
-          if ($isNil(object)) {
-            member.object.kill();
-          } else {
-            object.kill(object);
-          }
+          killSquadMember(member);
         }
       }
     }
@@ -97,39 +91,27 @@ export function killAllSurgeUnhidden(): void {
 
   for (const [, squad] of getSimulationSquads()) {
     if (isObjectOnLevel(squad, levelName) && !isImmuneToSurgeSquad(squad) && !isStoryObject(squad)) {
-      for (const member of squad.squad_members()) {
-        if (!isStoryObject(member.object)) {
+      for (const [, member] of getSquadMembers(squad)) {
+        if (!isStoryObject(member)) {
           if (canSurgeKillSquad(squad)) {
-            logger.info("Releasing object from squad because of surge: %s %s", member.object.name(), squad.name());
+            logger.info("Releasing object from squad because of surge: %s %s", member.name(), squad.name());
 
-            const object: Nillable<GameObject> = registry.objects.get(member.object.id)?.object;
-
-            if ($isNil(object)) {
-              member.object.kill();
-            } else {
-              object.kill(object);
-            }
+            killSquadMember(member);
           } else {
             let release = true;
 
             // Check if is in cover.
             for (const [, coverObject] of surgeCovers) {
-              if (coverObject.inside(member.object.position)) {
+              if (coverObject.inside(member.position)) {
                 release = false;
                 break;
               }
             }
 
             if (release) {
-              logger.info("Releasing object from squad because of surge: %s %s", member.object.name(), squad.name());
+              logger.info("Releasing object from squad because of surge: %s %s", member.name(), squad.name());
 
-              const object: Nillable<GameObject> = registry.objects.get(member.object.id)?.object;
-
-              if ($isNil(object)) {
-                member.object.kill();
-              } else {
-                object.kill(object);
-              }
+              killSquadMember(member);
             }
           }
         }

@@ -1,9 +1,9 @@
-import { GameObject, ServerHumanObject } from "xray16/alias";
-import { assert, extern, Nillable, TNumberId, TStringId } from "xray16/lib";
-import { $isNil } from "xray16/macros";
+import { GameObject } from "xray16/alias";
+import { assert, extern, Nillable, TStringId } from "xray16/lib";
 
-import { getServerObjectByStoryId, registry } from "@/engine/core/database";
+import { getServerObjectByStoryId } from "@/engine/core/database";
 import type { Squad } from "@/engine/core/objects/squad";
+import { getSquadMembers, killSquadMember } from "@/engine/core/utils/squad/squad_members";
 
 /**
  * Kill every member of the squad referenced by the provided story ID.
@@ -23,19 +23,7 @@ extern("xr_effects.kill_squad", (actor: GameObject, object: GameObject, p: [Nill
     return;
   }
 
-  const squadObjects: LuaTable<TNumberId, boolean> = new LuaTable();
-
-  for (const k of squad.squad_members()) {
-    squadObjects.set(k.id, true);
-  }
-
-  for (const [k] of squadObjects) {
-    const gameObject: Nillable<GameObject> = registry.objects.get(k)?.object;
-
-    if ($isNil(gameObject)) {
-      registry.simulator.object<ServerHumanObject>(tonumber(k)!)!.kill();
-    } else {
-      gameObject.kill(gameObject);
-    }
+  for (const [, member] of getSquadMembers(squad)) {
+    killSquadMember(member);
   }
 });

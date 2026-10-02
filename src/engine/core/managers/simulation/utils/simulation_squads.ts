@@ -24,6 +24,7 @@ import { ESquadActionType } from "@/engine/core/objects/squad/squad_types";
 import { setObjectTeamSquadGroup } from "@/engine/core/utils/community";
 import { LuaLogger } from "@/engine/core/utils/logging";
 import { setSquadRelationToActor } from "@/engine/core/utils/relation";
+import { getSquadMembers } from "@/engine/core/utils/squad/squad_members";
 
 const logger: LuaLogger = new LuaLogger($filename);
 const simulationLogger: LuaLogger = new LuaLogger($filename, { file: "simulation" });
@@ -191,18 +192,11 @@ export function releaseSimulationSquad(squad: Squad): void {
 
   assignSimulationSquadToTerrain(squad, null);
 
-  const squadMembers: LuaTable<TNumberId, boolean> = new LuaTable();
-
-  for (const squadMember of squad.squad_members()) {
-    squadMembers.set(squadMember.id, true);
-  }
-
-  // Unregistering a member while iterating squad members would invalidate the engine iterator.
-  for (const [id] of squadMembers) {
-    const object: Nillable<ServerObject> = registry.simulator.object(id);
+  for (const [, member] of getSquadMembers(squad)) {
+    const object: Nillable<ServerObject> = registry.simulator.object(member.id);
 
     if (object) {
-      squad.unregister_member(id);
+      squad.unregister_member(member.id);
       registry.simulator.release(object, true);
     }
   }

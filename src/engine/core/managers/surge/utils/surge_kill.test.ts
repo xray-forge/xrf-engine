@@ -159,3 +159,46 @@ describe("killAllSurgeUnhiddenAfterActorDeath", () => {
     expect(member.object.kill).toHaveBeenCalledTimes(1);
   });
 });
+
+describe("surge kills of squads whose members leave on death", () => {
+  beforeEach(() => {
+    resetRegistry();
+    mockRegisteredActor();
+    (getOnlineSurgeCoversList as jest.Mock).mockReturnValue(new LuaTable());
+    (getNearestAvailableSurgeCover as jest.Mock).mockReturnValue(null);
+    (canSurgeKillSquad as jest.Mock).mockReturnValue(true);
+    (isImmuneToSurgeSquad as jest.Mock).mockReturnValue(false);
+    (isObjectOnLevel as jest.Mock).mockReturnValue(true);
+    surgeConfig.CAN_SURVIVE_SURGE = parseConditionsList("true");
+  });
+
+  /**
+   * @returns Squad whose members leave it when they die, as the engine does during iteration.
+   */
+  function createShrinkingSquad(): [AnyObject, Array<AnyObject>] {
+    const members: Array<AnyObject> = [createSquadMember(10), createSquadMember(11), createSquadMember(12)];
+    const listed: Array<AnyObject> = [...members];
+
+    members.forEach((member) => member.object.kill.mockImplementation(() => listed.splice(listed.indexOf(member), 1)));
+
+    return [{ ...createSquad(members[0]), squad_members: jest.fn(() => listed.values()) }, members];
+  }
+
+  it("should kill every member once when each death unregisters the member", () => {
+    const [squad, members] = createShrinkingSquad();
+
+    setSimulationSquads(squad);
+    killAllSurgeUnhidden();
+
+    members.forEach((member) => expect(member.object.kill).toHaveBeenCalledTimes(1));
+  });
+
+  it("should kill every member once after actor death when each death unregisters the member", () => {
+    const [squad, members] = createShrinkingSquad();
+
+    setSimulationSquads(squad);
+    killAllSurgeUnhiddenAfterActorDeath();
+
+    members.forEach((member) => expect(member.object.kill).toHaveBeenCalledTimes(1));
+  });
+});
