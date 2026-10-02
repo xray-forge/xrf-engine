@@ -8,6 +8,7 @@ import { replaceFunctionMock } from "xray16/testing/utils";
 
 import { IRegistryObjectState, registerActor, registerObject, registerZone } from "@/engine/core/database";
 import { addConditionToList, parseConditionsList } from "@/engine/core/ini";
+import { AbstractScheme } from "@/engine/core/schemes/base/AbstractScheme";
 import { SchemeIdle } from "@/engine/core/schemes/restrictor/sr_idle";
 import { ISchemeIdleState } from "@/engine/core/schemes/restrictor/sr_idle/sr_idle_types";
 import { SchemeTimer } from "@/engine/core/schemes/restrictor/sr_timer";
@@ -753,8 +754,7 @@ describe("switchObjectSchemeToSection", () => {
       deactivate: jest.fn(),
     };
 
-    schemeState.actions = new LuaTable();
-    schemeState.actions.set(handler, true);
+    AbstractScheme.subscribe(schemeState, handler);
 
     expect(switchObjectSchemeToSection(object, ini, "")).toBe(false);
     expect(switchObjectSchemeToSection(object, ini, null)).toBe(false);

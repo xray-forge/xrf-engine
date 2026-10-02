@@ -9,6 +9,7 @@ import { IRegistryObjectState } from "@/engine/core/database/database_types";
 import { loadObjectLogic, saveObjectLogic } from "@/engine/core/database/logic";
 import { registerObject, resetObject } from "@/engine/core/database/objects";
 import { getPortableStoreValue, setPortableStoreValue } from "@/engine/core/database/portable_store";
+import { AbstractScheme } from "@/engine/core/schemes/base/AbstractScheme";
 import { ISchemeCombatState } from "@/engine/core/schemes/stalker/combat";
 import { setSchemeState } from "@/engine/core/schemes/state";
 import { EScheme } from "@/engine/core/schemes/types";
@@ -25,14 +26,11 @@ describe("saveObjectLogic and loadObjectLogic", () => {
     const processor: MockNetProcessor = new MockNetProcessor();
 
     const cb = jest.fn();
-    const actions = new LuaTable();
     const time = createTime(2015, 5, 4, 12, 25, 30, 200);
-
-    actions.set({ save: cb }, true);
 
     const schemeState: ISchemeCombatState = mockSchemeState<ISchemeCombatState>(EScheme.COMBAT);
 
-    schemeState.actions = actions;
+    AbstractScheme.subscribe(schemeState, { save: cb });
     setSchemeState(state, EScheme.COMBAT, schemeState);
 
     state.jobIni = "test.ltx";

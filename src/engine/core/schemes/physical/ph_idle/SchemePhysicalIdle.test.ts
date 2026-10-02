@@ -33,6 +33,9 @@ describe("SchemePhysicalIdle", () => {
       actions: {
         "[object Object]": true,
       },
+      actionsList: {
+        1: expect.any(Object),
+      },
       bonesHitCondlists: {},
       scheme: EScheme.PH_IDLE,
       section: "ph_idle@test",
@@ -68,6 +71,9 @@ describe("SchemePhysicalIdle", () => {
       isNonscriptUsable: true,
       actions: {
         "[object Object]": true,
+      },
+      actionsList: {
+        1: expect.any(Object),
       },
       bonesHitCondlists: parseBoneStateDescriptors("1|ph_door@free|2|ph_door@free"),
       scheme: EScheme.PH_IDLE,

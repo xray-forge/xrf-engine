@@ -12,7 +12,12 @@ import { type IBaseSchemeState } from "@/engine/core/schemes/state";
 export function assertSchemeSubscribedToController(state: IBaseSchemeState, action: IConstructor<AnyObject>): void {
   for (const [subscriber] of state.actions as LuaTable<AnyObject, boolean>) {
     if (subscriber instanceof action) {
-      return;
+      // Emits walk the ordered list, so a subscriber missing from it would never be called.
+      for (const [, listed] of state.actionsList as LuaTable<number, AnyObject>) {
+        if (listed === subscriber) {
+          return;
+        }
+      }
     }
   }
 

@@ -1,5 +1,5 @@
 import { GameObject, IniFile } from "xray16/alias";
-import { abort, AnyObject, Nillable, TName, TSection } from "xray16/lib";
+import { abort, AnyObject, LuaArray, Nillable, TName, TSection } from "xray16/lib";
 
 import { IRegistryObjectState, registry } from "@/engine/core/database";
 import { getSchemeStateByKey, IBaseSchemeState, setSchemeStateByKey } from "@/engine/core/schemes/state";
@@ -128,7 +128,16 @@ export abstract class AbstractScheme {
       state.actions = new LuaTable();
     }
 
+    if (state.actions.get(subscriber as unknown as AnyObject)) {
+      return;
+    }
+
+    const handlers: LuaArray<ISchemeEventHandler> = AbstractScheme.copyEventHandlers(state.actionsList, null);
+
+    handlers.set(handlers.length() + 1, subscriber);
+
     state.actions.set(subscriber as unknown as AnyObject, true);
+    state.actionsList = handlers;
   }
 
   /**
@@ -138,9 +147,36 @@ export abstract class AbstractScheme {
    * @param subscriber - Action subscribing handler.
    */
   public static unsubscribe(state: IBaseSchemeState, subscriber: ISchemeEventHandler): void {
-    if (state.actions) {
-      state.actions.delete(subscriber);
+    if (state.actions?.get(subscriber as unknown as AnyObject)) {
+      state.actions.delete(subscriber as unknown as AnyObject);
+      state.actionsList = AbstractScheme.copyEventHandlers(state.actionsList, subscriber);
     }
+  }
+
+  /**
+   * Copy event handlers into a new list, so an emit walking the previous one is not affected.
+   *
+   * @param handlers - Handlers to copy.
+   * @param excluded - Handler to leave out of the copy.
+   * @returns New list of handlers.
+   */
+  private static copyEventHandlers(
+    handlers: Nillable<LuaArray<ISchemeEventHandler>>,
+    excluded: Nillable<ISchemeEventHandler>
+  ): LuaArray<ISchemeEventHandler> {
+    const copy: LuaArray<ISchemeEventHandler> = new LuaTable();
+
+    if (handlers) {
+      for (const index of $range(1, handlers.length())) {
+        const handler: ISchemeEventHandler = handlers.get(index);
+
+        if (handler !== excluded) {
+          copy.set(copy.length() + 1, handler);
+        }
+      }
+    }
+
+    return copy;
   }
 
   /**

@@ -1,11 +1,11 @@
 import { GameObject } from "xray16/alias";
-import { AnyArgs, AnyContextualCallable, Nillable, TName } from "xray16/lib";
+import { AnyArgs, AnyContextualCallable, AnyObject, LuaArray, Nillable, TName } from "xray16/lib";
 import { $isNotNil } from "xray16/macros";
 
 import { IRegistryObjectState } from "@/engine/core/database/database_types";
 import { registry } from "@/engine/core/database/registry";
 import { getActiveSchemeState, IBaseSchemeState, TSchemeSignals } from "@/engine/core/schemes/state";
-import { ESchemeEvent } from "@/engine/core/schemes/types";
+import { ESchemeEvent, ISchemeEventHandler } from "@/engine/core/schemes/types";
 
 /**
  * Emit scheme event for active `actions` list in scheme state.
@@ -15,14 +15,21 @@ import { ESchemeEvent } from "@/engine/core/schemes/types";
  * @param rest - Event args.
  */
 export function emitSchemeEvent(state: IBaseSchemeState, event: ESchemeEvent, ...rest: AnyArgs): void {
-  if (!state || !state.actions) {
+  if (!state || !state.actionsList) {
     return;
   }
 
-  for (const [actionHandler, _isHandlerActive] of state.actions) {
-    if (actionHandler[event]) {
-      // Forwarded as varargs, packing them would allocate a table on every update of every object.
-      (actionHandler[event] as AnyContextualCallable).call(actionHandler, ...rest);
+  // Runs on every update of every object, so it walks an array and forwards varargs, both of which LuaJIT compiles.
+  // Subscribing rebuilds the list, so this one stays as it started, skipping handlers unsubscribed meanwhile.
+  const handlers: LuaArray<ISchemeEventHandler> = state.actionsList;
+  const subscribed: LuaTable<AnyObject, boolean> = state.actions as LuaTable<AnyObject, boolean>;
+
+  for (const index of $range(1, handlers.length())) {
+    const handler: AnyObject = handlers.get(index);
+    const callback: Nillable<AnyContextualCallable> = handler[event];
+
+    if (callback && subscribed.get(handler)) {
+      callback.call(handler, ...rest);
     }
   }
 }

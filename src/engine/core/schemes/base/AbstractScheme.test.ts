@@ -113,4 +113,27 @@ describe("AbstractScheme", () => {
 
     expect(state.actions?.length()).toBe(0);
   });
+
+  it("should keep subscribers in order without duplicates and rebuild their list on every change", () => {
+    const state: IBaseSchemeState = mockSchemeState(EScheme.PH_CODE);
+    const first: AnyObject = {};
+    const second: AnyObject = {};
+
+    AbstractScheme.subscribe(state, first);
+    AbstractScheme.subscribe(state, second);
+    AbstractScheme.subscribe(state, first);
+
+    const list = state.actionsList;
+
+    expect(list?.length()).toBe(2);
+    expect(list?.get(1)).toBe(first);
+    expect(list?.get(2)).toBe(second);
+
+    AbstractScheme.unsubscribe(state, first);
+
+    expect(state.actionsList).not.toBe(list);
+    expect(list?.length()).toBe(2);
+    expect(state.actionsList?.length()).toBe(1);
+    expect(state.actionsList?.get(1)).toBe(second);
+  });
 });
