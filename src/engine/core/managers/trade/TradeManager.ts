@@ -295,7 +295,10 @@ export class TradeManager extends AbstractManager {
 
       const now: TTimestamp = time_global();
 
-      descriptor.updateAt = now + reader.r_s32();
+      // The engine keeps no buy item condition factor, which is 0 until an update applies it, so update at once.
+      reader.r_s32(); // updatedAt from save.
+
+      descriptor.updateAt = now;
       descriptor.resupplyAt = now + reader.r_s32();
     }
 

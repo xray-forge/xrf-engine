@@ -234,7 +234,7 @@ describe("TradeManager class implementation", () => {
       currentBuySupplies: null,
       currentSellCondition: null,
       resupplyAt: -1,
-      updateAt: -1,
+      updateAt: 30_000,
     });
   });
 
@@ -300,11 +300,10 @@ describe("TradeManager class implementation", () => {
       currentBuyCondition: "generic_buy",
       currentBuySupplies: "tier1",
       currentSellCondition: "generic_sell",
-      resupplyAt: 86420000,
-      updateAt: 3620000,
+      resupplyAt: 86_420_000,
+      updateAt: 30_000,
     });
 
-    replaceFunctionMock(time_global, () => 3_620_001);
     tradeManager.updateForObject(object);
 
     expect(object.buy_item_condition_factor).toHaveBeenCalledTimes(2);
