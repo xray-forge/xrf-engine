@@ -10029,7 +10029,7 @@
         "description": "Callbacks related to the game outro."
       },
       "source": "callbacks/outro.ts",
-      "type": "unknown"
+      "type": "{ skadovsk_bad_cond: () => boolean; skadovsk_good_cond: () => boolean; skadovsk_neutral_cond: () => boolean; bloodsucker_live_cond: () => boolean; bloodsucker_dead_cond: () => boolean; dolg_die_cond: () => boolean; freedom_die_cond: () => boolean; dolg_n_freedom_cond: () => boolean; scientist_good_cond: () => boolean; scientist_bad_cond: () => boolean; garik_good_cond: () => boolean; garik_bad_cond: () => boolean; oasis_cond: () => boolean; mercenarys_cond: () => boolean; yanov_good_cond: () => boolean; yanov_bad_cond: () => boolean; zuluz_good_cond: () => boolean; zuluz_bad_cond: () => boolean; vano_good_cond: () => boolean; vano_bad_cond: () => boolean; brodyaga_good_cond: () => boolean; brodyaga_bad_cond: () => boolean; sokolov_good_cond: () => boolean; sokolov_bad_cond: () => boolean; sich_cond: () => boolean; noahs_ark_cond: () => boolean; kardan_good_cond: () => boolean; kardan_bad_cond: () => boolean; strelok_live_cond: () => boolean; strelok_die_cond: () => boolean; kovalski_live_cond: () => boolean; kovalski_die_cond: () => boolean; }"
     },
     "outro.start_bk_sound": {
       "doc": {
@@ -14069,7 +14069,7 @@
     },
     "xr_effects.game_over": {
       "doc": {
-        "description": "Handle gave over credits."
+        "description": "Return to the main menu once the credits rolled after the outro have ended."
       },
       "params": [],
       "returns": "void",

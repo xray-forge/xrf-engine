@@ -80,4 +80,4 @@ export const outroConditions = {
   kovalski_live_cond: (): boolean => !hasInfoPortion(infoPortions.pri_a28_koval_dead),
   // -- 20b
   kovalski_die_cond: (): boolean => hasInfoPortion(infoPortions.pri_a28_koval_dead),
-} as const;
+};
