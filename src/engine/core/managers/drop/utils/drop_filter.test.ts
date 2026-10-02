@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it } from "@jest/globals";
+import { beforeEach, describe, expect, it, jest } from "@jest/globals";
 import { clsid } from "xray16";
 import { GameObject } from "xray16/alias";
 import { MockGameObject, MockIniFile } from "xray16/mocks";
@@ -82,6 +82,26 @@ describe("filterObjectDeathLoot", () => {
     expect(registry.simulator.release).toHaveBeenCalledTimes(2);
     expect(registry.simulator.release).toHaveBeenCalledWith(pdaServer, true);
     expect(registry.simulator.release).toHaveBeenCalledWith(akAmmoServer, true);
+  });
+
+  it("should leave the ammo of the weapon in hands, which the engine destroys after death", () => {
+    const [ak74u] = mockInSimulator({ section: weapons.wpn_ak74u, clsid: clsid.wpn_ak74_s });
+    const [akAmmo] = mockInSimulator({ section: ammo["ammo_5.45x39_ap"], clsid: clsid.wpn_ammo });
+    const [pistolAmmo, pistolAmmoServer] = mockInSimulator({ section: ammo["ammo_9x19_fmj"], clsid: clsid.wpn_ammo });
+    const object: GameObject = MockGameObject.mock({
+      inventory: [
+        [ak74u.id(), ak74u],
+        [akAmmo.id(), akAmmo],
+        [pistolAmmo.id(), pistolAmmo],
+      ],
+    });
+
+    jest.mocked(object.active_item).mockReturnValue(ak74u as never);
+
+    filterObjectDeathLoot(object);
+
+    expect(registry.simulator.release).toHaveBeenCalledTimes(1);
+    expect(registry.simulator.release).toHaveBeenCalledWith(pistolAmmoServer, true);
   });
 
   it("should set weapon conditions and skip grenades", () => {

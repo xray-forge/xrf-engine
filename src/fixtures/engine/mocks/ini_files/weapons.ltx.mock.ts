@@ -15,6 +15,7 @@ export const mockWeaponLtx = {
   },
   [weapons.wpn_ak74u]: {
     class: "WP_AK74",
+    ammo_class: "ammo_5.45x39_fmj, ammo_5.45x39_ap",
     cost: 4000,
     inv_name: "AK-74u",
     strap_bone0: "some_bone_u",
