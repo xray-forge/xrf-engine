@@ -108,7 +108,9 @@ export function trySwitchToAnotherSection(object: GameObject, state: IBaseScheme
 
   assert(logic, "Can't find `logic` in state, section '%s'.", state.section);
 
-  for (const [, condition] of logic) {
+  // A numeric loop, as LuaJIT runs `pairs` interpreted and this runs on every update of every object.
+  for (const index of $range(1, logic.length())) {
+    const condition: IBaseSchemeLogic = logic.get(index);
     // Memoize condition type on first evaluation - lua pattern matching is too costly for every tick:
     let conditionName: Nillable<ESchemeCondition | typeof NIL> = condition.$condition;
 

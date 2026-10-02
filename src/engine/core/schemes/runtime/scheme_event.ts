@@ -21,7 +21,8 @@ export function emitSchemeEvent(state: IBaseSchemeState, event: ESchemeEvent, ..
 
   for (const [actionHandler, _isHandlerActive] of state.actions) {
     if (actionHandler[event]) {
-      (actionHandler[event] as AnyContextualCallable).apply(actionHandler, rest);
+      // Forwarded as varargs, packing them would allocate a table on every update of every object.
+      (actionHandler[event] as AnyContextualCallable).call(actionHandler, ...rest);
     }
   }
 }

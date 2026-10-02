@@ -101,6 +101,30 @@ describe("SmartTerrainBinder", () => {
     expect(onVisit).toHaveBeenCalledTimes(1);
   });
 
+  it("should check whether the actor visited on the distance check interval", () => {
+    mockRegisteredActor();
+
+    const binder: SmartTerrainBinder = new SmartTerrainBinder(MockGameObject.mock());
+    const serverObject: ServerObject = MockAlifeObject.mock({ id: binder.object.id() });
+
+    jest.spyOn(serverObject, "update").mockImplementation(jest.fn());
+    jest.spyOn(binder.object, "inside").mockImplementation(() => false);
+
+    binder.net_spawn(serverObject);
+    binder.update(16);
+
+    expect(binder.object.inside).toHaveBeenCalledTimes(1);
+
+    binder.update(16);
+    binder.update(16);
+
+    expect(binder.object.inside).toHaveBeenCalledTimes(1);
+
+    binder.update(250);
+
+    expect(binder.object.inside).toHaveBeenCalledTimes(2);
+  });
+
   it("updates the server terrain before the actor is available without marking it visited", () => {
     const binder: SmartTerrainBinder = new SmartTerrainBinder(MockGameObject.mock());
     const serverObject: ServerObject = MockAlifeObject.mock({ id: binder.object.id() });

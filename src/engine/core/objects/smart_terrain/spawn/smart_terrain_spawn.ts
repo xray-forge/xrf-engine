@@ -115,11 +115,10 @@ export function respawnSmartTerrainSquad(terrain: SmartTerrain): Nillable<Squad>
 
 /**
  * @param terrain - Target smart terrain to check spawn availability for.
+ * @param now - Current game time.
  * @returns Whether smart terrain squad spawn operation can be performed.
  */
-export function canRespawnSmartTerrainSquad(terrain: SmartTerrain): boolean {
-  const now: Time = game.get_game_time();
-
+export function canRespawnSmartTerrainSquad(terrain: SmartTerrain, now: Time = game.get_game_time()): boolean {
   // Throttle respawn attempts period.
   // Memoize `false` state for `idle` period of time.
   if (terrain.lastRespawnUpdatedAt && now.diffSec(terrain.lastRespawnUpdatedAt) <= smartTerrainConfig.RESPAWN_IDLE) {

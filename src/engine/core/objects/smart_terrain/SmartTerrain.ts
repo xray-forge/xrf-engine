@@ -505,10 +505,6 @@ export class SmartTerrain extends cse_alife_smart_zone implements ISimulationTar
       }
     }
 
-    if (canRespawnSmartTerrainSquad(this)) {
-      respawnSmartTerrainSquad(this);
-    }
-
     if (now < this.nextCheckAt) {
       return;
     }
@@ -538,7 +534,12 @@ export class SmartTerrain extends cse_alife_smart_zone implements ISimulationTar
       this.nextCheckAt = now + 10;
     }
 
+    // Game time builds an engine object on every read, so it is read once per check, not on every update.
     const currentGameTime: Time = game.get_game_time();
+
+    if (canRespawnSmartTerrainSquad(this, currentGameTime)) {
+      respawnSmartTerrainSquad(this);
+    }
 
     for (const [id, time] of this.jobDeadTimeById) {
       if (currentGameTime.diffSec(time) >= smartTerrainConfig.DEATH_IDLE_TIME) {

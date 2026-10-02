@@ -126,9 +126,23 @@ describe("SmartTerrain update cycle", () => {
 
     replaceFunctionMock(canRespawnSmartTerrainSquad, () => true);
 
+    terrain.nextCheckAt = -1;
     terrain.update();
 
+    expect(canRespawnSmartTerrainSquad).toHaveBeenCalledWith(terrain, expect.anything());
     expect(respawnSmartTerrainSquad).toHaveBeenCalledWith(terrain);
+  });
+
+  it("should check squad respawn only on the throttled part of the update", () => {
+    const terrain: SmartTerrain = MockSmartTerrain.mockRegistered();
+
+    replaceFunctionMock(canRespawnSmartTerrainSquad, () => true);
+
+    terrain.nextCheckAt = 20_000;
+    terrain.update();
+
+    expect(canRespawnSmartTerrainSquad).not.toHaveBeenCalled();
+    expect(respawnSmartTerrainSquad).not.toHaveBeenCalled();
   });
 
   it("should skip the throttled part of the update until the check timestamp is reached", () => {
