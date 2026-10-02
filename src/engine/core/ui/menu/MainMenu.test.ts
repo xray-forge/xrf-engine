@@ -4,8 +4,8 @@ import { gameTypes } from "xray16/lib";
 import { replaceFunctionMock, resetFunctionMock } from "xray16/testing/utils";
 
 import { getManager, registerSimulator } from "@/engine/core/database";
+import { forgeConfig } from "@/engine/core/database/forge_config";
 import { EGameEvent, EventsManager } from "@/engine/core/managers/events";
-import { forgeConfig } from "@/engine/core/managers/forge/ForgeConfig";
 import { DebugDialog } from "@/engine/core/ui/debug/DebugDialog";
 import { LoadDialog } from "@/engine/core/ui/menu/load/LoadDialog";
 import { MainMenu } from "@/engine/core/ui/menu/MainMenu";

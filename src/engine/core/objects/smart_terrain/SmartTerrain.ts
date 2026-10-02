@@ -54,6 +54,7 @@ import {
   unregisterStoryLinkByObjectId,
   updateSimulationObjectAvailability,
 } from "@/engine/core/database";
+import { forgeConfig } from "@/engine/core/database/forge_config";
 import {
   parseConditionsList,
   pickSectionFromCondList,
@@ -63,7 +64,6 @@ import {
   TConditionList,
 } from "@/engine/core/ini";
 import { EGameEvent, EventsManager } from "@/engine/core/managers/events";
-import { forgeConfig } from "@/engine/core/managers/forge/ForgeConfig";
 import { updateTerrainMapSpot } from "@/engine/core/managers/map/utils";
 import { simulationActivities } from "@/engine/core/managers/simulation/activity/simulation_activities";
 import { simulationConfig } from "@/engine/core/managers/simulation/SimulationConfig";

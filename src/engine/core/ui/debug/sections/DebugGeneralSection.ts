@@ -4,8 +4,8 @@ import { TPath } from "xray16/lib";
 import { $filename, $isNil } from "xray16/macros";
 
 import { getManager } from "@/engine/core/database";
+import { forgeConfig } from "@/engine/core/database/forge_config";
 import { DebugManager } from "@/engine/core/managers/debug";
-import { forgeConfig } from "@/engine/core/managers/forge/ForgeConfig";
 import { AbstractDebugSection } from "@/engine/core/ui/debug/sections/AbstractDebugSection";
 import { LuaLogger } from "@/engine/core/utils/logging";
 import { EElementType, initializeElement, resolveXmlFile } from "@/engine/core/utils/ui";

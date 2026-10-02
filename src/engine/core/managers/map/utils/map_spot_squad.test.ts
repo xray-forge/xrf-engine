@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it, jest } from "@jest/globals";
 import { level } from "xray16";
 import { resetFunctionMock } from "xray16/testing/utils";
 
-import { forgeConfig } from "@/engine/core/managers/forge/ForgeConfig";
+import { forgeConfig } from "@/engine/core/database/forge_config";
 import { removeSquadMapSpot, updateSquadMapSpot } from "@/engine/core/managers/map/utils/map_spot_squad";
 import { MockSquad, resetRegistry } from "@/fixtures/engine";
 

@@ -3,13 +3,13 @@ import { LuaArray } from "xray16/lib";
 import { $fromArray } from "xray16/macros";
 import { replaceFunctionMockOnce } from "xray16/testing/utils";
 
+import { forgeConfig } from "@/engine/core/database/forge_config";
 import { getAvailableExtensions, IExtensionsDescriptor } from "@/engine/core/extensions";
 import {
   loadExtensionsState,
   saveExtensionsState,
   syncExtensionsState,
 } from "@/engine/core/extensions/extensions_state";
-import { forgeConfig } from "@/engine/core/managers/forge/ForgeConfig";
 import { registerExtensions } from "@/engine/scripts/register/extensions_registrator";
 import { mockExtension } from "@/fixtures/engine";
 

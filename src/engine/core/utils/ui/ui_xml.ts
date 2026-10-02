@@ -4,7 +4,7 @@ import { abort, isWideScreen, TPath } from "xray16/lib";
 import { $isNotNil } from "xray16/macros";
 
 import { roots } from "@/engine/constants/roots";
-import { forgeConfig } from "@/engine/core/managers/forge/ForgeConfig";
+import { forgeConfig } from "@/engine/core/database/forge_config";
 
 /**
  * Util to get XML file for current screen resolution.

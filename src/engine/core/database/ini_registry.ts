@@ -11,3 +11,4 @@ export const SYSTEM_INI: IniFile = system_ini();
 
 export const DUMMY_LTX: IniFile = new ini_file("scripts\\dummy.ltx");
 export const GAME_LTX: IniFile = new ini_file("game.ltx");
+export const FORGE_LTX: IniFile = new ini_file("forge.ltx");

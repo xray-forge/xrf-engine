@@ -3,7 +3,7 @@ import { Nillable, TLabel, TNumberId } from "xray16/lib";
 import { $isNil } from "xray16/macros";
 
 import { mapMarks } from "@/engine/constants/map_marks";
-import { forgeConfig } from "@/engine/core/managers/forge/ForgeConfig";
+import { forgeConfig } from "@/engine/core/database/forge_config";
 import { type Squad } from "@/engine/core/objects/squad";
 import { getSquadMapDisplayHint } from "@/engine/core/objects/squad/utils";
 import {

@@ -3,8 +3,8 @@ import { Nillable, TLabel, TName, TNumberId, TRUE } from "xray16/lib";
 
 import { mapMarks } from "@/engine/constants/map_marks";
 import { getObjectIdByStoryId, registry } from "@/engine/core/database";
+import { forgeConfig } from "@/engine/core/database/forge_config";
 import { pickSectionFromCondList } from "@/engine/core/ini";
-import { forgeConfig } from "@/engine/core/managers/forge/ForgeConfig";
 import { mapDisplayConfig } from "@/engine/core/managers/map/MapDisplayConfig";
 import { ISmartTerrainDescriptor } from "@/engine/core/managers/simulation/types";
 import {

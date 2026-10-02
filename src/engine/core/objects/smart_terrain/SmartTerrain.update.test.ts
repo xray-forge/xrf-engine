@@ -7,8 +7,8 @@ import { replaceFunctionMock } from "xray16/testing/utils";
 
 import { communities } from "@/engine/constants/communities";
 import { getManager, registerObject, registerSimulator, registry } from "@/engine/core/database";
+import { forgeConfig } from "@/engine/core/database/forge_config";
 import { EGameEvent, EventsManager } from "@/engine/core/managers/events";
-import { forgeConfig } from "@/engine/core/managers/forge/ForgeConfig";
 import { updateTerrainMapSpot } from "@/engine/core/managers/map/utils";
 import { simulationActivities } from "@/engine/core/managers/simulation/activity/simulation_activities";
 import { ESimulationTerrainRole } from "@/engine/core/managers/simulation/types";

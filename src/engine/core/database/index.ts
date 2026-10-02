@@ -4,6 +4,7 @@ export * from "@/engine/core/database/crow";
 export * from "@/engine/core/database/database_types";
 export * from "@/engine/core/database/doors";
 export * from "@/engine/core/database/extensions";
+export * from "@/engine/core/database/forge_config";
 export * from "@/engine/core/database/helicopters";
 export * from "@/engine/core/database/ini";
 export * from "@/engine/core/database/ini_registry";

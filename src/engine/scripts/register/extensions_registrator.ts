@@ -2,13 +2,13 @@ import { AnyCallablesModule, LuaArray } from "xray16/lib";
 import { $filename, $isNil } from "xray16/macros";
 
 import { registerExtension } from "@/engine/core/database";
+import { forgeConfig } from "@/engine/core/database/forge_config";
 import { getAvailableExtensions, IExtensionsDescriptor } from "@/engine/core/extensions";
 import {
   loadExtensionsState,
   saveExtensionsState,
   syncExtensionsState,
 } from "@/engine/core/extensions/extensions_state";
-import { forgeConfig } from "@/engine/core/managers/forge/ForgeConfig";
 import { LuaLogger } from "@/engine/core/utils/logging";
 
 const logger: LuaLogger = new LuaLogger($filename);

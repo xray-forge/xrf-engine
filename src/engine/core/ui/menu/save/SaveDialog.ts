@@ -19,7 +19,7 @@ import { create2dVector, LuaArray, Nillable, TLabel, TName, TPath } from "xray16
 import { $filename, $isNil, $isNotNil } from "xray16/macros";
 
 import { roots } from "@/engine/constants/roots";
-import { forgeConfig } from "@/engine/core/managers/forge/ForgeConfig";
+import { forgeConfig } from "@/engine/core/database/forge_config";
 import { SaveItem } from "@/engine/core/ui/menu/save/SaveItem";
 import { createGameSave, deleteGameSave, getGameSaves } from "@/engine/core/utils/game_save";
 import { LuaLogger } from "@/engine/core/utils/logging";

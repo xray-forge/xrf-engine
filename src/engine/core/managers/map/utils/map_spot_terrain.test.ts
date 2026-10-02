@@ -7,8 +7,8 @@ import { MockAlifeHumanStalker, MockGameObject } from "xray16/mocks";
 import { resetFunctionMock } from "xray16/testing/utils";
 
 import { registerStoryLink } from "@/engine/core/database";
+import { forgeConfig } from "@/engine/core/database/forge_config";
 import { parseConditionsList } from "@/engine/core/ini";
-import { forgeConfig } from "@/engine/core/managers/forge/ForgeConfig";
 import { mapDisplayConfig } from "@/engine/core/managers/map/MapDisplayConfig";
 import {
   getTerrainMapSpotHint,

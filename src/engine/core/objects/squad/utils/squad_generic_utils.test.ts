@@ -2,8 +2,8 @@ import { beforeEach, describe, expect, it } from "@jest/globals";
 import { FALSE } from "xray16/lib";
 
 import { registerSimulator } from "@/engine/core/database";
+import { forgeConfig } from "@/engine/core/database/forge_config";
 import { parseConditionsList } from "@/engine/core/ini";
-import { forgeConfig } from "@/engine/core/managers/forge/ForgeConfig";
 import { SmartTerrain } from "@/engine/core/objects/smart_terrain";
 import { SquadStayOnTargetAction } from "@/engine/core/objects/squad/action";
 import { Squad } from "@/engine/core/objects/squad/Squad";

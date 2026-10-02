@@ -18,7 +18,7 @@ import { create2dVector, LuaArray, Nillable, TIndex, TLabel, TName, TPath } from
 import { $filename } from "xray16/macros";
 
 import { registry } from "@/engine/core/database";
-import { forgeConfig } from "@/engine/core/managers/forge/ForgeConfig";
+import { forgeConfig } from "@/engine/core/database/forge_config";
 import { LoadItem } from "@/engine/core/ui/menu/load/LoadItem";
 import {
   deleteGameSave,

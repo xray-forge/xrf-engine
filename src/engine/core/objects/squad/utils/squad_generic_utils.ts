@@ -2,7 +2,7 @@ import { AlifeSimulator } from "xray16/alias";
 import { TLabel } from "xray16/lib";
 
 import { registry } from "@/engine/core/database";
-import { forgeConfig } from "@/engine/core/managers/forge/ForgeConfig";
+import { forgeConfig } from "@/engine/core/database/forge_config";
 import { SquadStayOnTargetAction } from "@/engine/core/objects/squad/action";
 import { Squad } from "@/engine/core/objects/squad/Squad";
 import { ESquadActionType } from "@/engine/core/objects/squad/squad_types";

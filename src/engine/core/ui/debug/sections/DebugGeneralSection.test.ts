@@ -2,8 +2,8 @@ import { beforeEach, describe, expect, it, jest } from "@jest/globals";
 import { MockCUIScriptWnd } from "xray16/mocks";
 
 import { getManager } from "@/engine/core/database";
+import { forgeConfig } from "@/engine/core/database/forge_config";
 import { DebugManager } from "@/engine/core/managers/debug";
-import { forgeConfig } from "@/engine/core/managers/forge/ForgeConfig";
 import { DebugGeneralSection } from "@/engine/core/ui/debug/sections/DebugGeneralSection";
 import { resetRegistry } from "@/fixtures/engine";
 

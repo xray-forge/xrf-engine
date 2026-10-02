@@ -2,7 +2,7 @@ import { describe, expect, it, jest } from "@jest/globals";
 import { log, print_stack, time_global } from "xray16";
 import { replaceFunctionMock, resetFunctionMock } from "xray16/testing/utils";
 
-import { forgeConfig } from "@/engine/core/managers/forge/ForgeConfig";
+import { forgeConfig } from "@/engine/core/database/forge_config";
 import { LuaLogger } from "@/engine/core/utils/logging/LuaLogger";
 import { toJSON } from "@/engine/core/utils/transform/json";
 

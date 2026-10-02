@@ -8,7 +8,7 @@ import { resetFunctionMock } from "xray16/testing/utils";
 import { communities } from "@/engine/constants/communities";
 import { mapMarks } from "@/engine/constants/map_marks";
 import { registerObject } from "@/engine/core/database";
-import { forgeConfig } from "@/engine/core/managers/forge/ForgeConfig";
+import { forgeConfig } from "@/engine/core/database/forge_config";
 import { removeSquadMapSpot, updateSquadMapSpot } from "@/engine/core/managers/map/utils/map_spot_squad";
 import { mockRegisteredActor, MockSquad, resetRegistry } from "@/fixtures/engine";
 
