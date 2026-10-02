@@ -26,7 +26,8 @@ export interface IStartGameCommandParameters {
 }
 
 const START_GAME_ARGUMENTS: ReadonlyArray<string> = ["-dump_bindings"];
-const START_GAME_NO_INTRO_ARGUMENTS: ReadonlyArray<string> = ["-nointro", "-nogameintro"];
+// Never `-nogameintro`: the engine checks `-nogame` by substring and would start without the game module.
+const START_GAME_NO_INTRO_ARGUMENTS: ReadonlyArray<string> = ["-nointro"];
 const NEW_GAME_SPAWN: string = "all";
 const GAME_SAVE_EXTENSION: string = ".scop";
 
@@ -48,6 +49,11 @@ export async function startGame(parameters: IStartGameCommandParameters = {}): P
     startArguments.push("-force_flushlog");
   }
 
+  // The logo plays only before the main menu, which an instant start skips anyway.
+  if (parameters.intro === false) {
+    startArguments.push(...START_GAME_NO_INTRO_ARGUMENTS);
+  }
+
   if (parameters.new && parameters.load) {
     throw new Error("Cannot start new game and load game save at the same time.");
   }
@@ -61,10 +67,6 @@ export async function startGame(parameters: IStartGameCommandParameters = {}): P
   }
 
   if (parameters.new || parameters.load) {
-    if (parameters.intro === false) {
-      startArguments.push(...START_GAME_NO_INTRO_ARGUMENTS);
-    }
-
     // Note: engine reads it as `-$<command> <parameter>`, single space breaks parsing of the arguments.
     if (parameters.difficulty) {
       startArguments.push("-$g_game_difficulty", parameters.difficulty);

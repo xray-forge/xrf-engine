@@ -60,6 +60,12 @@ describe("startGame", () => {
     );
   });
 
+  it("should start to the main menu without the logo video", async () => {
+    await startGame({ intro: false });
+
+    expect(cp.spawn).toHaveBeenCalledWith(expect.any(String), ["-dump_bindings", "-nointro"], expect.anything());
+  });
+
   it("should start new game world with difficulty and without intro", async () => {
     await startGame({ difficulty: EGameDifficulty.MASTER, intro: false, new: true });
 
@@ -68,7 +74,6 @@ describe("startGame", () => {
       [
         "-dump_bindings",
         "-nointro",
-        "-nogameintro",
         "-$g_game_difficulty",
         "gd_master",
         "-start",

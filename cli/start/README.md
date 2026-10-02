@@ -13,7 +13,9 @@ npm run cli -- start_game [options]
 - `-n, --new` starts a new game directly.
 - `-l, --load <save>` loads a named save directly.
 - `-d, --difficulty <difficulty>` selects `gd_novice`, `gd_stalker`, `gd_veteran`, or `gd_master` for an instant start.
-- `--ni, --no-intro` skips intro videos during an instant start.
+- `--ni, --no-intro` skips the logo video before the main menu, which an instant start skips anyway. The new game
+  intro still plays: `-nogameintro` is never passed, as the engine checks `-nogame` by substring and would start
+  without the game module.
 - `--fl, --flushlog` flushes the engine log after every line, which helps diagnose crashes.
 
 ## Examples

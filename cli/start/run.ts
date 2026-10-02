@@ -16,7 +16,7 @@ export function setupStartCommands(command: Command): void {
         Object.values(EGameDifficulty)
       )
     )
-    .addOption(new Option("--ni, --no-intro", "skip intro videos on instant start"))
+    .addOption(new Option("--ni, --no-intro", "skip the logo video before the main menu"))
     .addOption(new Option("--fl, --flushlog", "flush engine log after every line, useful when diagnosing crashes"))
     .action(startGame);
 }
