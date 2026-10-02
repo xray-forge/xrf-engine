@@ -1,4 +1,4 @@
-import { game, hit, level } from "xray16";
+import { CTime, game, hit, level } from "xray16";
 import { GameObject, Hit, NetPacket, NetProcessor, Time } from "xray16/alias";
 import {
   ACTOR_ID,
@@ -68,8 +68,10 @@ export class SurgeManager extends AbstractManager {
   // Whether the next surge skipped while time is forwarded is reported to the actor.
   public shouldNotifySkip: boolean = true;
 
-  public initializedAt: Time = game.get_game_time();
-  public lastSurgeAt: Time = game.get_game_time();
+  // Empty until set, as game time does not exist yet while the game starts and creates managers.
+  public initializedAt: Time = new CTime();
+  // Time the last surge finished, the game start until the first one does.
+  public lastSurgeAt: Time = new CTime();
 
   // Task given to hide from the surge, the generic one when empty, none when `empty`.
   public surgeTaskSection: TSection = "";
@@ -87,6 +89,7 @@ export class SurgeManager extends AbstractManager {
     const eventsManager: EventsManager = getManager(EventsManager);
 
     eventsManager.registerCallback(EGameEvent.DUMP_LUA_DATA, this.onDebugDump, this);
+    eventsManager.registerCallback(EGameEvent.ACTOR_REINIT, this.onActorReinit, this);
     eventsManager.registerCallback(EGameEvent.ACTOR_GO_ONLINE, this.onActorGoOnline, this);
     eventsManager.registerCallback(EGameEvent.ACTOR_UPDATE, this.update, this);
     eventsManager.registerCallback(EGameEvent.GAME_TIME_FORWARDED, this.onGameTimeForwarded, this);
@@ -96,6 +99,7 @@ export class SurgeManager extends AbstractManager {
     const eventsManager: EventsManager = getManager(EventsManager);
 
     eventsManager.unregisterCallback(EGameEvent.DUMP_LUA_DATA, this.onDebugDump);
+    eventsManager.unregisterCallback(EGameEvent.ACTOR_REINIT, this.onActorReinit);
     eventsManager.unregisterCallback(EGameEvent.ACTOR_GO_ONLINE, this.onActorGoOnline);
     eventsManager.unregisterCallback(EGameEvent.ACTOR_UPDATE, this.update);
     eventsManager.unregisterCallback(EGameEvent.GAME_TIME_FORWARDED, this.onGameTimeForwarded);
@@ -560,6 +564,13 @@ export class SurgeManager extends AbstractManager {
    */
   public onGameTimeForwarded(): void {
     surgeConfig.IS_TIME_FORWARDED = true;
+  }
+
+  /**
+   * Count the time to the first surge from the game start, a loaded game reads its own right after.
+   */
+  public onActorReinit(): void {
+    this.lastSurgeAt = game.get_game_time();
   }
 
   /**

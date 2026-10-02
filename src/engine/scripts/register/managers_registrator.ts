@@ -22,6 +22,7 @@ import { SimulationManager } from "@/engine/core/managers/simulation";
 import { SleepManager } from "@/engine/core/managers/sleep";
 import { SoundManager } from "@/engine/core/managers/sounds";
 import { StatisticsManager } from "@/engine/core/managers/statistics";
+import { SurgeManager } from "@/engine/core/managers/surge";
 import { TaskManager } from "@/engine/core/managers/tasks";
 import { TradeManager } from "@/engine/core/managers/trade";
 import { TravelManager } from "@/engine/core/managers/travel";
@@ -58,6 +59,7 @@ export function registerManagers(): void {
     SleepManager,
     SoundManager,
     StatisticsManager,
+    SurgeManager,
     TaskManager,
     TradeManager,
     TravelManager,

@@ -2,7 +2,7 @@ import { NetPacket, NetProcessor } from "xray16/alias";
 import { TName } from "xray16/lib";
 import { $filename } from "xray16/macros";
 
-import { getManager, initializeManager, registry } from "@/engine/core/database";
+import { getManager, registry } from "@/engine/core/database";
 import { loadExtension, saveExtension } from "@/engine/core/extensions";
 import { AbstractManager } from "@/engine/core/managers/abstract";
 import { ActorInputManager } from "@/engine/core/managers/actor";
@@ -28,18 +28,6 @@ const logger: LuaLogger = new LuaLogger($filename);
  * Manage game saves for other managers / parts.
  */
 export class SaveManager extends AbstractManager {
-  public override initialize(): void {
-    const eventsManager: EventsManager = getManager(EventsManager);
-
-    eventsManager.registerCallback(EGameEvent.ACTOR_REINIT, this.onActorReinit, this);
-  }
-
-  public override destroy(): void {
-    const eventsManager: EventsManager = getManager(EventsManager);
-
-    eventsManager.unregisterCallback(EGameEvent.ACTOR_REINIT, this.onActorReinit);
-  }
-
   /**
    * Save core managers data.
    */
@@ -152,13 +140,5 @@ export class SaveManager extends AbstractManager {
     logger.info("On after game load: %s", saveName);
 
     EventsManager.emitEvent(EGameEvent.GAME_LOADED, saveName);
-  }
-
-  /**
-   * When actor created and re-initialized.
-   * Creates the surge manager here rather than at game start, as it reads game time while created.
-   */
-  public onActorReinit(): void {
-    initializeManager(SurgeManager);
   }
 }

@@ -575,3 +575,17 @@ export interface IEventSubscribers {
   // Emits of the event in progress, emptied slots are compacted once none is.
   emitting: TCount;
 }
+
+/**
+ * Timers of one kind, kept in arrays as LuaJIT compiles iterating them but not iterating a hash table.
+ */
+export interface ITimersList<T extends AnyObject> {
+  // Timers in registration order, `false` in slots of ones removed while timers tick.
+  timers: LuaArray<T | false>;
+  // Slot of each registered timer.
+  slots: LuaTable<T, TIndex>;
+  // Slots in use, including the emptied slots of timers removed during a tick.
+  slotsCount: TCount;
+  // Registered timers.
+  count: TCount;
+}

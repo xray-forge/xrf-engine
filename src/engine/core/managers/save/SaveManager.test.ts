@@ -3,14 +3,7 @@ import { AnyObject, TName } from "xray16/lib";
 import { MockGameObject, MockIoFile, MockNetProcessor } from "xray16/mocks";
 import { resetFunctionMock } from "xray16/testing/utils";
 
-import {
-  disposeManager,
-  getManager,
-  initializeManager,
-  isManagerInitialized,
-  registerActor,
-  registry,
-} from "@/engine/core/database";
+import { disposeManager, getManager, initializeManager, registerActor, registry } from "@/engine/core/database";
 import { IExtensionsDescriptor } from "@/engine/core/extensions";
 import { TAbstractCoreManagerConstructor } from "@/engine/core/managers/abstract";
 import { ActorInputManager } from "@/engine/core/managers/actor";
@@ -52,33 +45,14 @@ describe("SaveManager", () => {
     resetFunctionMock(io.open);
   });
 
-  it("should correctly initialize", () => {
+  it("should correctly initialize without subscriptions", () => {
     const eventsManager: EventsManager = getManager(EventsManager);
 
-    expect(eventsManager.getSubscribersCount()).toBe(0);
-
     initializeManager(SaveManager);
-    expect(eventsManager.getSubscribersCount()).toBe(1);
+    expect(eventsManager.getSubscribersCount()).toBe(0);
 
     disposeManager(SaveManager);
     expect(eventsManager.getSubscribersCount()).toBe(0);
-  });
-
-  it("should correctly force init of surge manager on actor init", () => {
-    const eventsManager: EventsManager = getManager(EventsManager);
-
-    expect(isManagerInitialized(SaveManager)).toBe(false);
-    expect(isManagerInitialized(SurgeManager)).toBe(false);
-
-    initializeManager(SaveManager);
-
-    expect(isManagerInitialized(SaveManager)).toBe(true);
-    expect(isManagerInitialized(SurgeManager)).toBe(false);
-
-    eventsManager.emitEvent(EGameEvent.ACTOR_REINIT, null);
-
-    expect(isManagerInitialized(SaveManager)).toBe(true);
-    expect(isManagerInitialized(SurgeManager)).toBe(true);
   });
 
   it("should save and load data from managers in a same order", () => {

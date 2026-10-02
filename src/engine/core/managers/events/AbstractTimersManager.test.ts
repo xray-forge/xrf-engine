@@ -1,10 +1,12 @@
 import { beforeEach, describe, expect, it, jest } from "@jest/globals";
+import { time_global } from "xray16";
+import { getFunctionMock } from "xray16/testing/utils";
 
 import { getManager } from "@/engine/core/database";
 import { AbstractTimersManager } from "@/engine/core/managers/events/AbstractTimersManager";
 import { resetRegistry } from "@/fixtures/engine";
 
-describe("EventsManager", () => {
+describe("AbstractTimersManager", () => {
   class TimersManager extends AbstractTimersManager {}
 
   beforeEach(() => {
@@ -14,8 +16,8 @@ describe("EventsManager", () => {
   it("should correctly initialize", () => {
     const manager: TimersManager = getManager(TimersManager);
 
-    expect(table.size(manager.intervals)).toBe(0);
-    expect(table.size(manager.timeouts)).toBe(0);
+    expect(manager.intervals.slotsCount).toBe(0);
+    expect(manager.timeouts.slotsCount).toBe(0);
 
     expect(manager.getIntervalsCount()).toBe(0);
     expect(manager.getTimeoutsCount()).toBe(0);
@@ -100,5 +102,55 @@ describe("EventsManager", () => {
     expect(firstCallback).toHaveBeenNthCalledWith(3, 750);
     expect(secondCallback).toHaveBeenCalledTimes(1);
     expect(manager.getIntervalsCount()).toBe(1);
+  });
+
+  it("should not read time on ticks without timers", () => {
+    const manager: TimersManager = getManager(TimersManager);
+
+    getFunctionMock(time_global).mockClear();
+    manager.tick();
+
+    expect(time_global).not.toHaveBeenCalled();
+  });
+
+  it("should check timeouts registered during a tick from the next one", () => {
+    jest.spyOn(Date, "now").mockImplementation(() => 100);
+
+    const manager: TimersManager = getManager(TimersManager);
+    const added = jest.fn();
+
+    manager.registerGameTimeout(() => manager.registerGameTimeout(added, 0), 0);
+    manager.tick();
+
+    expect(added).not.toHaveBeenCalled();
+    expect(manager.getTimeoutsCount()).toBe(1);
+
+    manager.tick();
+
+    expect(added).toHaveBeenCalledTimes(1);
+    expect(manager.getTimeoutsCount()).toBe(0);
+    expect(manager.timeouts.slotsCount).toBe(0);
+  });
+
+  it("should not call timers cancelled during a tick", () => {
+    jest.spyOn(Date, "now").mockImplementation(() => 100);
+
+    const manager: TimersManager = getManager(TimersManager);
+    const later = jest.fn();
+    const kept = jest.fn();
+
+    manager.registerGameInterval(() => cancel(), 50);
+
+    const [cancel] = manager.registerGameInterval(later, 50);
+
+    manager.registerGameInterval(kept, 50);
+
+    jest.spyOn(Date, "now").mockImplementation(() => 200);
+    manager.tick();
+
+    expect(later).not.toHaveBeenCalled();
+    expect(kept).toHaveBeenCalledTimes(1);
+    expect(manager.getIntervalsCount()).toBe(2);
+    expect(manager.intervals.slotsCount).toBe(2);
   });
 });

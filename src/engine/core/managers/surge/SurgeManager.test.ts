@@ -45,7 +45,8 @@ describe("SurgeManager", () => {
 
     getManager(SurgeManager);
 
-    expect(eventsManager.getSubscribersCount()).toBe(4);
+    expect(eventsManager.getSubscribersCount()).toBe(5);
+    expect(eventsManager.getEventSubscribersCount(EGameEvent.ACTOR_REINIT)).toBe(1);
     expect(eventsManager.getEventSubscribersCount(EGameEvent.GAME_TIME_FORWARDED)).toBe(1);
     expect(eventsManager.getEventSubscribersCount(EGameEvent.DUMP_LUA_DATA)).toBe(1);
     expect(eventsManager.getEventSubscribersCount(EGameEvent.ACTOR_GO_ONLINE)).toBe(1);
@@ -533,6 +534,26 @@ describe("SurgeManager", () => {
     manager.onSurgeSurviveEnd();
 
     expect(actorInputManager.releaseGameUiControl).toHaveBeenCalledWith(EActorControlHandle.SURGE, true);
+  });
+
+  it("should not read game time while created, as the game starts before game time exists", () => {
+    const getGameTime = jest.spyOn(game, "get_game_time");
+
+    getGameTime.mockClear();
+    getManager(SurgeManager);
+
+    expect(getGameTime).not.toHaveBeenCalled();
+  });
+
+  it("should count the time to the first surge from actor reinit", () => {
+    const manager: SurgeManager = getManager(SurgeManager);
+    const now = game.get_game_time();
+
+    jest.spyOn(game, "get_game_time").mockImplementationOnce(() => now);
+
+    EventsManager.emitEvent(EGameEvent.ACTOR_REINIT);
+
+    expect(manager.lastSurgeAt).toBe(now);
   });
 
   it("should correctly handle actor going online", () => {
