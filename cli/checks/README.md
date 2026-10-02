@@ -13,7 +13,8 @@ npm run cli -- checks <command> [options]
 - `clean` removes generated flow scripts and launchers.
 - `list` prints available flows and the console command for each one.
 
-`build` and `clean` accept `-v, --verbose`.
+`build` and `clean` accept `-v, --verbose`. `pack mod` and `pack game` refuse gamedata holding flows or launchers, so run
+`clean` before packaging from already built assets.
 
 ## Examples
 

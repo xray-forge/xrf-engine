@@ -33,6 +33,8 @@ export const TARGET_GAME_DATA_METADATA_FILE: string = path.resolve(TARGET_GAME_D
 export const TARGET_GAME_DATA_CONFIGS_DIR: string = path.resolve(TARGET_GAME_DATA_DIR, "configs");
 export const TARGET_GAME_DATA_SCRIPTS_DIR: string = path.resolve(TARGET_GAME_DATA_DIR, "scripts");
 export const TARGET_GAME_DATA_CHECKS_DIR: string = path.resolve(TARGET_GAME_DATA_DIR, "checks");
+export const TARGET_GAME_DATA_CHECKS_MCP_DIR: string = path.resolve(TARGET_GAME_DATA_CHECKS_DIR, "mcp");
+export const TARGET_GAME_DATA_MCP_EXTENSION_DIR: string = path.resolve(TARGET_GAME_DATA_DIR, "extensions", "xrf_mcp");
 export const TARGET_GAME_DATA_UI_DIR: string = path.resolve(TARGET_GAME_DATA_CONFIGS_DIR, "ui");
 export const TARGET_GAME_DATA_TRANSLATIONS_DIR: string = path.resolve(TARGET_GAME_DATA_CONFIGS_DIR, "text");
 
@@ -41,6 +43,7 @@ export const TARGET_GAME_LINK_DIR: string = path.resolve(TARGET_DIR, "game_link"
 export const TARGET_PARSED_DIR: string = path.resolve(TARGET_DIR, "parsed");
 export const TARGET_DATABASE_DIR: string = path.resolve(TARGET_DIR, "db");
 export const TARGET_LOGS_DIR: string = path.resolve(TARGET_DIR, "logs");
+export const TARGET_MCP_SCREENSHOTS_DIR: string = path.resolve(TARGET_DIR, "mcp", "screenshots");
 /**
  * Per-target pack reports and logs, one pair per archive the compress step publishes into `TARGET_DATABASE_DIR`.
  */

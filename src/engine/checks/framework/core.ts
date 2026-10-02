@@ -35,6 +35,9 @@ if (!isLogOpened) {
   log(`${PREFIX} could not open xrf_checks.log, console only -> ${tostring(openedLog)}`);
 }
 
+// Lines reported while a caller collects them, null otherwise.
+let collectedLines: Nillable<Array<TLabel>> = null;
+
 /**
  * Write one line to both destinations, which are deliberately identical.
  *
@@ -43,9 +46,32 @@ if (!isLogOpened) {
 function writeLine(text: TLabel): void {
   log(text);
 
+  if ($isNotNil(collectedLines)) {
+    collectedLines.push(text);
+  }
+
   if ($isNotNil(checksFile)) {
     checksFile.write(text);
     checksFile.write("\n");
+  }
+}
+
+/**
+ * Run a body and collect the lines it reports, which are written as usual too.
+ *
+ * @param body - Body to run.
+ * @returns What the body returned, and the lines it reported.
+ */
+export function collectReportedLines<T>(body: () => T): { result: T; lines: Array<TLabel> } {
+  const previous: Nillable<Array<TLabel>> = collectedLines;
+  const lines: Array<TLabel> = [];
+
+  collectedLines = lines;
+
+  try {
+    return { result: body(), lines };
+  } finally {
+    collectedLines = previous;
   }
 }
 

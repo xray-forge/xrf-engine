@@ -17,6 +17,10 @@ npm run cli -- start_game [options]
   intro still plays: `-nogameintro` is never passed, as the engine checks `-nogame` by substring and would start
   without the game module.
 - `--fl, --flushlog` flushes the engine log after every line, which helps diagnose crashes.
+- `--mcp` arms the game MCP endpoint built by [`mcp build`](../mcp/README.md). It adds `-xrf_mcp` and
+  `-ltx user_mcp.ltx`, a copy of `_appdata_\user.ltx` with `rs_always_active on` and `keypress_on_start 0`, so the game
+  keeps running unfocused, a level starts without a key press or the new game intro, and the regular settings are never
+  written.
 
 ## Examples
 

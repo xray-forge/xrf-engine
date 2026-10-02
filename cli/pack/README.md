@@ -8,6 +8,11 @@ npm run cli -- pack <mod|game> [options]
 
 By default, packaging runs the build and compression steps first.
 
+Packaging refuses dev-only output: check flows (`checks/`), their `flow_*` launchers and the game MCP endpoint
+(`extensions/xrf_mcp/`). It checks `target/gamedata` before copying or compressing anything, and the package afterwards,
+which catches files a package folder kept from an earlier pack without `--clean`. Archives that `--no-build` reuses from
+an earlier `compress` are not opened.
+
 ## Options
 
 - `--nb, --no-build` skips the build step.

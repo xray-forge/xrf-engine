@@ -20,6 +20,7 @@ installation use [`config.json`](config.json); review its paths before using `li
 - [`format`](format/README.md) formats LTX files.
 - [`link`](link/README.md) creates and removes development junctions for the game, `gamedata`, and logs.
 - [`logs`](logs/README.md) prints the tail of the linked engine log.
+- [`mcp`](mcp/README.md) builds and removes the game MCP endpoint agents drive a running game through.
 - [`open`](open/README.md) opens the configured game or project directory in the operating system file manager.
 - [`pack`](pack/README.md) produces `mod` or `game` packages.
 - [`parse`](parse/README.md) writes a directory tree as JSON.

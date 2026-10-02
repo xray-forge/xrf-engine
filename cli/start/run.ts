@@ -18,5 +18,8 @@ export function setupStartCommands(command: Command): void {
     )
     .addOption(new Option("--ni, --no-intro", "skip the logo video before the main menu"))
     .addOption(new Option("--fl, --flushlog", "flush engine log after every line, useful when diagnosing crashes"))
+    .addOption(
+      new Option("--mcp", "arm the game MCP endpoint built by `mcp build`, keeping the game running unfocused")
+    )
     .action(startGame);
 }

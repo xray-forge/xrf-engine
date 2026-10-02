@@ -17,6 +17,7 @@ import {
   WARNING_SIGN,
 } from "#/globals";
 import { IPackParameters } from "#/pack/pack";
+import { assertNoDevOnlyArtifacts } from "#/pack/pack_guard";
 import { createDirIfNoExisting } from "#/utils/fs/create_dir_if_no_existing";
 import { NodeLogger } from "#/utils/logging";
 import { TimeTracker } from "#/utils/timing";
@@ -81,6 +82,9 @@ export async function packGame(parameters: IPackParameters): Promise<void> {
         filter: [],
       });
 
+      // Checked before compressing, as archives would hide the files from the package check below.
+      assertNoDevOnlyArtifacts(TARGET_GAME_DATA_DIR);
+
       if (isCompressionRequired) {
         log.info("Starting assets DB compress", "\n");
         compress({ clean: true, verbose: parameters.verbose, include: "all" });
@@ -89,6 +93,7 @@ export async function packGame(parameters: IPackParameters): Promise<void> {
       }
     } else {
       log.info("Packaging from already built assets", WARNING_SIGN);
+      assertNoDevOnlyArtifacts(TARGET_GAME_DATA_DIR);
     }
 
     copyGameEngine(engine);
@@ -109,6 +114,9 @@ export async function packGame(parameters: IPackParameters): Promise<void> {
 
     copyRootAssets();
     timeTracker.addMark("PACKAGE_CONFIGS");
+
+    // A package folder kept without `--clean` may still hold files an earlier pack copied.
+    assertNoDevOnlyArtifacts(path.resolve(TARGET_GAME_PACKAGE_DIR, "gamedata"));
 
     timeTracker.end();
 

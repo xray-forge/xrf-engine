@@ -1,0 +1,113 @@
+import { afterEach, beforeEach, describe, expect, it, jest } from "@jest/globals";
+import { get_console } from "xray16";
+import { AnyObject, LuaArray } from "xray16/lib";
+
+import { ICheckFailure, report } from "@/engine/checks/framework/core";
+import { run } from "@/engine/checks/framework/entry";
+import { MCP_HANDLERS, runFlowModule, runLuaChunk } from "@/engine/checks/mcp/mcp_handlers";
+import { EMcpRequestKind, IMcpHandlerContext, IMcpRequest } from "@/engine/checks/mcp/mcp_types";
+import { mockRegisteredActor, resetRegistry } from "@/fixtures/engine";
+
+jest.mock("@/engine/checks/framework/entry", () => ({ run: jest.fn() }));
+jest.mock("checks.quests.example_flow", () => ({}), { virtual: true });
+
+const context: IMcpHandlerContext = { session: "session-1", updateDelta: 16 };
+
+/**
+ * @param kind - Request kind.
+ * @param args - Request arguments.
+ * @returns Request to hand a handler.
+ */
+function createRequest(kind: EMcpRequestKind, args: AnyObject = {}): IMcpRequest {
+  return { id: "1", kind, ...args };
+}
+
+describe("mcp handlers", () => {
+  const globals: AnyObject = globalThis as AnyObject;
+
+  beforeEach(() => {
+    resetRegistry();
+    globals.package = { loaded: {} };
+  });
+
+  afterEach(() => {
+    delete globals.loadstring;
+    delete globals.package;
+  });
+
+  it("should queue console commands, screenshots and quitting to run after the answer", () => {
+    jest.spyOn(get_console(), "execute");
+
+    const console = MCP_HANDLERS[EMcpRequestKind.CONSOLE](
+      createRequest(EMcpRequestKind.CONSOLE, { command: "time_factor 10" }),
+      context
+    );
+    const screenshot = MCP_HANDLERS[EMcpRequestKind.SCREENSHOT](createRequest(EMcpRequestKind.SCREENSHOT), context);
+    const quit = MCP_HANDLERS[EMcpRequestKind.QUIT](createRequest(EMcpRequestKind.QUIT), context);
+
+    expect(console.result).toEqual({ queued: true });
+    expect(get_console().execute).not.toHaveBeenCalled();
+
+    console.after?.();
+    screenshot.after?.();
+    quit.after?.();
+
+    expect(get_console().execute).toHaveBeenNthCalledWith(1, "time_factor 10");
+    expect(get_console().execute).toHaveBeenNthCalledWith(2, "screenshot mcp");
+    expect(get_console().execute).toHaveBeenNthCalledWith(3, "quit");
+  });
+
+  it("should run a Lua chunk as an expression first, then as statements", () => {
+    globals.loadstring = jest.fn((code: string) =>
+      code === "return 1 + 1" ? [() => 2] : code === "local x = 3 return x" ? [() => 3] : [null, "syntax"]
+    );
+
+    expect(runLuaChunk("1 + 1")).toBe(2);
+    expect(runLuaChunk("local x = 3 return x")).toBe(3);
+    expect(() => runLuaChunk("???")).toThrow("Cannot compile Lua: syntax");
+    expect(
+      MCP_HANDLERS[EMcpRequestKind.LUA](createRequest(EMcpRequestKind.LUA, { code: "1 + 1" }), context).result
+    ).toBe(2);
+  });
+
+  it("should run a flow module afresh and answer its failures and report lines as lists", () => {
+    const failures: LuaArray<ICheckFailure> = new LuaTable();
+
+    failures.set(1, { assertion: "task given", detail: "missing" });
+    jest.mocked(run).mockImplementation(() => {
+      report("step %s reached", 1);
+
+      return { name: "quests_example", steps: 3, checked: 2, failures, skipReason: null };
+    });
+
+    globals.package.loaded["checks.quests.example_flow"] = { stale: true };
+
+    expect(runFlowModule("checks.quests.example_flow", "quests_example")).toEqual({
+      name: "quests_example",
+      steps: 3,
+      checked: 2,
+      failures: [{ assertion: "task given", detail: "missing" }],
+      skipReason: null,
+      report: [expect.stringMatching(/^\[\d+\] \[check\] step 1 reached$/)],
+    });
+    expect(globals.package.loaded["checks.quests.example_flow"]).toBeNull();
+    expect(run).toHaveBeenCalledWith("quests_example");
+  });
+
+  it("should report the actor and session in status", () => {
+    mockRegisteredActor();
+
+    const status: AnyObject = MCP_HANDLERS[EMcpRequestKind.STATUS](createRequest(EMcpRequestKind.STATUS), context)
+      .result as AnyObject;
+
+    expect(status).toMatchObject({ session: "session-1", updateDelta: 16, timeGlobal: expect.any(Number) });
+    expect(status.actor).toMatchObject({ alive: expect.any(Boolean), position: expect.any(Object) });
+  });
+
+  it("should report no actor in status before one is registered", () => {
+    const status: AnyObject = MCP_HANDLERS[EMcpRequestKind.STATUS](createRequest(EMcpRequestKind.STATUS), context)
+      .result as AnyObject;
+
+    expect(status.actor).toBeNull();
+  });
+});

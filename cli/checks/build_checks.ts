@@ -66,9 +66,9 @@ function flattenDiagnostic(message: string | { messageText: string; next?: Array
 }
 
 /**
- * Transpile the checks project into gamedata.
+ * Transpile the checks project, flows and the game MCP endpoint, into gamedata.
  */
-function transpileChecks(): void {
+export function transpileChecks(): void {
   const result = tstl.transpileProject(BUILD_CHECKS_TSCONFIG, { noHeader: true, tstlVerbose: false });
 
   if (result.diagnostics?.length) {

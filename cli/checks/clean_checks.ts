@@ -4,7 +4,11 @@ import * as path from "node:path";
 import { blueBright, yellow } from "chalk";
 
 import { LAUNCHER_PREFIXES } from "#/checks/utils/discover_checks";
-import { TARGET_GAME_DATA_CHECKS_DIR, TARGET_GAME_DATA_SCRIPTS_DIR } from "#/globals/paths";
+import {
+  TARGET_GAME_DATA_CHECKS_DIR,
+  TARGET_GAME_DATA_MCP_EXTENSION_DIR,
+  TARGET_GAME_DATA_SCRIPTS_DIR,
+} from "#/globals/paths";
 import { NodeLogger } from "#/utils/logging";
 
 const log: NodeLogger = NodeLogger.forFile(__filename);
@@ -44,4 +48,10 @@ export async function cleanChecks(parameters: ICleanChecksParameters = {}): Prom
   }
 
   log.info("Removed launchers:", removedLaunchers);
+
+  // The game MCP extension loads modules from the checks output just removed, so it goes with them.
+  if (fs.existsSync(TARGET_GAME_DATA_MCP_EXTENSION_DIR)) {
+    fs.rmSync(TARGET_GAME_DATA_MCP_EXTENSION_DIR, { recursive: true, force: true });
+    log.info("Removed:", yellow(TARGET_GAME_DATA_MCP_EXTENSION_DIR));
+  }
 }

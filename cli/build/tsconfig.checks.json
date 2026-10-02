@@ -11,5 +11,8 @@
     "../../src/engine/extensions",
     "../../src/engine/checks"
   ],
-  "exclude": ["../../**/*.test.ts"]
+  "exclude": ["../../**/*.test.ts"],
+  "tstl": {
+    "noResolvePaths": ["xray16", "xray16/macros", "xray16/alias", "ffi"]
+  }
 }

@@ -8,8 +8,10 @@ import { exists } from "#/utils/fs/exists";
 const GAME_PATHS = {
   root: "",
   app: config.targets.stalker_app_path || "Stalker-COP.exe",
+  appdata: "_appdata_",
   logs: "_appdata_/logs",
   savedgames: "_appdata_/savedgames",
+  screenshots: "_appdata_/screenshots",
   gamedata: "gamedata",
   bin: "bin",
   binXrfBackup: "bin_xrf_backup",

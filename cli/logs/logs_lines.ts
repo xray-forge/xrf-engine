@@ -37,7 +37,7 @@ export async function printLastLogLines(count: number): Promise<void> {
 /**
  * Get path of log file.
  */
-async function getLogFilePath(): Promise<Nullable<string>> {
+export async function getLogFilePath(): Promise<Nullable<string>> {
   const { logs, binJson } = await getGamePaths();
   const username: string = os.userInfo().username.toLowerCase();
 

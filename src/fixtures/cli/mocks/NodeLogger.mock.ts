@@ -8,7 +8,9 @@ export class MockNodeLogger {
 
   public constructor(public readonly prefix?: string) {}
 
+  public debug = jest.fn();
   public error = jest.fn();
   public warn = jest.fn();
   public info = jest.fn();
+  public pushNewLine = jest.fn();
 }

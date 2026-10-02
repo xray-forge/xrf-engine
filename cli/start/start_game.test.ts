@@ -4,11 +4,13 @@ import * as path from "node:path";
 import { beforeEach, describe, expect, it, jest } from "@jest/globals";
 import { replaceFunctionMock } from "xray16/testing/utils";
 
+import { prepareMcpUserConfig } from "#/mcp/mcp_user_config";
 import { EGameDifficulty, startGame } from "#/start/start_game";
 import { exists } from "#/utils/fs/exists";
 import { getGamePaths } from "#/utils/fs/get_game_paths";
 
 jest.mock("node:child_process");
+jest.mock("#/mcp/mcp_user_config", () => ({ MCP_USER_CONFIG: "user_mcp.ltx", prepareMcpUserConfig: jest.fn() }));
 jest.mock("#/utils/fs/exists");
 jest.mock("#/utils/fs/get_game_paths");
 
@@ -18,6 +20,7 @@ describe("startGame", () => {
 
     replaceFunctionMock(getGamePaths, async () => ({
       app: "app-path",
+      appdata: "appdata-path",
       bin: "bin-path",
       root: "root-path",
       savedgames: "savedgames-path",
@@ -98,8 +101,29 @@ describe("startGame", () => {
   it("should fail when provided save does not exist", async () => {
     replaceFunctionMock(exists, async (target: unknown) => target !== path.join("savedgames-path", "test_save.scop"));
 
-    await expect(startGame({ load: "test_save" })).rejects.toThrow();
+    await expect(startGame({ load: "test_save", mcp: true })).rejects.toThrow();
     expect(cp.spawn).not.toHaveBeenCalled();
+    expect(prepareMcpUserConfig).not.toHaveBeenCalled();
+  });
+
+  it("should arm the game MCP endpoint with its own settings ahead of the world start", async () => {
+    await startGame({ mcp: true, new: true, flushlog: true });
+
+    expect(prepareMcpUserConfig).toHaveBeenCalledWith("appdata-path");
+    expect(cp.spawn).toHaveBeenCalledWith(
+      expect.any(String),
+      [
+        "-dump_bindings",
+        "-force_flushlog",
+        "-xrf_mcp",
+        "-ltx",
+        "user_mcp.ltx",
+        "-start",
+        "server(all/single/alife/new)",
+        "client(localhost)",
+      ],
+      expect.anything()
+    );
   });
 
   it("should fail when new game and save load are mixed", async () => {
