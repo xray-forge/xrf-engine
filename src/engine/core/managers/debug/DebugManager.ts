@@ -55,7 +55,7 @@ export class DebugManager extends AbstractManager {
    * Combines all included files as single text entity.
    */
   public dumpSystemIni(): void {
-    const path: TPath = "_appdata_\\dumps\\system.ltx";
+    const path: TPath = getFS().update_path(roots.appDataRoot, "dumps\\system.ltx");
 
     logger.info("Saving system ini as '%s'", path);
     SYSTEM_INI.save_as(path);

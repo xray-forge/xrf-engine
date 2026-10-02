@@ -33,7 +33,7 @@ import { LuaLogger } from "@/engine/core/utils/logging";
 const logger: LuaLogger = new LuaLogger($filename);
 
 /**
- * Register game managers and dispose existing ones.
+ * Register game managers, skipping ones already created.
  */
 export function registerManagers(): void {
   const managers: Array<TAbstractCoreManagerConstructor> = [

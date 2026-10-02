@@ -92,6 +92,6 @@ describe("DebugManager", () => {
     manager.dumpSystemIni();
 
     expect(SYSTEM_INI.save_as).toHaveBeenCalledTimes(1);
-    expect(SYSTEM_INI.save_as).toHaveBeenCalledWith("_appdata_\\dumps\\system.ltx");
+    expect(SYSTEM_INI.save_as).toHaveBeenCalledWith("$app_data_root$\\dumps\\system.ltx");
   });
 });
