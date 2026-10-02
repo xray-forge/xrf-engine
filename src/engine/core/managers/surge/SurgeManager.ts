@@ -1,9 +1,8 @@
-import { CTime, game, hit, level } from "xray16";
+import { game, hit, level } from "xray16";
 import { GameObject, Hit, NetPacket, NetProcessor, Time } from "xray16/alias";
 import {
   ACTOR_ID,
   AnyObject,
-  createTime,
   Nillable,
   readTimeFromPacket,
   TDuration,
@@ -43,7 +42,7 @@ import {
 } from "@/engine/core/managers/surge/utils";
 import { TaskManager } from "@/engine/core/managers/tasks";
 import { WeatherManager } from "@/engine/core/managers/weather/WeatherManager";
-import { isBlackScreen } from "@/engine/core/utils/game";
+import { getTimeAfter, isBlackScreen } from "@/engine/core/utils/game";
 import { createGameAutoSave } from "@/engine/core/utils/game_save";
 import { hasInfoPortion } from "@/engine/core/utils/info_portion";
 import { LuaLogger } from "@/engine/core/utils/logging";
@@ -69,9 +68,9 @@ export class SurgeManager extends AbstractManager {
   public shouldNotifySkip: boolean = true;
 
   // Empty until set, as game time does not exist yet while the game starts and creates managers.
-  public initializedAt: Time = new CTime();
+  public initializedAt: Time = game.CTime();
   // Time the last surge finished, the game start until the first one does.
-  public lastSurgeAt: Time = new CTime();
+  public lastSurgeAt: Time = game.CTime();
 
   // Task given to hide from the surge, the generic one when empty, none when `empty`.
   public surgeTaskSection: TSection = "";
@@ -277,10 +276,8 @@ export class SurgeManager extends AbstractManager {
     if (isForced) {
       this.initializedAt = game.get_game_time();
     } else {
-      const [Y, M, D, h, m, s, ms] = this.lastSurgeAt.get(0, 0, 0, 0, 0, 0, 0);
-
       // A due surge starts when it was scheduled, which is long past once time was forwarded over it.
-      this.initializedAt = createTime(Y, M, D, h, m, s + this.nextScheduledSurgeDelay, ms);
+      this.initializedAt = getTimeAfter(this.lastSurgeAt, this.nextScheduledSurgeDelay);
     }
 
     if (!isSurgeEnabledOnLevel(level.name())) {
@@ -317,9 +314,7 @@ export class SurgeManager extends AbstractManager {
   public skipSurge(): void {
     logger.info("Skipped surge");
 
-    const [Y, M, D, h, m, s, ms] = this.initializedAt.get(0, 0, 0, 0, 0, 0, 0);
-
-    this.finishSurge(createTime(Y, M, D, h, m, s + surgeConfig.DURATION, ms));
+    this.finishSurge(getTimeAfter(this.initializedAt, surgeConfig.DURATION));
 
     EventsManager.emitEvent(EGameEvent.SURGE_SKIPPED, this.shouldNotifySkip);
 
