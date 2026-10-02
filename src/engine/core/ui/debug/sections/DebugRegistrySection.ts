@@ -1,7 +1,7 @@
 import { CUI3tButton, CUICheckButton, CUIListBox, CUIStatic, LuabindClass, ui_events } from "xray16";
 import { AlifeSimulator } from "xray16/alias";
-import { NIL, Nillable, TCount, TPath } from "xray16/lib";
-import { $filename, $isNil, $isNotNil } from "xray16/macros";
+import { Nillable, TCount, TPath } from "xray16/lib";
+import { $filename, $isNotNil } from "xray16/macros";
 
 import { getManager, registry } from "@/engine/core/database";
 import { EGameEvent, EventsManager } from "@/engine/core/managers/events";
@@ -122,9 +122,11 @@ export class DebugRegistrySection extends AbstractDebugSection {
 
     const eventsManager: EventsManager = getManager(EventsManager);
 
-    logger.info("Event handlers exist: %s", Object.keys(eventsManager.callbacks).length);
-    Object.entries(eventsManager.callbacks).forEach(([key, values]) => {
-      logger.info("*: %s %s", EGameEvent[key as unknown as number], $isNil(values) ? NIL : Object.keys(values).length);
+    logger.info("Event handlers exist: %s", Object.keys(eventsManager.subscribers).length);
+    Object.keys(eventsManager.subscribers).forEach((key) => {
+      const event: EGameEvent = key as unknown as EGameEvent;
+
+      logger.info("*: %s %s", EGameEvent[event], eventsManager.getEventSubscribersCount(event));
     });
 
     logger.pushSeparator();

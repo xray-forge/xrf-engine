@@ -3,7 +3,7 @@ import { GameObject, ServerObject } from "xray16/alias";
 import { Nillable, TNumberId } from "xray16/lib";
 import { $isNotNil } from "xray16/macros";
 
-import { registry } from "@/engine/core/database";
+import { getManager, registry } from "@/engine/core/database";
 import { EGameEvent, EventsManager } from "@/engine/core/managers/events";
 import { isWeapon } from "@/engine/core/utils/class_ids";
 
@@ -19,9 +19,16 @@ import { isWeapon } from "@/engine/core/utils/class_ids";
  * @returns Validated listener-selected weapon, or null to retain the engine's selection.
  */
 export function selectBestStalkerWeapon(object: GameObject, weapon: Nillable<GameObject>): Nillable<GameObject> {
+  const eventsManager: EventsManager = getManager(EventsManager);
+
+  // The engine asks several times per stalker update, so nothing is allocated unless a listener may override.
+  if (eventsManager.getEventSubscribersCount(EGameEvent.STALKER_WEAPON_SELECT) === 0) {
+    return null;
+  }
+
   const data = { weaponId: null as Nillable<TNumberId> };
 
-  EventsManager.emitEvent(EGameEvent.STALKER_WEAPON_SELECT, object, weapon, data);
+  eventsManager.emitEvent(EGameEvent.STALKER_WEAPON_SELECT, object, weapon, data);
 
   const nextWeaponId: Nillable<TNumberId> = data.weaponId;
 

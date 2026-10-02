@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it } from "@jest/globals";
+import { beforeEach, describe, expect, it, jest } from "@jest/globals";
 import { clsid } from "xray16";
 import { GameObject } from "xray16/alias";
 import { AnyObject } from "xray16/lib";
@@ -18,6 +18,15 @@ describe("selectBestStalkerWeapon", () => {
   it("should fallback to null if no handlers found", () => {
     expect(selectBestStalkerWeapon(MockGameObject.mock(), MockGameObject.mock())).toBeNull();
     expect(selectBestStalkerWeapon(MockGameObject.mock(), null)).toBeNull();
+  });
+
+  it("should not emit weapon selection without handlers", () => {
+    const eventsManager: EventsManager = getManager(EventsManager);
+
+    jest.spyOn(eventsManager, "emitEvent");
+
+    expect(selectBestStalkerWeapon(MockGameObject.mock(), MockGameObject.mock())).toBeNull();
+    expect(eventsManager.emitEvent).not.toHaveBeenCalled();
   });
 
   it("should use weapon from latest event handler", () => {

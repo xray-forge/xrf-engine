@@ -1,4 +1,4 @@
-import { AnyCallable, TDuration, TTimestamp } from "xray16/lib";
+import { AnyCallable, AnyObject, LuaArray, TCount, TDuration, TIndex, TTimestamp } from "xray16/lib";
 
 /**
  * List of event to emit across the core.
@@ -556,4 +556,22 @@ export interface ITimeoutDescriptor {
   callback: AnyCallable;
   delay: TDuration;
   last: TTimestamp;
+}
+
+/**
+ * Subscribers of one event, kept in arrays as LuaJIT compiles iterating them but not iterating a hash table.
+ */
+export interface IEventSubscribers {
+  // Callbacks in subscription order, `false` in slots of ones unsubscribed while the event is emitted.
+  callbacks: LuaArray<AnyCallable | false>;
+  // Context each callback is called with, `false` for plain functions.
+  contexts: LuaArray<AnyObject | false>;
+  // Slot of each subscribed callback.
+  slots: LuaTable<AnyCallable, TIndex>;
+  // Slots in use, including the emptied slots of callbacks unsubscribed during an emit.
+  slotsCount: TCount;
+  // Subscribed callbacks.
+  count: TCount;
+  // Emits of the event in progress, emptied slots are compacted once none is.
+  emitting: TCount;
 }
