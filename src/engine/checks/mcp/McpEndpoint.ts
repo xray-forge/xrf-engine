@@ -1,6 +1,6 @@
 import { level, time_global } from "xray16";
-import { AnyObject, Nillable, TDuration } from "xray16/lib";
-import { $filename, $isNotNil } from "xray16/macros";
+import { AnyObject, Nillable, TTimestamp } from "xray16/lib";
+import { $filename, $isNil, $isNotNil } from "xray16/macros";
 
 import { MCP_HANDLERS } from "@/engine/checks/mcp/mcp_handlers";
 import { decodeJson, encodeJson } from "@/engine/checks/mcp/mcp_json";
@@ -20,7 +20,7 @@ import { LuaLogger } from "@/engine/core/utils/logging";
 const logger: LuaLogger = new LuaLogger($filename);
 
 /**
- * Game side of the game MCP: answers requests arriving on a transport, polled once per actor update.
+ * Game side of the game MCP: answers requests arriving on a transport, polled on actor and main menu updates.
  */
 export class McpEndpoint {
   public readonly transport: IMcpTransport;
@@ -29,6 +29,8 @@ export class McpEndpoint {
 
   // Work waiting for the answers before it to leave, as it may end the Lua state.
   public deferred: Array<() => void> = [];
+  // Engine time of the previous poll, to report how often the game answers.
+  public lastPolledAt: Nillable<TTimestamp> = null;
 
   public constructor(transport: IMcpTransport, session: string) {
     this.transport = transport;
@@ -37,11 +39,12 @@ export class McpEndpoint {
 
   /**
    * Poll once: greet a new client, answer every complete request, then run work its answers allow.
-   *
-   * @param delta - Time since the previous actor update.
    */
-  public update(delta: TDuration): void {
-    this.context.updateDelta = delta;
+  public update(): void {
+    const now: TTimestamp = time_global();
+
+    this.context.updateDelta = $isNil(this.lastPolledAt) ? 0 : now - this.lastPolledAt;
+    this.lastPolledAt = now;
 
     if (this.transport.accept()) {
       this.lines.clear();

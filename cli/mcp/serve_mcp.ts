@@ -15,9 +15,11 @@ import { NodeLogger } from "#/utils/logging";
 
 const INSTRUCTIONS: string =
   "Tools for a running S.T.A.L.K.E.R. game built from xrf-engine. Build the endpoint once with " +
-  "`npm run cli -- mcp build`, then call game_start. The game answers only while a level runs unpaused: loading, the " +
-  "main menu, intros, the outro and credits are silent, so follow them with game_log. Save through game_console " +
-  "before anything that can kill the actor or end the game, and call game_wait_ready after a load.";
+  "`npm run cli -- mcp build`, then call game_start. The game answers in a level and, once a game has started, in " +
+  "the main menu; loading, intros, the outro and credits are silent, so follow them with game_log. Save through " +
+  "game_console before anything that can kill the actor or end the game, and call game_wait_ready after a load. " +
+  "In the main menu `load <save>` fails without a running game; start one with " +
+  "`start server(<save>/single/alife/load) client(localhost)` instead.";
 
 /**
  * Resolve the game text encoding, the default one without a configured game: the tools still serve then, and starting a

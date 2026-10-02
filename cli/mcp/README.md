@@ -36,7 +36,8 @@ output.
 - `game_wait_ready` waits until the game greets again after a load, a level change or a start.
 - `game_quit` quits the game and waits until it is gone.
 
-The game answers only while a level runs unpaused. The pipe takes one client, so a second session reports that another
+The game answers in a level and, once a game has started, in the main menu; it is silent while loading and during
+intros, the outro and credits. The pipe takes one client, so a second session reports that another
 one is connected. Text goes both ways in the encoding the string tables of the game language declare.
 
 ## Examples

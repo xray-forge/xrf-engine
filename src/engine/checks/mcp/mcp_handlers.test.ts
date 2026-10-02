@@ -1,6 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, jest } from "@jest/globals";
-import { get_console } from "xray16";
+import { game, get_console, level } from "xray16";
 import { AnyObject, LuaArray } from "xray16/lib";
+import { replaceFunctionMock, resetFunctionMock } from "xray16/testing/utils";
 
 import { ICheckFailure, report } from "@/engine/checks/framework/core";
 import { run } from "@/engine/checks/framework/entry";
@@ -102,6 +103,20 @@ describe("mcp handlers", () => {
 
     expect(status).toMatchObject({ session: "session-1", updateDelta: 16, timeGlobal: expect.any(Number) });
     expect(status.actor).toMatchObject({ alive: expect.any(Boolean), position: expect.any(Object) });
+  });
+
+  it("should report no game time, level or actor in the main menu after a game", () => {
+    mockRegisteredActor();
+    replaceFunctionMock(level.present, () => false);
+    jest.mocked(game.get_game_time).mockClear();
+
+    const status: AnyObject = MCP_HANDLERS[EMcpRequestKind.STATUS](createRequest(EMcpRequestKind.STATUS), context)
+      .result as AnyObject;
+
+    expect(status).toMatchObject({ session: "session-1", level: null, gameTime: null, actor: null });
+    expect(game.get_game_time).not.toHaveBeenCalled();
+
+    resetFunctionMock(level.present);
   });
 
   it("should report no actor in status before one is registered", () => {

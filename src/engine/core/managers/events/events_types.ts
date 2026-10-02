@@ -507,6 +507,10 @@ export enum EGameEvent {
    */
   MAIN_MENU_OFF,
   /**
+   * Main menu updated, every frame while it is open and the game is paused.
+   */
+  MAIN_MENU_UPDATE,
+  /**
    * Game started.
    */
   GAME_STARTED,

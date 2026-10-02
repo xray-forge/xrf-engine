@@ -1,6 +1,7 @@
 import { beforeEach, describe, expect, it, jest } from "@jest/globals";
-import { get_console } from "xray16";
+import { get_console, time_global } from "xray16";
 import { AnyObject, Nillable } from "xray16/lib";
+import { replaceFunctionMock } from "xray16/testing/utils";
 
 import { IMcpTransport } from "@/engine/checks/mcp/mcp_types";
 import { mcpConfig } from "@/engine/checks/mcp/McpConfig";
@@ -59,7 +60,7 @@ function createConnectedEndpoint(): [McpEndpoint, FakeTransport] {
   const endpoint: McpEndpoint = new McpEndpoint(transport, "session-1");
 
   transport.shouldConnect = true;
-  endpoint.update(16);
+  endpoint.update();
   transport.written = [];
 
   return [endpoint, transport];
@@ -74,22 +75,25 @@ describe("McpEndpoint", () => {
     const transport: FakeTransport = new FakeTransport();
     const endpoint: McpEndpoint = new McpEndpoint(transport, "session-1");
 
-    endpoint.update(16);
+    endpoint.update();
 
     expect(transport.written).toHaveLength(0);
 
     transport.shouldConnect = true;
-    endpoint.update(16);
+    endpoint.update();
 
     expect(transport.messages()).toEqual([{ event: "ready", session: "session-1", level: expect.any(String) }]);
     expect(transport.written[0].endsWith("\n")).toBe(true);
   });
 
-  it("should answer a request with its id, result and time", () => {
+  it("should answer a request with its id, result and time, and the time since the previous poll", () => {
+    replaceFunctionMock(time_global, () => 1_000);
+
     const [endpoint, transport] = createConnectedEndpoint();
 
+    replaceFunctionMock(time_global, () => 1_020);
     transport.incoming.push(JSON.stringify({ id: "a", kind: "status" }) + "\n");
-    endpoint.update(20);
+    endpoint.update();
 
     const [response] = transport.messages();
 
@@ -104,12 +108,12 @@ describe("McpEndpoint", () => {
     const [endpoint, transport] = createConnectedEndpoint();
 
     transport.incoming.push('{"id":"a","kind":"st');
-    endpoint.update(16);
+    endpoint.update();
 
     expect(transport.written).toHaveLength(0);
 
     transport.incoming.push('atus"}\n{"id":"b","kind":"status"}\n');
-    endpoint.update(16);
+    endpoint.update();
 
     expect(transport.messages().map((it) => it.id)).toEqual(["a", "b"]);
   });
@@ -118,7 +122,7 @@ describe("McpEndpoint", () => {
     const [endpoint, transport] = createConnectedEndpoint();
 
     transport.incoming.push('not json\n{"kind":"status"}\n{"id":"c","kind":"nope"}\n');
-    endpoint.update(16);
+    endpoint.update();
 
     const [unreadable, incomplete, unknown] = transport.messages();
 
@@ -131,7 +135,7 @@ describe("McpEndpoint", () => {
     const [endpoint, transport] = createConnectedEndpoint();
 
     transport.incoming.push(JSON.stringify({ id: "d", kind: "console" }) + "\n");
-    endpoint.update(16);
+    endpoint.update();
 
     expect(transport.messages()[0]).toMatchObject({
       id: "d",
@@ -147,13 +151,13 @@ describe("McpEndpoint", () => {
 
     transport.isFlushBlocked = true;
     transport.incoming.push(JSON.stringify({ id: "e", kind: "console", command: "load save_1" }) + "\n");
-    endpoint.update(16);
+    endpoint.update();
 
     expect(transport.messages()[0]).toMatchObject({ id: "e", ok: true, result: { queued: true } });
     expect(get_console().execute).not.toHaveBeenCalled();
 
     transport.isFlushBlocked = false;
-    endpoint.update(16);
+    endpoint.update();
 
     expect(get_console().execute).toHaveBeenCalledWith("load save_1");
   });
@@ -162,7 +166,7 @@ describe("McpEndpoint", () => {
     const [endpoint, transport] = createConnectedEndpoint();
 
     transport.incoming.push("x".repeat(mcpConfig.MAX_REQUEST_LENGTH + 1));
-    endpoint.update(16);
+    endpoint.update();
 
     expect(transport.messages()[0]).toMatchObject({ id: null, ok: false, error: expect.stringContaining("longer") });
   });
@@ -171,9 +175,9 @@ describe("McpEndpoint", () => {
     const [endpoint, transport] = createConnectedEndpoint();
 
     transport.incoming.push('{"id":"half');
-    endpoint.update(16);
+    endpoint.update();
     transport.isClientConnected = false;
-    endpoint.update(16);
+    endpoint.update();
 
     expect(transport.written).toHaveLength(1);
     expect(transport.messages()[0].event).toBe("ready");

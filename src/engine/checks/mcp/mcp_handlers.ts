@@ -78,7 +78,9 @@ export function runFlowModule(module: string, identity: string): AnyObject {
  * @returns What the game is doing now.
  */
 export function getMcpStatus(context: IMcpHandlerContext): AnyObject {
-  const actor: Nillable<GameObject> = registry.actor;
+  // Game time needs the A-Life time manager, which is gone in the main menu after a game, and reading it then crashes.
+  const isLevelPresent: boolean = level.present();
+  const actor: Nillable<GameObject> = isLevelPresent ? registry.actor : null;
   let actorStatus: Nillable<AnyObject> = null;
 
   if ($isNotNil(actor)) {
@@ -93,9 +95,9 @@ export function getMcpStatus(context: IMcpHandlerContext): AnyObject {
 
   return {
     session: context.session,
-    level: level.present() ? level.name() : null,
+    level: isLevelPresent ? level.name() : null,
     timeGlobal: time_global(),
-    gameTime: gameTimeToString(game.get_game_time()),
+    gameTime: isLevelPresent ? gameTimeToString(game.get_game_time()) : null,
     updateDelta: context.updateDelta,
     actor: actorStatus,
   };

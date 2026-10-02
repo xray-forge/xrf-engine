@@ -34,9 +34,10 @@ describe("game MCP extension", () => {
     expect(check().reason).toContain("-xrf_mcp");
     expect(register()).toBeNull();
     expect(getManager(EventsManager).getEventSubscribersCount(EGameEvent.ACTOR_UPDATE)).toBe(0);
+    expect(getManager(EventsManager).getEventSubscribersCount(EGameEvent.MAIN_MENU_UPDATE)).toBe(0);
   });
 
-  it("should start the endpoint and poll it on actor updates when armed", () => {
+  it("should start the endpoint and poll it on actor and main menu updates when armed", () => {
     replaceFunctionMock(command_line, () => "-dump_bindings -xrf_mcp -ltx user_mcp.ltx");
 
     expect(isMcpArmed()).toBe(true);
@@ -52,9 +53,10 @@ describe("game MCP extension", () => {
     expect(getManager(EventsManager).getEventSubscribersCount(EGameEvent.ACTOR_UPDATE)).toBe(1);
 
     EventsManager.emitEvent(EGameEvent.ACTOR_UPDATE, 16);
+    EventsManager.emitEvent(EGameEvent.MAIN_MENU_UPDATE);
 
-    expect(update).toHaveBeenCalledWith(16);
-    expect(update.mock.contexts[0]).toBe(endpoint);
+    expect(update).toHaveBeenCalledTimes(2);
+    expect(update.mock.contexts).toEqual([endpoint, endpoint]);
   });
 
   it("should name each game start by wall clock and engine time", () => {

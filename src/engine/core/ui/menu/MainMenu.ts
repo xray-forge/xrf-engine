@@ -116,6 +116,12 @@ export class MainMenu extends CUIScriptWnd {
     this.AddCallback("msg_box", ui_events.MESSAGE_BOX_QUIT_WIN_CLICKED, () => this.onQuitGameButtonClick(), this);
   }
 
+  public override Update(): void {
+    super.Update();
+
+    EventsManager.emitEvent(EGameEvent.MAIN_MENU_UPDATE);
+  }
+
   public override Show(isVisible: boolean): void {
     this.xrMenuPageController.SetVisibleMagnifier(isVisible);
   }

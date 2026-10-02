@@ -23,7 +23,8 @@ export function createMcpSession(): string {
 }
 
 /**
- * Start the endpoint and poll it on every actor update, when the launch flag armed it.
+ * Start the endpoint and poll it on every actor update, and on every main menu update while the menu pauses the
+ * game, when the launch flag armed it.
  *
  * @returns The endpoint started, or null when not armed.
  */
@@ -34,7 +35,10 @@ export function register(): Nullable<McpEndpoint> {
 
   const endpoint: McpEndpoint = new McpEndpoint(new NamedPipeTransport(), createMcpSession());
 
-  getManager(EventsManager).registerCallback(EGameEvent.ACTOR_UPDATE, endpoint.update, endpoint);
+  const eventsManager: EventsManager = getManager(EventsManager);
+
+  eventsManager.registerCallback(EGameEvent.ACTOR_UPDATE, endpoint.update, endpoint);
+  eventsManager.registerCallback(EGameEvent.MAIN_MENU_UPDATE, endpoint.update, endpoint);
 
   logger.info("Game MCP endpoint started: %s", endpoint.context.session);
 

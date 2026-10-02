@@ -49,6 +49,19 @@ describe("MainMenu component", () => {
     expect(get_console().execute).toHaveBeenCalledWith("main_menu off");
   });
 
+  it("should emit an event on every menu update", () => {
+    const eventsManager: EventsManager = getManager(EventsManager);
+    const menu: MainMenu = new MainMenu();
+
+    jest.spyOn(eventsManager, "emitEvent").mockImplementation(jest.fn());
+
+    menu.Update();
+    menu.Update();
+
+    expect(eventsManager.emitEvent).toHaveBeenCalledTimes(2);
+    expect(eventsManager.emitEvent).toHaveBeenCalledWith(EGameEvent.MAIN_MENU_UPDATE);
+  });
+
   it("should correctly initialize controls and callbacks", () => {
     const menu: MainMenu = new MainMenu();
 

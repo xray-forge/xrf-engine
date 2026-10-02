@@ -57,7 +57,7 @@ export type TMcpHandler = (request: IMcpRequest, context: IMcpHandlerContext) =>
  */
 export interface IMcpHandlerContext {
   session: string;
-  // Time since the previous actor update, which polls the endpoint.
+  // Time since the previous poll, by an actor update in a level or a main menu update while the menu is open.
   updateDelta: TDuration;
 }
 
