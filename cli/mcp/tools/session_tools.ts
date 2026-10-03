@@ -1,6 +1,7 @@
 import * as fs from "node:fs";
 import * as path from "node:path";
 
+import { findCrashLines, IGameCrash, keepGameCrash } from "#/mcp/game_crash";
 import { IMcpTool, IToolResult } from "#/mcp/mcp_tool_types";
 import { restoreSave } from "#/mcp/save_bank";
 import { IGameToolsContext, json, readGameLog, schema, sleep, text } from "#/mcp/tools/tool_kit";
@@ -11,7 +12,9 @@ const QUIT_WAIT_MS: number = 30_000;
 const PROCESS_POLL_MS: number = 1_000;
 // How long a launched game may take to show up as a process before it counts as gone.
 const PROCESS_START_GRACE_MS: number = 15_000;
-const CRASH_LINES: number = 20;
+// Engine log lines searched for a fatal error, which the engine writes among its last.
+const LOG_SCAN_LINES: number = 150;
+const LOG_TAIL_LINES: number = 20;
 
 /**
  * @param context - What the tools reach outside the pipe.
@@ -24,10 +27,33 @@ export async function readEngineCrash(context: IGameToolsContext): Promise<strin
     return "No engine log found.";
   }
 
-  const lines: Array<string> = await readGameLog(logPath, 150, await context.getTextEncoding());
-  const fatalAt: number = lines.findLastIndex((line) => line.includes("FATAL ERROR"));
+  const lines: Array<string> = await readGameLog(logPath, LOG_SCAN_LINES, await context.getTextEncoding());
 
-  return (fatalAt >= 0 ? lines.slice(fatalAt, fatalAt + CRASH_LINES) : lines.slice(-CRASH_LINES)).join("\n").trim();
+  return (findCrashLines(lines) ?? lines.slice(-LOG_TAIL_LINES)).join("\n").trim();
+}
+
+/**
+ * Keep the previous run's logs when it crashed, as the next launch overwrites them.
+ *
+ * @param context - What the tools reach outside the pipe.
+ * @returns The kept crash, or null when the previous run did not crash or is kept already.
+ */
+export async function keepPreviousCrash(context: IGameToolsContext): Promise<Nullable<IGameCrash>> {
+  const logPath: Nullable<string> = await context.getEngineLogPath();
+
+  if (!logPath || !fs.existsSync(logPath)) {
+    return null;
+  }
+
+  const { logs, reports } = await context.getPaths();
+
+  return keepGameCrash(
+    logPath,
+    await readGameLog(logPath, LOG_SCAN_LINES, await context.getTextEncoding()),
+    logs,
+    reports,
+    context.workspace.crashes
+  );
 }
 
 /**
@@ -136,6 +162,7 @@ export async function startArmedGame(
   }
 
   const previous: Nullable<string> = client.session;
+  const crash: Nullable<IGameCrash> = await keepPreviousCrash(context);
 
   await context.startGame({
     new: !save,
@@ -148,7 +175,22 @@ export async function startArmedGame(
   // The launch refreshes the settings copy, whose language may have changed since.
   client.textEncoding = await context.getTextEncoding();
 
-  return waitForGreeting(context, timeoutMs, previous);
+  const result: IToolResult = await waitForGreeting(context, timeoutMs, previous);
+
+  if (!crash) {
+    return result;
+  }
+
+  return {
+    ...result,
+    content: [
+      ...result.content,
+      {
+        type: "text",
+        text: `The previous run crashed; its logs are kept in ${crash.directory}, with ${crash.reports.length} BugTrap report(s) named in crash.txt.`,
+      },
+    ],
+  };
 }
 
 /**

@@ -40,11 +40,17 @@ function setup(): {
       dumps: path.join(directory, "dumps"),
       saves: path.join(directory, "saves"),
       probes: path.join(directory, "probes"),
+      crashes: path.join(directory, "crashes"),
     },
     startGame: jest.fn(async () => {}),
     isGameRunning: jest.fn(async () => false),
     isEndpointBuilt: () => true,
-    getPaths: async () => ({ logs: directory, screenshots: directory, savedgames: path.join(directory, "saves_game") }),
+    getPaths: async () => ({
+      logs: directory,
+      reports: path.join(directory, "reports"),
+      screenshots: directory,
+      savedgames: path.join(directory, "saves_game"),
+    }),
     getEngineLogPath: async () => path.join(directory, "openxray_test.log"),
     getTextEncoding: async () => "windows-1251",
     keepScreenshot: jest.fn((file: string) => `${file}.kept`),
@@ -171,6 +177,26 @@ describe("game MCP tools", () => {
     expect(client.waitForReady).toHaveBeenCalledWith(120_000, null, expect.any(AbortSignal));
     expect(client.textEncoding).toBe("windows-1251");
     expect(JSON.parse(textOf(result)).session).toBe("session-1");
+    expect(result.content).toHaveLength(1);
+  });
+
+  it("should keep the logs of a crashed run before starting the next one", async () => {
+    const { call, context, directory } = setup();
+
+    directories.push(directory);
+    fs.writeFileSync(
+      path.join(directory, "openxray_test.log"),
+      "Loading...\nFATAL ERROR\n[error] Expression : false\n"
+    );
+
+    const result: IToolResult = await call("game_start", { timeoutSeconds: 60 });
+    const kept: Array<string> = fs.readdirSync(context.workspace.crashes);
+
+    expect(kept).toHaveLength(1);
+    expect(fs.existsSync(path.join(context.workspace.crashes, kept[0], "openxray_test.log"))).toBe(true);
+    expect((result.content[1] as { text: string }).text).toContain(path.join(context.workspace.crashes, kept[0]));
+
+    expect((await call("game_start", { timeoutSeconds: 60 })).content).toHaveLength(1);
   });
 
   it("should stop waiting and show the engine error when the game process exits before it greets", async () => {

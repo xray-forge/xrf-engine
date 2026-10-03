@@ -3,6 +3,7 @@ import * as path from "node:path";
 
 import {
   TARGET_GAME_DATA_MCP_EXTENSION_DIR,
+  TARGET_MCP_CRASHES_DIR,
   TARGET_MCP_DUMPS_DIR,
   TARGET_MCP_PROBES_DIR,
   TARGET_MCP_SAVES_DIR,
@@ -72,7 +73,12 @@ export async function serveMcp(): Promise<void> {
     { name: "xrf-game", version: "1.0.0" },
     createGameTools({
       client,
-      workspace: { dumps: TARGET_MCP_DUMPS_DIR, saves: TARGET_MCP_SAVES_DIR, probes: TARGET_MCP_PROBES_DIR },
+      workspace: {
+        dumps: TARGET_MCP_DUMPS_DIR,
+        saves: TARGET_MCP_SAVES_DIR,
+        probes: TARGET_MCP_PROBES_DIR,
+        crashes: TARGET_MCP_CRASHES_DIR,
+      },
       startGame,
       isGameRunning,
       isEndpointBuilt: () => fs.existsSync(TARGET_GAME_DATA_MCP_EXTENSION_DIR),

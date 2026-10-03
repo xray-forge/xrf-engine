@@ -45,13 +45,15 @@ export const TARGET_DATABASE_DIR: string = path.resolve(TARGET_DIR, "db");
 export const TARGET_LOGS_DIR: string = path.resolve(TARGET_DIR, "logs");
 
 /**
- * Workspace of the game MCP tools and the agents using them: screenshots, dumps, banked saves and Lua probes.
+ * Workspace of the game MCP tools and the agents using them: screenshots, dumps, banked saves, Lua probes and the logs
+ * of crashed runs.
  */
 export const TARGET_MCP_DIR: string = path.resolve(TARGET_DIR, "mcp");
 export const TARGET_MCP_SCREENSHOTS_DIR: string = path.resolve(TARGET_MCP_DIR, "screenshots");
 export const TARGET_MCP_DUMPS_DIR: string = path.resolve(TARGET_MCP_DIR, "dumps");
 export const TARGET_MCP_SAVES_DIR: string = path.resolve(TARGET_MCP_DIR, "saves");
 export const TARGET_MCP_PROBES_DIR: string = path.resolve(TARGET_MCP_DIR, "probes");
+export const TARGET_MCP_CRASHES_DIR: string = path.resolve(TARGET_MCP_DIR, "crashes");
 
 /**
  * Per-target pack reports and logs, one pair per archive the compress step publishes into `TARGET_DATABASE_DIR`.

@@ -26,7 +26,9 @@ output.
 ## Tools
 
 - `game_start` starts the game armed (`start_game --mcp`), in a new game or a save, and waits until a level runs. It
-  refuses while any game process runs, and restores a save from the bank when the game has no copy of it.
+  refuses while any game process runs, and restores a save from the bank when the game has no copy of it. When the
+  previous run ended in a fatal error, it first keeps that run's logs under `target/mcp/crashes`, as the launch
+  overwrites them, and says so after the greeting. `game_load` does the same when it starts the game.
 - `game_status` reports the session, level, game time, actor, and the time since the previous actor update.
 - `game_console` runs a console command after answering; follow a `load` with `game_wait_ready`.
 - `game_lua` runs Lua and returns its value as JSON, trying it as an expression first. It takes the code itself or a
@@ -76,6 +78,8 @@ The endpoint names engine objects in answers and dumps by their class: `<CTime 2
 - `probes` holds Lua probes for `game_lua`.
 - `dumps` holds `game_dump` captures and their comparisons.
 - `screenshots` holds full-size screenshots.
+- `crashes` holds the logs of crashed runs, a folder each named by when the engine log was last written (UTC), with a
+  `crash.txt` of the fatal error and the BugTrap reports written around it. The reports stay in `_appdata_/reports`.
 
 ## Examples
 

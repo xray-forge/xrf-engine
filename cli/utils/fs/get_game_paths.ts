@@ -10,6 +10,7 @@ const GAME_PATHS = {
   app: config.targets.stalker_app_path || "Stalker-COP.exe",
   appdata: "_appdata_",
   logs: "_appdata_/logs",
+  reports: "_appdata_/reports",
   savedgames: "_appdata_/savedgames",
   screenshots: "_appdata_/screenshots",
   gamedata: "gamedata",

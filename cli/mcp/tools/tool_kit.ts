@@ -16,6 +16,7 @@ export interface IMcpWorkspace {
   dumps: string;
   saves: string;
   probes: string;
+  crashes: string;
 }
 
 /**
@@ -23,6 +24,7 @@ export interface IMcpWorkspace {
  */
 export interface IGameFolders {
   logs: string;
+  reports: string;
   screenshots: string;
   savedgames: string;
 }
