@@ -231,9 +231,10 @@ export function teleportNearZone(zoneName: TName, standoff: TDistance = 5): bool
  * Move the actor to a story object, loading another level when that is where the object is.
  *
  * @param storyId - Story id of the object to arrive at.
+ * @param standoff - Metres in front of the object to stop, for an object on the loaded level's AI mesh.
  * @returns Whether the actor was moved.
  */
-export function teleportToStoryObject(storyId: TStringId): boolean {
+export function teleportToStoryObject(storyId: TStringId, standoff: TDistance = 5): boolean {
   const target: Nillable<ServerObject> = getServerObjectByStoryId(storyId);
 
   if ($isNil(target)) {
@@ -262,7 +263,7 @@ export function teleportToStoryObject(storyId: TStringId): boolean {
     // on ground connected to the object, where the nearest vertex can sit across a hatch or a railing, at the right
     // height and still not somewhere the actor stays standing. It needs a vertex under the object to start from.
     if (getPositionLevelVertexId(position) < MAX_LEVEL_VERTEX_ID) {
-      teleportActorToStoryObject(storyId);
+      teleportActorToStoryObject(storyId, null, standoff);
 
       return reportTeleportArrival(storyId, "graph step away from the object", from);
     }

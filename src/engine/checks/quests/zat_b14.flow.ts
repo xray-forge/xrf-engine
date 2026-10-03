@@ -9,6 +9,7 @@ import {
   rememberActorMoney,
   teleportToPatrol,
   teleportToPoint,
+  teleportToStoryObject,
 } from "@/engine/checks/framework/world";
 import { infoPortions } from "@/engine/constants/info_portions";
 import { artefacts } from "@/engine/constants/items/artefacts";
@@ -128,11 +129,9 @@ step("2 - artefact taken", {
 
 step("3 - settled with the stalkers below", {
   reached: (): boolean => $isNotNil(resolveRobberyOutcome()),
-  travel: (): void => {
-    const robberyPosition: Vector = createVector(410.694, -5.751, 219.537);
-
-    teleportToPoint("the robbery spot below deck", levels.zaton, robberyPosition);
-  },
+  // To the robber rather than a spot below deck: he opens the talk only within 5 m of an actor standing outside
+  // 'zat_b14_not_give_item_zone', the area his restrictors keep him out of, and the deck below lies inside it.
+  travel: (): void => void teleportToStoryObject(storyIds.zat_b14_stalker_1, 2),
   verify: (): void => {
     report("settled by: %s", tostring(resolveRobberyOutcome()));
   },
