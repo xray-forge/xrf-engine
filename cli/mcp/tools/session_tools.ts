@@ -168,10 +168,9 @@ export function createSessionTools(context: IGameToolsContext): Array<IMcpTool> 
         mode: {
           type: "string",
           enum: ["new", "load"],
-          default: "new",
-          description: "Start a new game or load a save.",
+          description: "Start a new game or load a save; a new game unless `save` is given.",
         },
-        save: { type: "string", minLength: 1, description: "Save name without extension, for mode 'load'." },
+        save: { type: "string", minLength: 1, description: "Save name without extension, to load." },
         difficulty: { type: "string", enum: Object.values(EGameDifficulty), description: "Difficulty of a new game." },
         timeoutSeconds: {
           type: "integer",
@@ -184,11 +183,14 @@ export function createSessionTools(context: IGameToolsContext): Array<IMcpTool> 
       call: async ({ mode, save, difficulty, timeoutSeconds }) => {
         if (mode === "load" && !save) {
           return text("Mode 'load' needs a save name.", true);
+        } else if (mode === "new" && save) {
+          // Dropping the save would start a new game where the caller meant to continue one.
+          return text("Mode 'new' starts a new game and takes no save; ask for mode 'load'.", true);
         }
 
         return startArmedGame(
           context,
-          mode === "load" ? (save as string) : null,
+          save ? (save as string) : null,
           difficulty as Optional<EGameDifficulty>,
           (timeoutSeconds as number) * 1000
         );

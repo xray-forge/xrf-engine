@@ -201,7 +201,7 @@ describe("game MCP tools", () => {
     expect(textOf(result)).not.toContain("Loading objects");
   }, 10_000);
 
-  it("should refuse to start a game without the endpoint, beside a running one, or a load without a save", async () => {
+  it("should refuse to start a game without the endpoint, beside a running one, or with a mode its save contradicts", async () => {
     const { call, context, client, directory } = setup();
 
     directories.push(directory);
@@ -217,6 +217,7 @@ describe("game MCP tools", () => {
     expect(textOf(await call("game_start"))).toContain("already running without this session connected");
 
     expect(textOf(await call("game_start", { mode: "load" }))).toContain("needs a save");
+    expect(textOf(await call("game_start", { mode: "new", save: "mcp_bar" }))).toContain("takes no save");
     expect(context.startGame).not.toHaveBeenCalled();
   });
 
@@ -414,6 +415,8 @@ describe("game MCP tools", () => {
 
     expect(context.startGame).toHaveBeenCalledWith(expect.objectContaining({ load: "mcp_bar", mcp: true }));
     expect(textOf(await call("game_start", { mode: "load", save: "mcp_missing" }))).toContain("No save 'mcp_missing'");
+    // A save alone means loading it, not a new game that drops it.
+    expect(textOf(await call("game_start", { save: "mcp_missing" }))).toContain("No save 'mcp_missing'");
   });
 
   it("should wait for a time, or until a Lua expression holds", async () => {
