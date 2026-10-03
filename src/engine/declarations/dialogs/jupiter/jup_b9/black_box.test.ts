@@ -78,17 +78,19 @@ beforeEach(() => {
 });
 
 describe("jup_b9_actor_has_money", () => {
-  it("should be satisfied for free while no materials counter is set", () => {
-    mockActorWith([], { money: 0 });
+  it("should ask the full price while no materials counter is set", () => {
+    mockActorWith([], { money: 2999 });
+    expect(callDialogsBinding("jup_b9_actor_has_money")).toBe(false);
 
+    mockActorWith([], { money: 3000 });
     expect(callDialogsBinding("jup_b9_actor_has_money")).toBe(true);
   });
 
   it("should scale the required price down as more materials are brought", () => {
     const prices: Array<[TName, TCount]> = [
-      ["jup_b200_tech_materials_brought_counter_1", 3000],
-      ["jup_b200_tech_materials_brought_counter_5", 2400],
-      ["jup_b200_tech_materials_brought_counter_9", 1800],
+      ["jup_b200_tech_materials_brought_counter_1", 2850],
+      ["jup_b200_tech_materials_brought_counter_5", 2250],
+      ["jup_b200_tech_materials_brought_counter_9", 1650],
     ];
 
     for (const [portion, price] of prices) {
@@ -105,11 +107,11 @@ describe("jup_b9_actor_has_money", () => {
 
 describe("jup_b9_actor_has_not_money", () => {
   it("should invert the blackbox affordability check", () => {
-    mockActorWith([], { money: 2999 });
+    mockActorWith([], { money: 2849 });
     giveInfoPortion("jup_b200_tech_materials_brought_counter_1");
     expect(callDialogsBinding("jup_b9_actor_has_not_money", [registry.actor, MockGameObject.mock()])).toBe(true);
 
-    mockActorWith([], { money: 3000 });
+    mockActorWith([], { money: 2850 });
     giveInfoPortion("jup_b200_tech_materials_brought_counter_1");
     expect(callDialogsBinding("jup_b9_actor_has_not_money", [registry.actor, MockGameObject.mock()])).toBe(false);
   });
@@ -120,11 +122,15 @@ describe("jupiter_b9_relocate_money", () => {
     const npc: GameObject = MockGameObject.mock();
 
     callDialogsBinding("jupiter_b9_relocate_money", [registry.actor, npc]);
-    expect(transferMoneyFromActor).toHaveBeenLastCalledWith(npc, 0);
+    expect(transferMoneyFromActor).toHaveBeenLastCalledWith(npc, 3000);
 
     giveInfoPortion("jup_b200_tech_materials_brought_counter_1");
     callDialogsBinding("jupiter_b9_relocate_money", [registry.actor, npc]);
-    expect(transferMoneyFromActor).toHaveBeenLastCalledWith(npc, 3000);
+    expect(transferMoneyFromActor).toHaveBeenLastCalledWith(npc, 2850);
+
+    giveInfoPortion("jup_b200_tech_materials_brought_counter_9");
+    callDialogsBinding("jupiter_b9_relocate_money", [registry.actor, npc]);
+    expect(transferMoneyFromActor).toHaveBeenLastCalledWith(npc, 1650);
   });
 });
 

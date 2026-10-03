@@ -10,7 +10,7 @@ import { hasInfoPortion } from "@/engine/core/utils/info_portion";
 import { transferItemsFromActor, transferMoneyFromActor } from "@/engine/core/utils/reward";
 
 /**
- * Descending money amounts paid for the b9 blackbox based on the brought-materials counter.
+ * Descending money amounts paid for the b9 blackbox: the first with no materials brought, then one per counter.
  */
 const moneyCountTable: LuaArray<TCount> = $fromArray([3000, 2850, 2700, 2550, 2400, 2250, 2100, 1950, 1800, 1650]);
 
@@ -27,6 +27,21 @@ const techMaterialsBroughtInfoPortions: LuaArray<TInfoPortion> = $fromArray<TInf
 ]);
 
 /**
+ * @returns Price of the b9 blackbox records, lowered by each batch of materials brought for b200.
+ */
+function getBlackboxPrice(): TCount {
+  let price: TCount = moneyCountTable.get(1);
+
+  for (const it of $range(1, 9)) {
+    if (hasInfoPortion(techMaterialsBroughtInfoPortions.get(it))) {
+      price = moneyCountTable.get(it + 1);
+    }
+  }
+
+  return price;
+}
+
+/**
  * Check whether the actor has enough money for the b9 blackbox, scaled by the brought-materials counter.
  *
  * @param _ - Actor participating in the dialog, unused.
@@ -34,15 +49,7 @@ const techMaterialsBroughtInfoPortions: LuaArray<TInfoPortion> = $fromArray<TInf
  * @returns Whether the actor can pay for the blackbox.
  */
 extern("dialogs_jupiter.jup_b9_actor_has_money", (_: GameObject, __: GameObject): boolean => {
-  let moneyCount: TCount = 0;
-
-  for (const it of $range(1, 9)) {
-    if (hasInfoPortion(techMaterialsBroughtInfoPortions.get(it))) {
-      moneyCount = moneyCountTable.get(it);
-    }
-  }
-
-  return registry.actor.money() >= moneyCount;
+  return registry.actor.money() >= getBlackboxPrice();
 });
 
 /**
@@ -52,15 +59,7 @@ extern("dialogs_jupiter.jup_b9_actor_has_money", (_: GameObject, __: GameObject)
  * @param secondSpeaker - NPC participating in the dialog.
  */
 extern("dialogs_jupiter.jupiter_b9_relocate_money", (firstSpeaker: GameObject, secondSpeaker: GameObject): void => {
-  let moneyCount: TCount = 0;
-
-  for (const it of $range(1, 9)) {
-    if (hasInfoPortion(techMaterialsBroughtInfoPortions.get(it))) {
-      moneyCount = moneyCountTable.get(it);
-    }
-  }
-
-  transferMoneyFromActor(getNpcSpeaker(firstSpeaker, secondSpeaker), moneyCount);
+  transferMoneyFromActor(getNpcSpeaker(firstSpeaker, secondSpeaker), getBlackboxPrice());
 });
 
 /**
