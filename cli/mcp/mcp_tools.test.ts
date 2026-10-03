@@ -4,6 +4,8 @@ import * as path from "node:path";
 
 import { afterEach, beforeEach, describe, expect, it, jest } from "@jest/globals";
 
+import { TARGET_GAME_DATA_DIR } from "#/globals/paths";
+import { IDialogInspectReport, IDialogListReport } from "#/mcp/dialogs/dialog_cli_types";
 import { IToolResult } from "#/mcp/mcp_tool_types";
 import { createGameTools, IGameToolsContext } from "#/mcp/mcp_tools";
 import { McpPipeClient } from "#/mcp/McpPipeClient";
@@ -47,6 +49,7 @@ function setup(): {
     getTextEncoding: async () => "windows-1251",
     keepScreenshot: jest.fn((file: string) => `${file}.kept`),
     scaleScreenshot: jest.fn(async () => Buffer.from([0xff, 0xd8, 0xff])),
+    runXrfCli: jest.fn(async () => ({ exitCode: 0, error: null, result: null })),
   };
   const server: McpStdioServer = new McpStdioServer({ name: "test", version: "0" }, createGameTools(context));
 
@@ -98,6 +101,7 @@ describe("game MCP tools", () => {
         .sort()
     ).toEqual([
       "game_console",
+      "game_dialog",
       "game_dump",
       "game_errors",
       "game_flow",
@@ -475,5 +479,207 @@ describe("game MCP tools", () => {
     client.request.mockRejectedValueOnce(new Error("Timed out."));
 
     expect(await call("game_quit")).toMatchObject({ isError: true, content: [{ text: "Timed out." }] });
+  });
+  describe("game_dialog", () => {
+    const LIST: IDialogListReport = {
+      language: "eng",
+      profile: { id: "snag", characters: ["snag"] },
+      dialogs: [
+        {
+          id: "snag_cache_dialog",
+          logicalPath: "configs\\gameplay\\dialogs_zaton.xml",
+          priority: null,
+          phrases: 2,
+          captionKey: "snag_cache_0",
+          caption: null,
+          elements: [{ name: "dont_has_info", kind: "dontHasInfo", value: "known" }],
+          offers: [{ kind: "start", character: "snag" }],
+        },
+        {
+          id: "actor_break_dialog",
+          logicalPath: "configs\\gameplay\\dialogs.xml",
+          priority: null,
+          phrases: 1,
+          captionKey: "actor_break_0",
+          caption: null,
+          elements: [],
+          offers: [{ kind: "info", info: "global_dialogs" }],
+        },
+      ],
+    };
+
+    /**
+     * @param id - Dialog id.
+     * @returns What `xrf-cli dialog inspect` answers for a two phrase dialog.
+     */
+    function inspected(id: string): IDialogInspectReport {
+      return {
+        alsoDeclaredIn: [],
+        dialog: {
+          id,
+          logicalPath: "configs\\gameplay\\dialogs_zaton.xml",
+          elements: [],
+          phrases: [
+            { id: "0", textKey: `${id}_0`, next: ["1"], elements: [] },
+            {
+              id: "1",
+              textKey: `${id}_1`,
+              next: [],
+              elements: [{ name: "give_info", kind: "giveInfo", value: "known" }],
+            },
+          ],
+        },
+      };
+    }
+
+    /**
+     * @param context - Tools context to answer `xrf-cli` for.
+     * @param answers - Results by subcommand.
+     */
+    function answerXrfCli(
+      context: IGameToolsContext,
+      answers: Record<string, (parameters: Array<string>) => unknown>
+    ): void {
+      (context.runXrfCli as jest.Mock<IGameToolsContext["runXrfCli"]>).mockImplementation(async (parameters) => ({
+        exitCode: 0,
+        error: null,
+        result: answers[parameters[1]](parameters),
+      }));
+    }
+
+    it("should list the dialogs an NPC offers through xrf-cli for the game to judge", async () => {
+      const { call, client, context, directory } = setup();
+
+      directories.push(directory);
+      answerXrfCli(context, { list: () => LIST });
+      client.request
+        .mockResolvedValueOnce({ id: "1", ok: true, result: { profile: "snag", scriptedStartDialog: null } })
+        .mockResolvedValueOnce({ id: "2", ok: true, result: { dialogs: [] } });
+
+      expect(JSON.parse(textOf(await call("game_dialog", { npc: "zat_b33_stalker_snag" })))).toEqual({ dialogs: [] });
+      expect(context.runXrfCli).toHaveBeenCalledWith([
+        "dialog",
+        "list",
+        "--profile",
+        "snag",
+        "--path",
+        TARGET_GAME_DATA_DIR,
+        "--source",
+        "directory",
+      ]);
+      expect(client.request).toHaveBeenNthCalledWith(1, "dialog_npc", { npc: "zat_b33_stalker_snag" });
+      expect(client.request).toHaveBeenLastCalledWith("dialog", {
+        npc: "zat_b33_stalker_snag",
+        dialogs: [
+          {
+            id: "snag_cache_dialog",
+            caption: "snag_cache_0",
+            isStartedByNpc: true,
+            offeringInfos: [],
+            hasInfo: [],
+            dontHasInfo: ["known"],
+            preconditions: [],
+          },
+          {
+            id: "actor_break_dialog",
+            caption: "actor_break_0",
+            isStartedByNpc: false,
+            offeringInfos: ["global_dialogs"],
+            hasInfo: [],
+            dontHasInfo: [],
+            preconditions: [],
+          },
+        ],
+      });
+    });
+
+    it("should open with the start dialog a script set in place of the character's own", async () => {
+      const { call, client, context, directory } = setup();
+
+      directories.push(directory);
+      answerXrfCli(context, { list: () => LIST, inspect: (parameters) => inspected(parameters[2]) });
+      client.request
+        .mockResolvedValueOnce({
+          id: "1",
+          ok: true,
+          result: { profile: "snag", scriptedStartDialog: "snag_gun_dialog" },
+        })
+        .mockResolvedValueOnce({ id: "2", ok: true, result: {} });
+
+      await call("game_dialog", { npc: "7119" });
+
+      const { dialogs } = client.request.mock.calls[1][1] as {
+        dialogs: Array<{ id: string; isStartedByNpc: boolean }>;
+      };
+
+      expect(client.request).toHaveBeenNthCalledWith(1, "dialog_npc", { npc: 7119 });
+      expect(dialogs.map((it) => [it.id, it.isStartedByNpc])).toEqual([
+        ["snag_gun_dialog", true],
+        ["actor_break_dialog", false],
+      ]);
+    });
+
+    it("should walk a dialog opened by the NPC whose start dialog it is, or by whoever opener names", async () => {
+      const { call, client, context, directory } = setup();
+
+      directories.push(directory);
+      answerXrfCli(context, { list: () => LIST, inspect: (parameters) => inspected(parameters[2]) });
+      client.request.mockResolvedValue({ id: "1", ok: true, result: { profile: "snag", scriptedStartDialog: null } });
+
+      await call("game_dialog", { npc: "snag", dialog: "snag_cache_dialog", say: "1" });
+
+      expect(client.request).toHaveBeenLastCalledWith("dialog", {
+        npc: "snag",
+        walk: {
+          choices: ["1"],
+          dialog: expect.objectContaining({
+            id: "snag_cache_dialog",
+            isStartedByNpc: true,
+            phrases: expect.objectContaining({ "1": expect.objectContaining({ giveInfo: ["known"] }) }),
+          }),
+        },
+      });
+
+      await call("game_dialog", { npc: "snag", dialog: "snag_cache_dialog", opener: "actor" });
+
+      expect(client.request).toHaveBeenLastCalledWith("dialog", {
+        npc: "snag",
+        walk: { choices: [], dialog: expect.objectContaining({ isStartedByNpc: false }) },
+      });
+    });
+
+    it("should refuse a dialog a script builds, and answer an xrf-cli failure as a failed result", async () => {
+      const { call, client, context, directory } = setup();
+
+      directories.push(directory);
+      client.request.mockResolvedValue({ id: "1", ok: true, result: { profile: "snag", scriptedStartDialog: null } });
+      answerXrfCli(context, {
+        inspect: (parameters) => ({
+          alsoDeclaredIn: [],
+          dialog: {
+            ...inspected(parameters[2]).dialog,
+            elements: [{ name: "init_func", kind: "initFunc", value: "dialogs.build" }],
+          },
+        }),
+      });
+
+      expect(await call("game_dialog", { npc: "snag", dialog: "dm_traveler_dialog" })).toMatchObject({
+        isError: true,
+        content: [
+          { text: "Dialog 'dm_traveler_dialog' is built by 'dialogs.build' at runtime, so it has no phrases to walk." },
+        ],
+      });
+
+      (context.runXrfCli as jest.Mock<IGameToolsContext["runXrfCli"]>).mockResolvedValue({
+        exitCode: 1,
+        error: "Not found error: no file declares dialog 'nothing'",
+        result: null,
+      });
+
+      expect(await call("game_dialog", { npc: "snag", dialog: "nothing" })).toMatchObject({
+        isError: true,
+        content: [{ text: "Not found error: no file declares dialog 'nothing'" }],
+      });
+    });
   });
 });

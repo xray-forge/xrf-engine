@@ -5,6 +5,8 @@ import { AnyObject, Nillable, TDuration, TName } from "xray16/lib";
  */
 export enum EMcpRequestKind {
   CONSOLE = "console",
+  DIALOG = "dialog",
+  DIALOG_NPC = "dialog_npc",
   FLOW = "flow",
   LUA = "lua",
   QUIT = "quit",

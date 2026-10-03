@@ -7,6 +7,7 @@ import {
   TARGET_MCP_PROBES_DIR,
   TARGET_MCP_SAVES_DIR,
   TARGET_MCP_SCREENSHOTS_DIR,
+  XRF_UTILS_PATH,
 } from "#/globals/paths";
 import { getLogFilePath } from "#/logs/logs_lines";
 import { isGameProcessRunning } from "#/mcp/game_process";
@@ -15,6 +16,7 @@ import { DEFAULT_GAME_TEXT_ENCODING, resolveGameTextEncoding } from "#/mcp/game_
 import { createGameTools } from "#/mcp/mcp_tools";
 import { McpPipeClient } from "#/mcp/McpPipeClient";
 import { McpStdioServer } from "#/mcp/McpStdioServer";
+import { runXrfCli } from "#/mcp/xrf_cli";
 import { startGame } from "#/start/start_game";
 import { getGamePaths } from "#/utils/fs/get_game_paths";
 import { NodeLogger } from "#/utils/logging";
@@ -79,6 +81,7 @@ export async function serveMcp(): Promise<void> {
       getTextEncoding,
       keepScreenshot: (file) => moveScreenshot(file, TARGET_MCP_SCREENSHOTS_DIR),
       scaleScreenshot,
+      runXrfCli: (parameters) => runXrfCli(XRF_UTILS_PATH, parameters),
     }),
     INSTRUCTIONS
   );

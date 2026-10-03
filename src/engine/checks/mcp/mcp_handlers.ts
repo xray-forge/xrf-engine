@@ -5,6 +5,8 @@ import { $isNil, $isNotNil } from "xray16/macros";
 
 import { collectReportedLines, ICheckFailure, ICheckResult } from "@/engine/checks/framework/core";
 import { run } from "@/engine/checks/framework/entry";
+import { describeDialogNpc, handleDialogRequest, resolveDialogNpc } from "@/engine/checks/mcp/mcp_dialog";
+import { IMcpDialogRequest } from "@/engine/checks/mcp/mcp_dialog_types";
 import * as mcp from "@/engine/checks/mcp/mcp_probe";
 import { EMcpRequestKind, IMcpHandlerContext, IMcpRequest, TMcpHandler } from "@/engine/checks/mcp/mcp_types";
 import { registry } from "@/engine/core/database";
@@ -130,6 +132,8 @@ export const MCP_HANDLERS: Record<EMcpRequestKind, TMcpHandler> = {
 
     return { result: { queued: true }, after: () => get_console().execute(command) };
   },
+  [EMcpRequestKind.DIALOG]: (request) => ({ result: handleDialogRequest(request as unknown as IMcpDialogRequest) }),
+  [EMcpRequestKind.DIALOG_NPC]: (request) => ({ result: describeDialogNpc(resolveDialogNpc(request.npc)) }),
   [EMcpRequestKind.FLOW]: (request) => ({
     result: runFlowModule(readStringArgument(request, "module"), readStringArgument(request, "identity")),
   }),

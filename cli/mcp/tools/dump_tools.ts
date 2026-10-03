@@ -4,7 +4,7 @@ import * as path from "node:path";
 import { compareDumps, describeComparison, IDumpComparison } from "#/mcp/game_dump";
 import { IMcpTool } from "#/mcp/mcp_tool_types";
 import { IGameResponse } from "#/mcp/McpPipeClient";
-import { answer, IGameToolsContext, json, schema, text } from "#/mcp/tools/tool_kit";
+import { answer, IGameToolsContext, json, schema, splitList, text } from "#/mcp/tools/tool_kit";
 import { AnyObject } from "#/utils/types";
 
 const DUMP_WAIT_MS: number = 60_000;
@@ -29,19 +29,6 @@ export function createDumpChunk(managers: ReadonlyArray<string>): string {
       : []),
     "return data",
   ].join("\n");
-}
-
-/**
- * @param list - Comma separated names, possibly empty.
- * @returns The names.
- */
-function splitList(list: unknown): Array<string> {
-  return typeof list === "string"
-    ? list
-        .split(",")
-        .map((it) => it.trim())
-        .filter(Boolean)
-    : [];
 }
 
 /**

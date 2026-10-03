@@ -1,4 +1,5 @@
 import { IMcpTool } from "#/mcp/mcp_tool_types";
+import { createDialogTools } from "#/mcp/tools/dialog_tools";
 import { createDumpTools } from "#/mcp/tools/dump_tools";
 import { createGameTools as createQueryTools } from "#/mcp/tools/game_tools";
 import { createLogTools } from "#/mcp/tools/log_tools";
@@ -19,6 +20,7 @@ export function createGameTools(context: IGameToolsContext): Array<IMcpTool> {
   return [
     ...createSessionTools(context),
     ...createQueryTools(context),
+    ...createDialogTools(context),
     ...createScreenshotTools(context),
     ...createLogTools(context),
     ...createDumpTools(context),

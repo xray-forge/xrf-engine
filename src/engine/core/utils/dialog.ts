@@ -1,12 +1,13 @@
 import { GameObject } from "xray16/alias";
-import { ACTOR_ID, Nillable, TName } from "xray16/lib";
-import { $isNotNil } from "xray16/macros";
+import { ACTOR_ID, NIL, Nillable, TName } from "xray16/lib";
+import { $isNil, $isNotNil } from "xray16/macros";
 
 import { IRegistryObjectState, registry } from "@/engine/core/database";
 import { updateObjectMeetAvailability } from "@/engine/core/schemes/stalker/meet/utils";
-import { getSchemeStateOptimistic } from "@/engine/core/schemes/state";
+import { getSchemeState, getSchemeStateOptimistic } from "@/engine/core/schemes/state";
 import { EScheme } from "@/engine/core/schemes/types";
 import { updateStalkerLogic } from "@/engine/core/utils/logics";
+import { isObjectWounded } from "@/engine/core/utils/planner";
 
 /**
  * From two possible speakers pick NPC one, omit actor.
@@ -56,4 +57,28 @@ export function updateObjectDialog(object: GameObject): void {
   getSchemeStateOptimistic(state, EScheme.MEET).meetController.update();
   updateObjectMeetAvailability(object, state);
   updateStalkerLogic(object, state);
+}
+
+/**
+ * Get the start dialog scripts set on an object, as the engine does not report the one it holds.
+ *
+ * @param object - Game object to check.
+ * @returns Dialog set by the wounded or meet scheme, or null when the object opens with its character's own.
+ */
+export function getObjectScriptedStartDialog(object: GameObject): Nillable<TName> {
+  const state: Nillable<IRegistryObjectState> = registry.objects.get(object.id());
+
+  if ($isNil(state)) {
+    return null;
+  }
+
+  const helpDialog: Nillable<TName> = getSchemeState(state, EScheme.WOUNDED)?.helpStartDialog;
+
+  if ($isNotNil(helpDialog) && isObjectWounded(object.id())) {
+    return helpDialog;
+  }
+
+  const meetDialog: Nillable<TName> = getSchemeState(state, EScheme.MEET)?.meetController.startDialog;
+
+  return $isNil(meetDialog) || meetDialog === NIL ? null : meetDialog;
 }

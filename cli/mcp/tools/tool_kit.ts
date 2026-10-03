@@ -4,6 +4,7 @@ import * as path from "node:path";
 import { decodeGameText } from "#/mcp/game_text";
 import { IToolArgumentSchema, IToolInputSchema, IToolResult } from "#/mcp/mcp_tool_types";
 import { IGameResponse, McpPipeClient } from "#/mcp/McpPipeClient";
+import { IXrfCliEnvelope } from "#/mcp/xrf_cli";
 import { IStartGameCommandParameters } from "#/start/start_game";
 import { readLastLinesOfFile } from "#/utils/fs/read_last_lines_of_file";
 import { Nullable } from "#/utils/types";
@@ -40,6 +41,7 @@ export interface IGameToolsContext {
   getTextEncoding: () => Promise<string>;
   keepScreenshot: (file: string) => string;
   scaleScreenshot: (file: string, width: number) => Promise<Buffer>;
+  runXrfCli: (parameters: Array<string>) => Promise<IXrfCliEnvelope>;
 }
 
 /**
@@ -70,6 +72,19 @@ export function json(value: unknown): IToolResult {
  */
 export function answer(response: IGameResponse): IToolResult {
   return response.ok ? json(response.result ?? null) : text(response.error ?? "The game reported a failure.", true);
+}
+
+/**
+ * @param list - Comma separated names, possibly empty.
+ * @returns The names.
+ */
+export function splitList(list: unknown): Array<string> {
+  return typeof list === "string"
+    ? list
+        .split(",")
+        .map((it) => it.trim())
+        .filter(Boolean)
+    : [];
 }
 
 /**
