@@ -137,6 +137,24 @@ describe("StalkerBinder", () => {
     expect(invalidateObjectThemes).toHaveBeenCalledWith(object.id());
   });
 
+  it("ends the actor's talk when the stalker it talks to goes offline", () => {
+    const { actorGameObject } = mockRegisteredActor();
+    const serverObject: ServerHumanObject = MockAlifeHumanStalker.mock();
+    const object: GameObject = MockGameObject.mock({ id: serverObject.id });
+    const binder: StalkerBinder = new StalkerBinder(object);
+
+    binder.net_spawn(serverObject);
+    binder.net_destroy();
+
+    expect(actorGameObject.stop_talk).not.toHaveBeenCalled();
+
+    binder.net_spawn(serverObject);
+    jest.spyOn(object, "is_talking").mockImplementation(() => true);
+    binder.net_destroy();
+
+    expect(actorGameObject.stop_talk).toHaveBeenCalledTimes(1);
+  });
+
   it("does not register or configure a stalker when the engine rejects its spawn", () => {
     const serverObject: ServerHumanObject = MockAlifeHumanStalker.mock();
     const object: GameObject = MockGameObject.mock({ id: serverObject.id });

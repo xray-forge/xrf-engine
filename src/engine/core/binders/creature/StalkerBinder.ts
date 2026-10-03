@@ -180,6 +180,12 @@ export class StalkerBinder extends object_binder {
 
     logger.info("Go offline: %s", object.name());
 
+    // Only the actor talks to stalkers, and it would keep the destroyed one as its partner and crash on the next update.
+    // todo: Fix in the engine.
+    if (object.is_talking() && $isNotNil(registry.actor)) {
+      registry.actor.stop_talk();
+    }
+
     this.resetCallbacks();
 
     getManager(SoundManager).stop(objectId);
