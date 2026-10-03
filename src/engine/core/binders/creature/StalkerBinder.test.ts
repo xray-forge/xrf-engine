@@ -29,6 +29,7 @@ import { SchemePostCombatIdle } from "@/engine/core/schemes/stalker/combat_idle"
 import { SchemeReachTask } from "@/engine/core/schemes/stalker/reach_task";
 import { ISchemeWalkerState } from "@/engine/core/schemes/stalker/walker/walker_types";
 import { WoundController } from "@/engine/core/schemes/stalker/wounded/WoundController";
+import { ISchemeWoundedState } from "@/engine/core/schemes/stalker/wounded/wounded_types";
 import { getSchemeStateOptimistic, setSchemeState } from "@/engine/core/schemes/state";
 import { EScheme, ESchemeEvent, ESchemeType } from "@/engine/core/schemes/types";
 import {
@@ -184,6 +185,26 @@ describe("StalkerBinder", () => {
 
     expect(dropManager.forceCorpseReleaseItemsSpawn).toHaveBeenCalledTimes(1);
     expect(dropManager.forceCorpseReleaseItemsSpawn).toHaveBeenCalledWith(object);
+  });
+
+  it("recalculates the wound state of a living stalker on update", () => {
+    const object: GameObject = MockGameObject.mock();
+    const binder: StalkerBinder = new StalkerBinder(object);
+    const state: IRegistryObjectState = registerObject(object);
+    const woundedState: ISchemeWoundedState = mockSchemeState<ISchemeWoundedState>(EScheme.WOUNDED, {
+      isWoundedInitialized: true,
+    });
+
+    woundedState.woundController = { update: jest.fn() } as AnyObject as WoundController;
+    setSchemeState(state, EScheme.WOUNDED, woundedState);
+    binder.state = state;
+
+    binder.update(16);
+    expect(woundedState.woundController.update).toHaveBeenCalledTimes(1);
+
+    jest.spyOn(object, "alive").mockReturnValue(false);
+    binder.update(16);
+    expect(woundedState.woundController.update).toHaveBeenCalledTimes(1);
   });
 
   it("should correctly handle save/load", () => {

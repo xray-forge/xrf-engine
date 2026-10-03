@@ -63,6 +63,7 @@ import { SchemeHear } from "@/engine/core/schemes/shared/hear/SchemeHear";
 import { SchemePostCombatIdle } from "@/engine/core/schemes/stalker/combat_idle/SchemePostCombatIdle";
 import { activateMeetWithObject, updateObjectMeetAvailability } from "@/engine/core/schemes/stalker/meet/utils";
 import { SchemeReachTask } from "@/engine/core/schemes/stalker/reach_task/SchemeReachTask";
+import { updateObjectWound } from "@/engine/core/schemes/stalker/wounded/utils";
 import {
   getActiveSchemeStateOptimistic,
   getSchemeStateOptimistic,
@@ -237,6 +238,11 @@ export class StalkerBinder extends object_binder {
 
     if (registry.actorCombat.get(objectId) && !object.best_enemy()) {
       registry.actorCombat.delete(objectId);
+    }
+
+    // The engine runs the object's planners right after this update, and their evaluators share the wound state.
+    if (isObjectAlive) {
+      updateObjectWound(object, state);
     }
 
     updateStalkerLogic(object, state);

@@ -59,6 +59,15 @@ describe("EvaluatorWounded", () => {
     expect(evaluator.evaluate()).toBe(false);
   });
 
+  it("reads the wound state without recalculating it", () => {
+    const { evaluator, state } = mockEvaluator(false);
+
+    state.isWoundedInitialized = true;
+    evaluator.evaluate();
+
+    expect(state.woundController.update).not.toHaveBeenCalled();
+  });
+
   it("should correctly evaluate whether is wounded if has wounded fight", () => {
     const { object, evaluator, state } = mockEvaluator(true);
 

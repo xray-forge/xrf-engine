@@ -23,7 +23,7 @@ export class EvaluatorWounded extends property_evaluator {
   }
 
   /**
-   * Perform wounded state check.
+   * Check the wound state, which `updateObjectWound` recalculates before the planners run.
    */
   public override evaluate(): boolean {
     const object: GameObject = this.object;
@@ -32,8 +32,6 @@ export class EvaluatorWounded extends property_evaluator {
     if (!this.state.isWoundedInitialized || object.in_smart_cover()) {
       return false;
     }
-
-    this.state.woundController.update();
 
     if (object.critically_wounded()) {
       return false;
