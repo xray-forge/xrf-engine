@@ -93,17 +93,25 @@ export const jupiterInfoPortions = {
   /**
    * Jupiter a9.
    */
+  jup_a9_actor_found_main_documents: "jup_a9_actor_found_main_documents",
   jup_a9_cam1_actor_anim_end: "jup_a9_cam1_actor_anim_end",
   jup_a9_cam_1_end: "jup_a9_cam_1_end",
   jup_a9_cam_2_end: "jup_a9_cam_2_end",
   jup_a9_cam_3_end: "jup_a9_cam_3_end",
+  jup_a9_conservation_info: "jup_a9_conservation_info",
   jup_a9_delivery_info_sold: "jup_a9_delivery_info_sold",
+  jup_a9_delivery_info_taked: "jup_a9_delivery_info_taked",
   jup_a9_evacuation_info_sold: "jup_a9_evacuation_info_sold",
+  jup_a9_evacuation_info_taked: "jup_a9_evacuation_info_taked",
   jup_a9_losses_info_sold: "jup_a9_losses_info_sold",
+  jup_a9_losses_info_taked: "jup_a9_losses_info_taked",
   jup_a9_meeting_info_sold: "jup_a9_meeting_info_sold",
+  jup_a9_meeting_info_taked: "jup_a9_meeting_info_taked",
+  jup_a9_power_info: "jup_a9_power_info",
   jup_a9_set_default_counter: "jup_a9_set_default_counter",
   jup_a9_tech_conservation_info: "jup_a9_tech_conservation_info",
   jup_a9_tech_way_info: "jup_a9_tech_way_info",
+  jup_a9_way_info: "jup_a9_way_info",
   jup_a9_way_to_pripyat_gas_info_started: "jup_a9_way_to_pripyat_gas_info_started",
   jup_a9_way_to_pripyat_power_info_started: "jup_a9_way_to_pripyat_power_info_started",
   jup_a9_way_to_pripyat_search_started: "jup_a9_way_to_pripyat_search_started",
@@ -116,9 +124,11 @@ export const jupiterInfoPortions = {
   /**
    * Jupiter b15.
    */
+  jup_b15_cameff_end: "jup_b15_cameff_end",
   jup_b15_zulus_b301_after_fight_done: "jup_b15_zulus_b301_after_fight_done",
   jup_b15_zulus_b301_reward_dialog_done: "jup_b15_zulus_b301_reward_dialog_done",
   jup_b15_zulus_drink_anim_info: "jup_b15_zulus_drink_anim_info",
+  jup_b15_zulus_group_soldier_start_told: "jup_b15_zulus_group_soldier_start_told",
   /**
    * Jupiter b16.
    */
@@ -269,10 +279,18 @@ export const jupiterInfoPortions = {
   /**
    * Jupiter b218.
    */
+  jup_b218_actor_can_go_pass: "jup_b218_actor_can_go_pass",
+  jup_b218_gather_squad: "jup_b218_gather_squad",
   jup_b218_gather_squad_complete: "jup_b218_gather_squad_complete",
   jup_b218_monolith_hired: "jup_b218_monolith_hired",
+  jup_b218_pripyat_group_gathering: "jup_b218_pripyat_group_gathering",
+  jup_b218_sokolov_tp: "jup_b218_sokolov_tp",
+  jup_b218_soldier_agreed: "jup_b218_soldier_agreed",
   jup_b218_soldier_hired: "jup_b218_soldier_hired",
   jup_b218_soldier_need_outfit: "jup_b218_soldier_need_outfit",
+  jup_b218_zulus_met_monolith: "jup_b218_zulus_met_monolith",
+  jup_b218_zulus_met_sokolov: "jup_b218_zulus_met_sokolov",
+  jup_b218_zulus_met_vano: "jup_b218_zulus_met_vano",
   /**
    * Jupiter b218 - underpass travel.
    */

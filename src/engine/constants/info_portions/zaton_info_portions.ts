@@ -63,6 +63,7 @@ export const zatonInfoPortions = {
   zat_b106_one_hit: "zat_b106_one_hit",
   zat_b106_search_soroka: "zat_b106_search_soroka",
   zat_b106_stalker_gonta_b52_about_nimble_dialog_done: "zat_b106_stalker_gonta_b52_about_nimble_dialog_done",
+  zat_b107_evacuation_info_full: "zat_b107_evacuation_info_full",
   zat_b107_evacuation_info_partial: "zat_b107_evacuation_info_partial",
   /**
    * Zaton b12.

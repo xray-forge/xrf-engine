@@ -8,6 +8,8 @@ export const pripyatInfoPortions = {
   pri_a15_all_dead: "pri_a15_all_dead",
   pri_a15_cutscene_end: "pri_a15_cutscene_end",
   pri_a15_lights_off: "pri_a15_lights_off",
+  pri_a15_sokolov_arranged_outfit_told: "pri_a15_sokolov_arranged_outfit_told",
+  pri_a15_sokolov_jupiter_told: "pri_a15_sokolov_jupiter_told",
   pri_a15_sokolov_out: "pri_a15_sokolov_out",
   pri_a15_vano_out: "pri_a15_vano_out",
   pri_a15_wanderer_out: "pri_a15_wanderer_out",
