@@ -19,6 +19,7 @@ import {
 import { IPackParameters } from "#/pack/pack";
 import { assertNoDevOnlyArtifacts } from "#/pack/pack_guard";
 import { createDirIfNoExisting } from "#/utils/fs/create_dir_if_no_existing";
+import { normalizeParameterPath } from "#/utils/fs/normalize_parameter_path";
 import { NodeLogger } from "#/utils/logging";
 import { TimeTracker } from "#/utils/timing";
 
@@ -212,7 +213,7 @@ function copyRootAssets(): void {
   log.info("Copy static game root assets");
 
   for (const asset of config.package.rootAssets) {
-    const fromPath: string = path.resolve(CLI_DIR, asset);
+    const fromPath: string = path.resolve(CLI_DIR, normalizeParameterPath(asset));
     const toPath: string = path.resolve(TARGET_GAME_PACKAGE_DIR, path.basename(fromPath));
 
     log.info("Copy game root asset:", yellow(fromPath), "->", yellowBright(toPath));

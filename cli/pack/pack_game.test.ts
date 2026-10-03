@@ -6,9 +6,11 @@ import { replaceFunctionMock } from "xray16/testing/utils";
 
 import { build } from "#/build/build";
 import { compress } from "#/compress/compress";
+import { default as config } from "#/config.json";
 import { isValidEngine } from "#/engine/list_engines";
-import { OPEN_XRAY_ENGINES_DIR, TARGET_GAME_DATA_DIR, TARGET_GAME_PACKAGE_DIR } from "#/globals";
+import { CLI_DIR, OPEN_XRAY_ENGINES_DIR, TARGET_GAME_DATA_DIR, TARGET_GAME_PACKAGE_DIR } from "#/globals";
 import { packGame } from "#/pack/pack_game";
+import { normalizeParameterPath } from "#/utils/fs/normalize_parameter_path";
 
 jest.mock("#/build/build");
 jest.mock("#/compress/compress");
@@ -22,6 +24,7 @@ jest.mock("#/globals", () => {
 
   return {
     ...jest.requireActual<object>("#/globals"),
+    CLI_DIR: nodePath.join(root, "cli"),
     OPEN_XRAY_ENGINES_DIR: nodePath.join(root, "engines"),
     TARGET_GAME_DATA_DIR: nodePath.join(root, "gamedata"),
     TARGET_GAME_PACKAGE_DIR: nodePath.join(root, "package"),
@@ -43,6 +46,7 @@ describe("packGame", () => {
   beforeAll(() => {
     replaceFunctionMock(isValidEngine, () => true);
     writeFiles(OPEN_XRAY_ENGINES_DIR, ["test/bin/xrEngine.exe"]);
+    writeFiles(CLI_DIR, config.package.rootAssets.map(normalizeParameterPath));
   });
 
   afterEach(() => {
