@@ -84,6 +84,15 @@ export class OptionsVideoAdvanced extends CUIWindow {
 
     owner.preconditions.set(r2SunCheck, preconditionOnly2andMoreMode);
 
+    // -- r2_sun_details			=>r2
+    const grassShadow: CUIStatic = xml.InitStatic("video_adv:templ_item", this.scrollView);
+
+    xml.InitStatic("video_adv:cap_r2_sun_details", grassShadow);
+
+    const grassShadowCheck: CUICheckButton = xml.InitCheck("video_adv:check_r2_sun_details", grassShadow);
+
+    owner.preconditions.set(grassShadowCheck, preconditionOnly2andMoreMode);
+
     const lightDistance: CUIStatic = xml.InitStatic("video_adv:templ_item", this.scrollView);
 
     xml.InitStatic("video_adv:cap_light_distance", lightDistance);

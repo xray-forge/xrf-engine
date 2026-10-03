@@ -20,6 +20,6 @@ describe("OptionsControls", () => {
 
     controls.initialize(1, 1, xml, options);
 
-    expect(options.preconditions.length()).toBe(19);
+    expect(options.preconditions.length()).toBe(20);
   });
 });
