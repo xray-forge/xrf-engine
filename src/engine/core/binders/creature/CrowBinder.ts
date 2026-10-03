@@ -7,6 +7,7 @@ import {
   closeLoadMarker,
   closeSaveMarker,
   loadObjectLogic,
+  markCrowDead,
   openLoadMarker,
   openSaveMarker,
   registerCrow,
@@ -100,6 +101,6 @@ export class CrowBinder extends object_binder {
 
     this.diedAt = time_global();
 
-    unregisterCrow(this.object);
+    markCrowDead(this.object);
   }
 }

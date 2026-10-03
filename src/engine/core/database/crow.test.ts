@@ -2,7 +2,7 @@ import { describe, expect, it } from "@jest/globals";
 import { GameObject } from "xray16/alias";
 import { MockGameObject } from "xray16/mocks";
 
-import { registerCrow, unregisterCrow } from "@/engine/core/database/crow";
+import { markCrowDead, registerCrow, unregisterCrow } from "@/engine/core/database/crow";
 import { IRegistryObjectState } from "@/engine/core/database/database_types";
 import { registry } from "@/engine/core/database/registry";
 
@@ -48,6 +48,25 @@ describe("registerCrow and unregisterCrow", () => {
 
     expect(registry.crows.count).toBe(0);
     expect(registry.crows.storage.length()).toBe(0);
+    expect(registry.objects.length()).toBe(0);
+  });
+});
+
+describe("markCrowDead", () => {
+  it("should stop counting a crow and keep its object state", () => {
+    const object: GameObject = MockGameObject.mock();
+
+    registerCrow(object);
+    markCrowDead(object);
+    markCrowDead(object);
+
+    expect(registry.crows.count).toBe(0);
+    expect(registry.crows.storage.length()).toBe(0);
+    expect(registry.objects.get(object.id())).toBeDefined();
+
+    unregisterCrow(object);
+
+    expect(registry.crows.count).toBe(0);
     expect(registry.objects.length()).toBe(0);
   });
 });

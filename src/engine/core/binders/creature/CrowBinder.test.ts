@@ -165,7 +165,7 @@ describe("CrowBinder", () => {
     });
   });
 
-  it("should correctly handle death event", () => {
+  it("should stop counting a dead crow but keep its state until it goes offline", () => {
     const object: GameObject = MockGameObject.mock();
     const binder: CrowBinder = new CrowBinder(object);
 
@@ -173,8 +173,16 @@ describe("CrowBinder", () => {
 
     binder.onDeath();
 
-    expect(registry.objects.length()).toBe(0);
     expect(registry.crows.storage.length()).toBe(0);
+    expect(registry.crows.count).toBe(0);
+    expect(registry.objects.length()).toBe(1);
+
+    // A dead crow stays online until its corpse is released, and a save in between, such as a level change's, saves it.
+    expect(() => binder.save(new MockNetProcessor().asNetPacket())).not.toThrow();
+
+    binder.net_destroy();
+
+    expect(registry.objects.length()).toBe(0);
     expect(registry.crows.count).toBe(0);
   });
 });

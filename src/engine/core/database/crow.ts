@@ -24,11 +24,13 @@ export function registerCrow(object: GameObject): IRegistryObjectState {
 }
 
 /**
- * Unregister crow game object from lua in-memory registry.
+ * Stop counting a dead crow among the living ones the crow spawner keeps topped up.
  *
- * @param object - Client game object to unregister.
+ * Its object state stays registered: a dead crow stays online, and is saved, until its corpse is released.
+ *
+ * @param object - Client game object of the crow.
  */
-export function unregisterCrow(object: GameObject): void {
+export function markCrowDead(object: GameObject): void {
   const objectId: TNumberId = object.id();
 
   if (registry.crows.storage.has(objectId)) {
@@ -36,6 +38,14 @@ export function unregisterCrow(object: GameObject): void {
   }
 
   registry.crows.storage.delete(objectId);
+}
 
+/**
+ * Unregister crow game object from lua in-memory registry.
+ *
+ * @param object - Client game object to unregister.
+ */
+export function unregisterCrow(object: GameObject): void {
+  markCrowDead(object);
   unregisterObject(object);
 }
