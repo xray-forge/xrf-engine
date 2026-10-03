@@ -13,6 +13,7 @@ export const zatonInfoPortions = {
   zat_a2_mechanic_toolkit_search: "zat_a2_mechanic_toolkit_search",
   zat_a2_stalker_barmen_b52_about_nimble_dialog_done: "zat_a2_stalker_barmen_b52_about_nimble_dialog_done",
   zat_a2_stalker_barmen_b52_about_snag: "zat_a2_stalker_barmen_b52_about_snag",
+  zat_a2_stalker_barmen_evacuation_asked: "zat_a2_stalker_barmen_evacuation_asked",
   zat_a2_stalker_barmen_hit_from_actor: "zat_a2_stalker_barmen_hit_from_actor",
   zat_a2_stalker_barmen_setup: "zat_a2_stalker_barmen_setup",
   zat_a2_toolkit_search: "zat_a2_toolkit_search",
@@ -62,6 +63,7 @@ export const zatonInfoPortions = {
   zat_b106_one_hit: "zat_b106_one_hit",
   zat_b106_search_soroka: "zat_b106_search_soroka",
   zat_b106_stalker_gonta_b52_about_nimble_dialog_done: "zat_b106_stalker_gonta_b52_about_nimble_dialog_done",
+  zat_b107_evacuation_info_partial: "zat_b107_evacuation_info_partial",
   /**
    * Zaton b12.
    */

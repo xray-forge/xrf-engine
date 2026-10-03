@@ -18,6 +18,7 @@ import { $isNil, $isNotNil } from "xray16/macros";
 
 import { report } from "@/engine/checks/framework/core";
 import { expect } from "@/engine/checks/framework/dsl";
+import { infoPortions } from "@/engine/constants/info_portions";
 import {
   getManager,
   getObjectByStoryId,
@@ -30,6 +31,7 @@ import { TaskManager } from "@/engine/core/managers/tasks";
 import { taskConfig } from "@/engine/core/managers/tasks/TaskConfig";
 import { TaskObject } from "@/engine/core/managers/tasks/TaskObject";
 import { ETaskState } from "@/engine/core/managers/tasks/types";
+import { giveInfoPortion } from "@/engine/core/utils/info_portion";
 import {
   getActorPosition,
   getPositionLevelVertexId,
@@ -225,6 +227,27 @@ export function teleportNearZone(zoneName: TName, standoff: TDistance = 5): bool
   }
 
   return true;
+}
+
+/**
+ * Let a jump to Jupiter arrive where it is aimed, skipping the first arrival scenes.
+ *
+ * A first arrival plays the Yanov welcome cutscene, which moves the actor into Yanov's no-weapon zone, and an arrival
+ * without `jup_travel_made` blacks out and moves the actor to Jupiter's arrival point. The welcome never starts, so
+ * `jup_b217_cutscene_control` never hands out Azot's instruments task either.
+ */
+export function skipJupiterArrival(): void {
+  for (const infoPortion of [
+    infoPortions.jup_first_meet_made,
+    infoPortions.jup_travel_made,
+    infoPortions.jup_b217_task_start,
+    infoPortions.jup_b217_welcome_tech_talked,
+    infoPortions.jup_b217_pp_end_in_scene,
+    infoPortions.jup_b217_guide_welcome_end,
+    infoPortions.jup_b217_welcome_guide_talked,
+  ]) {
+    giveInfoPortion(infoPortion);
+  }
 }
 
 /**

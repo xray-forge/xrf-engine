@@ -5,6 +5,7 @@ import { $isNil, $isNotNil } from "xray16/macros";
 import { expect, expectEqual, report, requires, step } from "@/engine/checks/framework";
 import {
   checkTaskText,
+  skipJupiterArrival,
   teleportToPatrol,
   teleportToPoint,
   teleportToStoryObject,
@@ -26,7 +27,7 @@ import {
 import { taskConfig } from "@/engine/core/managers/tasks/TaskConfig";
 import { TaskObject } from "@/engine/core/managers/tasks/TaskObject";
 import { Squad } from "@/engine/core/objects/squad";
-import { giveInfoPortion, hasInfoPortion } from "@/engine/core/utils/info_portion";
+import { hasInfoPortion } from "@/engine/core/utils/info_portion";
 import { isAnySquadMemberEnemyToActor } from "@/engine/core/utils/relation";
 import { giveMoneyToActor } from "@/engine/core/utils/reward";
 
@@ -81,21 +82,6 @@ function grantOrderMoneyOnce(): void {
   giveMoneyToActor(amount);
   setPortableStoreValue<TCount>(ACTOR_ID, ORDER_MONEY_KEY, amount);
   report("handed the actor %s to order a gun from Nimble, once for this save", amount);
-}
-
-/**
- * Wave the actor past Yanov's welcome, so neither the camera nor the station's own people wait on it.
- */
-function skipYanovWelcome(): void {
-  giveInfoPortion(infoPortions.jup_first_meet_made);
-
-  giveInfoPortion(infoPortions.jup_b217_task_start);
-  giveInfoPortion(infoPortions.jup_b217_welcome_tech_talked);
-  giveInfoPortion(infoPortions.jup_b217_pp_end_in_scene);
-
-  giveInfoPortion(infoPortions.jup_b217_guide_welcome_end);
-  giveInfoPortion(infoPortions.jup_b217_welcome_guide_talked);
-  giveInfoPortion(infoPortions.jup_b217_welcome_faded);
 }
 
 /**
@@ -316,7 +302,7 @@ step("9 - Snag turned up on Jupiter", {
   reached: (): boolean =>
     hasInfoPortion(infoPortions.jup_b202_snag_on_jup_founded) || hasInfoPortion(infoPortions.zat_b52_snag_is_dead),
   travel: (): void => {
-    skipYanovWelcome();
+    skipJupiterArrival();
 
     if (!teleportToStoryObject(JUPITER_SNAG_STORY_ID)) {
       void teleportToStoryObject(YANOV_TECH_STORY_ID);

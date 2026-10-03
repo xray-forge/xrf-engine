@@ -180,6 +180,10 @@ export const jupiterInfoPortions = {
   jup_b202_polustanok: "jup_b202_polustanok",
   jup_b202_snag_on_jup_founded: "jup_b202_snag_on_jup_founded",
   /**
+   * Jupiter b205.
+   */
+  jup_b205_evacuation_visited: "jup_b205_evacuation_visited",
+  /**
    * Jupiter b206.
    */
   jup_b206_anomalous_grove_done: "jup_b206_anomalous_grove_done",
@@ -402,6 +406,9 @@ export const jupiterInfoPortions = {
    * Jupiter b9 - heli minefield crash.
    */
   jup_b9_blackbox_decrypted: "jup_b9_blackbox_decrypted",
+  jup_b9_blackbox_decrypted_time: "jup_b9_blackbox_decrypted_time",
+  jup_b9_blackbox_decrypting: "jup_b9_blackbox_decrypting",
+  jup_b9_blackbox_records_end: "jup_b9_blackbox_records_end",
   jup_b9_heli_1_searched: "jup_b9_heli_1_searched",
   jup_b9_heli_1_searching: "jup_b9_heli_1_searching",
   /**
@@ -412,4 +419,8 @@ export const jupiterInfoPortions = {
    * Jupiter pri zulus death.
    */
   jup_pri_zulus_death: "jup_pri_zulus_death",
+  /**
+   * Jupiter travel.
+   */
+  jup_travel_made: "jup_travel_made",
 } as const;
