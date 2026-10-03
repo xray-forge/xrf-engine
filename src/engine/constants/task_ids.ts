@@ -63,6 +63,7 @@ export const taskIds = {
   pri_b306_task: "pri_b306_task",
   pri_b35_task: "pri_b35_task",
   zat_a2_reach_base: "zat_a2_reach_base",
+  zat_b100_guide_maps: "zat_b100_guide_maps",
   zat_b100_heli_2_crash: "zat_b100_heli_2_crash",
   zat_b101_heli_5_crash: "zat_b101_heli_5_crash",
   zat_b103_merc_bring_supplies: "zat_b103_merc_bring_supplies",
