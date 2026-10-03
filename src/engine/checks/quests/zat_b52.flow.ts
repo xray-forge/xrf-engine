@@ -174,11 +174,8 @@ step("1 - one of Nimble's weapons in a slot", {
 
 step("2 - Snag recognised the Nimble weapon", {
   reached: (): boolean => hasInfoPortion(infoPortions.zat_b52_snag_know_weapon),
-  travel: (): void => {
-    if (!teleportToPoint("Snag", levels.zaton, createVector(131.887, -7.341, 186.976))) {
-      void teleportToStoryObject(SNAG_STORY_ID);
-    }
-  },
+  // He opens the talk only within 5 m of an actor standing inside 'zat_b52_actor_restr', around his spot.
+  travel: (): void => void teleportToStoryObject(SNAG_STORY_ID, 2),
   verify: (): void => {
     report(
       "my_gun dialog: %s",
