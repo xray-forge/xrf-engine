@@ -53,6 +53,8 @@ export const questItems = {
   zat_b12_documents_1: "zat_b12_documents_1",
   zat_b12_documents_2: "zat_b12_documents_2",
   zat_b12_documents_3: "zat_b12_documents_3",
+  zat_b12_key_1: "zat_b12_key_1",
+  zat_b12_key_2: "zat_b12_key_2",
   zat_b20_noah_pda: "zat_b20_noah_pda",
   zat_b33_safe_container: "zat_b33_safe_container",
   zat_b39_joker_pda: "zat_b39_joker_pda",

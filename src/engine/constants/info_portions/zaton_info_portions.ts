@@ -72,6 +72,7 @@ export const zatonInfoPortions = {
    * Zaton b12.
    */
   zat_b12_actor_have_keys: "zat_b12_actor_have_keys",
+  zat_b12_conteiner_open: "zat_b12_conteiner_open",
   zat_b12_documents_sold_1: "zat_b12_documents_sold_1",
   zat_b12_documents_sold_2: "zat_b12_documents_sold_2",
   zat_b12_documents_sold_3: "zat_b12_documents_sold_3",
@@ -148,6 +149,7 @@ export const zatonInfoPortions = {
   zat_b22_actor_has_proof: "zat_b22_actor_has_proof",
   zat_b22_actor_in: "zat_b22_actor_in",
   zat_b22_barmen_gave_reward: "zat_b22_barmen_gave_reward",
+  zat_b22_can_go_in: "zat_b22_can_go_in",
   zat_b22_deal_with_medic_vampire_completed: "zat_b22_deal_with_medic_vampire_completed",
   zat_b22_deal_with_medic_vampire_reversed: "zat_b22_deal_with_medic_vampire_reversed",
   zat_b22_find_proof: "zat_b22_find_proof",
@@ -163,6 +165,7 @@ export const zatonInfoPortions = {
   zat_b22_stalker_medic_wounded_heavy: "zat_b22_stalker_medic_wounded_heavy",
   zat_b22_stalker_vampire: "zat_b22_stalker_vampire",
   zat_b22_stalker_vampire_story: "zat_b22_stalker_vampire_story",
+  zat_b22_trick_done: "zat_b22_trick_done",
   zat_b28_heli_3_searched: "zat_b28_heli_3_searched",
   zat_b28_heli_3_searching: "zat_b28_heli_3_searching",
   zat_b29_adv_task_given: "zat_b29_adv_task_given",
