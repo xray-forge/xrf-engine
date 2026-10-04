@@ -158,7 +158,8 @@ describe("ActionSmartCoverUse", () => {
     jest.spyOn(action, "updateSmartCoverTargetSelector").mockImplementation(jest.fn());
     jest.spyOn(manager, "play").mockImplementation(jest.fn(() => null));
     jest.spyOn(object, "in_smart_cover").mockImplementation(jest.fn(() => true));
-    jest.spyOn(enemy, "in_current_loophole_fov").mockImplementation(jest.fn(() => true));
+    jest.spyOn(object, "in_current_loophole_fov").mockImplementation(jest.fn(() => true));
+    jest.spyOn(enemy, "in_current_loophole_fov").mockImplementation(jest.fn(() => false));
 
     state.signals = new LuaTable();
     state.soundIdle = "test-sound";
@@ -172,8 +173,11 @@ describe("ActionSmartCoverUse", () => {
     expect(action.updateSmartCoverTargetSelector).toHaveBeenCalledTimes(1);
     expect(manager.play).toHaveBeenCalledWith(object.id(), "test-sound");
     expect(state.signals).toEqualLuaTables({ enemy_in_fov: true });
+    // The loophole is the one of the object in cover; the enemy holds none and the engine reads through a null.
+    expect(object.in_current_loophole_fov).toHaveBeenCalledWith(enemy.position());
+    expect(enemy.in_current_loophole_fov).not.toHaveBeenCalled();
 
-    jest.spyOn(enemy, "in_current_loophole_fov").mockImplementation(jest.fn(() => false));
+    jest.spyOn(object, "in_current_loophole_fov").mockImplementation(jest.fn(() => false));
     action.coverCondlist = parseConditionsList(ESmartCoverState.DEFAULT);
 
     action.execute();

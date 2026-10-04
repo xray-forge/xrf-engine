@@ -97,7 +97,7 @@ export class ActionSmartCoverUse extends action_base implements ISchemeEventHand
     if (this.targetEnemyId && object.in_smart_cover()) {
       const enemy: Nillable<GameObject> = level.object_by_id(this.targetEnemyId);
 
-      if (enemy && enemy.in_current_loophole_fov(enemy.position())) {
+      if (enemy && object.in_current_loophole_fov(enemy.position())) {
         state.signals!.set("enemy_in_fov", true);
         state.signals!.delete("enemy_not_in_fov");
       } else {
