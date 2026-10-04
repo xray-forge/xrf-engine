@@ -3,7 +3,7 @@ import * as path from "node:path";
 
 import { discoverChecks, ICheckDescriptor } from "#/checks/utils/discover_checks";
 import { IMcpTool, IToolResult } from "#/mcp/mcp_tool_types";
-import { IGameResponse, McpPipeClient } from "#/mcp/McpPipeClient";
+import { IGameResponse } from "#/mcp/McpPipeClient";
 import { answer, IGameToolsContext, json, schema, sleep, text } from "#/mcp/tools/tool_kit";
 import { Nullable } from "#/utils/types";
 
@@ -11,6 +11,7 @@ const FLOW_WAIT_MS: number = 60_000;
 const WAIT_POLL_MS: number = 1_000;
 const WAIT_CHECK_MS: number = 5_000;
 const TIME_FACTOR_RESET_MS: number = 30_000;
+const PROCESS_CHECK_MS: number = 5_000;
 
 /**
  * @param name - Flow identity (`quests_zat_b14`), source (`quests/zat_b14.flow.ts`) or launcher (`flow_quests_zat_b14`).
@@ -28,15 +29,15 @@ export function findFlow(name: string): Nullable<ICheckDescriptor> {
  * Run a wait with the engine clock sped up, and put the clock back to normal speed whatever the wait did.
  *
  * A reset the game does not answer, such as one sent while a level loads, fails the call instead of leaving the game
- * sped up unnoticed.
+ * sped up unnoticed. A game that exited needs no reset.
  *
- * @param client - Pipe to the game.
+ * @param context - What the tools reach outside the pipe.
  * @param speed - Engine time factor to wait at, 1 for normal speed.
  * @param wait - The wait to run.
  * @returns What the wait answered.
  */
 async function waitAtSpeed(
-  client: McpPipeClient,
+  context: IGameToolsContext,
   speed: number,
   wait: () => Promise<IToolResult>
 ): Promise<IToolResult> {
@@ -44,13 +45,27 @@ async function waitAtSpeed(
     return wait();
   }
 
-  await client.request("console", { command: `time_factor ${speed}` });
+  await context.client.request("console", { command: `time_factor ${speed}` });
 
   try {
     return await wait();
   } finally {
-    await client.request("console", { command: "time_factor 1" }, TIME_FACTOR_RESET_MS);
+    if (await context.isGameRunning()) {
+      await context.client.request("console", { command: "time_factor 1" }, TIME_FACTOR_RESET_MS);
+    }
   }
+}
+
+/**
+ * @param started - When the wait started.
+ * @returns The answer for a wait the game process ended before it was over.
+ */
+function answerGameExited(started: number): IToolResult {
+  return text(
+    `The game exited ${(Date.now() - started) / 1000} s into the wait; read game_log, and the next start keeps the ` +
+      "logs of a crash.",
+    true
+  );
 }
 
 /**
@@ -123,7 +138,8 @@ export function createGameTools(context: IGameToolsContext): Array<IMcpTool> {
       description:
         "Let the game run for `seconds`, or until the Lua expression `until` is truthy, checked every second, and " +
         "answer with the game status, or with the last value of `until`. Use it to let a load settle or to follow a " +
-        "surge, a sleep or a travel; the game may be silent while it loads. `speed` runs the engine clock that many " +
+        "surge, a sleep or a travel; the game may be silent while it loads, and a game that exits ends the wait " +
+        "at once. `speed` runs the engine clock that many " +
         "times faster during the wait and back at normal speed after it, which plays scenes, logic timers and sounds " +
         "faster; keep it at 1 for fights, which physics decides.",
       inputSchema: schema(
@@ -141,12 +157,18 @@ export function createGameTools(context: IGameToolsContext): Array<IMcpTool> {
         ["seconds"]
       ),
       call: async ({ seconds, until, speed }) =>
-        waitAtSpeed(client, speed as number, async () => {
+        waitAtSpeed(context, speed as number, async () => {
           const started: number = Date.now();
           const deadline: number = started + (seconds as number) * 1000;
 
           if (until === undefined) {
-            await sleep(deadline - started);
+            while (Date.now() < deadline) {
+              await sleep(Math.min(PROCESS_CHECK_MS, deadline - Date.now()));
+
+              if (!(await context.isGameRunning())) {
+                return answerGameExited(started);
+              }
+            }
 
             return answer(await client.request("status"));
           }
@@ -160,6 +182,11 @@ export function createGameTools(context: IGameToolsContext): Array<IMcpTool> {
               failure = last.ok ? null : (last.error ?? null);
             } catch (error) {
               failure = (error as Error).message;
+
+              // A silent game is either loading or gone, and only the process list tells which.
+              if (!(await context.isGameRunning())) {
+                return answerGameExited(started);
+              }
             }
 
             // Lua truth: only nil and false fail.

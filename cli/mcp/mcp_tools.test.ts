@@ -446,10 +446,11 @@ describe("game MCP tools", () => {
   });
 
   it("should wait for a time, or until a Lua expression holds", async () => {
-    const { call, client, directory } = setup();
+    const { call, client, context, directory } = setup();
 
     directories.push(directory);
     jest.useFakeTimers();
+    jest.mocked(context.isGameRunning).mockResolvedValue(true);
     client.request
       .mockRejectedValueOnce(new Error("The game did not answer."))
       .mockResolvedValueOnce({ id: "1", ok: true, result: false })
@@ -480,11 +481,47 @@ describe("game MCP tools", () => {
     expect(client.request).toHaveBeenLastCalledWith("status");
   });
 
-  it("should wait at a higher engine speed and come back to normal speed, even when the wait fails", async () => {
-    const { call, client, directory } = setup();
+  it("should end a wait as soon as the game exits", async () => {
+    const { call, client, context, directory } = setup();
 
     directories.push(directory);
     jest.useFakeTimers();
+    jest.mocked(context.isGameRunning).mockResolvedValueOnce(true).mockResolvedValue(false);
+
+    const timed: Promise<IToolResult> = call("game_wait", { seconds: 300 });
+
+    await jest.advanceTimersByTimeAsync(10_000);
+
+    const timedResult: IToolResult = await timed;
+
+    expect(timedResult.isError).toBe(true);
+    expect(textOf(timedResult)).toContain("The game exited 10 s into the wait");
+    expect(client.request).not.toHaveBeenCalled();
+
+    client.request.mockImplementation(async (kind: string) => {
+      if (kind === "console") {
+        return { id: "1", ok: true };
+      }
+
+      throw new Error("No game is listening; start one with game_start.");
+    });
+
+    const polled: Promise<IToolResult> = call("game_wait", { seconds: 300, until: "false", speed: 4 });
+
+    await jest.advanceTimersByTimeAsync(1_000);
+
+    expect(textOf(await polled)).toContain("The game exited");
+    expect(client.request).toHaveBeenCalledWith("console", { command: "time_factor 4" });
+    // A game that exited gets no reset.
+    expect(client.request).not.toHaveBeenCalledWith("console", { command: "time_factor 1" }, 30_000);
+  });
+
+  it("should wait at a higher engine speed and come back to normal speed, even when the wait fails", async () => {
+    const { call, client, context, directory } = setup();
+
+    directories.push(directory);
+    jest.useFakeTimers();
+    jest.mocked(context.isGameRunning).mockResolvedValue(true);
 
     const fast: Promise<IToolResult> = call("game_wait", { seconds: 5, speed: 4 });
 

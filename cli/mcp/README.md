@@ -36,7 +36,8 @@ output.
   chunk sets stays for the next until a load, and they see `mcp`, the in-game utilities
   `src/engine/checks/mcp/mcp_probe.ts` re-exports under their own names, such as `registry`, `getManagerByName`,
   `getNearestGameObject`, `getSquadMembers`, `teleportActorToPosition`, `giveItemsToActor` and `forwardGameTime`.
-- `game_wait` lets the game run for `seconds`, or until the Lua expression `until` is truthy, checked every second.
+- `game_wait` lets the game run for `seconds`, or until the Lua expression `until` is truthy, checked every second,
+  and answers at once when the game process exits.
   `speed` sets the engine's `time_factor` for the wait and resets it to 1 afterwards, even when the wait fails, so
   scenes, logic timers and sounds play that many times faster.
 - `game_flow` runs an in-game check flow by identity, source path or launcher name, and returns its report lines.
