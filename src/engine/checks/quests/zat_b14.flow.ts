@@ -140,7 +140,7 @@ step("3 - settled with the stalkers below", {
     "To be robbed properly, holster your weapon and let one walk within 2 m of you",
 });
 
-step("4 - handed in, reward_money paid", {
+step("4 - handed in to Beard", {
   reached: (): boolean => hasInfoPortion(infoPortions.zat_b14_give_item_linker),
   travel: (): void => void teleportToPatrol(BASE_WALK_PATH, BASE_LOOK_PATH),
   verify: (): void => {
@@ -157,12 +157,11 @@ step("4 - handed in, reward_money paid", {
     }
 
     expect(!actorHasItem(QUEST_ARTEFACT), "artefact taken", `'${QUEST_ARTEFACT}' is still in the inventory`);
-    expectActorMoneyGained(MONEY_BEFORE_KEY, TASK_REWARD, "reward_money paid");
   },
   handOff: "hand the item to Beard",
 });
 
-step("5 - completion effects applied and the b29 hunt unlocked", {
+step("5 - task closed, reward_money paid and the b29 hunt unlocked", {
   reached: (): boolean =>
     hasInfoPortion(infoPortions.zat_b14_smart_terrain_open) && $isNil(taskConfig.ACTIVE_TASKS.get(TASK_ID)),
   verify: (): void => {
@@ -171,6 +170,8 @@ step("5 - completion effects applied and the b29 hunt unlocked", {
       "on_complete applied",
       "expected on_complete to give 'zat_b14_smart_terrain_open', which is what opens the b29 hunt"
     );
+    // The task manager pays reward_money as it completes the task, on its next update after the hand in.
+    expectActorMoneyGained(MONEY_BEFORE_KEY, TASK_REWARD, "reward_money paid");
   },
   handOff: "nothing to do, the task manager deactivates it on its next update",
 });
