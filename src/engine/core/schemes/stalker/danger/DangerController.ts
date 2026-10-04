@@ -9,6 +9,7 @@ import { ISchemeDangerState } from "@/engine/core/schemes/stalker/danger/danger_
 import { canObjectSelectAsEnemy } from "@/engine/core/schemes/stalker/danger/utils";
 import { isCreature } from "@/engine/core/utils/class_ids";
 import { isObjectWounded } from "@/engine/core/utils/planner";
+import { sendToVertexIfAccessible } from "@/engine/core/utils/position";
 import { isSoundType } from "@/engine/core/utils/sound";
 
 /**
@@ -81,7 +82,7 @@ export class DangerController extends AbstractSchemeController<ISchemeDangerStat
        */
       if (isSoundNear) {
         this.state.dangerTime = time_global();
-        object.set_dest_level_vertex_id(who.level_vertex_id());
+        sendToVertexIfAccessible(object, who.level_vertex_id());
       }
     } else {
       // Generic weapon sound, including bullet hits produced by non-enemies.
@@ -94,7 +95,7 @@ export class DangerController extends AbstractSchemeController<ISchemeDangerStat
         object.position().distance_to_sqr(soundPosition) <= combatConfig.ALLIES_SHOOTING_ASSIST_DISTANCE_SQR
       ) {
         this.state.dangerTime = time_global();
-        object.set_dest_level_vertex_id(who.level_vertex_id());
+        sendToVertexIfAccessible(object, who.level_vertex_id());
       }
     }
   }

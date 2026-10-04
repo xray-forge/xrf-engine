@@ -37,6 +37,7 @@ import {
   isOnLoadedLevel,
   resetPositionCache,
   sendToNearestAccessibleVertex,
+  sendToVertexIfAccessible,
   teleportActorNearPosition,
   teleportActorToPatrol,
   teleportActorToStoryObject,
@@ -198,6 +199,34 @@ describe("sendToNearestAccessibleVertex", () => {
     expect(sendToNearestAccessibleVertex(third, MAX_U32)).toBe(1442);
     expect(sendToNearestAccessibleVertex(third, MAX_U32 + 10)).toBe(1442);
     expect(sendToNearestAccessibleVertex(third, MAX_U32 * 2)).toBe(1442);
+  });
+});
+
+describe("sendToVertexIfAccessible", () => {
+  it("should send object to an accessible vertex", () => {
+    const object: GameObject = MockGameObject.mock();
+
+    expect(sendToVertexIfAccessible(object, 150)).toBe(true);
+    expect(object.accessible).toHaveBeenCalledWith(150);
+    expect(object.set_dest_level_vertex_id).toHaveBeenCalledWith(150);
+  });
+
+  it("should leave the destination as it is for a vertex the restrictors keep the object from", () => {
+    const object: GameObject = MockGameObject.mock();
+
+    jest.spyOn(object, "accessible").mockImplementation(() => false);
+
+    expect(sendToVertexIfAccessible(object, 150)).toBe(false);
+    expect(object.accessible_nearest).not.toHaveBeenCalled();
+    expect(object.set_dest_level_vertex_id).not.toHaveBeenCalled();
+  });
+
+  it("should leave the destination as it is for an invalid vertex", () => {
+    const object: GameObject = MockGameObject.mock();
+
+    expect(sendToVertexIfAccessible(object, MAX_U32)).toBe(false);
+    expect(object.accessible).not.toHaveBeenCalled();
+    expect(object.set_dest_level_vertex_id).not.toHaveBeenCalled();
   });
 });
 

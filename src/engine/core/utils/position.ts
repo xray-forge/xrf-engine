@@ -266,6 +266,26 @@ export function sendToNearestAccessibleVertex(object: GameObject, vertexId: Nill
 }
 
 /**
+ * Send object to a vertex when its restrictors let it go there, and leave its destination as it is otherwise.
+ *
+ * Unlike {@link sendToNearestAccessibleVertex}, it never substitutes another vertex: the nearest one the restrictors
+ * allow is not always reachable, and the engine then fails the path to it on every update.
+ *
+ * @param object - Target object to send.
+ * @param vertexId - Destination vertex id.
+ * @returns Whether the destination was set.
+ */
+export function sendToVertexIfAccessible(object: GameObject, vertexId: TNumberId): boolean {
+  if (vertexId >= MAX_LEVEL_VERTEX_ID || !object.accessible(vertexId)) {
+    return false;
+  }
+
+  object.set_dest_level_vertex_id(vertexId);
+
+  return true;
+}
+
+/**
  * @param object - Target object to check.
  * @returns Whether object is in visibility frustum of actor point of view.
  */

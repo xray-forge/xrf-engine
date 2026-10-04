@@ -90,6 +90,19 @@ describe("DangerController", () => {
     expect(object.set_dest_level_vertex_id).toHaveBeenCalledWith(who.level_vertex_id());
   });
 
+  it("should enter danger without heading for a sound source its restrictors keep it from", () => {
+    const { controller, object, state } = createController();
+    const who: GameObject = registerEnemySource(object);
+
+    jest.spyOn(object, "accessible").mockImplementation(() => false);
+
+    controller.onHear(object, who.id(), snd_type.weapon_bullet_hit, MockVector.create(1, 0, 0), 1);
+
+    expect(state.dangerTime).toBe(NOW);
+    expect(object.accessible).toHaveBeenCalledWith(who.level_vertex_id());
+    expect(object.set_dest_level_vertex_id).not.toHaveBeenCalled();
+  });
+
   it("should ignore distant bullet hits", () => {
     const { controller, object, state } = createController();
     const who: GameObject = registerEnemySource(object);
