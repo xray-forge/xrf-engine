@@ -29,14 +29,9 @@ const MONEY_BEFORE_KEY: TName = "xrf_b3_money";
  * Travel for one toolkit step: to Cardan with the toolkit in the pack, otherwise to where Zaton holds one.
  *
  * @param toolkit - Section of the toolkit.
- * @param brought - Info portion Cardan's dialog gives for this toolkit.
  * @param placedName - Name of the server object lying on Zaton, or null when Zaton holds none.
  */
-function travelForToolkit(toolkit: TSection, brought: TName, placedName: Nillable<TName>): void {
-  if (hasInfoPortion(brought)) {
-    return;
-  }
-
+function travelForToolkit(toolkit: TSection, placedName: Nillable<TName>): void {
   if (actorHasItem(toolkit)) {
     rememberActorMoney(MONEY_BEFORE_KEY);
     void teleportToStoryObject(CARDAN_STORY_ID, 2);
@@ -111,8 +106,7 @@ step("2 - task in the log", {
 
 step("3 - basic tools brought", {
   reached: (): boolean => hasInfoPortion(infoPortions.zat_b3_tech_instrument_1_brought),
-  travel: (): void =>
-    travelForToolkit(misc.toolkit_1, infoPortions.zat_b3_tech_instrument_1_brought, "zaton_toolkit_1"),
+  travel: (): void => travelForToolkit(misc.toolkit_1, "zaton_toolkit_1"),
   verify: (): void => verifyToolkitHandIn(misc.toolkit_1, 1_000),
   handOff:
     "pick up the toolkit in the shed you were taken to, then come back and tell Cardan you brought him tools - " +
@@ -121,8 +115,7 @@ step("3 - basic tools brought", {
 
 step("4 - fine work tools brought", {
   reached: (): boolean => hasInfoPortion(infoPortions.zat_b3_tech_instrument_2_brought),
-  travel: (): void =>
-    travelForToolkit(misc.toolkit_2, infoPortions.zat_b3_tech_instrument_2_brought, "zaton_toolkit_2"),
+  travel: (): void => travelForToolkit(misc.toolkit_2, "zaton_toolkit_2"),
   verify: (): void => verifyToolkitHandIn(misc.toolkit_2, 1_200),
   handOff:
     "pick up the toolkit you were taken to, then come back and tell Cardan you brought him tools - the ones for " +
@@ -131,7 +124,7 @@ step("4 - fine work tools brought", {
 
 step("5 - calibration tools brought", {
   reached: (): boolean => hasInfoPortion(infoPortions.zat_b3_tech_instrument_3_brought),
-  travel: (): void => travelForToolkit(misc.toolkit_3, infoPortions.zat_b3_tech_instrument_3_brought, null),
+  travel: (): void => travelForToolkit(misc.toolkit_3, null),
   verify: (): void => verifyToolkitHandIn(misc.toolkit_3, 1_500),
   handOff:
     "the calibration toolkit lies only in Pripyat - bring one back and tell Cardan you brought him tools, " +

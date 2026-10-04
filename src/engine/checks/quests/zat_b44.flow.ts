@@ -146,10 +146,6 @@ step("5 - Barge's pda taken from his body", {
 step("6 - Joker's pda picked up", {
   reached: isJokerPdaFound,
   travel: (): void => {
-    if (isJokerPdaFound()) {
-      return;
-    }
-
     const placed: Nillable<ServerObject> = registry.simulator.object(JOKER_PDA_NAME);
 
     if ($isNil(placed) || placed!.parent_id !== MAX_U16) {

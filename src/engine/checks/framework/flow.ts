@@ -138,6 +138,35 @@ function verifyStep(context: CheckContext, step: IFlowStep, position: TIndex): v
 }
 
 /**
+ * Move the actor towards a step that is not reached yet, and test it again, since arriving can be what reaches it.
+ *
+ * @param context - Running flow context.
+ * @param step - Step to travel to.
+ * @param position - Position of the step, for reporting.
+ * @param name - Flow name.
+ * @param total - Count of steps, for reporting.
+ * @returns Whether the step is reached after travelling.
+ */
+function travelToStep(context: CheckContext, step: IFlowStep, position: TIndex, name: TName, total: TCount): boolean {
+  if ($isNil(step.travel)) {
+    return false;
+  }
+
+  report("%s: step %s/%s '%s' travelling", name, position, total, step.name);
+
+  const [isCompleted, caught] = pcall(() => step.travel!());
+
+  if (!isCompleted) {
+    context.fail(`step ${position} travel`, `aborted -> ${tostring(caught)}`);
+  }
+
+  // Silent, as the look past a step is: a predicate that aborts was already recorded before travelling.
+  const [isEvaluated, isReached] = pcall(() => step.reached());
+
+  return isEvaluated && isReached === true;
+}
+
+/**
  * Walk forward over everything the world has already reached, and report where it stops.
  *
  * @param context - Running flow context.
@@ -166,17 +195,9 @@ function observe(context: CheckContext, steps: LuaArray<IFlowStep>, name: TName)
   for (const position of $range(confirmed + 1, total)) {
     const step: IFlowStep = steps.get(position);
 
-    if ($isNotNil(step.travel)) {
-      report("%s: step %s/%s '%s' travelling", name, position, total, step.name);
-
-      const [isCompleted, caught] = pcall(() => step.travel!());
-
-      if (!isCompleted) {
-        context.fail(`step ${position} travel`, `aborted -> ${tostring(caught)}`);
-      }
-    }
-
-    if (!isStepReached(context, step, position)) {
+    // Travel only towards a step the world has not reached: moving the actor for a reached one undoes whatever
+    // moved it on, such as a scene teleporting it, and walking past several would teleport through all of them.
+    if (!isStepReached(context, step, position) && !travelToStep(context, step, position, name, total)) {
       const overtaken: TIndex = findReachedAfter(steps, position);
 
       // A later step already reached is positive evidence the world moved past this one, so waiting on it

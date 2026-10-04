@@ -13,6 +13,12 @@ Flow files have no exports and import from `@/engine/checks/framework`.
 - `requires` declares the starting level and state.
 - Ordered `step` calls describe progression. Each needs `reached`; `verify`, `travel`, and `handOff` are optional.
 
+`travel` runs only for a step that is not reached yet, and the step is tested again on arrival. It never runs for a
+reached step, so it cannot undo what the game did to reach it, such as a scene moving the actor.
+
+The task manager closes tasks and pays `reward_money` on its next update, after the dialog or logic that finished them.
+Observe that in a step of its own, after the step reached by the portion, rather than in the same `verify`.
+
 `reached` must observe something the game actually sets. A predicate naming a portion nothing gives would stall the walk
 forever, so a step that is not reached while a later one is gets reported and walked past rather than waited on.
 

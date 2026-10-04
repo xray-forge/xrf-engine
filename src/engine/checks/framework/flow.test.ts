@@ -122,7 +122,7 @@ describe("runFlow", () => {
     expect(result.failures.length()).toBe(0);
   });
 
-  it("should travel before testing whether a step is reached", () => {
+  it("should travel to a step not reached yet and test it again on arrival", () => {
     const order: Array<string> = [];
 
     runFlow(
@@ -139,7 +139,37 @@ describe("runFlow", () => {
       ])
     );
 
-    expect(order).toEqual(["travel", "reached"]);
+    expect(order).toEqual(["reached", "travel", "reached"]);
+  });
+
+  it("should confirm a step that travelling reached", () => {
+    let isArrived: boolean = false;
+    const verify = jest.fn();
+
+    const result: ICheckResult = runFlow(
+      FLOW_NAME,
+      mockRegistration([{ travel: () => void (isArrived = true), reached: () => isArrived, verify }])
+    );
+
+    expect(verify).toHaveBeenCalled();
+    expect(readConfirmed()).toBe(1);
+    expect(result.steps).toBe(1);
+  });
+
+  it("should not travel to a step the world has already reached", () => {
+    const travelReached = jest.fn();
+    const travelPending = jest.fn();
+
+    runFlow(
+      FLOW_NAME,
+      mockRegistration([
+        { travel: travelReached, reached: () => true },
+        { travel: travelPending, reached: () => false },
+      ])
+    );
+
+    expect(travelReached).not.toHaveBeenCalled();
+    expect(travelPending).toHaveBeenCalledTimes(1);
   });
 
   it("should record a failure and advance when a later step is already reached", () => {
