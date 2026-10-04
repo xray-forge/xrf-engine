@@ -306,27 +306,13 @@ describe("teleportActorToPatrol", () => {
     expect(actorGameObject.set_actor_direction).toHaveBeenCalledWith(expect.closeTo(-1.5707));
   });
 
-  it("should mark no weapon zones the actor arrived inside as active", () => {
+  it("should leave no weapon zones to their controllers, even one the actor arrives inside", () => {
     mockRegisteredActor();
 
     const noWeaponZone: GameObject = MockGameObject.mock();
 
     registerObject(noWeaponZone);
     jest.spyOn(noWeaponZone, "inside").mockImplementation(() => true);
-    registry.noWeaponZones.set(noWeaponZone.id(), false);
-
-    teleportActorToPatrol("test-wp");
-
-    expect(registry.noWeaponZones.get(noWeaponZone.id())).toBe(true);
-  });
-
-  it("should leave no weapon zones the actor is outside of alone", () => {
-    mockRegisteredActor();
-
-    const noWeaponZone: GameObject = MockGameObject.mock();
-
-    registerObject(noWeaponZone);
-    jest.spyOn(noWeaponZone, "inside").mockImplementation(() => false);
     registry.noWeaponZones.set(noWeaponZone.id(), false);
 
     teleportActorToPatrol("test-wp");

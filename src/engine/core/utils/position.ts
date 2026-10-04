@@ -13,7 +13,6 @@ import {
   copyVector,
   createVector,
   graphDistance,
-  isObjectInZone,
   MAX_ALIFE_ID,
   MAX_LEVEL_VERTEX_ID,
   MAX_U16,
@@ -319,8 +318,8 @@ export function teleportActorWithEffects(actor: GameObject, position: Vector, di
 /**
  * Teleport actor to a point of a patrol path.
  *
- * Also refreshes no weapon zone flags, since arriving inside such a zone has to register the same
- * way walking into it would.
+ * No weapon zones are left to their own controllers, which notice the actor inside on their next update: marking
+ * one here sticks when its logic is not in the no weapon scheme, as nothing then clears it.
  *
  * @param positionPatrolName - Patrol path the actor is moved onto.
  * @param lookPatrolName - Optional patrol path the actor is turned to face.
@@ -352,12 +351,6 @@ export function teleportActorToPatrol(
   }
 
   registry.actor.set_actor_position(destination);
-
-  for (const [id] of registry.noWeaponZones) {
-    if (isObjectInZone(registry.actor, registry.objects.get(id).object)) {
-      registry.noWeaponZones.set(id, true);
-    }
-  }
 }
 
 /**

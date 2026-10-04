@@ -1,9 +1,7 @@
-import { beforeAll, beforeEach, describe, expect, it, jest } from "@jest/globals";
+import { beforeAll, beforeEach, describe, expect, it } from "@jest/globals";
 import { patrol } from "xray16";
-import { GameObject } from "xray16/alias";
 import { MockGameObject } from "xray16/mocks";
 
-import { registerObject, registry } from "@/engine/core/database";
 import { callXrEffect, mockRegisteredActor, resetRegistry } from "@/fixtures/engine";
 
 beforeAll(() => {
@@ -31,19 +29,5 @@ describe("teleport_actor", () => {
 
     expect(actorGameObject.set_actor_direction).toHaveBeenCalledWith(expect.closeTo(-1.5707));
     expect(actorGameObject.set_actor_position).toHaveBeenCalledWith(new patrol("test-wp-2").point(0));
-
-    expect(registry.noWeaponZones.length()).toBe(0);
-
-    const noWeaponZone: GameObject = MockGameObject.mock();
-
-    registerObject(noWeaponZone);
-
-    jest.spyOn(noWeaponZone, "inside").mockImplementation(() => true);
-
-    registry.noWeaponZones.set(noWeaponZone.id(), false);
-
-    callXrEffect("teleport_actor", actorGameObject, MockGameObject.mock(), "test-wp");
-
-    expect(registry.noWeaponZones.get(noWeaponZone.id())).toBe(true);
   });
 });
