@@ -500,7 +500,7 @@ export function create(): JSXNode {
         icon={"ui_inGame2_Brodyaga_monolit"}
         community={communities.freedom}
         soundConfig={"characters_voice\\human_02\\stalker\\"}
-        visual={"actors\\stalker_dolg\\stalker_freedom_2_face_1"}
+        visual={"actors\\stalker_freedom\\stalker_freedom_2_face_1"}
         moneyMin={1500}
         moneyMax={2500}
         rank={100}
@@ -865,7 +865,7 @@ export function create(): JSXNode {
         icon={"ui_inGame2_Freedom_2"}
         community={communities.freedom}
         soundConfig={"characters_voice\\human_03\\freedom\\"}
-        visual={"actors\\stalker_dolg\\stalker_dolg_2"}
+        visual={"actors\\stalker_freedom\\stalker_freedom_2"}
         moneyMin={1500}
         moneyMax={2500}
         rank={40}

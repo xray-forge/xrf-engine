@@ -579,7 +579,7 @@ export function create(): JSXNode {
         community={communities.stalker}
         rank={50}
         soundConfig={"characters_voice\\human_02\\dolg\\"}
-        visual={"actors\\stalker_soldier\\stalker_dolg_1_face_1"}
+        visual={"actors\\stalker_dolg\\stalker_dolg_1_face_1"}
         supplies={[
           { section: misc.device_torch },
           { section: weapons.wpn_pkm_zulus },
