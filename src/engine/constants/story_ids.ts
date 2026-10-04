@@ -460,6 +460,7 @@ export const storyIds = {
   zat_b20_noah_teleport: "zat_b20_noah_teleport",
   zat_b20_noah_teleport_squad: "zat_b20_noah_teleport_squad",
   zat_b20_spot: "zat_b20_spot",
+  zat_b20_teleport_mapspot: "zat_b20_teleport_mapspot",
   zat_b215_stalker_guide_jupiter: "zat_b215_stalker_guide_jupiter",
   zat_b215_stalker_guide_jupiter_squad: "zat_b215_stalker_guide_jupiter_squad",
   zat_b215_stalker_guide_zaton: "zat_b215_stalker_guide_zaton",

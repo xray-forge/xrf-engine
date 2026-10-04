@@ -443,3 +443,22 @@ export function expectActorMoneyGained(key: TName, atLeast: TCount, assertion: T
     `actor is ${gained} better off since the baseline, expected at least ${atLeast}`
   );
 }
+
+/**
+ * Assert the actor paid at least a given amount since the baseline was recorded.
+ *
+ * @param key - Actor store key the baseline was recorded under.
+ * @param atLeast - Money the payment is expected to be worth.
+ * @param assertion - Short label of what was being verified.
+ */
+export function expectActorMoneySpent(key: TName, atLeast: TCount, assertion: TLabel): void {
+  const before: TCount = getPortableStoreValue<TCount>(ACTOR_ID, key, -1);
+
+  if (before < 0) {
+    return report("no money baseline under '%s', the payment happened outside this walk", key);
+  }
+
+  const spent: TCount = before - registry.actor.money();
+
+  expect(spent >= atLeast, assertion, `actor spent ${spent} since the baseline, expected at least ${atLeast}`);
+}

@@ -11,6 +11,7 @@ import {
   teleportToStoryObject,
   teleportToZone,
 } from "@/engine/checks/framework/world";
+import { teleportToNimble } from "@/engine/checks/quests/zaton_places";
 import { infoPortions } from "@/engine/constants/info_portions";
 import { nimbleWeapons } from "@/engine/constants/items/weapons";
 import { levels } from "@/engine/constants/levels";
@@ -138,10 +139,8 @@ requires({
 step("1 - one of Nimble's weapons in a slot", {
   reached: (): boolean =>
     $isNotNil(resolveActiveNimbleWeapon()) || hasInfoPortion(infoPortions.zat_b52_snag_know_weapon),
-  // Measured standing at Nimble rather than derived from him: his own position resolves to a vertex on the far side
-  // of the level, and every spot reachable from it sits behind the counter he stands at.
   travel: (): void => {
-    teleportToPoint("Nimble", levels.zaton, createVector(107.096, -1.339, 185.976));
+    teleportToNimble();
     grantOrderMoneyOnce();
   },
   verify: (): void => {
@@ -176,7 +175,7 @@ step("2 - Snag recognised the Nimble weapon", {
 
 step("3 - Nimble cleared his name", {
   reached: (): boolean => hasInfoPortion(infoPortions.zat_b52_nimble_clear),
-  travel: (): void => void teleportToPoint("Nimble", levels.zaton, createVector(107.096, -1.339, 185.976)),
+  travel: (): void => void teleportToNimble(),
   verify: (): void => {
     expect(
       hasInfoPortion(infoPortions.zat_b51_stalker_nimble_b52_about_gun_questions_dialog_done),

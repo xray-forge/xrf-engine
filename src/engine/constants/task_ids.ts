@@ -88,6 +88,7 @@ export const taskIds = {
   zat_b3_tech_instruments: "zat_b3_tech_instruments",
   zat_b40_reconnoitre_merc_camp: "zat_b40_reconnoitre_merc_camp",
   zat_b44_tech_buddies: "zat_b44_tech_buddies",
+  zat_b51_nimble_items: "zat_b51_nimble_items",
   zat_b52_reputation: "zat_b52_reputation",
   zat_b5_barmen_reward: "zat_b5_barmen_reward",
   zat_b5_come_to_bandits: "zat_b5_come_to_bandits",
