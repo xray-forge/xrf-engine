@@ -15,7 +15,7 @@ on_game_timer = 7200 | sr_idle@task %+zat_a23_stalker_tech_can_make_battery%
 [sr_idle@task]
 $scheme = $sr_idle
 on_info = {+zat_a2_mechanic_toolkit_search -zat_a2_mechanic_toolkit_search_given} sr_idle@nil %=give_task(zat_b3_tech_instruments) +zat_a2_mechanic_toolkit_search_given%
-on_info = {+zat_b3_all_instruments_brought} sr_idle@nil
+on_info2 = {+zat_b3_all_instruments_brought} sr_idle@nil
 
 [sr_idle@nil]
 $scheme = $sr_idle
