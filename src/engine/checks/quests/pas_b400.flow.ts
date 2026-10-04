@@ -2,12 +2,13 @@ import { level } from "xray16";
 import { TLabel, TName } from "xray16/lib";
 import { $isNil } from "xray16/macros";
 
-import { expect, requires, step } from "@/engine/checks/framework";
-import { checkTaskText, settleTask, teleportToZone } from "@/engine/checks/framework/world";
+import { requires, step } from "@/engine/checks/framework";
+import { checkTaskText, holdInZone, teleportToZone } from "@/engine/checks/framework/world";
 import { infoPortions } from "@/engine/constants/info_portions";
 import { levels } from "@/engine/constants/levels";
 import { taskIds } from "@/engine/constants/task_ids";
 import { zoneNames } from "@/engine/constants/zone_names";
+import { taskConfig } from "@/engine/core/managers/tasks/TaskConfig";
 import { hasInfoPortion } from "@/engine/core/utils/info_portion";
 
 const TASK_ID: TName = taskIds.pas_b400_pripyat;
@@ -22,6 +23,8 @@ interface IUndergroundStage {
   done: TName;
   /** Restrictor past the stage's gate, where the actor's arrival closes the stage. */
   next: TName;
+  /** Whether that restrictor hangs in a ladder shaft, so the actor has to be held in it. */
+  isInShaft?: boolean;
 }
 
 /**
@@ -34,7 +37,7 @@ const STAGES: Array<IUndergroundStage> = [
   { label: "tunnel", done: infoPortions.pas_b400_tunnel_done, next: zoneNames.pas_b400_sr_hall_1 },
   { label: "hall", done: infoPortions.pas_b400_hall_done, next: zoneNames.pas_b400_sr_way_1 },
   { label: "way", done: infoPortions.pas_b400_way_done, next: zoneNames.pas_b400_sr_canalisation_1 },
-  { label: "canalisation", done: infoPortions.pas_b400_done, next: zoneNames.pas_b400_sr_exit },
+  { label: "canalisation", done: infoPortions.pas_b400_done, next: zoneNames.pas_b400_sr_exit, isInShaft: true },
 ];
 
 /**
@@ -68,16 +71,15 @@ step("1 - underground task in the log", {
 STAGES.forEach((stage, index) => {
   step(`${index + 2} - ${stage.label} crossed`, {
     reached: (): boolean => hasInfoPortion(stage.done),
-    travel: (): void => void teleportToZone(stage.next),
+    travel: (): void => void (stage.isInShaft ? holdInZone(stage.next) : teleportToZone(stage.next)),
     verify: (): void => void checkTaskText(TASK_ID, `past the ${stage.label}`),
     handOff: `nothing to do, 'pas_b400_sr_control' closes the stage once the actor stands in '${stage.next}'`,
   });
 });
 
-step(`${STAGES.length + 2} - out in Pripyat`, {
-  reached: (): boolean => level.name() === levels.pripyat,
-  verify: (): void => {
-    expect($isNil(settleTask(TASK_ID)), "underground task closed", `'${TASK_ID}' is still in the log`);
-  },
-  handOff: "nothing to do, 'pas_b400_sr_control' moves the actor into the Pripyat level changer 25 s after the exit",
+step(`${STAGES.length + 2} - out in Pripyat, task closed`, {
+  reached: (): boolean => level.name() === levels.pripyat && $isNil(taskConfig.ACTIVE_TASKS.get(TASK_ID)),
+  handOff:
+    "nothing to do, 'pas_b400_sr_control' moves the actor into the Pripyat level changer 25 s after the exit, and " +
+    "the task closes on arrival",
 });

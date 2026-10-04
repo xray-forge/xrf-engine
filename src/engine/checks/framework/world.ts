@@ -1,17 +1,20 @@
-import { game, level } from "xray16";
+import { game, level, time_global } from "xray16";
 import { GameObject, ServerObject, Vector } from "xray16/alias";
 import {
   ACTOR_ID,
+  copyVector,
   isObjectInZone,
   MAX_LEVEL_VERTEX_ID,
   MAX_U16,
   Nillable,
   TCount,
   TDistance,
+  TDuration,
   TIndex,
   TLabel,
   TName,
   TStringId,
+  TTimestamp,
   vectorToString,
 } from "xray16/lib";
 import { $isNil, $isNotNil } from "xray16/macros";
@@ -27,6 +30,7 @@ import {
   registry,
   setPortableStoreValue,
 } from "@/engine/core/database";
+import { EGameEvent, EventsManager } from "@/engine/core/managers/events";
 import { TaskManager } from "@/engine/core/managers/tasks";
 import { taskConfig } from "@/engine/core/managers/tasks/TaskConfig";
 import { TaskObject } from "@/engine/core/managers/tasks/TaskObject";
@@ -225,6 +229,39 @@ export function teleportNearZone(zoneName: TName, standoff: TDistance = 5): bool
       standoff
     );
   }
+
+  return true;
+}
+
+/**
+ * Move the actor into a space restrictor with no floor inside and keep it there for a while.
+ *
+ * A player climbing a ladder spends seconds inside such a restrictor, while a teleported actor falls out of it within
+ * half a second. Logic far from the actor updates about once a second, so it can miss the fall.
+ *
+ * @param zoneName - Restrictor name, spelled as the logic spells it.
+ * @param duration - How long to keep the actor at the restrictor's centre, in milliseconds.
+ * @returns Whether the actor was moved.
+ */
+export function holdInZone(zoneName: TName, duration: TDuration = 2000): boolean {
+  if (!teleportToZone(zoneName)) {
+    return false;
+  }
+
+  const position: Vector = copyVector(registry.zones.get(zoneName).position());
+  const releaseAt: TTimestamp = time_global() + duration;
+  const eventsManager: EventsManager = getManager(EventsManager);
+
+  function hold(): void {
+    if (time_global() >= releaseAt) {
+      eventsManager.unregisterCallback(EGameEvent.ACTOR_UPDATE, hold);
+    } else {
+      registry.actor.set_actor_position(position);
+    }
+  }
+
+  eventsManager.registerCallback(EGameEvent.ACTOR_UPDATE, hold);
+  report("teleport: holding the actor in '%s' for %s ms", zoneName, duration);
 
   return true;
 }
