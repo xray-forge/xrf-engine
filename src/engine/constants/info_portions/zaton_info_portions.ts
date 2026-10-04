@@ -11,6 +11,7 @@ export const zatonInfoPortions = {
   zat_a2_linker_b14_quest_wrong_done: "zat_a2_linker_b14_quest_wrong_done",
   zat_a2_linker_b52_about_nimble_dialog_done: "zat_a2_linker_b52_about_nimble_dialog_done",
   zat_a2_mechanic_toolkit_search: "zat_a2_mechanic_toolkit_search",
+  zat_a2_mechanic_toolkit_search_given: "zat_a2_mechanic_toolkit_search_given",
   zat_a2_stalker_barmen_b52_about_nimble_dialog_done: "zat_a2_stalker_barmen_b52_about_nimble_dialog_done",
   zat_a2_stalker_barmen_b52_about_snag: "zat_a2_stalker_barmen_b52_about_snag",
   zat_a2_stalker_barmen_evacuation_asked: "zat_a2_stalker_barmen_evacuation_asked",
@@ -356,6 +357,7 @@ export const zatonInfoPortions = {
    */
   zat_b3_all_instruments_brought: "zat_b3_all_instruments_brought",
   zat_b3_gauss_repaired: "zat_b3_gauss_repaired",
+  zat_b3_one_buddy_dead: "zat_b3_one_buddy_dead",
   zat_b3_stalker_mechanic_b52_about_nimble_dialog_done: "zat_b3_stalker_mechanic_b52_about_nimble_dialog_done",
   zat_b3_task_end: "zat_b3_task_end",
   zat_b3_tech_discount_1: "zat_b3_tech_discount_1",
@@ -379,10 +381,16 @@ export const zatonInfoPortions = {
   /**
    * Zaton b44.
    */
+  zat_b44_stalker_barge_body_searched: "zat_b44_stalker_barge_body_searched",
+  zat_b44_tech_buddies_barge_told: "zat_b44_tech_buddies_barge_told",
   zat_b44_tech_buddies_both_told: "zat_b44_tech_buddies_both_told",
   /**
    * Zaton b51.
    */
+  zat_b44_tech_buddies_given: "zat_b44_tech_buddies_given",
+  zat_b44_tech_buddies_joker_told: "zat_b44_tech_buddies_joker_told",
+  zat_b44_tech_buddies_started: "zat_b44_tech_buddies_started",
+  zat_b44_tech_buddies_told: "zat_b44_tech_buddies_told",
   zat_b51_done_item_1_1: "zat_b51_done_item_1_1",
   zat_b51_done_item_1_2: "zat_b51_done_item_1_2",
   zat_b51_done_item_1_3: "zat_b51_done_item_1_3",
