@@ -6,9 +6,12 @@ import { $isNil, $isNotNil } from "xray16/macros";
 import {
   IMcpDialog,
   IMcpDialogConditions,
+  IMcpDialogListing,
+  IMcpDialogNpc,
   IMcpDialogPhrase,
   IMcpDialogRequest,
   IMcpDialogSummary,
+  IMcpOfferedDialog,
   IMcpSaidPhrase,
 } from "@/engine/checks/mcp/mcp_dialog_types";
 import { getObjectByStoryId, getServerObjectByStoryId, registry } from "@/engine/core/database";
@@ -68,7 +71,7 @@ export function resolveDialogNpc(selector: unknown): GameObject {
  * @param npc - NPC to describe.
  * @returns What the MCP server needs to find the dialogs this NPC offers.
  */
-export function describeDialogNpc(npc: GameObject): AnyObject {
+export function describeDialogNpc(npc: GameObject): IMcpDialogNpc {
   return {
     id: npc.id(),
     name: npc.name(),
@@ -164,9 +167,9 @@ function findMissingOfferingInfo(dialog: IMcpDialogSummary): Nillable<string> {
  * @param npc - NPC the actor talks to.
  * @returns Each dialog, whether the actor could open it now, why not, and the line it opens with.
  */
-export function evaluateDialogs(dialogs: Array<IMcpDialogSummary>, npc: GameObject): Array<AnyObject> {
+export function evaluateDialogs(dialogs: Array<IMcpDialogSummary>, npc: GameObject): Array<IMcpOfferedDialog> {
   const actor: GameObject = registry.actor;
-  const evaluated: Array<AnyObject> = [];
+  const evaluated: Array<IMcpOfferedDialog> = [];
 
   for (const dialog of dialogs) {
     const [first, second] = dialog.isStartedByNpc ? [npc, actor] : [actor, npc];
@@ -238,7 +241,12 @@ export function handleDialogRequest(request: IMcpDialogRequest): AnyObject {
   const npc: GameObject = resolveDialogNpc(request.npc);
 
   if ($isNil(request.walk)) {
-    return { npc: describeDialogNpc(npc), dialogs: evaluateDialogs(request.dialogs ?? [], npc) };
+    const listing: IMcpDialogListing = {
+      npc: describeDialogNpc(npc),
+      dialogs: evaluateDialogs(request.dialogs ?? [], npc),
+    };
+
+    return listing;
   }
 
   const isTalkClosed: boolean = registry.actor.is_talking();

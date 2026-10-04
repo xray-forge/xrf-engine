@@ -1,4 +1,4 @@
-import { Nillable, TLabel, TName, TStringId } from "xray16/lib";
+import { Nillable, TLabel, TName, TNumberId, TStringId } from "xray16/lib";
 
 /**
  * Info portions and script predicates a dialog or a phrase declares, as the dialog XML lists them.
@@ -39,6 +39,40 @@ export interface IMcpDialogSummary extends IMcpDialogConditions {
  */
 export interface IMcpDialog extends IMcpDialogSummary {
   phrases: Record<TStringId, IMcpDialogPhrase>;
+}
+
+/**
+ * The NPC a dialog request names, as the MCP server needs it to find the dialogs it offers.
+ */
+export interface IMcpDialogNpc {
+  id: TNumberId;
+  name: TName;
+  profile: Nillable<TName>;
+  // Start dialog a script set in place of the character's own.
+  scriptedStartDialog: Nillable<TStringId>;
+  isAlive: boolean;
+  isTalkEnabled: boolean;
+}
+
+/**
+ * Dialog an NPC offers, as the game judged whether the actor may open it now.
+ */
+export interface IMcpOfferedDialog {
+  id: TStringId;
+  isAvailable: boolean;
+  // The first condition that fails, nil when the dialog is available.
+  failed: Nillable<TLabel>;
+  isStartedByNpc: boolean;
+  // Opening line in the game's language.
+  text: Nillable<TLabel>;
+}
+
+/**
+ * The dialogs an NPC offers, each judged against the actor now.
+ */
+export interface IMcpDialogListing {
+  npc: IMcpDialogNpc;
+  dialogs: Array<IMcpOfferedDialog>;
 }
 
 /**

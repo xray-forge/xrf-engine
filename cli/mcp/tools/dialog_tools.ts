@@ -1,19 +1,25 @@
 import { TARGET_GAME_DATA_DIR } from "#/globals/paths";
 import { IDialogInspectReport, IDialogListReport, TDialogOffer } from "#/mcp/dialogs/dialog_cli_types";
-import { IGameDialogSummary } from "#/mcp/dialogs/game_dialog_types";
+import { filterDialogListing, formatDialogListing } from "#/mcp/dialogs/game_dialog_listing";
+import {
+  IGameDialogListing,
+  IGameDialogListingFilter,
+  IGameDialogNpc,
+  IGameDialogSummary,
+} from "#/mcp/dialogs/game_dialog_types";
 import { findDialogInitFunction, summarizeListedDialog, toGameDialog } from "#/mcp/dialogs/game_dialogs";
 import { IMcpTool } from "#/mcp/mcp_tool_types";
 import { IGameResponse } from "#/mcp/McpPipeClient";
-import { answer, IGameToolsContext, schema, splitList, text } from "#/mcp/tools/tool_kit";
+import { answer, IGameToolsContext, json, schema, splitList, text } from "#/mcp/tools/tool_kit";
 import { IXrfCliEnvelope } from "#/mcp/xrf_cli";
 import { Nullable, Optional } from "#/utils/types";
 
 /**
- * What the endpoint reports about an NPC before its dialogs are looked up.
+ * @param arguments_ - Arguments of one mode by name.
+ * @returns Names of those given.
  */
-interface IDialogNpc {
-  profile: Nullable<string>;
-  scriptedStartDialog: Nullable<string>;
+function listGivenArguments(arguments_: Record<string, unknown>): Array<string> {
+  return Object.keys(arguments_).filter((name) => arguments_[name] !== undefined);
 }
 
 /**
@@ -60,7 +66,7 @@ export function createDialogTools(context: IGameToolsContext): Array<IMcpTool> {
    * @param npc - What the endpoint reported about the NPC.
    * @returns The dialogs, as the game judges whether the actor may open each now.
    */
-  async function listOffered(npc: IDialogNpc): Promise<Array<IGameDialogSummary>> {
+  async function listOffered(npc: IGameDialogNpc): Promise<Array<IGameDialogSummary>> {
     const { profile, scriptedStartDialog } = npc;
 
     if (!profile) {
@@ -93,7 +99,7 @@ export function createDialogTools(context: IGameToolsContext): Array<IMcpTool> {
    * @param dialog - Dialog id.
    * @returns Whether the NPC opens the dialog: the one a script set, or a start dialog of its character.
    */
-  async function isStartedByNpc(npc: IDialogNpc, dialog: string): Promise<boolean> {
+  async function isStartedByNpc(npc: IGameDialogNpc, dialog: string): Promise<boolean> {
     if (dialog === npc.scriptedStartDialog) {
       return true;
     } else if (!npc.profile) {
@@ -110,7 +116,9 @@ export function createDialogTools(context: IGameToolsContext): Array<IMcpTool> {
       name: "game_dialog",
       description:
         "Talk to an NPC as the talk window would, by the dialog XML the game loads, read through `xrf-cli dialog`. " +
-        "Without `dialog`, list the dialogs the NPC offers, whether the actor can open each now and why not. With " +
+        "Without `dialog`, list the dialogs the NPC offers, one line each: open or closed, who opens it, and the " +
+        "first condition that fails; `only` keeps open or closed ones, `match` filters ids, and `full` answers JSON " +
+        "with each dialog's opening line instead; each mode refuses the other's arguments. With " +
         "`dialog`, open it and say the phrases in `say` in order: actor choices, and optionally NPC answers to force " +
         "where the NPC could say several, as the engine picks at random. Phrases apply their info portions, then run " +
         "their actions, with the same arguments and conditions as the engine. The answer lists the phrases said, the " +
@@ -123,10 +131,30 @@ export function createDialogTools(context: IGameToolsContext): Array<IMcpTool> {
           dialog: { type: "string", minLength: 1, description: "Dialog id to open; omit to list the dialogs." },
           say: { type: "string", description: "Comma separated phrase ids to say after the opening one, e.g. `1,11`." },
           opener: { type: "string", enum: ["npc", "actor"], description: "Who says the opening phrase." },
+          only: { type: "string", enum: ["open", "closed"], description: "Listing only: keep open or closed dialogs." },
+          match: {
+            type: "string",
+            minLength: 1,
+            description: "Listing only: case-insensitive regular expression dialog ids must match.",
+          },
+          full: { type: "boolean", description: "Listing only: answer JSON with each dialog's opening line." },
         },
         ["npc"]
       ),
-      call: async ({ npc, dialog, say, opener }) => {
+      call: async ({ npc, dialog, say, opener, only, match, full }) => {
+        // Each mode refuses the other's arguments rather than ignoring them, so a call never does less than it says.
+        const misplaced: Array<string> =
+          dialog === undefined ? listGivenArguments({ say, opener }) : listGivenArguments({ only, match, full });
+
+        if (misplaced.length > 0) {
+          return text(
+            dialog === undefined
+              ? `A listing takes no '${misplaced.join("', '")}'; name a dialog with 'dialog' to walk it.`
+              : `A walk takes no '${misplaced.join("', '")}'; omit 'dialog' to list the dialogs.`,
+            true
+          );
+        }
+
         const selector: string | number = /^\d+$/.test(npc as string) ? Number(npc) : (npc as string);
         const described: IGameResponse = await client.request("dialog_npc", { npc: selector });
 
@@ -134,11 +162,26 @@ export function createDialogTools(context: IGameToolsContext): Array<IMcpTool> {
           return answer(described);
         }
 
-        const partner: IDialogNpc = described.result as IDialogNpc;
+        const partner: IGameDialogNpc = described.result as IGameDialogNpc;
         const id: Optional<string> = dialog as Optional<string>;
 
         if (id === undefined) {
-          return answer(await client.request("dialog", { npc: selector, dialogs: await listOffered(partner) }));
+          const listed: IGameResponse = await client.request("dialog", {
+            npc: selector,
+            dialogs: await listOffered(partner),
+          });
+
+          if (!listed.ok) {
+            return answer(listed);
+          }
+
+          const listing: IGameDialogListing = listed.result as IGameDialogListing;
+          const filter: IGameDialogListingFilter = {
+            only: only as IGameDialogListingFilter["only"],
+            match: match === undefined ? undefined : new RegExp(match as string, "i"),
+          };
+
+          return full ? json(filterDialogListing(listing, filter)) : text(formatDialogListing(listing, filter));
         }
 
         const { dialog: descriptor } = await queryDialogs<IDialogInspectReport>(["inspect", id]);

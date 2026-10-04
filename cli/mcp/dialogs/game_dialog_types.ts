@@ -40,3 +40,45 @@ export interface IGameDialogSummary extends IGameDialogConditions {
 export interface IGameDialog extends IGameDialogSummary {
   phrases: Record<string, IGameDialogPhrase>;
 }
+
+/**
+ * The NPC a listing is about, as the game describes it.
+ */
+export interface IGameDialogNpc {
+  id: number;
+  name: string;
+  profile: Nullable<string>;
+  scriptedStartDialog: Nullable<string>;
+  isAlive: boolean;
+  isTalkEnabled: boolean;
+}
+
+/**
+ * A dialog the NPC offers, as the game judged it.
+ */
+export interface IGameOfferedDialog {
+  id: string;
+  isAvailable: boolean;
+  // The first condition that fails; absent when the dialog is available.
+  failed?: Nullable<string>;
+  isStartedByNpc: boolean;
+  // Opening line in the game's language.
+  text?: Nullable<string>;
+}
+
+/**
+ * The dialogs an NPC offers, as the game judged them.
+ */
+export interface IGameDialogListing {
+  npc: IGameDialogNpc;
+  dialogs: Array<IGameOfferedDialog>;
+}
+
+/**
+ * Which dialogs of a listing to keep.
+ */
+export interface IGameDialogListingFilter {
+  only?: "open" | "closed";
+  // Matched against the dialog id.
+  match?: RegExp;
+}

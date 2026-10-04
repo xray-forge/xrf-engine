@@ -6,6 +6,7 @@ import { afterEach, beforeEach, describe, expect, it, jest } from "@jest/globals
 
 import { TARGET_GAME_DATA_DIR } from "#/globals/paths";
 import { IDialogInspectReport, IDialogListReport } from "#/mcp/dialogs/dialog_cli_types";
+import { IGameDialogListing } from "#/mcp/dialogs/game_dialog_types";
 import { IToolResult } from "#/mcp/mcp_tool_types";
 import { createGameTools, IGameToolsContext } from "#/mcp/mcp_tools";
 import { McpPipeClient } from "#/mcp/McpPipeClient";
@@ -614,6 +615,27 @@ describe("game MCP tools", () => {
       ],
     };
 
+    const LISTING: IGameDialogListing = {
+      npc: {
+        id: 7119,
+        name: "zat_b33_stalker_snag7119",
+        profile: "snag",
+        scriptedStartDialog: null,
+        isAlive: true,
+        isTalkEnabled: true,
+      },
+      dialogs: [
+        { id: "snag_cache_dialog", isAvailable: true, isStartedByNpc: true, text: "Want to earn some?" },
+        {
+          id: "actor_break_dialog",
+          isAvailable: false,
+          failed: "needs info 'global_dialogs'",
+          isStartedByNpc: false,
+          text: "Laters.",
+        },
+      ],
+    };
+
     /**
      * @param id - Dialog id.
      * @returns What `xrf-cli dialog inspect` answers for a two phrase dialog.
@@ -660,9 +682,14 @@ describe("game MCP tools", () => {
       answerXrfCli(context, { list: () => LIST });
       client.request
         .mockResolvedValueOnce({ id: "1", ok: true, result: { profile: "snag", scriptedStartDialog: null } })
-        .mockResolvedValueOnce({ id: "2", ok: true, result: { dialogs: [] } });
+        .mockResolvedValueOnce({ id: "2", ok: true, result: LISTING });
 
-      expect(JSON.parse(textOf(await call("game_dialog", { npc: "zat_b33_stalker_snag" })))).toEqual({ dialogs: [] });
+      expect(textOf(await call("game_dialog", { npc: "zat_b33_stalker_snag" })).split("\n")).toEqual([
+        "zat_b33_stalker_snag7119 (id 7119, profile snag): talk enabled",
+        "open   snag_cache_dialog [npc opens]",
+        "closed actor_break_dialog - needs info 'global_dialogs'",
+        "1 open of 2 offered",
+      ]);
       expect(context.runXrfCli).toHaveBeenCalledWith([
         "dialog",
         "list",
@@ -697,6 +724,35 @@ describe("game MCP tools", () => {
           },
         ],
       });
+    });
+
+    it("should answer the listing as JSON for full, holding only the dialogs asked for", async () => {
+      const { call, client, context, directory } = setup();
+
+      directories.push(directory);
+      answerXrfCli(context, { list: () => LIST });
+      client.request
+        .mockResolvedValueOnce({ id: "1", ok: true, result: { profile: "snag", scriptedStartDialog: null } })
+        .mockResolvedValueOnce({ id: "2", ok: true, result: LISTING });
+
+      expect(
+        JSON.parse(textOf(await call("game_dialog", { npc: "snag", only: "closed", match: "BREAK", full: true })))
+      ).toEqual({ npc: LISTING.npc, dialogs: [LISTING.dialogs[1]] });
+    });
+
+    it("should refuse the arguments of the other mode before asking the game anything", async () => {
+      const { call, client, directory } = setup();
+
+      directories.push(directory);
+
+      const walkArguments: IToolResult = await call("game_dialog", { npc: "snag", say: "1", opener: "actor" });
+      const listingArguments: IToolResult = await call("game_dialog", { npc: "snag", dialog: "x", only: "open" });
+
+      expect(walkArguments.isError).toBe(true);
+      expect(textOf(walkArguments)).toBe("A listing takes no 'say', 'opener'; name a dialog with 'dialog' to walk it.");
+      expect(listingArguments.isError).toBe(true);
+      expect(textOf(listingArguments)).toBe("A walk takes no 'only'; omit 'dialog' to list the dialogs.");
+      expect(client.request).not.toHaveBeenCalled();
     });
 
     it("should open with the start dialog a script set in place of the character's own", async () => {

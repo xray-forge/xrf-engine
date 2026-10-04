@@ -42,8 +42,10 @@ output.
   scenes, logic timers and sounds play that many times faster.
 - `game_flow` runs an in-game check flow by identity, source path or launcher name, and returns its report lines.
 - `game_dialog` talks to an NPC by the dialog XML the game loads, which it reads through `xrf-cli dialog list` and
-  `dialog inspect` over `target/gamedata`. Without `dialog` it lists what the NPC's profile offers and whether the actor
-  may open each now; with `dialog` and `say` it walks one, giving info portions and running actions as the engine does.
+  `dialog inspect` over `target/gamedata`. Without `dialog` it lists what the NPC's profile offers, one line per dialog
+  saying whether the actor may open it now and the first condition that fails; `only` and `match` filter the list and
+  `full` answers JSON with the opening lines. With `dialog` and `say` it walks one, giving info portions and running
+  actions as the engine does. Each mode refuses the other's arguments.
   A walk closes the game's own talk window, which it does not drive. It needs an `xrf-cli` with the `dialog list`
   and `dialog inspect` commands.
 - `game_screenshot` returns the image scaled down to `width` (1600 by default) and keeps the full one under
