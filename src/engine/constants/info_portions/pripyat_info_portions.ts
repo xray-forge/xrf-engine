@@ -14,6 +14,7 @@ export const pripyatInfoPortions = {
   pri_a15_vano_out: "pri_a15_vano_out",
   pri_a15_wanderer_out: "pri_a15_wanderer_out",
   pri_a15_zulus_out: "pri_a15_zulus_out",
+  pri_a16_kovalski_start: "pri_a16_kovalski_start",
   pri_a16_vano_was_alive_when_removed: "pri_a16_vano_was_alive_when_removed",
   pri_a16_wanderer_was_alive_when_removed: "pri_a16_wanderer_was_alive_when_removed",
   pri_a17_actor_attack_bad: "pri_a17_actor_attack_bad",
