@@ -371,9 +371,17 @@ export function teleportToServerObject(name: TName): boolean {
 
   const from: Vector = getActorPosition();
 
-  teleportActorToPosition(object.position);
+  // An object off the AI mesh, such as a door's pivot inside its frame, is a position the engine pushes the actor back
+  // out of, all the way to where it stood before; stand off onto the mesh instead.
+  if (getPositionLevelVertexId(object.position) < MAX_LEVEL_VERTEX_ID) {
+    teleportActorToPosition(object.position);
 
-  return reportTeleportArrival(name, "server object position", from);
+    return reportTeleportArrival(name, "server object position", from);
+  }
+
+  teleportActorNearPosition(object.position);
+
+  return reportTeleportArrival(name, "position, the object standing off the AI mesh", from);
 }
 
 /**
