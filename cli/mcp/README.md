@@ -37,6 +37,8 @@ output.
   `src/engine/checks/mcp/mcp_probe.ts` re-exports under their own names, such as `registry`, `getManagerByName`,
   `getNearestGameObject`, `getSquadMembers`, `teleportActorToPosition`, `giveItemsToActor` and `forwardGameTime`.
 - `game_wait` lets the game run for `seconds`, or until the Lua expression `until` is truthy, checked every second.
+  `speed` sets the engine's `time_factor` for the wait and resets it to 1 afterwards, even when the wait fails, so
+  scenes, logic timers and sounds play that many times faster.
 - `game_flow` runs an in-game check flow by identity, source path or launcher name, and returns its report lines.
 - `game_dialog` talks to an NPC by the dialog XML the game loads, which it reads through `xrf-cli dialog list` and
   `dialog inspect` over `target/gamedata`. Without `dialog` it lists what the NPC's profile offers and whether the actor

@@ -480,6 +480,46 @@ describe("game MCP tools", () => {
     expect(client.request).toHaveBeenLastCalledWith("status");
   });
 
+  it("should wait at a higher engine speed and come back to normal speed, even when the wait fails", async () => {
+    const { call, client, directory } = setup();
+
+    directories.push(directory);
+    jest.useFakeTimers();
+
+    const fast: Promise<IToolResult> = call("game_wait", { seconds: 5, speed: 4 });
+
+    await jest.advanceTimersByTimeAsync(5_000);
+
+    expect(JSON.parse(textOf(await fast))).toEqual({ level: "zaton" });
+    expect(client.request.mock.calls).toEqual([
+      ["console", { command: "time_factor 4" }],
+      ["status"],
+      ["console", { command: "time_factor 1" }, 30_000],
+    ]);
+
+    client.request.mockClear();
+    client.request
+      .mockResolvedValueOnce({ id: "1", ok: true, result: null })
+      .mockRejectedValueOnce(new Error("The game did not answer 'status'."));
+
+    const failed: Promise<IToolResult> = call("game_wait", { seconds: 2, speed: 3 });
+
+    await jest.advanceTimersByTimeAsync(2_000);
+
+    expect((await failed).isError).toBe(true);
+    expect(client.request).toHaveBeenLastCalledWith("console", { command: "time_factor 1" }, 30_000);
+
+    client.request.mockClear();
+
+    const normal: Promise<IToolResult> = call("game_wait", { seconds: 1 });
+
+    await jest.advanceTimersByTimeAsync(1_000);
+    await normal;
+
+    expect(client.request.mock.calls).toEqual([["status"]]);
+    expect(textOf(await call("game_wait", { seconds: 1, speed: 11 }))).toContain("'speed' must be from 1 to 10");
+  });
+
   it("should quit the game and wait until its connection and process are gone", async () => {
     const { call, client, context, directory } = setup();
 
