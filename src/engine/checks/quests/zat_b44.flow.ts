@@ -1,16 +1,14 @@
-import { ServerObject } from "xray16/alias";
-import { ACTOR_ID, MAX_U16, Nillable, TCount, TLabel, TName } from "xray16/lib";
+import { ACTOR_ID, Nillable, TCount, TLabel, TName } from "xray16/lib";
 import { $isNil, $isNotNil } from "xray16/macros";
 
 import { expect, expectEqual, report, requires, step } from "@/engine/checks/framework";
-import { checkTaskText, teleportToPoint, teleportToStoryObject } from "@/engine/checks/framework/world";
+import { checkTaskText, teleportToServerObject, teleportToStoryObject } from "@/engine/checks/framework/world";
 import { infoPortions } from "@/engine/constants/info_portions";
 import { food } from "@/engine/constants/items/food";
 import { questItems } from "@/engine/constants/items/quest_items";
-import { levels } from "@/engine/constants/levels";
 import { storyIds } from "@/engine/constants/story_ids";
 import { taskIds } from "@/engine/constants/task_ids";
-import { getPortableStoreValue, registry, setPortableStoreValue } from "@/engine/core/database";
+import { getPortableStoreValue, setPortableStoreValue } from "@/engine/core/database";
 import { taskConfig } from "@/engine/core/managers/tasks/TaskConfig";
 import { TaskObject } from "@/engine/core/managers/tasks/TaskObject";
 import { hasInfoPortion } from "@/engine/core/utils/info_portion";
@@ -145,15 +143,7 @@ step("5 - Barge's pda taken from his body", {
 
 step("6 - Joker's pda picked up", {
   reached: isJokerPdaFound,
-  travel: (): void => {
-    const placed: Nillable<ServerObject> = registry.simulator.object(JOKER_PDA_NAME);
-
-    if ($isNil(placed) || placed!.parent_id !== MAX_U16) {
-      return report("'%s' is no longer lying on Zaton, someone else has picked it up", JOKER_PDA_NAME);
-    }
-
-    void teleportToPoint(JOKER_PDA_NAME, levels.zaton, placed!.position);
-  },
+  travel: (): void => void teleportToServerObject(JOKER_PDA_NAME),
   handOff: "pick up the pda by the bones near Oakpine, where the dogs den",
 });
 

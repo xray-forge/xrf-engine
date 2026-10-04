@@ -353,6 +353,30 @@ export function teleportToStoryObject(storyId: TStringId, standoff: TDistance = 
 }
 
 /**
+ * Move the actor onto a server object of the loaded level, found by its name, such as a quest item on the ground.
+ *
+ * @param name - Name of the server object.
+ * @returns Whether the actor was moved.
+ */
+export function teleportToServerObject(name: TName): boolean {
+  const object: Nillable<ServerObject> = registry.simulator.object(name);
+
+  if ($isNil(object)) {
+    return reportTeleportRefused(name, "no server object carries that name");
+  } else if (object.parent_id !== MAX_U16) {
+    return reportTeleportRefused(name, "it is carried by another object, so it lies nowhere to go to");
+  } else if (!isOnLoadedLevel(object)) {
+    return reportTeleportRefused(name, string.format("it lies off '%s'", level.name()));
+  }
+
+  const from: Vector = getActorPosition();
+
+  teleportActorToPosition(object.position);
+
+  return reportTeleportArrival(name, "server object position", from);
+}
+
+/**
  * Move the actor onto a patrol point, when the loaded level has that path.
  *
  * @param positionPatrolName - Patrol path to arrive on.

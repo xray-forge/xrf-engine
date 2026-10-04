@@ -1,5 +1,4 @@
-import { ServerObject } from "xray16/alias";
-import { MAX_U16, Nillable, TCount, TName, TSection } from "xray16/lib";
+import { Nillable, TCount, TName, TSection } from "xray16/lib";
 import { $isNil } from "xray16/macros";
 
 import { expect, expectEqual, report, requires, step } from "@/engine/checks/framework";
@@ -7,15 +6,13 @@ import {
   checkTaskText,
   expectActorMoneyGained,
   rememberActorMoney,
-  teleportToPoint,
+  teleportToServerObject,
   teleportToStoryObject,
 } from "@/engine/checks/framework/world";
 import { infoPortions } from "@/engine/constants/info_portions";
 import { misc } from "@/engine/constants/items/misc";
-import { levels } from "@/engine/constants/levels";
 import { storyIds } from "@/engine/constants/story_ids";
 import { taskIds } from "@/engine/constants/task_ids";
-import { registry } from "@/engine/core/database";
 import { taskConfig } from "@/engine/core/managers/tasks/TaskConfig";
 import { TaskObject } from "@/engine/core/managers/tasks/TaskObject";
 import { hasInfoPortion } from "@/engine/core/utils/info_portion";
@@ -43,13 +40,7 @@ function travelForToolkit(toolkit: TSection, placedName: Nillable<TName>): void 
     return report("Zaton holds no '%s', so there is nowhere on this level to send the actor", toolkit);
   }
 
-  const placed: Nillable<ServerObject> = registry.simulator.object(placedName as TName);
-
-  if ($isNil(placed) || placed!.parent_id !== MAX_U16) {
-    return report("'%s' is no longer lying on Zaton, someone has picked it up", placedName);
-  }
-
-  void teleportToPoint(placedName as TName, levels.zaton, placed!.position);
+  void teleportToServerObject(placedName as TName);
 }
 
 /**
