@@ -85,6 +85,8 @@ export const taskIds = {
   zat_b30_sultan_task: "zat_b30_sultan_task",
   zat_b30_task: "zat_b30_task",
   zat_b33_zaporojec: "zat_b33_zaporojec",
+  zat_b38_den_of_the_bloodsucker_inform_stalkers: "zat_b38_den_of_the_bloodsucker_inform_stalkers",
+  zat_b38_disappearance_stalkers: "zat_b38_disappearance_stalkers",
   zat_b3_tech_instruments: "zat_b3_tech_instruments",
   zat_b40_reconnoitre_merc_camp: "zat_b40_reconnoitre_merc_camp",
   zat_b44_tech_buddies: "zat_b44_tech_buddies",
