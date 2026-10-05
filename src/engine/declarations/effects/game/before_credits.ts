@@ -1,6 +1,4 @@
-import { executeConsoleCommand, extern } from "xray16/lib";
-
-import { consoleCommands } from "@/engine/constants/console_commands";
+import { consoleCommands, executeConsoleCommand, extern } from "xray16/lib";
 
 /**
  * Handle UI changes before credits tutorial.

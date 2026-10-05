@@ -1,8 +1,8 @@
 import { GameObject } from "xray16/alias";
-import { extern } from "xray16/lib";
+import { extern, restoreObjectCondition } from "xray16/lib";
 
 import { registry } from "@/engine/core/database";
-import { isObjectInjured, restoreObjectCondition } from "@/engine/core/utils/object";
+import { isObjectInjured } from "@/engine/core/utils/object";
 
 extern("dialogs.medic_magic_potion", (_firstSpeaker: GameObject, _secondSpeaker: GameObject): void => {
   restoreObjectCondition(registry.actor);

@@ -1,10 +1,9 @@
 import { log, print_stack, time_global } from "xray16";
-import { AnyArgs, AnyObject, Nillable, TLabel } from "xray16/lib";
+import { AnyArgs, AnyObject, Nillable, TLabel, toJSON } from "xray16/lib";
 
 import { forgeConfig } from "@/engine/core/database/forge_config";
 import { openLogFile } from "@/engine/core/utils/logging/logging_files";
 import { ELuaLoggerMode, ILuaLoggerConfig } from "@/engine/core/utils/logging/logging_types";
-import { toJSON } from "@/engine/core/utils/transform/json";
 
 /**
  * Localised engine console log, cached from `_G.log` at module load.

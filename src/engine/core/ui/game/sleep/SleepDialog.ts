@@ -11,7 +11,7 @@ import {
   ui_events,
 } from "xray16";
 import { GameObject, Vector2D } from "xray16/alias";
-import { create2dVector, TDuration, TNumberId, TPath, TTimestamp } from "xray16/lib";
+import { create2dVector, createRectangle, TDuration, TNumberId, TPath, TTimestamp } from "xray16/lib";
 import { $filename } from "xray16/macros";
 
 import { infoPortions } from "@/engine/constants/info_portions/info_portions";
@@ -21,7 +21,7 @@ import { SCREEN_WIDE_COEFFICIENT } from "@/engine/core/ui/screen_layout";
 import { disableInfoPortion, giveInfoPortion } from "@/engine/core/utils/info_portion";
 import { LuaLogger } from "@/engine/core/utils/logging";
 import { canActorSleep } from "@/engine/core/utils/object";
-import { createRectangle, createScreenRectangle } from "@/engine/core/utils/rectangle";
+import { createScreenRectangle } from "@/engine/core/utils/rectangle";
 import {
   EElementType,
   initializeElement,

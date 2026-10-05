@@ -1,9 +1,9 @@
 import { describe, expect, it } from "@jest/globals";
+import { StringBuilder } from "xray16/lib";
 
 import { SmartTerrain } from "@/engine/core/objects/smart_terrain";
 import { EJobPathType, EJobType } from "@/engine/core/objects/smart_terrain/job";
 import { createStalkerCamperJobs } from "@/engine/core/objects/smart_terrain/job/job_create/job_create_stalker_camper";
-import { StringBuilder } from "@/engine/core/utils/string";
 import { MockSmartTerrain, readInGameTestLtxFromTest, trimInGameTestLtxFromTest } from "@/fixtures/engine";
 
 describe("should correctly generate stalker camper jobs", () => {

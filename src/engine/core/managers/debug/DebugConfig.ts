@@ -1,8 +1,7 @@
 import { key_bindings } from "xray16";
-import { TCount, TDistance, TName, TNumberId } from "xray16/lib";
+import { consoleCommands, TCount, TDistance, TName, TNumberId } from "xray16/lib";
 import { $fromArray, $fromObject } from "xray16/macros";
 
-import { consoleCommands } from "@/engine/constants/console_commands";
 import {
   EDebugSpawnKind,
   EDebugTab,
@@ -11,9 +10,8 @@ import {
 } from "@/engine/core/managers/debug/debug_types";
 
 export const debugConfig = {
-  // Action opening the debugger, `custom1` bound to F11 in `default_controls.ltx`. Read by name, as the xray16
-  // declarations do not list the custom actions OpenXRay adds.
-  KEY_BINDING: (key_bindings as unknown as Record<TName, TNumberId>).kCUSTOM1,
+  // Action opening the debugger, `custom1` bound to F11 in `default_controls.ltx`.
+  KEY_BINDING: key_bindings.kCUSTOM1 as TNumberId,
   // Preferences file, in the user data folder.
   PREFERENCES_FILE: "debugger.dat",
   RECENT_TARGETS_LIMIT: 8 as TCount,

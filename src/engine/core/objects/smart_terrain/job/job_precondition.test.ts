@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, jest } from "@jest/globals";
 import { level } from "xray16";
 import { GameObject, ServerHumanObject } from "xray16/alias";
-import { AnyObject, createTime, TNumberId, TSection } from "xray16/lib";
+import { AnyObject, createTime, StringBuilder, TNumberId, TSection } from "xray16/lib";
 import { MockAlifeHumanStalker, MockGameObject } from "xray16/mocks";
 
 import { registerObject, registerSmartCover, registerZone } from "@/engine/core/database";
@@ -31,7 +31,6 @@ import {
   jobPreconditionWalker,
 } from "@/engine/core/objects/smart_terrain/job/job_precondition";
 import { IObjectJobState } from "@/engine/core/objects/smart_terrain/job/job_types";
-import { StringBuilder } from "@/engine/core/utils/string";
 import { MockSmartCover, MockSmartTerrain, resetRegistry } from "@/fixtures/engine";
 
 describe("job_precondition utilities", () => {

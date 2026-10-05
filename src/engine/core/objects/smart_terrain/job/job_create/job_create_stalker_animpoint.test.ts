@@ -1,11 +1,11 @@
 import { beforeEach, describe, expect, it } from "@jest/globals";
+import { StringBuilder } from "xray16/lib";
 
 import { registerSmartCover } from "@/engine/core/database";
 import { SmartCover } from "@/engine/core/objects/smart_cover";
 import { SmartTerrain, SmartTerrainControl } from "@/engine/core/objects/smart_terrain";
 import { EJobPathType, EJobType } from "@/engine/core/objects/smart_terrain/job";
 import { createStalkerAnimpointJobs } from "@/engine/core/objects/smart_terrain/job/job_create/job_create_stalker_animpoint";
-import { StringBuilder } from "@/engine/core/utils/string";
 import {
   MockSmartCover,
   MockSmartTerrain,

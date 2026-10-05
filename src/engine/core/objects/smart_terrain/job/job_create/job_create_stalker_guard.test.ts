@@ -1,5 +1,6 @@
 import { describe, expect, it, jest } from "@jest/globals";
 import { GameObject } from "xray16/alias";
+import { StringBuilder } from "xray16/lib";
 import { MockGameObject } from "xray16/mocks";
 
 import { registerZone } from "@/engine/core/database";
@@ -10,7 +11,6 @@ import {
   jobPreconditionGuard,
   jobPreconditionGuardFollower,
 } from "@/engine/core/objects/smart_terrain/job/job_precondition";
-import { StringBuilder } from "@/engine/core/utils/string";
 import { MockSmartTerrain, readInGameTestLtxFromTest, trimInGameTestLtxFromTest } from "@/fixtures/engine";
 
 describe("should correctly generate stalker guard jobs", () => {

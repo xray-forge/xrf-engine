@@ -1,7 +1,6 @@
-import { executeConsoleCommand, extern } from "xray16/lib";
+import { consoleCommands, executeConsoleCommand, extern } from "xray16/lib";
 import { $filename } from "xray16/macros";
 
-import { consoleCommands } from "@/engine/constants/console_commands";
 import { getManager } from "@/engine/core/database";
 import { GameOutroManager } from "@/engine/core/managers/outro";
 import { LuaLogger } from "@/engine/core/utils/logging";

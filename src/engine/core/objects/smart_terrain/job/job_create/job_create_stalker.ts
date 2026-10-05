@@ -1,3 +1,5 @@
+import { StringBuilder } from "xray16/lib";
+
 /* eslint max-len: 0 */
 
 import type { SmartTerrain } from "@/engine/core/objects/smart_terrain";
@@ -12,7 +14,6 @@ import { createStalkerSniperJobs } from "@/engine/core/objects/smart_terrain/job
 import { createStalkerSurgeJobs } from "@/engine/core/objects/smart_terrain/job/job_create/job_create_stalker_surge";
 import { createStalkerWalkerJobs } from "@/engine/core/objects/smart_terrain/job/job_create/job_create_stalker_walker";
 import { TSmartTerrainJobsList } from "@/engine/core/objects/smart_terrain/job/job_types";
-import { StringBuilder } from "@/engine/core/utils/string";
 
 /**
  * Create list of jobs for stalkers in smart terrain.

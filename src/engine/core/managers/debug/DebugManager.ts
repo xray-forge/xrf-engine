@@ -1,9 +1,17 @@
 import { get_hud } from "xray16";
 import { GameObject } from "xray16/alias";
-import { AnyObject, executeConsoleCommand, LuaArray, Nillable, TName, TNumberId, TSection } from "xray16/lib";
+import {
+  AnyObject,
+  consoleCommands,
+  executeConsoleCommand,
+  LuaArray,
+  Nillable,
+  TName,
+  TNumberId,
+  TSection,
+} from "xray16/lib";
 import { $filename, $isNil, $isNotNil } from "xray16/macros";
 
-import { consoleCommands } from "@/engine/constants/console_commands";
 import { getManager, registry } from "@/engine/core/database";
 import { forgeConfig } from "@/engine/core/database/forge_config";
 import { AbstractManager } from "@/engine/core/managers/abstract";

@@ -1,8 +1,7 @@
 import { EActorMenuMode, EActorMenuType, GameObject, IniFile } from "xray16/alias";
-import { ACTOR, executeConsoleCommand } from "xray16/lib";
+import { ACTOR, consoleCommands, executeConsoleCommand } from "xray16/lib";
 import { $filename } from "xray16/macros";
 
-import { consoleCommands } from "@/engine/constants/console_commands";
 import { SYSTEM_INI } from "@/engine/core/database";
 import { readIniString } from "@/engine/core/ini";
 import { AbstractManager } from "@/engine/core/managers/abstract";

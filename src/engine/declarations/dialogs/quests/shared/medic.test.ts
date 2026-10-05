@@ -1,11 +1,16 @@
 import { beforeAll, beforeEach, describe, expect, it, jest } from "@jest/globals";
-import { AnyArgs, AnyObject, TName } from "xray16/lib";
+import { AnyArgs, AnyObject, restoreObjectCondition, TName } from "xray16/lib";
 import { replaceFunctionMock, resetFunctionMock } from "xray16/testing/utils";
 
-import { isObjectInjured, restoreObjectCondition } from "@/engine/core/utils/object";
+import { isObjectInjured } from "@/engine/core/utils/object";
 import { callBinding, mockRegisteredActor, resetRegistry } from "@/fixtures/engine";
 
 jest.mock("@/engine/core/utils/object");
+jest.mock("xray16/lib", () => ({
+  ...(jest.requireActual("xray16/lib") as object),
+  restoreObjectCondition: jest.fn(),
+}));
+
 function callDialogsBinding<T = boolean>(name: TName, args: AnyArgs = []): T {
   return callBinding(name, args, (_G as AnyObject)["dialogs"]);
 }

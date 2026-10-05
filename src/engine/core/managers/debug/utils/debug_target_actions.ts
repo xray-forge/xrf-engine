@@ -1,6 +1,14 @@
 import { level } from "xray16";
 import { GameObject, ServerObject, Vector } from "xray16/alias";
-import { copyVector, MAX_LEVEL_VERTEX_ID, Nillable, TDistance, TLabel, TNumberId } from "xray16/lib";
+import {
+  copyVector,
+  MAX_LEVEL_VERTEX_ID,
+  Nillable,
+  restoreObjectCondition,
+  TDistance,
+  TLabel,
+  TNumberId,
+} from "xray16/lib";
 import { $isNil } from "xray16/macros";
 
 import { getGameObjectById, registry } from "@/engine/core/database";
@@ -14,7 +22,7 @@ import {
   logObjectState,
   logObjectStateController,
 } from "@/engine/core/utils/debug/debug_log";
-import { restoreObjectCondition, setObjectWounded } from "@/engine/core/utils/object";
+import { setObjectWounded } from "@/engine/core/utils/object";
 import { isOnLoadedLevel, teleportActorNearPosition, teleportObjectToVertex } from "@/engine/core/utils/position";
 import { ERelation, setGameObjectRelation } from "@/engine/core/utils/relation";
 import { releaseObject } from "@/engine/core/utils/spawn";

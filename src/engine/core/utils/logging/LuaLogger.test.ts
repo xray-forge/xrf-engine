@@ -1,10 +1,10 @@
 import { describe, expect, it, jest } from "@jest/globals";
 import { log, print_stack, time_global } from "xray16";
+import { toJSON } from "xray16/lib";
 import { replaceFunctionMock, resetFunctionMock } from "xray16/testing/utils";
 
 import { forgeConfig } from "@/engine/core/database/forge_config";
 import { LuaLogger } from "@/engine/core/utils/logging/LuaLogger";
-import { toJSON } from "@/engine/core/utils/transform/json";
 
 describe("LuaLogger", () => {
   const logging: { LuaLogger: typeof LuaLogger } = jest.requireActual("@/engine/core/utils/logging/LuaLogger");

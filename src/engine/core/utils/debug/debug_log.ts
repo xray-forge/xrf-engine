@@ -1,6 +1,6 @@
 import { cast_planner, CTime, relation_registry, time_global } from "xray16";
 import { ActionPlanner, GameObject } from "xray16/alias";
-import { gameTimeToString, NIL, Nillable, TLabel, TName, TNumberId } from "xray16/lib";
+import { gameTimeToString, NIL, Nillable, TLabel, TName, TNumberId, toJSON } from "xray16/lib";
 import { $filename, $isNotNil } from "xray16/macros";
 
 import { stalkerCommunities, TCommunity } from "@/engine/constants/communities";
@@ -10,7 +10,6 @@ import { IRegistryObjectState, registry } from "@/engine/core/database";
 import { getActiveSchemeState } from "@/engine/core/schemes/state";
 import { LuaLogger } from "@/engine/core/utils/logging";
 import { getNumberRelationBetweenCommunities } from "@/engine/core/utils/relation";
-import { toJSON } from "@/engine/core/utils/transform";
 import { getObjectActiveWeaponSlot } from "@/engine/core/utils/weapon";
 
 const logger: LuaLogger = new LuaLogger($filename);

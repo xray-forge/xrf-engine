@@ -1,6 +1,6 @@
 import { level } from "xray16";
 import { GameObject } from "xray16/alias";
-import { LuaArray, Nillable, TCount, TLabel, TNumberId } from "xray16/lib";
+import { LuaArray, Nillable, TCount, TLabel, TNumberId, wrapText } from "xray16/lib";
 import { $isNil } from "xray16/macros";
 
 import { registry } from "@/engine/core/database";
@@ -19,7 +19,6 @@ import {
 import { surgeConfig } from "@/engine/core/managers/surge/SurgeConfig";
 import { taskConfig } from "@/engine/core/managers/tasks/TaskConfig";
 import { isGameStarted } from "@/engine/core/utils/game";
-import { wrapText } from "@/engine/core/utils/string";
 
 /**
  * Describe what an overlay view shows now.

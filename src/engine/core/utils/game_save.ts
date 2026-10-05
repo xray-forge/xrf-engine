@@ -3,6 +3,7 @@ import { FSFileListEX, FSItem, SavedGameWrapper } from "xray16/alias";
 import {
   AnyObject,
   assert,
+  consoleCommands,
   executeConsoleCommand,
   gameTimeToString,
   LuaArray,
@@ -14,7 +15,6 @@ import {
 } from "xray16/lib";
 import { $filename, $isNil, $isNotNil } from "xray16/macros";
 
-import { consoleCommands } from "@/engine/constants/console_commands";
 import { roots } from "@/engine/constants/roots";
 import { forgeConfig } from "@/engine/core/database/forge_config";
 import { registry } from "@/engine/core/database/registry";

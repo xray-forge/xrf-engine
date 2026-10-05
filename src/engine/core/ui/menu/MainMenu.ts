@@ -15,10 +15,9 @@ import {
   ui_events,
 } from "xray16";
 import { TKeyCode, TUIEvent } from "xray16/alias";
-import { executeConsoleCommand, gameDifficulties, gameTypes, Nillable, TPath } from "xray16/lib";
+import { consoleCommands, executeConsoleCommand, gameDifficulties, gameTypes, Nillable, TPath } from "xray16/lib";
 import { $filename, $isNotNil } from "xray16/macros";
 
-import { consoleCommands } from "@/engine/constants/console_commands";
 import { gameTutorials } from "@/engine/constants/game_tutorials";
 import { getManager, registry } from "@/engine/core/database";
 import { forgeConfig } from "@/engine/core/database/forge_config";

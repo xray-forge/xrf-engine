@@ -10,12 +10,11 @@ import {
   ui_events,
 } from "xray16";
 import { TKeyCode } from "xray16/alias";
-import { create2dVector, LuaArray, TCount, TIndex, TLabel, TName, TPath } from "xray16/lib";
+import { create2dVector, LuaArray, TCount, TIndex, TLabel, TName, TPath, wrapText } from "xray16/lib";
 
 import { EDebugTab, IDebugField } from "@/engine/core/managers/debug/debug_types";
 import { DEBUG_CHARACTER_WIDTH } from "@/engine/core/ui/debug/debug_layout";
 import type { Debugger } from "@/engine/core/ui/debug/Debugger";
-import { wrapText } from "@/engine/core/utils/string";
 import { resolveXmlFile } from "@/engine/core/utils/ui";
 
 /**

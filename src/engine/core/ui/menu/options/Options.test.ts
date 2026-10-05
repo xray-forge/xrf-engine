@@ -1,8 +1,8 @@
 import { beforeEach, describe, expect, it, jest } from "@jest/globals";
 import { CUIScriptWnd, CUIWindow, DIK_keys, get_console, ui_events } from "xray16";
+import { consoleCommands } from "xray16/lib";
 import { MockConsole, MockCOptionsManager, MockCUIScriptWnd, MockCUIWindow } from "xray16/mocks";
 
-import { consoleCommands } from "@/engine/constants/console_commands";
 import { Options } from "@/engine/core/ui/menu/options/Options";
 import { EGameRenderer, EOptionGroup, optionGroupsMessages } from "@/engine/core/ui/menu/options/options_types";
 

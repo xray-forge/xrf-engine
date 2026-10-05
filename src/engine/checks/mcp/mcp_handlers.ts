@@ -1,6 +1,6 @@
 import { game, get_console, level, time_global } from "xray16";
 import { GameObject, Vector } from "xray16/alias";
-import { abort, AnyObject, gameTimeToString, Nillable } from "xray16/lib";
+import { abort, AnyObject, gameTimeToString, Nillable, requireFresh } from "xray16/lib";
 import { $isNil, $isNotNil } from "xray16/macros";
 
 import { collectReportedLines, ICheckFailure, ICheckResult } from "@/engine/checks/framework/core";
@@ -10,7 +10,6 @@ import { IMcpDialogRequest } from "@/engine/checks/mcp/mcp_dialog_types";
 import * as mcp from "@/engine/checks/mcp/mcp_probe";
 import { EMcpRequestKind, IMcpHandlerContext, IMcpRequest, TMcpHandler } from "@/engine/checks/mcp/mcp_types";
 import { registry } from "@/engine/core/database";
-import { requireFresh } from "@/engine/core/utils/module";
 
 /**
  * @param request - Request carrying the argument.

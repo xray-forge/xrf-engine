@@ -1,8 +1,13 @@
 import { level } from "xray16";
 import { NetPacket, NetProcessor } from "xray16/alias";
-import { AnyObject, EGameDifficulty, executeConsoleCommand, gameDifficultiesByNumber } from "xray16/lib";
+import {
+  AnyObject,
+  consoleCommands,
+  EGameDifficulty,
+  executeConsoleCommand,
+  gameDifficultiesByNumber,
+} from "xray16/lib";
 
-import { consoleCommands } from "@/engine/constants/console_commands";
 import { closeLoadMarker, closeSaveMarker, getManager, openLoadMarker, openSaveMarker } from "@/engine/core/database";
 import { AbstractManager } from "@/engine/core/managers/abstract";
 import { EGameEvent, EventsManager } from "@/engine/core/managers/events";

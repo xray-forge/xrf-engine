@@ -14,7 +14,7 @@ import {
   valid_saved_game,
 } from "xray16";
 import { FSItem, GameObject, TKeyCode, TUIEvent, Vector2D } from "xray16/alias";
-import { create2dVector, LuaArray, Nillable, TIndex, TLabel, TName, TPath } from "xray16/lib";
+import { copyRectangle, create2dVector, LuaArray, Nillable, TIndex, TLabel, TName, TPath } from "xray16/lib";
 import { $filename } from "xray16/macros";
 
 import { registry } from "@/engine/core/database";
@@ -28,7 +28,7 @@ import {
   loadGameSave,
 } from "@/engine/core/utils/game_save";
 import { LuaLogger } from "@/engine/core/utils/logging";
-import { copyRectangle, createScreenRectangle } from "@/engine/core/utils/rectangle";
+import { createScreenRectangle } from "@/engine/core/utils/rectangle";
 import { EElementType, initializeElement, initializeStatics, resolveXmlFile } from "@/engine/core/utils/ui";
 
 const logger: LuaLogger = new LuaLogger($filename);

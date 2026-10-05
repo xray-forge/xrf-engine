@@ -1,5 +1,5 @@
 import { get_console, level } from "xray16";
-import { executeConsoleCommand, TCount, TDuration, TLabel } from "xray16/lib";
+import { executeConsoleCommand, restoreObjectCondition, TCount, TDuration, TLabel } from "xray16/lib";
 import { $filename } from "xray16/macros";
 
 import { getManager, registry } from "@/engine/core/database";
@@ -10,7 +10,6 @@ import { surgeConfig } from "@/engine/core/managers/surge/SurgeConfig";
 import { WeatherManager } from "@/engine/core/managers/weather";
 import { forwardGameTime } from "@/engine/core/utils/game/game_time";
 import { LuaLogger } from "@/engine/core/utils/logging";
-import { restoreObjectCondition } from "@/engine/core/utils/object";
 import { giveMoneyToActor } from "@/engine/core/utils/reward";
 
 const logger: LuaLogger = new LuaLogger($filename);

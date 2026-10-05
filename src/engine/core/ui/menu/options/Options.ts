@@ -13,10 +13,9 @@ import {
   ui_events,
 } from "xray16";
 import { TKeyCode, TUIEvent } from "xray16/alias";
-import { executeConsoleCommand, TPath } from "xray16/lib";
+import { consoleCommands, executeConsoleCommand, TPath } from "xray16/lib";
 import { $filename } from "xray16/macros";
 
-import { consoleCommands } from "@/engine/constants/console_commands";
 import { EGameRenderer, EOptionGroup, optionGroupsMessages } from "@/engine/core/ui/menu/options/options_types";
 import { OptionsControls } from "@/engine/core/ui/menu/options/OptionsControls";
 import { OptionsGameplay } from "@/engine/core/ui/menu/options/OptionsGameplay";

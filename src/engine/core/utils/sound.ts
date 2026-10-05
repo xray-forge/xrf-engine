@@ -1,8 +1,7 @@
 import { bit_and, get_console, snd_type } from "xray16";
 import { GameObject, TSoundType } from "xray16/alias";
-import { TRate } from "xray16/lib";
+import { consoleCommands, TRate } from "xray16/lib";
 
-import { consoleCommands } from "@/engine/constants/console_commands";
 import { ESoundType } from "@/engine/constants/sound";
 import { soundsConfig } from "@/engine/core/managers/sounds/SoundsConfig";
 

@@ -1,5 +1,5 @@
 import { CUICheckButton, CUIScrollView, CUIStatic, level, LuabindClass, ui_events } from "xray16";
-import { LuaArray, TLabel, TName, TPath } from "xray16/lib";
+import { isConsoleCommandAvailable, LuaArray, TLabel, TName, TPath } from "xray16/lib";
 import { $fromArray } from "xray16/macros";
 
 import { registry } from "@/engine/core/database";
@@ -18,7 +18,6 @@ import {
 import { surgeConfig } from "@/engine/core/managers/surge/SurgeConfig";
 import type { Debugger } from "@/engine/core/ui/debug/Debugger";
 import { DebuggerTab } from "@/engine/core/ui/debug/tabs/DebuggerTab";
-import { isConsoleCommandAvailable } from "@/engine/core/utils/console";
 import { isGameStarted } from "@/engine/core/utils/game";
 import { initializeStatics } from "@/engine/core/utils/ui";
 

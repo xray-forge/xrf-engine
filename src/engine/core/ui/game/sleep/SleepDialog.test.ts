@@ -1,5 +1,6 @@
 import { beforeEach, describe, expect, it, jest } from "@jest/globals";
 import { CUI3tButton, CUIMessageBoxEx, CUIStatic, CUITrackBar, level } from "xray16";
+import { createRectangle } from "xray16/lib";
 import { MockGameObject } from "xray16/mocks";
 
 import { infoPortions } from "@/engine/constants/info_portions";
@@ -7,7 +8,6 @@ import { getManager } from "@/engine/core/database";
 import { SleepManager } from "@/engine/core/managers/sleep";
 import { SleepDialog } from "@/engine/core/ui/game/sleep/SleepDialog";
 import { giveInfoPortion, hasInfoPortion } from "@/engine/core/utils/info_portion";
-import { createRectangle } from "@/engine/core/utils/rectangle";
 import { mockRegisteredActor, resetRegistry } from "@/fixtures/engine";
 
 describe("SleepDialog ui component", () => {

@@ -1,11 +1,10 @@
 import { beforeEach, describe, expect, it, jest } from "@jest/globals";
 import { level } from "xray16";
 import { Console, GameObject, ServerObject } from "xray16/alias";
-import { AnyObject } from "xray16/lib";
+import { AnyObject, consoleCommands } from "xray16/lib";
 import { MockAlifeItem, MockConsole, MockGameObject } from "xray16/mocks";
 
 import { animations, postProcessors } from "@/engine/constants/animation";
-import { consoleCommands } from "@/engine/constants/console_commands";
 import { infoPortions } from "@/engine/constants/info_portions";
 import { drugs } from "@/engine/constants/items/drugs";
 import { disposeManager, getManager, registerSimulator } from "@/engine/core/database";

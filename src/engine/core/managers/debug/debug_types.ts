@@ -1,7 +1,5 @@
 import { Vector } from "xray16/alias";
-import { LuaArray, Nillable, TIndex, TLabel, TName, TNumberId, TSection } from "xray16/lib";
-
-import { TConsoleCommand } from "@/engine/constants/console_commands";
+import { LuaArray, Nillable, TConsoleCommand, TIndex, TLabel, TName, TNumberId, TSection } from "xray16/lib";
 
 /**
  * Tabs of the debugger window, in the order they are listed.

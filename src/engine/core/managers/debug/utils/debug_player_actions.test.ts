@@ -1,10 +1,10 @@
 import { beforeEach, describe, expect, it, jest } from "@jest/globals";
 import { get_console, level } from "xray16";
 import { Console } from "xray16/alias";
+import { consoleCommands, restoreObjectCondition } from "xray16/lib";
 import { MockConsole } from "xray16/mocks";
 import { replaceFunctionMock } from "xray16/testing/utils";
 
-import { consoleCommands } from "@/engine/constants/console_commands";
 import { getManager, registry } from "@/engine/core/database";
 import { EDebugToggleType } from "@/engine/core/managers/debug/debug_types";
 import {
@@ -20,12 +20,14 @@ import {
 import { surgeConfig, SurgeManager } from "@/engine/core/managers/surge";
 import { WeatherManager } from "@/engine/core/managers/weather";
 import { forwardGameTime } from "@/engine/core/utils/game/game_time";
-import { restoreObjectCondition } from "@/engine/core/utils/object";
 import { giveMoneyToActor } from "@/engine/core/utils/reward";
 import { mockRegisteredActor, resetRegistry } from "@/fixtures/engine";
 
 jest.mock("@/engine/core/utils/game/game_time");
-jest.mock("@/engine/core/utils/object/object_condition");
+jest.mock("xray16/lib", () => ({
+  ...(jest.requireActual("xray16/lib") as object),
+  restoreObjectCondition: jest.fn(),
+}));
 jest.mock("@/engine/core/utils/reward");
 
 beforeEach(() => {

@@ -1,9 +1,8 @@
-import { AnyObject, Nillable, TLabel, TNumberId } from "xray16/lib";
+import { AnyObject, Nillable, TLabel, TNumberId, toJSON } from "xray16/lib";
 import { $isNil } from "xray16/macros";
 
 import { getGameObjectById, registry } from "@/engine/core/database";
 import { IDebugConsoleResult } from "@/engine/core/managers/debug/debug_types";
-import { toJSON } from "@/engine/core/utils/transform";
 
 /**
  * Longest result the console shows, past which it is cut.

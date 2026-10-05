@@ -1,6 +1,7 @@
 import { beforeEach, describe, expect, it, jest } from "@jest/globals";
 import { level } from "xray16";
 import { GameObject, ServerObject } from "xray16/alias";
+import { restoreObjectCondition } from "xray16/lib";
 import { MockAlifeHumanStalker, MockAlifeObject, MockAlifeSimulator, MockGameObject, MockVector } from "xray16/mocks";
 import { replaceFunctionMock, resetFunctionMock } from "xray16/testing/utils";
 
@@ -20,14 +21,17 @@ import {
   woundDebugTarget,
 } from "@/engine/core/managers/debug/utils/debug_target_actions";
 import { logObjectPlannerState } from "@/engine/core/utils/debug/debug_log";
-import { restoreObjectCondition, setObjectWounded } from "@/engine/core/utils/object";
+import { setObjectWounded } from "@/engine/core/utils/object";
 import { isOnLoadedLevel, teleportActorNearPosition } from "@/engine/core/utils/position";
 import { ERelation, setGameObjectRelation } from "@/engine/core/utils/relation";
 import { releaseObject } from "@/engine/core/utils/spawn";
 import { mockRegisteredActor, resetRegistry } from "@/fixtures/engine";
 
 jest.mock("@/engine/core/utils/debug/debug_log");
-jest.mock("@/engine/core/utils/object/object_condition");
+jest.mock("xray16/lib", () => ({
+  ...(jest.requireActual("xray16/lib") as object),
+  restoreObjectCondition: jest.fn(),
+}));
 jest.mock("@/engine/core/utils/object/object_wounds");
 jest.mock("@/engine/core/utils/relation/relation_set");
 jest.mock("@/engine/core/utils/spawn", () => ({ releaseObject: jest.fn() }));

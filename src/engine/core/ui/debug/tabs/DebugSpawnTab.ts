@@ -1,6 +1,7 @@
 import { CUI3tButton, CUIScrollView, CUIStatic, CUITabControl, LuabindClass } from "xray16";
 import {
   create2dVector,
+  createRectangle,
   isWideScreen,
   LuaArray,
   Nillable,
@@ -36,7 +37,6 @@ import type { Debugger } from "@/engine/core/ui/debug/Debugger";
 import { DebugBrowserTab } from "@/engine/core/ui/debug/tabs/DebugBrowserTab";
 import { SCREEN_WIDE_COEFFICIENT } from "@/engine/core/ui/screen_layout";
 import { isGameStarted } from "@/engine/core/utils/game";
-import { createRectangle } from "@/engine/core/utils/rectangle";
 import { initializeStatics } from "@/engine/core/utils/ui";
 
 const base: TPath = "menu\\debug\\DebugSpawnTab.component";

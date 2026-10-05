@@ -1,10 +1,9 @@
 import { level } from "xray16";
-import { AnyObject, LuaArray, Nillable, TLabel, TName } from "xray16/lib";
+import { AnyObject, LuaArray, Nillable, requireFresh, TLabel, TName } from "xray16/lib";
 import { $isNil, $isNotNil } from "xray16/macros";
 
 import { IDebugField, IDebugFlow, IDebugFlowResult, IDebugQuestEntry } from "@/engine/core/managers/debug/debug_types";
 import { addDebugField } from "@/engine/core/managers/debug/utils/debug_inspect";
-import { requireFresh } from "@/engine/core/utils/module";
 
 /**
  * Lua module the checks build lists the flows it built in.

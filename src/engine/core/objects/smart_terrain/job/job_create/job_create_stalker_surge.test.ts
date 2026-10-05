@@ -1,6 +1,6 @@
 import { describe, expect, it, jest } from "@jest/globals";
 import { GameObject } from "xray16/alias";
-import { range } from "xray16/lib";
+import { range, StringBuilder } from "xray16/lib";
 import { MockGameObject } from "xray16/mocks";
 
 import { registerZone } from "@/engine/core/database";
@@ -8,7 +8,6 @@ import { SmartTerrain, SmartTerrainControl } from "@/engine/core/objects/smart_t
 import { EJobPathType, EJobType } from "@/engine/core/objects/smart_terrain/job";
 import { createStalkerSurgeJobs } from "@/engine/core/objects/smart_terrain/job/job_create/job_create_stalker_surge";
 import { jobPreconditionSurge } from "@/engine/core/objects/smart_terrain/job/job_precondition";
-import { StringBuilder } from "@/engine/core/utils/string";
 import { MockSmartTerrain, readInGameTestLtxFromTest, trimInGameTestLtxFromTest } from "@/fixtures/engine";
 
 describe("jobs_general should correctly generate stalkers surge jobs", () => {
