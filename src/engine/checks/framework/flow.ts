@@ -1,5 +1,16 @@
 import { time_global } from "xray16";
-import { ACTOR_ID, LuaArray, Nillable, TCount, TIndex, TLabel, TName } from "xray16/lib";
+import { Vector } from "xray16/alias";
+import {
+  ACTOR_ID,
+  areSameVectorsByPrecision,
+  LuaArray,
+  Nillable,
+  TCount,
+  TDistance,
+  TIndex,
+  TLabel,
+  TName,
+} from "xray16/lib";
 import { $isNil, $isNotNil } from "xray16/macros";
 
 import {
@@ -16,6 +27,12 @@ import { clearCurrentContext, IFlowStep, IRegistration, setCurrentContext } from
 import { EFlowOutcome, EFlowTravel } from "@/engine/checks/framework/result_types";
 import { getManager, getPortableStoreValue, setPortableStoreValue } from "@/engine/core/database";
 import { ActorInputManager } from "@/engine/core/managers/actor/ActorInputManager";
+import { getActorPosition } from "@/engine/core/utils/position";
+
+/**
+ * Coordinate change, in metres, within which the actor counts as not moved, so a teleport in place is no travel.
+ */
+const TRAVEL_POSITION_PRECISION: TDistance = 0.1;
 
 /**
  * Prefix of the actor portable store key a flow keeps its progress under.
@@ -174,12 +191,20 @@ function travelToStep(context: CheckContext, step: IFlowStep, position: TIndex, 
 
   report("%s: step %s/%s '%s' travelling", name, position, total, step.name);
 
-  context.travel = EFlowTravel.ON_LEVEL;
-
+  const from: Vector = getActorPosition();
   const [isCompleted, caught] = pcall(() => step.travel!());
 
   if (!isCompleted) {
     context.fail(`step ${position} travel`, `aborted -> ${tostring(caught)}`);
+  }
+
+  // A travel counts once it moved the actor, so one whose destination refused it leaves a polling caller free to travel
+  // again.
+  if (
+    context.travel !== EFlowTravel.TO_LEVEL &&
+    !areSameVectorsByPrecision(from, getActorPosition(), TRAVEL_POSITION_PRECISION)
+  ) {
+    context.travel = EFlowTravel.ON_LEVEL;
   }
 
   // Silent, as the look past a step is: a predicate that aborts was already recorded before travelling.

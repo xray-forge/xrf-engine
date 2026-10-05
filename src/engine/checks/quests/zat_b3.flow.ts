@@ -9,6 +9,7 @@ import {
   teleportToServerObject,
   teleportToStoryObject,
 } from "@/engine/checks/framework/world";
+import { teleportToLostMercsHideout } from "@/engine/checks/quests/zaton_places";
 import { infoPortions } from "@/engine/constants/info_portions";
 import { misc } from "@/engine/constants/items/misc";
 import { storyIds } from "@/engine/constants/story_ids";
@@ -26,9 +27,9 @@ const MONEY_BEFORE_KEY: TName = "xrf_b3_money";
  * Travel for one toolkit step: to Cardan with the toolkit in the pack, otherwise to where Zaton holds one.
  *
  * @param toolkit - Section of the toolkit.
- * @param placedName - Name of the server object lying on Zaton, or null when Zaton holds none.
+ * @param travelToPlaced - Travel to where the toolkit lies on Zaton, or null when Zaton holds none.
  */
-function travelForToolkit(toolkit: TSection, placedName: Nillable<TName>): void {
+function travelForToolkit(toolkit: TSection, travelToPlaced: Nillable<() => void>): void {
   if (actorHasItem(toolkit)) {
     rememberActorMoney(MONEY_BEFORE_KEY);
     void teleportToStoryObject(CARDAN_STORY_ID, 2);
@@ -36,11 +37,11 @@ function travelForToolkit(toolkit: TSection, placedName: Nillable<TName>): void 
     return;
   }
 
-  if ($isNil(placedName)) {
+  if ($isNil(travelToPlaced)) {
     return report("Zaton holds no '%s', so there is nowhere on this level to send the actor", toolkit);
   }
 
-  void teleportToServerObject(placedName as TName);
+  travelToPlaced();
 }
 
 /**
@@ -97,7 +98,7 @@ step("2 - task in the log", {
 
 step("3 - basic tools brought", {
   reached: (): boolean => hasInfoPortion(infoPortions.zat_b3_tech_instrument_1_brought),
-  travel: (): void => travelForToolkit(misc.toolkit_1, "zaton_toolkit_1"),
+  travel: (): void => travelForToolkit(misc.toolkit_1, () => void teleportToServerObject("zaton_toolkit_1")),
   verify: (): void => verifyToolkitHandIn(misc.toolkit_1, 1_000),
   handOff:
     "pick up the toolkit in the shed you were taken to, then come back and tell Cardan you brought him tools - " +
@@ -106,11 +107,12 @@ step("3 - basic tools brought", {
 
 step("4 - fine work tools brought", {
   reached: (): boolean => hasInfoPortion(infoPortions.zat_b3_tech_instrument_2_brought),
-  travel: (): void => travelForToolkit(misc.toolkit_2, "zaton_toolkit_2"),
+  // The toolkit lies inside the lost mercs' hideout, which an armed actor must not walk into.
+  travel: (): void => travelForToolkit(misc.toolkit_2, () => void teleportToLostMercsHideout()),
   verify: (): void => verifyToolkitHandIn(misc.toolkit_2, 1_200),
   handOff:
-    "pick up the toolkit you were taken to, then come back and tell Cardan you brought him tools - the ones for " +
-    "fine work",
+    "put the weapon away when the lost mercs warn the actor, pick up the toolkit inside their hideout, then come " +
+    "back and tell Cardan you brought him tools - the ones for fine work",
 });
 
 step("5 - calibration tools brought", {

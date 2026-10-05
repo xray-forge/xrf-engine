@@ -1,13 +1,13 @@
 import { beforeEach, describe, expect, it, jest } from "@jest/globals";
 import { level } from "xray16";
-import { ACTOR_ID, LuaArray, TCount, TIndex, TName } from "xray16/lib";
+import { ACTOR_ID, createVector, LuaArray, TCount, TIndex, TName } from "xray16/lib";
 import { replaceFunctionMock } from "xray16/testing/utils";
 
 import { ICheckRequirements, ICheckResult } from "@/engine/checks/framework/core";
 import { IFlowStep, IFlowStepBody, IRegistration, markLevelJump } from "@/engine/checks/framework/dsl";
 import { runFlow } from "@/engine/checks/framework/flow";
 import { EFlowOutcome, EFlowTravel } from "@/engine/checks/framework/result_types";
-import { getManager, getPortableStoreValue, setPortableStoreValue } from "@/engine/core/database";
+import { getManager, getPortableStoreValue, registry, setPortableStoreValue } from "@/engine/core/database";
 import { EActorControlHandle, EActorControlPolicy } from "@/engine/core/managers/actor/actor_input_types";
 import { ActorInputManager } from "@/engine/core/managers/actor/ActorInputManager";
 import { mockRegisteredActor, resetRegistry } from "@/fixtures/engine";
@@ -136,7 +136,10 @@ describe("runFlow", () => {
       FLOW_NAME,
       mockRegistration([
         {
-          travel: () => void order.push("travel"),
+          travel: () => {
+            order.push("travel");
+            registry.actor.set_actor_position(createVector(10, 0, 0));
+          },
           reached: () => {
             order.push("reached");
 
@@ -194,6 +197,14 @@ describe("runFlow", () => {
     runFlow(FLOW_NAME, mockRegistration([{ travel, reached: () => false }]));
 
     expect(travel).toHaveBeenCalledTimes(1);
+  });
+
+  it("should not count a travel that left the actor where it was, such as one its destination refused", () => {
+    const travel = jest.fn();
+    const result: ICheckResult = runFlow(FLOW_NAME, mockRegistration([{ travel, reached: () => false }]));
+
+    expect(travel).toHaveBeenCalledTimes(1);
+    expect(result.travel).toBe(EFlowTravel.NONE);
   });
 
   it("should leave the actor where it is when the caller polls a walk it already moved", () => {

@@ -446,12 +446,42 @@ export function teleportToPoint(
 }
 
 /**
+ * Record a count of the actor's state, such as money or carried food, so a change observed on a later invocation can
+ * be a delta.
+ *
+ * @param key - Actor store key to record under.
+ * @param count - Count to record.
+ */
+export function rememberActorCount(key: TName, count: TCount): void {
+  setPortableStoreValue<TCount>(ACTOR_ID, key, count);
+}
+
+/**
+ * Read a count recorded with {@link rememberActorCount}.
+ *
+ * @param key - Actor store key the count was recorded under.
+ * @param change - What changed the count, for the report when nothing was recorded.
+ * @returns The recorded count, or null when this walk recorded none, as the change then happened outside it.
+ */
+export function readActorCount(key: TName, change: TLabel): Nillable<TCount> {
+  const count: TCount = getPortableStoreValue<TCount>(ACTOR_ID, key, -1);
+
+  if (count < 0) {
+    report("no baseline under '%s', %s happened outside this walk", key, change);
+
+    return null;
+  }
+
+  return count;
+}
+
+/**
  * Record what the actor is carrying, so a payout observed on a later invocation can be a delta.
  *
  * @param key - Actor store key to record under.
  */
 export function rememberActorMoney(key: TName): void {
-  setPortableStoreValue<TCount>(ACTOR_ID, key, registry.actor.money());
+  rememberActorCount(key, registry.actor.money());
 }
 
 /**
@@ -462,10 +492,10 @@ export function rememberActorMoney(key: TName): void {
  * @param assertion - Short label of what was being verified.
  */
 export function expectActorMoneyGained(key: TName, atLeast: TCount, assertion: TLabel): void {
-  const before: TCount = getPortableStoreValue<TCount>(ACTOR_ID, key, -1);
+  const before: Nillable<TCount> = readActorCount(key, "the payout");
 
-  if (before < 0) {
-    return report("no money baseline under '%s', the payout happened outside this walk", key);
+  if ($isNil(before)) {
+    return;
   }
 
   const gained: TCount = registry.actor.money() - before;
@@ -485,10 +515,10 @@ export function expectActorMoneyGained(key: TName, atLeast: TCount, assertion: T
  * @param assertion - Short label of what was being verified.
  */
 export function expectActorMoneySpent(key: TName, atLeast: TCount, assertion: TLabel): void {
-  const before: TCount = getPortableStoreValue<TCount>(ACTOR_ID, key, -1);
+  const before: Nillable<TCount> = readActorCount(key, "the payment");
 
-  if (before < 0) {
-    return report("no money baseline under '%s', the payment happened outside this walk", key);
+  if ($isNil(before)) {
+    return;
   }
 
   const spent: TCount = before - registry.actor.money();
