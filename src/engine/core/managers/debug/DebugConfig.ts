@@ -1,9 +1,14 @@
 import { key_bindings } from "xray16";
-import { TCount, TName, TNumberId } from "xray16/lib";
-import { $fromArray } from "xray16/macros";
+import { TCount, TDistance, TName, TNumberId } from "xray16/lib";
+import { $fromArray, $fromObject } from "xray16/macros";
 
 import { consoleCommands } from "@/engine/constants/console_commands";
-import { EDebugTab, EDebugToggleType, IDebugConsoleToggle } from "@/engine/core/managers/debug/debug_types";
+import {
+  EDebugSpawnKind,
+  EDebugTab,
+  EDebugToggleType,
+  IDebugConsoleToggle,
+} from "@/engine/core/managers/debug/debug_types";
 
 export const debugConfig = {
   // Action opening the debugger, `custom1` bound to F11 in `default_controls.ltx`. Read by name, as the xray16
@@ -12,7 +17,88 @@ export const debugConfig = {
   // Preferences file, in the user data folder.
   PREFERENCES_FILE: "debugger.dat",
   RECENT_TARGETS_LIMIT: 8 as TCount,
+  RECENT_SPAWNS_LIMIT: 5 as TCount,
   DEFAULT_TAB: EDebugTab.TARGET,
+  // Spawn tab grid of item icons, shown a page at a time.
+  SPAWN_GRID_COLUMNS: 6 as TCount,
+  SPAWN_GRID_ROWS: 6 as TCount,
+  // Rows of a browser page: creatures and squads in the spawn tab, every world tab list.
+  BROWSER_ROWS: 24 as TCount,
+  // Inventory icons: the texture they are cut from and the size of one inventory grid cell on it.
+  ICON_TEXTURE: "ui\\ui_icon_equipment",
+  ICON_GRID_SIZE: 50,
+  // Furthest the crosshair destination reaches.
+  CROSSHAIR_DISTANCE_LIMIT: 100 as TDistance,
+  // Spawn kind of each config class, both engine and script spellings. Classes left out, such as projectiles and
+  // vehicle weapons, are not spawned from the debugger.
+  SPAWN_KIND_BY_CLASS: $fromObject<TName, EDebugSpawnKind>({
+    WP_AK74: EDebugSpawnKind.WEAPONS,
+    WP_ASHTG: EDebugSpawnKind.WEAPONS,
+    WP_BM16: EDebugSpawnKind.WEAPONS,
+    WP_GROZA: EDebugSpawnKind.WEAPONS,
+    WP_HPSA: EDebugSpawnKind.WEAPONS,
+    WP_KNIFE: EDebugSpawnKind.WEAPONS,
+    WP_LR300: EDebugSpawnKind.WEAPONS,
+    WP_PM: EDebugSpawnKind.WEAPONS,
+    WP_RG6: EDebugSpawnKind.WEAPONS,
+    WP_RPG7: EDebugSpawnKind.WEAPONS,
+    WP_SHOTG: EDebugSpawnKind.WEAPONS,
+    WP_SVD: EDebugSpawnKind.WEAPONS,
+    WP_SVU: EDebugSpawnKind.WEAPONS,
+    WP_USP45: EDebugSpawnKind.WEAPONS,
+    WP_VAL: EDebugSpawnKind.WEAPONS,
+    WP_VINT: EDebugSpawnKind.WEAPONS,
+    WP_WALTH: EDebugSpawnKind.WEAPONS,
+    G_F1_S: EDebugSpawnKind.WEAPONS,
+    G_RGD5_S: EDebugSpawnKind.WEAPONS,
+    AMMO_S: EDebugSpawnKind.AMMO,
+    S_M209: EDebugSpawnKind.AMMO,
+    S_OG7B: EDebugSpawnKind.AMMO,
+    S_VOG25: EDebugSpawnKind.AMMO,
+    E_STLK: EDebugSpawnKind.OUTFITS,
+    E_HLMET: EDebugSpawnKind.OUTFITS,
+    ARTEFACT: EDebugSpawnKind.ARTEFACTS,
+    SCRPTART: EDebugSpawnKind.ARTEFACTS,
+    S_FOOD: EDebugSpawnKind.CONSUMABLES,
+    S_MEDKI: EDebugSpawnKind.CONSUMABLES,
+    S_BANDG: EDebugSpawnKind.CONSUMABLES,
+    S_ANTIR: EDebugSpawnKind.CONSUMABLES,
+    S_BOTTL: EDebugSpawnKind.CONSUMABLES,
+    DET_SIMP: EDebugSpawnKind.DEVICES,
+    DET_ADVA: EDebugSpawnKind.DEVICES,
+    DET_ELIT: EDebugSpawnKind.DEVICES,
+    DET_SCIE: EDebugSpawnKind.DEVICES,
+    TORCH_S: EDebugSpawnKind.DEVICES,
+    WP_BINOC: EDebugSpawnKind.DEVICES,
+    D_PDA: EDebugSpawnKind.DEVICES,
+    S_PDA: EDebugSpawnKind.DEVICES,
+    WP_SCOPE: EDebugSpawnKind.OTHER,
+    WP_SILEN: EDebugSpawnKind.OTHER,
+    WP_GLAUN: EDebugSpawnKind.OTHER,
+    II_ATTCH: EDebugSpawnKind.OTHER,
+    II_DOC: EDebugSpawnKind.OTHER,
+    II_BOLT: EDebugSpawnKind.OTHER,
+    S_EXPLO: EDebugSpawnKind.OTHER,
+    SM_BLOOD: EDebugSpawnKind.MONSTERS,
+    SM_BOARW: EDebugSpawnKind.MONSTERS,
+    SM_BURER: EDebugSpawnKind.MONSTERS,
+    SM_CAT_S: EDebugSpawnKind.MONSTERS,
+    SM_CHIMS: EDebugSpawnKind.MONSTERS,
+    SM_CONTR: EDebugSpawnKind.MONSTERS,
+    SM_DOG_F: EDebugSpawnKind.MONSTERS,
+    SM_DOG_P: EDebugSpawnKind.MONSTERS,
+    SM_DOG_S: EDebugSpawnKind.MONSTERS,
+    SM_FLESH: EDebugSpawnKind.MONSTERS,
+    SM_GIANT: EDebugSpawnKind.MONSTERS,
+    SM_IZLOM: EDebugSpawnKind.MONSTERS,
+    SM_POLTR: EDebugSpawnKind.MONSTERS,
+    SM_P_DOG: EDebugSpawnKind.MONSTERS,
+    SM_SNORK: EDebugSpawnKind.MONSTERS,
+    SM_TUSHK: EDebugSpawnKind.MONSTERS,
+    SM_ZOMBI: EDebugSpawnKind.MONSTERS,
+    AI_STL_S: EDebugSpawnKind.STALKERS,
+    ON_OFF_S: EDebugSpawnKind.SQUADS,
+  }),
   // Console commands the player tab toggles.
   CONSOLE_TOGGLES: $fromArray<IDebugConsoleToggle>([
     { command: consoleCommands.g_god, type: EDebugToggleType.ON_OFF },

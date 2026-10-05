@@ -1,5 +1,15 @@
-import { CScriptXmlInit, CUI3tButton, CUIScrollView, CUIStatic, CUIWindow, LuabindClass, ui_events } from "xray16";
-import { LuaArray, TName, TPath } from "xray16/lib";
+import {
+  CScriptXmlInit,
+  CUI3tButton,
+  CUIEditBox,
+  CUIScrollView,
+  CUIStatic,
+  CUITabControl,
+  CUIWindow,
+  LuabindClass,
+  ui_events,
+} from "xray16";
+import { create2dVector, LuaArray, TCount, TIndex, TName, TPath } from "xray16/lib";
 
 import { EDebugTab, IDebugField } from "@/engine/core/managers/debug/debug_types";
 import type { Debugger } from "@/engine/core/ui/debug/Debugger";
@@ -45,16 +55,85 @@ export abstract class DebuggerTab extends CUIWindow {
    * @param selector - Button node in the tab's form.
    * @param onClick - Click handler.
    * @param base - Window to place the button in.
+   * @param name - Name to register the button under, for buttons made from one node many times.
    * @returns The button.
    */
-  protected initializeButton(selector: TName, onClick: () => void, base: CUIWindow = this): CUI3tButton {
+  protected initializeButton(
+    selector: TName,
+    onClick: () => void,
+    base: CUIWindow = this,
+    name: TName = selector
+  ): CUI3tButton {
     const button: CUI3tButton = this.xml.Init3tButton(selector, base);
-    const name: TName = `${this.tab}_${selector}`;
+    const registeredName: TName = `${this.tab}_${name}`;
 
-    this.owner.Register(button, name);
-    this.owner.AddCallback(name, ui_events.BUTTON_CLICKED, onClick, this);
+    this.owner.Register(button, registeredName);
+    this.owner.AddCallback(registeredName, ui_events.BUTTON_CLICKED, onClick, this);
 
     return button;
+  }
+
+  /**
+   * Create a tab control calling a handler when another of its buttons is picked.
+   *
+   * @param selector - Tab control node in the tab's form.
+   * @param onChange - Change handler.
+   * @returns The tab control.
+   */
+  protected initializeTabControl(selector: TName, onChange: () => void): CUITabControl {
+    const tabs: CUITabControl = this.xml.InitTab(selector, this);
+    const name: TName = `${this.tab}_${selector}`;
+
+    this.owner.Register(tabs, name);
+    this.owner.AddCallback(name, ui_events.TAB_CHANGED, onChange, this);
+
+    return tabs;
+  }
+
+  /**
+   * Create an edit box calling a handler when its text is committed with Enter.
+   *
+   * @param selector - Edit box node in the tab's form.
+   * @param onCommit - Commit handler.
+   * @returns The edit box.
+   */
+  protected initializeEditBox(selector: TName, onCommit: () => void): CUIEditBox {
+    const editBox: CUIEditBox = this.xml.InitEditBox(selector, this);
+    const name: TName = `${this.tab}_${selector}`;
+
+    this.owner.Register(editBox, name);
+    this.owner.AddCallback(name, ui_events.EDIT_TEXT_COMMIT, onCommit, this);
+
+    return editBox;
+  }
+
+  /**
+   * Create a column of buttons from one node, each calling a handler with its position.
+   *
+   * @param selector - Button node in the tab's form, holding the column's left edge.
+   * @param count - How many buttons to create.
+   * @param y - Top edge of the first button.
+   * @param step - Distance from one button to the next.
+   * @param onClick - Click handler, given the position of the button clicked, from one.
+   * @returns The buttons, top first.
+   */
+  protected initializeButtonColumn(
+    selector: TName,
+    count: TCount,
+    y: number,
+    step: number,
+    onClick: (position: TIndex) => void
+  ): LuaArray<CUI3tButton> {
+    const buttons: LuaArray<CUI3tButton> = new LuaTable();
+
+    for (const index of $range(1, count)) {
+      const button: CUI3tButton = this.initializeButton(selector, () => onClick(index), this, `${selector}_${index}`);
+
+      button.SetWndPos(create2dVector(button.GetWndPos().x, y + (index - 1) * step));
+      buttons.set(index, button);
+    }
+
+    return buttons;
   }
 
   /**

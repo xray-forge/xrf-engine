@@ -911,10 +911,7 @@
       "Los stalkers te valoran más ahora.",
       "Los bandidos tratarán de darte caza allá donde te aventures en la Zona."
     ],
-    "ukr": [
-      "Сталкери стали краще до Вас ставитися.",
-      "Бандити люто переслідуватимуть Вас під час вилазок до Зони."
-    ]
+    "ukr": ["Сталкери стали краще до Вас ставитися.", "Бандити люто переслідуватимуть Вас під час вилазок до Зони."]
   },
   "st_sp_achievement_7_name": {
     "eng": "Artifact Hunter",

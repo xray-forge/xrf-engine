@@ -2,14 +2,16 @@ import { JSXNode, JSXXML } from "jsx-xml";
 
 import { WHITE } from "@/engine/constants/colors";
 import { fonts } from "@/engine/constants/fonts";
-import { XrCheckBox, XrRoot, XrStatic } from "@/engine/forms/components/base";
 import {
   DEBUG_ACTIONS_X,
   DEBUG_BUTTON_HEIGHT,
   DEBUG_BUTTON_WIDTH,
-  DEBUG_HEADING_COLOR,
   DEBUG_ROW_HEIGHT,
   DEBUG_TAB_AREA,
+} from "@/engine/core/ui/debug/debug_layout";
+import { XrCheckBox, XrRoot, XrStatic } from "@/engine/forms/components/base";
+import {
+  DEBUG_HEADING_COLOR,
   DebugButton,
   DebugFieldTemplates,
   DebugList,

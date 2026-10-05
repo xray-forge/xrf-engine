@@ -1,4 +1,4 @@
-import { device, game_graph, level, patrol, sound_object } from "xray16";
+import { device, game, game_graph, level, patrol, sound_object } from "xray16";
 import {
   AlifeSimulator,
   ESoundObjectType,
@@ -507,6 +507,26 @@ export function teleportActorToStoryObject(
 
   registry.actor.set_actor_position(arrival);
   registry.actor.set_actor_direction(-copyVector(targetPosition).sub(arrival).getH());
+}
+
+/**
+ * Teleport the actor onto a position, jumping level when the game vertex belongs to another one.
+ *
+ * @param position - Position to arrive on.
+ * @param levelVertexId - Level vertex of the position.
+ * @param gameVertexId - Game vertex of the position; one past the graph counts as the loaded level.
+ * @returns Whether the teleport jumps level, which ends with the new level loading.
+ */
+export function teleportActorToVertex(position: Vector, levelVertexId: TNumberId, gameVertexId: TNumberId): boolean {
+  if (gameVertexId < MAX_U16 && getGameVertexLevelId(gameVertexId) !== registry.simulator.level_id()) {
+    game.jump_to_level(position, levelVertexId, gameVertexId);
+
+    return true;
+  }
+
+  registry.actor.set_actor_position(position);
+
+  return false;
 }
 
 /**

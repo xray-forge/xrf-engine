@@ -1,7 +1,14 @@
 import { beforeEach, describe, expect, it, jest } from "@jest/globals";
+import { $fromArray } from "xray16/macros";
 import { replaceFunctionMock, resetFunctionMock } from "xray16/testing/utils";
 
-import { EDebugTab } from "@/engine/core/managers/debug/debug_types";
+import {
+  EDebugSpawnDestination,
+  EDebugSpawnKind,
+  EDebugTab,
+  EDebugWorldView,
+  IDebugPreferences,
+} from "@/engine/core/managers/debug/debug_types";
 import { debugConfig } from "@/engine/core/managers/debug/DebugConfig";
 import {
   createDebugPreferences,
@@ -19,7 +26,12 @@ beforeEach(() => {
 
 describe("createDebugPreferences", () => {
   it("should create the defaults", () => {
-    expect(createDebugPreferences()).toEqual({ tab: debugConfig.DEFAULT_TAB });
+    const preferences: IDebugPreferences = createDebugPreferences();
+
+    expect(preferences.tab).toBe(debugConfig.DEFAULT_TAB);
+    expect(preferences.spawnKind).toBe(EDebugSpawnKind.WEAPONS);
+    expect(preferences.spawnDestination).toBe(EDebugSpawnDestination.INVENTORY);
+    expect(preferences.recentSpawns).toEqualLuaArrays([]);
   });
 });
 
@@ -27,25 +39,60 @@ describe("loadDebugPreferences", () => {
   it("should fall back to the defaults without a saved file", () => {
     replaceFunctionMock(loadObjectFromFile, () => null);
 
-    expect(loadDebugPreferences()).toEqual(createDebugPreferences());
+    expect(loadDebugPreferences().tab).toBe(debugConfig.DEFAULT_TAB);
     expect(loadObjectFromFile).toHaveBeenCalledWith("$app_data_root$\\debugger.dat");
   });
 
-  it("should read saved preferences and ignore unknown values", () => {
-    replaceFunctionMock(loadObjectFromFile, () => ({ tab: EDebugTab.SYSTEM }));
+  it("should read saved preferences", () => {
+    replaceFunctionMock(loadObjectFromFile, () => ({
+      tab: EDebugTab.SYSTEM,
+      spawnKind: EDebugSpawnKind.AMMO,
+      spawnDestination: EDebugSpawnDestination.ACTOR,
+      recentSpawns: $fromArray(["wpn_ak74"]),
+      worldView: EDebugWorldView.TREASURES,
+      savedPositions: $fromArray([
+        { name: "camp", level: "zaton", x: 1, y: 2, z: 3, levelVertexId: 4, gameVertexId: 5 },
+      ]),
+    }));
 
-    expect(loadDebugPreferences()).toEqual({ tab: EDebugTab.SYSTEM });
+    const preferences: IDebugPreferences = loadDebugPreferences();
 
-    replaceFunctionMock(loadObjectFromFile, () => ({ tab: "removed_tab" }));
+    expect(preferences.tab).toBe(EDebugTab.SYSTEM);
+    expect(preferences.spawnKind).toBe(EDebugSpawnKind.AMMO);
+    expect(preferences.spawnDestination).toBe(EDebugSpawnDestination.ACTOR);
+    expect(preferences.recentSpawns).toEqualLuaArrays(["wpn_ak74"]);
+    expect(preferences.worldView).toBe(EDebugWorldView.TREASURES);
+    expect(preferences.savedPositions.length()).toBe(1);
+    expect(preferences.savedPositions.get(1).name).toBe("camp");
+  });
 
-    expect(loadDebugPreferences()).toEqual(createDebugPreferences());
+  it("should replace values a later build no longer has with the defaults", () => {
+    replaceFunctionMock(loadObjectFromFile, () => ({
+      tab: "removed_tab",
+      spawnKind: "removed_kind",
+      spawnDestination: 15,
+      recentSpawns: $fromArray(["removed_section", "wpn_ak74"]),
+      worldView: "removed_view",
+      savedPositions: $fromArray([{ name: "broken" }, "not a position"]),
+    }));
+
+    const preferences: IDebugPreferences = loadDebugPreferences();
+
+    expect(preferences.tab).toBe(debugConfig.DEFAULT_TAB);
+    expect(preferences.spawnKind).toBe(EDebugSpawnKind.WEAPONS);
+    expect(preferences.spawnDestination).toBe(EDebugSpawnDestination.INVENTORY);
+    expect(preferences.recentSpawns).toEqualLuaArrays(["wpn_ak74"]);
+    expect(preferences.worldView).toBe(EDebugWorldView.SMART_TERRAINS);
+    expect(preferences.savedPositions.length()).toBe(0);
   });
 });
 
 describe("saveDebugPreferences", () => {
   it("should write preferences to the user data folder", () => {
-    saveDebugPreferences({ tab: EDebugTab.PLAYER });
+    const preferences: IDebugPreferences = createDebugPreferences();
 
-    expect(saveObjectToFile).toHaveBeenCalledWith("$app_data_root$\\", "debugger.dat", { tab: EDebugTab.PLAYER });
+    saveDebugPreferences(preferences);
+
+    expect(saveObjectToFile).toHaveBeenCalledWith("$app_data_root$\\", "debugger.dat", preferences);
   });
 });

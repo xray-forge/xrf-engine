@@ -3,25 +3,26 @@ import { JSXNode, JSXXML } from "jsx-xml";
 import { WHITE } from "@/engine/constants/colors";
 import { fonts } from "@/engine/constants/fonts";
 import { EDebugTab } from "@/engine/core/managers/debug/debug_types";
-import { SCREEN_BASE_HEIGHT, SCREEN_BASE_WIDTH } from "@/engine/core/ui/screen_layout";
-import { XrCheckBox, XrComponent, XrRoot, XrStatic, XrText } from "@/engine/forms/components/base";
-import { XrComboBox } from "@/engine/forms/components/base/XrListRenderer.component";
-import { XrTabButton } from "@/engine/forms/components/base/XrTabButton.component";
-import { XrTexture } from "@/engine/forms/components/base/XrTexture.component";
 import {
   DEBUG_HEADER_HEIGHT,
-  DEBUG_HEADING_COLOR,
-  DEBUG_LABEL_COLOR,
   DEBUG_MARGIN,
   DEBUG_MESSAGE_HEIGHT,
   DEBUG_TAB_AREA,
   DEBUG_TAB_LIST_WIDTH,
+} from "@/engine/core/ui/debug/debug_layout";
+import { SCREEN_BASE_HEIGHT, SCREEN_BASE_WIDTH } from "@/engine/core/ui/screen_layout";
+import { XrCheckBox, XrComponent, XrRoot, XrStatic } from "@/engine/forms/components/base";
+import { XrComboBox } from "@/engine/forms/components/base/XrListRenderer.component";
+import { XrTexture } from "@/engine/forms/components/base/XrTexture.component";
+import {
+  DEBUG_HEADING_COLOR,
+  DEBUG_LABEL_COLOR,
   DebugButton,
   DebugPanel,
+  DebugTabStrip,
   DebugText,
 } from "@/engine/forms/menu/debug/debug_layout";
 
-const TAB_HEIGHT: number = 28;
 const HEADER_WIDTH: number = SCREEN_BASE_WIDTH - DEBUG_MARGIN * 2;
 
 /**
@@ -30,7 +31,6 @@ const HEADER_WIDTH: number = SCREEN_BASE_WIDTH - DEBUG_MARGIN * 2;
  * @returns Rendered debugger window component.
  */
 export function create(): JSXNode {
-  const tabs: Array<EDebugTab> = Object.values(EDebugTab);
   const messageY: number = SCREEN_BASE_HEIGHT - DEBUG_MARGIN - DEBUG_MESSAGE_HEIGHT;
 
   return (
@@ -81,31 +81,16 @@ export function create(): JSXNode {
         width={DEBUG_TAB_LIST_WIDTH}
         height={DEBUG_TAB_AREA.height}
       />
-      <tabs
+      <DebugTabStrip
+        tag={"tabs"}
         x={DEBUG_MARGIN + 6}
         y={DEBUG_TAB_AREA.y + 6}
-        width={DEBUG_TAB_LIST_WIDTH - 12}
-        height={tabs.length * (TAB_HEIGHT + 4)}
-      >
-        {tabs.map((it, index) => (
-          <XrTabButton
-            id={it}
-            x={0}
-            y={index * (TAB_HEIGHT + 4)}
-            width={DEBUG_TAB_LIST_WIDTH - 12}
-            height={TAB_HEIGHT}
-            texture={"ui_inGame2_Mp_bigbuttone"}
-            stretch
-          >
-            <XrText label={it} font={fonts.letterica18} align={"c"} vertAlign={"c"} />
-            <text_color>
-              <e r={220} g={220} b={220} />
-              <t r={DEBUG_HEADING_COLOR.r} g={DEBUG_HEADING_COLOR.g} b={DEBUG_HEADING_COLOR.b} />
-              <h r={WHITE.r} g={WHITE.g} b={WHITE.b} />
-            </text_color>
-          </XrTabButton>
-        ))}
-      </tabs>
+        ids={Object.values(EDebugTab)}
+        columns={1}
+        buttonWidth={DEBUG_TAB_LIST_WIDTH - 12}
+        buttonHeight={28}
+        isLarge
+      />
 
       <XrComponent
         tag={"tab_area"}

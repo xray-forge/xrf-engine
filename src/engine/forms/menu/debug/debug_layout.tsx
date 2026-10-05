@@ -3,32 +3,17 @@ import { TLabel } from "xray16/lib";
 
 import { IRgbColor, WHITE } from "@/engine/constants/colors";
 import { fonts } from "@/engine/constants/fonts";
-import { SCREEN_BASE_HEIGHT, SCREEN_BASE_WIDTH } from "@/engine/core/ui/screen_layout";
-import { Xr3tButton, XrStatic, XrText } from "@/engine/forms/components/base";
+import {
+  DEBUG_BROWSER,
+  DEBUG_BROWSER_ROW,
+  DEBUG_BUTTON_HEIGHT,
+  DEBUG_BUTTON_WIDTH,
+  DEBUG_ROW_HEIGHT,
+} from "@/engine/core/ui/debug/debug_layout";
+import { Xr3tButton, XrEditBox, XrStatic, XrText } from "@/engine/forms/components/base";
 import { XrScrollView } from "@/engine/forms/components/base/XrScrollView.component";
+import { XrTabButton } from "@/engine/forms/components/base/XrTabButton.component";
 import { XrTexture } from "@/engine/forms/components/base/XrTexture.component";
-
-export const DEBUG_MARGIN: number = 16;
-export const DEBUG_HEADER_HEIGHT: number = 48;
-export const DEBUG_TAB_LIST_WIDTH: number = 112;
-export const DEBUG_MESSAGE_HEIGHT: number = 24;
-
-/**
- * Area every tab is placed in, right of the tab list and between the header and the message line.
- */
-export const DEBUG_TAB_AREA = {
-  x: DEBUG_MARGIN * 2 + DEBUG_TAB_LIST_WIDTH,
-  y: DEBUG_MARGIN + DEBUG_HEADER_HEIGHT + 8,
-  width: SCREEN_BASE_WIDTH - DEBUG_MARGIN * 3 - DEBUG_TAB_LIST_WIDTH,
-  height: SCREEN_BASE_HEIGHT - DEBUG_MARGIN * 2 - DEBUG_HEADER_HEIGHT - DEBUG_MESSAGE_HEIGHT - 16,
-};
-
-export const DEBUG_BUTTON_WIDTH: number = 150;
-export const DEBUG_BUTTON_HEIGHT: number = 22;
-export const DEBUG_ROW_HEIGHT: number = 20;
-
-// Column of action buttons on the right of a tab.
-export const DEBUG_ACTIONS_X: number = DEBUG_TAB_AREA.width - DEBUG_BUTTON_WIDTH * 2 - 24;
 
 export const DEBUG_LABEL_COLOR: IRgbColor = { r: 170, g: 170, b: 170 };
 export const DEBUG_HEADING_COLOR: IRgbColor = { r: 216, g: 186, b: 140 };
@@ -133,6 +118,105 @@ export function DebugFieldTemplates(props: { width: number }): JSXNode {
       <XrStatic tag={"field_row"} width={props.width} height={DEBUG_ROW_HEIGHT} />
       <DebugText tag={"field_label"} x={0} y={0} width={labelWidth} color={DEBUG_LABEL_COLOR} />
       <DebugText tag={"field_value"} x={labelWidth} y={0} width={props.width - labelWidth} />
+    </Fragment>
+  );
+}
+
+/**
+ * Tab control with its buttons laid out in a grid, filled row by row. The window finds it by its tag, and each button by
+ * its id.
+ *
+ * @param props - Tab control layout.
+ * @param props.tag - Tag of the tab control.
+ * @param props.x - Left edge.
+ * @param props.y - Top edge.
+ * @param props.ids - Button ids, also their labels.
+ * @param props.columns - Buttons per row.
+ * @param props.buttonWidth - Width of a button.
+ * @param props.buttonHeight - Height of a button.
+ * @param props.isLarge - Whether labels use the larger font.
+ */
+export function DebugTabStrip(props: {
+  tag: string;
+  x: number;
+  y: number;
+  ids: Array<string>;
+  columns: number;
+  buttonWidth: number;
+  buttonHeight: number;
+  isLarge?: boolean;
+}): JSXNode {
+  const gap: number = 4;
+  const rows: number = Math.ceil(props.ids.length / props.columns);
+
+  return JSXXML(
+    props.tag,
+    {
+      x: props.x,
+      y: props.y,
+      width: props.columns * (props.buttonWidth + gap),
+      height: rows * (props.buttonHeight + gap),
+    },
+    props.ids.map((it, index) => (
+      <XrTabButton
+        id={it}
+        x={(index % props.columns) * (props.buttonWidth + gap)}
+        y={Math.floor(index / props.columns) * (props.buttonHeight + gap)}
+        width={props.buttonWidth}
+        height={props.buttonHeight}
+        texture={"ui_inGame2_Mp_bigbuttone"}
+        stretch
+      >
+        <XrText label={it} font={props.isLarge ? fonts.letterica18 : fonts.letterica16} align={"c"} vertAlign={"c"} />
+        <text_color>
+          <e r={220} g={220} b={220} />
+          <t r={DEBUG_HEADING_COLOR.r} g={DEBUG_HEADING_COLOR.g} b={DEBUG_HEADING_COLOR.b} />
+          <h r={WHITE.r} g={WHITE.g} b={WHITE.b} />
+        </text_color>
+      </XrTabButton>
+    ))
+  );
+}
+
+/**
+ * Search box, page controls, and the panel and row template of a paged browser, as the spawn and world tabs use.
+ */
+export function DebugBrowser(): JSXNode {
+  return (
+    <Fragment>
+      <XrEditBox
+        tag={"search_input"}
+        x={0}
+        y={30}
+        width={260}
+        height={DEBUG_BUTTON_HEIGHT}
+        texture={"ui_inGame2_edit_box_2"}
+        font={fonts.letterica16}
+        color={WHITE}
+      />
+      <DebugButton tag={"search_button"} label={"search"} x={266} y={30} width={80} />
+      <DebugButton tag={"previous_page_button"} label={"<"} x={360} y={30} width={36} />
+      <DebugText tag={"page"} x={402} y={31} width={104} />
+      <DebugButton tag={"next_page_button"} label={">"} x={510} y={30} width={36} />
+
+      <DebugPanel
+        tag={"browser_background"}
+        x={DEBUG_BROWSER.x}
+        y={DEBUG_BROWSER.y}
+        width={DEBUG_BROWSER.width}
+        height={DEBUG_BROWSER.height}
+      />
+      <Xr3tButton
+        tag={"row"}
+        label={""}
+        x={DEBUG_BROWSER.x + 6}
+        width={DEBUG_BROWSER_ROW.width}
+        height={DEBUG_BROWSER_ROW.height}
+        font={fonts.letterica16}
+        textColor={WHITE}
+        texture={"ui_inGame2_Mp_bigbuttone"}
+        align={"l"}
+      />
     </Fragment>
   );
 }

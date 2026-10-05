@@ -1,4 +1,4 @@
-import { AnyObject, executeConsoleCommand, Nillable, TNumberId } from "xray16/lib";
+import { AnyObject, executeConsoleCommand, Nillable, TNumberId, TSection } from "xray16/lib";
 import { $filename } from "xray16/macros";
 
 import { consoleCommands } from "@/engine/constants/console_commands";
@@ -7,6 +7,7 @@ import { forgeConfig } from "@/engine/core/database/forge_config";
 import { AbstractManager } from "@/engine/core/managers/abstract";
 import { EDebugTab, IDebugPreferences, IDebugTarget } from "@/engine/core/managers/debug/debug_types";
 import { debugConfig } from "@/engine/core/managers/debug/DebugConfig";
+import { buildDebugCatalogue, TDebugCatalogue } from "@/engine/core/managers/debug/utils/debug_catalogue";
 import {
   createDebugPreferences,
   loadDebugPreferences,
@@ -18,6 +19,7 @@ import { Debugger } from "@/engine/core/ui/debug/Debugger";
 import type { MainMenu } from "@/engine/core/ui/menu/MainMenu";
 import { isGameStarted } from "@/engine/core/utils/game";
 import { LuaLogger } from "@/engine/core/utils/logging";
+import { pushRecentValue } from "@/engine/core/utils/table";
 
 const logger: LuaLogger = new LuaLogger($filename);
 
@@ -36,6 +38,8 @@ export class DebugManager extends AbstractManager {
   public isOpenRequested: boolean = false;
   // Main menu opened for the requested debugger, which shows it once the menu is up.
   public requestedMenu: Nillable<MainMenu> = null;
+  // Spawnable sections, built on first use: `system.ini` does not change while the game runs.
+  public catalogue: Nillable<TDebugCatalogue> = null;
 
   public override initialize(): void {
     const eventsManager: EventsManager = getManager(EventsManager);
@@ -77,6 +81,17 @@ export class DebugManager extends AbstractManager {
   }
 
   /**
+   * @returns Spawnable sections grouped by kind.
+   */
+  public getCatalogue(): TDebugCatalogue {
+    if (!this.catalogue) {
+      this.catalogue = buildDebugCatalogue();
+    }
+
+    return this.catalogue;
+  }
+
+  /**
    * Remember the tab the debugger shows, to reopen on it.
    *
    * @param tab - Tab shown.
@@ -84,8 +99,29 @@ export class DebugManager extends AbstractManager {
   public selectTab(tab: EDebugTab): void {
     if (this.preferences.tab !== tab) {
       this.preferences.tab = tab;
-      saveDebugPreferences(this.preferences);
+      this.savePreferences();
     }
+  }
+
+  /**
+   * Put a section first among the recent spawns.
+   *
+   * @param section - Section spawned.
+   */
+  public rememberSpawn(section: TSection): void {
+    this.preferences.recentSpawns = pushRecentValue(
+      this.preferences.recentSpawns,
+      section,
+      debugConfig.RECENT_SPAWNS_LIMIT
+    );
+    this.savePreferences();
+  }
+
+  /**
+   * Write the preferences after a change.
+   */
+  public savePreferences(): void {
+    saveDebugPreferences(this.preferences);
   }
 
   /**

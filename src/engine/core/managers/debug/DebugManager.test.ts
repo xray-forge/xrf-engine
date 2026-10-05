@@ -9,6 +9,7 @@ import { forgeConfig } from "@/engine/core/database/forge_config";
 import { EDebugTab } from "@/engine/core/managers/debug/debug_types";
 import { debugConfig } from "@/engine/core/managers/debug/DebugConfig";
 import { DebugManager } from "@/engine/core/managers/debug/DebugManager";
+import { TDebugCatalogue } from "@/engine/core/managers/debug/utils/debug_catalogue";
 import { loadDebugPreferences, saveDebugPreferences } from "@/engine/core/managers/debug/utils/debug_preferences";
 import { EGameEvent, EventsManager } from "@/engine/core/managers/events";
 import { Debugger } from "@/engine/core/ui/debug/Debugger";
@@ -17,7 +18,7 @@ import { mockRegisteredActor, resetRegistry } from "@/fixtures/engine";
 
 jest.mock("@/engine/core/managers/debug/utils/debug_preferences", () => ({
   createDebugPreferences: jest.fn(() => ({ tab: "target" })),
-  loadDebugPreferences: jest.fn(() => ({ tab: "player" })),
+  loadDebugPreferences: jest.fn(() => ({ tab: "player", recentSpawns: new LuaTable() })),
   saveDebugPreferences: jest.fn(),
 }));
 
@@ -46,7 +47,7 @@ describe("DebugManager", () => {
     const eventsManager: EventsManager = getManager(EventsManager);
 
     expect(loadDebugPreferences).toHaveBeenCalled();
-    expect(manager.preferences).toEqual({ tab: EDebugTab.PLAYER });
+    expect(manager.preferences.tab).toBe(EDebugTab.PLAYER);
     expect(eventsManager.getEventSubscribersCount(EGameEvent.MAIN_MENU_ON)).toBe(1);
     expect(eventsManager.getEventSubscribersCount(EGameEvent.DUMP_LUA_DATA)).toBe(1);
 
@@ -131,7 +132,28 @@ describe("DebugManager", () => {
     manager.selectTab(EDebugTab.SYSTEM);
 
     expect(manager.preferences.tab).toBe(EDebugTab.SYSTEM);
-    expect(saveDebugPreferences).toHaveBeenCalledWith({ tab: EDebugTab.SYSTEM });
+    expect(saveDebugPreferences).toHaveBeenCalledWith(manager.preferences);
+  });
+
+  it("should build the catalogue once", () => {
+    const manager: DebugManager = getManager(DebugManager);
+
+    expect(manager.catalogue).toBeNull();
+
+    const catalogue: TDebugCatalogue = manager.getCatalogue();
+
+    expect(manager.getCatalogue()).toBe(catalogue);
+  });
+
+  it("should remember recent spawns and save them", () => {
+    const manager: DebugManager = getManager(DebugManager);
+
+    manager.rememberSpawn("wpn_a");
+    manager.rememberSpawn("wpn_b");
+    manager.rememberSpawn("wpn_a");
+
+    expect(manager.preferences.recentSpawns).toEqualLuaArrays(["wpn_a", "wpn_b"]);
+    expect(saveDebugPreferences).toHaveBeenCalledTimes(3);
   });
 
   it("should dump its state", () => {

@@ -1390,31 +1390,15 @@
     "ukr": "Тренувальний табір"
   },
   "mp_vote_hint": {
-    "eng": [
-      "Vote FOR-[$$ACTION_VOTE_YES$$]",
-      "Vote AGAINST-[$$ACTION_VOTE_NO$$]",
-      "Results-[$$ACTION_VOTE$$]"
-    ],
-    "fra": [
-      "Voix POUR : [$$ACTION_VOTE_YES$$]",
-      "Voix CONTRE : [$$ACTION_VOTE_NO$$]",
-      "Résultats : [$$ACTION_VOTE$$]"
-    ],
+    "eng": ["Vote FOR-[$$ACTION_VOTE_YES$$]", "Vote AGAINST-[$$ACTION_VOTE_NO$$]", "Results-[$$ACTION_VOTE$$]"],
+    "fra": ["Voix POUR : [$$ACTION_VOTE_YES$$]", "Voix CONTRE : [$$ACTION_VOTE_NO$$]", "Résultats : [$$ACTION_VOTE$$]"],
     "ger": [
       "DAFÜR stimmen - [$$ACTION_VOTE_YES$$]",
       "DAGEGEN stimmen - [$$ACTION_VOTE_NO$$]",
       "Ergebnis - [$$ACTION_VOTE$$]"
     ],
-    "ita": [
-      "Vota PER-[$$ACTION_VOTE_YES$$]",
-      "Vota CONTRO-[$$ACTION_VOTE_NO$$]",
-      "Risultati-[$$ACTION_VOTE$$]"
-    ],
-    "pol": [
-      "Głosy ZA - [$$ACTION_VOTE_YES$$]",
-      "Głosy PRZECIW - [$$ACTION_VOTE_NO$$]",
-      "Wyniki - [$$ACTION_VOTE$$]"
-    ],
+    "ita": ["Vota PER-[$$ACTION_VOTE_YES$$]", "Vota CONTRO-[$$ACTION_VOTE_NO$$]", "Risultati-[$$ACTION_VOTE$$]"],
+    "pol": ["Głosy ZA - [$$ACTION_VOTE_YES$$]", "Głosy PRZECIW - [$$ACTION_VOTE_NO$$]", "Wyniki - [$$ACTION_VOTE$$]"],
     "rus": "Голосовать ЗА-[$$ACTION_VOTE_YES$$]\\nГолосовать ПРОТИВ-[$$ACTION_VOTE_NO$$]\\nРезультаты-[$$ACTION_VOTE$$]",
     "spa": [
       "Votar A FAVOR-[$$ACTION_VOTE_YES$$]",

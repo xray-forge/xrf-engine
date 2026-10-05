@@ -1,11 +1,9 @@
 import { JSXNode, JSXXML } from "jsx-xml";
 
+import { DEBUG_ACTIONS_X, DEBUG_BUTTON_WIDTH, DEBUG_TAB_AREA } from "@/engine/core/ui/debug/debug_layout";
 import { XrRoot } from "@/engine/forms/components/base";
 import {
-  DEBUG_ACTIONS_X,
-  DEBUG_BUTTON_WIDTH,
   DEBUG_HEADING_COLOR,
-  DEBUG_TAB_AREA,
   DebugButton,
   DebugFieldTemplates,
   DebugList,

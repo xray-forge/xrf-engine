@@ -6,6 +6,7 @@ import { $isNil, $isNotNil } from "xray16/macros";
 import { registry } from "@/engine/core/database";
 import { IDebugTarget } from "@/engine/core/managers/debug/debug_types";
 import { debugConfig } from "@/engine/core/managers/debug/DebugConfig";
+import { pushRecentValue } from "@/engine/core/utils/table";
 
 /**
  * Make an object the debugger target, moving it to the front of the recent targets.
@@ -14,20 +15,8 @@ import { debugConfig } from "@/engine/core/managers/debug/DebugConfig";
  * @param id - Id of the object to target.
  */
 export function selectDebugTarget(target: IDebugTarget, id: TNumberId): void {
-  const recentIds: LuaArray<TNumberId> = new LuaTable();
-
-  recentIds.set(1, id);
-
-  for (const index of $range(1, target.recentIds.length())) {
-    const recentId: TNumberId = target.recentIds.get(index);
-
-    if (recentId !== id && recentIds.length() < debugConfig.RECENT_TARGETS_LIMIT) {
-      recentIds.set(recentIds.length() + 1, recentId);
-    }
-  }
-
   target.id = id;
-  target.recentIds = recentIds;
+  target.recentIds = pushRecentValue(target.recentIds, id, debugConfig.RECENT_TARGETS_LIMIT);
 }
 
 /**

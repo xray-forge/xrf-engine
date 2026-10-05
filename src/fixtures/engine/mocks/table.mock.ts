@@ -1,4 +1,5 @@
-import { AnyObject } from "xray16/lib";
+import { jest } from "@jest/globals";
+import { AnyArgs, AnyObject, LuaArray } from "xray16/lib";
 import { $fromArray, $isNil } from "xray16/macros";
 
 /**
@@ -77,4 +78,9 @@ export const mockTableUtils = {
       return result;
     }
   },
+  // Works on Lua tables as they are, so the real one serves.
+  pushRecentValue: <T>(...args: AnyArgs): LuaArray<T> =>
+    jest
+      .requireActual<{ pushRecentValue: (...args: AnyArgs) => LuaArray<T> }>("@/engine/core/utils/table")
+      .pushRecentValue(...args),
 };

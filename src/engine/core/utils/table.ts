@@ -1,4 +1,4 @@
-import { AnyObject, LuaArray, Nillable } from "xray16/lib";
+import { AnyObject, LuaArray, Nillable, TCount } from "xray16/lib";
 
 /**
  * Check if provided container is empty collection.
@@ -107,4 +107,28 @@ export function getTableValuesAsSet<TValue extends AnyNotNil = AnyNotNil>(
   }
 
   return set;
+}
+
+/**
+ * Put a value first in a list of recent ones, dropping its older copy and whatever falls past the limit.
+ *
+ * @param list - Recent values, newest first.
+ * @param value - Value used now.
+ * @param limit - Most values to keep.
+ * @returns New list, newest first.
+ */
+export function pushRecentValue<T>(list: LuaArray<T>, value: T, limit: TCount): LuaArray<T> {
+  const recent: LuaArray<T> = new LuaTable();
+
+  recent.set(1, value);
+
+  for (const index of $range(1, list.length())) {
+    const it: T = list.get(index);
+
+    if (it !== value && recent.length() < limit) {
+      recent.set(recent.length() + 1, it);
+    }
+  }
+
+  return recent;
 }

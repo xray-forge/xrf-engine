@@ -11,6 +11,7 @@ const tableUtils: {
   getTableValuesAsSet: <TValue extends AnyNotNil = AnyNotNil>(
     target: LuaTable<any, TValue>
   ) => LuaTable<TValue, boolean>;
+  pushRecentValue: <T>(list: LuaArray<T>, value: T, limit: number) => LuaArray<T>;
 } = jest.requireActual("@/engine/core/utils/table");
 
 describe("resetTable", () => {
@@ -89,5 +90,16 @@ describe("getTableValuesAsSet", () => {
       [2]: true,
       "3": true,
     });
+  });
+});
+
+describe("pushRecentValue", () => {
+  it("should put a value first, without its older copy, within the limit", () => {
+    const list: LuaArray<string> = $fromArray(["a", "b", "c"]);
+
+    expect(tableUtils.pushRecentValue(list, "c", 3)).toEqualLuaArrays(["c", "a", "b"]);
+    expect(tableUtils.pushRecentValue(list, "d", 3)).toEqualLuaArrays(["d", "a", "b"]);
+    expect(tableUtils.pushRecentValue(new LuaTable(), "a", 3)).toEqualLuaArrays(["a"]);
+    expect(list).toEqualLuaArrays(["a", "b", "c"]);
   });
 });

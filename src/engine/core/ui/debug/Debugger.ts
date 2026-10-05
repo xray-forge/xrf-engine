@@ -22,8 +22,10 @@ import { pinDebugTarget, selectDebugTarget } from "@/engine/core/managers/debug/
 import { EGameEvent, EventsManager } from "@/engine/core/managers/events";
 import { DebuggerTab } from "@/engine/core/ui/debug/tabs/DebuggerTab";
 import { DebugPlayerTab } from "@/engine/core/ui/debug/tabs/DebugPlayerTab";
+import { DebugSpawnTab } from "@/engine/core/ui/debug/tabs/DebugSpawnTab";
 import { DebugSystemTab } from "@/engine/core/ui/debug/tabs/DebugSystemTab";
 import { DebugTargetTab } from "@/engine/core/ui/debug/tabs/DebugTargetTab";
+import { DebugWorldTab } from "@/engine/core/ui/debug/tabs/DebugWorldTab";
 import type { MainMenu } from "@/engine/core/ui/menu/MainMenu";
 import { isGameStarted } from "@/engine/core/utils/game";
 import { LuaLogger } from "@/engine/core/utils/logging";
@@ -100,6 +102,8 @@ export class Debugger extends CUIScriptWnd {
 
     this.addTab(xml, new DebugTargetTab(this));
     this.addTab(xml, new DebugPlayerTab(this));
+    this.addTab(xml, new DebugSpawnTab(this));
+    this.addTab(xml, new DebugWorldTab(this));
     this.addTab(xml, new DebugSystemTab(this));
   }
 

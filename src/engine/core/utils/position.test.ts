@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, jest } from "@jest/globals";
-import { game_graph, level, patrol } from "xray16";
+import { game, game_graph, level, patrol } from "xray16";
 import {
   ESoundObjectType,
   GameObject,
@@ -41,6 +41,7 @@ import {
   teleportActorNearPosition,
   teleportActorToPatrol,
   teleportActorToStoryObject,
+  teleportActorToVertex,
   teleportActorWithEffects,
   teleportObjectToVertex,
 } from "@/engine/core/utils/position";
@@ -832,6 +833,26 @@ describe("getObjectSmartTerrain", () => {
 
     expect(getObjectTerrain(gameObject)).toBeNull();
     expect(getObjectTerrain(serverObject)).toBeNull();
+  });
+});
+
+describe("teleportActorToVertex", () => {
+  it("should move the actor on the loaded level and jump level otherwise", () => {
+    const { actorGameObject } = mockRegisteredActor();
+    const position: Vector = MockVector.mock(1, 2, 3);
+
+    jest.spyOn(registry.simulator, "level_id").mockImplementation(() => 1);
+    jest.spyOn(game_graph().vertex(10), "level_id").mockImplementation(() => 1);
+
+    expect(teleportActorToVertex(position, 20, MAX_U16)).toBe(false);
+    expect(actorGameObject.set_actor_position).toHaveBeenCalledWith(position);
+
+    expect(teleportActorToVertex(position, 20, 10)).toBe(false);
+
+    jest.spyOn(game_graph().vertex(11), "level_id").mockImplementation(() => 2);
+
+    expect(teleportActorToVertex(position, 20, 11)).toBe(true);
+    expect(game.jump_to_level).toHaveBeenCalledWith(position, 20, 11);
   });
 });
 

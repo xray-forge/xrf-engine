@@ -1210,48 +1210,14 @@
     "ukr": "Помилка з'єднання: неправильний пароль"
   },
   "ui_st_conn_new_patch": {
-    "eng": [
-      "A new patch is available.",
-      " Version: %s",
-      " Location: %s",
-      "Do you want to download it now?"
-    ],
-    "fra": [
-      "Nouvelle mise à jour disponible.",
-      " Version : %s",
-      " Emplacement :%s",
-      "Télécharger maintenant ?"
-    ],
-    "ger": [
-      "Ein neuer Patch steht zur Verfügung.",
-      "Version: %s",
-      "Quelle: %s\\Wollen Sie den Patch herunterladen?"
-    ],
-    "ita": [
-      "È disponibile una nuova patch.",
-      " Versione: %s",
-      " Posizione: %s",
-      "Vuoi scaricarla adesso?"
-    ],
-    "pol": [
-      "Dostępna jest nowa poprawka.",
-      " Wersja: %s",
-      " Lokalizacja: %s",
-      "Czy chcesz ją teraz pobrać?"
-    ],
+    "eng": ["A new patch is available.", " Version: %s", " Location: %s", "Do you want to download it now?"],
+    "fra": ["Nouvelle mise à jour disponible.", " Version : %s", " Emplacement :%s", "Télécharger maintenant ?"],
+    "ger": ["Ein neuer Patch steht zur Verfügung.", "Version: %s", "Quelle: %s\\Wollen Sie den Patch herunterladen?"],
+    "ita": ["È disponibile una nuova patch.", " Versione: %s", " Posizione: %s", "Vuoi scaricarla adesso?"],
+    "pol": ["Dostępna jest nowa poprawka.", " Wersja: %s", " Lokalizacja: %s", "Czy chcesz ją teraz pobrać?"],
     "rus": "Доступен новый патч. \\n Версия: %s\\n %s\\n Хотите загрузить его сейчас?",
-    "spa": [
-      "Nuevo parche disponible.",
-      " Versión: %s",
-      " Localización: %s",
-      "¿Descargar ahora?"
-    ],
-    "ukr": [
-      "Доступний новий патч. ",
-      " Версія: %s",
-      " %s",
-      " Бажаєте завантажити його зараз? "
-    ]
+    "spa": ["Nuevo parche disponible.", " Versión: %s", " Localización: %s", "¿Descargar ahora?"],
+    "ukr": ["Доступний новий патч. ", " Версія: %s", " %s", " Бажаєте завантажити його зараз? "]
   },
   "ui_st_conn_no_new_patch": {
     "eng": "No new patches currently available",

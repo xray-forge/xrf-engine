@@ -60,35 +60,14 @@
     "ukr": "Обшукати труп ($$ACTION_USE$$)"
   },
   "dead_character_use_or_drag": {
-    "eng": [
-      "Search body ($$ACTION_USE$$)",
-      "Drag body (SHIFT+$$ACTION_USE$$)"
-    ],
-    "fra": [
-      "Fouiller le cadavre ($$ACTION_USE$$)",
-      "Traîner le cadavre (MAJ. +$$ACTION_USE$$)"
-    ],
-    "ger": [
-      "Leiche durchsuchen ($$ACTION_USE$$)",
-      "Leiche aufheben (Umschalt + $$ACTION_USE$$)"
-    ],
-    "ita": [
-      "Ispeziona corpo ($$ACTION_USE$$)",
-      "Trascina corpo (SHIFT+$$ACTION_USE$$)"
-    ],
-    "pol": [
-      "Przeszukaj ciało ($$ACTION_USE$$)",
-      "Przeciągnij ciało (SHIFT+$$ACTION_USE$$)"
-    ],
+    "eng": ["Search body ($$ACTION_USE$$)", "Drag body (SHIFT+$$ACTION_USE$$)"],
+    "fra": ["Fouiller le cadavre ($$ACTION_USE$$)", "Traîner le cadavre (MAJ. +$$ACTION_USE$$)"],
+    "ger": ["Leiche durchsuchen ($$ACTION_USE$$)", "Leiche aufheben (Umschalt + $$ACTION_USE$$)"],
+    "ita": ["Ispeziona corpo ($$ACTION_USE$$)", "Trascina corpo (SHIFT+$$ACTION_USE$$)"],
+    "pol": ["Przeszukaj ciało ($$ACTION_USE$$)", "Przeciągnij ciało (SHIFT+$$ACTION_USE$$)"],
     "rus": "Обыскать труп ($$ACTION_USE$$)\\nТащить труп (SHIFT+$$ACTION_USE$$)",
-    "spa": [
-      "Registrar cuerpo ($$ACTION_USE$$)",
-      "Arrastrar cuerpo (MAYÚS+$$ACTION_USE$$)"
-    ],
-    "ukr": [
-      "Обшукати труп ($$ACTION_USE$$)",
-      "Тягнути труп (SHIFT+$$ACTION_USE$$)"
-    ]
+    "spa": ["Registrar cuerpo ($$ACTION_USE$$)", "Arrastrar cuerpo (MAYÚS+$$ACTION_USE$$)"],
+    "ukr": ["Обшукати труп ($$ACTION_USE$$)", "Тягнути труп (SHIFT+$$ACTION_USE$$)"]
   },
   "general_complete_task": {
     "eng": "Mission complete:",
@@ -301,42 +280,14 @@
     "ukr": "Забрати сканер ($$ACTION_USE$$)"
   },
   "lx8_raduga": {
-    "eng": [
-      "Rainbow aggression suppressor",
-      "model of external emissions complex",
-      "scale 1:20"
-    ],
-    "fra": [
-      "Modérateur d'agressivité Arc-en-ciel",
-      "Modèle du complexe d'émission externe",
-      "échelle 1:20"
-    ],
-    "ger": [
-      "Regenbogen Aggressionsunterdrücker",
-      "Modell des externen Emissionskomplexes",
-      "Maßstab 1:20"
-    ],
-    "ita": [
-      "Riduttore di aggressività Arcobaleno",
-      "modello del complesso di emissioni esterne",
-      "scala 01:20"
-    ],
-    "pol": [
-      "Supresor agresji Tęcza",
-      "model zewnętrznego kompleksu emisji",
-      "skala1:20"
-    ],
+    "eng": ["Rainbow aggression suppressor", "model of external emissions complex", "scale 1:20"],
+    "fra": ["Modérateur d'agressivité Arc-en-ciel", "Modèle du complexe d'émission externe", "échelle 1:20"],
+    "ger": ["Regenbogen Aggressionsunterdrücker", "Modell des externen Emissionskomplexes", "Maßstab 1:20"],
+    "ita": ["Riduttore di aggressività Arcobaleno", "modello del complesso di emissioni esterne", "scala 01:20"],
+    "pol": ["Supresor agresji Tęcza", "model zewnętrznego kompleksu emisji", "skala1:20"],
     "rus": "Подавитель агрессии «Радуга»\\nмакет внешнего излучательного комплекса\\nмасштаб 1:20",
-    "spa": [
-      "Supresor de agresión de arco iris",
-      "modelo de complejo de emisiones externas",
-      "escala 1:20"
-    ],
-    "ukr": [
-      "Пригнічувач агресії «Веселка»",
-      "макет зовнішнього комлексу випромінювання",
-      "масштаб 1:20"
-    ]
+    "spa": ["Supresor de agresión de arco iris", "modelo de complejo de emisiones externas", "escala 1:20"],
+    "ukr": ["Пригнічувач агресії «Веселка»", "макет зовнішнього комлексу випромінювання", "масштаб 1:20"]
   },
   "pas_b400_tip_switcher": {
     "eng": "Activate switch ($$ACTION_USE$$)",
