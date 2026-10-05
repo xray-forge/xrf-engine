@@ -1,10 +1,14 @@
 import { beforeEach, describe, expect, it } from "@jest/globals";
 import { LuaArray, TName, TRate } from "xray16/lib";
-import { $fromObject } from "xray16/macros";
+import { $fromArray, $fromObject } from "xray16/macros";
 import { MockVector } from "xray16/mocks";
 
 import { registerSimulator } from "@/engine/core/database";
-import { EDebugSimulationView, IDebugSimulationEntry } from "@/engine/core/managers/debug/debug_types";
+import {
+  EDebugSimulationView,
+  IDebugSimulationEntry,
+  IDebugSimulationRecord,
+} from "@/engine/core/managers/debug/debug_types";
 import { getDebugObjectLevelName } from "@/engine/core/managers/debug/utils/debug_inspect";
 import {
   buildDebugSimulationEntries,
@@ -49,11 +53,14 @@ beforeEach(() => {
 describe("buildDebugSimulationEntries", () => {
   it("should list squads with their faction and level", () => {
     const squad: Squad = MockSquad.mockRegistered();
-    const entries: LuaArray<IDebugSimulationEntry> = buildDebugSimulationEntries(EDebugSimulationView.SQUADS);
+    const entries: LuaArray<IDebugSimulationEntry> = buildDebugSimulationEntries(
+      EDebugSimulationView.SQUADS,
+      new LuaTable()
+    );
     const label: string = `${squad.name()} (${squad.faction}, ${getDebugObjectLevelName(squad)})`;
 
     expect(entries).toEqualLuaArrays([
-      { id: squad.id, level: getDebugObjectLevelName(squad), label, search: label.toLowerCase() },
+      { id: squad.id, level: getDebugObjectLevelName(squad), serial: null, label, search: label.toLowerCase() },
     ]);
   });
 
@@ -64,7 +71,10 @@ describe("buildDebugSimulationEntries", () => {
     terrain.simulationProperties = $fromObject<TName, TRate>({ base: 1, lair: 2 });
     assignSimulationSquadToTerrain(MockSquad.mock(), terrain.id);
 
-    const entries: LuaArray<IDebugSimulationEntry> = buildDebugSimulationEntries(EDebugSimulationView.TERRAINS);
+    const entries: LuaArray<IDebugSimulationEntry> = buildDebugSimulationEntries(
+      EDebugSimulationView.TERRAINS,
+      new LuaTable()
+    );
 
     expect(getLabels(entries)).toEqual([`test_smart 1/3 (${getDebugObjectLevelName(terrain)})`]);
     expect(entries.get(1).search).toContain("base 1, lair 2");
@@ -76,11 +86,44 @@ describe("buildDebugSimulationEntries", () => {
     MockSquad.mockRegistered();
     MockSmartTerrain.mockRegistered();
 
-    const entries: LuaArray<IDebugSimulationEntry> = buildDebugSimulationEntries(EDebugSimulationView.OVERVIEW);
+    const entries: LuaArray<IDebugSimulationEntry> = buildDebugSimulationEntries(
+      EDebugSimulationView.OVERVIEW,
+      new LuaTable()
+    );
     const level: string = getDebugObjectLevelName(squad);
 
     expect(entries).toEqualLuaArrays([
-      { id: null, level, label: `${level}: 2 squads, 1 terrains`, search: `${level}: 2 squads, 1 terrains` },
+      {
+        id: null,
+        level,
+        serial: null,
+        label: `${level}: 2 squads, 1 terrains`,
+        search: `${level}: 2 squads, 1 terrains`,
+      },
+    ]);
+  });
+
+  it("should list recorded events in their order", () => {
+    const records: LuaArray<IDebugSimulationRecord> = $fromArray<IDebugSimulationRecord>([
+      { serial: 2, time: "10:05", id: 10, name: "test_squad", level: "zaton", text: "heads to test_smart" },
+      { serial: 1, time: "10:00", id: 10, name: "test_squad", level: "zaton", text: "created" },
+    ]);
+
+    expect(buildDebugSimulationEntries(EDebugSimulationView.EVENTS, records)).toEqualLuaArrays([
+      {
+        id: 10,
+        level: "zaton",
+        serial: 2,
+        label: "10:05  test_squad heads to test_smart",
+        search: "10:05  test_squad heads to test_smart zaton",
+      },
+      {
+        id: 10,
+        level: "zaton",
+        serial: 1,
+        label: "10:00  test_squad created",
+        search: "10:00  test_squad created zaton",
+      },
     ]);
   });
 });

@@ -28,7 +28,13 @@ describe("DebugOverlay", () => {
     const views = createDebugPreferences().overlayViews;
 
     views[EDebugOverlaySlot.MIDDLE_RIGHT] = EDebugOverlayView.OFF;
-    overlay.refresh(views, { targetId: null, flow: null, flowResult: null });
+    overlay.refresh(views, {
+      targetId: null,
+      flow: null,
+      flowResult: null,
+      simulationId: null,
+      simulationRecords: new LuaTable(),
+    });
 
     const target = overlay.panels.get(EDebugOverlaySlot.TOP_RIGHT);
 

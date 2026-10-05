@@ -5,6 +5,7 @@ import { $isNil } from "xray16/macros";
 
 import { registry } from "@/engine/core/database";
 import { parseConditionsList, parseStringsList, pickSectionFromCondList, readIniString } from "@/engine/core/ini";
+import { EGameEvent, EventsManager } from "@/engine/core/managers/events";
 import {
   createSimulationSquad,
   getSimulationTerrainAssignedSquadsCount,
@@ -107,6 +108,8 @@ export function respawnSmartTerrainSquad(terrain: SmartTerrain): Nillable<Squad>
   squad.respawnPointSection = spawnSection;
 
   terrain.spawnedSquadsList.get(spawnSection).num += 1;
+
+  EventsManager.emitEvent(EGameEvent.SMART_TERRAIN_SQUAD_RESPAWNED, terrain, squad);
 
   return squad;
 }

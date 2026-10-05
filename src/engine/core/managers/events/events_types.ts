@@ -187,6 +187,18 @@ export enum EGameEvent {
    */
   SQUAD_RELEASED,
   /**
+   * Squad assigned to another smart terrain, or to none.
+   */
+  SQUAD_TERRAIN_ASSIGNED,
+  /**
+   * Squad started a new action: staying on its target or reaching it.
+   */
+  SQUAD_ACTION_SELECTED,
+  /**
+   * Squad member died and left the squad.
+   */
+  SQUAD_MEMBER_DIED,
+  /**
    * Smart terrain registered.
    */
   SMART_TERRAIN_REGISTER,
@@ -206,6 +218,10 @@ export enum EGameEvent {
    * Smart terrain job assignments require scheduled full reselection.
    */
   SMART_TERRAIN_JOBS_DIRTY,
+  /**
+   * Smart terrain respawned a squad.
+   */
+  SMART_TERRAIN_SQUAD_RESPAWNED,
   /**
    * Registered physic object.
    */

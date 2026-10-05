@@ -13,7 +13,7 @@ describe("EventsManager", () => {
   it("should correctly initialize", () => {
     const manager: EventsManager = getManager(EventsManager);
 
-    expect(Object.keys(manager.subscribers)).toHaveLength(133);
+    expect(Object.keys(manager.subscribers)).toHaveLength(137);
 
     Object.keys(manager.subscribers).forEach((it) => {
       expect(manager.getEventSubscribersCount(it as unknown as EGameEvent)).toBe(0);

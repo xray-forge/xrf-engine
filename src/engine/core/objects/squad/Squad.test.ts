@@ -74,10 +74,15 @@ describe("Squad object", () => {
     squad.mockAddMember(first);
     squad.mockAddMember(second);
 
+    const onMemberDied = jest.fn();
+
     jest.spyOn(action, "finalize").mockImplementation(jest.fn());
     jest.spyOn(squad.storyPlayback, "unregisterObject").mockImplementation(jest.fn());
+    getManager(EventsManager).registerCallback(EGameEvent.SQUAD_MEMBER_DIED, onMemberDied);
 
     squad.onMemberDeath(second);
+
+    expect(onMemberDied).toHaveBeenCalledWith(squad, second);
 
     expect(squad.npc_count()).toBe(1);
     expect(squad.storyPlayback.unregisterObject).toHaveBeenCalledWith(second.id);

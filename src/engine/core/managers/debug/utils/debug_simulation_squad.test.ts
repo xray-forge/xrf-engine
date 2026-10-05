@@ -6,7 +6,11 @@ import { MockAlifeHumanStalker, MockCTime, MockVector } from "xray16/mocks";
 
 import { registerSimulator, registry } from "@/engine/core/database";
 import { IDebugField } from "@/engine/core/managers/debug/debug_types";
-import { explainDebugSquadTargets, inspectDebugSquad } from "@/engine/core/managers/debug/utils/debug_simulation_squad";
+import {
+  explainDebugSquadTargets,
+  inspectDebugSquad,
+  summarizeDebugSquad,
+} from "@/engine/core/managers/debug/utils/debug_simulation_squad";
 import { destroySimulationData, resetSimulationDataCache } from "@/engine/core/managers/simulation/utils";
 import { SmartTerrain } from "@/engine/core/objects/smart_terrain";
 import { Squad } from "@/engine/core/objects/squad";
@@ -119,5 +123,22 @@ describe("explainDebugSquadTargets", () => {
       "full_smart: 3.15, full",
       "unavailable_smart: 3.15, simulation unavailable",
     ]);
+  });
+});
+
+describe("summarizeDebugSquad", () => {
+  it("should sum a squad up in a few rows", () => {
+    const squad: MockSquad = MockSquad.mockRegistered() as MockSquad;
+    const terrain: SmartTerrain = MockSmartTerrain.mockRegistered("test_smart");
+
+    squad.assignedTargetId = terrain.id;
+    squad.mockAddMember(MockAlifeHumanStalker.mock());
+
+    const fields: LuaArray<IDebugField> = summarizeDebugSquad(squad);
+
+    expect(getDebugFieldValues(fields, "target")).toEqual([`test_smart (${terrain.id})`]);
+    expect(getDebugFieldValues(fields, "smart terrain")).toEqual([]);
+    expect(getDebugFieldValues(fields, "members")).toEqual(["1"]);
+    expect(fields.length()).toBeLessThanOrEqual(6);
   });
 });

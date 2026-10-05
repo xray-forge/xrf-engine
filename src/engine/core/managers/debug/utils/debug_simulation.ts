@@ -1,7 +1,11 @@
 import { level } from "xray16";
 import { LuaArray, Nillable, TCount, TLabel, TName, TNumberId } from "xray16/lib";
 
-import { EDebugSimulationView, IDebugSimulationEntry } from "@/engine/core/managers/debug/debug_types";
+import {
+  EDebugSimulationView,
+  IDebugSimulationEntry,
+  IDebugSimulationRecord,
+} from "@/engine/core/managers/debug/debug_types";
 import { describeDebugRates, getDebugObjectLevelName } from "@/engine/core/managers/debug/utils/debug_inspect";
 import { sortDebugEntriesByLevel } from "@/engine/core/managers/debug/utils/debug_search";
 import {
@@ -29,7 +33,7 @@ function createSquadEntry(squad: Squad): IDebugSimulationEntry {
   const levelName: TName = getDebugObjectLevelName(squad);
   const label: TLabel = `${squad.name()} (${squad.faction}, ${levelName})`;
 
-  return { id: squad.id, level: levelName, label, search: string.lower(label) };
+  return { id: squad.id, level: levelName, serial: null, label, search: string.lower(label) };
 }
 
 /**
@@ -49,6 +53,7 @@ function createTerrainEntry(terrain: SmartTerrain): IDebugSimulationEntry {
   return {
     id: terrain.id,
     level: levelName,
+    serial: null,
     label,
     search: string.lower(`${label} ${describeDebugRates(terrain.simulationProperties)}`),
   };
@@ -88,19 +93,45 @@ function createLevelEntries(): LuaArray<IDebugSimulationEntry> {
   for (const [levelName, it] of counts) {
     const label: TLabel = string.format("%s: %d squads, %d terrains", levelName, it.squads, it.terrains);
 
-    table.insert(entries, { id: null, level: levelName, label, search: string.lower(label) });
+    table.insert(entries, { id: null, level: levelName, serial: null, label, search: string.lower(label) });
   }
 
   return entries;
 }
 
 /**
- * Build the rows of a simulation tab list: the loaded level's first, then by label.
+ * @param records - Recorded events, newest first.
+ * @returns A row per event, in the same order.
+ */
+function createRecordEntries(records: LuaArray<IDebugSimulationRecord>): LuaArray<IDebugSimulationEntry> {
+  const entries: LuaArray<IDebugSimulationEntry> = new LuaTable();
+
+  for (const [, record] of records) {
+    const label: TLabel = `${record.time}  ${record.name} ${record.text}`;
+
+    table.insert(entries, {
+      id: record.id,
+      level: record.level,
+      serial: record.serial,
+      label,
+      search: string.lower(`${label} ${record.level}`),
+    });
+  }
+
+  return entries;
+}
+
+/**
+ * Build the rows of a simulation tab list: the loaded level's first, then by label, and events newest first.
  *
  * @param view - List to build.
+ * @param records - Recorded events, newest first.
  * @returns Rows of the list.
  */
-export function buildDebugSimulationEntries(view: EDebugSimulationView): LuaArray<IDebugSimulationEntry> {
+export function buildDebugSimulationEntries(
+  view: EDebugSimulationView,
+  records: LuaArray<IDebugSimulationRecord>
+): LuaArray<IDebugSimulationEntry> {
   let entries: LuaArray<IDebugSimulationEntry> = new LuaTable();
 
   switch (view) {
@@ -122,6 +153,9 @@ export function buildDebugSimulationEntries(view: EDebugSimulationView): LuaArra
       entries = createLevelEntries();
 
       break;
+
+    case EDebugSimulationView.EVENTS:
+      return createRecordEntries(records);
   }
 
   return sortDebugEntriesByLevel(entries, level.name());

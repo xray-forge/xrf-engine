@@ -5,7 +5,10 @@ import { MockAlifeHumanStalker, MockIniFile } from "xray16/mocks";
 
 import { registerSimulator } from "@/engine/core/database";
 import { IDebugField } from "@/engine/core/managers/debug/debug_types";
-import { inspectDebugTerrain } from "@/engine/core/managers/debug/utils/debug_simulation_terrain";
+import {
+  inspectDebugTerrain,
+  summarizeDebugTerrain,
+} from "@/engine/core/managers/debug/utils/debug_simulation_terrain";
 import {
   assignSimulationSquadToTerrain,
   destroySimulationData,
@@ -68,5 +71,21 @@ describe("inspectDebugTerrain", () => {
     expect(getDebugFieldValues(fields, "respawns")).toEqual(["test-section-1: 1/2"]);
     expect(getDebugFieldValues(fields, "next respawn check")).toEqual(["on the next update"]);
     expect(getDebugFieldValues(fields, "respawn")).toEqual(["full"]);
+  });
+});
+
+describe("summarizeDebugTerrain", () => {
+  it("should sum a terrain up in a few rows, with its respawn when it respawns squads", () => {
+    const terrain: SmartTerrain = MockSmartTerrain.mockRegistered("test_smart");
+
+    terrain.maxStayingSquadsCount = 2;
+
+    expect(getDebugFieldValues(summarizeDebugTerrain(terrain), "population")).toEqual(["0/2 squads"]);
+    expect(getDebugFieldValues(summarizeDebugTerrain(terrain), "respawn")).toEqual([]);
+
+    terrain.isRespawnPoint = true;
+    terrain.maxStayingSquadsCount = 0;
+
+    expect(getDebugFieldValues(summarizeDebugTerrain(terrain), "respawn")).toEqual(["full"]);
   });
 });

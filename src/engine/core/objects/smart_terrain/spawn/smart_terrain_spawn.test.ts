@@ -3,8 +3,9 @@ import { CTime, game } from "xray16";
 import { FALSE, Nillable, TRUE } from "xray16/lib";
 import { MockAlifeHumanStalker, MockCTime, MockIniFile } from "xray16/mocks";
 
-import { registerSimulator, registry } from "@/engine/core/database";
+import { getManager, registerSimulator, registry } from "@/engine/core/database";
 import { parseConditionsList } from "@/engine/core/ini";
+import { EGameEvent, EventsManager } from "@/engine/core/managers/events";
 import {
   assignSimulationSquadToTerrain,
   getSimulationTerrainAssignedSquadsCount,
@@ -153,9 +154,14 @@ describe("respawnSmartTerrainSquad", () => {
       return base;
     });
 
+    const onRespawned = jest.fn();
+
+    getManager(EventsManager).registerCallback(EGameEvent.SMART_TERRAIN_SQUAD_RESPAWNED, onRespawned);
+
     const squad: Squad = respawnSmartTerrainSquad(terrain) as Squad;
 
     expect(squad).not.toBeNull();
+    expect(onRespawned).toHaveBeenCalledWith(terrain, squad);
     expect(getSimulationTerrainAssignedSquadsCount(terrain.id)).toBe(1);
     expect(squad.squad_members()).toHaveLength(4);
     expect(squad.assignToTerrain).toHaveBeenCalledWith(terrain);

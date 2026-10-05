@@ -1,5 +1,5 @@
 import { Vector } from "xray16/alias";
-import { LuaArray, Nillable, TConsoleCommand, TIndex, TLabel, TName, TNumberId, TSection } from "xray16/lib";
+import { LuaArray, Nillable, TConsoleCommand, TCount, TIndex, TLabel, TName, TNumberId, TSection } from "xray16/lib";
 
 /**
  * Tabs of the debugger window, in the order they are listed.
@@ -78,18 +78,37 @@ export enum EDebugSimulationView {
   SQUADS = "squads",
   TERRAINS = "terrains",
   OVERVIEW = "overview",
+  EVENTS = "events",
 }
 
 /**
- * Row of a simulation tab list: a squad, a smart terrain, or a level of the overview.
+ * Row of a simulation tab list: a squad, a smart terrain, a level of the overview, or a recorded event.
  */
 export interface IDebugSimulationEntry {
   // Squad or terrain of the row, `null` for a level.
   id: Nillable<TNumberId>;
   level: TName;
+  // Number of the recorded event of the row, `null` for any other row.
+  serial: Nillable<TCount>;
   label: TLabel;
   // Label in lower case, matched by the search.
   search: string;
+}
+
+/**
+ * Simulation event the simulation tab recorded.
+ */
+export interface IDebugSimulationRecord {
+  // Counts every record, so rows of the same object stay apart.
+  serial: TCount;
+  // Game time of the event, as `hh:mm`.
+  time: TLabel;
+  // Squad or smart terrain the event is about.
+  id: TNumberId;
+  name: TName;
+  level: TName;
+  // What happened, after the object's name.
+  text: TLabel;
 }
 
 /**
@@ -155,6 +174,7 @@ export enum EDebugOverlayView {
   FLOW = "flow",
   ACTOR = "actor",
   WORLD = "world",
+  SIMULATION = "simulation",
 }
 
 /**
@@ -245,6 +265,9 @@ export interface IDebugOverlayState {
   // Flow the flow view follows, and its last run.
   flow: Nillable<IDebugFlow>;
   flowResult: Nillable<IDebugFlowResult>;
+  // Squad or smart terrain the simulation view follows, and its latest recorded events, newest first.
+  simulationId: Nillable<TNumberId>;
+  simulationRecords: LuaArray<IDebugSimulationRecord>;
 }
 
 /**

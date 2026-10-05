@@ -13,6 +13,7 @@ import {
   readIniString,
   readIniTwoNumbers,
 } from "@/engine/core/ini";
+import { EGameEvent, EventsManager } from "@/engine/core/managers/events";
 import { updateSquadMapSpot } from "@/engine/core/managers/map/utils/map_spot_squad";
 import { updateTerrainMapSpot } from "@/engine/core/managers/map/utils/map_spot_terrain";
 import { simulationConfig } from "@/engine/core/managers/simulation/SimulationConfig";
@@ -275,5 +276,9 @@ export function assignSimulationSquadToTerrain(squad: Squad, terrainId: Nillable
     invalidateSimulationTerrainAssignedSquadsCount(terrainId);
 
     updateTerrainMapSpot(newTerrainDescriptor.terrain);
+  }
+
+  if (terrainId !== oldTerrainId) {
+    EventsManager.emitEvent(EGameEvent.SQUAD_TERRAIN_ASSIGNED, squad, terrainId, oldTerrainId);
   }
 }

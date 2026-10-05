@@ -1,8 +1,16 @@
-import { CUIScrollView, CUITabControl, LuabindClass } from "xray16";
+import { CUI3tButton, CUIScrollView, CUITabControl, LuabindClass } from "xray16";
 import { LuaArray, Nillable, TLabel, TNumberId, TPath } from "xray16/lib";
-import { $fromArray, $isNil } from "xray16/macros";
+import { $fromArray, $isNil, $isNotNil } from "xray16/macros";
 
-import { EDebugSimulationView, EDebugTab, IDebugSimulationEntry } from "@/engine/core/managers/debug/debug_types";
+import {
+  EDebugOverlayView,
+  EDebugSimulationView,
+  EDebugTab,
+  IDebugSimulationEntry,
+} from "@/engine/core/managers/debug/debug_types";
+import type { DebugManager } from "@/engine/core/managers/debug/DebugManager";
+import type { DebugSimulationRecorder } from "@/engine/core/managers/debug/DebugSimulationRecorder";
+import { isDebugOverlayViewShown } from "@/engine/core/managers/debug/utils/debug_overlay";
 import {
   buildDebugSimulationEntries,
   getDebugSimulationSquad,
@@ -37,6 +45,8 @@ const base: TPath = "menu\\debug\\DebugSimulationTab.component";
 export class DebugSimulationTab extends DebugBrowserTab<IDebugSimulationEntry> {
   public uiViews!: CUITabControl;
   public uiFields!: CUIScrollView;
+  public uiRecordButton!: CUI3tButton;
+  public uiPinButton!: CUI3tButton;
 
   public constructor(owner: Debugger) {
     super(owner, EDebugTab.SIMULATION, base);
@@ -51,7 +61,8 @@ export class DebugSimulationTab extends DebugBrowserTab<IDebugSimulationEntry> {
       "heading_go",
       "heading_squad",
       "send_hint",
-      "heading_terrain"
+      "heading_terrain",
+      "heading_events"
     );
 
     this.initializeBrowser();
@@ -61,10 +72,13 @@ export class DebugSimulationTab extends DebugBrowserTab<IDebugSimulationEntry> {
 
     this.initializeButton("target_button", () => this.onTarget());
     this.initializeButton("teleport_button", () => this.onTeleport());
+    this.uiPinButton = this.initializeButton("pin_button", () => this.onPin());
     this.initializeButton("send_button", () => this.onSendToTarget());
     this.initializeButton("release_button", () => this.onSquadAction((squad) => releaseDebugTarget(squad.id)));
     this.initializeButton("respawn_button", () => this.onTerrainAction(respawnDebugTerrainSquad));
     this.initializeButton("clear_button", () => this.onTerrainAction(clearDebugTerrainSquads));
+    this.uiRecordButton = this.initializeButton("record_button", () => this.onRecordToggled());
+    this.initializeButton("clear_events_button", () => this.onClearEvents());
 
     this.uiViews.SetActiveTab(this.owner.manager.preferences.simulationView);
   }
@@ -73,9 +87,22 @@ export class DebugSimulationTab extends DebugBrowserTab<IDebugSimulationEntry> {
    * Rebuild the rows, as the simulation changes while the debugger is closed.
    */
   public override refresh(): void {
+    const manager: DebugManager = this.owner.manager;
+
     this.fillEntries();
     this.refreshBrowser();
     this.refreshSelection();
+
+    this.uiRecordButton
+      .TextControl()
+      .SetText(manager.simulationRecorder.isRecording ? "stop recording" : "start recording");
+    this.uiPinButton
+      .TextControl()
+      .SetText(
+        $isNotNil(manager.pinnedSimulationId) && manager.pinnedSimulationId === this.selected?.id
+          ? "unpin from overlay"
+          : "pin to overlay"
+      );
   }
 
   /**
@@ -118,6 +145,53 @@ export class DebugSimulationTab extends DebugBrowserTab<IDebugSimulationEntry> {
 
     this.owner.report(teleportActorToDebugTarget(this.selected.id));
     this.owner.resume();
+  }
+
+  /**
+   * Make the overlay's simulation view follow the selected squad or terrain, or stop following it.
+   */
+  public onPin(): void {
+    const manager: DebugManager = this.owner.manager;
+    const selected: Nillable<IDebugSimulationEntry> = this.selected;
+
+    if ($isNil(selected?.id)) {
+      return this.owner.report("select a squad or a smart terrain to pin");
+    } else if (manager.pinnedSimulationId === selected.id) {
+      manager.pinSimulationObject(null);
+
+      return this.owner.onAction("unpinned from the overlay");
+    }
+
+    manager.pinSimulationObject(selected.id);
+
+    this.owner.onAction(
+      isDebugOverlayViewShown(manager.preferences, EDebugOverlayView.SIMULATION)
+        ? `the overlay follows ${selected.label}`
+        : `pinned ${selected.label}, show the simulation view in the overlay tab`
+    );
+  }
+
+  /**
+   * Start or stop recording simulation events.
+   */
+  public onRecordToggled(): void {
+    const recorder: DebugSimulationRecorder = this.owner.manager.simulationRecorder;
+
+    if (recorder.isRecording) {
+      recorder.stop();
+      this.owner.onAction("stopped recording simulation events");
+    } else {
+      recorder.start();
+      this.owner.onAction("recording simulation events while the game runs");
+    }
+  }
+
+  /**
+   * Forget the recorded simulation events.
+   */
+  public onClearEvents(): void {
+    this.owner.manager.simulationRecorder.clear();
+    this.owner.onAction("cleared simulation events");
   }
 
   /**
@@ -169,12 +243,15 @@ export class DebugSimulationTab extends DebugBrowserTab<IDebugSimulationEntry> {
 
   protected override buildEntries(): LuaArray<IDebugSimulationEntry> {
     return isGameStarted()
-      ? buildDebugSimulationEntries(this.owner.manager.preferences.simulationView)
+      ? buildDebugSimulationEntries(
+          this.owner.manager.preferences.simulationView,
+          this.owner.manager.simulationRecorder.getRecords()
+        )
       : new LuaTable();
   }
 
   protected override isSameEntry(first: IDebugSimulationEntry, second: IDebugSimulationEntry): boolean {
-    return first.id === second.id && first.level === second.level;
+    return first.id === second.id && first.level === second.level && first.serial === second.serial;
   }
 
   protected override refreshSelection(): void {

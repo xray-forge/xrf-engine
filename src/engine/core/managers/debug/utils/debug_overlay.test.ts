@@ -1,6 +1,7 @@
 import { beforeEach, describe, expect, it } from "@jest/globals";
-import { LuaArray } from "xray16/lib";
+import { LuaArray, Nillable } from "xray16/lib";
 import { $fromArray } from "xray16/macros";
+import { MockAlifeObject } from "xray16/mocks";
 
 import { registerSimulator } from "@/engine/core/database";
 import {
@@ -8,9 +9,15 @@ import {
   IDebugField,
   IDebugFlowResult,
   IDebugOverlayState,
+  IDebugPreferences,
+  IDebugSimulationRecord,
 } from "@/engine/core/managers/debug/debug_types";
-import { inspectDebugOverlayView } from "@/engine/core/managers/debug/utils/debug_overlay";
-import { mockRegisteredActor, resetRegistry } from "@/fixtures/engine";
+import { inspectDebugOverlayView, isDebugOverlayViewShown } from "@/engine/core/managers/debug/utils/debug_overlay";
+import { createDebugPreferences } from "@/engine/core/managers/debug/utils/debug_preferences";
+import { destroySimulationData } from "@/engine/core/managers/simulation/utils";
+import { SmartTerrain } from "@/engine/core/objects/smart_terrain";
+import { Squad } from "@/engine/core/objects/squad";
+import { mockRegisteredActor, MockSmartTerrain, MockSquad, resetRegistry } from "@/fixtures/engine";
 
 /**
  * @param fields - Inspected fields.
@@ -26,12 +33,19 @@ function toLines(fields: LuaArray<IDebugField>): Array<string> {
   return lines;
 }
 
-const state: IDebugOverlayState = { targetId: null, flow: null, flowResult: null };
+const state: IDebugOverlayState = {
+  targetId: null,
+  flow: null,
+  flowResult: null,
+  simulationId: null,
+  simulationRecords: new LuaTable(),
+};
 
 beforeEach(() => {
   resetRegistry();
   registerSimulator();
   mockRegisteredActor();
+  destroySimulationData();
 });
 
 describe("inspectDebugOverlayView", () => {
@@ -71,5 +85,41 @@ describe("inspectDebugOverlayView", () => {
       "to do: ask Sultan for",
       ": work at the base",
     ]);
+  });
+});
+
+describe("inspectDebugOverlayView simulation", () => {
+  it("should follow the pinned squad or terrain with its latest events", () => {
+    const squad: Squad = MockSquad.mockRegistered();
+    const terrain: SmartTerrain = MockSmartTerrain.mockRegistered("test_smart");
+    const gone: number = MockAlifeObject.mock().id;
+    const simulationRecords: LuaArray<IDebugSimulationRecord> = $fromArray<IDebugSimulationRecord>([
+      { serial: 1, time: "10:05", id: squad.id, name: squad.name(), level: "zaton", text: "heads to test_smart" },
+    ]);
+
+    function lines(simulationId: Nillable<number>): Array<string> {
+      return toLines(
+        inspectDebugOverlayView(EDebugOverlayView.SIMULATION, { ...state, simulationId, simulationRecords }, 30)
+      );
+    }
+
+    expect(lines(null)).toEqual(["simulation: none pinned"]);
+    expect(lines(squad.id)[0]).toBe(`squad: ${squad.name()} (${squad.id})`);
+    expect(lines(squad.id).at(-1)).toBe("10:05: heads to test_smart");
+    expect(lines(terrain.id)[0]).toBe(`smart terrain: test_smart (${terrain.id})`);
+    expect(lines(gone)[0]).toMatch(/left the simulation$/);
+  });
+});
+
+describe("isDebugOverlayViewShown", () => {
+  it("should tell whether the overlay is on with a panel showing the view", () => {
+    const preferences: IDebugPreferences = createDebugPreferences();
+
+    expect(isDebugOverlayViewShown(preferences, EDebugOverlayView.TARGET)).toBe(false);
+
+    preferences.isOverlayEnabled = true;
+
+    expect(isDebugOverlayViewShown(preferences, EDebugOverlayView.TARGET)).toBe(true);
+    expect(isDebugOverlayViewShown(preferences, EDebugOverlayView.SIMULATION)).toBe(false);
   });
 });

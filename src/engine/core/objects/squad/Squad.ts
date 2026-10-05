@@ -512,30 +512,25 @@ export class Squad extends cse_alife_online_offline_group implements ISimulation
       this.assignedTargetId!
     );
 
-    if ($isNil(this.currentTargetId)) {
-      if (!squadTarget || squadTarget.isReachedBySimulationObject(this)) {
-        if (squadTarget) {
-          // todo: Probably should be revisited.
-          squadTarget.onSimulationTargetSelected(this);
-          squadTarget.onSimulationTargetDeselected(this);
-        }
-
-        this.currentTargetId = this.assignedTargetId;
-        this.currentAction = new SquadStayOnTargetAction(this);
-        this.currentAction.initialize(isUnderSimulation);
-
-        return;
+    if ($isNil(this.currentTargetId) && (!squadTarget || squadTarget.isReachedBySimulationObject(this))) {
+      if (squadTarget) {
+        // todo: Probably should be revisited.
+        squadTarget.onSimulationTargetSelected(this);
+        squadTarget.onSimulationTargetDeselected(this);
       }
-    }
 
-    if (this.assignedTargetId === this.currentTargetId || $isNil(this.assignedTargetId)) {
+      this.currentTargetId = this.assignedTargetId;
+      this.currentAction = new SquadStayOnTargetAction(this);
+    } else if (this.assignedTargetId === this.currentTargetId || $isNil(this.assignedTargetId)) {
       this.currentAction = new SquadStayOnTargetAction(this);
       this.currentTargetId = this.assignedTargetId;
-      this.currentAction.initialize(isUnderSimulation);
     } else {
       this.currentAction = new SquadReachTargetAction(this);
-      this.currentAction.initialize(isUnderSimulation);
     }
+
+    this.currentAction.initialize(isUnderSimulation);
+
+    EventsManager.emitEvent(EGameEvent.SQUAD_ACTION_SELECTED, this);
   }
 
   /**
@@ -724,6 +719,8 @@ export class Squad extends cse_alife_online_offline_group implements ISimulation
 
     this.storyPlayback.unregisterObject(object.id);
     this.unregister_member(object.id);
+
+    EventsManager.emitEvent(EGameEvent.SQUAD_MEMBER_DIED, this, object);
 
     // Release and finalize squad object.
     if (this.npc_count() === 0) {

@@ -1,7 +1,7 @@
 import { level } from "xray16";
 import { GameObject } from "xray16/alias";
 import { LuaArray, Nillable, TCount, TLabel, TNumberId, wrapText } from "xray16/lib";
-import { $isNil } from "xray16/macros";
+import { $isNil, $isNotNil } from "xray16/macros";
 
 import { registry } from "@/engine/core/database";
 import {
@@ -9,6 +9,7 @@ import {
   IDebugField,
   IDebugFlowResult,
   IDebugOverlayState,
+  IDebugPreferences,
 } from "@/engine/core/managers/debug/debug_types";
 import {
   addDebugField,
@@ -16,8 +17,16 @@ import {
   formatDebugPosition,
   inspectDebugTarget,
 } from "@/engine/core/managers/debug/utils/debug_inspect";
+import {
+  getDebugSimulationSquad,
+  getDebugSimulationTerrain,
+} from "@/engine/core/managers/debug/utils/debug_simulation";
+import { summarizeDebugSquad } from "@/engine/core/managers/debug/utils/debug_simulation_squad";
+import { summarizeDebugTerrain } from "@/engine/core/managers/debug/utils/debug_simulation_terrain";
 import { surgeConfig } from "@/engine/core/managers/surge/SurgeConfig";
 import { taskConfig } from "@/engine/core/managers/tasks/TaskConfig";
+import type { SmartTerrain } from "@/engine/core/objects/smart_terrain";
+import type { Squad } from "@/engine/core/objects/squad";
 import { isGameStarted } from "@/engine/core/utils/game";
 
 /**
@@ -50,9 +59,31 @@ export function inspectDebugOverlayView(
     case EDebugOverlayView.WORLD:
       return inspectOverlayWorld();
 
+    case EDebugOverlayView.SIMULATION:
+      return inspectOverlaySimulation(state);
+
     default:
       return new LuaTable();
   }
+}
+
+/**
+ * @param preferences - Debugger preferences.
+ * @param view - Overlay view.
+ * @returns Whether the overlay is on with a panel showing the view.
+ */
+export function isDebugOverlayViewShown(preferences: IDebugPreferences, view: EDebugOverlayView): boolean {
+  if (!preferences.isOverlayEnabled) {
+    return false;
+  }
+
+  for (const [, it] of pairs(preferences.overlayViews)) {
+    if (it === view) {
+      return true;
+    }
+  }
+
+  return false;
 }
 
 /**
@@ -96,6 +127,30 @@ function inspectOverlayWorld(): LuaArray<IDebugField> {
   addDebugField(fields, "surge", surgeConfig.IS_STARTED ? "running" : "none");
   addDebugField(fields, "nearest smart", $isNil(terrainId) ? "none" : describeDebugObject(terrainId));
   addDebugField(fields, "active tasks", tostring(table.size(taskConfig.ACTIVE_TASKS)));
+
+  return fields;
+}
+
+/**
+ * @param state - What the views follow.
+ * @returns The pinned squad or smart terrain summed up, with its latest recorded events.
+ */
+function inspectOverlaySimulation(state: IDebugOverlayState): LuaArray<IDebugField> {
+  const id: Nillable<TNumberId> = state.simulationId;
+  const squad: Nillable<Squad> = $isNil(id) ? null : getDebugSimulationSquad(id);
+  const terrain: Nillable<SmartTerrain> = $isNil(id) || $isNotNil(squad) ? null : getDebugSimulationTerrain(id);
+
+  if ($isNil(id)) {
+    return fieldsOf("simulation", "none pinned");
+  } else if ($isNil(squad) && $isNil(terrain)) {
+    return fieldsOf("simulation", `${describeDebugObject(id)} left the simulation`);
+  }
+
+  const fields: LuaArray<IDebugField> = $isNotNil(squad) ? summarizeDebugSquad(squad) : summarizeDebugTerrain(terrain!);
+
+  for (const [, record] of state.simulationRecords) {
+    addDebugField(fields, record.time, record.text);
+  }
 
   return fields;
 }

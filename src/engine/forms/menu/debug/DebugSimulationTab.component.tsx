@@ -32,6 +32,7 @@ const CARDS: Array<IDebugActionCard> = [
     actions: [
       { tag: "target_button", label: "make target" },
       { tag: "teleport_button", label: "teleport" },
+      { tag: "pin_button", label: "pin to overlay" },
     ],
   },
   {
@@ -51,6 +52,14 @@ const CARDS: Array<IDebugActionCard> = [
       { tag: "clear_button", label: "clear squads" },
     ],
   },
+  {
+    tag: "heading_events",
+    title: "events",
+    actions: [
+      { tag: "record_button", label: "start recording" },
+      { tag: "clear_events_button", label: "clear" },
+    ],
+  },
 ];
 
 const CARDS_Y: number = DEBUG_TAB_AREA.height - getDebugCardStackHeight(CARDS);
@@ -64,7 +73,7 @@ const HINT_Y: number =
   DEBUG_BUTTON_GAP;
 
 /**
- * Create the simulation tab: squads, smart terrains and levels on the left, what is selected and why, and cards of
+ * Create the simulation tab: squads, smart terrains, levels and recorded events on the left, what is selected and why, and cards of
  * what to do with it on the right.
  *
  * @returns Rendered simulation tab component.

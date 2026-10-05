@@ -44,6 +44,26 @@ function describeTerrainAlarm(terrain: SmartTerrain): Nillable<TLabel> {
 }
 
 /**
+ * @param terrain - Simulation smart terrain.
+ * @returns Squads assigned to the terrain against its capacity.
+ */
+function describeTerrainPopulation(terrain: SmartTerrain): TLabel {
+  return string.format(
+    "%d/%d squads",
+    getSimulationTerrainAssignedSquadsCount(terrain.id),
+    terrain.maxStayingSquadsCount
+  );
+}
+
+/**
+ * @param terrain - Simulation smart terrain.
+ * @returns Objects staying in the terrain and arriving to it.
+ */
+function describeTerrainObjects(terrain: SmartTerrain): TLabel {
+  return string.format("%d staying, %d arriving", terrain.stayingObjectsCount, table.size(terrain.arrivingObjects));
+}
+
+/**
  * Describe a respawn point: its sections with their counts, and when and whether it respawns next.
  *
  * @param fields - Fields to add to.
@@ -77,6 +97,28 @@ function inspectTerrainRespawn(fields: LuaArray<IDebugField>, terrain: SmartTerr
 }
 
 /**
+ * Describe a smart terrain in a few rows, for the overlay.
+ *
+ * @param terrain - Simulation smart terrain.
+ * @returns Labelled values summing the terrain up.
+ */
+export function summarizeDebugTerrain(terrain: SmartTerrain): LuaArray<IDebugField> {
+  const fields: LuaArray<IDebugField> = new LuaTable();
+
+  addDebugField(fields, "smart terrain", describeDebugObject(terrain.id));
+  addDebugField(fields, "population", describeTerrainPopulation(terrain));
+  addDebugField(fields, "objects", describeTerrainObjects(terrain));
+  addDebugField(fields, "alarm", describeTerrainAlarm(terrain));
+  addDebugField(
+    fields,
+    "respawn",
+    terrain.isRespawnPoint ? (getSmartTerrainRespawnBlocker(terrain) ?? "not blocked") : null
+  );
+
+  return fields;
+}
+
+/**
  * Describe a smart terrain for the simulation tab: its role, population, jobs and respawn.
  *
  * @param terrain - Simulation smart terrain.
@@ -95,11 +137,7 @@ export function inspectDebugTerrain(terrain: SmartTerrain): LuaArray<IDebugField
   addDebugField(fields, "properties", describeDebugRates(terrain.simulationProperties));
   addDebugField(fields, "as a target", registry.simulationObjects.has(terrain.id) ? "available" : "unavailable");
   addDebugField(fields, "alarm", describeTerrainAlarm(terrain));
-  addDebugField(
-    fields,
-    "population",
-    string.format("%d/%d squads", getSimulationTerrainAssignedSquadsCount(terrain.id), terrain.maxStayingSquadsCount)
-  );
+  addDebugField(fields, "population", describeTerrainPopulation(terrain));
 
   for (const [, squad] of getSimulationTerrainDescriptorById(terrain.id)?.assignedSquads ?? new LuaTable()) {
     addDebugField(
@@ -109,11 +147,7 @@ export function inspectDebugTerrain(terrain: SmartTerrain): LuaArray<IDebugField
     );
   }
 
-  addDebugField(
-    fields,
-    "objects",
-    string.format("%d staying, %d arriving", terrain.stayingObjectsCount, table.size(terrain.arrivingObjects))
-  );
+  addDebugField(fields, "objects", describeTerrainObjects(terrain));
 
   for (const [id, state] of terrain.objectJobDescriptors) {
     addDebugField(

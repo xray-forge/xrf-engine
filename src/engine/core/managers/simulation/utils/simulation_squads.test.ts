@@ -7,7 +7,8 @@ import { MockAlifeHumanStalker, MockAlifeSimulator, MockGameObject, MockIniFile 
 import { resetFunctionMock } from "xray16/testing/utils";
 
 import { communities } from "@/engine/constants/communities";
-import { registerObject, registerSimulator, registry, SYSTEM_INI } from "@/engine/core/database";
+import { getManager, registerObject, registerSimulator, registry, SYSTEM_INI } from "@/engine/core/database";
+import { EGameEvent, EventsManager } from "@/engine/core/managers/events";
 import { updateSquadMapSpot } from "@/engine/core/managers/map/utils";
 import { simulationConfig } from "@/engine/core/managers/simulation/SimulationConfig";
 import { getSimulationSquads } from "@/engine/core/managers/simulation/utils/simulation_data";
@@ -431,5 +432,22 @@ describe("assignSimulationSquadToTerrain", () => {
 
     expect(squad.assignedTerrainId).toBeNull();
     expect(simulationConfig.TERRAIN_DESCRIPTORS.get(secondTerrain.id).assignedSquads.has(squad.id)).toBe(false);
+  });
+
+  it("should emit each change of the squad's terrain", () => {
+    const terrain: SmartTerrain = MockSmartTerrain.mock("first_terrain");
+    const squad: MockSquad = MockSquad.mock();
+    const onAssigned = jest.fn();
+
+    registerSimulationTerrain(terrain);
+    getManager(EventsManager).registerCallback(EGameEvent.SQUAD_TERRAIN_ASSIGNED, onAssigned);
+
+    assignSimulationSquadToTerrain(squad, terrain.id);
+    assignSimulationSquadToTerrain(squad, terrain.id);
+    assignSimulationSquadToTerrain(squad, null);
+
+    expect(onAssigned).toHaveBeenCalledTimes(2);
+    expect(onAssigned).toHaveBeenNthCalledWith(1, squad, terrain.id, null);
+    expect(onAssigned).toHaveBeenNthCalledWith(2, squad, null, terrain.id);
   });
 });

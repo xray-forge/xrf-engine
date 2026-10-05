@@ -19,10 +19,11 @@ import { TDebugCatalogue } from "@/engine/core/managers/debug/utils/debug_catalo
 import { runDebugFlow } from "@/engine/core/managers/debug/utils/debug_flows";
 import { loadDebugPreferences, saveDebugPreferences } from "@/engine/core/managers/debug/utils/debug_preferences";
 import { EGameEvent, EventsManager } from "@/engine/core/managers/events";
+import { Squad } from "@/engine/core/objects/squad";
 import { Debugger } from "@/engine/core/ui/debug/Debugger";
 import { DebugOverlay } from "@/engine/core/ui/debug/DebugOverlay";
 import type { MainMenu } from "@/engine/core/ui/menu/MainMenu";
-import { mockRegisteredActor, resetRegistry } from "@/fixtures/engine";
+import { mockRegisteredActor, MockSquad, resetRegistry } from "@/fixtures/engine";
 
 jest.mock("@/engine/core/managers/debug/utils/debug_preferences", () => {
   const actual: { createDebugPreferences: () => object } = jest.requireActual(
@@ -93,6 +94,38 @@ describe("DebugManager", () => {
     disposeManager(DebugManager);
 
     expect(eventsManager.getSubscribersCount()).toBe(0);
+  });
+
+  it("should stop recording simulation events when destroyed", () => {
+    const manager: DebugManager = getManager(DebugManager);
+    const eventsManager: EventsManager = getManager(EventsManager);
+
+    manager.simulationRecorder.start();
+
+    expect(eventsManager.getEventSubscribersCount(EGameEvent.SQUAD_ACTION_SELECTED)).toBe(1);
+
+    disposeManager(DebugManager);
+
+    expect(manager.simulationRecorder.isRecording).toBe(false);
+    expect(eventsManager.getSubscribersCount()).toBe(0);
+  });
+
+  it("should give the overlay the pinned squad or terrain with its latest events", () => {
+    const manager: DebugManager = getManager(DebugManager);
+    const squad: Squad = MockSquad.mock();
+
+    expect(manager.getOverlayState().simulationId).toBeNull();
+
+    manager.simulationRecorder.record(squad, "created");
+    manager.simulationRecorder.record(MockSquad.mock(), "created");
+    manager.pinSimulationObject(squad.id);
+
+    expect(manager.getOverlayState().simulationId).toBe(squad.id);
+    expect(manager.getOverlayState().simulationRecords.length()).toBe(1);
+
+    manager.pinSimulationObject(null);
+
+    expect(manager.getOverlayState().simulationRecords.length()).toBe(0);
   });
 
   it("should open the debugger over a menu, creating it once", () => {
@@ -233,6 +266,8 @@ describe("DebugManager", () => {
       targetId: null,
       flow: null,
       flowResult: null,
+      simulationId: null,
+      simulationRecords: expect.anything(),
     });
 
     eventsManager.emitEvent(EGameEvent.ACTOR_UPDATE_500);

@@ -108,6 +108,25 @@ export function inspectDebugSquad(squad: Squad): LuaArray<IDebugField> {
 }
 
 /**
+ * Describe a squad in a few rows, for the overlay.
+ *
+ * @param squad - Simulation squad.
+ * @returns Labelled values summing the squad up.
+ */
+export function summarizeDebugSquad(squad: Squad): LuaArray<IDebugField> {
+  const fields: LuaArray<IDebugField> = new LuaTable();
+
+  addDebugField(fields, "squad", describeDebugObject(squad.id));
+  addDebugField(fields, "state", `${squad.online ? "online" : "offline"}, ${getDebugObjectLevelName(squad)}`);
+  addDebugField(fields, "action", describeSquadAction(squad));
+  addDebugField(fields, "target", describeOptionalObject(squad.assignedTargetId));
+  addDebugField(fields, "smart terrain", describeOptionalObject(squad.assignedTerrainId));
+  addDebugField(fields, "members", tostring(squad.npc_count()));
+
+  return fields;
+}
+
+/**
  * @param squad - Simulation squad.
  * @returns Terrains on the squad's level it may not take, the most wanted first.
  */

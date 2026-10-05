@@ -6,8 +6,9 @@ import { $fromArray } from "xray16/macros";
 import { EMockPacketDataType, MockAlifeHumanStalker, MockNetProcessor } from "xray16/mocks";
 import { replaceFunctionMock, resetFunctionMock } from "xray16/testing/utils";
 
-import { registerSimulator, registry } from "@/engine/core/database";
+import { getManager, registerSimulator, registry } from "@/engine/core/database";
 import { parseConditionsList } from "@/engine/core/ini";
+import { EGameEvent, EventsManager } from "@/engine/core/managers/events";
 import { simulationConfig } from "@/engine/core/managers/simulation/SimulationConfig";
 import { ESimulationTerrainRole } from "@/engine/core/managers/simulation/types";
 import { assignSimulationSquadToTerrain } from "@/engine/core/managers/simulation/utils";
@@ -607,6 +608,19 @@ describe("Squad targeting and update", () => {
 
     expect(squad.currentAction).toBeInstanceOf(SquadStayOnTargetAction);
     expect(squad.currentTargetId).toBe(target.id);
+  });
+
+  it("selectNewAction should emit the new action", () => {
+    const squad: MockSquad = MockSquad.createRegistered();
+    const onSelected = jest.fn((it: Squad) => it.currentAction?.type);
+
+    getManager(EventsManager).registerCallback(EGameEvent.SQUAD_ACTION_SELECTED, onSelected);
+    squad.assignedTargetId = MAX_ALIFE_ID - 1;
+
+    squad.selectNewAction(true);
+
+    expect(onSelected).toHaveBeenCalledWith(squad);
+    expect(onSelected).toHaveReturnedWith(ESquadActionType.STAY_ON_TARGET);
   });
 
   it("assignToTerrain should move all members to the new terrain", () => {

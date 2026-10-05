@@ -11,6 +11,7 @@ import {
 import { inspectDebugSimulationLevel } from "@/engine/core/managers/debug/utils/debug_simulation_level";
 import { inspectDebugSquad } from "@/engine/core/managers/debug/utils/debug_simulation_squad";
 import { inspectDebugTerrain } from "@/engine/core/managers/debug/utils/debug_simulation_terrain";
+import { EGameEvent, EventsManager } from "@/engine/core/managers/events";
 import { destroySimulationData } from "@/engine/core/managers/simulation/utils";
 import { SmartTerrain } from "@/engine/core/objects/smart_terrain";
 import { Squad } from "@/engine/core/objects/squad";
@@ -146,5 +147,53 @@ describe("DebugSimulationTab", () => {
     tab.onTerrainAction(clearDebugTerrainSquads);
 
     expect(clearDebugTerrainSquads).toHaveBeenCalledWith(terrain);
+  });
+
+  it("should pin the selected squad to the overlay, and unpin it", () => {
+    const squad: Squad = MockSquad.mockRegistered();
+    const tab: DebugSimulationTab = createSimulationTab();
+    const manager: DebugManager = getManager(DebugManager);
+
+    tab.refresh();
+    tab.onPin();
+
+    expect(tab.owner.report).toHaveBeenCalledWith("select a squad or a smart terrain to pin");
+
+    tab.onEntryClicked(1);
+    tab.onPin();
+
+    expect(manager.pinnedSimulationId).toBe(squad.id);
+    expect(tab.uiPinButton.TextControl().GetText()).toBe("unpin from overlay");
+
+    tab.onPin();
+
+    expect(manager.pinnedSimulationId).toBeNull();
+    expect(tab.uiPinButton.TextControl().GetText()).toBe("pin to overlay");
+  });
+
+  it("should record simulation events and list them", () => {
+    const squad: Squad = MockSquad.mockRegistered();
+    const tab: DebugSimulationTab = createSimulationTab();
+    const manager: DebugManager = getManager(DebugManager);
+
+    tab.uiViews.SetActiveTab(EDebugSimulationView.EVENTS);
+    tab.onViewChanged();
+    tab.onRecordToggled();
+
+    expect(manager.simulationRecorder.isRecording).toBe(true);
+    expect(tab.uiRecordButton.TextControl().GetText()).toBe("stop recording");
+
+    getManager(EventsManager).emitEvent(EGameEvent.SQUAD_RELEASED, squad);
+    tab.refresh();
+    tab.onEntryClicked(1);
+
+    expect(tab.entries.length()).toBe(1);
+    expect(inspectDebugSquad).toHaveBeenCalledWith(squad);
+
+    tab.onRecordToggled();
+    tab.onClearEvents();
+
+    expect(manager.simulationRecorder.isRecording).toBe(false);
+    expect(tab.entries.length()).toBe(0);
   });
 });

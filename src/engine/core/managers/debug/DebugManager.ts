@@ -26,6 +26,7 @@ import {
   IDebugTarget,
 } from "@/engine/core/managers/debug/debug_types";
 import { debugConfig } from "@/engine/core/managers/debug/DebugConfig";
+import { DebugSimulationRecorder } from "@/engine/core/managers/debug/DebugSimulationRecorder";
 import { buildDebugCatalogue, TDebugCatalogue } from "@/engine/core/managers/debug/utils/debug_catalogue";
 import { runDebugFlow } from "@/engine/core/managers/debug/utils/debug_flows";
 import {
@@ -70,6 +71,10 @@ export class DebugManager extends AbstractManager {
   public pinnedFlowResult: Nillable<IDebugFlowResult> = null;
   // Whether the pinned flow's last run predates an info portion change.
   public isPinnedFlowStale: boolean = false;
+  // Squad or smart terrain the overlay's simulation view follows.
+  public pinnedSimulationId: Nillable<TNumberId> = null;
+  // Simulation events, recorded while the simulation tab asks for them.
+  public readonly simulationRecorder: DebugSimulationRecorder = new DebugSimulationRecorder();
 
   public override initialize(): void {
     const eventsManager: EventsManager = getManager(EventsManager);
@@ -95,6 +100,7 @@ export class DebugManager extends AbstractManager {
     eventsManager.unregisterCallback(EGameEvent.ACTOR_INFO_REMOVED, this.onInfoPortionChanged);
     eventsManager.unregisterCallback(EGameEvent.DUMP_LUA_DATA, this.onDebugDump);
 
+    this.simulationRecorder.stop();
     this.hideOverlay();
   }
 
@@ -211,6 +217,16 @@ export class DebugManager extends AbstractManager {
   }
 
   /**
+   * Make a squad or smart terrain the one the overlay's simulation view follows, or stop following one.
+   *
+   * @param id - Squad or smart terrain id, `null` to stop.
+   */
+  public pinSimulationObject(id: Nillable<TNumberId>): void {
+    this.pinnedSimulationId = id;
+    this.refreshOverlay();
+  }
+
+  /**
    * Run the pinned flow quietly, without travel, to show where its walk stands. A run that fails to load, as after
    * flows are cleaned, unpins the flow.
    */
@@ -247,7 +263,15 @@ export class DebugManager extends AbstractManager {
    * @returns What the overlay views follow now.
    */
   public getOverlayState(): IDebugOverlayState {
-    return { targetId: this.target.id, flow: this.pinnedFlow, flowResult: this.pinnedFlowResult };
+    return {
+      targetId: this.target.id,
+      flow: this.pinnedFlow,
+      flowResult: this.pinnedFlowResult,
+      simulationId: this.pinnedSimulationId,
+      simulationRecords: $isNil(this.pinnedSimulationId)
+        ? new LuaTable()
+        : this.simulationRecorder.getRecords(this.pinnedSimulationId, debugConfig.OVERLAY_SIMULATION_RECORDS),
+    };
   }
 
   /**
