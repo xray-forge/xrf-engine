@@ -13,7 +13,7 @@ import {
   reportOutcome,
 } from "@/engine/checks/framework/core";
 import { clearCurrentContext, IFlowStep, IRegistration, setCurrentContext } from "@/engine/checks/framework/dsl";
-import { EFlowOutcome } from "@/engine/checks/framework/outcome";
+import { EFlowOutcome, EFlowTravel } from "@/engine/checks/framework/result_types";
 import { getManager, getPortableStoreValue, setPortableStoreValue } from "@/engine/core/database";
 import { ActorInputManager } from "@/engine/core/managers/actor/ActorInputManager";
 
@@ -150,7 +150,8 @@ function verifyStep(context: CheckContext, step: IFlowStep, position: TIndex): v
  * @returns Whether the step is reached after travelling.
  */
 function travelToStep(context: CheckContext, step: IFlowStep, position: TIndex, name: TName, total: TCount): boolean {
-  if ($isNil(step.travel)) {
+  // A caller polling a walk already moved the actor once, and moving it again would undo what arriving started.
+  if ($isNil(step.travel) || !context.isTravelAllowed) {
     return false;
   }
 
@@ -173,7 +174,7 @@ function travelToStep(context: CheckContext, step: IFlowStep, position: TIndex, 
 
   report("%s: step %s/%s '%s' travelling", name, position, total, step.name);
 
-  context.isTravelled = true;
+  context.travel = EFlowTravel.ON_LEVEL;
 
   const [isCompleted, caught] = pcall(() => step.travel!());
 
@@ -302,10 +303,11 @@ function observeGuarded(context: CheckContext, steps: LuaArray<IFlowStep>, name:
  *
  * @param name - Flow name, single sourced from the generated launcher.
  * @param registration - What the flow source file declared while it was required.
+ * @param isTravelAllowed - Whether steps may move the actor; a caller polling a walk it already moved passes false.
  * @returns Result of the invocation.
  */
-export function runFlow(name: TName, registration: IRegistration): ICheckResult {
-  const context: CheckContext = new CheckContext(name);
+export function runFlow(name: TName, registration: IRegistration, isTravelAllowed: boolean = true): ICheckResult {
+  const context: CheckContext = new CheckContext(name, isTravelAllowed);
 
   ensureScriptLoggingEnabled();
   report("%s: flow start", name);
@@ -356,7 +358,7 @@ export function runFlow(name: TName, registration: IRegistration): ICheckResult 
     checked: context.checked,
     failures: context.failures,
     skipReason: skipReason,
-    isTravelled: context.isTravelled,
+    travel: context.travel,
   };
 
   report("%s: %s/%s step(s) confirmed", name, readCursor(name), registration.steps.length());

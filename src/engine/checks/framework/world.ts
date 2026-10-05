@@ -20,7 +20,7 @@ import {
 import { $isNil, $isNotNil } from "xray16/macros";
 
 import { report } from "@/engine/checks/framework/core";
-import { expect } from "@/engine/checks/framework/dsl";
+import { expect, markLevelJump } from "@/engine/checks/framework/dsl";
 import { infoPortions } from "@/engine/constants/info_portions";
 import {
   getManager,
@@ -347,6 +347,7 @@ export function teleportToStoryObject(storyId: TStringId, standoff: TDistance = 
   }
 
   report("teleport: '%s' sits off '%s', jumping level to gvid %s", storyId, level.name(), target.m_game_vertex_id);
+  markLevelJump();
   game.jump_to_level(target.position, target.m_level_vertex_id, target.m_game_vertex_id);
 
   return true;

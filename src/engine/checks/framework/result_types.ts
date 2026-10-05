@@ -1,7 +1,7 @@
 /**
  * Headline verdict of one flow invocation.
  *
- * Free of game dependencies, so the MCP server reads the verdicts the endpoint answers with in the same terms.
+ * This module is free of game dependencies, so the MCP server reads what the endpoint answers in the same terms.
  *
  * @inline
  */
@@ -16,4 +16,18 @@ export enum EFlowOutcome {
   BLOCKED = "BLOCKED",
   /** The environment cannot host the flow, such as another level being loaded. */
   SKIP = "SKIP",
+}
+
+/**
+ * How far a step's travel moved the actor during one flow invocation.
+ *
+ * @inline
+ */
+export enum EFlowTravel {
+  /** No travel ran: every step observed was reached, travel was not allowed, or a scene held the actor. */
+  NONE = "NONE",
+  /** A travel ran on the loaded level. */
+  ON_LEVEL = "ON_LEVEL",
+  /** A travel started a jump to another level, so the game is silent until that level greets. */
+  TO_LEVEL = "TO_LEVEL",
 }

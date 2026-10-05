@@ -4,10 +4,11 @@ import * as path from "node:path";
 import { discoverChecks, ICheckDescriptor } from "#/checks/utils/discover_checks";
 import { IMcpTool, IToolResult } from "#/mcp/mcp_tool_types";
 import { IGameResponse } from "#/mcp/McpPipeClient";
+import { waitForGreeting } from "#/mcp/tools/session_tools";
 import { answer, IGameToolsContext, json, schema, sleep, text } from "#/mcp/tools/tool_kit";
 import { Nullable } from "#/utils/types";
 
-import { EFlowOutcome } from "@/engine/checks/framework/outcome";
+import { EFlowOutcome, EFlowTravel } from "@/engine/checks/framework/result_types";
 
 const FLOW_WAIT_MS: number = 60_000;
 const WAIT_POLL_MS: number = 1_000;
@@ -21,7 +22,7 @@ const PROCESS_CHECK_MS: number = 5_000;
 interface IFlowRunResult {
   outcome: EFlowOutcome;
   steps: number;
-  isTravelled: boolean;
+  travel: EFlowTravel;
 }
 
 /**
@@ -64,16 +65,15 @@ async function runAtEngineSpeed<T>(context: IGameToolsContext, speed: number, bo
 }
 
 /**
- * Whether running a flow again could show something new by itself: it waits on the same step it waited on, and did
- * not move the actor, which leaves the next move to the caller.
+ * Whether running a flow again could show something new by itself: it waits on the same step, confirming none.
  *
  * @param response - Answer of one flow run.
- * @returns Whether the flow waits without having confirmed a step or travelled.
+ * @returns Whether the flow waits without having confirmed a step.
  */
 export function isFlowStillWaiting(response: IGameResponse): boolean {
   const result: Nullable<IFlowRunResult> = response.ok ? (response.result as IFlowRunResult) : null;
 
-  return result?.outcome === EFlowOutcome.WAITING && result.steps === 0 && !result.isTravelled;
+  return result?.outcome === EFlowOutcome.WAITING && result.steps === 0;
 }
 
 /**
@@ -91,7 +91,9 @@ function answerGameExited(started: number): IToolResult {
 /**
  * Run a flow, and run it again every second while it only waits, up to a deadline.
  *
- * Only the pauses between runs go at `speed`: a run may jump the level, and a game loading one answers no speed reset.
+ * Each level lets one run travel: the runs after it only watch what arriving started, as travelling again would undo
+ * it. A jump to another level is waited out, and the new level lets a run travel again. Only the pauses between runs go
+ * at `speed`, as a run may jump the level and a game loading one answers no speed reset.
  *
  * @param context - What the tools reach outside the pipe.
  * @param flow - Flow to run.
@@ -108,6 +110,7 @@ async function waitOnFlow(
   const started: number = Date.now();
   const deadline: number = started + waitSeconds * 1000;
   let runs: number = 0;
+  let isTravelAllowed: boolean = true;
   let response: IGameResponse;
 
   do {
@@ -115,8 +118,14 @@ async function waitOnFlow(
       await runAtEngineSpeed(context, speed, () => sleep(Math.min(WAIT_POLL_MS, Math.max(deadline - Date.now(), 0))));
     }
 
+    const session: Nullable<string> = context.client.session;
+
     try {
-      response = await context.client.request("flow", { module: flow.module, identity: flow.identity }, FLOW_WAIT_MS);
+      response = await context.client.request(
+        "flow",
+        { module: flow.module, identity: flow.identity, travel: isTravelAllowed },
+        FLOW_WAIT_MS
+      );
     } catch (error) {
       if (!(await context.isGameRunning())) {
         return answerGameExited(started);
@@ -126,6 +135,20 @@ async function waitOnFlow(
     }
 
     runs += 1;
+
+    const travel: EFlowTravel = response.ok ? (response.result as IFlowRunResult).travel : EFlowTravel.NONE;
+
+    if (travel === EFlowTravel.TO_LEVEL && Date.now() < deadline) {
+      const arrival: IToolResult = await waitForGreeting(context, deadline - Date.now(), session);
+
+      if (arrival.isError) {
+        return arrival;
+      }
+
+      isTravelAllowed = true;
+    } else if (travel === EFlowTravel.ON_LEVEL) {
+      isTravelAllowed = false;
+    }
   } while (isFlowStillWaiting(response) && Date.now() < deadline);
 
   if (!response.ok) {
@@ -277,8 +300,9 @@ export function createGameTools(context: IGameToolsContext): Array<IMcpTool> {
       description:
         "Run an in-game check flow and return how far it got, what failed, and the lines it reported, which say " +
         "what to do to reach a pending step. With `waitSeconds` it runs the flow again every second while it waits " +
-        "on the same step, and answers once a step is confirmed, the flow moves the actor, the walk ends, or the " +
-        "time is up; `speed` runs the engine clock faster between runs, as game_wait does, and normal during them.",
+        "on the same step, and answers once a step is confirmed, the walk ends, or the time is up. Only the first " +
+        "run on a level travels, so the rest watch what arriving started; a jump to another level is waited out. " +
+        "`speed` runs the engine clock faster between runs, as game_wait does, and normal during them.",
       inputSchema: schema(
         {
           name: { type: "string", minLength: 1, description: "Flow identity (`quests_zat_b14`), source or launcher." },

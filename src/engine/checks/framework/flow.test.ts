@@ -4,9 +4,9 @@ import { ACTOR_ID, LuaArray, TCount, TIndex, TName } from "xray16/lib";
 import { replaceFunctionMock } from "xray16/testing/utils";
 
 import { ICheckRequirements, ICheckResult } from "@/engine/checks/framework/core";
-import { IFlowStep, IFlowStepBody, IRegistration } from "@/engine/checks/framework/dsl";
+import { IFlowStep, IFlowStepBody, IRegistration, markLevelJump } from "@/engine/checks/framework/dsl";
 import { runFlow } from "@/engine/checks/framework/flow";
-import { EFlowOutcome } from "@/engine/checks/framework/outcome";
+import { EFlowOutcome, EFlowTravel } from "@/engine/checks/framework/result_types";
 import { getManager, getPortableStoreValue, setPortableStoreValue } from "@/engine/core/database";
 import { EActorControlHandle, EActorControlPolicy } from "@/engine/core/managers/actor/actor_input_types";
 import { ActorInputManager } from "@/engine/core/managers/actor/ActorInputManager";
@@ -112,7 +112,7 @@ describe("runFlow", () => {
     expect(verifyThird).not.toHaveBeenCalled();
     expect(readConfirmed()).toBe(2);
     expect(result.outcome).toBe(EFlowOutcome.WAITING);
-    expect(result.isTravelled).toBe(false);
+    expect(result.travel).toBe(EFlowTravel.NONE);
     expect(result.steps).toBe(2);
     expect(result.failures.length()).toBe(0);
   });
@@ -148,7 +148,7 @@ describe("runFlow", () => {
 
     expect(order).toEqual(["reached", "travel", "reached"]);
     expect(result.outcome).toBe(EFlowOutcome.WAITING);
-    expect(result.isTravelled).toBe(true);
+    expect(result.travel).toBe(EFlowTravel.ON_LEVEL);
   });
 
   it("should confirm a step that travelling reached", () => {
@@ -187,13 +187,31 @@ describe("runFlow", () => {
 
     manager.acquireControl(EActorControlHandle.SCRIPT_UI, "script-ui", EActorControlPolicy.FULL_UI);
 
-    expect(runFlow(FLOW_NAME, mockRegistration([{ travel, reached: () => false }])).isTravelled).toBe(false);
+    expect(runFlow(FLOW_NAME, mockRegistration([{ travel, reached: () => false }])).travel).toBe(EFlowTravel.NONE);
     expect(travel).not.toHaveBeenCalled();
 
     manager.releaseControl(EActorControlHandle.SCRIPT_UI);
     runFlow(FLOW_NAME, mockRegistration([{ travel, reached: () => false }]));
 
     expect(travel).toHaveBeenCalledTimes(1);
+  });
+
+  it("should leave the actor where it is when the caller polls a walk it already moved", () => {
+    const travel = jest.fn();
+    const result: ICheckResult = runFlow(FLOW_NAME, mockRegistration([{ travel, reached: () => false }]), false);
+
+    expect(travel).not.toHaveBeenCalled();
+    expect(result.travel).toBe(EFlowTravel.NONE);
+    expect(result.outcome).toBe(EFlowOutcome.WAITING);
+  });
+
+  it("should answer a travel that jumped to another level", () => {
+    const result: ICheckResult = runFlow(
+      FLOW_NAME,
+      mockRegistration([{ travel: markLevelJump, reached: () => false }])
+    );
+
+    expect(result.travel).toBe(EFlowTravel.TO_LEVEL);
   });
 
   it("should record a failure and advance when a later step is already reached", () => {

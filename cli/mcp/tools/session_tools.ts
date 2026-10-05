@@ -2,9 +2,10 @@ import * as fs from "node:fs";
 import * as path from "node:path";
 
 import { findCrashLines, IGameCrash, keepGameCrash } from "#/mcp/game_crash";
-import { IMcpTool, IToolResult } from "#/mcp/mcp_tool_types";
+import { IMcpTool, IToolArgumentSchema, IToolResult } from "#/mcp/mcp_tool_types";
+import { IGameResponse } from "#/mcp/McpPipeClient";
 import { restoreSave } from "#/mcp/save_bank";
-import { IGameToolsContext, json, readGameLog, schema, sleep, text } from "#/mcp/tools/tool_kit";
+import { answer, IGameToolsContext, json, readGameLog, schema, sleep, text } from "#/mcp/tools/tool_kit";
 import { EGameDifficulty } from "#/start/start_game";
 import { Nullable, Optional } from "#/utils/types";
 
@@ -106,6 +107,39 @@ export async function waitForGreeting(
 }
 
 /**
+ * Argument of the tools that bring a level up, choosing whether the actor is invulnerable in it.
+ */
+export const GOD_MODE_ARGUMENT: IToolArgumentSchema = {
+  type: "boolean",
+  default: true,
+  description:
+    "Keep the actor invulnerable with `g_god 1`, as walks need: a death ends one, and a load after one can crash the " +
+    "engine. False leaves the actor mortal, for checking death itself.",
+};
+
+/**
+ * Set god mode in a level that greeted, as the console applies it to the running level's actor.
+ *
+ * @param context - What the tools reach outside the pipe.
+ * @param arrival - What waiting for the level answered.
+ * @param isGodMode - Whether the actor is to be invulnerable.
+ * @returns The arrival, or why god mode could not be set.
+ */
+export async function applyGodMode(
+  context: IGameToolsContext,
+  arrival: IToolResult,
+  isGodMode: boolean
+): Promise<IToolResult> {
+  if (arrival.isError) {
+    return arrival;
+  }
+
+  const set: IGameResponse = await context.client.request("console", { command: `g_god ${isGodMode ? 1 : 0}` });
+
+  return set.ok ? arrival : answer(set);
+}
+
+/**
  * Put a banked save into the game's saves folder, as the bank holds the copy tools rely on.
  *
  * @param context - What the tools reach outside the pipe.
@@ -129,13 +163,15 @@ export async function prepareSave(context: IGameToolsContext, save: string): Pro
  * @param save - Save to load, a new game when null.
  * @param difficulty - Difficulty of a new game.
  * @param timeoutMs - How long to wait for the level.
+ * @param isGodMode - Whether the actor is to be invulnerable once the level runs.
  * @returns The greeting, or why the game did not start.
  */
 export async function startArmedGame(
   context: IGameToolsContext,
   save: Nullable<string>,
   difficulty: Optional<EGameDifficulty>,
-  timeoutMs: number
+  timeoutMs: number,
+  isGodMode: boolean
 ): Promise<IToolResult> {
   const { client } = context;
 
@@ -175,7 +211,11 @@ export async function startArmedGame(
   // The launch refreshes the settings copy, whose language may have changed since.
   client.textEncoding = await context.getTextEncoding();
 
-  const result: IToolResult = await waitForGreeting(context, timeoutMs, previous);
+  const result: IToolResult = await applyGodMode(
+    context,
+    await waitForGreeting(context, timeoutMs, previous),
+    isGodMode
+  );
 
   if (!crash) {
     return result;
@@ -221,8 +261,9 @@ export function createSessionTools(context: IGameToolsContext): Array<IMcpTool> 
           default: 300,
           description: "How long to wait for the level.",
         },
+        god: GOD_MODE_ARGUMENT,
       }),
-      call: async ({ mode, save, difficulty, timeoutSeconds }) => {
+      call: async ({ mode, save, difficulty, timeoutSeconds, god }) => {
         if (mode === "load" && !save) {
           return text("Mode 'load' needs a save name.", true);
         } else if (mode === "new" && save) {
@@ -234,7 +275,8 @@ export function createSessionTools(context: IGameToolsContext): Array<IMcpTool> 
           context,
           save ? (save as string) : null,
           difficulty as Optional<EGameDifficulty>,
-          (timeoutSeconds as number) * 1000
+          (timeoutSeconds as number) * 1000,
+          god as boolean
         );
       },
     },

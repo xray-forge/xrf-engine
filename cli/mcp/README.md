@@ -30,6 +30,8 @@ output.
   previous run ended in a fatal error, or died without one and without shutting down, it first keeps that run's logs
   under `target/mcp/crashes`, as the launch overwrites them, and says so after the greeting. `game_load` does the same
   when it starts the game.
+  Both keep the actor invulnerable with `g_god 1` once the level greets, as a death ends a walk and a load after one
+  can crash the engine; `god: false` leaves it mortal, for checking death itself.
 - `game_status` reports the session, level, game time, actor, and the time since the previous actor update.
 - `game_console` runs a console command after answering; follow a `load` with `game_wait_ready`.
 - `game_lua` runs Lua and returns its value as JSON, trying it as an expression first. It takes the code itself or a
@@ -43,8 +45,10 @@ output.
   scenes, logic timers and sounds play that many times faster.
 - `game_flow` runs an in-game check flow by identity, source path or launcher name, and returns its report lines.
   With `waitSeconds` it runs the flow again every second while it waits on the same step, and answers once a step is
-  confirmed, the flow moved the actor, the walk ended, or the time is up. `speed` runs the pauses between runs that
-  many times faster and each run at normal speed, so a run that jumps the level leaves no reset to a loading game.
+  confirmed, the walk ended, or the time is up. Only the first run on a level travels, so the runs after it watch what
+  arriving started instead of moving the actor again; a jump to another level is waited out within `waitSeconds`, and
+  the new level travels once more. `speed` runs the pauses between runs that many times faster and each run at normal
+  speed, so a run that jumps the level leaves no reset to a loading game.
 - `game_dialog` talks to an NPC by the dialog XML the game loads, which it reads through `xrf-cli dialog list` and
   `dialog inspect` over `target/gamedata`. Without `dialog` it lists what the NPC's profile offers, one line per dialog
   saying whether the actor may open it now and the first condition that fails; `only` and `match` filter the list and

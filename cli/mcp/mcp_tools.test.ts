@@ -16,7 +16,7 @@ import { waitForScreenshot } from "#/mcp/tools/screenshot_tools";
 import { EGameDifficulty } from "#/start/start_game";
 import { Nullable } from "#/utils/types";
 
-import { EFlowOutcome } from "@/engine/checks/framework/outcome";
+import { EFlowOutcome, EFlowTravel } from "@/engine/checks/framework/result_types";
 
 type TCallTool = (name: string, args?: Record<string, unknown>) => Promise<IToolResult>;
 
@@ -265,7 +265,7 @@ describe("game MCP tools", () => {
 
     expect(client.request).toHaveBeenCalledWith(
       "flow",
-      { module: flow?.module, identity: "quests_zat_b14" },
+      { module: flow?.module, identity: "quests_zat_b14", travel: true },
       expect.any(Number)
     );
 
@@ -275,30 +275,28 @@ describe("game MCP tools", () => {
     expect(textOf(unknown)).toContain("quests_zat_b14");
   });
 
-  it("should run a waiting flow again until it confirms a step, at the engine speed asked for", async () => {
+  it("should run a waiting flow again without travelling until it confirms a step, at the engine speed asked for", async () => {
     const { call, client, context, directory } = setup();
-    const waiting = {
-      ok: true,
-      result: { outcome: EFlowOutcome.WAITING, steps: 0, isTravelled: false, report: ["waiting"] },
-    };
 
     directories.push(directory);
     jest.useFakeTimers();
     jest.mocked(context.isGameRunning).mockResolvedValue(true);
     client.request.mockImplementation(async (kind) => {
-      if (kind !== "flow") {
-        return { id: "1", ok: true, result: null };
-      }
-
       const runs: number = client.request.mock.calls.filter(([it]) => it === "flow").length;
 
-      return runs < 3
-        ? { id: "1", ...waiting }
-        : {
-            id: "1",
-            ok: true,
-            result: { outcome: EFlowOutcome.WAITING, steps: 1, isTravelled: false, report: ["step 1 reached"] },
-          };
+      if (kind !== "flow") {
+        return { id: "1", ok: true, result: null };
+      } else if (runs === 1) {
+        return { id: "1", ok: true, result: { outcome: EFlowOutcome.WAITING, steps: 0, travel: EFlowTravel.ON_LEVEL } };
+      } else if (runs === 2) {
+        return { id: "1", ok: true, result: { outcome: EFlowOutcome.WAITING, steps: 0, travel: EFlowTravel.NONE } };
+      }
+
+      return {
+        id: "1",
+        ok: true,
+        result: { outcome: EFlowOutcome.WAITING, steps: 1, travel: EFlowTravel.NONE, report: ["step 1 reached"] },
+      };
     });
 
     const waited: Promise<IToolResult> = call("game_flow", { name: "quests_zat_b14", waitSeconds: 30, speed: 5 });
@@ -306,15 +304,44 @@ describe("game MCP tools", () => {
     await jest.advanceTimersByTimeAsync(2_000);
 
     expect(JSON.parse(textOf(await waited))).toMatchObject({ steps: 1, report: ["step 1 reached"], runs: 3 });
-    // Every run happens at normal speed, so one that jumps the level leaves no speed reset to a loading game.
-    expect(client.request.mock.calls.map(([kind, parameters]) => (kind === "flow" ? kind : parameters))).toEqual([
-      "flow",
+    // Only the first run travels, and every run happens at normal speed, so one that jumps the level leaves no speed
+    // reset to a loading game.
+    expect(client.request.mock.calls.map(([, parameters]) => parameters)).toEqual([
+      expect.objectContaining({ travel: true }),
       { command: "time_factor 5" },
       { command: "time_factor 1" },
-      "flow",
+      expect.objectContaining({ travel: false }),
       { command: "time_factor 5" },
       { command: "time_factor 1" },
-      "flow",
+      expect.objectContaining({ travel: false }),
+    ]);
+  });
+
+  it("should wait out a flow's jump to another level and let the new level travel again", async () => {
+    const { call, client, context, directory } = setup();
+
+    directories.push(directory);
+    jest.mocked(context.isGameRunning).mockResolvedValue(true);
+    client.request
+      .mockResolvedValueOnce({
+        id: "1",
+        ok: true,
+        result: { outcome: EFlowOutcome.WAITING, steps: 0, travel: EFlowTravel.TO_LEVEL },
+      })
+      .mockResolvedValueOnce({
+        id: "2",
+        ok: true,
+        result: { outcome: EFlowOutcome.WAITING, steps: 1, travel: EFlowTravel.ON_LEVEL },
+      });
+
+    expect(JSON.parse(textOf(await call("game_flow", { name: "quests_zat_b14", waitSeconds: 60 })))).toMatchObject({
+      steps: 1,
+      runs: 2,
+    });
+    expect(client.waitForReady).toHaveBeenCalled();
+    expect(client.request.mock.calls.map(([, parameters]) => parameters)).toEqual([
+      expect.objectContaining({ travel: true }),
+      expect.objectContaining({ travel: true }),
     ]);
   });
 
@@ -330,7 +357,7 @@ describe("game MCP tools", () => {
     expect(textOf(result)).toContain("The game exited");
   });
 
-  it("should tell a flow run that leaves the next move to the caller from one that only waits", () => {
+  it("should tell a flow run that only waits from one that confirmed a step or ended", () => {
     /**
      * @returns An answer of one flow run holding the result.
      */
@@ -338,10 +365,11 @@ describe("game MCP tools", () => {
       return { id: "1", ok: true, result };
     }
 
-    expect(isFlowStillWaiting(run({ outcome: EFlowOutcome.WAITING, steps: 0, isTravelled: false }))).toBe(true);
-    expect(isFlowStillWaiting(run({ outcome: EFlowOutcome.WAITING, steps: 1, isTravelled: false }))).toBe(false);
-    expect(isFlowStillWaiting(run({ outcome: EFlowOutcome.WAITING, steps: 0, isTravelled: true }))).toBe(false);
-    expect(isFlowStillWaiting(run({ outcome: EFlowOutcome.COMPLETE, steps: 0, isTravelled: false }))).toBe(false);
+    expect(isFlowStillWaiting(run({ outcome: EFlowOutcome.WAITING, steps: 0, travel: EFlowTravel.ON_LEVEL }))).toBe(
+      true
+    );
+    expect(isFlowStillWaiting(run({ outcome: EFlowOutcome.WAITING, steps: 1, travel: EFlowTravel.NONE }))).toBe(false);
+    expect(isFlowStillWaiting(run({ outcome: EFlowOutcome.COMPLETE, steps: 0, travel: EFlowTravel.NONE }))).toBe(false);
     expect(isFlowStillWaiting({ id: "1", ok: false, error: "no game" })).toBe(false);
   });
 
@@ -499,6 +527,12 @@ describe("game MCP tools", () => {
 
     expect(fs.existsSync(path.join(savedgames, "mcp_bar.scop"))).toBe(true);
     expect(client.request).toHaveBeenCalledWith("console", { command: "load mcp_bar" });
+    // The loaded level keeps the actor invulnerable unless the caller wants it mortal.
+    expect(client.request).toHaveBeenLastCalledWith("console", { command: "g_god 1" });
+
+    await call("game_load", { name: "mcp_bar", god: false });
+
+    expect(client.request).toHaveBeenLastCalledWith("console", { command: "g_god 0" });
 
     client.request.mockResolvedValue({ id: "1", ok: true, result: {} });
 

@@ -2,6 +2,7 @@ import { abort, AnyCallable, LuaArray, Nillable, TLabel } from "xray16/lib";
 import { $isNil } from "xray16/macros";
 
 import { CheckContext, ICheckRequirements } from "@/engine/checks/framework/core";
+import { EFlowTravel } from "@/engine/checks/framework/result_types";
 
 /**
  * One step of a flow.
@@ -128,6 +129,13 @@ function requireCurrentContext(assertion: TLabel): CheckContext {
   }
 
   return current as CheckContext;
+}
+
+/**
+ * Record that a step's travel started a jump to another level, which the invocation answers with.
+ */
+export function markLevelJump(): void {
+  requireCurrentContext("level jump").travel = EFlowTravel.TO_LEVEL;
 }
 
 /**

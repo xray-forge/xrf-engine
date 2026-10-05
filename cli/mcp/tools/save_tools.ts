@@ -4,7 +4,13 @@ import * as path from "node:path";
 import { IMcpTool, IToolResult } from "#/mcp/mcp_tool_types";
 import { IGameResponse } from "#/mcp/McpPipeClient";
 import { bankSave, IBankedSave, isValidSaveName, listBankedSaves } from "#/mcp/save_bank";
-import { prepareSave, startArmedGame, waitForGreeting } from "#/mcp/tools/session_tools";
+import {
+  applyGodMode,
+  GOD_MODE_ARGUMENT,
+  prepareSave,
+  startArmedGame,
+  waitForGreeting,
+} from "#/mcp/tools/session_tools";
 import { answer, IGameToolsContext, json, schema, sleep, text } from "#/mcp/tools/tool_kit";
 import { AnyObject, Nullable } from "#/utils/types";
 
@@ -114,15 +120,16 @@ export function createSaveTools(context: IGameToolsContext): Array<IMcpTool> {
         {
           name: { type: "string", minLength: 1, description: "Save name." },
           timeoutSeconds: { type: "integer", minimum: 1, maximum: 900, default: 300, description: "How long to wait." },
+          god: GOD_MODE_ARGUMENT,
         },
         ["name"]
       ),
-      call: async ({ name, timeoutSeconds }) => {
+      call: async ({ name, timeoutSeconds, god }) => {
         const save: string = name as string;
         const timeoutMs: number = (timeoutSeconds as number) * 1000;
 
         if (!(await context.isGameRunning())) {
-          return startArmedGame(context, save, undefined, timeoutMs);
+          return startArmedGame(context, save, undefined, timeoutMs, god as boolean);
         }
 
         const missing: Nullable<IToolResult> = await prepareSave(context, save);
@@ -144,7 +151,9 @@ export function createSaveTools(context: IGameToolsContext): Array<IMcpTool> {
           : `start server(${save}/single/alife/load) client(localhost)`;
         const loading: IGameResponse = await client.request("console", { command });
 
-        return loading.ok ? waitForGreeting(context, timeoutMs, previous) : answer(loading);
+        return loading.ok
+          ? applyGodMode(context, await waitForGreeting(context, timeoutMs, previous), god as boolean)
+          : answer(loading);
       },
     },
   ];

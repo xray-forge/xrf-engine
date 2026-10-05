@@ -12,7 +12,7 @@ import {
 } from "xray16/lib";
 import { $isNil, $isNotNil } from "xray16/macros";
 
-import { EFlowOutcome } from "@/engine/checks/framework/outcome";
+import { EFlowOutcome, EFlowTravel } from "@/engine/checks/framework/result_types";
 import { registry } from "@/engine/core/database";
 import { EGameEvent, EventsManager } from "@/engine/core/managers/events";
 import { ENotificationType, ITipNotification } from "@/engine/core/managers/notifications/notifications_types";
@@ -143,8 +143,7 @@ export interface ICheckResult {
   checked: TCount;
   failures: LuaArray<ICheckFailure>;
   skipReason: Nillable<TLabel>;
-  /** Whether a step's travel ran, moving the actor, during the invocation. */
-  isTravelled: boolean;
+  travel: EFlowTravel;
 }
 
 /**
@@ -154,14 +153,17 @@ export interface ICheckResult {
  */
 export class CheckContext {
   public readonly name: TName;
+  /** Whether steps may move the actor, which a caller polling a walk it already moved turns off. */
+  public readonly isTravelAllowed: boolean;
   public readonly failures: LuaArray<ICheckFailure> = new LuaTable();
 
   public checked: TCount = 0;
   public steps: TCount = 0;
-  public isTravelled: boolean = false;
+  public travel: EFlowTravel = EFlowTravel.NONE;
 
-  public constructor(name: TName) {
+  public constructor(name: TName, isTravelAllowed: boolean = true) {
     this.name = name;
+    this.isTravelAllowed = isTravelAllowed;
   }
 
   /**

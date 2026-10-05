@@ -5,7 +5,7 @@ import { replaceFunctionMock, resetFunctionMock } from "xray16/testing/utils";
 
 import { ICheckFailure, report } from "@/engine/checks/framework/core";
 import { run } from "@/engine/checks/framework/entry";
-import { EFlowOutcome } from "@/engine/checks/framework/outcome";
+import { EFlowOutcome, EFlowTravel } from "@/engine/checks/framework/result_types";
 import { MCP_HANDLERS, runFlowModule, runLuaChunk } from "@/engine/checks/mcp/mcp_handlers";
 import { EMcpRequestKind, IMcpHandlerContext, IMcpRequest } from "@/engine/checks/mcp/mcp_types";
 import { mockRegisteredActor, resetRegistry } from "@/fixtures/engine";
@@ -81,6 +81,30 @@ describe("mcp handlers", () => {
     ).toBe(2);
   });
 
+  it("should let a flow request travel unless it says otherwise", () => {
+    const request: AnyObject = { module: "checks.quests.example_flow", identity: "quests_example" };
+
+    jest.mocked(run).mockImplementation(() => ({
+      name: "quests_example",
+      outcome: EFlowOutcome.WAITING,
+      steps: 0,
+      checked: 0,
+      failures: new LuaTable(),
+      skipReason: null,
+      travel: EFlowTravel.NONE,
+    }));
+
+    MCP_HANDLERS[EMcpRequestKind.FLOW](createRequest(EMcpRequestKind.FLOW, request), context);
+    expect(run).toHaveBeenLastCalledWith("quests_example", true);
+
+    MCP_HANDLERS[EMcpRequestKind.FLOW](createRequest(EMcpRequestKind.FLOW, { ...request, travel: false }), context);
+    expect(run).toHaveBeenLastCalledWith("quests_example", false);
+
+    expect(() =>
+      MCP_HANDLERS[EMcpRequestKind.FLOW](createRequest(EMcpRequestKind.FLOW, { ...request, travel: "no" }), context)
+    ).toThrow("Request 'flow' needs a boolean 'travel'.");
+  });
+
   it("should run a flow module afresh and answer its failures and report lines as lists", () => {
     const failures: LuaArray<ICheckFailure> = new LuaTable();
 
@@ -95,24 +119,24 @@ describe("mcp handlers", () => {
         checked: 2,
         failures,
         skipReason: null,
-        isTravelled: true,
+        travel: EFlowTravel.ON_LEVEL,
       };
     });
 
     globals.package.loaded["checks.quests.example_flow"] = { stale: true };
 
-    expect(runFlowModule("checks.quests.example_flow", "quests_example")).toEqual({
+    expect(runFlowModule("checks.quests.example_flow", "quests_example", false)).toEqual({
       name: "quests_example",
       outcome: EFlowOutcome.WAITING,
       steps: 3,
       checked: 2,
       failures: [{ assertion: "task given", detail: "missing" }],
       skipReason: null,
-      isTravelled: true,
+      travel: EFlowTravel.ON_LEVEL,
       report: [expect.stringMatching(/^\[\d+\] \[check\] step 1 reached$/)],
     });
     expect(globals.package.loaded["checks.quests.example_flow"]).toBeNull();
-    expect(run).toHaveBeenCalledWith("quests_example");
+    expect(run).toHaveBeenCalledWith("quests_example", false);
   });
 
   it("should report the actor and session in status", () => {

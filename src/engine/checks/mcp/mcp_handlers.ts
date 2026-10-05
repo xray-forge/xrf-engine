@@ -26,6 +26,24 @@ function readStringArgument(request: IMcpRequest, name: string): string {
   return value as string;
 }
 
+/**
+ * @param request - Request carrying the argument.
+ * @param name - Argument name.
+ * @param fallback - Value of an argument the request leaves out.
+ * @returns The argument, which must be a boolean when given.
+ */
+function readBooleanArgument(request: IMcpRequest, name: string, fallback: boolean): boolean {
+  const value: unknown = request[name];
+
+  if ($isNil(value)) {
+    return fallback;
+  } else if (type(value) !== "boolean") {
+    abort("Request '%s' needs a boolean '%s'.", request.kind, name);
+  }
+
+  return value as boolean;
+}
+
 let chunkEnvironment: Nillable<AnyObject> = null;
 
 /**
@@ -68,14 +86,15 @@ export function runLuaChunk(code: string): unknown {
  *
  * @param module - Lua module of the flow, e.g. `checks.quests.zat_b14_flow`.
  * @param identity - Name the flow reports itself under, e.g. `quests_zat_b14`.
+ * @param isTravelAllowed - Whether steps may move the actor.
  * @returns Result of the run.
  */
-export function runFlowModule(module: string, identity: string): AnyObject {
+export function runFlowModule(module: string, identity: string, isTravelAllowed: boolean): AnyObject {
   ((_G as AnyObject)["package"].loaded as AnyObject)[module] = null;
   require(module);
 
   // The check log is buffered, so the host could not read this run from it yet.
-  const { result, lines } = collectReportedLines((): ICheckResult => run(identity));
+  const { result, lines } = collectReportedLines((): ICheckResult => run(identity, isTravelAllowed));
   const failures: Array<ICheckFailure> = [];
 
   for (const [, failure] of result.failures) {
@@ -89,7 +108,7 @@ export function runFlowModule(module: string, identity: string): AnyObject {
     checked: result.checked,
     failures: failures,
     skipReason: result.skipReason,
-    isTravelled: result.isTravelled,
+    travel: result.travel,
     report: lines,
   };
 }
@@ -137,7 +156,12 @@ export const MCP_HANDLERS: Record<EMcpRequestKind, TMcpHandler> = {
   [EMcpRequestKind.DIALOG]: (request) => ({ result: handleDialogRequest(request as unknown as IMcpDialogRequest) }),
   [EMcpRequestKind.DIALOG_NPC]: (request) => ({ result: describeDialogNpc(resolveDialogNpc(request.npc)) }),
   [EMcpRequestKind.FLOW]: (request) => ({
-    result: runFlowModule(readStringArgument(request, "module"), readStringArgument(request, "identity")),
+    // A request that does not say travels, as the console launcher does.
+    result: runFlowModule(
+      readStringArgument(request, "module"),
+      readStringArgument(request, "identity"),
+      readBooleanArgument(request, "travel", true)
+    ),
   }),
   [EMcpRequestKind.LUA]: (request) => ({ result: runLuaChunk(readStringArgument(request, "code")) }),
   [EMcpRequestKind.QUIT]: () => ({ result: { queued: true }, after: () => get_console().execute("quit") }),
