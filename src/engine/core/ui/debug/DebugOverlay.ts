@@ -8,11 +8,18 @@ import {
   IDebugOverlayState,
 } from "@/engine/core/managers/debug/debug_types";
 import { inspectDebugOverlayView } from "@/engine/core/managers/debug/utils/debug_overlay";
-import { DEBUG_OVERLAY_PANEL, DEBUG_OVERLAY_SLOT_POSITIONS } from "@/engine/core/ui/debug/debug_layout";
+import {
+  DEBUG_CHARACTER_WIDTH,
+  DEBUG_OVERLAY_PANEL,
+  DEBUG_OVERLAY_SLOT_POSITIONS,
+} from "@/engine/core/ui/debug/debug_layout";
 import { createScreenRectangle } from "@/engine/core/utils/rectangle";
 import { resolveXmlFile } from "@/engine/core/utils/ui";
 
 const base: TPath = "menu\\debug\\DebugOverlay.component";
+
+// Characters a value row fits before text wraps onto the next row.
+const VALUE_LENGTH: TCount = math.floor(DEBUG_OVERLAY_PANEL.valueWidth / DEBUG_CHARACTER_WIDTH);
 
 /**
  * Panel of the overlay: rows of labelled values over a background.
@@ -52,7 +59,7 @@ export class DebugOverlay extends CUIScriptWnd {
   public refresh(views: Record<EDebugOverlaySlot, EDebugOverlayView>, state: IDebugOverlayState): void {
     for (const [slot, panel] of this.panels) {
       const view: EDebugOverlayView = views[slot];
-      const fields: LuaArray<IDebugField> = inspectDebugOverlayView(view, state, DEBUG_OVERLAY_PANEL.valueLength);
+      const fields: LuaArray<IDebugField> = inspectDebugOverlayView(view, state, VALUE_LENGTH);
       const shown: TCount = math.min(fields.length(), DEBUG_OVERLAY_PANEL.rows);
 
       panel.background.Show(view !== EDebugOverlayView.OFF && fields.length() > 0);

@@ -52,8 +52,8 @@ describe("evaluateDebugLua", () => {
 
     const environment: AnyObject = createDebugConsoleEnvironment(null);
 
-    expect(evaluateDebugLua("1 + 1", environment)).toBe("2");
-    expect(evaluateDebugLua("local x = 3 return x", environment)).toBe("3");
+    expect(evaluateDebugLua("1 + 1", environment)).toEqual({ text: "2", isError: false });
+    expect(evaluateDebugLua("local x = 3 return x", environment)).toEqual({ text: "3", isError: false });
     expect(globals.setfenv).toHaveBeenCalledWith(expect.any(Function), environment);
   });
 
@@ -68,7 +68,13 @@ describe("evaluateDebugLua", () => {
         : [null, "syntax"]
     );
 
-    expect(evaluateDebugLua("???", createDebugConsoleEnvironment(null))).toBe("error: syntax");
-    expect(evaluateDebugLua("fail()", createDebugConsoleEnvironment(null))).toMatch(/^error: .*boom/);
+    expect(evaluateDebugLua("???", createDebugConsoleEnvironment(null))).toEqual({
+      text: "error: syntax",
+      isError: true,
+    });
+    expect(evaluateDebugLua("fail()", createDebugConsoleEnvironment(null))).toMatchObject({
+      text: expect.stringMatching(/^error: .*boom/),
+      isError: true,
+    });
   });
 });

@@ -1,11 +1,12 @@
 import { level } from "xray16";
 import { GameObject, ServerObject, Vector } from "xray16/alias";
-import { copyVector, MAX_LEVEL_VERTEX_ID, Nillable, TLabel, TNumberId } from "xray16/lib";
+import { copyVector, MAX_LEVEL_VERTEX_ID, Nillable, TDistance, TLabel, TNumberId } from "xray16/lib";
 import { $isNil } from "xray16/macros";
 
 import { getGameObjectById, registry } from "@/engine/core/database";
+import { debugConfig } from "@/engine/core/managers/debug/DebugConfig";
 import { describeDebugObject } from "@/engine/core/managers/debug/utils/debug_inspect";
-import { isCreature } from "@/engine/core/utils/class_ids";
+import { isCreature, isStalker } from "@/engine/core/utils/class_ids";
 import {
   logObjectInventoryItems,
   logObjectPlannerState,
@@ -171,6 +172,53 @@ export function pullDebugTargetToActor(id: TNumberId): TLabel {
   return teleportObjectToVertex(id, vertexId, actor.game_vertex_id())
     ? `pulled ${serverObject.name()} to the actor`
     : `${serverObject.name()} is online and not a creature`;
+}
+
+/**
+ * @param id - Target object id.
+ * @returns Why the actor cannot trade with or talk to the target, `null` when it can: the target has to be a live
+ *   stalker within reach, as the engine closes the window on a partner farther away.
+ */
+export function getDebugInteractionBlocker(id: TNumberId): Nillable<TLabel> {
+  const object: Nillable<GameObject> = getGameObjectById(id);
+
+  if ($isNil(object) || !isStalker(object) || !object.alive()) {
+    return `${describeDebugObject(id)} is not a live stalker online`;
+  }
+
+  const distance: TDistance = object.position().distance_to(registry.actor.position());
+
+  return distance > debugConfig.INTERACTION_DISTANCE_LIMIT
+    ? `${object.name()} is ${string.format("%.0f", distance)} m away: pull it to the actor or teleport to it first`
+    : null;
+}
+
+/**
+ * Open trading with the target, as a trader's dialog does.
+ *
+ * @param id - Target object id, a stalker within reach.
+ * @returns Result message.
+ */
+export function tradeWithDebugTarget(id: TNumberId): TLabel {
+  const object: GameObject = getGameObjectById(id) as GameObject;
+
+  object.start_trade(registry.actor);
+
+  return `trading with ${object.name()}`;
+}
+
+/**
+ * Start a dialog with the target.
+ *
+ * @param id - Target object id, a stalker within reach.
+ * @returns Result message.
+ */
+export function talkToDebugTarget(id: TNumberId): TLabel {
+  const object: GameObject = getGameObjectById(id) as GameObject;
+
+  registry.actor.run_talk_dialog(object, false);
+
+  return `talking to ${object.name()}`;
 }
 
 /**

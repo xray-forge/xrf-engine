@@ -51,8 +51,15 @@ export class DebugPlayerTab extends DebuggerTab {
     this.uiToggles = this.xml.InitScrollView("toggles", this);
     this.uiFields = this.xml.InitScrollView("fields", this);
 
-    for (const index of $range(1, debugConfig.CONSOLE_TOGGLES.length())) {
-      this.initializeToggle(debugConfig.CONSOLE_TOGGLES.get(index));
+    // Toggles the running engine has come first, the ones it lacks after them.
+    for (const isAvailable of [true, false]) {
+      for (const index of $range(1, debugConfig.CONSOLE_TOGGLES.length())) {
+        const toggle: IDebugConsoleToggle = debugConfig.CONSOLE_TOGGLES.get(index);
+
+        if (isConsoleCommandAvailable(toggle.command) === isAvailable) {
+          this.initializeToggle(toggle);
+        }
+      }
     }
 
     this.initializeButton("money_small_button", () => this.onAction(() => giveDebugMoney(1_000)));
@@ -99,25 +106,35 @@ export class DebugPlayerTab extends DebuggerTab {
   }
 
   /**
-   * Add a check box for a console toggle, disabled when the running engine lacks the command.
+   * Add a check box for a console toggle, or a line of text when the running engine lacks the command.
    *
    * @param toggle - Console toggle.
    */
   private initializeToggle(toggle: IDebugConsoleToggle): void {
     const row: CUIStatic = this.xml.InitStatic("toggle_row", null);
-    const check: CUICheckButton = this.xml.InitCheck("toggle_check", row);
     const name: TName = `${this.tab}_toggle_${toggle.command}`;
-    const isAvailable: boolean = isConsoleCommandAvailable(toggle.command);
 
-    check.TextControl().SetText(isAvailable ? toggle.command : `${toggle.command} - not in this engine build`);
-    check.Enable(isAvailable);
+    row.SetAutoDelete(true);
+    this.uiToggles.AddWindow(row, true);
+
+    // A command the engine lacks is listed as text, as a disabled box would look checked.
+    if (!isConsoleCommandAvailable(toggle.command)) {
+      this.xml
+        .InitStatic("toggle_unavailable", row)
+        .TextControl()
+        .SetText(`${toggle.command} - not in this engine build`);
+
+      return;
+    }
+
+    const check: CUICheckButton = this.xml.InitCheck("toggle_check", row);
+
+    check.TextControl().SetText(toggle.command);
 
     this.owner.Register(check, name);
     this.owner.AddCallback(name, ui_events.CHECK_BUTTON_SET, () => this.onToggle(toggle, true), this);
     this.owner.AddCallback(name, ui_events.CHECK_BUTTON_RESET, () => this.onToggle(toggle, false), this);
 
-    row.SetAutoDelete(true);
-    this.uiToggles.AddWindow(row, true);
     this.uiToggleChecks.set(toggle, check);
   }
 

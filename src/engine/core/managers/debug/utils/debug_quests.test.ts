@@ -59,6 +59,16 @@ describe("buildDebugTaskEntries", () => {
     expect(entries.length()).toBe(taskConfig.AVAILABLE_TASKS.length());
     expect(entries.get(1).label).toMatch(/ - not given$/);
   });
+
+  it("should list active tasks first", () => {
+    const tasks: LuaArray<string> = getTableKeys(taskConfig.AVAILABLE_TASKS);
+    const lastId: string = tasks.get(tasks.length());
+
+    jest.spyOn(registry.actor, "get_task").mockImplementation(() => null);
+    taskConfig.ACTIVE_TASKS.set(lastId, {} as TaskObject);
+
+    expect(buildDebugTaskEntries().get(1).label).toBe(`${lastId} - active`);
+  });
 });
 
 describe("giveDebugTask", () => {

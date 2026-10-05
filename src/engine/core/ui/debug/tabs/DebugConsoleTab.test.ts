@@ -28,7 +28,7 @@ jest.mock("@/engine/core/managers/debug/utils/debug_preferences", () => {
 
 jest.mock("@/engine/core/managers/debug/utils/debug_console", () => ({
   createDebugConsoleEnvironment: jest.fn(() => ({})),
-  evaluateDebugLua: jest.fn(() => "2"),
+  evaluateDebugLua: jest.fn(() => ({ text: "2", isError: false })),
 }));
 
 /**

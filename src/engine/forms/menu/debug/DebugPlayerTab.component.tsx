@@ -1,89 +1,88 @@
 import { JSXNode, JSXXML } from "jsx-xml";
 
-import { WHITE } from "@/engine/constants/colors";
-import { fonts } from "@/engine/constants/fonts";
 import {
-  DEBUG_ACTIONS_X,
-  DEBUG_BUTTON_HEIGHT,
-  DEBUG_BUTTON_WIDTH,
+  DEBUG_GAP,
+  DEBUG_MAIN_WIDTH,
   DEBUG_ROW_HEIGHT,
+  DEBUG_SIDE,
   DEBUG_TAB_AREA,
 } from "@/engine/core/ui/debug/debug_layout";
-import { XrCheckBox, XrRoot, XrStatic } from "@/engine/forms/components/base";
+import { XrRoot } from "@/engine/forms/components/base";
 import {
-  DEBUG_HEADING_COLOR,
-  DebugButton,
+  DEBUG_MUTED_COLOR,
+  DebugCardStack,
+  DebugCheckBox,
   DebugFieldTemplates,
   DebugList,
   DebugText,
-} from "@/engine/forms/menu/debug/debug_layout";
+} from "@/engine/forms/menu/debug/components";
 
-const TOGGLES_WIDTH: number = 300;
-const STATE_X: number = TOGGLES_WIDTH + 16;
-const STATE_WIDTH: number = DEBUG_ACTIONS_X - STATE_X - 16;
-const COLUMN_2_X: number = DEBUG_ACTIONS_X + DEBUG_BUTTON_WIDTH + 8;
-const STEP: number = DEBUG_BUTTON_HEIGHT + 6;
+const STATE_HEIGHT: number = 100;
+const TOGGLES_Y: number = STATE_HEIGHT + DEBUG_GAP;
 
 /**
- * Create the player tab: console toggles, the actor's state, and actions on the actor and the world.
+ * Create the player tab: the actor's state and the console toggles on the left, and cards of actions on the actor and
+ * the world on the right.
  *
  * @returns Rendered player tab component.
  */
 export function create(): JSXNode {
   return (
     <XrRoot width={DEBUG_TAB_AREA.width} height={DEBUG_TAB_AREA.height}>
-      <DebugList tag={"toggles"} x={0} y={0} width={TOGGLES_WIDTH} height={DEBUG_TAB_AREA.height} />
-      <XrStatic tag={"toggle_row"} width={TOGGLES_WIDTH - 24} height={DEBUG_ROW_HEIGHT} />
-      <XrCheckBox
-        tag={"toggle_check"}
+      <DebugList tag={"fields"} x={0} y={0} width={DEBUG_MAIN_WIDTH} height={STATE_HEIGHT} />
+      <DebugFieldTemplates width={DEBUG_MAIN_WIDTH - 24} />
+
+      <DebugList
+        tag={"toggles"}
         x={0}
+        y={TOGGLES_Y}
+        width={DEBUG_MAIN_WIDTH}
+        height={DEBUG_TAB_AREA.height - TOGGLES_Y}
+      />
+      <toggle_row x={0} y={0} width={DEBUG_MAIN_WIDTH - 24} height={DEBUG_ROW_HEIGHT + 2} />
+      <DebugCheckBox tag={"toggle_check"} x={2} y={2} label={"toggle"} />
+      <DebugText
+        tag={"toggle_unavailable"}
+        x={2}
         y={1}
-        width={18}
-        height={18}
-        label={"toggle"}
-        textX={24}
-        color={WHITE}
-        font={fonts.letterica16}
+        width={DEBUG_MAIN_WIDTH - 28}
+        label={""}
+        color={DEBUG_MUTED_COLOR}
       />
 
-      <DebugList tag={"fields"} x={STATE_X} y={0} width={STATE_WIDTH} height={160} />
-      <DebugFieldTemplates width={STATE_WIDTH - 24} />
-
-      <DebugText
-        tag={"heading_money"}
-        x={DEBUG_ACTIONS_X}
+      <DebugCardStack
+        x={DEBUG_SIDE.x}
         y={0}
-        width={300}
-        label={"money"}
-        color={DEBUG_HEADING_COLOR}
+        cards={[
+          {
+            tag: "heading_money",
+            title: "money",
+            actions: [
+              { tag: "money_small_button", label: "+1 000" },
+              { tag: "money_large_button", label: "+50 000" },
+              { tag: "money_take_button", label: "-1 000" },
+            ],
+          },
+          {
+            tag: "heading_actor",
+            title: "the actor",
+            actions: [
+              { tag: "heal_button", label: "heal" },
+              { tag: "log_location_button", label: "log location" },
+            ],
+          },
+          {
+            tag: "heading_world",
+            title: "world",
+            actions: [
+              { tag: "time_hour_button", label: "+1 hour" },
+              { tag: "time_day_button", label: "+6 hours" },
+              { tag: "weather_button", label: "change weather" },
+              { tag: "surge_button", label: "start / stop surge" },
+            ],
+          },
+        ]}
       />
-      <DebugButton tag={"money_small_button"} label={"+1 000"} x={DEBUG_ACTIONS_X} y={24} />
-      <DebugButton tag={"money_large_button"} label={"+50 000"} x={COLUMN_2_X} y={24} />
-      <DebugButton tag={"money_take_button"} label={"-1 000"} x={DEBUG_ACTIONS_X} y={24 + STEP} />
-
-      <DebugText
-        tag={"heading_actor"}
-        x={DEBUG_ACTIONS_X}
-        y={104}
-        width={300}
-        label={"the actor"}
-        color={DEBUG_HEADING_COLOR}
-      />
-      <DebugButton tag={"heal_button"} label={"heal"} x={DEBUG_ACTIONS_X} y={128} />
-      <DebugButton tag={"log_location_button"} label={"log location"} x={COLUMN_2_X} y={128} />
-
-      <DebugText
-        tag={"heading_world"}
-        x={DEBUG_ACTIONS_X}
-        y={180}
-        width={300}
-        label={"world"}
-        color={DEBUG_HEADING_COLOR}
-      />
-      <DebugButton tag={"time_hour_button"} label={"+1 hour"} x={DEBUG_ACTIONS_X} y={204} />
-      <DebugButton tag={"time_day_button"} label={"+6 hours"} x={COLUMN_2_X} y={204} />
-      <DebugButton tag={"weather_button"} label={"change weather"} x={DEBUG_ACTIONS_X} y={204 + STEP} />
-      <DebugButton tag={"surge_button"} label={"start / stop surge"} x={COLUMN_2_X} y={204 + STEP} />
     </XrRoot>
   );
 }

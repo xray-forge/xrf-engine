@@ -1,6 +1,7 @@
+import { level } from "xray16";
 import { ServerObject } from "xray16/alias";
-import { createVector, LuaArray, MAX_U16, Nillable, TIndex, TLabel, TName } from "xray16/lib";
-import { $isNil } from "xray16/macros";
+import { createVector, LuaArray, MAX_U16, Nillable, TIndex, TLabel, TName, TNumberId } from "xray16/lib";
+import { $isNil, $isNotNil } from "xray16/macros";
 
 import { getManager, registry } from "@/engine/core/database";
 import { EDebugWorldView, IDebugSavedPosition, IDebugWorldEntry } from "@/engine/core/managers/debug/debug_types";
@@ -11,23 +12,30 @@ import { getServerObjects } from "@/engine/core/utils/registry";
 
 /**
  * @param serverObject - Server object.
- * @returns Name of the level the object is on, `unknown` when it has no game vertex.
+ * @returns Name of the level the object is on, `unknown` when it has no game vertex, which some server classes do not
+ *   even bind.
  */
 function getObjectLevelName(serverObject: ServerObject): TName {
-  return serverObject.m_game_vertex_id < MAX_U16
-    ? getGameLevelName(getGameVertexLevelId(serverObject.m_game_vertex_id))
+  const gameVertexId: Nillable<TNumberId> = serverObject.m_game_vertex_id;
+
+  return $isNotNil(gameVertexId) && gameVertexId < MAX_U16
+    ? getGameLevelName(getGameVertexLevelId(gameVertexId))
     : "unknown";
 }
 
 /**
  * @param serverObject - Object of the row.
- * @param label - Row label.
+ * @param name - What the row calls the object, its level added after it.
  * @returns Row for the object, placed where it stands.
  */
-function createObjectEntry(serverObject: ServerObject, label: TLabel): IDebugWorldEntry {
+function createObjectEntry(serverObject: ServerObject, name: TLabel): IDebugWorldEntry {
+  const levelName: TName = getObjectLevelName(serverObject);
+  const label: TLabel = `${name} (${levelName})`;
+
   return {
     id: serverObject.id,
     savedIndex: null,
+    level: levelName,
     label,
     search: string.lower(label),
     position: serverObject.position,
@@ -47,6 +55,7 @@ function createSavedPositionEntry(saved: IDebugSavedPosition, index: TIndex): ID
   return {
     id: null,
     savedIndex: index,
+    level: saved.level,
     label,
     search: string.lower(label),
     position: createVector(saved.x, saved.y, saved.z),
@@ -64,7 +73,8 @@ function addEntry(entries: LuaArray<IDebugWorldEntry>, entry: IDebugWorldEntry):
 }
 
 /**
- * Build the rows of a world tab list, sorted by label.
+ * Build the rows of a world tab list: the loaded level's first, then by label. Saved positions keep the order they
+ * were saved in.
  *
  * @param view - List to build.
  * @param savedPositions - Positions saved in the world tab.
@@ -91,10 +101,7 @@ export function buildDebugWorldEntries(
       for (const index of $range(1, objects.length())) {
         const serverObject: ServerObject = objects.get(index);
 
-        addEntry(
-          entries,
-          createObjectEntry(serverObject, `${serverObject.name()} (${getObjectLevelName(serverObject)})`)
-        );
+        addEntry(entries, createObjectEntry(serverObject, serverObject.name()));
       }
 
       break;
@@ -105,7 +112,7 @@ export function buildDebugWorldEntries(
         const serverObject: Nillable<ServerObject> = registry.simulator.object(id);
 
         if (serverObject) {
-          addEntry(entries, createObjectEntry(serverObject, `${storyId} (${getObjectLevelName(serverObject)})`));
+          addEntry(entries, createObjectEntry(serverObject, storyId));
         }
       }
 
@@ -118,10 +125,7 @@ export function buildDebugWorldEntries(
         if (serverObject) {
           const isGiven: boolean = treasureConfig.TREASURES.get(name)?.given === true;
 
-          addEntry(
-            entries,
-            createObjectEntry(serverObject, `${name}${isGiven ? " (given)" : ""} (${getObjectLevelName(serverObject)})`)
-          );
+          addEntry(entries, createObjectEntry(serverObject, isGiven ? `${name} (given)` : name));
         }
       }
 
@@ -135,7 +139,13 @@ export function buildDebugWorldEntries(
       return entries;
   }
 
-  table.sort(entries, (first, second) => first.label < second.label);
+  const loadedLevel: TName = level.name();
+
+  table.sort(entries, (first, second) =>
+    first.level === second.level || (first.level !== loadedLevel && second.level !== loadedLevel)
+      ? first.label < second.label
+      : first.level === loadedLevel
+  );
 
   return entries;
 }

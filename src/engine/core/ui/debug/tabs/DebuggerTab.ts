@@ -10,10 +10,12 @@ import {
   ui_events,
 } from "xray16";
 import { TKeyCode } from "xray16/alias";
-import { create2dVector, LuaArray, TCount, TIndex, TName, TPath } from "xray16/lib";
+import { create2dVector, LuaArray, TCount, TIndex, TLabel, TName, TPath } from "xray16/lib";
 
 import { EDebugTab, IDebugField } from "@/engine/core/managers/debug/debug_types";
+import { DEBUG_CHARACTER_WIDTH } from "@/engine/core/ui/debug/debug_layout";
 import type { Debugger } from "@/engine/core/ui/debug/Debugger";
+import { wrapText } from "@/engine/core/utils/string";
 import { resolveXmlFile } from "@/engine/core/utils/ui";
 
 /**
@@ -121,9 +123,8 @@ export abstract class DebuggerTab extends CUIWindow {
   /**
    * Create a column of buttons from one node, each calling a handler with its position.
    *
-   * @param selector - Button node in the tab's form, holding the column's left edge.
+   * @param selector - Button node in the tab's form, placed where the column's first button goes.
    * @param count - How many buttons to create.
-   * @param y - Top edge of the first button.
    * @param step - Distance from one button to the next.
    * @param onClick - Click handler, given the position of the button clicked, from one.
    * @returns The buttons, top first.
@@ -131,7 +132,6 @@ export abstract class DebuggerTab extends CUIWindow {
   protected initializeButtonColumn(
     selector: TName,
     count: TCount,
-    y: number,
     step: number,
     onClick: (position: TIndex) => void
   ): LuaArray<CUI3tButton> {
@@ -140,7 +140,7 @@ export abstract class DebuggerTab extends CUIWindow {
     for (const index of $range(1, count)) {
       const button: CUI3tButton = this.initializeButton(selector, () => onClick(index), this, `${selector}_${index}`);
 
-      button.SetWndPos(create2dVector(button.GetWndPos().x, y + (index - 1) * step));
+      button.SetWndPos(create2dVector(button.GetWndPos().x, button.GetWndPos().y + (index - 1) * step));
       buttons.set(index, button);
     }
 
@@ -159,12 +159,24 @@ export abstract class DebuggerTab extends CUIWindow {
     for (const index of $range(1, fields.length())) {
       const field: IDebugField = fields.get(index);
       const row: CUIStatic = this.xml.InitStatic("field_row", null);
+      const value: CUIStatic = this.xml.InitStatic("field_value", row);
+      const lines: LuaArray<TLabel> = wrapText(field.value, math.floor(value.GetWidth() / DEBUG_CHARACTER_WIDTH));
 
       this.xml.InitStatic("field_label", row).TextControl().SetText(field.label);
-      this.xml.InitStatic("field_value", row).TextControl().SetText(field.value);
+      value.TextControl().SetText(lines.length() > 0 ? lines.get(1) : "");
 
       list.AddWindow(row, true);
       row.SetAutoDelete(true);
+
+      // A long value goes on in rows of its own, under the first.
+      for (const line of $range(2, lines.length())) {
+        const next: CUIStatic = this.xml.InitStatic("field_row", null);
+
+        this.xml.InitStatic("field_value", next).TextControl().SetText(lines.get(line));
+
+        list.AddWindow(next, true);
+        next.SetAutoDelete(true);
+      }
     }
   }
 }

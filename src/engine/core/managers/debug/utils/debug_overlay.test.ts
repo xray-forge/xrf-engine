@@ -9,7 +9,7 @@ import {
   IDebugFlowResult,
   IDebugOverlayState,
 } from "@/engine/core/managers/debug/debug_types";
-import { inspectDebugOverlayView, wrapDebugText } from "@/engine/core/managers/debug/utils/debug_overlay";
+import { inspectDebugOverlayView } from "@/engine/core/managers/debug/utils/debug_overlay";
 import { mockRegisteredActor, resetRegistry } from "@/fixtures/engine";
 
 /**
@@ -32,18 +32,6 @@ beforeEach(() => {
   resetRegistry();
   registerSimulator();
   mockRegisteredActor();
-});
-
-describe("wrapDebugText", () => {
-  it("should break text between words within the width", () => {
-    expect(wrapDebugText("talk to the barman about the job", 12)).toEqualLuaArrays([
-      "talk to the",
-      "barman about",
-      "the job",
-    ]);
-    expect(wrapDebugText("unbreakable_long_word next", 5)).toEqualLuaArrays(["unbreakable_long_word", "next"]);
-    expect(wrapDebugText("", 5)).toEqualLuaArrays([]);
-  });
 });
 
 describe("inspectDebugOverlayView", () => {

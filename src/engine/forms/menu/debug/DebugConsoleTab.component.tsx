@@ -1,12 +1,19 @@
 import { JSXNode, JSXXML } from "jsx-xml";
 
-import { WHITE } from "@/engine/constants/colors";
-import { fonts } from "@/engine/constants/fonts";
-import { DEBUG_BUTTON_HEIGHT, DEBUG_ROW_HEIGHT, DEBUG_TAB_AREA } from "@/engine/core/ui/debug/debug_layout";
-import { XrEditBox, XrRoot, XrStatic, XrText } from "@/engine/forms/components/base";
-import { DEBUG_LABEL_COLOR, DebugButton, DebugList, DebugText } from "@/engine/forms/menu/debug/debug_layout";
+import { DEBUG_BUTTON_HEIGHT, DEBUG_GAP, DEBUG_ROW_HEIGHT, DEBUG_TAB_AREA } from "@/engine/core/ui/debug/debug_layout";
+import { XrRoot } from "@/engine/forms/components/base";
+import {
+  DEBUG_ERROR_COLOR,
+  DEBUG_LABEL_COLOR,
+  DEBUG_TEXT_COLOR,
+  DebugButton,
+  DebugEditBox,
+  DebugList,
+  DebugText,
+} from "@/engine/forms/menu/debug/components";
 
-const INPUT_Y: number = DEBUG_TAB_AREA.height - 52;
+const HINT_Y: number = DEBUG_TAB_AREA.height - DEBUG_ROW_HEIGHT;
+const INPUT_Y: number = HINT_Y - DEBUG_BUTTON_HEIGHT - 6;
 const RUN_WIDTH: number = 110;
 
 /**
@@ -17,22 +24,12 @@ const RUN_WIDTH: number = 110;
 export function create(): JSXNode {
   return (
     <XrRoot width={DEBUG_TAB_AREA.width} height={DEBUG_TAB_AREA.height}>
-      <DebugList tag={"output"} x={0} y={0} width={DEBUG_TAB_AREA.width} height={INPUT_Y - 8} />
-      <XrStatic tag={"output_line"} width={DEBUG_TAB_AREA.width - 24} height={DEBUG_ROW_HEIGHT}>
-        <XrText label={""} font={fonts.letterica16} color={WHITE} />
-      </XrStatic>
+      <DebugList tag={"output"} x={0} y={0} width={DEBUG_TAB_AREA.width} height={INPUT_Y - DEBUG_GAP} />
+      <DebugText tag={"output_command"} x={0} y={0} width={DEBUG_TAB_AREA.width - 24} color={DEBUG_LABEL_COLOR} />
+      <DebugText tag={"output_line"} x={0} y={0} width={DEBUG_TAB_AREA.width - 24} color={DEBUG_TEXT_COLOR} />
+      <DebugText tag={"output_error"} x={0} y={0} width={DEBUG_TAB_AREA.width - 24} color={DEBUG_ERROR_COLOR} />
 
-      <XrEditBox
-        tag={"input"}
-        x={0}
-        y={INPUT_Y}
-        width={DEBUG_TAB_AREA.width - RUN_WIDTH - 8}
-        height={DEBUG_BUTTON_HEIGHT}
-        texture={"ui_inGame2_edit_box_2"}
-        font={fonts.letterica16}
-        color={WHITE}
-        maxSymbolsCount={1000}
-      />
+      <DebugEditBox tag={"input"} x={0} y={INPUT_Y} width={DEBUG_TAB_AREA.width - RUN_WIDTH - 8} />
       <DebugButton
         tag={"run_button"}
         label={"run"}
@@ -43,7 +40,7 @@ export function create(): JSXNode {
       <DebugText
         tag={"hint"}
         x={0}
-        y={INPUT_Y + 28}
+        y={HINT_Y}
         width={DEBUG_TAB_AREA.width}
         label={"Enter runs the line; up and down step through history; actor, target and registry are set"}
         color={DEBUG_LABEL_COLOR}

@@ -24,6 +24,7 @@ jest.mock("@/engine/core/utils/position", () => ({ teleportActorToVertex: jest.f
 const entry: IDebugWorldEntry = {
   id: 1,
   savedIndex: null,
+  level: "zaton",
   label: "test_smart (zaton)",
   search: "",
   position: MockVector.mock(1, 2, 3),

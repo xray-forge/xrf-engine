@@ -1,34 +1,59 @@
 import { JSXNode, JSXXML } from "jsx-xml";
 
-import { WHITE } from "@/engine/constants/colors";
 import { fonts } from "@/engine/constants/fonts";
 import { EDebugSpawnDestination, EDebugSpawnKind } from "@/engine/core/managers/debug/debug_types";
 import {
-  DEBUG_BROWSER,
+  DEBUG_BUTTON_GAP,
   DEBUG_BUTTON_HEIGHT,
+  DEBUG_BUTTON_WIDTH,
+  DEBUG_CARD,
+  DEBUG_SIDE,
   DEBUG_SPAWN_CELL,
+  DEBUG_SPAWN_PREVIEW,
   DEBUG_SPAWN_RECENT_ROW,
   DEBUG_TAB_AREA,
+  getDebugCardHeight,
 } from "@/engine/core/ui/debug/debug_layout";
-import { Xr3tButton, XrRoot, XrStatic, XrText } from "@/engine/forms/components/base";
-import { XrTexture } from "@/engine/forms/components/base/XrTexture.component";
+import { XrRoot } from "@/engine/forms/components/base";
 import {
-  DEBUG_HEADING_COLOR,
+  DEBUG_TEXT_COLOR,
+  DEBUG_TINT,
+  DebugBorder,
   DebugBrowser,
   DebugButton,
+  DebugCard,
   DebugFieldTemplates,
+  DebugFill,
+  DebugHoverArea,
   DebugList,
   DebugPanel,
+  DebugRow,
+  DebugSelection,
   DebugTabStrip,
-  DebugText,
-} from "@/engine/forms/menu/debug/debug_layout";
+} from "@/engine/forms/menu/debug/components";
 
-const SIDE_X: number = DEBUG_BROWSER.width + 12;
-const SIDE_WIDTH: number = DEBUG_TAB_AREA.width - SIDE_X;
+const KINDS: Array<string> = Object.values(EDebugSpawnKind);
+const KIND_WIDTH: number = Math.floor((DEBUG_TAB_AREA.width - (KINDS.length - 1) * 4) / KINDS.length);
+
+const INNER_X: number = DEBUG_SIDE.x + DEBUG_CARD.padding;
+const INNER_WIDTH: number = DEBUG_SIDE.width - DEBUG_CARD.padding * 2;
+const STEP: number = DEBUG_BUTTON_HEIGHT + DEBUG_BUTTON_GAP;
+
+const FIELDS_Y: number = DEBUG_SPAWN_PREVIEW.y + DEBUG_SPAWN_PREVIEW.height + DEBUG_CARD.gap;
+const FIELDS_HEIGHT: number = 120;
+const SPAWN_Y: number = FIELDS_Y + FIELDS_HEIGHT + DEBUG_CARD.gap;
+const SPAWN_ROWS_Y: number = SPAWN_Y + DEBUG_CARD.titleHeight + DEBUG_CARD.padding;
+const COUNT_Y: number = SPAWN_ROWS_Y + STEP * 3;
+const RECENT_Y: number = SPAWN_Y + getDebugCardHeight(4) + DEBUG_CARD.gap;
+const RECENT_ROWS_Y: number = RECENT_Y + DEBUG_CARD.titleHeight + DEBUG_CARD.padding;
+const RECENT_HEIGHT: number =
+  DEBUG_CARD.titleHeight +
+  DEBUG_CARD.padding * 2 +
+  DEBUG_SPAWN_RECENT_ROW.rows * (DEBUG_SPAWN_RECENT_ROW.height + DEBUG_SPAWN_RECENT_ROW.gap);
 
 /**
- * Create the spawn tab: kinds and search on top, a page of the catalogue on the left, and the selected section, the
- * count, the destination and recent spawns on the right.
+ * Create the spawn tab: kinds and search on top, a page of the catalogue on the left, and the selected section, where
+ * and how many to spawn and recent spawns on the right.
  *
  * @returns Rendered spawn tab component.
  */
@@ -39,75 +64,100 @@ export function create(): JSXNode {
         tag={"kinds"}
         x={0}
         y={0}
-        ids={Object.values(EDebugSpawnKind)}
-        columns={10}
-        buttonWidth={82}
+        ids={KINDS}
+        columns={KINDS.length}
+        buttonWidth={KIND_WIDTH}
         buttonHeight={DEBUG_BUTTON_HEIGHT}
       />
 
       <DebugBrowser />
 
-      <XrStatic tag={"cell"} width={DEBUG_SPAWN_CELL.width} height={DEBUG_SPAWN_CELL.height}>
-        <XrTexture id={"ui_icons_PDA_tooltips_back"} r={60} g={60} b={60} a={200} />
-      </XrStatic>
-      <XrStatic tag={"cell_selection"} width={DEBUG_SPAWN_CELL.width} height={DEBUG_SPAWN_CELL.height}>
-        <XrTexture id={"ui_inGame2_Mp_bigbuttone_h"} r={255} g={190} b={90} a={150} />
-      </XrStatic>
-      <XrStatic tag={"cell_icon"} width={DEBUG_SPAWN_CELL.width} height={DEBUG_SPAWN_CELL.height} />
-      <Xr3tButton tag={"cell_button"} label={""} width={DEBUG_SPAWN_CELL.width} height={DEBUG_SPAWN_CELL.height} />
+      <cell x={0} y={0} width={DEBUG_SPAWN_CELL.width} height={DEBUG_SPAWN_CELL.height}>
+        <DebugFill
+          x={0}
+          y={0}
+          width={DEBUG_SPAWN_CELL.width}
+          height={DEBUG_SPAWN_CELL.height}
+          tint={DEBUG_TINT.raised}
+        />
+        <DebugBorder width={DEBUG_SPAWN_CELL.width} height={DEBUG_SPAWN_CELL.height} tint={DEBUG_TINT.separator} />
+      </cell>
+      <DebugSelection tag={"cell_selection"} width={DEBUG_SPAWN_CELL.width} height={DEBUG_SPAWN_CELL.height} />
+      <cell_icon x={0} y={0} width={DEBUG_SPAWN_CELL.width} height={DEBUG_SPAWN_CELL.height} />
+      <DebugHoverArea tag={"cell_button"} width={DEBUG_SPAWN_CELL.width} height={DEBUG_SPAWN_CELL.height} />
 
-      <DebugPanel tag={"preview_background"} x={SIDE_X} y={60} width={SIDE_WIDTH} height={148} />
-      <XrStatic tag={"preview_box"} x={SIDE_X} y={64} width={SIDE_WIDTH} height={140} />
-      <XrStatic tag={"preview_icon"} width={SIDE_WIDTH} height={140} />
+      <DebugPanel
+        tag={"preview_background"}
+        x={DEBUG_SIDE.x}
+        y={DEBUG_SPAWN_PREVIEW.y}
+        width={DEBUG_SIDE.width}
+        height={DEBUG_SPAWN_PREVIEW.height}
+      />
+      <preview_box
+        x={DEBUG_SIDE.x}
+        y={DEBUG_SPAWN_PREVIEW.y}
+        width={DEBUG_SIDE.width}
+        height={DEBUG_SPAWN_PREVIEW.height}
+      />
+      <preview_icon x={0} y={0} width={DEBUG_SIDE.width} height={DEBUG_SPAWN_PREVIEW.height} />
 
-      <DebugList tag={"fields"} x={SIDE_X} y={214} width={SIDE_WIDTH} height={124} />
-      <DebugFieldTemplates width={SIDE_WIDTH - 24} />
+      <DebugList tag={"fields"} x={DEBUG_SIDE.x} y={FIELDS_Y} width={DEBUG_SIDE.width} height={FIELDS_HEIGHT} />
+      <DebugFieldTemplates width={DEBUG_SIDE.width - 24} />
 
-      <DebugText tag={"heading_count"} x={SIDE_X} y={346} width={70} label={"count"} color={DEBUG_HEADING_COLOR} />
-      <DebugButton tag={"count_less_button"} label={"-"} x={SIDE_X + 80} y={344} width={30} />
-      <XrStatic tag={"count"} x={SIDE_X + 114} y={344} width={60} height={DEBUG_BUTTON_HEIGHT}>
-        <XrText label={"1"} font={fonts.letterica18} color={WHITE} align={"c"} vertAlign={"c"} />
-      </XrStatic>
-      <DebugButton tag={"count_more_button"} label={"+"} x={SIDE_X + 178} y={344} width={30} />
-
-      <DebugText
-        tag={"heading_destination"}
-        x={SIDE_X}
-        y={374}
-        width={SIDE_WIDTH}
-        label={"put it"}
-        color={DEBUG_HEADING_COLOR}
+      <DebugCard
+        tag={"heading_spawn"}
+        x={DEBUG_SIDE.x}
+        y={SPAWN_Y}
+        width={DEBUG_SIDE.width}
+        height={getDebugCardHeight(4)}
+        title={"spawn"}
       />
       <DebugTabStrip
         tag={"destinations"}
-        x={SIDE_X}
-        y={396}
+        x={INNER_X}
+        y={SPAWN_ROWS_Y}
         ids={Object.values(EDebugSpawnDestination)}
         columns={2}
-        buttonWidth={(SIDE_WIDTH - 4) / 2}
+        buttonWidth={DEBUG_BUTTON_WIDTH}
         buttonHeight={DEBUG_BUTTON_HEIGHT}
+        gap={DEBUG_BUTTON_GAP}
+      />
+      <DebugButton tag={"count_less_button"} label={"-"} x={INNER_X} y={COUNT_Y} width={28} />
+      <count x={INNER_X + 32} y={COUNT_Y} width={DEBUG_BUTTON_WIDTH - 64} height={DEBUG_BUTTON_HEIGHT}>
+        <text
+          font={fonts.letterica18}
+          align={"c"}
+          vert_align={"c"}
+          r={DEBUG_TEXT_COLOR.r}
+          g={DEBUG_TEXT_COLOR.g}
+          b={DEBUG_TEXT_COLOR.b}
+        >
+          1
+        </text>
+      </count>
+      <DebugButton tag={"count_more_button"} label={"+"} x={INNER_X + DEBUG_BUTTON_WIDTH - 28} y={COUNT_Y} width={28} />
+      <DebugButton
+        tag={"spawn_button"}
+        label={"spawn"}
+        x={INNER_X + DEBUG_BUTTON_WIDTH + DEBUG_CARD.gap}
+        y={COUNT_Y}
+        font={fonts.letterica18}
       />
 
-      <DebugButton tag={"spawn_button"} label={"spawn"} x={SIDE_X} y={482} width={SIDE_WIDTH - 4} height={28} />
-
-      <DebugText
+      <DebugCard
         tag={"heading_recent"}
-        x={SIDE_X}
-        y={DEBUG_SPAWN_RECENT_ROW.y - 20}
-        width={SIDE_WIDTH}
-        label={"recently spawned"}
-        color={DEBUG_HEADING_COLOR}
+        x={DEBUG_SIDE.x}
+        y={RECENT_Y}
+        width={DEBUG_SIDE.width}
+        height={RECENT_HEIGHT}
+        title={"recently spawned"}
       />
-      <Xr3tButton
+      <DebugRow
         tag={"recent_row"}
-        label={""}
-        x={SIDE_X}
-        width={SIDE_WIDTH - 4}
+        x={INNER_X}
+        y={RECENT_ROWS_Y}
+        width={INNER_WIDTH}
         height={DEBUG_SPAWN_RECENT_ROW.height}
-        font={fonts.letterica16}
-        textColor={WHITE}
-        texture={"ui_inGame2_Mp_bigbuttone"}
-        align={"l"}
       />
     </XrRoot>
   );

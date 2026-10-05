@@ -1,8 +1,9 @@
 import { beforeEach, describe, expect, it } from "@jest/globals";
-import { clsid } from "xray16";
+import { clsid, level } from "xray16";
 import { ServerObject } from "xray16/alias";
 import { LuaArray } from "xray16/lib";
 import { MockAlifeObject, MockAlifeOnlineOfflineGroup, MockAlifeSmartZone } from "xray16/mocks";
+import { replaceFunctionMock } from "xray16/testing/utils";
 
 import { getManager, registerSimulator, registerStoryLink } from "@/engine/core/database";
 import { EDebugWorldView, IDebugSavedPosition, IDebugWorldEntry } from "@/engine/core/managers/debug/debug_types";
@@ -56,6 +57,28 @@ describe("buildDebugWorldEntries", () => {
     expect(squads.get(squads.length()).id).toBe(squad.id);
   });
 
+  it("should list the loaded level's rows first, then by label", () => {
+    MockAlifeSmartZone.create({ name: "a_smart", clsid: clsid.smart_terrain });
+    MockAlifeSmartZone.create({ name: "b_smart", clsid: clsid.smart_terrain });
+
+    const unsorted: LuaArray<IDebugWorldEntry> = buildDebugWorldEntries(EDebugWorldView.OBJECTS, new LuaTable());
+    const loadedLevel: string = unsorted.get(unsorted.length()).level;
+
+    replaceFunctionMock(level.name, () => loadedLevel);
+
+    const entries: LuaArray<IDebugWorldEntry> = buildDebugWorldEntries(EDebugWorldView.OBJECTS, new LuaTable());
+    const levels: Array<string> = [];
+
+    for (const index of $range(1, entries.length())) {
+      levels.push(entries.get(index).level);
+    }
+
+    const firstOther: number = levels.findIndex((it) => it !== loadedLevel);
+
+    expect(levels[0]).toBe(loadedLevel);
+    expect(firstOther === -1 || levels.slice(firstOther).every((it) => it !== loadedLevel)).toBe(true);
+  });
+
   it("should list story objects by story id", () => {
     const object: ServerObject = MockAlifeObject.mock({ name: "test_story_object" });
 
@@ -75,7 +98,13 @@ describe("buildDebugWorldEntries", () => {
     const entries: LuaArray<IDebugWorldEntry> = buildDebugWorldEntries(EDebugWorldView.POSITIONS, saved);
 
     expect(getLabels(entries)).toEqual(["b (zaton)", "a (jupiter)"]);
-    expect(entries.get(2)).toMatchObject({ id: null, savedIndex: 2, levelVertexId: 11, gameVertexId: 21 });
+    expect(entries.get(2)).toMatchObject({
+      id: null,
+      savedIndex: 2,
+      level: "jupiter",
+      levelVertexId: 11,
+      gameVertexId: 21,
+    });
     expect(entries.get(2).position.x).toBe(4);
   });
 
@@ -97,6 +126,7 @@ describe("getDebugWorldTreasureName", () => {
       getDebugWorldTreasureName({
         id: null,
         savedIndex: 1,
+        level: "zaton",
         label: "",
         search: "",
         position: MockAlifeObject.mock().position,

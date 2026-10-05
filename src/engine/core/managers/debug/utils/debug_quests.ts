@@ -25,19 +25,29 @@ export function getDebugTaskState(id: TStringId): TLabel {
   return $isNil(registry.actor.get_task(id, false)) ? "not given" : "finished";
 }
 
+// Order tasks are listed in by their state: what is being done first, what is still to give last.
+const TASK_STATE_ORDER: Record<TLabel, number> = { active: 1, finished: 2, "not given": 3 };
+
 /**
- * @returns Every task of the task manager config, with its state.
+ * @returns Every task of the task manager config, with its state: active ones first, then finished, then not given.
  */
 export function buildDebugTaskEntries(): LuaArray<IDebugQuestEntry> {
   const entries: LuaArray<IDebugQuestEntry> = new LuaTable();
+  const order: LuaTable<TStringId, number> = new LuaTable();
 
   for (const [id] of taskConfig.AVAILABLE_TASKS) {
-    const label: TLabel = `${id} - ${getDebugTaskState(id)}`;
+    const state: TLabel = getDebugTaskState(id);
+    const label: TLabel = `${id} - ${state}`;
 
+    order.set(id, TASK_STATE_ORDER[state]);
     entries.set(entries.length() + 1, { key: id, label, search: string.lower(label) });
   }
 
-  table.sort(entries, (first, second) => first.key < second.key);
+  table.sort(entries, (first, second) =>
+    order.get(first.key) === order.get(second.key)
+      ? first.key < second.key
+      : order.get(first.key) < order.get(second.key)
+  );
 
   return entries;
 }
@@ -53,7 +63,9 @@ export function inspectDebugTask(id: TStringId): LuaArray<IDebugField> {
   fields.set(1, { label: "task", value: id });
   fields.set(2, {
     label: "title",
-    value: game.translate_string(readIniString(TASK_MANAGER_CONFIG_LTX, id, "title", false, null, id)),
+    value: game.translate_string(
+      active?.currentTitle ?? readIniString(TASK_MANAGER_CONFIG_LTX, id, "title", false, null, id)
+    ),
   });
   fields.set(3, { label: "state", value: getDebugTaskState(id) });
 

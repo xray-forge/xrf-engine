@@ -1,6 +1,6 @@
 import { level } from "xray16";
 import { GameObject } from "xray16/alias";
-import { LuaArray, Nillable, TCount, TIndex, TLabel, TNumberId } from "xray16/lib";
+import { LuaArray, Nillable, TCount, TLabel, TNumberId } from "xray16/lib";
 import { $isNil } from "xray16/macros";
 
 import { registry } from "@/engine/core/database";
@@ -19,43 +19,7 @@ import {
 import { surgeConfig } from "@/engine/core/managers/surge/SurgeConfig";
 import { taskConfig } from "@/engine/core/managers/tasks/TaskConfig";
 import { isGameStarted } from "@/engine/core/utils/game";
-
-/**
- * Break text into lines of at most a width, between words, as an overlay row fits one line.
- *
- * @param text - Text to break.
- * @param width - Most characters a line holds.
- * @returns Lines, a word longer than the width on a line of its own.
- */
-export function wrapDebugText(text: TLabel, width: TCount): LuaArray<TLabel> {
-  const lines: LuaArray<TLabel> = new LuaTable();
-  const length: TCount = string.len(text);
-  let line: TLabel = "";
-  let start: TIndex = 1;
-
-  while (start <= length) {
-    const [space] = string.find(text, " ", start, true);
-    const end: TIndex = space ?? length + 1;
-    const word: TLabel = string.sub(text, start, end - 1);
-
-    if (word === "") {
-      // Runs of spaces leave empty words between them.
-    } else if (line !== "" && string.len(line) + 1 + string.len(word) > width) {
-      lines.set(lines.length() + 1, line);
-      line = word;
-    } else {
-      line = line === "" ? word : `${line} ${word}`;
-    }
-
-    start = end + 1;
-  }
-
-  if (line !== "") {
-    lines.set(lines.length() + 1, line);
-  }
-
-  return lines;
-}
+import { wrapText } from "@/engine/core/utils/string";
 
 /**
  * Describe what an overlay view shows now.
@@ -162,7 +126,7 @@ function inspectOverlayFlow(state: IDebugOverlayState, width: TCount): LuaArray<
     return fields;
   }
 
-  const lines: LuaArray<TLabel> = wrapDebugText(result.waiting.handOff, width);
+  const lines: LuaArray<TLabel> = wrapText(result.waiting.handOff, width);
 
   for (const index of $range(1, lines.length())) {
     addDebugField(fields, index === 1 ? "to do" : "", lines.get(index));

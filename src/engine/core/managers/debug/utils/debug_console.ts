@@ -2,6 +2,7 @@ import { AnyObject, Nillable, TLabel, TNumberId } from "xray16/lib";
 import { $isNil } from "xray16/macros";
 
 import { getGameObjectById, registry } from "@/engine/core/database";
+import { IDebugConsoleResult } from "@/engine/core/managers/debug/debug_types";
 import { toJSON } from "@/engine/core/utils/transform";
 
 /**
@@ -45,7 +46,7 @@ export function createDebugConsoleEnvironment(targetId: Nillable<TNumberId>): An
  * @param environment - Globals the Lua sees.
  * @returns Console text of the result, or of the error.
  */
-export function evaluateDebugLua(code: string, environment: AnyObject): TLabel {
+export function evaluateDebugLua(code: string, environment: AnyObject): IDebugConsoleResult {
   let [chunk, error] = loadstring(`return ${code}`, "=console");
 
   if (!chunk) {
@@ -53,12 +54,14 @@ export function evaluateDebugLua(code: string, environment: AnyObject): TLabel {
   }
 
   if (!chunk) {
-    return `error: ${error}`;
+    return { text: `error: ${error}`, isError: true };
   }
 
   setfenv(chunk, environment);
 
   const [isCompleted, value] = pcall(chunk as () => unknown);
 
-  return isCompleted ? formatDebugValue(value) : `error: ${tostring(value)}`;
+  return isCompleted
+    ? { text: formatDebugValue(value), isError: false }
+    : { text: `error: ${tostring(value)}`, isError: true };
 }

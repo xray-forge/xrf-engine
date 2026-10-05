@@ -1,7 +1,7 @@
 import {
   CScriptXmlInit,
+  CUI3tButton,
   CUICheckButton,
-  CUIComboBox,
   CUIScriptWnd,
   CUIStatic,
   CUITabControl,
@@ -11,8 +11,8 @@ import {
   ui_events,
 } from "xray16";
 import { TKeyCode, TUIEvent } from "xray16/alias";
-import { LuaArray, Nillable, TLabel, TNumberId, TPath } from "xray16/lib";
-import { $filename, $isNil } from "xray16/macros";
+import { create2dVector, LuaArray, Nillable, TCount, TIndex, TLabel, TNumberId, TPath } from "xray16/lib";
+import { $filename, $isNil, $isNotNil } from "xray16/macros";
 
 import { EDebugTab } from "@/engine/core/managers/debug/debug_types";
 import { debugConfig } from "@/engine/core/managers/debug/DebugConfig";
@@ -20,8 +20,10 @@ import type { DebugManager } from "@/engine/core/managers/debug/DebugManager";
 import { describeDebugObject, inspectActorLocation } from "@/engine/core/managers/debug/utils/debug_inspect";
 import { pinDebugTarget, selectDebugTarget } from "@/engine/core/managers/debug/utils/debug_target";
 import { EGameEvent, EventsManager } from "@/engine/core/managers/events";
+import { DEBUG_RECENT_TARGETS } from "@/engine/core/ui/debug/debug_layout";
 import { DebugConsoleTab } from "@/engine/core/ui/debug/tabs/DebugConsoleTab";
 import { DebuggerTab } from "@/engine/core/ui/debug/tabs/DebuggerTab";
+import { DebugOverlayTab } from "@/engine/core/ui/debug/tabs/DebugOverlayTab";
 import { DebugPlayerTab } from "@/engine/core/ui/debug/tabs/DebugPlayerTab";
 import { DebugQuestsTab } from "@/engine/core/ui/debug/tabs/DebugQuestsTab";
 import { DebugSpawnTab } from "@/engine/core/ui/debug/tabs/DebugSpawnTab";
@@ -56,7 +58,10 @@ export class Debugger extends CUIScriptWnd {
   public uiHeaderTarget!: CUIStatic;
   public uiHeaderLocation!: CUIStatic;
   public uiPinCheck!: CUICheckButton;
-  public uiRecentTargets!: CUIComboBox;
+  // Drop down list of recent targets under its header button: rows, and the marker of the current target's row.
+  public uiRecentList!: CUIStatic;
+  public uiRecentSelection!: CUIStatic;
+  public uiRecentRows: LuaArray<CUI3tButton> = new LuaTable();
   public uiMessage!: CUIStatic;
 
   public constructor(manager: DebugManager) {
@@ -91,9 +96,8 @@ export class Debugger extends CUIScriptWnd {
     this.AddCallback("pin_check", ui_events.CHECK_BUTTON_SET, () => this.onPinChanged(), this);
     this.AddCallback("pin_check", ui_events.CHECK_BUTTON_RESET, () => this.onPinChanged(), this);
 
-    this.uiRecentTargets = xml.InitComboBox("recent_targets", this);
-    this.Register(this.uiRecentTargets, "recent_targets");
-    this.AddCallback("recent_targets", ui_events.LIST_ITEM_SELECT, () => this.onRecentTargetSelected(), this);
+    this.Register(xml.Init3tButton("recent_button", this), "recent_button");
+    this.AddCallback("recent_button", ui_events.BUTTON_CLICKED, () => this.onRecentListToggled(), this);
 
     this.Register(xml.Init3tButton("close_button", this), "close_button");
     this.AddCallback("close_button", ui_events.BUTTON_CLICKED, () => this.close(), this);
@@ -107,8 +111,11 @@ export class Debugger extends CUIScriptWnd {
     this.addTab(xml, new DebugSpawnTab(this));
     this.addTab(xml, new DebugWorldTab(this));
     this.addTab(xml, new DebugQuestsTab(this));
+    this.addTab(xml, new DebugOverlayTab(this));
     this.addTab(xml, new DebugSystemTab(this));
     this.addTab(xml, new DebugConsoleTab(this));
+
+    this.initializeRecentList(xml);
   }
 
   /**
@@ -214,17 +221,21 @@ export class Debugger extends CUIScriptWnd {
     this.uiHeaderTarget.TextControl().SetText($isNil(targetId) ? "no target" : describeDebugObject(targetId));
     this.uiHeaderLocation.TextControl().SetText(inspectActorLocation());
     this.uiPinCheck.SetCheck(this.manager.target.isPinned);
+    this.uiRecentSelection.Show(false);
 
-    this.uiRecentTargets.ClearList();
+    for (const index of $range(1, this.uiRecentRows.length())) {
+      const row: CUI3tButton = this.uiRecentRows.get(index);
+      const id: Nillable<TNumberId> = recentIds.get(index);
 
-    for (const index of $range(1, recentIds.length())) {
-      const id: TNumberId = recentIds.get(index);
+      row.Show($isNotNil(id));
 
-      this.uiRecentTargets.AddItem(describeDebugObject(id), id);
+      if ($isNotNil(id)) {
+        row.TextControl().SetText(describeDebugObject(id));
+      }
 
-      // Selects by position in the list, counted from zero, and fails on a position the list does not have.
-      if (id === targetId) {
-        this.uiRecentTargets.SetCurrentID(index - 1);
+      if ($isNotNil(id) && id === targetId) {
+        this.uiRecentSelection.SetWndPos(row.GetWndPos());
+        this.uiRecentSelection.Show(true);
       }
     }
   }
@@ -244,12 +255,28 @@ export class Debugger extends CUIScriptWnd {
   }
 
   /**
-   * Switch to a recent target.
+   * Open or close the list of recent targets.
    */
-  public onRecentTargetSelected(): void {
-    const id: TNumberId = this.uiRecentTargets.CurrentID();
+  public onRecentListToggled(): void {
+    const count: TCount = math.min(this.manager.target.recentIds.length(), DEBUG_RECENT_TARGETS.rows);
 
-    if (id !== this.manager.target.id) {
+    this.uiRecentList.SetWndSize(
+      create2dVector(DEBUG_RECENT_TARGETS.width, count * DEBUG_RECENT_TARGETS.rowHeight + 12)
+    );
+    this.uiRecentList.Show(!this.uiRecentList.IsShown() && count > 0);
+  }
+
+  /**
+   * Switch to a recent target, closing the list.
+   *
+   * @param index - Position of the target's row, newest first, from one.
+   */
+  public onRecentTargetSelected(index: TIndex): void {
+    const id: Nillable<TNumberId> = this.manager.target.recentIds.get(index);
+
+    this.uiRecentList.Show(false);
+
+    if ($isNotNil(id) && id !== this.manager.target.id) {
       this.setTarget(id);
     }
   }
@@ -293,6 +320,7 @@ export class Debugger extends CUIScriptWnd {
    */
   private showTab(tab: EDebugTab): void {
     this.manager.selectTab(tab);
+    this.uiRecentList.Show(false);
 
     if (this.uiTabs.GetActiveId() !== tab) {
       this.uiTabs.SetActiveTab(tab);
@@ -303,6 +331,31 @@ export class Debugger extends CUIScriptWnd {
     }
 
     this.refresh();
+  }
+
+  /**
+   * Create the list of recent targets, closed, after the tabs so it opens over them.
+   *
+   * @param xml - Window form.
+   */
+  private initializeRecentList(xml: CScriptXmlInit): void {
+    this.uiRecentList = xml.InitStatic("recent_list", this);
+    this.uiRecentSelection = xml.InitStatic("recent_selection", this.uiRecentList);
+
+    for (const index of $range(1, DEBUG_RECENT_TARGETS.rows)) {
+      const name: TLabel = `recent_row_${index}`;
+      const row: CUI3tButton = xml.Init3tButton("recent_row", this.uiRecentList);
+
+      row.SetWndPos(
+        create2dVector(row.GetWndPos().x, row.GetWndPos().y + (index - 1) * DEBUG_RECENT_TARGETS.rowHeight)
+      );
+
+      this.Register(row, name);
+      this.AddCallback(name, ui_events.BUTTON_CLICKED, () => this.onRecentTargetSelected(index), this);
+      this.uiRecentRows.set(index, row);
+    }
+
+    this.uiRecentList.Show(false);
   }
 
   /**

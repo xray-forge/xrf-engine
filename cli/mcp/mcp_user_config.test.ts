@@ -28,7 +28,7 @@ describe("prepareMcpUserConfig", () => {
     const appdata: string = createAppdata();
     const original: Buffer = Buffer.from(
       "bind jump kSPACE\r\nrs_always_active off\r\nkeypress_on_start 1\r\nrenderer renderer_rgl\r\nsnd_volume_eff 0.7\r\n" +
-        "name \xe9\r\n",
+        "rs_stats on\r\nname \xe9\r\n",
       "latin1"
     );
 
@@ -41,7 +41,7 @@ describe("prepareMcpUserConfig", () => {
     expect(fs.readFileSync(written)).toEqual(
       Buffer.from(
         "bind jump kSPACE\r\nsnd_volume_eff 0.7\r\nname \xe9\r\nrs_always_active on\r\nkeypress_on_start 0\r\n" +
-          "renderer renderer_r4\r\n",
+          "renderer renderer_r4\r\nrs_stats off\r\n",
         "latin1"
       )
     );
@@ -53,7 +53,7 @@ describe("prepareMcpUserConfig", () => {
     await prepareMcpUserConfig(appdata);
 
     expect(fs.readFileSync(path.join(appdata, MCP_USER_CONFIG), "latin1")).toBe(
-      "rs_always_active on\r\nkeypress_on_start 0\r\nrenderer renderer_r4\r\n"
+      "rs_always_active on\r\nkeypress_on_start 0\r\nrenderer renderer_r4\r\nrs_stats off\r\n"
     );
   });
 });

@@ -1,19 +1,22 @@
 import { beforeEach, describe, expect, it, jest } from "@jest/globals";
 import { level } from "xray16";
 import { GameObject, ServerObject } from "xray16/alias";
-import { MockAlifeHumanStalker, MockAlifeObject, MockAlifeSimulator, MockGameObject } from "xray16/mocks";
+import { MockAlifeHumanStalker, MockAlifeObject, MockAlifeSimulator, MockGameObject, MockVector } from "xray16/mocks";
 import { replaceFunctionMock, resetFunctionMock } from "xray16/testing/utils";
 
 import { registerObject, registerSimulator, registry } from "@/engine/core/database";
 import {
   EDebugTargetReport,
+  getDebugInteractionBlocker,
   healDebugTarget,
   killDebugTarget,
   logDebugTargetReport,
   pullDebugTargetToActor,
   releaseDebugTarget,
   setDebugTargetRelation,
+  talkToDebugTarget,
   teleportActorToDebugTarget,
+  tradeWithDebugTarget,
   woundDebugTarget,
 } from "@/engine/core/managers/debug/utils/debug_target_actions";
 import { logObjectPlannerState } from "@/engine/core/utils/debug/debug_log";
@@ -37,10 +40,15 @@ jest.mock("@/engine/core/utils/position", () => ({
 /**
  * @param config - Stalker mock configuration.
  * @param config.alive - Whether the stalker is alive.
+ * @param config.distance - Distance from the actor, along the x axis.
  * @returns Online, registered stalker with its server object.
  */
-function mockOnlineStalker(config: { alive?: boolean } = {}): GameObject {
-  const object: GameObject = MockGameObject.mockStalker({ alive: config.alive ?? true, name: "test_stalker" });
+function mockOnlineStalker(config: { alive?: boolean; distance?: number } = {}): GameObject {
+  const object: GameObject = MockGameObject.mockStalker({
+    alive: config.alive ?? true,
+    name: "test_stalker",
+    position: MockVector.mock(config.distance ?? 1, 0, 0),
+  });
 
   MockAlifeHumanStalker.mock({ id: object.id(), name: "test_stalker" });
   registerObject(object);
@@ -51,8 +59,44 @@ function mockOnlineStalker(config: { alive?: boolean } = {}): GameObject {
 beforeEach(() => {
   resetRegistry();
   registerSimulator();
-  mockRegisteredActor();
+  mockRegisteredActor({ position: MockVector.mock(0, 0, 0) });
   resetFunctionMock(level.vertex_id);
+});
+
+describe("getDebugInteractionBlocker", () => {
+  it("should let the actor reach a live stalker close by", () => {
+    expect(getDebugInteractionBlocker(mockOnlineStalker({ distance: 2 }).id())).toBeNull();
+  });
+
+  it("should explain why the actor cannot reach the target", () => {
+    const offline: ServerObject = MockAlifeObject.mock({ name: "offline_object" });
+
+    expect(getDebugInteractionBlocker(offline.id)).toMatch(/is not a live stalker online$/);
+    expect(getDebugInteractionBlocker(mockOnlineStalker({ alive: false }).id())).toMatch(
+      /is not a live stalker online$/
+    );
+    expect(getDebugInteractionBlocker(mockOnlineStalker({ distance: 10 }).id())).toBe(
+      "test_stalker is 10 m away: pull it to the actor or teleport to it first"
+    );
+  });
+});
+
+describe("tradeWithDebugTarget", () => {
+  it("should open trading with the target", () => {
+    const object: GameObject = mockOnlineStalker();
+
+    expect(tradeWithDebugTarget(object.id())).toBe("trading with test_stalker");
+    expect(object.start_trade).toHaveBeenCalledWith(registry.actor);
+  });
+});
+
+describe("talkToDebugTarget", () => {
+  it("should start a dialog with the target", () => {
+    const object: GameObject = mockOnlineStalker();
+
+    expect(talkToDebugTarget(object.id())).toBe("talking to test_stalker");
+    expect(registry.actor.run_talk_dialog).toHaveBeenCalledWith(object, false);
+  });
 });
 
 describe("killDebugTarget", () => {

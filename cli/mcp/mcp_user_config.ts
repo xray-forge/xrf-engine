@@ -10,13 +10,14 @@ export const MCP_USER_CONFIG: string = "user_mcp.ltx";
 
 /**
  * Console lines an MCP launch plays with: the game keeps running unfocused, a loaded level starts without waiting for a
- * key press, which also skips the new game intro that key press would start, and it renders with DirectX 11 whatever
- * renderer the owner last picked.
+ * key press, which also skips the new game intro that key press would start, it renders with DirectX 11 whatever
+ * renderer the owner last picked, and engine statistics stay off screenshots.
  */
 export const MCP_FORCED_SETTINGS: ReadonlyArray<string> = [
   "rs_always_active on",
   "keypress_on_start 0",
   "renderer renderer_r4",
+  "rs_stats off",
 ];
 
 /**

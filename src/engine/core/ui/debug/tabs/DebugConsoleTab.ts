@@ -1,8 +1,8 @@
 import { CUIEditBox, CUIScrollView, CUIStatic, DIK_keys, LuabindClass } from "xray16";
 import { TKeyCode } from "xray16/alias";
-import { LuaArray, TCount, TIndex, TLabel, TPath } from "xray16/lib";
+import { LuaArray, TCount, TIndex, TLabel, TName, TPath } from "xray16/lib";
 
-import { EDebugTab } from "@/engine/core/managers/debug/debug_types";
+import { EDebugTab, IDebugConsoleResult } from "@/engine/core/managers/debug/debug_types";
 import { debugConfig } from "@/engine/core/managers/debug/DebugConfig";
 import { createDebugConsoleEnvironment, evaluateDebugLua } from "@/engine/core/managers/debug/utils/debug_console";
 import type { Debugger } from "@/engine/core/ui/debug/Debugger";
@@ -58,8 +58,13 @@ export class DebugConsoleTab extends DebuggerTab {
       return;
     }
 
-    this.print(`> ${code}`);
-    this.print(evaluateDebugLua(code, createDebugConsoleEnvironment(this.owner.manager.target.id)));
+    const result: IDebugConsoleResult = evaluateDebugLua(
+      code,
+      createDebugConsoleEnvironment(this.owner.manager.target.id)
+    );
+
+    this.print(`> ${code}`, "output_command");
+    this.print(result.text, result.isError ? "output_error" : "output_line");
 
     this.owner.manager.rememberConsoleLine(code);
     this.historyIndex = 0;
@@ -86,11 +91,12 @@ export class DebugConsoleTab extends DebuggerTab {
    * Add text to the output, a line per row, dropping the oldest rows past the limit.
    *
    * @param text - Text to add.
+   * @param template - Row template, coloured for what the text is: a command, a result or an error.
    */
-  private print(text: TLabel): void {
+  private print(text: TLabel, template: TName): void {
     for (const [line] of string.gmatch(text, "[^\n]+")) {
       for (const offset of $range(1, string.len(line), LINE_LENGTH)) {
-        this.printRow(string.sub(line, offset, offset + LINE_LENGTH - 1));
+        this.printRow(string.sub(line, offset, offset + LINE_LENGTH - 1), template);
       }
     }
 
@@ -101,9 +107,10 @@ export class DebugConsoleTab extends DebuggerTab {
    * Add one row to the output.
    *
    * @param text - Row text, short enough for one row.
+   * @param template - Row template.
    */
-  private printRow(text: TLabel): void {
-    const row: CUIStatic = this.xml.InitStatic("output_line", null);
+  private printRow(text: TLabel, template: TName): void {
+    const row: CUIStatic = this.xml.InitStatic(template, null);
 
     row.TextControl().SetText(text);
     row.SetAutoDelete(true);

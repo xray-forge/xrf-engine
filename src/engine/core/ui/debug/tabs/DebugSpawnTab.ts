@@ -25,7 +25,13 @@ import {
 import { debugConfig } from "@/engine/core/managers/debug/DebugConfig";
 import { isDebugItemKind } from "@/engine/core/managers/debug/utils/debug_catalogue";
 import { spawnDebugEntry } from "@/engine/core/managers/debug/utils/debug_spawn_actions";
-import { DEBUG_BROWSER, DEBUG_SPAWN_CELL, DEBUG_SPAWN_RECENT_ROW } from "@/engine/core/ui/debug/debug_layout";
+import {
+  DEBUG_BROWSER,
+  DEBUG_SIDE,
+  DEBUG_SPAWN_CELL,
+  DEBUG_SPAWN_PREVIEW,
+  DEBUG_SPAWN_RECENT_ROW,
+} from "@/engine/core/ui/debug/debug_layout";
 import type { Debugger } from "@/engine/core/ui/debug/Debugger";
 import { DebugBrowserTab } from "@/engine/core/ui/debug/tabs/DebugBrowserTab";
 import { SCREEN_WIDE_COEFFICIENT } from "@/engine/core/ui/screen_layout";
@@ -72,8 +78,7 @@ export class DebugSpawnTab extends DebugBrowserTab<IDebugSpawnEntry> {
       "browser_background",
       "preview_background",
       "fields_background",
-      "heading_count",
-      "heading_destination",
+      "heading_spawn",
       "heading_recent"
     );
 
@@ -95,8 +100,7 @@ export class DebugSpawnTab extends DebugBrowserTab<IDebugSpawnEntry> {
 
     this.uiRecentRows = this.initializeButtonColumn(
       "recent_row",
-      debugConfig.RECENT_SPAWNS_LIMIT,
-      DEBUG_SPAWN_RECENT_ROW.y,
+      DEBUG_SPAWN_RECENT_ROW.rows,
       DEBUG_SPAWN_RECENT_ROW.height + DEBUG_SPAWN_RECENT_ROW.gap,
       (index) => this.onRecentClicked(index)
     );
@@ -126,6 +130,8 @@ export class DebugSpawnTab extends DebugBrowserTab<IDebugSpawnEntry> {
     for (const index of $range(1, this.uiRows.length())) {
       this.uiRows.get(index).Show(!isItems && this.uiRows.get(index).IsShown());
     }
+
+    this.uiRowSelection.Show(!isItems && this.uiRowSelection.IsShown());
 
     for (const index of $range(1, this.uiCells.length())) {
       const cell: IDebugSpawnCell = this.uiCells.get(index);
@@ -244,7 +250,7 @@ export class DebugSpawnTab extends DebugBrowserTab<IDebugSpawnEntry> {
     ]);
 
     if (isDebugItemKind(entry.kind)) {
-      this.showIcon(this.uiPreviewIcon, entry.section, 280, 132);
+      this.showIcon(this.uiPreviewIcon, entry.section, DEBUG_SIDE.width - 8, DEBUG_SPAWN_PREVIEW.height - 8);
 
       fields.set(fields.length() + 1, {
         label: "cost",
@@ -289,8 +295,8 @@ export class DebugSpawnTab extends DebugBrowserTab<IDebugSpawnEntry> {
 
       cell.SetWndPos(
         create2dVector(
-          DEBUG_BROWSER.x + 4 + column * (DEBUG_SPAWN_CELL.width + DEBUG_SPAWN_CELL.gap),
-          DEBUG_BROWSER.y + 4 + row * (DEBUG_SPAWN_CELL.height + DEBUG_SPAWN_CELL.gap)
+          DEBUG_BROWSER.x + 6 + column * (DEBUG_SPAWN_CELL.width + DEBUG_SPAWN_CELL.gap),
+          DEBUG_BROWSER.y + 6 + row * (DEBUG_SPAWN_CELL.height + DEBUG_SPAWN_CELL.gap)
         )
       );
 

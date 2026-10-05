@@ -268,16 +268,13 @@ describe("DebugManager", () => {
     expect(manager.preferences.isOverlayEnabled).toBe(true);
   });
 
-  it("should cycle the views of an overlay slot", () => {
+  it("should set and remember the view of an overlay slot", () => {
     const manager: DebugManager = getManager(DebugManager);
 
-    manager.preferences.overlayViews[EDebugOverlaySlot.TOP_RIGHT] = EDebugOverlayView.ACTOR;
+    manager.setOverlayView(EDebugOverlaySlot.TOP_RIGHT, EDebugOverlayView.WORLD);
 
-    expect(manager.cycleOverlayView(EDebugOverlaySlot.TOP_RIGHT)).toBe(EDebugOverlayView.WORLD);
-    expect(manager.cycleOverlayView(EDebugOverlaySlot.TOP_RIGHT)).toBe(EDebugOverlayView.OFF);
-    expect(manager.cycleOverlayView(EDebugOverlaySlot.TOP_RIGHT)).toBe(EDebugOverlayView.TARGET);
-    expect(manager.preferences.overlayViews[EDebugOverlaySlot.TOP_RIGHT]).toBe(EDebugOverlayView.TARGET);
-    expect(saveDebugPreferences).toHaveBeenCalledTimes(3);
+    expect(manager.preferences.overlayViews[EDebugOverlaySlot.TOP_RIGHT]).toBe(EDebugOverlayView.WORLD);
+    expect(saveDebugPreferences).toHaveBeenCalledWith(manager.preferences);
   });
 
   it("should run a pinned flow quietly, without travel, and again on the overlay tick after info changes", () => {

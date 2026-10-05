@@ -1,75 +1,46 @@
 import { JSXNode, JSXXML } from "jsx-xml";
 
-import {
-  DEBUG_ACTIONS_X,
-  DEBUG_BUTTON_WIDTH,
-  DEBUG_OVERLAY_SLOT_ROW,
-  DEBUG_TAB_AREA,
-} from "@/engine/core/ui/debug/debug_layout";
+import { DEBUG_MAIN_WIDTH, DEBUG_SIDE, DEBUG_TAB_AREA } from "@/engine/core/ui/debug/debug_layout";
 import { XrRoot } from "@/engine/forms/components/base";
-import {
-  DEBUG_HEADING_COLOR,
-  DebugButton,
-  DebugFieldTemplates,
-  DebugList,
-  DebugText,
-} from "@/engine/forms/menu/debug/debug_layout";
-
-const FIELDS_WIDTH: number = DEBUG_ACTIONS_X - 16;
-const COLUMN_2_X: number = DEBUG_ACTIONS_X + DEBUG_BUTTON_WIDTH + 8;
-const OVERLAY_WIDTH: number = DEBUG_BUTTON_WIDTH * 2 + 8;
+import { DebugCardStack, DebugFieldTemplates, DebugList } from "@/engine/forms/menu/debug/components";
 
 /**
- * Create the system tab: Lua runtime facts on the left, memory, dumps, debug views and the overlay setup on the right.
+ * Create the system tab: Lua runtime facts on the left, and cards of memory, dumps and debug views on the right.
  *
  * @returns Rendered system tab component.
  */
 export function create(): JSXNode {
   return (
     <XrRoot width={DEBUG_TAB_AREA.width} height={DEBUG_TAB_AREA.height}>
-      <DebugList tag={"fields"} x={0} y={0} width={FIELDS_WIDTH} height={DEBUG_TAB_AREA.height} />
-      <DebugFieldTemplates width={FIELDS_WIDTH - 24} />
+      <DebugList tag={"fields"} x={0} y={0} width={DEBUG_MAIN_WIDTH} height={DEBUG_TAB_AREA.height} />
+      <DebugFieldTemplates width={DEBUG_MAIN_WIDTH - 24} />
 
-      <DebugText tag={"heading_lua"} x={DEBUG_ACTIONS_X} y={0} width={300} label={"lua"} color={DEBUG_HEADING_COLOR} />
-      <DebugButton tag={"collect_garbage_button"} label={"collect garbage"} x={DEBUG_ACTIONS_X} y={24} />
-      <DebugButton tag={"refresh_button"} label={"refresh"} x={COLUMN_2_X} y={24} />
-
-      <DebugText
-        tag={"heading_dumps"}
-        x={DEBUG_ACTIONS_X}
-        y={76}
-        width={300}
-        label={"dumps"}
-        color={DEBUG_HEADING_COLOR}
-      />
-      <DebugButton tag={"dump_lua_data_button"} label={"lua data"} x={DEBUG_ACTIONS_X} y={100} />
-      <DebugButton tag={"dump_system_ini_button"} label={"system.ini"} x={COLUMN_2_X} y={100} />
-
-      <DebugText
-        tag={"heading_views"}
-        x={DEBUG_ACTIONS_X}
-        y={152}
-        width={300}
-        label={"views"}
-        color={DEBUG_HEADING_COLOR}
-      />
-      <DebugButton tag={"simulation_view_button"} label={"simulation on map"} x={DEBUG_ACTIONS_X} y={176} />
-
-      <DebugText
-        tag={"heading_overlay"}
-        x={DEBUG_ACTIONS_X}
-        y={228}
-        width={300}
-        label={"overlay over the game"}
-        color={DEBUG_HEADING_COLOR}
-      />
-      <DebugButton tag={"overlay_toggle_button"} label={""} x={DEBUG_ACTIONS_X} y={252} width={OVERLAY_WIDTH} />
-      <DebugButton
-        tag={"overlay_slot_button"}
-        label={""}
-        x={DEBUG_ACTIONS_X}
-        y={DEBUG_OVERLAY_SLOT_ROW.y}
-        width={OVERLAY_WIDTH}
+      <DebugCardStack
+        x={DEBUG_SIDE.x}
+        y={0}
+        cards={[
+          {
+            tag: "heading_lua",
+            title: "lua",
+            actions: [
+              { tag: "collect_garbage_button", label: "collect garbage" },
+              { tag: "refresh_button", label: "refresh" },
+            ],
+          },
+          {
+            tag: "heading_dumps",
+            title: "dumps",
+            actions: [
+              { tag: "dump_lua_data_button", label: "lua data" },
+              { tag: "dump_system_ini_button", label: "system.ini" },
+            ],
+          },
+          {
+            tag: "heading_views",
+            title: "views",
+            actions: [{ tag: "simulation_view_button", label: "simulation on map" }],
+          },
+        ]}
       />
     </XrRoot>
   );

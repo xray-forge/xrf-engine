@@ -13,6 +13,7 @@ import {
   EDebugTab,
   IDebugFlow,
   IDebugFlowResult,
+  IDebugOverlayState,
   IDebugPreferences,
   IDebugTarget,
 } from "@/engine/core/managers/debug/debug_types";
@@ -179,27 +180,15 @@ export class DebugManager extends AbstractManager {
   }
 
   /**
-   * Show the next view in an overlay slot.
+   * Choose what an overlay slot shows, remembering it for later sessions.
    *
    * @param slot - Overlay slot.
-   * @returns View the slot shows now.
+   * @param view - View the slot shows.
    */
-  public cycleOverlayView(slot: EDebugOverlaySlot): EDebugOverlayView {
-    const views: LuaArray<EDebugOverlayView> = debugConfig.OVERLAY_VIEWS;
-    // The last view, and one a later build no longer has, wrap to the first.
-    let next: EDebugOverlayView = views.get(1);
-
-    for (const index of $range(1, views.length() - 1)) {
-      if (views.get(index) === this.preferences.overlayViews[slot]) {
-        next = views.get(index + 1);
-      }
-    }
-
-    this.preferences.overlayViews[slot] = next;
+  public setOverlayView(slot: EDebugOverlaySlot, view: EDebugOverlayView): void {
+    this.preferences.overlayViews[slot] = view;
     this.savePreferences();
     this.refreshOverlay();
-
-    return next;
   }
 
   /**
@@ -243,11 +232,14 @@ export class DebugManager extends AbstractManager {
    * Show what the overlay panels follow now.
    */
   public refreshOverlay(): void {
-    this.uiOverlay?.refresh(this.preferences.overlayViews, {
-      targetId: this.target.id,
-      flow: this.pinnedFlow,
-      flowResult: this.pinnedFlowResult,
-    });
+    this.uiOverlay?.refresh(this.preferences.overlayViews, this.getOverlayState());
+  }
+
+  /**
+   * @returns What the overlay views follow now.
+   */
+  public getOverlayState(): IDebugOverlayState {
+    return { targetId: this.target.id, flow: this.pinnedFlow, flowResult: this.pinnedFlowResult };
   }
 
   /**

@@ -12,6 +12,7 @@ export enum EDebugTab {
   SPAWN = "spawn",
   WORLD = "world",
   QUESTS = "quests",
+  OVERLAY = "overlay",
   SYSTEM = "system",
   CONSOLE = "console",
 }
@@ -101,9 +102,19 @@ export interface IDebugWorldEntry extends IDebugPlace {
   id: Nillable<TNumberId>;
   // Position of a saved position among the saved ones.
   savedIndex: Nillable<TIndex>;
+  // Level the row's place is on, `unknown` when the object has no game vertex.
+  level: TName;
   label: TLabel;
   // Label in lower case, matched by the search.
   search: string;
+}
+
+/**
+ * What console Lua returned: its text, and whether it is an error.
+ */
+export interface IDebugConsoleResult {
+  text: TLabel;
+  isError: boolean;
 }
 
 /**

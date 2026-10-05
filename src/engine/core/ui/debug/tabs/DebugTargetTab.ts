@@ -1,22 +1,27 @@
 import { CUIScrollView, level, LuabindClass } from "xray16";
 import { GameObject } from "xray16/alias";
 import { Nillable, TLabel, TNumberId, TPath } from "xray16/lib";
-import { $fromArray, $isNil } from "xray16/macros";
+import { $fromArray, $isNil, $isNotNil } from "xray16/macros";
 
+import { getManager } from "@/engine/core/database";
 import { EDebugTab } from "@/engine/core/managers/debug/debug_types";
 import { inspectDebugTarget } from "@/engine/core/managers/debug/utils/debug_inspect";
 import { clearDebugTarget } from "@/engine/core/managers/debug/utils/debug_target";
 import {
   EDebugTargetReport,
+  getDebugInteractionBlocker,
   healDebugTarget,
   killDebugTarget,
   logDebugTargetReport,
   pullDebugTargetToActor,
   releaseDebugTarget,
   setDebugTargetRelation,
+  talkToDebugTarget,
   teleportActorToDebugTarget,
+  tradeWithDebugTarget,
   woundDebugTarget,
 } from "@/engine/core/managers/debug/utils/debug_target_actions";
+import { EGameEvent, EventsManager } from "@/engine/core/managers/events";
 import type { Debugger } from "@/engine/core/ui/debug/Debugger";
 import { DebuggerTab } from "@/engine/core/ui/debug/tabs/DebuggerTab";
 import { isCreature } from "@/engine/core/utils/class_ids";
@@ -33,6 +38,9 @@ const base: TPath = "menu\\debug\\DebugTargetTab.component";
 @LuabindClass()
 export class DebugTargetTab extends DebuggerTab {
   public uiFields!: CUIScrollView;
+  // Interaction waiting for the game to run again, as the closing main menu would take its window with it.
+  public pendingInteraction: Nillable<(id: TNumberId) => TLabel> = null;
+  public pendingInteractionId: Nillable<TNumberId> = null;
 
   public constructor(owner: Debugger) {
     super(owner, EDebugTab.TARGET, base);
@@ -45,6 +53,7 @@ export class DebugTargetTab extends DebuggerTab {
       "fields_background",
       "heading_target",
       "heading_world",
+      "heading_interact",
       "heading_condition",
       "heading_relation",
       "heading_log"
@@ -59,6 +68,9 @@ export class DebugTargetTab extends DebuggerTab {
     this.initializeButton("teleport_button", () => this.onAction(teleportActorToDebugTarget, true));
     this.initializeButton("pull_button", () => this.onAction(pullDebugTargetToActor));
     this.initializeButton("release_button", () => this.onRelease());
+
+    this.initializeButton("talk_button", () => this.onInteraction(talkToDebugTarget));
+    this.initializeButton("trade_button", () => this.onInteraction(tradeWithDebugTarget));
 
     this.initializeButton("heal_button", () => this.onAction(healDebugTarget));
     this.initializeButton("wound_button", () => this.onAction(woundDebugTarget));
@@ -131,6 +143,47 @@ export class DebugTargetTab extends DebuggerTab {
       this.owner.resume();
     } else {
       this.owner.onAction(message);
+    }
+  }
+
+  /**
+   * Close the debugger, then run an action that opens a game window on the target once the game runs again.
+   *
+   * @param action - Action taking the target id and returning its result message.
+   */
+  public onInteraction(action: (id: TNumberId) => TLabel): void {
+    const id: Nillable<TNumberId> = this.owner.manager.target.id;
+
+    if (!isGameStarted() || $isNil(id)) {
+      return this.owner.report("no target");
+    }
+
+    const blocker: Nillable<TLabel> = getDebugInteractionBlocker(id);
+
+    if ($isNotNil(blocker)) {
+      return this.owner.report(blocker);
+    }
+
+    this.pendingInteraction = action;
+    this.pendingInteractionId = id;
+
+    getManager(EventsManager).registerCallback(EGameEvent.ACTOR_UPDATE, this.onGameResumed, this);
+    this.owner.resume();
+  }
+
+  /**
+   * Run the interaction waiting for the game to run again.
+   */
+  public onGameResumed(): void {
+    const action: Nillable<(id: TNumberId) => TLabel> = this.pendingInteraction;
+    const id: Nillable<TNumberId> = this.pendingInteractionId;
+
+    getManager(EventsManager).unregisterCallback(EGameEvent.ACTOR_UPDATE, this.onGameResumed);
+    this.pendingInteraction = null;
+    this.pendingInteractionId = null;
+
+    if ($isNotNil(action) && $isNotNil(id)) {
+      this.owner.report(action(id));
     }
   }
 

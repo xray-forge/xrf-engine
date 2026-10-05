@@ -4,7 +4,7 @@ import { $isNil, $isNotNil } from "xray16/macros";
 
 import { debugConfig } from "@/engine/core/managers/debug/DebugConfig";
 import { filterDebugEntries } from "@/engine/core/managers/debug/utils/debug_search";
-import { DEBUG_BROWSER, DEBUG_BROWSER_ROW } from "@/engine/core/ui/debug/debug_layout";
+import { DEBUG_BROWSER_ROW } from "@/engine/core/ui/debug/debug_layout";
 import { DebuggerTab } from "@/engine/core/ui/debug/tabs/DebuggerTab";
 import { DebugPager } from "@/engine/core/ui/debug/tabs/DebugPager";
 
@@ -26,6 +26,8 @@ export abstract class DebugBrowserTab<T extends IDebugBrowserEntry> extends Debu
   public uiSearch!: CUIEditBox;
   public uiPage!: CUIStatic;
   public uiRows: LuaArray<CUI3tButton> = new LuaTable();
+  // Marker laid under the row of the selected entry.
+  public uiRowSelection!: CUIStatic;
 
   // Rows that match the search, the page of them shown, and the one selected.
   public entries: LuaArray<T> = new LuaTable();
@@ -74,6 +76,7 @@ export abstract class DebugBrowserTab<T extends IDebugBrowserEntry> extends Debu
    */
   public refreshBrowser(): void {
     this.uiPage.TextControl().SetText(this.pager.describe(this.entries.length()));
+    this.uiRowSelection.Show(false);
 
     for (const index of $range(1, this.uiRows.length())) {
       const row: CUI3tButton = this.uiRows.get(index);
@@ -82,7 +85,12 @@ export abstract class DebugBrowserTab<T extends IDebugBrowserEntry> extends Debu
       row.Show($isNotNil(entry));
 
       if ($isNotNil(entry)) {
-        row.TextControl().SetText(entry === this.selected ? `> ${entry.label}` : entry.label);
+        row.TextControl().SetText(entry.label);
+      }
+
+      if ($isNotNil(entry) && entry === this.selected) {
+        this.uiRowSelection.SetWndPos(row.GetWndPos());
+        this.uiRowSelection.Show(true);
       }
     }
   }
@@ -133,10 +141,13 @@ export abstract class DebugBrowserTab<T extends IDebugBrowserEntry> extends Debu
     this.initializeButton("previous_page_button", () => this.onPageChanged(-1));
     this.initializeButton("next_page_button", () => this.onPageChanged(1));
 
+    // Created before the rows, so it lies under them.
+    this.uiRowSelection = this.xml.InitStatic("row_selection", this);
+    this.uiRowSelection.Show(false);
+
     this.uiRows = this.initializeButtonColumn(
       "row",
       debugConfig.BROWSER_ROWS,
-      DEBUG_BROWSER.y + 6,
       DEBUG_BROWSER_ROW.height + DEBUG_BROWSER_ROW.gap,
       (index) => this.onEntryClicked(index)
     );

@@ -111,7 +111,7 @@ describe("DebugQuestsTab", () => {
 
     expect(manager.pinFlow).toHaveBeenCalledWith(flow);
     expect(tab.owner.uiMessage.TextControl().GetText()).toBe(
-      "quests_test pinned to the overlay - turn the overlay on in the system tab"
+      "quests_test pinned to the overlay - turn the overlay on in the overlay tab"
     );
     expect(tab.uiActions.get(EDebugQuestView.FLOWS).get(3).TextControl().GetText()).toBe("unpin from the overlay");
 

@@ -211,7 +211,7 @@ export class DebugQuestsTab extends DebugBrowserTab<IDebugQuestEntry> {
     manager.pinFlow(flow);
 
     const replacing: TLabel = $isNil(replaced) ? "" : `, replacing ${replaced.identity}`;
-    const hint: TLabel = manager.preferences.isOverlayEnabled ? "" : " - turn the overlay on in the system tab";
+    const hint: TLabel = manager.preferences.isOverlayEnabled ? "" : " - turn the overlay on in the overlay tab";
 
     this.owner.onAction(`${flow.identity} pinned to the overlay${replacing}${hint}`);
   }

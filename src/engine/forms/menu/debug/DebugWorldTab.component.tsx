@@ -1,26 +1,71 @@
 import { JSXNode, JSXXML } from "jsx-xml";
 
 import { EDebugWorldView } from "@/engine/core/managers/debug/debug_types";
-import { DEBUG_BROWSER, DEBUG_BUTTON_HEIGHT, DEBUG_TAB_AREA } from "@/engine/core/ui/debug/debug_layout";
+import {
+  DEBUG_BROWSER,
+  DEBUG_BUTTON_GAP,
+  DEBUG_BUTTON_HEIGHT,
+  DEBUG_CARD,
+  DEBUG_SIDE,
+  DEBUG_TAB_AREA,
+} from "@/engine/core/ui/debug/debug_layout";
 import { XrRoot } from "@/engine/forms/components/base";
 import {
-  DEBUG_HEADING_COLOR,
   DEBUG_LABEL_COLOR,
   DebugBrowser,
-  DebugButton,
+  DebugCardStack,
   DebugFieldTemplates,
   DebugList,
   DebugTabStrip,
   DebugText,
-} from "@/engine/forms/menu/debug/debug_layout";
+  getDebugCardStackHeight,
+  IDebugActionCard,
+} from "@/engine/forms/menu/debug/components";
 
-const SIDE_X: number = DEBUG_BROWSER.width + 12;
-const SIDE_WIDTH: number = DEBUG_TAB_AREA.width - SIDE_X;
-const HALF_WIDTH: number = (SIDE_WIDTH - 4) / 2;
-const COLUMN_2_X: number = SIDE_X + HALF_WIDTH + 4;
+const VIEWS: Array<string> = Object.values(EDebugWorldView);
+const VIEW_WIDTH: number = Math.floor((DEBUG_TAB_AREA.width - (VIEWS.length - 1) * 4) / VIEWS.length);
+
+const CARDS: Array<IDebugActionCard> = [
+  {
+    tag: "heading_go",
+    title: "selected",
+    actions: [
+      { tag: "target_button", label: "make target" },
+      { tag: "teleport_button", label: "teleport" },
+    ],
+  },
+  {
+    tag: "heading_positions",
+    title: "saved positions",
+    actions: [
+      { tag: "save_position_button", label: "save current" },
+      { tag: "delete_position_button", label: "delete selected" },
+    ],
+    extraRows: 1,
+  },
+  {
+    tag: "heading_treasures",
+    title: "treasure coordinates",
+    actions: [
+      { tag: "give_treasure_button", label: "give selected" },
+      { tag: "give_random_treasure_button", label: "give random" },
+      { tag: "give_all_treasures_button", label: "give all" },
+    ],
+  },
+];
+
+const CARDS_Y: number = DEBUG_TAB_AREA.height - getDebugCardStackHeight(CARDS);
+const HINT_Y: number =
+  CARDS_Y +
+  getDebugCardStackHeight(CARDS.slice(0, 1)) +
+  DEBUG_CARD.gap +
+  DEBUG_CARD.titleHeight +
+  DEBUG_CARD.padding +
+  DEBUG_BUTTON_HEIGHT +
+  DEBUG_BUTTON_GAP;
 
 /**
- * Create the world tab: lists of places and things on top and on the left, what is selected and what to do with it on
+ * Create the world tab: lists of places and things on the left, what is selected and cards of what to do with it on
  * the right.
  *
  * @returns Rendered world tab component.
@@ -32,64 +77,33 @@ export function create(): JSXNode {
         tag={"views"}
         x={0}
         y={0}
-        ids={Object.values(EDebugWorldView)}
-        columns={6}
-        buttonWidth={140}
+        ids={VIEWS}
+        columns={VIEWS.length}
+        buttonWidth={VIEW_WIDTH}
         buttonHeight={DEBUG_BUTTON_HEIGHT}
       />
 
       <DebugBrowser />
 
-      <DebugList tag={"fields"} x={SIDE_X} y={DEBUG_BROWSER.y} width={SIDE_WIDTH} height={300} />
-      <DebugFieldTemplates width={SIDE_WIDTH - 24} />
-
-      <DebugText
-        tag={"heading_go"}
-        x={SIDE_X}
-        y={368}
-        width={SIDE_WIDTH}
-        label={"selected"}
-        color={DEBUG_HEADING_COLOR}
+      <DebugList
+        tag={"fields"}
+        x={DEBUG_SIDE.x}
+        y={DEBUG_BROWSER.y}
+        width={DEBUG_SIDE.width}
+        height={CARDS_Y - DEBUG_CARD.gap - DEBUG_BROWSER.y}
       />
-      <DebugButton tag={"target_button"} label={"make target"} x={SIDE_X} y={390} width={HALF_WIDTH} />
-      <DebugButton tag={"teleport_button"} label={"teleport"} x={COLUMN_2_X} y={390} width={HALF_WIDTH} />
+      <DebugFieldTemplates width={DEBUG_SIDE.width - 24} />
 
-      <DebugText
-        tag={"heading_positions"}
-        x={SIDE_X}
-        y={422}
-        width={SIDE_WIDTH}
-        label={"saved positions"}
-        color={DEBUG_HEADING_COLOR}
-      />
-      <DebugButton tag={"save_position_button"} label={"save current"} x={SIDE_X} y={444} width={HALF_WIDTH} />
-      <DebugButton tag={"delete_position_button"} label={"delete selected"} x={COLUMN_2_X} y={444} width={HALF_WIDTH} />
+      <DebugCardStack x={DEBUG_SIDE.x} y={CARDS_Y} cards={CARDS} />
       <DebugText
         tag={"positions_hint"}
-        x={SIDE_X}
-        y={468}
-        width={SIDE_WIDTH}
+        x={DEBUG_SIDE.x + DEBUG_CARD.padding}
+        y={HINT_Y}
+        width={DEBUG_SIDE.width - DEBUG_CARD.padding * 2}
+        height={DEBUG_BUTTON_HEIGHT}
         label={"the search text names a saved position"}
         color={DEBUG_LABEL_COLOR}
       />
-
-      <DebugText
-        tag={"heading_treasures"}
-        x={SIDE_X}
-        y={496}
-        width={SIDE_WIDTH}
-        label={"treasure coordinates"}
-        color={DEBUG_HEADING_COLOR}
-      />
-      <DebugButton tag={"give_treasure_button"} label={"give selected"} x={SIDE_X} y={518} width={HALF_WIDTH} />
-      <DebugButton
-        tag={"give_random_treasure_button"}
-        label={"give random"}
-        x={COLUMN_2_X}
-        y={518}
-        width={HALF_WIDTH}
-      />
-      <DebugButton tag={"give_all_treasures_button"} label={"give all"} x={SIDE_X} y={546} width={HALF_WIDTH} />
     </XrRoot>
   );
 }
