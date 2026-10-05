@@ -27,8 +27,9 @@ output.
 
 - `game_start` starts the game armed (`start_game --mcp`), in a new game or a save, and waits until a level runs. It
   refuses while any game process runs, and restores a save from the bank when the game has no copy of it. When the
-  previous run ended in a fatal error, it first keeps that run's logs under `target/mcp/crashes`, as the launch
-  overwrites them, and says so after the greeting. `game_load` does the same when it starts the game.
+  previous run ended in a fatal error, or died without one and without shutting down, it first keeps that run's logs
+  under `target/mcp/crashes`, as the launch overwrites them, and says so after the greeting. `game_load` does the same
+  when it starts the game.
 - `game_status` reports the session, level, game time, actor, and the time since the previous actor update.
 - `game_console` runs a console command after answering; follow a `load` with `game_wait_ready`.
 - `game_lua` runs Lua and returns its value as JSON, trying it as an expression first. It takes the code itself or a
@@ -41,13 +42,17 @@ output.
   `speed` sets the engine's `time_factor` for the wait and resets it to 1 afterwards, even when the wait fails, so
   scenes, logic timers and sounds play that many times faster.
 - `game_flow` runs an in-game check flow by identity, source path or launcher name, and returns its report lines.
+  With `waitSeconds` it runs the flow again every second while it waits on the same step, and answers once a step is
+  confirmed, the flow moved the actor, the walk ended, or the time is up. `speed` runs the pauses between runs that
+  many times faster and each run at normal speed, so a run that jumps the level leaves no reset to a loading game.
 - `game_dialog` talks to an NPC by the dialog XML the game loads, which it reads through `xrf-cli dialog list` and
   `dialog inspect` over `target/gamedata`. Without `dialog` it lists what the NPC's profile offers, one line per dialog
   saying whether the actor may open it now and the first condition that fails; `only` and `match` filter the list and
   `full` answers JSON with the opening lines. With `dialog` and `say` it walks one, giving info portions and running
   actions as the engine does. Each mode refuses the other's arguments.
   A walk closes the game's own talk window, which it does not drive. It needs an `xrf-cli` with the `dialog list`
-  and `dialog inspect` commands.
+  and `dialog inspect` commands. A server answers a query it ran before from memory until a build changes
+  `target/gamedata/configs`.
 - `game_screenshot` returns the image scaled down to `width` (1600 by default) and keeps the full one under
   `target/mcp/screenshots`.
 - `game_log` reads the last lines of the engine, xrf Lua or check flow log, also while loading, paused or crashed.
@@ -84,7 +89,9 @@ The endpoint names engine objects in answers and dumps by their class: `<CTime 2
 - `dumps` holds `game_dump` captures and their comparisons.
 - `screenshots` holds full-size screenshots.
 - `crashes` holds the logs of crashed runs, a folder each named by when the engine log was last written (UTC), with a
-  `crash.txt` of the fatal error and the BugTrap reports written around it. The reports stay in `_appdata_/reports`.
+  `crash.txt` of the fatal error and the BugTrap reports written around it. A run that died without a fatal error,
+  as one does when its crash handler crashes in turn, has its last lines there instead. A clean shutdown logs
+  `Destroying Render...`. The reports stay in `_appdata_/reports`.
 
 ## Examples
 

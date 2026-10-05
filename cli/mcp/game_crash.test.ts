@@ -4,7 +4,7 @@ import * as path from "node:path";
 
 import { afterEach, beforeEach, describe, expect, it } from "@jest/globals";
 
-import { findCrashLines, IGameCrash, keepGameCrash } from "#/mcp/game_crash";
+import { findAbnormalEndLines, findCrashLines, IGameCrash, keepGameCrash } from "#/mcp/game_crash";
 import { Nullable } from "#/utils/types";
 
 describe("game crash", () => {
@@ -72,10 +72,33 @@ describe("game crash", () => {
     expect(keepGameCrash(engineLog, lines, logs, reports, crashes)).toBeNull();
   });
 
-  it("should keep nothing for a run that did not crash", () => {
-    const engineLog: string = writeFile(path.join(logs, "openxray_test.log"), "Loading...", new Date());
+  it("should keep nothing for a run that shut down cleanly", () => {
+    const lines: Array<string> = ["Loading...", "* [1] KERNEL:QUIT", "Destroying Render...", "refCount:pDevice: 3"];
+    const engineLog: string = writeFile(path.join(logs, "openxray_test.log"), lines.join("\n"), new Date());
 
-    expect(keepGameCrash(engineLog, ["Loading..."], logs, reports, crashes)).toBeNull();
+    expect(keepGameCrash(engineLog, lines, logs, reports, crashes)).toBeNull();
     expect(fs.existsSync(crashes)).toBe(false);
+  });
+
+  it("should keep the last lines of a run that died without a fatal error or a shutdown", () => {
+    const lines: Array<string> = ["Loading...", "! [StackTraceBuilder] Failed to load dbghelp.dll"];
+    const engineLog: string = writeFile(path.join(logs, "openxray_test.log"), lines.join("\n"), new Date());
+    const crash: Nullable<IGameCrash> = keepGameCrash(engineLog, lines, logs, reports, crashes);
+
+    expect(crash).not.toBeNull();
+    expect(fs.readFileSync(path.join(crash!.directory, "crash.txt"), "utf8")).toContain(
+      "The run ended without a fatal error and without shutting down; its last lines:\n" +
+        "Loading...\n! [StackTraceBuilder] Failed to load dbghelp.dll\n"
+    );
+  });
+
+  it("should tell a fatal error, a silent death and a clean shutdown apart", () => {
+    expect(findAbnormalEndLines(["a", "FATAL ERROR", "b"])).toEqual(["FATAL ERROR", "b"]);
+    expect(findAbnormalEndLines(["a", "Destroying Render..."])).toBeNull();
+    expect(findAbnormalEndLines([])).toBeNull();
+    expect(findAbnormalEndLines(["a"])).toEqual([
+      "The run ended without a fatal error and without shutting down; its last lines:",
+      "a",
+    ]);
   });
 });

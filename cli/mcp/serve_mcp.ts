@@ -2,6 +2,7 @@ import * as fs from "node:fs";
 import * as path from "node:path";
 
 import {
+  TARGET_GAME_DATA_CONFIGS_DIR,
   TARGET_GAME_DATA_MCP_EXTENSION_DIR,
   TARGET_MCP_CRASHES_DIR,
   TARGET_MCP_DUMPS_DIR,
@@ -18,6 +19,7 @@ import { createGameTools } from "#/mcp/mcp_tools";
 import { McpPipeClient } from "#/mcp/McpPipeClient";
 import { McpStdioServer } from "#/mcp/McpStdioServer";
 import { runXrfCli } from "#/mcp/xrf_cli";
+import { cacheXrfCli, stampDirectory } from "#/mcp/xrf_cli_cache";
 import { startGame } from "#/start/start_game";
 import { getGamePaths } from "#/utils/fs/get_game_paths";
 import { NodeLogger } from "#/utils/logging";
@@ -87,7 +89,11 @@ export async function serveMcp(): Promise<void> {
       getTextEncoding,
       keepScreenshot: (file) => moveScreenshot(file, TARGET_MCP_SCREENSHOTS_DIR),
       scaleScreenshot,
-      runXrfCli: (parameters) => runXrfCli(XRF_UTILS_PATH, parameters),
+      // The tools query configs of the gamedata the game runs, which change only when a build writes them.
+      runXrfCli: cacheXrfCli(
+        (parameters) => runXrfCli(XRF_UTILS_PATH, parameters),
+        () => stampDirectory(TARGET_GAME_DATA_CONFIGS_DIR)
+      ),
     }),
     INSTRUCTIONS
   );

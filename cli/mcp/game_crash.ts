@@ -5,6 +5,8 @@ import { Nullable } from "#/utils/types";
 
 // Lines kept from a fatal error on, which hold its expression, location and description.
 const CRASH_LINES: number = 20;
+// Logged by every orderly shutdown as the render device goes; a run dying in its crash handler never gets there.
+const SHUTDOWN_LINE: string = "Destroying Render...";
 // BugTrap writes its reports moments after the log's last line, and a full memory dump can take minutes.
 const REPORT_WINDOW_BEFORE_MS: number = 60_000;
 const REPORT_WINDOW_AFTER_MS: number = 300_000;
@@ -28,6 +30,28 @@ export function findCrashLines(lines: Array<string>): Nullable<Array<string>> {
 }
 
 /**
+ * @param lines - Engine log lines of a finished run, oldest first.
+ * @returns Lines telling how the run ended badly: from its fatal error on, or its last lines when it died without one
+ *   and without shutting down, or null when it shut down cleanly.
+ */
+export function findAbnormalEndLines(lines: Array<string>): Nullable<Array<string>> {
+  const crashLines: Nullable<Array<string>> = findCrashLines(lines);
+
+  if (crashLines) {
+    return crashLines;
+  }
+
+  if (lines.length === 0 || lines.some((line) => line.includes(SHUTDOWN_LINE))) {
+    return null;
+  }
+
+  return [
+    "The run ended without a fatal error and without shutting down; its last lines:",
+    ...lines.slice(-CRASH_LINES),
+  ];
+}
+
+/**
  * @param directory - Folder to list.
  * @param extension - File extension to keep.
  * @returns Paths of the folder's files with that extension, none when it does not exist.
@@ -44,7 +68,8 @@ function listFiles(directory: string, extension: string): Array<string> {
 }
 
 /**
- * Copy the logs of a run that ended in a fatal error and note its BugTrap reports, as the next run overwrites the logs.
+ * Copy the logs of a run that ended badly and note its BugTrap reports, as the next run overwrites the logs. A run that
+ * died without a fatal error, such as one whose crash handler crashed in turn, counts as well.
  * The reports stay where BugTrap wrote them, as they persist and their memory dumps run to hundreds of megabytes.
  *
  * @param engineLog - Engine log of the run.
@@ -61,7 +86,7 @@ export function keepGameCrash(
   reportsDirectory: string,
   crashesDirectory: string
 ): Nullable<IGameCrash> {
-  const crashLines: Nullable<Array<string>> = findCrashLines(lines);
+  const crashLines: Nullable<Array<string>> = findAbnormalEndLines(lines);
 
   if (!crashLines) {
     return null;

@@ -43,6 +43,7 @@ export interface IGameToolsContext {
   getTextEncoding: () => Promise<string>;
   keepScreenshot: (file: string) => string;
   scaleScreenshot: (file: string, width: number) => Promise<Buffer>;
+  /** Query `xrf-cli` over `target/gamedata` configs; a server may answer a repeated query from memory until they change. */
   runXrfCli: (parameters: Array<string>) => Promise<IXrfCliEnvelope>;
 }
 
