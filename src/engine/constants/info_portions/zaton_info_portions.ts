@@ -400,13 +400,19 @@ export const zatonInfoPortions = {
   /**
    * Zaton b40.
    */
+  zat_b40_actor_find_mer_camp: "zat_b40_actor_find_mer_camp",
+  zat_b40_actor_has_notebook: "zat_b40_actor_has_notebook",
   zat_b40_all_item_saled: "zat_b40_all_item_saled",
+  zat_b40_find_information: "zat_b40_find_information",
+  zat_b40_find_information_comlpete: "zat_b40_find_information_comlpete",
+  zat_b40_merc_in_combat: "zat_b40_merc_in_combat",
   zat_b40_notebook_saled: "zat_b40_notebook_saled",
   zat_b40_pda_1_saled: "zat_b40_pda_1_saled",
   zat_b40_pda_2_saled: "zat_b40_pda_2_saled",
   /**
    * Zaton b44.
    */
+  zat_b40_warning: "zat_b40_warning",
   zat_b44_stalker_barge_body_searched: "zat_b44_stalker_barge_body_searched",
   zat_b44_tech_buddies_barge_told: "zat_b44_tech_buddies_barge_told",
   zat_b44_tech_buddies_both_told: "zat_b44_tech_buddies_both_told",
