@@ -42,7 +42,7 @@ export class SquadStayOnTargetAction implements ISquadAction {
    */
   public update(isUnderSimulation: boolean): boolean {
     if (isUnderSimulation) {
-      return (this.actionStartTime as Time).diffSec(game.get_game_time()) > this.actionIdleTime;
+      return game.get_game_time().diffSec(this.actionStartTime as Time) > this.actionIdleTime;
     }
 
     return true;

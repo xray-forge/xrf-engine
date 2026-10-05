@@ -14,7 +14,9 @@ import { $isNil } from "xray16/macros";
 import { getGameObjectById, registry } from "@/engine/core/database";
 import { debugConfig } from "@/engine/core/managers/debug/DebugConfig";
 import { describeDebugObject } from "@/engine/core/managers/debug/utils/debug_inspect";
-import { isCreature, isStalker } from "@/engine/core/utils/class_ids";
+import { releaseSimulationSquad } from "@/engine/core/managers/simulation/utils";
+import type { Squad } from "@/engine/core/objects/squad";
+import { isCreature, isSquad, isStalker } from "@/engine/core/utils/class_ids";
 import {
   logObjectInventoryItems,
   logObjectPlannerState,
@@ -230,21 +232,27 @@ export function talkToDebugTarget(id: TNumberId): TLabel {
 }
 
 /**
- * Release the target from the simulation.
+ * Release the target from the simulation. A squad goes through the simulation's own release, which also releases its
+ * members and leaves its terrain.
  *
  * @param id - Target object id.
  * @returns Result message.
  */
 export function releaseDebugTarget(id: TNumberId): TLabel {
   const label: TLabel = describeDebugObject(id);
+  const serverObject: Nillable<ServerObject> = registry.simulator.object(id);
 
-  if ($isNil(registry.simulator.object(id))) {
+  if ($isNil(serverObject)) {
     return `${label} does not exist`;
   } else if (id === registry.actor.id()) {
     return "the actor cannot be released";
   }
 
-  releaseObject(id);
+  if (isSquad(serverObject)) {
+    releaseSimulationSquad(serverObject as Squad);
+  } else {
+    releaseObject(id);
+  }
 
   return `released ${label}`;
 }

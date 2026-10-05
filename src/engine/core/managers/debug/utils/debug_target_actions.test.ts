@@ -20,14 +20,19 @@ import {
   tradeWithDebugTarget,
   woundDebugTarget,
 } from "@/engine/core/managers/debug/utils/debug_target_actions";
+import { releaseSimulationSquad } from "@/engine/core/managers/simulation/utils";
 import { logObjectPlannerState } from "@/engine/core/utils/debug/debug_log";
 import { setObjectWounded } from "@/engine/core/utils/object";
 import { isOnLoadedLevel, teleportActorNearPosition } from "@/engine/core/utils/position";
 import { ERelation, setGameObjectRelation } from "@/engine/core/utils/relation";
 import { releaseObject } from "@/engine/core/utils/spawn";
-import { mockRegisteredActor, resetRegistry } from "@/fixtures/engine";
+import { mockRegisteredActor, MockSquad, resetRegistry } from "@/fixtures/engine";
 
 jest.mock("@/engine/core/utils/debug/debug_log");
+jest.mock("@/engine/core/managers/simulation/utils", () => ({
+  ...(jest.requireActual("@/engine/core/managers/simulation/utils") as object),
+  releaseSimulationSquad: jest.fn(),
+}));
 jest.mock("xray16/lib", () => ({
   ...(jest.requireActual("xray16/lib") as object),
   restoreObjectCondition: jest.fn(),
@@ -204,5 +209,15 @@ describe("releaseDebugTarget", () => {
     expect(releaseObject).toHaveBeenCalledWith(serverObject.id);
 
     expect(releaseDebugTarget(60_000)).toBe("gone (60000) does not exist");
+    expect(releaseDebugTarget(registry.actor.id())).toBe(`the actor cannot be released`);
+  });
+
+  it("should release a squad through the simulation, with its members", () => {
+    const squad: MockSquad = MockSquad.mock();
+
+    releaseDebugTarget(squad.id);
+
+    expect(releaseSimulationSquad).toHaveBeenCalledWith(squad);
+    expect(releaseObject).not.toHaveBeenCalledWith(squad.id);
   });
 });

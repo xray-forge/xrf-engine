@@ -1,4 +1,4 @@
-import { describe, expect, it, jest } from "@jest/globals";
+import { describe, expect, it } from "@jest/globals";
 import { CTime, game } from "xray16";
 import { MockCTime } from "xray16/mocks";
 
@@ -30,26 +30,25 @@ describe("SquadStayOnTargetAction", () => {
     expect(() => action.finalize()).not.toThrow();
   });
 
-  it("should correctly update / check state", () => {
-    const squad: MockSquad = MockSquad.mock();
-    const action: SquadStayOnTargetAction = new SquadStayOnTargetAction(squad);
+  it("should finish at once online, and under simulation once the idle time has passed", () => {
+    const action: SquadStayOnTargetAction = new SquadStayOnTargetAction(MockSquad.mock());
+    const previousNow: MockCTime = MockCTime.nowTime;
 
+    MockCTime.nowTime = MockCTime.create(2012, 6, 12, 10, 0, 0, 0);
     action.initialize();
+    action.actionIdleTime = 600;
 
     // Not under simulation (online): finishes immediately, ignoring the idle timer.
     expect(action.update(false)).toBe(true);
-
-    // Under simulation: compares elapsed time against the idle time.
     expect(action.update(true)).toBe(false);
 
-    jest.spyOn(action.actionStartTime as CTime, "diffSec").mockImplementation(() => 0);
+    MockCTime.nowTime = MockCTime.create(2012, 6, 12, 10, 10, 0, 0);
     expect(action.update(true)).toBe(false);
 
-    jest.spyOn(action.actionStartTime as CTime, "diffSec").mockImplementation(() => action.actionIdleTime);
-    expect(action.update(true)).toBe(false);
-
-    jest.spyOn(action.actionStartTime as CTime, "diffSec").mockImplementation(() => action.actionIdleTime + 1);
+    MockCTime.nowTime = MockCTime.create(2012, 6, 12, 10, 10, 1, 0);
     expect(action.update(true)).toBe(true);
+
+    MockCTime.nowTime = previousNow;
   });
 
   it("should correctly calculate stay idle duration", () => {
