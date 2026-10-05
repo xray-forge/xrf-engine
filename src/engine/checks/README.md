@@ -14,7 +14,9 @@ Flow files have no exports and import from `@/engine/checks/framework`.
 - Ordered `step` calls describe progression. Each needs `reached`; `verify`, `travel`, and `handOff` are optional.
 
 `travel` runs only for a step that is not reached yet, and the step is tested again on arrival. It never runs for a
-reached step, so it cannot undo what the game did to reach it, such as a scene moving the actor.
+reached step, so it cannot undo what the game did to reach it, such as a scene moving the actor. It is also deferred
+while a scene holds the actor, as a fade with the UI disabled does, since the scene releases the actor only where it
+plays.
 
 The task manager closes tasks and pays `reward_money` on its next update, after the dialog or logic that finished them.
 Observe that in a step of its own, after the step reached by the portion, rather than in the same `verify`.

@@ -1,6 +1,15 @@
 import { game, get_hud, level } from "xray16";
 import { GameHud, GameObject, NetPacket, NetProcessor, Time } from "xray16/alias";
-import { AnyObject, Nillable, readTimeFromPacket, TDuration, TName, TNumberId, writeTimeToPacket } from "xray16/lib";
+import {
+  AnyObject,
+  LuaArray,
+  Nillable,
+  readTimeFromPacket,
+  TDuration,
+  TName,
+  TNumberId,
+  writeTimeToPacket,
+} from "xray16/lib";
 import { $filename, $isNil, $isNotNil } from "xray16/macros";
 
 import { misc } from "@/engine/constants/items/misc";
@@ -151,6 +160,21 @@ export class ActorInputManager extends AbstractManager {
     }
 
     this.reconcileControlState(false);
+  }
+
+  /**
+   * List the owners of every active control lock, such as a scene that disabled the UI.
+   *
+   * @returns Handles of the active locks, empty when nothing holds the actor.
+   */
+  public getActiveControlHandles(): LuaArray<TName> {
+    const handles: LuaArray<TName> = new LuaTable();
+
+    for (const [handle] of this.locks) {
+      table.insert(handles, handle);
+    }
+
+    return handles;
   }
 
   /**

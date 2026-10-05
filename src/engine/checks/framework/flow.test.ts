@@ -6,7 +6,9 @@ import { replaceFunctionMock } from "xray16/testing/utils";
 import { ICheckRequirements, ICheckResult } from "@/engine/checks/framework/core";
 import { IFlowStep, IFlowStepBody, IRegistration } from "@/engine/checks/framework/dsl";
 import { runFlow } from "@/engine/checks/framework/flow";
-import { getPortableStoreValue, setPortableStoreValue } from "@/engine/core/database";
+import { getManager, getPortableStoreValue, setPortableStoreValue } from "@/engine/core/database";
+import { EActorControlHandle, EActorControlPolicy } from "@/engine/core/managers/actor/actor_input_types";
+import { ActorInputManager } from "@/engine/core/managers/actor/ActorInputManager";
 import { mockRegisteredActor, resetRegistry } from "@/fixtures/engine";
 
 const FLOW_NAME: TName = "test_flow";
@@ -170,6 +172,21 @@ describe("runFlow", () => {
 
     expect(travelReached).not.toHaveBeenCalled();
     expect(travelPending).toHaveBeenCalledTimes(1);
+  });
+
+  it("should not travel while a scene holds the actor", () => {
+    const travel = jest.fn();
+    const manager: ActorInputManager = getManager(ActorInputManager);
+
+    manager.acquireControl(EActorControlHandle.SCRIPT_UI, "script-ui", EActorControlPolicy.FULL_UI);
+    runFlow(FLOW_NAME, mockRegistration([{ travel, reached: () => false }]));
+
+    expect(travel).not.toHaveBeenCalled();
+
+    manager.releaseControl(EActorControlHandle.SCRIPT_UI);
+    runFlow(FLOW_NAME, mockRegistration([{ travel, reached: () => false }]));
+
+    expect(travel).toHaveBeenCalledTimes(1);
   });
 
   it("should record a failure and advance when a later step is already reached", () => {

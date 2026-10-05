@@ -393,6 +393,24 @@ describe("ActorInputManager", () => {
     expect(level.enable_input).toHaveBeenCalledTimes(1);
   });
 
+  it("should list the owners of the active control locks", () => {
+    const manager: ActorInputManager = getManager(ActorInputManager);
+
+    expect(manager.getActiveControlHandles()).toEqualLuaArrays([]);
+
+    manager.acquireControl(EActorControlHandle.SCRIPT_UI, "script-ui", EActorControlPolicy.FULL_UI);
+    manager.acquireControl(EActorControlHandle.TIMED, "timed", EActorControlPolicy.INPUT);
+
+    expect(manager.getActiveControlHandles()).toEqualLuaArrays([
+      EActorControlHandle.SCRIPT_UI,
+      EActorControlHandle.TIMED,
+    ]);
+
+    manager.releaseControl(EActorControlHandle.SCRIPT_UI);
+
+    expect(manager.getActiveControlHandles()).toEqualLuaArrays([EActorControlHandle.TIMED]);
+  });
+
   it("should correctly handle keyboard input event", () => {
     const manager: ActorInputManager = getManager(ActorInputManager);
 

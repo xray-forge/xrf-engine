@@ -13,7 +13,8 @@ import {
   reportOutcome,
 } from "@/engine/checks/framework/core";
 import { clearCurrentContext, IFlowStep, IRegistration, setCurrentContext } from "@/engine/checks/framework/dsl";
-import { getPortableStoreValue, setPortableStoreValue } from "@/engine/core/database";
+import { getManager, getPortableStoreValue, setPortableStoreValue } from "@/engine/core/database";
+import { ActorInputManager } from "@/engine/core/managers/actor/ActorInputManager";
 
 /**
  * Prefix of the actor portable store key a flow keeps its progress under.
@@ -149,6 +150,23 @@ function verifyStep(context: CheckContext, step: IFlowStep, position: TIndex): v
  */
 function travelToStep(context: CheckContext, step: IFlowStep, position: TIndex, name: TName, total: TCount): boolean {
   if ($isNil(step.travel)) {
+    return false;
+  }
+
+  // A scene that holds the actor, such as a fade with the UI disabled, releases it only where it plays: moving the
+  // actor away mid scene, let alone to another level, leaves the actor held for good.
+  const holders: LuaArray<TName> = getManager(ActorInputManager).getActiveControlHandles();
+
+  if (holders.length() > 0) {
+    report(
+      "%s: step %s/%s '%s' travel deferred, the actor is held by '%s'",
+      name,
+      position,
+      total,
+      step.name,
+      table.concat(holders, "', '")
+    );
+
     return false;
   }
 
