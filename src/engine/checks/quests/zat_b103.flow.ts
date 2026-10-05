@@ -1,15 +1,15 @@
 import { GameObject } from "xray16/alias";
-import { ACTOR_ID, TCount, TName } from "xray16/lib";
+import { Nillable, TCount, TName } from "xray16/lib";
 import { $isNil, $isNotNil } from "xray16/macros";
 
-import { expect, report, requires, step } from "@/engine/checks/framework";
+import { expect, requires, step } from "@/engine/checks/framework";
 import { isStagePassed } from "@/engine/checks/framework/stages";
-import { checkTaskText } from "@/engine/checks/framework/world";
+import { checkTaskText, readActorCount, rememberActorCount } from "@/engine/checks/framework/world";
 import { teleportToLostMercsHideout } from "@/engine/checks/quests/zaton_places";
 import { infoPortions, TInfoPortion } from "@/engine/constants/info_portions";
 import { food } from "@/engine/constants/items/food";
 import { taskIds } from "@/engine/constants/task_ids";
-import { getPortableStoreValue, registry, setPortableStoreValue } from "@/engine/core/database";
+import { registry } from "@/engine/core/database";
 import { taskConfig } from "@/engine/core/managers/tasks/TaskConfig";
 import { hasInfoPortion } from "@/engine/core/utils/info_portion";
 
@@ -95,14 +95,14 @@ step("4 - food gathered", {
 step("5 - food handed over", {
   reached: (): boolean => isStagePassed(STAGES, infoPortions.zat_b103_merc_task_done),
   travel: (): void => {
-    setPortableStoreValue<TCount>(ACTOR_ID, SUPPLIES_BEFORE_KEY, countActorSupplies());
+    rememberActorCount(SUPPLIES_BEFORE_KEY, countActorSupplies());
     void teleportToLostMercsHideout();
   },
   verify: (): void => {
-    const before: TCount = getPortableStoreValue<TCount>(ACTOR_ID, SUPPLIES_BEFORE_KEY, -1);
+    const before: Nillable<TCount> = readActorCount(SUPPLIES_BEFORE_KEY, "the hand-over");
 
-    if (before < 0) {
-      return report("no supplies baseline, the hand-over happened outside this walk");
+    if ($isNil(before)) {
+      return;
     }
 
     expect(

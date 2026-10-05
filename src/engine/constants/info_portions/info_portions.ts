@@ -16,6 +16,7 @@ export const infoPortions = {
   ...jupiterInfoPortions,
   ...pripyatInfoPortions,
   ...zatonInfoPortions,
+  about_skadovsk_dialog_done: "about_skadovsk_dialog_done",
   actor_information_dealer: "actor_information_dealer",
   actor_is_sleeping: "actor_is_sleeping",
   actor_marked_by_zone_3_times: "actor_marked_by_zone_3_times",

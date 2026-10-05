@@ -34,6 +34,7 @@ export const zoneNames = {
   pri_a18_use_idol_restrictor: "pri_a18_use_idol_restrictor",
   pri_b306_sr_generator: "pri_b306_sr_generator",
   zat_a2_sr_no_assault: "zat_a2_sr_no_assault",
+  zat_a2_sr_noweap: "zat_a2_sr_noweap",
   zat_a2_sr_sleep: "zat_a2_sr_sleep",
   zat_b100_heli_2: "zat_b100_heli_2",
   zat_b101_heli_5: "zat_b101_heli_5",
