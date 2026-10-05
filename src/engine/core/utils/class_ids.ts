@@ -10,7 +10,7 @@ import type {
   ServerSmartZoneObject,
   TClassId,
 } from "xray16/alias";
-import { type Nillable } from "xray16/lib";
+import { MAX_ALIFE_ID, type Nillable, type TNumberId } from "xray16/lib";
 import { $isNil, $isNotNil } from "xray16/macros";
 
 import { classIds } from "@/engine/constants/class_ids";
@@ -142,10 +142,18 @@ export function isSmartTerrain<T extends ServerSmartZoneObject>(object: ServerOb
 
 /**
  * @param squad - Squad object to check.
- * @returns Whether provided squad is assigned with monsters.
+ * @returns Whether provided squad is assigned with monsters, false for a squad left without members.
  */
 export function isMonsterSquad<T extends ServerGroupObject>(squad: T): boolean {
-  const commander: Nillable<ServerObject> = alife().object(squad.commander_id());
+  const commanderId: TNumberId = squad.commander_id();
+
+  // A squad whose last member died is still updated until its release completes, and asking the simulator for its
+  // missing commander logs an invalid id.
+  if (commanderId === MAX_ALIFE_ID) {
+    return false;
+  }
+
+  const commander: Nillable<ServerObject> = alife().object(commanderId);
 
   return $isNotNil(commander) && isMonster(commander);
 }

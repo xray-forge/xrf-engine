@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, jest } from "@jest/globals";
-import { clsid } from "xray16";
+import { alife, clsid } from "xray16";
 import { ServerObject } from "xray16/alias";
 import { MAX_ALIFE_ID } from "xray16/lib";
 import { MockAlifeObject, MockGameObject } from "xray16/mocks";
@@ -224,6 +224,7 @@ describe("isMonsterSquad", () => {
     jest.spyOn(squad, "commander_id").mockImplementation(() => MAX_ALIFE_ID);
 
     expect(isMonsterSquad(squad)).toBe(false);
+    expect(alife().object).not.toHaveBeenCalledWith(MAX_ALIFE_ID);
   });
 
   it("should correctly check if squad object assigned with monsters", () => {
