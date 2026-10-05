@@ -12,6 +12,7 @@ import {
 } from "xray16/lib";
 import { $isNil, $isNotNil } from "xray16/macros";
 
+import { EFlowOutcome } from "@/engine/checks/framework/outcome";
 import { registry } from "@/engine/core/database";
 import { EGameEvent, EventsManager } from "@/engine/core/managers/events";
 import { ENotificationType, ITipNotification } from "@/engine/core/managers/notifications/notifications_types";
@@ -137,10 +138,13 @@ export interface ICheckFailure {
  */
 export interface ICheckResult {
   name: TName;
+  outcome: EFlowOutcome;
   steps: TCount;
   checked: TCount;
   failures: LuaArray<ICheckFailure>;
   skipReason: Nillable<TLabel>;
+  /** Whether a step's travel ran, moving the actor, during the invocation. */
+  isTravelled: boolean;
 }
 
 /**
@@ -154,6 +158,7 @@ export class CheckContext {
 
   public checked: TCount = 0;
   public steps: TCount = 0;
+  public isTravelled: boolean = false;
 
   public constructor(name: TName) {
     this.name = name;
@@ -290,10 +295,9 @@ export function evaluateStateRequirements(requires: Nillable<ICheckRequirements>
  * Echo the outcome of a run to the console and log.
  *
  * @param result - Result of the run.
- * @param verdict - Headline verdict, since flows have more outcomes than pass and fail.
  * @param duration - How long the run took, in milliseconds.
  */
-export function reportOutcome(result: ICheckResult, verdict: TLabel, duration: TDuration): void {
+export function reportOutcome(result: ICheckResult, duration: TDuration): void {
   if ($isNotNil(result.skipReason)) {
     report("%s: SKIP | %s", result.name, result.skipReason);
 
@@ -314,7 +318,7 @@ export function reportOutcome(result: ICheckResult, verdict: TLabel, duration: T
   report(
     "%s: %s | steps %s, checked %s, failed %s, took %s ms",
     result.name,
-    verdict,
+    result.outcome,
     result.steps,
     result.checked,
     failuresCount,

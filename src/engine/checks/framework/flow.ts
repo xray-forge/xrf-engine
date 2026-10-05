@@ -13,6 +13,7 @@ import {
   reportOutcome,
 } from "@/engine/checks/framework/core";
 import { clearCurrentContext, IFlowStep, IRegistration, setCurrentContext } from "@/engine/checks/framework/dsl";
+import { EFlowOutcome } from "@/engine/checks/framework/outcome";
 import { getManager, getPortableStoreValue, setPortableStoreValue } from "@/engine/core/database";
 import { ActorInputManager } from "@/engine/core/managers/actor/ActorInputManager";
 
@@ -172,6 +173,8 @@ function travelToStep(context: CheckContext, step: IFlowStep, position: TIndex, 
 
   report("%s: step %s/%s '%s' travelling", name, position, total, step.name);
 
+  context.isTravelled = true;
+
   const [isCompleted, caught] = pcall(() => step.travel!());
 
   if (!isCompleted) {
@@ -192,13 +195,13 @@ function travelToStep(context: CheckContext, step: IFlowStep, position: TIndex, 
  * @param name - Flow name.
  * @returns Headline verdict of this invocation.
  */
-function observe(context: CheckContext, steps: LuaArray<IFlowStep>, name: TName): TLabel {
+function observe(context: CheckContext, steps: LuaArray<IFlowStep>, name: TName): EFlowOutcome {
   const total: TCount = steps.length();
 
   if (total === 0) {
     context.fail("flow", "declares no steps");
 
-    return "FAIL";
+    return EFlowOutcome.FAIL;
   }
 
   let confirmed: TIndex = readCursor(name);
@@ -207,7 +210,7 @@ function observe(context: CheckContext, steps: LuaArray<IFlowStep>, name: TName)
     report("%s: already complete, load a save from before the walk to observe it again", name);
     notify(`${name} is already complete - load an earlier save to watch it again`);
 
-    return "COMPLETE";
+    return EFlowOutcome.COMPLETE;
   }
 
   for (const position of $range(confirmed + 1, total)) {
@@ -247,7 +250,7 @@ function observe(context: CheckContext, steps: LuaArray<IFlowStep>, name: TName)
           : `${position}/${total} ${step.name} - not reached yet`
       );
 
-      return "WAITING";
+      return EFlowOutcome.WAITING;
     }
 
     verifyStep(context, step, position);
@@ -267,7 +270,31 @@ function observe(context: CheckContext, steps: LuaArray<IFlowStep>, name: TName)
       : `${name} complete: ${total}/${total} steps, ${walkFailures} failure(s) during the walk`
   );
 
-  return "COMPLETE";
+  return EFlowOutcome.COMPLETE;
+}
+
+/**
+ * Observe a flow with its context current, so free assertions reach it, recording an abort as a failure.
+ *
+ * @param context - Running flow context.
+ * @param steps - Steps the flow registered.
+ * @param name - Flow name.
+ * @returns Headline verdict of this invocation, FAIL when observing aborted.
+ */
+function observeGuarded(context: CheckContext, steps: LuaArray<IFlowStep>, name: TName): EFlowOutcome {
+  setCurrentContext(context);
+
+  const [isCompleted, caught] = pcall(() => observe(context, steps, name));
+
+  clearCurrentContext();
+
+  if (!isCompleted) {
+    context.fail("flow", `aborted -> ${tostring(caught)}`);
+
+    return EFlowOutcome.FAIL;
+  }
+
+  return caught;
 }
 
 /**
@@ -290,12 +317,12 @@ export function runFlow(name: TName, registration: IRegistration): ICheckResult 
   const blockers: LuaArray<TLabel> =
     $isNil(skipReason) && isStarting ? evaluateStateRequirements(registration.requirements) : new LuaTable();
 
-  let verdict: TLabel = "SKIP";
+  let verdict: EFlowOutcome;
 
   if ($isNotNil(skipReason)) {
-    verdict = "SKIP";
+    verdict = EFlowOutcome.SKIP;
   } else if (blockers.length() > 0) {
-    verdict = "BLOCKED";
+    verdict = EFlowOutcome.BLOCKED;
 
     for (const [, blocker] of blockers) {
       report("%s: blocked - %s", name, blocker);
@@ -303,29 +330,10 @@ export function runFlow(name: TName, registration: IRegistration): ICheckResult 
 
     notify(`${name} blocked: ${blockers.get(1)}`);
   } else {
-    setCurrentContext(context);
-
-    const [isCompleted, caught] = pcall(() => {
-      verdict = observe(context, registration.steps, name);
-    });
-
-    clearCurrentContext();
-
-    if (!isCompleted) {
-      context.fail("flow", `aborted -> ${tostring(caught)}`);
-      verdict = "FAIL";
-    }
+    verdict = observeGuarded(context, registration.steps, name);
   }
 
-  const result: ICheckResult = {
-    name: name,
-    steps: context.steps,
-    checked: context.checked,
-    failures: context.failures,
-    skipReason: skipReason,
-  };
-
-  const failures: TCount = result.failures.length();
+  const failures: TCount = context.failures.length();
   const isObserving: boolean = $isNil(skipReason) && blockers.length() === 0;
 
   // The tally spans the whole walk, so a clean final invocation cannot pass off an earlier failure.
@@ -335,14 +343,24 @@ export function runFlow(name: TName, registration: IRegistration): ICheckResult 
     writeFailures(name, walkFailures);
   }
 
-  let outcome: TLabel = failures === 0 ? verdict : "FAIL";
+  let outcome: EFlowOutcome = failures === 0 ? verdict : EFlowOutcome.FAIL;
 
-  if (outcome === "COMPLETE" && walkFailures > 0) {
-    outcome = "FAIL";
+  if (outcome === EFlowOutcome.COMPLETE && walkFailures > 0) {
+    outcome = EFlowOutcome.FAIL;
   }
 
+  const result: ICheckResult = {
+    name: name,
+    outcome: outcome,
+    steps: context.steps,
+    checked: context.checked,
+    failures: context.failures,
+    skipReason: skipReason,
+    isTravelled: context.isTravelled,
+  };
+
   report("%s: %s/%s step(s) confirmed", name, readCursor(name), registration.steps.length());
-  reportOutcome(result, outcome, time_global() - startedAt);
+  reportOutcome(result, time_global() - startedAt);
 
   if (walkFailures > failures) {
     report("%s: %s failure(s) so far in this walk", name, walkFailures);
@@ -350,7 +368,7 @@ export function runFlow(name: TName, registration: IRegistration): ICheckResult 
 
   if ($isNotNil(skipReason)) {
     notify(`${name} skipped: ${skipReason}`);
-  } else if (outcome === "FAIL") {
+  } else if (outcome === EFlowOutcome.FAIL) {
     notify(`${name} FAILED: ${failures} problem(s) here, ${walkFailures} in this walk`);
   }
 

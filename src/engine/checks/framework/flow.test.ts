@@ -6,6 +6,7 @@ import { replaceFunctionMock } from "xray16/testing/utils";
 import { ICheckRequirements, ICheckResult } from "@/engine/checks/framework/core";
 import { IFlowStep, IFlowStepBody, IRegistration } from "@/engine/checks/framework/dsl";
 import { runFlow } from "@/engine/checks/framework/flow";
+import { EFlowOutcome } from "@/engine/checks/framework/outcome";
 import { getManager, getPortableStoreValue, setPortableStoreValue } from "@/engine/core/database";
 import { EActorControlHandle, EActorControlPolicy } from "@/engine/core/managers/actor/actor_input_types";
 import { ActorInputManager } from "@/engine/core/managers/actor/ActorInputManager";
@@ -53,6 +54,7 @@ describe("runFlow", () => {
     const reached = jest.fn(() => true);
     const result: ICheckResult = runFlow(FLOW_NAME, mockRegistration([{ reached }], { level: "jupiter" }));
 
+    expect(result.outcome).toBe(EFlowOutcome.SKIP);
     expect(result.skipReason).toBe("requires level 'jupiter', current is 'zaton'");
     expect(reached).not.toHaveBeenCalled();
     expect(readConfirmed()).toBe(0);
@@ -67,6 +69,7 @@ describe("runFlow", () => {
       })
     );
 
+    expect(result.outcome).toBe(EFlowOutcome.BLOCKED);
     expect(result.skipReason).toBeNull();
     expect(reached).not.toHaveBeenCalled();
     expect(readConfirmed()).toBe(0);
@@ -108,6 +111,8 @@ describe("runFlow", () => {
     expect(verifySecond).toHaveBeenCalled();
     expect(verifyThird).not.toHaveBeenCalled();
     expect(readConfirmed()).toBe(2);
+    expect(result.outcome).toBe(EFlowOutcome.WAITING);
+    expect(result.isTravelled).toBe(false);
     expect(result.steps).toBe(2);
     expect(result.failures.length()).toBe(0);
   });
@@ -127,7 +132,7 @@ describe("runFlow", () => {
   it("should travel to a step not reached yet and test it again on arrival", () => {
     const order: Array<string> = [];
 
-    runFlow(
+    const result: ICheckResult = runFlow(
       FLOW_NAME,
       mockRegistration([
         {
@@ -142,6 +147,8 @@ describe("runFlow", () => {
     );
 
     expect(order).toEqual(["reached", "travel", "reached"]);
+    expect(result.outcome).toBe(EFlowOutcome.WAITING);
+    expect(result.isTravelled).toBe(true);
   });
 
   it("should confirm a step that travelling reached", () => {
@@ -179,8 +186,8 @@ describe("runFlow", () => {
     const manager: ActorInputManager = getManager(ActorInputManager);
 
     manager.acquireControl(EActorControlHandle.SCRIPT_UI, "script-ui", EActorControlPolicy.FULL_UI);
-    runFlow(FLOW_NAME, mockRegistration([{ travel, reached: () => false }]));
 
+    expect(runFlow(FLOW_NAME, mockRegistration([{ travel, reached: () => false }])).isTravelled).toBe(false);
     expect(travel).not.toHaveBeenCalled();
 
     manager.releaseControl(EActorControlHandle.SCRIPT_UI);
@@ -269,8 +276,7 @@ describe("runFlow", () => {
 
     const reached = jest.fn(() => true);
 
-    runFlow(FLOW_NAME, mockRegistration([{ reached }]));
-
+    expect(runFlow(FLOW_NAME, mockRegistration([{ reached }])).outcome).toBe(EFlowOutcome.COMPLETE);
     expect(reached).not.toHaveBeenCalled();
     expect(readConfirmed()).toBe(1);
   });
@@ -278,6 +284,7 @@ describe("runFlow", () => {
   it("should fail a flow that registered no steps", () => {
     const result: ICheckResult = runFlow(FLOW_NAME, mockRegistration([]));
 
+    expect(result.outcome).toBe(EFlowOutcome.FAIL);
     expect(result.failures.length()).toBe(1);
     expect(result.failures.get(1).assertion).toBe("flow");
   });

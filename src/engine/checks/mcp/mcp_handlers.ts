@@ -84,10 +84,12 @@ export function runFlowModule(module: string, identity: string): AnyObject {
 
   return {
     name: result.name,
+    outcome: result.outcome,
     steps: result.steps,
     checked: result.checked,
     failures: failures,
     skipReason: result.skipReason,
+    isTravelled: result.isTravelled,
     report: lines,
   };
 }

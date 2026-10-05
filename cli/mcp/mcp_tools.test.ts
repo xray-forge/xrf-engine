@@ -9,12 +9,14 @@ import { IDialogInspectReport, IDialogListReport } from "#/mcp/dialogs/dialog_cl
 import { IGameDialogListing } from "#/mcp/dialogs/game_dialog_types";
 import { IToolResult } from "#/mcp/mcp_tool_types";
 import { createGameTools, IGameToolsContext } from "#/mcp/mcp_tools";
-import { McpPipeClient } from "#/mcp/McpPipeClient";
+import { IGameResponse, McpPipeClient } from "#/mcp/McpPipeClient";
 import { IJsonRpcResponse, McpStdioServer } from "#/mcp/McpStdioServer";
-import { findFlow } from "#/mcp/tools/game_tools";
+import { findFlow, isFlowStillWaiting } from "#/mcp/tools/game_tools";
 import { waitForScreenshot } from "#/mcp/tools/screenshot_tools";
 import { EGameDifficulty } from "#/start/start_game";
 import { Nullable } from "#/utils/types";
+
+import { EFlowOutcome } from "@/engine/checks/framework/outcome";
 
 type TCallTool = (name: string, args?: Record<string, unknown>) => Promise<IToolResult>;
 
@@ -271,6 +273,76 @@ describe("game MCP tools", () => {
 
     expect(unknown.isError).toBe(true);
     expect(textOf(unknown)).toContain("quests_zat_b14");
+  });
+
+  it("should run a waiting flow again until it confirms a step, at the engine speed asked for", async () => {
+    const { call, client, context, directory } = setup();
+    const waiting = {
+      ok: true,
+      result: { outcome: EFlowOutcome.WAITING, steps: 0, isTravelled: false, report: ["waiting"] },
+    };
+
+    directories.push(directory);
+    jest.useFakeTimers();
+    jest.mocked(context.isGameRunning).mockResolvedValue(true);
+    client.request.mockImplementation(async (kind) => {
+      if (kind !== "flow") {
+        return { id: "1", ok: true, result: null };
+      }
+
+      const runs: number = client.request.mock.calls.filter(([it]) => it === "flow").length;
+
+      return runs < 3
+        ? { id: "1", ...waiting }
+        : {
+            id: "1",
+            ok: true,
+            result: { outcome: EFlowOutcome.WAITING, steps: 1, isTravelled: false, report: ["step 1 reached"] },
+          };
+    });
+
+    const waited: Promise<IToolResult> = call("game_flow", { name: "quests_zat_b14", waitSeconds: 30, speed: 5 });
+
+    await jest.advanceTimersByTimeAsync(2_000);
+
+    expect(JSON.parse(textOf(await waited))).toMatchObject({ steps: 1, report: ["step 1 reached"], runs: 3 });
+    // Every run happens at normal speed, so one that jumps the level leaves no speed reset to a loading game.
+    expect(client.request.mock.calls.map(([kind, parameters]) => (kind === "flow" ? kind : parameters))).toEqual([
+      "flow",
+      { command: "time_factor 5" },
+      { command: "time_factor 1" },
+      "flow",
+      { command: "time_factor 5" },
+      { command: "time_factor 1" },
+      "flow",
+    ]);
+  });
+
+  it("should answer a flow wait the game process ended", async () => {
+    const { call, client, directory } = setup();
+
+    directories.push(directory);
+    client.request.mockRejectedValue(new Error("The game connection closed before answering."));
+
+    const result: IToolResult = await call("game_flow", { name: "quests_zat_b14", waitSeconds: 30 });
+
+    expect(result.isError).toBe(true);
+    expect(textOf(result)).toContain("The game exited");
+  });
+
+  it("should tell a flow run that leaves the next move to the caller from one that only waits", () => {
+    /**
+     * @returns An answer of one flow run holding the result.
+     */
+    function run(result: object): IGameResponse {
+      return { id: "1", ok: true, result };
+    }
+
+    expect(isFlowStillWaiting(run({ outcome: EFlowOutcome.WAITING, steps: 0, isTravelled: false }))).toBe(true);
+    expect(isFlowStillWaiting(run({ outcome: EFlowOutcome.WAITING, steps: 1, isTravelled: false }))).toBe(false);
+    expect(isFlowStillWaiting(run({ outcome: EFlowOutcome.WAITING, steps: 0, isTravelled: true }))).toBe(false);
+    expect(isFlowStillWaiting(run({ outcome: EFlowOutcome.COMPLETE, steps: 0, isTravelled: false }))).toBe(false);
+    expect(isFlowStillWaiting({ id: "1", ok: false, error: "no game" })).toBe(false);
   });
 
   it("should keep the screenshot the game wrote after the request and return it scaled", async () => {

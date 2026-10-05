@@ -7,11 +7,22 @@ import { IGameResponse } from "#/mcp/McpPipeClient";
 import { answer, IGameToolsContext, json, schema, sleep, text } from "#/mcp/tools/tool_kit";
 import { Nullable } from "#/utils/types";
 
+import { EFlowOutcome } from "@/engine/checks/framework/outcome";
+
 const FLOW_WAIT_MS: number = 60_000;
 const WAIT_POLL_MS: number = 1_000;
 const WAIT_CHECK_MS: number = 5_000;
 const TIME_FACTOR_RESET_MS: number = 30_000;
 const PROCESS_CHECK_MS: number = 5_000;
+
+/**
+ * What one run of a flow answers, as far as waiting on it goes.
+ */
+interface IFlowRunResult {
+  outcome: EFlowOutcome;
+  steps: number;
+  isTravelled: boolean;
+}
 
 /**
  * @param name - Flow identity (`quests_zat_b14`), source (`quests/zat_b14.flow.ts`) or launcher (`flow_quests_zat_b14`).
@@ -26,34 +37,43 @@ export function findFlow(name: string): Nullable<ICheckDescriptor> {
 }
 
 /**
- * Run a wait with the engine clock sped up, and put the clock back to normal speed whatever the wait did.
+ * Run something with the engine clock sped up, and put the clock back to normal speed whatever it did.
  *
  * A reset the game does not answer, such as one sent while a level loads, fails the call instead of leaving the game
  * sped up unnoticed. A game that exited needs no reset.
  *
  * @param context - What the tools reach outside the pipe.
- * @param speed - Engine time factor to wait at, 1 for normal speed.
- * @param wait - The wait to run.
- * @returns What the wait answered.
+ * @param speed - Engine time factor to run at, 1 for normal speed.
+ * @param body - What to run.
+ * @returns What it answered.
  */
-async function waitAtSpeed(
-  context: IGameToolsContext,
-  speed: number,
-  wait: () => Promise<IToolResult>
-): Promise<IToolResult> {
+async function runAtEngineSpeed<T>(context: IGameToolsContext, speed: number, body: () => Promise<T>): Promise<T> {
   if (speed === 1) {
-    return wait();
+    return body();
   }
 
   await context.client.request("console", { command: `time_factor ${speed}` });
 
   try {
-    return await wait();
+    return await body();
   } finally {
     if (await context.isGameRunning()) {
       await context.client.request("console", { command: "time_factor 1" }, TIME_FACTOR_RESET_MS);
     }
   }
+}
+
+/**
+ * Whether running a flow again could show something new by itself: it waits on the same step it waited on, and did
+ * not move the actor, which leaves the next move to the caller.
+ *
+ * @param response - Answer of one flow run.
+ * @returns Whether the flow waits without having confirmed a step or travelled.
+ */
+export function isFlowStillWaiting(response: IGameResponse): boolean {
+  const result: Nullable<IFlowRunResult> = response.ok ? (response.result as IFlowRunResult) : null;
+
+  return result?.outcome === EFlowOutcome.WAITING && result.steps === 0 && !result.isTravelled;
 }
 
 /**
@@ -66,6 +86,53 @@ function answerGameExited(started: number): IToolResult {
       "logs of a crash.",
     true
   );
+}
+
+/**
+ * Run a flow, and run it again every second while it only waits, up to a deadline.
+ *
+ * Only the pauses between runs go at `speed`: a run may jump the level, and a game loading one answers no speed reset.
+ *
+ * @param context - What the tools reach outside the pipe.
+ * @param flow - Flow to run.
+ * @param waitSeconds - Longest time to keep running it, in real seconds; 0 runs it once.
+ * @param speed - Engine time factor of the pauses between runs.
+ * @returns The last run's answer, with how many runs it took and how long they waited.
+ */
+async function waitOnFlow(
+  context: IGameToolsContext,
+  flow: ICheckDescriptor,
+  waitSeconds: number,
+  speed: number
+): Promise<IToolResult> {
+  const started: number = Date.now();
+  const deadline: number = started + waitSeconds * 1000;
+  let runs: number = 0;
+  let response: IGameResponse;
+
+  do {
+    if (runs > 0) {
+      await runAtEngineSpeed(context, speed, () => sleep(Math.min(WAIT_POLL_MS, Math.max(deadline - Date.now(), 0))));
+    }
+
+    try {
+      response = await context.client.request("flow", { module: flow.module, identity: flow.identity }, FLOW_WAIT_MS);
+    } catch (error) {
+      if (!(await context.isGameRunning())) {
+        return answerGameExited(started);
+      }
+
+      throw error;
+    }
+
+    runs += 1;
+  } while (isFlowStillWaiting(response) && Date.now() < deadline);
+
+  if (!response.ok) {
+    return answer(response);
+  }
+
+  return json({ ...(response.result as object), runs, waitedSeconds: (Date.now() - started) / 1000 });
 }
 
 /**
@@ -157,7 +224,7 @@ export function createGameTools(context: IGameToolsContext): Array<IMcpTool> {
         ["seconds"]
       ),
       call: async ({ seconds, until, speed }) =>
-        waitAtSpeed(context, speed as number, async () => {
+        runAtEngineSpeed(context, speed as number, async () => {
           const started: number = Date.now();
           const deadline: number = started + (seconds as number) * 1000;
 
@@ -209,14 +276,30 @@ export function createGameTools(context: IGameToolsContext): Array<IMcpTool> {
       name: "game_flow",
       description:
         "Run an in-game check flow and return how far it got, what failed, and the lines it reported, which say " +
-        "what to do to reach a pending step.",
+        "what to do to reach a pending step. With `waitSeconds` it runs the flow again every second while it waits " +
+        "on the same step, and answers once a step is confirmed, the flow moves the actor, the walk ends, or the " +
+        "time is up; `speed` runs the engine clock faster between runs, as game_wait does, and normal during them.",
       inputSchema: schema(
         {
           name: { type: "string", minLength: 1, description: "Flow identity (`quests_zat_b14`), source or launcher." },
+          waitSeconds: {
+            type: "integer",
+            minimum: 0,
+            maximum: 600,
+            default: 0,
+            description: "Longest time to keep running the flow while it waits on the same step, in real seconds.",
+          },
+          speed: {
+            type: "integer",
+            minimum: 1,
+            maximum: 10,
+            default: 1,
+            description: "Engine time factor of the pauses between runs, the `time_factor` of a non-Gold engine.",
+          },
         },
         ["name"]
       ),
-      call: async ({ name }) => {
+      call: async ({ name, waitSeconds, speed }) => {
         const flow: Nullable<ICheckDescriptor> = findFlow(name as string);
 
         if (!flow) {
@@ -228,7 +311,7 @@ export function createGameTools(context: IGameToolsContext): Array<IMcpTool> {
           );
         }
 
-        return answer(await client.request("flow", { module: flow.module, identity: flow.identity }, FLOW_WAIT_MS));
+        return waitOnFlow(context, flow, waitSeconds as number, speed as number);
       },
     },
   ];

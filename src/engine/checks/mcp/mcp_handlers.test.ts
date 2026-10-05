@@ -5,6 +5,7 @@ import { replaceFunctionMock, resetFunctionMock } from "xray16/testing/utils";
 
 import { ICheckFailure, report } from "@/engine/checks/framework/core";
 import { run } from "@/engine/checks/framework/entry";
+import { EFlowOutcome } from "@/engine/checks/framework/outcome";
 import { MCP_HANDLERS, runFlowModule, runLuaChunk } from "@/engine/checks/mcp/mcp_handlers";
 import { EMcpRequestKind, IMcpHandlerContext, IMcpRequest } from "@/engine/checks/mcp/mcp_types";
 import { mockRegisteredActor, resetRegistry } from "@/fixtures/engine";
@@ -87,17 +88,27 @@ describe("mcp handlers", () => {
     jest.mocked(run).mockImplementation(() => {
       report("step %s reached", 1);
 
-      return { name: "quests_example", steps: 3, checked: 2, failures, skipReason: null };
+      return {
+        name: "quests_example",
+        outcome: EFlowOutcome.WAITING,
+        steps: 3,
+        checked: 2,
+        failures,
+        skipReason: null,
+        isTravelled: true,
+      };
     });
 
     globals.package.loaded["checks.quests.example_flow"] = { stale: true };
 
     expect(runFlowModule("checks.quests.example_flow", "quests_example")).toEqual({
       name: "quests_example",
+      outcome: EFlowOutcome.WAITING,
       steps: 3,
       checked: 2,
       failures: [{ assertion: "task given", detail: "missing" }],
       skipReason: null,
+      isTravelled: true,
       report: [expect.stringMatching(/^\[\d+\] \[check\] step 1 reached$/)],
     });
     expect(globals.package.loaded["checks.quests.example_flow"]).toBeNull();
