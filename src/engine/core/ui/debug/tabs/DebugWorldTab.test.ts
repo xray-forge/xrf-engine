@@ -9,25 +9,21 @@ import { Debugger } from "@/engine/core/ui/debug/Debugger";
 import { DebugWorldTab } from "@/engine/core/ui/debug/tabs/DebugWorldTab";
 import { mockRegisteredActor, resetRegistry } from "@/fixtures/engine";
 
-jest.mock("@/engine/core/managers/debug/utils/debug_preferences", () => ({
-  createDebugPreferences: jest.fn(() => ({
-    tab: "world",
-    spawnKind: "weapons",
-    spawnDestination: "inventory",
-    recentSpawns: new LuaTable(),
-    worldView: "saved positions",
-    savedPositions: new LuaTable(),
-  })),
-  loadDebugPreferences: jest.fn(() => ({
-    tab: "world",
-    spawnKind: "weapons",
-    spawnDestination: "inventory",
-    recentSpawns: new LuaTable(),
-    worldView: "saved positions",
-    savedPositions: new LuaTable(),
-  })),
-  saveDebugPreferences: jest.fn(),
-}));
+jest.mock("@/engine/core/managers/debug/utils/debug_preferences", () => {
+  const actual: { createDebugPreferences: () => object } = jest.requireActual(
+    "@/engine/core/managers/debug/utils/debug_preferences"
+  );
+
+  function create(): object {
+    return { ...actual.createDebugPreferences(), tab: "world", worldView: "saved positions" };
+  }
+
+  return {
+    createDebugPreferences: jest.fn(create),
+    loadDebugPreferences: jest.fn(create),
+    saveDebugPreferences: jest.fn(),
+  };
+});
 
 jest.mock("@/engine/core/managers/debug/utils/debug_world_actions", () => ({
   ...(jest.requireActual("@/engine/core/managers/debug/utils/debug_world_actions") as object),

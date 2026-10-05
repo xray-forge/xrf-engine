@@ -11,7 +11,52 @@ export enum EDebugTab {
   PLAYER = "player",
   SPAWN = "spawn",
   WORLD = "world",
+  QUESTS = "quests",
   SYSTEM = "system",
+  CONSOLE = "console",
+}
+
+/**
+ * Lists the quests tab browses, in the order they are listed.
+ */
+export enum EDebugQuestView {
+  TASKS = "tasks",
+  INFO_PORTIONS = "info portions",
+  FLOWS = "flows",
+}
+
+/**
+ * Row of a quests tab list: a task, an info portion or a flow, by its id.
+ */
+export interface IDebugQuestEntry {
+  key: TName;
+  label: TLabel;
+  // Label in lower case, matched by the search.
+  search: string;
+}
+
+/**
+ * Check flow the checks build lists in its manifest.
+ */
+export interface IDebugFlow {
+  identity: TName;
+  module: TName;
+  source: TName;
+  // Level the flow requires, `null` for one that travels wherever it needs.
+  level: Nillable<TName>;
+}
+
+/**
+ * What one run of a check flow answers, as far as the debugger shows it. Mirrors the checks framework's result, which
+ * the debugger reaches only at run time, as flows are built apart from the engine.
+ */
+export interface IDebugFlowResult {
+  outcome: TName;
+  stepNames: LuaArray<TName>;
+  position: TIndex;
+  waiting: Nillable<{ position: TIndex; name: TName; handOff: Nillable<TLabel> }>;
+  failures: LuaArray<{ assertion: TLabel; detail: TLabel }>;
+  skipReason: Nillable<TLabel>;
 }
 
 /**
@@ -95,7 +140,7 @@ export interface IDebugSpawnEntry {
   section: TSection;
   kind: EDebugSpawnKind;
   // Translated inventory name for items, the section for creatures and squads.
-  name: TLabel;
+  label: TLabel;
   // Section and name in lower case, matched by the search.
   search: string;
 }
@@ -128,6 +173,10 @@ export interface IDebugPreferences {
   worldView: EDebugWorldView;
   // Positions saved in the world tab.
   savedPositions: LuaArray<IDebugSavedPosition>;
+  // List the quests tab shows.
+  questView: EDebugQuestView;
+  // Lua the console ran, newest first.
+  consoleHistory: LuaArray<string>;
 }
 
 /**

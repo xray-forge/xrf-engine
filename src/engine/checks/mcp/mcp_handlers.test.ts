@@ -86,6 +86,9 @@ describe("mcp handlers", () => {
 
     jest.mocked(run).mockImplementation(() => ({
       name: "quests_example",
+      stepNames: new LuaTable(),
+      position: 0,
+      waiting: null,
       outcome: EFlowOutcome.WAITING,
       steps: 0,
       checked: 0,
@@ -114,6 +117,9 @@ describe("mcp handlers", () => {
 
       return {
         name: "quests_example",
+        stepNames: new LuaTable(),
+        position: 3,
+        waiting: { position: 4, name: "step 4", handOff: "talk to someone" },
         outcome: EFlowOutcome.WAITING,
         steps: 3,
         checked: 2,
@@ -128,6 +134,8 @@ describe("mcp handlers", () => {
     expect(runFlowModule("checks.quests.example_flow", "quests_example", false)).toEqual({
       name: "quests_example",
       outcome: EFlowOutcome.WAITING,
+      position: 3,
+      waiting: { position: 4, name: "step 4", handOff: "talk to someone" },
       steps: 3,
       checked: 2,
       failures: [{ assertion: "task given", detail: "missing" }],

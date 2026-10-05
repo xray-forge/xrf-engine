@@ -10,6 +10,7 @@ import { IMcpDialogRequest } from "@/engine/checks/mcp/mcp_dialog_types";
 import * as mcp from "@/engine/checks/mcp/mcp_probe";
 import { EMcpRequestKind, IMcpHandlerContext, IMcpRequest, TMcpHandler } from "@/engine/checks/mcp/mcp_types";
 import { registry } from "@/engine/core/database";
+import { requireFresh } from "@/engine/core/utils/module";
 
 /**
  * @param request - Request carrying the argument.
@@ -90,8 +91,7 @@ export function runLuaChunk(code: string): unknown {
  * @returns Result of the run.
  */
 export function runFlowModule(module: string, identity: string, isTravelAllowed: boolean): AnyObject {
-  ((_G as AnyObject)["package"].loaded as AnyObject)[module] = null;
-  require(module);
+  requireFresh(module);
 
   // The check log is buffered, so the host could not read this run from it yet.
   const { result, lines } = collectReportedLines((): ICheckResult => run(identity, isTravelAllowed));
@@ -104,6 +104,8 @@ export function runFlowModule(module: string, identity: string, isTravelAllowed:
   return {
     name: result.name,
     outcome: result.outcome,
+    position: result.position,
+    waiting: result.waiting,
     steps: result.steps,
     checked: result.checked,
     failures: failures,

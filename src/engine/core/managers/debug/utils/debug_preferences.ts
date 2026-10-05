@@ -5,6 +5,7 @@ import { $isNil } from "xray16/macros";
 import { roots } from "@/engine/constants/roots";
 import { SYSTEM_INI } from "@/engine/core/database";
 import {
+  EDebugQuestView,
   EDebugSpawnDestination,
   EDebugSpawnKind,
   EDebugTab,
@@ -26,6 +27,8 @@ export function createDebugPreferences(): IDebugPreferences {
     recentSpawns: new LuaTable(),
     worldView: EDebugWorldView.SMART_TERRAINS,
     savedPositions: new LuaTable(),
+    questView: EDebugQuestView.TASKS,
+    consoleHistory: new LuaTable(),
   };
 }
 
@@ -82,6 +85,20 @@ export function loadDebugPreferences(): IDebugPreferences {
   }
 
   preferences.worldView = readEnumValue(EDebugWorldView, saved.worldView, preferences.worldView);
+
+  preferences.questView = readEnumValue(EDebugQuestView, saved.questView, preferences.questView);
+
+  const consoleHistory: Nillable<LuaArray<string>> = saved.consoleHistory;
+
+  if (type(consoleHistory) === "table") {
+    for (const index of $range(1, math.min(consoleHistory!.length(), debugConfig.CONSOLE_HISTORY_LIMIT))) {
+      const line: string = consoleHistory!.get(index);
+
+      if (type(line) === "string") {
+        preferences.consoleHistory.set(preferences.consoleHistory.length() + 1, line);
+      }
+    }
+  }
 
   const savedPositions: Nillable<LuaArray<IDebugSavedPosition>> = saved.savedPositions;
 

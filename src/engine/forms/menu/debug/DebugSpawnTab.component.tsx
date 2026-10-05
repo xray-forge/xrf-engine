@@ -51,13 +51,14 @@ export function create(): JSXNode {
         <XrTexture id={"ui_icons_PDA_tooltips_back"} r={60} g={60} b={60} a={200} />
       </XrStatic>
       <XrStatic tag={"cell_selection"} width={DEBUG_SPAWN_CELL.width} height={DEBUG_SPAWN_CELL.height}>
-        <XrTexture id={"ui_icons_PDA_tooltips_back"} r={216} g={186} b={140} a={110} />
+        <XrTexture id={"ui_inGame2_Mp_bigbuttone"} r={255} g={190} b={90} a={150} />
       </XrStatic>
       <XrStatic tag={"cell_icon"} width={DEBUG_SPAWN_CELL.width} height={DEBUG_SPAWN_CELL.height} />
       <Xr3tButton tag={"cell_button"} label={""} width={DEBUG_SPAWN_CELL.width} height={DEBUG_SPAWN_CELL.height} />
 
       <DebugPanel tag={"preview_background"} x={SIDE_X} y={60} width={SIDE_WIDTH} height={148} />
-      <XrStatic tag={"preview_icon"} x={SIDE_X} y={64} width={SIDE_WIDTH} height={140} />
+      <XrStatic tag={"preview_box"} x={SIDE_X} y={64} width={SIDE_WIDTH} height={140} />
+      <XrStatic tag={"preview_icon"} width={SIDE_WIDTH} height={140} />
 
       <DebugList tag={"fields"} x={SIDE_X} y={214} width={SIDE_WIDTH} height={124} />
       <DebugFieldTemplates width={SIDE_WIDTH - 24} />

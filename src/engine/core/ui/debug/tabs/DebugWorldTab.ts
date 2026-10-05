@@ -1,11 +1,9 @@
-import { CUI3tButton, CUIEditBox, CUIScrollView, CUIStatic, CUITabControl, LuabindClass } from "xray16";
+import { CUIScrollView, CUITabControl, LuabindClass } from "xray16";
 import { LuaArray, Nillable, TIndex, TLabel, TName, TPath } from "xray16/lib";
-import { $fromArray, $isNil, $isNotNil } from "xray16/macros";
+import { $fromArray, $isNil } from "xray16/macros";
 
 import { EDebugTab, EDebugWorldView, IDebugWorldEntry } from "@/engine/core/managers/debug/debug_types";
-import { debugConfig } from "@/engine/core/managers/debug/DebugConfig";
 import { formatDebugPosition, inspectDebugTarget } from "@/engine/core/managers/debug/utils/debug_inspect";
-import { filterDebugEntries } from "@/engine/core/managers/debug/utils/debug_search";
 import { buildDebugWorldEntries, getDebugWorldTreasureName } from "@/engine/core/managers/debug/utils/debug_world";
 import {
   deleteDebugPosition,
@@ -15,10 +13,8 @@ import {
   saveDebugPosition,
   teleportActorToDebugWorldEntry,
 } from "@/engine/core/managers/debug/utils/debug_world_actions";
-import { DEBUG_BROWSER, DEBUG_BROWSER_ROW } from "@/engine/core/ui/debug/debug_layout";
 import type { Debugger } from "@/engine/core/ui/debug/Debugger";
-import { DebuggerTab } from "@/engine/core/ui/debug/tabs/DebuggerTab";
-import { DebugPager } from "@/engine/core/ui/debug/tabs/DebugPager";
+import { DebugBrowserTab } from "@/engine/core/ui/debug/tabs/DebugBrowserTab";
 import { isGameStarted } from "@/engine/core/utils/game";
 import { initializeStatics } from "@/engine/core/utils/ui";
 
@@ -29,17 +25,9 @@ const base: TPath = "menu\\debug\\DebugWorldTab.component";
  * at a time, with what to do with the one selected.
  */
 @LuabindClass()
-export class DebugWorldTab extends DebuggerTab {
+export class DebugWorldTab extends DebugBrowserTab<IDebugWorldEntry> {
   public uiViews!: CUITabControl;
-  public uiSearch!: CUIEditBox;
-  public uiPage!: CUIStatic;
   public uiFields!: CUIScrollView;
-  public uiRows: LuaArray<CUI3tButton> = new LuaTable();
-
-  // Rows of the view that match the search, the page of them shown, and the one selected.
-  public entries: LuaArray<IDebugWorldEntry> = new LuaTable();
-  public pager: DebugPager = new DebugPager(debugConfig.BROWSER_ROWS);
-  public selected: Nillable<IDebugWorldEntry> = null;
 
   public constructor(owner: Debugger) {
     super(owner, EDebugTab.WORLD, base);
@@ -57,15 +45,11 @@ export class DebugWorldTab extends DebuggerTab {
       "heading_treasures"
     );
 
-    this.uiViews = this.initializeTabControl("views", () => this.onViewChanged());
-    this.uiSearch = this.initializeEditBox("search_input", () => this.onSearch());
+    this.initializeBrowser();
 
-    this.uiPage = this.xml.InitStatic("page", this);
+    this.uiViews = this.initializeTabControl("views", () => this.onViewChanged());
     this.uiFields = this.xml.InitScrollView("fields", this);
 
-    this.initializeButton("search_button", () => this.onSearch());
-    this.initializeButton("previous_page_button", () => this.onPageChanged(-1));
-    this.initializeButton("next_page_button", () => this.onPageChanged(1));
     this.initializeButton("target_button", () => this.onTarget());
     this.initializeButton("teleport_button", () => this.onTeleport());
     this.initializeButton("save_position_button", () => this.onSavePosition());
@@ -73,14 +57,6 @@ export class DebugWorldTab extends DebuggerTab {
     this.initializeButton("give_treasure_button", () => this.onAction(() => this.giveSelectedTreasure()));
     this.initializeButton("give_random_treasure_button", () => this.onAction(giveRandomDebugTreasure));
     this.initializeButton("give_all_treasures_button", () => this.onAction(giveAllDebugTreasures));
-
-    this.uiRows = this.initializeButtonColumn(
-      "row",
-      debugConfig.BROWSER_ROWS,
-      DEBUG_BROWSER.y + 6,
-      DEBUG_BROWSER_ROW.height + DEBUG_BROWSER_ROW.gap,
-      (index) => this.onEntryClicked(index)
-    );
 
     this.uiViews.SetActiveTab(this.owner.manager.preferences.worldView);
   }
@@ -90,7 +66,8 @@ export class DebugWorldTab extends DebuggerTab {
    */
   public override refresh(): void {
     this.fillEntries();
-    this.refreshPage();
+    this.refreshBrowser();
+    this.refreshSelection();
   }
 
   /**
@@ -107,38 +84,6 @@ export class DebugWorldTab extends DebuggerTab {
     this.pager.page = 1;
     this.selected = null;
     this.refresh();
-  }
-
-  /**
-   * Filter the view by the search box, from the first page.
-   */
-  public onSearch(): void {
-    this.pager.page = 1;
-    this.refresh();
-  }
-
-  /**
-   * Turn the page.
-   *
-   * @param step - Pages to turn, back when negative.
-   */
-  public onPageChanged(step: number): void {
-    this.pager.turn(step, this.entries.length());
-    this.refreshPage();
-  }
-
-  /**
-   * Select a row of the shown page.
-   *
-   * @param index - Position of the row on the page, from one.
-   */
-  public onEntryClicked(index: TIndex): void {
-    const entry: Nillable<IDebugWorldEntry> = this.entries.get(this.pager.getListIndex(index));
-
-    if ($isNotNil(entry)) {
-      this.selected = entry;
-      this.refreshPage();
-    }
   }
 
   /**
@@ -213,51 +158,17 @@ export class DebugWorldTab extends DebuggerTab {
     }
   }
 
-  /**
-   * @returns Result message of giving the coordinates of the selected treasure.
-   */
-  private giveSelectedTreasure(): TLabel {
-    const name: Nillable<TName> = $isNil(this.selected) ? null : getDebugWorldTreasureName(this.selected);
-
-    return $isNil(name) ? "select a treasure" : giveDebugTreasure(name);
-  }
-
-  /**
-   * Fill the rows of the view that match the search.
-   */
-  private fillEntries(): void {
-    this.entries = isGameStarted()
-      ? filterDebugEntries(
-          buildDebugWorldEntries(
-            this.owner.manager.preferences.worldView,
-            this.owner.manager.preferences.savedPositions
-          ),
-          this.uiSearch.GetText()
-        )
+  protected override buildEntries(): LuaArray<IDebugWorldEntry> {
+    return isGameStarted()
+      ? buildDebugWorldEntries(this.owner.manager.preferences.worldView, this.owner.manager.preferences.savedPositions)
       : new LuaTable();
-
-    // The selection is kept across rebuilds by what it stands for, as rebuilt rows are new tables.
-    this.selected = this.findEntry(this.selected);
-    this.pager.turn(0, this.entries.length());
   }
 
-  /**
-   * Show the page of rows and the selected row.
-   */
-  private refreshPage(): void {
-    this.uiPage.TextControl().SetText(this.pager.describe(this.entries.length()));
+  protected override isSameEntry(first: IDebugWorldEntry, second: IDebugWorldEntry): boolean {
+    return first.id === second.id && first.savedIndex === second.savedIndex;
+  }
 
-    for (const index of $range(1, this.uiRows.length())) {
-      const row: CUI3tButton = this.uiRows.get(index);
-      const entry: Nillable<IDebugWorldEntry> = this.entries.get(this.pager.getListIndex(index));
-
-      row.Show($isNotNil(entry));
-
-      if ($isNotNil(entry)) {
-        row.TextControl().SetText(entry === this.selected ? `> ${entry.label}` : entry.label);
-      }
-    }
-
+  protected override refreshSelection(): void {
     if ($isNil(this.selected)) {
       this.fillFieldList(this.uiFields, $fromArray([{ label: "selected", value: "nothing" }]));
     } else if ($isNil(this.selected.id)) {
@@ -274,22 +185,11 @@ export class DebugWorldTab extends DebuggerTab {
   }
 
   /**
-   * @param entry - Row of an earlier build.
-   * @returns Row of the current build standing for the same object or saved position.
+   * @returns Result message of giving the coordinates of the selected treasure.
    */
-  private findEntry(entry: Nillable<IDebugWorldEntry>): Nillable<IDebugWorldEntry> {
-    if ($isNil(entry)) {
-      return null;
-    }
+  private giveSelectedTreasure(): TLabel {
+    const name: Nillable<TName> = $isNil(this.selected) ? null : getDebugWorldTreasureName(this.selected);
 
-    for (const index of $range(1, this.entries.length())) {
-      const it: IDebugWorldEntry = this.entries.get(index);
-
-      if (it.id === entry.id && it.savedIndex === entry.savedIndex) {
-        return it;
-      }
-    }
-
-    return null;
+    return $isNil(name) ? "select a treasure" : giveDebugTreasure(name);
   }
 }

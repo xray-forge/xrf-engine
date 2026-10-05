@@ -66,16 +66,16 @@ export function buildDebugCatalogue(): TDebugCatalogue {
       return;
     }
 
-    const name: TLabel = isDebugItemKind(kind)
+    const label: TLabel = isDebugItemKind(kind)
       ? game.translate_string(readIniString(SYSTEM_INI, section, "inv_name", false, null, section))
       : section;
     const entries: LuaArray<IDebugSpawnEntry> = catalogue.get(kind);
 
-    entries.set(entries.length() + 1, { section, kind, name, search: string.lower(`${section} ${name}`) });
+    entries.set(entries.length() + 1, { section, kind, label, search: string.lower(`${section} ${label}`) });
   });
 
   for (const [, entries] of catalogue) {
-    table.sort(entries, (first, second) => first.name < second.name);
+    table.sort(entries, (first, second) => first.label < second.label);
   }
 
   return catalogue;

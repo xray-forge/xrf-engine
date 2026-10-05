@@ -18,6 +18,10 @@ export const debugConfig = {
   PREFERENCES_FILE: "debugger.dat",
   RECENT_TARGETS_LIMIT: 8 as TCount,
   RECENT_SPAWNS_LIMIT: 5 as TCount,
+  RECENT_INFO_PORTIONS_LIMIT: 20 as TCount,
+  CONSOLE_HISTORY_LIMIT: 30 as TCount,
+  // Lines the console keeps on screen.
+  CONSOLE_OUTPUT_LIMIT: 200 as TCount,
   DEFAULT_TAB: EDebugTab.TARGET,
   // Spawn tab grid of item icons, shown a page at a time.
   SPAWN_GRID_COLUMNS: 6 as TCount,

@@ -3,6 +3,7 @@ import { $fromArray } from "xray16/macros";
 import { replaceFunctionMock, resetFunctionMock } from "xray16/testing/utils";
 
 import {
+  EDebugQuestView,
   EDebugSpawnDestination,
   EDebugSpawnKind,
   EDebugTab,
@@ -50,6 +51,8 @@ describe("loadDebugPreferences", () => {
       spawnDestination: EDebugSpawnDestination.ACTOR,
       recentSpawns: $fromArray(["wpn_ak74"]),
       worldView: EDebugWorldView.TREASURES,
+      questView: EDebugQuestView.FLOWS,
+      consoleHistory: $fromArray(["1 + 1"]),
       savedPositions: $fromArray([
         { name: "camp", level: "zaton", x: 1, y: 2, z: 3, levelVertexId: 4, gameVertexId: 5 },
       ]),
@@ -62,6 +65,8 @@ describe("loadDebugPreferences", () => {
     expect(preferences.spawnDestination).toBe(EDebugSpawnDestination.ACTOR);
     expect(preferences.recentSpawns).toEqualLuaArrays(["wpn_ak74"]);
     expect(preferences.worldView).toBe(EDebugWorldView.TREASURES);
+    expect(preferences.questView).toBe(EDebugQuestView.FLOWS);
+    expect(preferences.consoleHistory).toEqualLuaArrays(["1 + 1"]);
     expect(preferences.savedPositions.length()).toBe(1);
     expect(preferences.savedPositions.get(1).name).toBe("camp");
   });
@@ -73,6 +78,8 @@ describe("loadDebugPreferences", () => {
       spawnDestination: 15,
       recentSpawns: $fromArray(["removed_section", "wpn_ak74"]),
       worldView: "removed_view",
+      questView: "removed_view",
+      consoleHistory: $fromArray([5, "actor"]),
       savedPositions: $fromArray([{ name: "broken" }, "not a position"]),
     }));
 
@@ -83,6 +90,8 @@ describe("loadDebugPreferences", () => {
     expect(preferences.spawnDestination).toBe(EDebugSpawnDestination.INVENTORY);
     expect(preferences.recentSpawns).toEqualLuaArrays(["wpn_ak74"]);
     expect(preferences.worldView).toBe(EDebugWorldView.SMART_TERRAINS);
+    expect(preferences.questView).toBe(EDebugQuestView.TASKS);
+    expect(preferences.consoleHistory).toEqualLuaArrays(["actor"]);
     expect(preferences.savedPositions.length()).toBe(0);
   });
 });

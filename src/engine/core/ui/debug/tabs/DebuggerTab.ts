@@ -9,6 +9,7 @@ import {
   LuabindClass,
   ui_events,
 } from "xray16";
+import { TKeyCode } from "xray16/alias";
 import { create2dVector, LuaArray, TCount, TIndex, TName, TPath } from "xray16/lib";
 
 import { EDebugTab, IDebugField } from "@/engine/core/managers/debug/debug_types";
@@ -48,6 +49,16 @@ export abstract class DebuggerTab extends CUIWindow {
    * Show what the tab displays as it is now, on opening the window, switching to the tab and after an action.
    */
   public abstract refresh(): void;
+
+  /**
+   * Handle a key pressed while the tab is shown, before the window does.
+   *
+   * @param key - Key pressed.
+   * @returns Whether the tab handled the key.
+   */
+  public onKeyPressed(key: TKeyCode): boolean {
+    return false;
+  }
 
   /**
    * Create a button calling a handler when clicked.

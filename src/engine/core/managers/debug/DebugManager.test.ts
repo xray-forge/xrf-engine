@@ -18,7 +18,11 @@ import { mockRegisteredActor, resetRegistry } from "@/fixtures/engine";
 
 jest.mock("@/engine/core/managers/debug/utils/debug_preferences", () => ({
   createDebugPreferences: jest.fn(() => ({ tab: "target" })),
-  loadDebugPreferences: jest.fn(() => ({ tab: "player", recentSpawns: new LuaTable() })),
+  loadDebugPreferences: jest.fn(() => ({
+    tab: "player",
+    recentSpawns: new LuaTable(),
+    consoleHistory: new LuaTable(),
+  })),
   saveDebugPreferences: jest.fn(),
 }));
 
@@ -49,6 +53,8 @@ describe("DebugManager", () => {
     expect(loadDebugPreferences).toHaveBeenCalled();
     expect(manager.preferences.tab).toBe(EDebugTab.PLAYER);
     expect(eventsManager.getEventSubscribersCount(EGameEvent.MAIN_MENU_ON)).toBe(1);
+    expect(eventsManager.getEventSubscribersCount(EGameEvent.ACTOR_INFO_ADDED)).toBe(1);
+    expect(eventsManager.getEventSubscribersCount(EGameEvent.ACTOR_INFO_REMOVED)).toBe(1);
     expect(eventsManager.getEventSubscribersCount(EGameEvent.DUMP_LUA_DATA)).toBe(1);
 
     disposeManager(DebugManager);
@@ -154,6 +160,27 @@ describe("DebugManager", () => {
 
     expect(manager.preferences.recentSpawns).toEqualLuaArrays(["wpn_a", "wpn_b"]);
     expect(saveDebugPreferences).toHaveBeenCalledTimes(3);
+  });
+
+  it("should remember info portions the actor gains or loses", () => {
+    const manager: DebugManager = getManager(DebugManager);
+    const eventsManager: EventsManager = getManager(EventsManager);
+
+    eventsManager.emitEvent(EGameEvent.ACTOR_INFO_ADDED, null, "first_info");
+    eventsManager.emitEvent(EGameEvent.ACTOR_INFO_REMOVED, null, "second_info");
+    eventsManager.emitEvent(EGameEvent.ACTOR_INFO_ADDED, null, "first_info");
+
+    expect(manager.recentInfoPortions).toEqualLuaArrays(["first_info", "second_info"]);
+  });
+
+  it("should remember console lines and save them", () => {
+    const manager: DebugManager = getManager(DebugManager);
+
+    manager.rememberConsoleLine("actor:name()");
+    manager.rememberConsoleLine("1 + 1");
+
+    expect(manager.preferences.consoleHistory).toEqualLuaArrays(["1 + 1", "actor:name()"]);
+    expect(saveDebugPreferences).toHaveBeenCalledTimes(2);
   });
 
   it("should dump its state", () => {

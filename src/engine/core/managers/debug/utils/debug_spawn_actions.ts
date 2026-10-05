@@ -144,7 +144,7 @@ export function spawnDebugEntry(
 
     spawnItemsForObject(registry.actor, entry.section, count);
 
-    return `spawned ${count} x ${entry.name} in the inventory`;
+    return `spawned ${count} x ${entry.label} in the inventory`;
   }
 
   const placement: IDebugSpawnPlacement | TLabel = getSpawnPlacement(destination, targetId);
@@ -163,5 +163,5 @@ export function spawnDebugEntry(
     }
   }
 
-  return `spawned ${count} x ${entry.name} ${destination === EDebugSpawnDestination.CROSSHAIR ? "at the crosshair" : destination}`;
+  return `spawned ${count} x ${entry.label} ${destination === EDebugSpawnDestination.CROSSHAIR ? "at the crosshair" : destination}`;
 }

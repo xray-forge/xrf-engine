@@ -12,9 +12,14 @@ import { mockRegisteredActor, resetRegistry } from "@/fixtures/engine";
 
 jest.mock("@/engine/core/utils/spawn");
 
-const rifle: IDebugSpawnEntry = { section: "wpn_test", kind: EDebugSpawnKind.WEAPONS, name: "rifle", search: "" };
-const monster: IDebugSpawnEntry = { section: "m_test", kind: EDebugSpawnKind.MONSTERS, name: "m_test", search: "" };
-const squad: IDebugSpawnEntry = { section: "squad_test", kind: EDebugSpawnKind.SQUADS, name: "squad_test", search: "" };
+const rifle: IDebugSpawnEntry = { section: "wpn_test", kind: EDebugSpawnKind.WEAPONS, label: "rifle", search: "" };
+const monster: IDebugSpawnEntry = { section: "m_test", kind: EDebugSpawnKind.MONSTERS, label: "m_test", search: "" };
+const squad: IDebugSpawnEntry = {
+  section: "squad_test",
+  kind: EDebugSpawnKind.SQUADS,
+  label: "squad_test",
+  search: "",
+};
 
 beforeEach(() => {
   resetRegistry();

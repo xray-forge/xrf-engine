@@ -1,7 +1,10 @@
 import * as fs from "node:fs";
 import * as path from "node:path";
 
+import * as ts from "typescript";
+
 import { GAME_DATA_CHECKS_DIR } from "#/globals/paths";
+import { Nullable } from "#/utils/types";
 
 /**
  * Source suffix marking a flow.
@@ -39,6 +42,8 @@ export interface ICheckDescriptor {
   launcher: string;
   /** Console command to run it. */
   command: string;
+  /** Level its `requires` names, null when it names none. */
+  level: Nullable<string>;
 }
 
 /**
@@ -64,6 +69,44 @@ function walk(dir: string, filter: (name: string) => boolean, acc: Array<string>
   }
 
   return acc;
+}
+
+/**
+ * Read the level a flow requires from its `requires({ level })` call.
+ *
+ * @param source - Flow source file, absolute.
+ * @returns The level, or null when the flow requires none or names it other than with a string literal.
+ */
+export function readFlowLevel(source: string): string | null {
+  const file: ts.SourceFile = ts.createSourceFile(source, fs.readFileSync(source, "utf8"), ts.ScriptTarget.Latest);
+  let level: string | null = null;
+
+  function visit(node: ts.Node): void {
+    if (
+      ts.isCallExpression(node) &&
+      ts.isIdentifier(node.expression) &&
+      node.expression.text === "requires" &&
+      node.arguments.length > 0 &&
+      ts.isObjectLiteralExpression(node.arguments[0])
+    ) {
+      for (const property of node.arguments[0].properties) {
+        if (
+          ts.isPropertyAssignment(property) &&
+          ts.isIdentifier(property.name) &&
+          property.name.text === "level" &&
+          ts.isStringLiteral(property.initializer)
+        ) {
+          level = property.initializer.text;
+        }
+      }
+    }
+
+    ts.forEachChild(node, visit);
+  }
+
+  visit(file);
+
+  return level;
 }
 
 /**
@@ -95,6 +138,7 @@ export function discoverChecks(): Array<ICheckDescriptor> {
         module: `checks.${emitted.replace(/\//g, ".")}`,
         launcher: `${FLOW_LAUNCHER_PREFIX}${identity}.script`,
         command: `run_script ${FLOW_LAUNCHER_PREFIX}${identity}`,
+        level: readFlowLevel(source),
       };
     })
     .sort((first, second) => first.relative.localeCompare(second.relative));

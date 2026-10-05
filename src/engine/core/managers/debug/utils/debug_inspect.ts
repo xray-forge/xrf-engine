@@ -58,10 +58,10 @@ export function inspectDebugTarget(id: TNumberId): LuaArray<IDebugField> {
 
   const object: Nillable<GameObject> = getGameObjectById(id);
 
-  addField(fields, "object", describeDebugObject(id));
-  addField(fields, "section", serverObject.section_name());
-  addField(fields, "story id", getStoryIdByObjectId(id));
-  addField(fields, "state", $isNil(object) ? "offline" : "online");
+  addDebugField(fields, "object", describeDebugObject(id));
+  addDebugField(fields, "section", serverObject.section_name());
+  addDebugField(fields, "story id", getStoryIdByObjectId(id));
+  addDebugField(fields, "state", $isNil(object) ? "offline" : "online");
 
   if ($isNil(object)) {
     inspectOfflineObject(fields, serverObject);
@@ -79,8 +79,8 @@ export function inspectDebugTarget(id: TNumberId): LuaArray<IDebugField> {
  * @param object - Online game object.
  */
 function inspectOnlineObject(fields: LuaArray<IDebugField>, object: GameObject): void {
-  addField(fields, "position", formatDebugPosition(object.position()));
-  addField(fields, "distance", string.format("%.1f m", object.position().distance_to(registry.actor.position())));
+  addDebugField(fields, "position", formatDebugPosition(object.position()));
+  addDebugField(fields, "distance", string.format("%.1f m", object.position().distance_to(registry.actor.position())));
 
   if (!isCreature(object)) {
     return;
@@ -90,16 +90,16 @@ function inspectOnlineObject(fields: LuaArray<IDebugField>, object: GameObject):
   const squad: Nillable<Squad> = getObjectSquad(object);
   const terrain: Nillable<SmartTerrain> = getObjectTerrain(object);
 
-  addField(fields, "health", string.format("%.0f%%%s", object.health * 100, object.alive() ? "" : ", dead"));
-  addField(fields, "community", getObjectCommunity(object));
-  addField(fields, "relation", describeRelationToActor(object));
-  addField(fields, "squad", $isNotNil(squad) ? describeDebugObject(squad.id) : null);
-  addField(fields, "smart terrain", $isNotNil(terrain) ? terrain.name() : null);
-  addField(fields, "logic scheme", state?.activeScheme);
-  addField(fields, "logic section", state?.activeSection);
+  addDebugField(fields, "health", string.format("%.0f%%%s", object.health * 100, object.alive() ? "" : ", dead"));
+  addDebugField(fields, "community", getObjectCommunity(object));
+  addDebugField(fields, "relation", describeRelationToActor(object));
+  addDebugField(fields, "squad", $isNotNil(squad) ? describeDebugObject(squad.id) : null);
+  addDebugField(fields, "smart terrain", $isNotNil(terrain) ? terrain.name() : null);
+  addDebugField(fields, "logic scheme", state?.activeScheme);
+  addDebugField(fields, "logic section", state?.activeSection);
 
   if (isStalker(object) && object.alive()) {
-    addField(fields, "planner", describePlannerAction(object));
+    addDebugField(fields, "planner", describePlannerAction(object));
   }
 }
 
@@ -110,15 +110,15 @@ function inspectOnlineObject(fields: LuaArray<IDebugField>, object: GameObject):
  * @param serverObject - Server object.
  */
 function inspectOfflineObject(fields: LuaArray<IDebugField>, serverObject: ServerObject): void {
-  addField(fields, "level", getGameLevelName(getGameVertexLevelId(serverObject.m_game_vertex_id)));
-  addField(fields, "position", formatDebugPosition(serverObject.position));
+  addDebugField(fields, "level", getGameLevelName(getGameVertexLevelId(serverObject.m_game_vertex_id)));
+  addDebugField(fields, "position", formatDebugPosition(serverObject.position));
 
   if (isCreature(serverObject)) {
     const creature: ServerCreatureObject = serverObject as ServerCreatureObject;
     const terrain: Nillable<SmartTerrain> = getObjectTerrain(creature);
 
-    addField(fields, "squad", creature.group_id === MAX_ALIFE_ID ? null : describeDebugObject(creature.group_id));
-    addField(fields, "smart terrain", $isNotNil(terrain) ? terrain.name() : null);
+    addDebugField(fields, "squad", creature.group_id === MAX_ALIFE_ID ? null : describeDebugObject(creature.group_id));
+    addDebugField(fields, "smart terrain", $isNotNil(terrain) ? terrain.name() : null);
   }
 }
 
@@ -159,7 +159,7 @@ function describeRelationToActor(object: GameObject): TLabel {
  * @param label - Field label.
  * @param value - Field value, skipped when missing.
  */
-function addField(fields: LuaArray<IDebugField>, label: TLabel, value: Nillable<TLabel>): void {
+export function addDebugField(fields: LuaArray<IDebugField>, label: TLabel, value: Nillable<TLabel>): void {
   if ($isNotNil(value)) {
     table.insert(fields, { label, value });
   }

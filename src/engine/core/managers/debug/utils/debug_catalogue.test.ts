@@ -84,7 +84,7 @@ describe("buildDebugCatalogue", () => {
         expect(entry).toEqual({
           section: "test_rifle",
           kind: EDebugSpawnKind.WEAPONS,
-          name: "translated_test_rifle_name",
+          label: "translated_test_rifle_name",
           search: "test_rifle translated_test_rifle_name",
         });
       }

@@ -115,6 +115,9 @@ describe("runFlow", () => {
     expect(result.travel).toBe(EFlowTravel.NONE);
     expect(result.steps).toBe(2);
     expect(result.failures.length()).toBe(0);
+    expect(result.position).toBe(2);
+    expect(result.stepNames.length()).toBe(3);
+    expect(result.waiting).toEqual({ position: 3, name: "step 3", handOff: undefined });
   });
 
   it("should count a confirmed step with no verify body", () => {

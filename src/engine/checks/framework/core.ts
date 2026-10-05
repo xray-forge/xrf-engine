@@ -7,6 +7,7 @@ import {
   Nillable,
   TCount,
   TDuration,
+  TIndex,
   TLabel,
   TName,
 } from "xray16/lib";
@@ -134,10 +135,25 @@ export interface ICheckFailure {
 }
 
 /**
+ * Step a flow waits on, with what a player does to reach it.
+ */
+export interface ICheckWaitingStep {
+  position: TIndex;
+  name: TName;
+  handOff: Nillable<TLabel>;
+}
+
+/**
  * Outcome of a single invocation of a flow.
  */
 export interface ICheckResult {
   name: TName;
+  // Names of the flow's steps, in order.
+  stepNames: LuaArray<TName>;
+  // Steps the walk has confirmed so far, across invocations.
+  position: TIndex;
+  // Step the walk stopped at, when it waits on one.
+  waiting: Nillable<ICheckWaitingStep>;
   outcome: EFlowOutcome;
   steps: TCount;
   checked: TCount;
@@ -160,6 +176,7 @@ export class CheckContext {
   public checked: TCount = 0;
   public steps: TCount = 0;
   public travel: EFlowTravel = EFlowTravel.NONE;
+  public waiting: Nillable<ICheckWaitingStep> = null;
 
   public constructor(name: TName, isTravelAllowed: boolean = true) {
     this.name = name;

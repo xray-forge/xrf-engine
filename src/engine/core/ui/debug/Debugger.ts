@@ -20,8 +20,10 @@ import type { DebugManager } from "@/engine/core/managers/debug/DebugManager";
 import { describeDebugObject, inspectActorLocation } from "@/engine/core/managers/debug/utils/debug_inspect";
 import { pinDebugTarget, selectDebugTarget } from "@/engine/core/managers/debug/utils/debug_target";
 import { EGameEvent, EventsManager } from "@/engine/core/managers/events";
+import { DebugConsoleTab } from "@/engine/core/ui/debug/tabs/DebugConsoleTab";
 import { DebuggerTab } from "@/engine/core/ui/debug/tabs/DebuggerTab";
 import { DebugPlayerTab } from "@/engine/core/ui/debug/tabs/DebugPlayerTab";
+import { DebugQuestsTab } from "@/engine/core/ui/debug/tabs/DebugQuestsTab";
 import { DebugSpawnTab } from "@/engine/core/ui/debug/tabs/DebugSpawnTab";
 import { DebugSystemTab } from "@/engine/core/ui/debug/tabs/DebugSystemTab";
 import { DebugTargetTab } from "@/engine/core/ui/debug/tabs/DebugTargetTab";
@@ -104,7 +106,9 @@ export class Debugger extends CUIScriptWnd {
     this.addTab(xml, new DebugPlayerTab(this));
     this.addTab(xml, new DebugSpawnTab(this));
     this.addTab(xml, new DebugWorldTab(this));
+    this.addTab(xml, new DebugQuestsTab(this));
     this.addTab(xml, new DebugSystemTab(this));
+    this.addTab(xml, new DebugConsoleTab(this));
   }
 
   /**
@@ -265,6 +269,10 @@ export class Debugger extends CUIScriptWnd {
    */
   public override OnKeyboard(key: TKeyCode, event: TUIEvent): boolean {
     const result: boolean = super.OnKeyboard(key, event);
+
+    if (event === ui_events.WINDOW_KEY_PRESSED && this.tabs.get(this.manager.preferences.tab)?.onKeyPressed(key)) {
+      return true;
+    }
 
     if (
       event === ui_events.WINDOW_KEY_PRESSED &&

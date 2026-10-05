@@ -266,6 +266,8 @@ function observe(context: CheckContext, steps: LuaArray<IFlowStep>, name: TName)
 
       report("%s: step %s/%s '%s' not reached yet", name, position, total, step.name);
 
+      context.waiting = { position, name: step.name, handOff: step.handOff };
+
       if ($isNotNil(step.handOff)) {
         report("%s: to reach it -> %s", name, step.handOff);
       }
@@ -376,8 +378,17 @@ export function runFlow(name: TName, registration: IRegistration, isTravelAllowe
     outcome = EFlowOutcome.FAIL;
   }
 
+  const stepNames: LuaArray<TName> = new LuaTable();
+
+  for (const index of $range(1, registration.steps.length())) {
+    stepNames.set(index, registration.steps.get(index).name);
+  }
+
   const result: ICheckResult = {
     name: name,
+    stepNames: stepNames,
+    position: readCursor(name),
+    waiting: context.waiting,
     outcome: outcome,
     steps: context.steps,
     checked: context.checked,

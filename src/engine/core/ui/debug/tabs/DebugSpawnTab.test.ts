@@ -10,21 +10,21 @@ import { Debugger } from "@/engine/core/ui/debug/Debugger";
 import { DebugSpawnTab } from "@/engine/core/ui/debug/tabs/DebugSpawnTab";
 import { mockRegisteredActor, resetRegistry } from "@/fixtures/engine";
 
-jest.mock("@/engine/core/managers/debug/utils/debug_preferences", () => ({
-  createDebugPreferences: jest.fn(() => ({
-    tab: "spawn",
-    spawnKind: "outfits",
-    spawnDestination: "inventory",
-    recentSpawns: new LuaTable(),
-  })),
-  loadDebugPreferences: jest.fn(() => ({
-    tab: "spawn",
-    spawnKind: "outfits",
-    spawnDestination: "inventory",
-    recentSpawns: new LuaTable(),
-  })),
-  saveDebugPreferences: jest.fn(),
-}));
+jest.mock("@/engine/core/managers/debug/utils/debug_preferences", () => {
+  const actual: { createDebugPreferences: () => object } = jest.requireActual(
+    "@/engine/core/managers/debug/utils/debug_preferences"
+  );
+
+  function create(): object {
+    return { ...actual.createDebugPreferences(), tab: "spawn", spawnKind: "outfits" };
+  }
+
+  return {
+    createDebugPreferences: jest.fn(create),
+    loadDebugPreferences: jest.fn(create),
+    saveDebugPreferences: jest.fn(),
+  };
+});
 
 jest.mock("@/engine/core/managers/debug/utils/debug_spawn_actions", () => ({
   spawnDebugEntry: jest.fn(() => "spawned"),

@@ -10,11 +10,21 @@ import { Debugger } from "@/engine/core/ui/debug/Debugger";
 import { MainMenu } from "@/engine/core/ui/menu/MainMenu";
 import { resetRegistry } from "@/fixtures/engine";
 
-jest.mock("@/engine/core/managers/debug/utils/debug_preferences", () => ({
-  createDebugPreferences: jest.fn(() => ({ tab: "target" })),
-  loadDebugPreferences: jest.fn(() => ({ tab: "target" })),
-  saveDebugPreferences: jest.fn(),
-}));
+jest.mock("@/engine/core/managers/debug/utils/debug_preferences", () => {
+  const actual: { createDebugPreferences: () => object } = jest.requireActual(
+    "@/engine/core/managers/debug/utils/debug_preferences"
+  );
+
+  function create(): object {
+    return { ...actual.createDebugPreferences(), tab: "target" };
+  }
+
+  return {
+    createDebugPreferences: jest.fn(create),
+    loadDebugPreferences: jest.fn(create),
+    saveDebugPreferences: jest.fn(),
+  };
+});
 
 describe("Debugger", () => {
   beforeEach(() => {

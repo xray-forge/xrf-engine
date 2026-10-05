@@ -1,4 +1,5 @@
-import { AnyObject, executeConsoleCommand, Nillable, TNumberId, TSection } from "xray16/lib";
+import { GameObject } from "xray16/alias";
+import { AnyObject, executeConsoleCommand, LuaArray, Nillable, TName, TNumberId, TSection } from "xray16/lib";
 import { $filename } from "xray16/macros";
 
 import { consoleCommands } from "@/engine/constants/console_commands";
@@ -40,6 +41,8 @@ export class DebugManager extends AbstractManager {
   public requestedMenu: Nillable<MainMenu> = null;
   // Spawnable sections, built on first use: `system.ini` does not change while the game runs.
   public catalogue: Nillable<TDebugCatalogue> = null;
+  // Info portions the actor gained or lost this session, newest first.
+  public recentInfoPortions: LuaArray<TName> = new LuaTable();
 
   public override initialize(): void {
     const eventsManager: EventsManager = getManager(EventsManager);
@@ -47,6 +50,8 @@ export class DebugManager extends AbstractManager {
     this.preferences = loadDebugPreferences();
 
     eventsManager.registerCallback(EGameEvent.MAIN_MENU_ON, this.onMainMenuOn, this);
+    eventsManager.registerCallback(EGameEvent.ACTOR_INFO_ADDED, this.onInfoPortionChanged, this);
+    eventsManager.registerCallback(EGameEvent.ACTOR_INFO_REMOVED, this.onInfoPortionChanged, this);
     eventsManager.registerCallback(EGameEvent.DUMP_LUA_DATA, this.onDebugDump, this);
   }
 
@@ -55,6 +60,8 @@ export class DebugManager extends AbstractManager {
 
     eventsManager.unregisterCallback(EGameEvent.MAIN_MENU_ON, this.onMainMenuOn);
     eventsManager.unregisterCallback(EGameEvent.MAIN_MENU_UPDATE, this.onMainMenuUpdate);
+    eventsManager.unregisterCallback(EGameEvent.ACTOR_INFO_ADDED, this.onInfoPortionChanged);
+    eventsManager.unregisterCallback(EGameEvent.ACTOR_INFO_REMOVED, this.onInfoPortionChanged);
     eventsManager.unregisterCallback(EGameEvent.DUMP_LUA_DATA, this.onDebugDump);
   }
 
@@ -118,6 +125,20 @@ export class DebugManager extends AbstractManager {
   }
 
   /**
+   * Put Lua the console ran first in its history.
+   *
+   * @param code - Lua run.
+   */
+  public rememberConsoleLine(code: string): void {
+    this.preferences.consoleHistory = pushRecentValue(
+      this.preferences.consoleHistory,
+      code,
+      debugConfig.CONSOLE_HISTORY_LIMIT
+    );
+    this.savePreferences();
+  }
+
+  /**
    * Write the preferences after a change.
    */
   public savePreferences(): void {
@@ -172,6 +193,16 @@ export class DebugManager extends AbstractManager {
     if (menu) {
       this.openDebugger(menu, true);
     }
+  }
+
+  /**
+   * Remember an info portion the actor gained or lost, for the quests tab to list first.
+   *
+   * @param object - Actor.
+   * @param name - Info portion.
+   */
+  public onInfoPortionChanged(object: GameObject, name: TName): void {
+    this.recentInfoPortions = pushRecentValue(this.recentInfoPortions, name, debugConfig.RECENT_INFO_PORTIONS_LIMIT);
   }
 
   /**
