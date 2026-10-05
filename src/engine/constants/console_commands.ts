@@ -486,34 +486,3 @@ export type TConsoleCommands = typeof consoleCommands;
  * Script type definition enumeration possible command names const.
  */
 export type TConsoleCommand = TConsoleCommands[keyof TConsoleCommands];
-
-export const onOffCommands: Array<TConsoleCommand> = [
-  consoleCommands.ai_dbg_alife,
-  consoleCommands.ai_dbg_anim,
-  consoleCommands.ai_dbg_brain,
-  consoleCommands.ai_dbg_cover,
-  consoleCommands.ai_dbg_destroy,
-  consoleCommands.ai_dbg_dialogs,
-  consoleCommands.ai_dbg_frustum,
-  consoleCommands.ai_dbg_funcs,
-  consoleCommands.ai_dbg_goap,
-  consoleCommands.ai_dbg_goap_object,
-  consoleCommands.ai_dbg_goap_script,
-  consoleCommands.ai_dbg_infoportion,
-  consoleCommands.ai_dbg_monster,
-  consoleCommands.ai_dbg_motion,
-  consoleCommands.ai_dbg_node,
-  consoleCommands.ai_dbg_serialize,
-  consoleCommands.ai_dbg_stalker,
-  consoleCommands.ai_dbg_vision,
-  consoleCommands.g_god,
-  consoleCommands.g_unlimitedammo,
-  consoleCommands.g_autopickup,
-  consoleCommands.hud_weapon,
-  consoleCommands.hud_info,
-  consoleCommands.hud_crosshair_dist,
-  consoleCommands.hud_crosshair,
-  consoleCommands.hud_draw,
-];
-
-export const zeroOneCommands: Array<TConsoleCommand> = [consoleCommands.wpn_aim_toggle];

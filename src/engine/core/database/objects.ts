@@ -1,8 +1,31 @@
+import { level } from "xray16";
 import { GameObject } from "xray16/alias";
 import { Nillable, TNumberId } from "xray16/lib";
+import { $isNil, $isNotNil } from "xray16/macros";
 
 import { IDynamicObjectState, IRegistryObjectState } from "@/engine/core/database/database_types";
 import { registry } from "@/engine/core/database/registry";
+
+/**
+ * Get the game object of an online object, registered or not.
+ *
+ * @param objectId - Object id.
+ * @returns The online object, `null` when it is offline or does not exist.
+ */
+export function getGameObjectById(objectId: Nillable<TNumberId>): Nillable<GameObject> {
+  if ($isNil(objectId)) {
+    return null;
+  }
+
+  const object: Nillable<GameObject> = registry.objects.get(objectId)?.object as Nillable<GameObject>;
+
+  if ($isNotNil(object)) {
+    return object;
+  }
+
+  // Script-free objects such as items are never registered, and the level is missing outside of a game.
+  return $isNotNil(level) ? level.object_by_id(objectId) : null;
+}
 
 /**
  * Register game object in lua in-memory registry.

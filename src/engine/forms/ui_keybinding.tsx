@@ -59,6 +59,7 @@ export function create(): JSXNode {
         <command id={"kb_screenshot"} exe={"screenshot"} />
         <command id={"kb_quit"} exe={"quit"} />
         <command id={"kb_console"} exe={"console"} />
+        <command id={"kb_debugger"} exe={"custom1"} />
         <command id={"ui_mm_save_game"} exe={"quick_save"} />
         <command id={"ui_mm_load_game"} exe={"quick_load"} />
       </group>

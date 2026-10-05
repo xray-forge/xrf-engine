@@ -1,12 +1,22 @@
 import { beforeEach, describe, expect, it, jest } from "@jest/globals";
-import { CUIMessageBoxEx, CUIMMShniaga, DIK_keys, game, get_console, IsGameTypeSingle, level, ui_events } from "xray16";
+import {
+  CUIMessageBoxEx,
+  CUIMMShniaga,
+  DIK_keys,
+  dik_to_bind,
+  game,
+  get_console,
+  IsGameTypeSingle,
+  level,
+  ui_events,
+} from "xray16";
 import { gameTypes } from "xray16/lib";
 import { replaceFunctionMock, resetFunctionMock } from "xray16/testing/utils";
 
 import { getManager, registerSimulator } from "@/engine/core/database";
-import { forgeConfig } from "@/engine/core/database/forge_config";
+import { debugConfig } from "@/engine/core/managers/debug/DebugConfig";
+import { DebugManager } from "@/engine/core/managers/debug/DebugManager";
 import { EGameEvent, EventsManager } from "@/engine/core/managers/events";
-import { DebugDialog } from "@/engine/core/ui/debug/DebugDialog";
 import { LoadDialog } from "@/engine/core/ui/menu/load/LoadDialog";
 import { MainMenu } from "@/engine/core/ui/menu/MainMenu";
 import { EMainMenuModalMode } from "@/engine/core/ui/menu/menu_types";
@@ -28,7 +38,6 @@ describe("MainMenu component", () => {
     expect(menu.uiGameOptionsDialog).toBeNull();
     expect(menu.uiGameSavesSaveDialog).toBeNull();
     expect(menu.uiGameSavesLoadDialog).toBeNull();
-    expect(menu.uiGameDebugDialog).toBeNull();
     expect(menu.uiGameExtensionsDialog).toBeNull();
 
     expect(menu.modalBoxMode).toBe(EMainMenuModalMode.OFF);
@@ -153,33 +162,6 @@ describe("MainMenu component", () => {
     expect(menu.uiGameSavesLoadDialog).toBe(previous);
   });
 
-  it("should correctly handle debug button", () => {
-    const menu: MainMenu = new MainMenu();
-
-    jest.spyOn(menu, "HideDialog").mockImplementation(jest.fn());
-    jest.spyOn(menu, "Show").mockImplementation(jest.fn());
-
-    expect(menu.uiGameDebugDialog).toBeNull();
-
-    forgeConfig.DEBUG.IS_ENABLED = false;
-    menu.onDevelopmentDebugButtonClick();
-
-    expect(menu.uiGameDebugDialog).toBeNull();
-
-    forgeConfig.DEBUG.IS_ENABLED = true;
-    menu.onDevelopmentDebugButtonClick();
-
-    expect(menu.HideDialog).toHaveBeenCalled();
-    expect(menu.Show).toHaveBeenCalledWith(false);
-    expect(menu.uiGameDebugDialog?.ShowDialog).toHaveBeenCalledWith(true);
-
-    const previous: DebugDialog = menu.uiGameDebugDialog as DebugDialog;
-
-    menu.onDevelopmentDebugButtonClick();
-
-    expect(menu.uiGameDebugDialog).toBe(previous);
-  });
-
   it("should correctly confirm click in modal boxes", () => {
     const menu: MainMenu = new MainMenu();
 
@@ -220,13 +202,22 @@ describe("MainMenu keyboard events", () => {
     expect(menu.onQuitGameButtonClick).toHaveBeenCalledTimes(1);
   });
 
-  it("should correctly handle F11 keyboard events", () => {
+  it("should open the debugger on its key", () => {
     const menu: MainMenu = new MainMenu();
+    const debugManager: DebugManager = getManager(DebugManager);
 
-    jest.spyOn(menu, "onDevelopmentDebugButtonClick").mockImplementation(jest.fn());
+    debugConfig.KEY_BINDING = 1_000;
+
+    jest.spyOn(debugManager, "openDebugger").mockImplementation(jest.fn());
+    replaceFunctionMock(dik_to_bind, (key: number) => (key === DIK_keys.DIK_F11 ? debugConfig.KEY_BINDING : -1));
+
+    menu.OnKeyboard(DIK_keys.DIK_F10, ui_events.WINDOW_KEY_PRESSED);
+    expect(debugManager.openDebugger).not.toHaveBeenCalled();
 
     menu.OnKeyboard(DIK_keys.DIK_F11, ui_events.WINDOW_KEY_PRESSED);
-    expect(menu.onDevelopmentDebugButtonClick).toHaveBeenCalledTimes(1);
+    expect(debugManager.openDebugger).toHaveBeenCalledWith(menu, false);
+
+    resetFunctionMock(dik_to_bind);
   });
 
   it("should correctly handle ESCAPE keyboard events", () => {

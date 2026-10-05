@@ -42,6 +42,7 @@ import {
   teleportActorToPatrol,
   teleportActorToStoryObject,
   teleportActorWithEffects,
+  teleportObjectToVertex,
 } from "@/engine/core/utils/position";
 import { mockRegisteredActor, resetRegistry } from "@/fixtures/engine";
 
@@ -831,6 +832,25 @@ describe("getObjectSmartTerrain", () => {
 
     expect(getObjectTerrain(gameObject)).toBeNull();
     expect(getObjectTerrain(serverObject)).toBeNull();
+  });
+});
+
+describe("teleportObjectToVertex", () => {
+  it("should move online creatures and offline objects onto a vertex", () => {
+    const stalker: GameObject = MockGameObject.mockStalker();
+    const item: GameObject = MockGameObject.mock();
+    const offline: ServerObject = MockAlifeObject.mock();
+
+    registerObject(stalker);
+    registerObject(item);
+
+    expect(teleportObjectToVertex(stalker.id(), 10, 20)).toBe(true);
+    expect(stalker.set_npc_position).toHaveBeenCalledWith(level.vertex_position(10));
+
+    expect(teleportObjectToVertex(offline.id, 10, 20)).toBe(true);
+    expect(registry.simulator.teleport_object).toHaveBeenCalledWith(offline.id, 20, 10, level.vertex_position(10));
+
+    expect(teleportObjectToVertex(item.id(), 10, 20)).toBe(false);
   });
 });
 

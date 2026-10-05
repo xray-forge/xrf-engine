@@ -166,6 +166,14 @@ export class WeatherManager extends AbstractManager {
   }
 
   /**
+   * Switch at once to a new state of the weather the level plays now, as the next game hour would.
+   */
+  public changeWeatherState(): void {
+    this.weatherState = null;
+    this.updateWeather(true);
+  }
+
+  /**
    * Play the weather section the level picks now, keeping the state it plays while the section stays the same.
    *
    * @param now - Whether the weather is switched to at once rather than blended into.

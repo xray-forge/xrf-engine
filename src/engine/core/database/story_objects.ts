@@ -1,9 +1,9 @@
-import { level } from "xray16";
 import { AnyGameObject, GameObject, IniFile, ServerObject } from "xray16/alias";
 import { abort, assert, Nillable, TName, TNumberId, TSection, TStringId } from "xray16/lib";
 import { $isNil, $isNotNil } from "xray16/macros";
 
 import { SYSTEM_INI } from "@/engine/core/database/ini_registry";
+import { getGameObjectById } from "@/engine/core/database/objects";
 import { registry } from "@/engine/core/database/registry";
 import { readIniString } from "@/engine/core/ini/ini_read";
 
@@ -154,18 +154,7 @@ export function getServerObjectByStoryId<T extends ServerObject>(storyId: TStrin
  * @returns Existing game object instance or null.
  */
 export function getObjectByStoryId(storyId: TStringId): Nillable<GameObject> {
-  const objectId: Nillable<TNumberId> = registry.storyLink.idBySid.get(storyId);
-  const possibleObject: Nillable<GameObject> = (
-    $isNotNil(objectId) ? registry.objects.get(objectId)?.object : null
-  ) as Nillable<GameObject>;
-
-  if (possibleObject) {
-    return possibleObject;
-  } else if ($isNotNil(level) && objectId) {
-    return level.object_by_id(objectId);
-  }
-
-  return null;
+  return getGameObjectById(registry.storyLink.idBySid.get(storyId));
 }
 
 /**

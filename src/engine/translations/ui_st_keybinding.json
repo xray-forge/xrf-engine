@@ -129,6 +129,16 @@
     "spa": "Cambiar a agacharse",
     "ukr": "Постійно навприсяд"
   },
+  "kb_debugger": {
+    "eng": "Debugger",
+    "fra": "Débogueur",
+    "ger": "Debugger",
+    "ita": "Debugger",
+    "pol": "Debugger",
+    "rus": "Отладчик",
+    "spa": "Depurador",
+    "ukr": "Налагоджувач"
+  },
   "kb_detector": {
     "eng": "Detector",
     "fra": "Détecteur",

@@ -10,6 +10,22 @@ import { getSquadCommunity } from "@/engine/core/utils/community";
 import { EGoodwill, ERelation } from "@/engine/core/utils/relation/relation_types";
 
 /**
+ * Classify goodwill as a relation.
+ *
+ * @param goodwill - Goodwill value.
+ * @returns Friend from friendly goodwill up, enemy from hostile goodwill down, neutral between.
+ */
+export function getRelationByGoodwill(goodwill: TCount): ERelation {
+  if (goodwill >= EGoodwill.FRIENDS) {
+    return ERelation.FRIEND;
+  } else if (goodwill > EGoodwill.ENEMIES) {
+    return ERelation.NEUTRAL;
+  } else {
+    return ERelation.ENEMY;
+  }
+}
+
+/**
  * Get relation type between objects with safe null check.
  */
 export function getObjectsRelationSafe(from: Nillable<GameObject>, to: Nillable<GameObject>): Nillable<TRelationType> {
@@ -50,13 +66,7 @@ export function getSquadMembersRelationToActorSafe(squad: Squad): ERelation {
       ? squadTotalGoodwill / squadMembersCount
       : relation_registry.community_relation(getSquadCommunity(squad), communities.actor);
 
-  if (averageRelation >= EGoodwill.FRIENDS) {
-    return ERelation.FRIEND;
-  } else if (averageRelation > EGoodwill.ENEMIES) {
-    return ERelation.NEUTRAL;
-  } else {
-    return ERelation.ENEMY;
-  }
+  return getRelationByGoodwill(averageRelation);
 }
 
 /**
@@ -93,13 +103,7 @@ export function getSquadMembersRelationToActor(squad: Squad): Nillable<ERelation
 
   const averageRelation: TCount = squadTotalGoodwill / squadMembersCount;
 
-  if (averageRelation >= EGoodwill.FRIENDS) {
-    return ERelation.FRIEND;
-  } else if (averageRelation > EGoodwill.ENEMIES) {
-    return ERelation.NEUTRAL;
-  } else {
-    return ERelation.ENEMY;
-  }
+  return getRelationByGoodwill(averageRelation);
 }
 
 /**
@@ -137,18 +141,9 @@ export function getSquadCommunityRelationToActor(squadStoryId: TStringId): ERela
     return squad.relationship;
   }
 
-  const goodwill: EGoodwill = relation_registry.community_relation(
-    getSquadCommunity(squad),
-    registry.actorServer.community()
+  return getRelationByGoodwill(
+    relation_registry.community_relation(getSquadCommunity(squad), registry.actorServer.community())
   );
-
-  if (goodwill >= EGoodwill.FRIENDS) {
-    return ERelation.FRIEND;
-  } else if (goodwill <= EGoodwill.ENEMIES) {
-    return ERelation.ENEMY;
-  } else {
-    return ERelation.NEUTRAL;
-  }
 }
 
 /**
@@ -165,17 +160,8 @@ export function getSquadRelationToActorById(squadId: TNumberId): ERelation {
   if (squad.relationship) {
     return squad.relationship;
   } else {
-    const goodwill: TCount = relation_registry.community_relation(
-      getSquadCommunity(squad),
-      registry.actorServer.community()
+    return getRelationByGoodwill(
+      relation_registry.community_relation(getSquadCommunity(squad), registry.actorServer.community())
     );
-
-    if (goodwill >= EGoodwill.FRIENDS) {
-      return ERelation.FRIEND;
-    } else if (goodwill <= EGoodwill.ENEMIES) {
-      return ERelation.ENEMY;
-    } else {
-      return ERelation.NEUTRAL;
-    }
   }
 }

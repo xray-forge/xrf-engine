@@ -29,8 +29,9 @@ import {
 } from "xray16/lib";
 import { $isNil, $isNotNil } from "xray16/macros";
 
-import { getObjectByStoryId, getServerObjectByStoryId, registry } from "@/engine/core/database";
+import { getGameObjectById, getObjectByStoryId, getServerObjectByStoryId, registry } from "@/engine/core/database";
 import { type SmartTerrain } from "@/engine/core/objects/smart_terrain";
+import { isCreature } from "@/engine/core/utils/class_ids";
 import { resetTable } from "@/engine/core/utils/table";
 
 /**
@@ -506,6 +507,34 @@ export function teleportActorToStoryObject(
 
   registry.actor.set_actor_position(arrival);
   registry.actor.set_actor_direction(-copyVector(targetPosition).sub(arrival).getH());
+}
+
+/**
+ * Put an object onto a level vertex at once: an online creature through `set_npc_position`, an offline object
+ * through the simulation.
+ *
+ * @param objectId - Object to move.
+ * @param levelVertexId - Level vertex to put it on.
+ * @param gameVertexId - Game vertex the level vertex belongs to, which an offline object is moved to.
+ * @returns Whether the object was moved: an online object that is not a creature cannot be.
+ */
+export function teleportObjectToVertex(
+  objectId: TNumberId,
+  levelVertexId: TNumberId,
+  gameVertexId: TNumberId
+): boolean {
+  const object: Nillable<GameObject> = getGameObjectById(objectId);
+  const position: Vector = level.vertex_position(levelVertexId);
+
+  if ($isNil(object)) {
+    registry.simulator.teleport_object(objectId, gameVertexId, levelVertexId, position);
+  } else if (isCreature(object)) {
+    object.set_npc_position(position);
+  } else {
+    return false;
+  }
+
+  return true;
 }
 
 /**

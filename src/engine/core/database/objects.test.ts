@@ -1,9 +1,12 @@
 import { describe, expect, it } from "@jest/globals";
+import { level } from "xray16";
 import { GameObject } from "xray16/alias";
 import { MockGameObject, MockIniFile } from "xray16/mocks";
+import { replaceFunctionMock, resetFunctionMock } from "xray16/testing/utils";
 
 import { IDynamicObjectState, IRegistryObjectState } from "@/engine/core/database/database_types";
 import {
+  getGameObjectById,
   getObjectDynamicState,
   registerObject,
   registerObjectDynamicState,
@@ -27,6 +30,24 @@ describe("registerObject, resetObject, and unregisterObject", () => {
 
     unregisterObject(object);
     expect(registry.objects.get(object.id())).toBeNull();
+  });
+});
+
+describe("getGameObjectById", () => {
+  it("should find registered and unregistered online objects", () => {
+    const registered: GameObject = MockGameObject.mock();
+    const unregistered: GameObject = MockGameObject.mock();
+
+    registerObject(registered);
+    replaceFunctionMock(level.object_by_id, (id: number) => (id === unregistered.id() ? unregistered : null));
+
+    expect(getGameObjectById(null)).toBeNull();
+    expect(getGameObjectById(registered.id())).toBe(registered);
+    expect(getGameObjectById(unregistered.id())).toBe(unregistered);
+    expect(getGameObjectById(60_000)).toBeNull();
+
+    unregisterObject(registered);
+    resetFunctionMock(level.object_by_id);
   });
 });
 

@@ -2,7 +2,7 @@ import { beforeAll, beforeEach, describe, expect, it, jest } from "@jest/globals
 import { AnyArgs, AnyObject, TName } from "xray16/lib";
 import { replaceFunctionMock, resetFunctionMock } from "xray16/testing/utils";
 
-import { isObjectInjured } from "@/engine/core/utils/object";
+import { isObjectInjured, restoreObjectCondition } from "@/engine/core/utils/object";
 import { callBinding, mockRegisteredActor, resetRegistry } from "@/fixtures/engine";
 
 jest.mock("@/engine/core/utils/object");
@@ -20,25 +20,11 @@ beforeEach(() => {
 
 describe("medic_magic_potion", () => {
   it("should fully restore the actor", () => {
-    const { actorGameObject } = mockRegisteredActor({ bleeding: 0.5, health: 0.4, power: 0.3, radiation: 0.2 });
+    const { actorGameObject } = mockRegisteredActor();
 
     callDialogsBinding("medic_magic_potion");
 
-    expect(actorGameObject.health).toBe(1);
-    expect(actorGameObject.power).toBe(1);
-    expect(actorGameObject.radiation).toBe(0);
-    expect(actorGameObject.bleeding).toBe(0);
-  });
-
-  it("should leave an already healthy actor untouched", () => {
-    const { actorGameObject } = mockRegisteredActor({ bleeding: 0, health: 1, power: 1, radiation: 0 });
-
-    callDialogsBinding("medic_magic_potion");
-
-    expect(actorGameObject.health).toBe(1);
-    expect(actorGameObject.power).toBe(1);
-    expect(actorGameObject.radiation).toBe(0);
-    expect(actorGameObject.bleeding).toBe(0);
+    expect(restoreObjectCondition).toHaveBeenCalledWith(actorGameObject);
   });
 });
 

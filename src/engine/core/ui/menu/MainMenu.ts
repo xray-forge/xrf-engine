@@ -6,6 +6,7 @@ import {
   CUIScriptWnd,
   CUIStatic,
   DIK_keys,
+  dik_to_bind,
   game,
   IsGameTypeSingle,
   level,
@@ -19,11 +20,12 @@ import { $filename, $isNotNil } from "xray16/macros";
 
 import { consoleCommands } from "@/engine/constants/console_commands";
 import { gameTutorials } from "@/engine/constants/game_tutorials";
-import { registry } from "@/engine/core/database";
+import { getManager, registry } from "@/engine/core/database";
 import { forgeConfig } from "@/engine/core/database/forge_config";
+import { debugConfig } from "@/engine/core/managers/debug/DebugConfig";
+import { DebugManager } from "@/engine/core/managers/debug/DebugManager";
 import { EGameEvent } from "@/engine/core/managers/events/events_types";
 import { EventsManager } from "@/engine/core/managers/events/EventsManager";
-import { DebugDialog } from "@/engine/core/ui/debug/DebugDialog";
 import { ExtensionsDialog } from "@/engine/core/ui/menu/extensions/ExtensionsDialog";
 import { LoadDialog } from "@/engine/core/ui/menu/load/LoadDialog";
 import { EMainMenuModalMode } from "@/engine/core/ui/menu/menu_types";
@@ -52,7 +54,6 @@ export class MainMenu extends CUIScriptWnd {
   public uiGameOptionsDialog: Nillable<Options> = null;
   public uiGameSavesSaveDialog: Nillable<SaveDialog> = null;
   public uiGameSavesLoadDialog: Nillable<LoadDialog> = null;
-  public uiGameDebugDialog: Nillable<DebugDialog> = null;
   public uiGameExtensionsDialog: Nillable<ExtensionsDialog> = null;
 
   public constructor() {
@@ -256,24 +257,6 @@ export class MainMenu extends CUIScriptWnd {
   }
 
   /**
-   * Clicked debugging menu button.
-   */
-  public onDevelopmentDebugButtonClick(): void {
-    if (!forgeConfig.DEBUG.IS_ENABLED) {
-      return logger.info("Debug settings are disabled");
-    }
-
-    if (!this.uiGameDebugDialog) {
-      this.uiGameDebugDialog = new DebugDialog(this);
-    }
-
-    this.uiGameDebugDialog.ShowDialog(true);
-
-    this.HideDialog();
-    this.Show(false);
-  }
-
-  /**
    * On open load games menu click.
    */
   public onLoadGameButtonClick(): void {
@@ -311,17 +294,18 @@ export class MainMenu extends CUIScriptWnd {
     super.OnKeyboard(key, event);
 
     if (event === ui_events.WINDOW_KEY_PRESSED) {
+      if (dik_to_bind(key) === debugConfig.KEY_BINDING) {
+        getManager(DebugManager).openDebugger(this, false);
+
+        return true;
+      }
+
       switch (key) {
         case DIK_keys.DIK_ESCAPE: {
           if (level.present() && (registry.actor?.alive() || !IsGameTypeSingle())) {
             this.onReturnToGameButtonClick();
           }
 
-          break;
-        }
-
-        case DIK_keys.DIK_F11: {
-          this.onDevelopmentDebugButtonClick();
           break;
         }
 
