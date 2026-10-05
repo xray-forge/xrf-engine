@@ -107,6 +107,26 @@ export interface IDebugWorldEntry extends IDebugPlace {
 }
 
 /**
+ * Places on screen the overlay shows a panel in.
+ */
+export enum EDebugOverlaySlot {
+  TOP_RIGHT = "top right",
+  MIDDLE_LEFT = "middle left",
+  MIDDLE_RIGHT = "middle right",
+}
+
+/**
+ * What an overlay panel shows.
+ */
+export enum EDebugOverlayView {
+  OFF = "off",
+  TARGET = "target",
+  FLOW = "flow",
+  ACTOR = "actor",
+  WORLD = "world",
+}
+
+/**
  * Kinds the spawn tab groups spawnable sections into, in the order they are listed.
  */
 export enum EDebugSpawnKind {
@@ -177,6 +197,21 @@ export interface IDebugPreferences {
   questView: EDebugQuestView;
   // Lua the console ran, newest first.
   consoleHistory: LuaArray<string>;
+  // Whether the overlay shows while the game runs.
+  isOverlayEnabled: boolean;
+  // View each overlay panel shows.
+  overlayViews: Record<EDebugOverlaySlot, EDebugOverlayView>;
+}
+
+/**
+ * What the overlay views read besides the game itself.
+ */
+export interface IDebugOverlayState {
+  // Object the target view follows.
+  targetId: Nillable<TNumberId>;
+  // Flow the flow view follows, and its last run.
+  flow: Nillable<IDebugFlow>;
+  flowResult: Nillable<IDebugFlowResult>;
 }
 
 /**

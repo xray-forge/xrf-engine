@@ -1,6 +1,6 @@
 import { CUI3tButton, CUIScrollView, CUITabControl, LuabindClass } from "xray16";
 import { LuaArray, Nillable, TLabel, TNumberId, TPath, TStringId } from "xray16/lib";
-import { $fromArray, $isNil } from "xray16/macros";
+import { $fromArray, $isNil, $isNotNil } from "xray16/macros";
 
 import {
   EDebugQuestView,
@@ -9,6 +9,7 @@ import {
   IDebugFlowResult,
   IDebugQuestEntry,
 } from "@/engine/core/managers/debug/debug_types";
+import type { DebugManager } from "@/engine/core/managers/debug/DebugManager";
 import {
   buildDebugFlowEntries,
   inspectDebugFlowResult,
@@ -80,6 +81,7 @@ export class DebugQuestsTab extends DebugBrowserTab<IDebugQuestEntry> {
       $fromArray([
         this.initializeButton("flow_run_button", () => this.onRunFlow(true)),
         this.initializeButton("flow_run_in_place_button", () => this.onRunFlow(false)),
+        this.initializeButton("flow_pin_button", () => this.onPinFlow()),
       ])
     );
 
@@ -99,6 +101,16 @@ export class DebugQuestsTab extends DebugBrowserTab<IDebugQuestEntry> {
     this.fillEntries();
     this.refreshBrowser();
     this.refreshSelection();
+
+    this.uiActions
+      .get(EDebugQuestView.FLOWS)
+      .get(3)
+      .TextControl()
+      .SetText(
+        $isNotNil(this.selected) && this.owner.manager.pinnedFlow?.identity === this.selected.key
+          ? "unpin from the overlay"
+          : "pin to the overlay"
+      );
   }
 
   /**
@@ -178,6 +190,30 @@ export class DebugQuestsTab extends DebugBrowserTab<IDebugQuestEntry> {
 
     this.flowResult = runDebugFlow(flow, isTravelAllowed);
     this.owner.onAction(`${flow.identity}: ${this.flowResult.outcome}`);
+  }
+
+  /**
+   * Make the selected flow the one the overlay follows, or stop following it.
+   */
+  public onPinFlow(): void {
+    const manager: DebugManager = this.owner.manager;
+    const flow: Nillable<IDebugFlow> = $isNil(this.selected) ? null : this.findFlow(this.selected.key);
+    const replaced: Nillable<IDebugFlow> = manager.pinnedFlow;
+
+    if (!isGameStarted() || $isNil(flow)) {
+      return this.owner.report("select a flow in a running game");
+    } else if (replaced?.identity === flow.identity) {
+      manager.pinFlow(null);
+
+      return this.owner.onAction(`${flow.identity} unpinned from the overlay`);
+    }
+
+    manager.pinFlow(flow);
+
+    const replacing: TLabel = $isNil(replaced) ? "" : `, replacing ${replaced.identity}`;
+    const hint: TLabel = manager.preferences.isOverlayEnabled ? "" : " - turn the overlay on in the system tab";
+
+    this.owner.onAction(`${flow.identity} pinned to the overlay${replacing}${hint}`);
   }
 
   protected override buildEntries(): LuaArray<IDebugQuestEntry> {

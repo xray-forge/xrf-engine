@@ -1,14 +1,24 @@
+import { get_hud } from "xray16";
 import { GameObject } from "xray16/alias";
 import { AnyObject, executeConsoleCommand, LuaArray, Nillable, TName, TNumberId, TSection } from "xray16/lib";
-import { $filename } from "xray16/macros";
+import { $filename, $isNil, $isNotNil } from "xray16/macros";
 
 import { consoleCommands } from "@/engine/constants/console_commands";
-import { getManager } from "@/engine/core/database";
+import { getManager, registry } from "@/engine/core/database";
 import { forgeConfig } from "@/engine/core/database/forge_config";
 import { AbstractManager } from "@/engine/core/managers/abstract";
-import { EDebugTab, IDebugPreferences, IDebugTarget } from "@/engine/core/managers/debug/debug_types";
+import {
+  EDebugOverlaySlot,
+  EDebugOverlayView,
+  EDebugTab,
+  IDebugFlow,
+  IDebugFlowResult,
+  IDebugPreferences,
+  IDebugTarget,
+} from "@/engine/core/managers/debug/debug_types";
 import { debugConfig } from "@/engine/core/managers/debug/DebugConfig";
 import { buildDebugCatalogue, TDebugCatalogue } from "@/engine/core/managers/debug/utils/debug_catalogue";
+import { runDebugFlow } from "@/engine/core/managers/debug/utils/debug_flows";
 import {
   createDebugPreferences,
   loadDebugPreferences,
@@ -17,6 +27,7 @@ import {
 import { pickDebugTargetOnOpen, pruneDebugTargets } from "@/engine/core/managers/debug/utils/debug_target";
 import { EGameEvent, EventsManager } from "@/engine/core/managers/events";
 import { Debugger } from "@/engine/core/ui/debug/Debugger";
+import { DebugOverlay } from "@/engine/core/ui/debug/DebugOverlay";
 import type { MainMenu } from "@/engine/core/ui/menu/MainMenu";
 import { isGameStarted } from "@/engine/core/utils/game";
 import { LuaLogger } from "@/engine/core/utils/logging";
@@ -43,6 +54,13 @@ export class DebugManager extends AbstractManager {
   public catalogue: Nillable<TDebugCatalogue> = null;
   // Info portions the actor gained or lost this session, newest first.
   public recentInfoPortions: LuaArray<TName> = new LuaTable();
+  // Overlay drawn over the level while it is enabled, made anew for each level.
+  public uiOverlay: Nillable<DebugOverlay> = null;
+  // Flow the overlay follows, and its last quiet run.
+  public pinnedFlow: Nillable<IDebugFlow> = null;
+  public pinnedFlowResult: Nillable<IDebugFlowResult> = null;
+  // Whether the pinned flow's last run predates an info portion change.
+  public isPinnedFlowStale: boolean = false;
 
   public override initialize(): void {
     const eventsManager: EventsManager = getManager(EventsManager);
@@ -50,6 +68,8 @@ export class DebugManager extends AbstractManager {
     this.preferences = loadDebugPreferences();
 
     eventsManager.registerCallback(EGameEvent.MAIN_MENU_ON, this.onMainMenuOn, this);
+    eventsManager.registerCallback(EGameEvent.ACTOR_FIRST_UPDATE, this.onActorFirstUpdate, this);
+    eventsManager.registerCallback(EGameEvent.ACTOR_GO_OFFLINE, this.hideOverlay, this);
     eventsManager.registerCallback(EGameEvent.ACTOR_INFO_ADDED, this.onInfoPortionChanged, this);
     eventsManager.registerCallback(EGameEvent.ACTOR_INFO_REMOVED, this.onInfoPortionChanged, this);
     eventsManager.registerCallback(EGameEvent.DUMP_LUA_DATA, this.onDebugDump, this);
@@ -60,9 +80,13 @@ export class DebugManager extends AbstractManager {
 
     eventsManager.unregisterCallback(EGameEvent.MAIN_MENU_ON, this.onMainMenuOn);
     eventsManager.unregisterCallback(EGameEvent.MAIN_MENU_UPDATE, this.onMainMenuUpdate);
+    eventsManager.unregisterCallback(EGameEvent.ACTOR_FIRST_UPDATE, this.onActorFirstUpdate);
+    eventsManager.unregisterCallback(EGameEvent.ACTOR_GO_OFFLINE, this.hideOverlay);
     eventsManager.unregisterCallback(EGameEvent.ACTOR_INFO_ADDED, this.onInfoPortionChanged);
     eventsManager.unregisterCallback(EGameEvent.ACTOR_INFO_REMOVED, this.onInfoPortionChanged);
     eventsManager.unregisterCallback(EGameEvent.DUMP_LUA_DATA, this.onDebugDump);
+
+    this.hideOverlay();
   }
 
   /**
@@ -139,6 +163,128 @@ export class DebugManager extends AbstractManager {
   }
 
   /**
+   * Turn the overlay on or off, remembering it for later sessions.
+   *
+   * @param isEnabled - Whether the overlay shows.
+   */
+  public setOverlayEnabled(isEnabled: boolean): void {
+    this.preferences.isOverlayEnabled = isEnabled;
+    this.savePreferences();
+
+    if (isEnabled && $isNotNil(registry.actor)) {
+      this.showOverlay();
+    } else {
+      this.hideOverlay();
+    }
+  }
+
+  /**
+   * Show the next view in an overlay slot.
+   *
+   * @param slot - Overlay slot.
+   * @returns View the slot shows now.
+   */
+  public cycleOverlayView(slot: EDebugOverlaySlot): EDebugOverlayView {
+    const views: LuaArray<EDebugOverlayView> = debugConfig.OVERLAY_VIEWS;
+    // The last view, and one a later build no longer has, wrap to the first.
+    let next: EDebugOverlayView = views.get(1);
+
+    for (const index of $range(1, views.length() - 1)) {
+      if (views.get(index) === this.preferences.overlayViews[slot]) {
+        next = views.get(index + 1);
+      }
+    }
+
+    this.preferences.overlayViews[slot] = next;
+    this.savePreferences();
+    this.refreshOverlay();
+
+    return next;
+  }
+
+  /**
+   * Make a flow the one the overlay follows, or stop following one.
+   *
+   * @param flow - Flow to follow, `null` to stop.
+   */
+  public pinFlow(flow: Nillable<IDebugFlow>): void {
+    this.pinnedFlow = flow;
+    this.pinnedFlowResult = null;
+    this.refreshPinnedFlow();
+  }
+
+  /**
+   * Run the pinned flow quietly, without travel, to show where its walk stands. A run that fails to load, as after
+   * flows are cleaned, unpins the flow.
+   */
+  public refreshPinnedFlow(): void {
+    const flow: Nillable<IDebugFlow> = this.pinnedFlow;
+
+    this.isPinnedFlowStale = false;
+
+    if ($isNil(flow) || !isGameStarted() || $isNil(registry.actor)) {
+      return;
+    }
+
+    const [isCompleted, result] = pcall(() => runDebugFlow(flow, false, false));
+
+    if (isCompleted) {
+      this.pinnedFlowResult = result;
+    } else {
+      logger.info("Cannot run pinned flow %s: %s", flow.identity, result);
+      this.pinnedFlow = null;
+      this.pinnedFlowResult = null;
+    }
+
+    this.refreshOverlay();
+  }
+
+  /**
+   * Show what the overlay panels follow now.
+   */
+  public refreshOverlay(): void {
+    this.uiOverlay?.refresh(this.preferences.overlayViews, {
+      targetId: this.target.id,
+      flow: this.pinnedFlow,
+      flowResult: this.pinnedFlowResult,
+    });
+  }
+
+  /**
+   * Draw the overlay over the level, refreshing it twice a second and the pinned flow every ten seconds, or sooner after
+   * an info portion change.
+   */
+  public showOverlay(): void {
+    const eventsManager: EventsManager = getManager(EventsManager);
+
+    if ($isNil(this.uiOverlay)) {
+      this.uiOverlay = new DebugOverlay();
+      get_hud().AddDialogToRender(this.uiOverlay);
+    }
+
+    eventsManager.registerCallback(EGameEvent.ACTOR_UPDATE_500, this.onOverlayUpdate, this);
+    eventsManager.registerCallback(EGameEvent.ACTOR_UPDATE_10000, this.refreshPinnedFlow, this);
+
+    this.refreshOverlay();
+  }
+
+  /**
+   * Stop drawing the overlay. Leaving a level hides it too, as the level's HUD goes with it.
+   */
+  public hideOverlay(): void {
+    const eventsManager: EventsManager = getManager(EventsManager);
+
+    eventsManager.unregisterCallback(EGameEvent.ACTOR_UPDATE_500, this.onOverlayUpdate);
+    eventsManager.unregisterCallback(EGameEvent.ACTOR_UPDATE_10000, this.refreshPinnedFlow);
+
+    if ($isNotNil(this.uiOverlay)) {
+      // A level being unloaded may have dropped its HUD already, and the overlay with it.
+      get_hud()?.RemoveDialogToRender(this.uiOverlay);
+      this.uiOverlay = null;
+    }
+  }
+
+  /**
    * Write the preferences after a change.
    */
   public savePreferences(): void {
@@ -203,6 +349,28 @@ export class DebugManager extends AbstractManager {
    */
   public onInfoPortionChanged(object: GameObject, name: TName): void {
     this.recentInfoPortions = pushRecentValue(this.recentInfoPortions, name, debugConfig.RECENT_INFO_PORTIONS_LIMIT);
+    // A dialog can change several in a row, so the overlay's next refresh runs the flow once for all of them.
+    this.isPinnedFlowStale = $isNotNil(this.pinnedFlow);
+  }
+
+  /**
+   * Refresh the overlay, running the pinned flow first when it is stale.
+   */
+  public onOverlayUpdate(): void {
+    if (this.isPinnedFlowStale) {
+      this.refreshPinnedFlow();
+    } else {
+      this.refreshOverlay();
+    }
+  }
+
+  /**
+   * Show the overlay over a level just loaded, when it is enabled.
+   */
+  public onActorFirstUpdate(): void {
+    if (this.preferences.isOverlayEnabled && forgeConfig.DEBUG.IS_ENABLED) {
+      this.showOverlay();
+    }
   }
 
   /**

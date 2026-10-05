@@ -69,6 +69,7 @@ export function create(): JSXNode {
         y={ACTIONS_Y}
         width={HALF_WIDTH}
       />
+      <DebugButton tag={"flow_pin_button"} label={""} x={SIDE_X} y={ACTIONS_Y + STEP} width={SIDE_WIDTH - 4} />
     </XrRoot>
   );
 }

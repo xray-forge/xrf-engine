@@ -1,3 +1,4 @@
+import { EDebugOverlaySlot } from "@/engine/core/managers/debug/debug_types";
 import { SCREEN_BASE_HEIGHT, SCREEN_BASE_WIDTH } from "@/engine/core/ui/screen_layout";
 
 export const DEBUG_MARGIN: number = 16;
@@ -29,3 +30,15 @@ export const DEBUG_BROWSER = { x: 0, y: 60, width: 552, height: DEBUG_TAB_AREA.h
 export const DEBUG_SPAWN_CELL = { width: 90, height: 95, gap: 2 };
 export const DEBUG_BROWSER_ROW = { width: DEBUG_BROWSER.width - 12, height: 22, gap: 2 };
 export const DEBUG_SPAWN_RECENT_ROW = { y: 536, height: 20, gap: 2 };
+export const DEBUG_OVERLAY_SLOT_ROW = { y: 282, gap: 6 };
+
+/**
+ * Overlay panels: rows of labelled values, with values wrapping past `valueLength` characters, and where each slot puts
+ * its panel.
+ */
+export const DEBUG_OVERLAY_PANEL = { width: 300, rowHeight: 16, rows: 14, labelWidth: 96, padding: 6, valueLength: 30 };
+export const DEBUG_OVERLAY_SLOT_POSITIONS: Record<EDebugOverlaySlot, { x: number; y: number }> = {
+  [EDebugOverlaySlot.TOP_RIGHT]: { x: SCREEN_BASE_WIDTH - DEBUG_OVERLAY_PANEL.width - 12, y: 40 },
+  [EDebugOverlaySlot.MIDDLE_LEFT]: { x: 12, y: 250 },
+  [EDebugOverlaySlot.MIDDLE_RIGHT]: { x: SCREEN_BASE_WIDTH - DEBUG_OVERLAY_PANEL.width - 12, y: 320 },
+};

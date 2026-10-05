@@ -10,6 +10,7 @@ import { EFlowOutcome, EFlowTravel } from "@/engine/checks/framework/result_type
 import { getManager, getPortableStoreValue, registry, setPortableStoreValue } from "@/engine/core/database";
 import { EActorControlHandle, EActorControlPolicy } from "@/engine/core/managers/actor/actor_input_types";
 import { ActorInputManager } from "@/engine/core/managers/actor/ActorInputManager";
+import { EGameEvent, EventsManager } from "@/engine/core/managers/events";
 import { mockRegisteredActor, resetRegistry } from "@/fixtures/engine";
 
 const FLOW_NAME: TName = "test_flow";
@@ -118,6 +119,20 @@ describe("runFlow", () => {
     expect(result.position).toBe(2);
     expect(result.stepNames.length()).toBe(3);
     expect(result.waiting).toEqual({ position: 3, name: "step 3", handOff: undefined });
+  });
+
+  it("should tell the player in a tip unless the caller asks for a quiet run", () => {
+    const eventsManager: EventsManager = getManager(EventsManager);
+
+    jest.spyOn(eventsManager, "emitEvent");
+
+    runFlow(FLOW_NAME, mockRegistration([{ reached: () => false }]), true, false);
+
+    expect(eventsManager.emitEvent).not.toHaveBeenCalledWith(EGameEvent.NOTIFICATION, expect.anything());
+
+    runFlow(FLOW_NAME, mockRegistration([{ reached: () => false }]));
+
+    expect(eventsManager.emitEvent).toHaveBeenCalledWith(EGameEvent.NOTIFICATION, expect.anything());
   });
 
   it("should count a confirmed step with no verify body", () => {

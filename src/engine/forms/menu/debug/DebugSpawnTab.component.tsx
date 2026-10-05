@@ -51,7 +51,7 @@ export function create(): JSXNode {
         <XrTexture id={"ui_icons_PDA_tooltips_back"} r={60} g={60} b={60} a={200} />
       </XrStatic>
       <XrStatic tag={"cell_selection"} width={DEBUG_SPAWN_CELL.width} height={DEBUG_SPAWN_CELL.height}>
-        <XrTexture id={"ui_inGame2_Mp_bigbuttone"} r={255} g={190} b={90} a={150} />
+        <XrTexture id={"ui_inGame2_Mp_bigbuttone_h"} r={255} g={190} b={90} a={150} />
       </XrStatic>
       <XrStatic tag={"cell_icon"} width={DEBUG_SPAWN_CELL.width} height={DEBUG_SPAWN_CELL.height} />
       <Xr3tButton tag={"cell_button"} label={""} width={DEBUG_SPAWN_CELL.width} height={DEBUG_SPAWN_CELL.height} />

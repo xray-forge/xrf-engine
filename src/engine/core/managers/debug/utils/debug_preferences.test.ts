@@ -3,6 +3,8 @@ import { $fromArray } from "xray16/macros";
 import { replaceFunctionMock, resetFunctionMock } from "xray16/testing/utils";
 
 import {
+  EDebugOverlaySlot,
+  EDebugOverlayView,
   EDebugQuestView,
   EDebugSpawnDestination,
   EDebugSpawnKind,
@@ -33,6 +35,10 @@ describe("createDebugPreferences", () => {
     expect(preferences.spawnKind).toBe(EDebugSpawnKind.WEAPONS);
     expect(preferences.spawnDestination).toBe(EDebugSpawnDestination.INVENTORY);
     expect(preferences.recentSpawns).toEqualLuaArrays([]);
+    expect(preferences.isOverlayEnabled).toBe(false);
+    expect(preferences.overlayViews[EDebugOverlaySlot.TOP_RIGHT]).toBe(EDebugOverlayView.TARGET);
+    expect(preferences.overlayViews[EDebugOverlaySlot.MIDDLE_LEFT]).toBe(EDebugOverlayView.FLOW);
+    expect(preferences.overlayViews[EDebugOverlaySlot.MIDDLE_RIGHT]).toBe(EDebugOverlayView.ACTOR);
   });
 });
 
@@ -53,6 +59,11 @@ describe("loadDebugPreferences", () => {
       worldView: EDebugWorldView.TREASURES,
       questView: EDebugQuestView.FLOWS,
       consoleHistory: $fromArray(["1 + 1"]),
+      isOverlayEnabled: true,
+      overlayViews: {
+        [EDebugOverlaySlot.TOP_RIGHT]: EDebugOverlayView.WORLD,
+        [EDebugOverlaySlot.MIDDLE_LEFT]: EDebugOverlayView.OFF,
+      },
       savedPositions: $fromArray([
         { name: "camp", level: "zaton", x: 1, y: 2, z: 3, levelVertexId: 4, gameVertexId: 5 },
       ]),
@@ -67,6 +78,10 @@ describe("loadDebugPreferences", () => {
     expect(preferences.worldView).toBe(EDebugWorldView.TREASURES);
     expect(preferences.questView).toBe(EDebugQuestView.FLOWS);
     expect(preferences.consoleHistory).toEqualLuaArrays(["1 + 1"]);
+    expect(preferences.isOverlayEnabled).toBe(true);
+    expect(preferences.overlayViews[EDebugOverlaySlot.TOP_RIGHT]).toBe(EDebugOverlayView.WORLD);
+    expect(preferences.overlayViews[EDebugOverlaySlot.MIDDLE_LEFT]).toBe(EDebugOverlayView.OFF);
+    expect(preferences.overlayViews[EDebugOverlaySlot.MIDDLE_RIGHT]).toBe(EDebugOverlayView.ACTOR);
     expect(preferences.savedPositions.length()).toBe(1);
     expect(preferences.savedPositions.get(1).name).toBe("camp");
   });
@@ -80,6 +95,8 @@ describe("loadDebugPreferences", () => {
       worldView: "removed_view",
       questView: "removed_view",
       consoleHistory: $fromArray([5, "actor"]),
+      isOverlayEnabled: "yes",
+      overlayViews: { [EDebugOverlaySlot.TOP_RIGHT]: "removed_view" },
       savedPositions: $fromArray([{ name: "broken" }, "not a position"]),
     }));
 
@@ -92,6 +109,8 @@ describe("loadDebugPreferences", () => {
     expect(preferences.worldView).toBe(EDebugWorldView.SMART_TERRAINS);
     expect(preferences.questView).toBe(EDebugQuestView.TASKS);
     expect(preferences.consoleHistory).toEqualLuaArrays(["actor"]);
+    expect(preferences.isOverlayEnabled).toBe(false);
+    expect(preferences.overlayViews[EDebugOverlaySlot.TOP_RIGHT]).toBe(EDebugOverlayView.TARGET);
     expect(preferences.savedPositions.length()).toBe(0);
   });
 });

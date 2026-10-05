@@ -4,6 +4,8 @@ import { $fromArray, $fromObject } from "xray16/macros";
 
 import { consoleCommands } from "@/engine/constants/console_commands";
 import {
+  EDebugOverlaySlot,
+  EDebugOverlayView,
   EDebugSpawnKind,
   EDebugTab,
   EDebugToggleType,
@@ -28,6 +30,20 @@ export const debugConfig = {
   SPAWN_GRID_ROWS: 6 as TCount,
   // Rows of a browser page: creatures and squads in the spawn tab, every world tab list.
   BROWSER_ROWS: 24 as TCount,
+  // Overlay slots in the order the system tab lists them, and views in the order a slot cycles through them. Kept as
+  // lists, as Lua walks enum tables in no fixed order.
+  OVERLAY_SLOTS: $fromArray([
+    EDebugOverlaySlot.TOP_RIGHT,
+    EDebugOverlaySlot.MIDDLE_LEFT,
+    EDebugOverlaySlot.MIDDLE_RIGHT,
+  ]),
+  OVERLAY_VIEWS: $fromArray([
+    EDebugOverlayView.OFF,
+    EDebugOverlayView.TARGET,
+    EDebugOverlayView.FLOW,
+    EDebugOverlayView.ACTOR,
+    EDebugOverlayView.WORLD,
+  ]),
   // Inventory icons: the texture they are cut from and the size of one inventory grid cell on it.
   ICON_TEXTURE: "ui\\ui_icon_equipment",
   ICON_GRID_SIZE: 50,

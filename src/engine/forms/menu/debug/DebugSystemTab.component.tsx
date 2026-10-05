@@ -1,6 +1,11 @@
 import { JSXNode, JSXXML } from "jsx-xml";
 
-import { DEBUG_ACTIONS_X, DEBUG_BUTTON_WIDTH, DEBUG_TAB_AREA } from "@/engine/core/ui/debug/debug_layout";
+import {
+  DEBUG_ACTIONS_X,
+  DEBUG_BUTTON_WIDTH,
+  DEBUG_OVERLAY_SLOT_ROW,
+  DEBUG_TAB_AREA,
+} from "@/engine/core/ui/debug/debug_layout";
 import { XrRoot } from "@/engine/forms/components/base";
 import {
   DEBUG_HEADING_COLOR,
@@ -12,9 +17,10 @@ import {
 
 const FIELDS_WIDTH: number = DEBUG_ACTIONS_X - 16;
 const COLUMN_2_X: number = DEBUG_ACTIONS_X + DEBUG_BUTTON_WIDTH + 8;
+const OVERLAY_WIDTH: number = DEBUG_BUTTON_WIDTH * 2 + 8;
 
 /**
- * Create the system tab: Lua runtime facts on the left, memory, dumps and debug views on the right.
+ * Create the system tab: Lua runtime facts on the left, memory, dumps, debug views and the overlay setup on the right.
  *
  * @returns Rendered system tab component.
  */
@@ -48,6 +54,23 @@ export function create(): JSXNode {
         color={DEBUG_HEADING_COLOR}
       />
       <DebugButton tag={"simulation_view_button"} label={"simulation on map"} x={DEBUG_ACTIONS_X} y={176} />
+
+      <DebugText
+        tag={"heading_overlay"}
+        x={DEBUG_ACTIONS_X}
+        y={228}
+        width={300}
+        label={"overlay over the game"}
+        color={DEBUG_HEADING_COLOR}
+      />
+      <DebugButton tag={"overlay_toggle_button"} label={""} x={DEBUG_ACTIONS_X} y={252} width={OVERLAY_WIDTH} />
+      <DebugButton
+        tag={"overlay_slot_button"}
+        label={""}
+        x={DEBUG_ACTIONS_X}
+        y={DEBUG_OVERLAY_SLOT_ROW.y}
+        width={OVERLAY_WIDTH}
+      />
     </XrRoot>
   );
 }

@@ -171,6 +171,8 @@ export class CheckContext {
   public readonly name: TName;
   /** Whether steps may move the actor, which a caller polling a walk it already moved turns off. */
   public readonly isTravelAllowed: boolean;
+  /** Whether the run tells the player in game tips, which a caller showing the result itself turns off. */
+  public readonly isNotifying: boolean;
   public readonly failures: LuaArray<ICheckFailure> = new LuaTable();
 
   public checked: TCount = 0;
@@ -178,9 +180,21 @@ export class CheckContext {
   public travel: EFlowTravel = EFlowTravel.NONE;
   public waiting: Nillable<ICheckWaitingStep> = null;
 
-  public constructor(name: TName, isTravelAllowed: boolean = true) {
+  public constructor(name: TName, isTravelAllowed: boolean = true, isNotifying: boolean = true) {
     this.name = name;
     this.isTravelAllowed = isTravelAllowed;
+    this.isNotifying = isNotifying;
+  }
+
+  /**
+   * Tell the player in a game tip, unless the caller shows the result itself.
+   *
+   * @param text - Tip text.
+   */
+  public notify(text: TLabel): void {
+    if (this.isNotifying) {
+      notify(text);
+    }
   }
 
   /**

@@ -19,7 +19,6 @@ import {
   evaluateRequirements,
   evaluateStateRequirements,
   ICheckResult,
-  notify,
   report,
   reportOutcome,
 } from "@/engine/checks/framework/core";
@@ -234,7 +233,7 @@ function observe(context: CheckContext, steps: LuaArray<IFlowStep>, name: TName)
 
   if (confirmed >= total) {
     report("%s: already complete, load a save from before the walk to observe it again", name);
-    notify(`${name} is already complete - load an earlier save to watch it again`);
+    context.notify(`${name} is already complete - load an earlier save to watch it again`);
 
     return EFlowOutcome.COMPLETE;
   }
@@ -272,7 +271,7 @@ function observe(context: CheckContext, steps: LuaArray<IFlowStep>, name: TName)
         report("%s: to reach it -> %s", name, step.handOff);
       }
 
-      notify(
+      context.notify(
         $isNotNil(step.handOff)
           ? `${position}/${total} ${step.name} - to reach it: ${step.handOff}`
           : `${position}/${total} ${step.name} - not reached yet`
@@ -292,7 +291,7 @@ function observe(context: CheckContext, steps: LuaArray<IFlowStep>, name: TName)
   const walkFailures: TCount = readFailures(name) + context.failures.length();
 
   report("%s: last step reached, flow complete", name);
-  notify(
+  context.notify(
     walkFailures === 0
       ? `${name} complete: ${total}/${total} steps, no failures`
       : `${name} complete: ${total}/${total} steps, ${walkFailures} failure(s) during the walk`
@@ -331,10 +330,16 @@ function observeGuarded(context: CheckContext, steps: LuaArray<IFlowStep>, name:
  * @param name - Flow name, single sourced from the generated launcher.
  * @param registration - What the flow source file declared while it was required.
  * @param isTravelAllowed - Whether steps may move the actor; a caller polling a walk it already moved passes false.
+ * @param isNotifying - Whether to tell the player in game tips; a caller showing the result itself passes false.
  * @returns Result of the invocation.
  */
-export function runFlow(name: TName, registration: IRegistration, isTravelAllowed: boolean = true): ICheckResult {
-  const context: CheckContext = new CheckContext(name, isTravelAllowed);
+export function runFlow(
+  name: TName,
+  registration: IRegistration,
+  isTravelAllowed: boolean = true,
+  isNotifying: boolean = true
+): ICheckResult {
+  const context: CheckContext = new CheckContext(name, isTravelAllowed, isNotifying);
 
   ensureScriptLoggingEnabled();
   report("%s: flow start", name);
@@ -357,7 +362,7 @@ export function runFlow(name: TName, registration: IRegistration, isTravelAllowe
       report("%s: blocked - %s", name, blocker);
     }
 
-    notify(`${name} blocked: ${blockers.get(1)}`);
+    context.notify(`${name} blocked: ${blockers.get(1)}`);
   } else {
     verdict = observeGuarded(context, registration.steps, name);
   }
@@ -405,9 +410,9 @@ export function runFlow(name: TName, registration: IRegistration, isTravelAllowe
   }
 
   if ($isNotNil(skipReason)) {
-    notify(`${name} skipped: ${skipReason}`);
+    context.notify(`${name} skipped: ${skipReason}`);
   } else if (outcome === EFlowOutcome.FAIL) {
-    notify(`${name} FAILED: ${failures} problem(s) here, ${walkFailures} in this walk`);
+    context.notify(`${name} FAILED: ${failures} problem(s) here, ${walkFailures} in this walk`);
   }
 
   return result;

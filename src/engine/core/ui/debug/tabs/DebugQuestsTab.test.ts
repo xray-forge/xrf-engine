@@ -1,8 +1,10 @@
 import { beforeEach, describe, expect, it, jest } from "@jest/globals";
+import { $fromArray } from "xray16/macros";
 
 import { getManager, registerSimulator } from "@/engine/core/database";
-import { EDebugQuestView, EDebugTab } from "@/engine/core/managers/debug/debug_types";
+import { EDebugQuestView, EDebugTab, IDebugFlow } from "@/engine/core/managers/debug/debug_types";
 import { DebugManager } from "@/engine/core/managers/debug/DebugManager";
+import { readDebugFlows } from "@/engine/core/managers/debug/utils/debug_flows";
 import { setDebugInfoPortion } from "@/engine/core/managers/debug/utils/debug_quests";
 import { Debugger } from "@/engine/core/ui/debug/Debugger";
 import { DebugQuestsTab } from "@/engine/core/ui/debug/tabs/DebugQuestsTab";
@@ -29,6 +31,11 @@ jest.mock("@/engine/core/managers/debug/utils/debug_quests", () => ({
   setDebugInfoPortion: jest.fn(() => "changed"),
 }));
 
+jest.mock("@/engine/core/managers/debug/utils/debug_flows", () => ({
+  ...(jest.requireActual("@/engine/core/managers/debug/utils/debug_flows") as object),
+  readDebugFlows: jest.fn(() => null),
+}));
+
 /**
  * @returns Quests tab of a new debugger window.
  */
@@ -41,6 +48,7 @@ beforeEach(() => {
   registerSimulator();
   mockRegisteredActor();
   jest.mocked(setDebugInfoPortion).mockClear();
+  jest.mocked(readDebugFlows).mockReturnValue(null);
 });
 
 describe("DebugQuestsTab", () => {
@@ -80,5 +88,36 @@ describe("DebugQuestsTab", () => {
 
     expect(tab.entries.length()).toBe(0);
     expect(tab.uiActions.get(EDebugQuestView.FLOWS).get(1).IsShown()).toBe(true);
+  });
+
+  it("should pin the selected flow to the overlay, and unpin it", () => {
+    const manager: DebugManager = getManager(DebugManager);
+    const tab: DebugQuestsTab = createQuestsTab();
+    const flow: IDebugFlow = { identity: "quests_test", module: "checks.test", source: "test.flow.ts", level: null };
+
+    jest.spyOn(manager, "pinFlow").mockImplementation((it) => {
+      manager.pinnedFlow = it;
+    });
+    jest.mocked(readDebugFlows).mockReturnValue($fromArray([flow]));
+
+    manager.preferences.questView = EDebugQuestView.FLOWS;
+    tab.refresh();
+    tab.onPinFlow();
+
+    expect(manager.pinFlow).not.toHaveBeenCalled();
+
+    tab.onEntryClicked(1);
+    tab.onPinFlow();
+
+    expect(manager.pinFlow).toHaveBeenCalledWith(flow);
+    expect(tab.owner.uiMessage.TextControl().GetText()).toBe(
+      "quests_test pinned to the overlay - turn the overlay on in the system tab"
+    );
+    expect(tab.uiActions.get(EDebugQuestView.FLOWS).get(3).TextControl().GetText()).toBe("unpin from the overlay");
+
+    tab.onPinFlow();
+
+    expect(manager.pinFlow).toHaveBeenLastCalledWith(null);
+    expect(tab.uiActions.get(EDebugQuestView.FLOWS).get(3).TextControl().GetText()).toBe("pin to the overlay");
   });
 });

@@ -9,9 +9,10 @@ import { runFlow } from "@/engine/checks/framework/flow";
  *
  * @param name - Name the launcher reports, e.g. `quests_zat_b14`.
  * @param isTravelAllowed - Whether steps may move the actor; a caller polling a walk it already moved passes false.
+ * @param isNotifying - Whether to tell the player in game tips; a caller showing the result itself passes false.
  * @returns Result of the run.
  */
-export function run(name: TName, isTravelAllowed: boolean = true): ICheckResult {
+export function run(name: TName, isTravelAllowed: boolean = true, isNotifying: boolean = true): ICheckResult {
   const registration: IRegistration = drainRegistration();
 
   if (registration.steps.length() === 0) {
@@ -20,5 +21,5 @@ export function run(name: TName, isTravelAllowed: boolean = true): ICheckResult 
 
   reportBanner(name);
 
-  return runFlow(name, registration, isTravelAllowed);
+  return runFlow(name, registration, isTravelAllowed, isNotifying);
 }

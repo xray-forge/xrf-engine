@@ -1,29 +1,43 @@
 import { beforeEach, describe, expect, it, jest } from "@jest/globals";
-import { get_console, level } from "xray16";
+import { get_console, get_hud, level } from "xray16";
 import { GameObject } from "xray16/alias";
 import { MockConsole, MockGameObject } from "xray16/mocks";
 import { replaceFunctionMock, resetFunctionMock } from "xray16/testing/utils";
 
 import { disposeManager, getManager, registerSimulator } from "@/engine/core/database";
 import { forgeConfig } from "@/engine/core/database/forge_config";
-import { EDebugTab } from "@/engine/core/managers/debug/debug_types";
+import {
+  EDebugOverlaySlot,
+  EDebugOverlayView,
+  EDebugTab,
+  IDebugFlow,
+  IDebugFlowResult,
+} from "@/engine/core/managers/debug/debug_types";
 import { debugConfig } from "@/engine/core/managers/debug/DebugConfig";
 import { DebugManager } from "@/engine/core/managers/debug/DebugManager";
 import { TDebugCatalogue } from "@/engine/core/managers/debug/utils/debug_catalogue";
+import { runDebugFlow } from "@/engine/core/managers/debug/utils/debug_flows";
 import { loadDebugPreferences, saveDebugPreferences } from "@/engine/core/managers/debug/utils/debug_preferences";
 import { EGameEvent, EventsManager } from "@/engine/core/managers/events";
 import { Debugger } from "@/engine/core/ui/debug/Debugger";
+import { DebugOverlay } from "@/engine/core/ui/debug/DebugOverlay";
 import type { MainMenu } from "@/engine/core/ui/menu/MainMenu";
 import { mockRegisteredActor, resetRegistry } from "@/fixtures/engine";
 
-jest.mock("@/engine/core/managers/debug/utils/debug_preferences", () => ({
-  createDebugPreferences: jest.fn(() => ({ tab: "target" })),
-  loadDebugPreferences: jest.fn(() => ({
-    tab: "player",
-    recentSpawns: new LuaTable(),
-    consoleHistory: new LuaTable(),
-  })),
-  saveDebugPreferences: jest.fn(),
+jest.mock("@/engine/core/managers/debug/utils/debug_preferences", () => {
+  const actual: { createDebugPreferences: () => object } = jest.requireActual(
+    "@/engine/core/managers/debug/utils/debug_preferences"
+  );
+
+  return {
+    createDebugPreferences: jest.fn(actual.createDebugPreferences),
+    loadDebugPreferences: jest.fn(() => ({ ...actual.createDebugPreferences(), tab: "player" })),
+    saveDebugPreferences: jest.fn(),
+  };
+});
+
+jest.mock("@/engine/core/managers/debug/utils/debug_flows", () => ({
+  runDebugFlow: jest.fn(),
 }));
 
 jest.mock("@/engine/core/ui/debug/Debugger", () => ({
@@ -31,6 +45,22 @@ jest.mock("@/engine/core/ui/debug/Debugger", () => ({
     public open = jest.fn();
   },
 }));
+
+jest.mock("@/engine/core/ui/debug/DebugOverlay", () => ({
+  DebugOverlay: class {
+    public refresh = jest.fn();
+  },
+}));
+
+const flow: IDebugFlow = { identity: "quests_test", module: "checks.test", source: "test.flow.ts", level: null };
+const flowResult: IDebugFlowResult = {
+  outcome: "WAITING",
+  stepNames: new LuaTable(),
+  position: 0,
+  waiting: null,
+  failures: new LuaTable(),
+  skipReason: null,
+};
 
 describe("DebugManager", () => {
   const menu: MainMenu = {} as MainMenu;
@@ -41,6 +71,9 @@ describe("DebugManager", () => {
     MockConsole.reset();
     resetFunctionMock(level.get_target_obj);
     jest.mocked(saveDebugPreferences).mockClear();
+    jest.mocked(runDebugFlow).mockReset();
+    jest.mocked(get_hud().AddDialogToRender).mockClear();
+    jest.mocked(get_hud().RemoveDialogToRender).mockClear();
 
     forgeConfig.DEBUG.IS_ENABLED = true;
     debugConfig.KEY_BINDING = 1_000;
@@ -181,6 +214,119 @@ describe("DebugManager", () => {
 
     expect(manager.preferences.consoleHistory).toEqualLuaArrays(["1 + 1", "actor:name()"]);
     expect(saveDebugPreferences).toHaveBeenCalledTimes(2);
+  });
+
+  it("should show the overlay while enabled, refreshing it twice a second", () => {
+    mockRegisteredActor();
+
+    const manager: DebugManager = getManager(DebugManager);
+    const eventsManager: EventsManager = getManager(EventsManager);
+
+    manager.setOverlayEnabled(true);
+
+    const overlay: DebugOverlay = manager.uiOverlay as DebugOverlay;
+
+    expect(manager.preferences.isOverlayEnabled).toBe(true);
+    expect(saveDebugPreferences).toHaveBeenCalledWith(manager.preferences);
+    expect(get_hud().AddDialogToRender).toHaveBeenCalledWith(overlay);
+    expect(overlay.refresh).toHaveBeenCalledWith(manager.preferences.overlayViews, {
+      targetId: null,
+      flow: null,
+      flowResult: null,
+    });
+
+    eventsManager.emitEvent(EGameEvent.ACTOR_UPDATE_500);
+
+    expect(overlay.refresh).toHaveBeenCalledTimes(2);
+
+    manager.setOverlayEnabled(false);
+
+    expect(manager.uiOverlay).toBeNull();
+    expect(get_hud().RemoveDialogToRender).toHaveBeenCalledWith(overlay);
+    expect(eventsManager.getEventSubscribersCount(EGameEvent.ACTOR_UPDATE_500)).toBe(0);
+    expect(eventsManager.getEventSubscribersCount(EGameEvent.ACTOR_UPDATE_10000)).toBe(0);
+  });
+
+  it("should show the enabled overlay over each level loaded, and hide it when the level goes", () => {
+    mockRegisteredActor();
+
+    const manager: DebugManager = getManager(DebugManager);
+    const eventsManager: EventsManager = getManager(EventsManager);
+
+    eventsManager.emitEvent(EGameEvent.ACTOR_FIRST_UPDATE);
+
+    expect(manager.uiOverlay).toBeNull();
+
+    manager.preferences.isOverlayEnabled = true;
+    eventsManager.emitEvent(EGameEvent.ACTOR_FIRST_UPDATE);
+
+    expect(manager.uiOverlay).not.toBeNull();
+
+    eventsManager.emitEvent(EGameEvent.ACTOR_GO_OFFLINE);
+
+    expect(manager.uiOverlay).toBeNull();
+    expect(manager.preferences.isOverlayEnabled).toBe(true);
+  });
+
+  it("should cycle the views of an overlay slot", () => {
+    const manager: DebugManager = getManager(DebugManager);
+
+    manager.preferences.overlayViews[EDebugOverlaySlot.TOP_RIGHT] = EDebugOverlayView.ACTOR;
+
+    expect(manager.cycleOverlayView(EDebugOverlaySlot.TOP_RIGHT)).toBe(EDebugOverlayView.WORLD);
+    expect(manager.cycleOverlayView(EDebugOverlaySlot.TOP_RIGHT)).toBe(EDebugOverlayView.OFF);
+    expect(manager.cycleOverlayView(EDebugOverlaySlot.TOP_RIGHT)).toBe(EDebugOverlayView.TARGET);
+    expect(manager.preferences.overlayViews[EDebugOverlaySlot.TOP_RIGHT]).toBe(EDebugOverlayView.TARGET);
+    expect(saveDebugPreferences).toHaveBeenCalledTimes(3);
+  });
+
+  it("should run a pinned flow quietly, without travel, and again on the overlay tick after info changes", () => {
+    mockRegisteredActor();
+
+    const manager: DebugManager = getManager(DebugManager);
+    const eventsManager: EventsManager = getManager(EventsManager);
+
+    jest.mocked(runDebugFlow).mockImplementation(() => flowResult);
+    manager.setOverlayEnabled(true);
+    manager.pinFlow(flow);
+
+    expect(runDebugFlow).toHaveBeenCalledWith(flow, false, false);
+    expect(manager.pinnedFlowResult).toBe(flowResult);
+
+    eventsManager.emitEvent(EGameEvent.ACTOR_INFO_ADDED, null, "first_info");
+    eventsManager.emitEvent(EGameEvent.ACTOR_INFO_ADDED, null, "second_info");
+
+    expect(runDebugFlow).toHaveBeenCalledTimes(1);
+    expect(manager.isPinnedFlowStale).toBe(true);
+
+    eventsManager.emitEvent(EGameEvent.ACTOR_UPDATE_500);
+    eventsManager.emitEvent(EGameEvent.ACTOR_UPDATE_500);
+
+    expect(runDebugFlow).toHaveBeenCalledTimes(2);
+    expect(manager.isPinnedFlowStale).toBe(false);
+
+    eventsManager.emitEvent(EGameEvent.ACTOR_UPDATE_10000);
+
+    expect(runDebugFlow).toHaveBeenCalledTimes(3);
+
+    manager.pinFlow(null);
+
+    expect(manager.pinnedFlow).toBeNull();
+    expect(manager.pinnedFlowResult).toBeNull();
+  });
+
+  it("should unpin a flow that cannot run", () => {
+    mockRegisteredActor();
+
+    const manager: DebugManager = getManager(DebugManager);
+
+    jest.mocked(runDebugFlow).mockImplementation(() => {
+      throw new Error("module not found");
+    });
+    manager.pinFlow(flow);
+
+    expect(manager.pinnedFlow).toBeNull();
+    expect(manager.pinnedFlowResult).toBeNull();
   });
 
   it("should dump its state", () => {

@@ -5,6 +5,8 @@ import { $isNil } from "xray16/macros";
 import { roots } from "@/engine/constants/roots";
 import { SYSTEM_INI } from "@/engine/core/database";
 import {
+  EDebugOverlaySlot,
+  EDebugOverlayView,
   EDebugQuestView,
   EDebugSpawnDestination,
   EDebugSpawnKind,
@@ -29,6 +31,12 @@ export function createDebugPreferences(): IDebugPreferences {
     savedPositions: new LuaTable(),
     questView: EDebugQuestView.TASKS,
     consoleHistory: new LuaTable(),
+    isOverlayEnabled: false,
+    overlayViews: {
+      [EDebugOverlaySlot.TOP_RIGHT]: EDebugOverlayView.TARGET,
+      [EDebugOverlaySlot.MIDDLE_LEFT]: EDebugOverlayView.FLOW,
+      [EDebugOverlaySlot.MIDDLE_RIGHT]: EDebugOverlayView.ACTOR,
+    },
   };
 }
 
@@ -87,6 +95,17 @@ export function loadDebugPreferences(): IDebugPreferences {
   preferences.worldView = readEnumValue(EDebugWorldView, saved.worldView, preferences.worldView);
 
   preferences.questView = readEnumValue(EDebugQuestView, saved.questView, preferences.questView);
+  preferences.isOverlayEnabled = saved.isOverlayEnabled === true;
+
+  if (type(saved.overlayViews) === "table") {
+    for (const [, slot] of pairs(EDebugOverlaySlot)) {
+      preferences.overlayViews[slot] = readEnumValue(
+        EDebugOverlayView,
+        saved.overlayViews![slot],
+        preferences.overlayViews[slot]
+      );
+    }
+  }
 
   const consoleHistory: Nillable<LuaArray<string>> = saved.consoleHistory;
 

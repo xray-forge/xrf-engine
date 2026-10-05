@@ -75,7 +75,17 @@ describe("runDebugFlow", () => {
       runDebugFlow({ identity: "quests_test", module: "checks.test_flow", source: "test.flow.ts", level: null }, false)
     ).toEqual({ outcome: "waiting" });
     expect(loaded["checks.test_flow"]).toBeNull();
-    expect(run).toHaveBeenCalledWith("quests_test", false);
+    expect(run).toHaveBeenCalledWith("quests_test", false, true);
+  });
+
+  it("should run a flow quietly when asked", () => {
+    runDebugFlow(
+      { identity: "quests_test", module: "checks.test_flow", source: "test.flow.ts", level: null },
+      false,
+      false
+    );
+
+    expect(run).toHaveBeenCalledWith("quests_test", false, false);
   });
 });
 

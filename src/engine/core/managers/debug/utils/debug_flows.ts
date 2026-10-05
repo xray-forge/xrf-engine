@@ -53,13 +53,18 @@ export function buildDebugFlowEntries(flows: LuaArray<IDebugFlow>): LuaArray<IDe
  *
  * @param flow - Flow to run.
  * @param isTravelAllowed - Whether its steps may move the actor.
+ * @param isNotifying - Whether the run tells the player in game tips; the overlay, showing it itself, runs quietly.
  * @returns What the run answered.
  */
-export function runDebugFlow(flow: IDebugFlow, isTravelAllowed: boolean): IDebugFlowResult {
+export function runDebugFlow(
+  flow: IDebugFlow,
+  isTravelAllowed: boolean,
+  isNotifying: boolean = true
+): IDebugFlowResult {
   // A flow registers its steps while it is required, so it is required afresh for each run.
   requireFresh(flow.module);
 
-  return (require(FRAMEWORK_MODULE) as AnyObject).run(flow.identity, isTravelAllowed) as IDebugFlowResult;
+  return (require(FRAMEWORK_MODULE) as AnyObject).run(flow.identity, isTravelAllowed, isNotifying) as IDebugFlowResult;
 }
 
 /**
