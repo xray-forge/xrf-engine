@@ -10,12 +10,16 @@ import {
   getSimulationTerrainAssignedSquadsCount,
 } from "@/engine/core/managers/simulation/utils";
 import { SmartTerrain, smartTerrainConfig } from "@/engine/core/objects/smart_terrain";
+import { ESmartTerrainRespawnBlocker } from "@/engine/core/objects/smart_terrain/smart_terrain_types";
 import {
   applySmartTerrainRespawnSectionsConfig,
   canRespawnSmartTerrainSquad,
+  getSmartTerrainRespawnBlocker,
+  getSmartTerrainRespawnLimit,
   respawnSmartTerrainSquad,
 } from "@/engine/core/objects/smart_terrain/spawn/smart_terrain_spawn";
 import { Squad } from "@/engine/core/objects/squad";
+import { giveInfoPortion } from "@/engine/core/utils/info_portion";
 import { mockRegisteredActor, MockSmartTerrain, MockSquad, resetRegistry } from "@/fixtures/engine";
 
 describe("smart_terrain_spawn module", () => {
@@ -284,5 +288,62 @@ describe("canRespawnSmartTerrainSquad", () => {
     expect(MockCTime.areEqual(terrain.lastRespawnUpdatedAt as CTime, game.get_game_time())).toBe(true);
 
     expect(canRespawnSmartTerrainSquad(terrain)).toBe(false);
+  });
+});
+
+describe("getSmartTerrainRespawnBlocker", () => {
+  beforeEach(() => {
+    resetRegistry();
+  });
+
+  it("should name what blocks a respawn, without touching the throttle", () => {
+    const terrain: SmartTerrain = MockSmartTerrain.mockRegistered();
+    const { actorServerObject } = mockRegisteredActor();
+    const distance = jest
+      .spyOn(actorServerObject.position, "distance_to_sqr")
+      .mockImplementation(() => smartTerrainConfig.RESPAWN_RADIUS_RESTRICTION_SQR + 1);
+
+    terrain.maxStayingSquadsCount = 1;
+    terrain.isSimulationAvailableConditionList = parseConditionsList(FALSE);
+    expect(getSmartTerrainRespawnBlocker(terrain)).toBe(ESmartTerrainRespawnBlocker.UNAVAILABLE);
+
+    terrain.isSimulationAvailableConditionList = parseConditionsList(TRUE);
+    expect(getSmartTerrainRespawnBlocker(terrain)).toBeNull();
+
+    distance.mockImplementation(() => smartTerrainConfig.RESPAWN_RADIUS_RESTRICTION_SQR);
+    expect(getSmartTerrainRespawnBlocker(terrain)).toBe(ESmartTerrainRespawnBlocker.ACTOR_NEARBY);
+
+    assignSimulationSquadToTerrain(MockSquad.mock(), terrain.id);
+    expect(getSmartTerrainRespawnBlocker(terrain)).toBe(ESmartTerrainRespawnBlocker.FULL);
+
+    expect(terrain.lastRespawnUpdatedAt).toBeNull();
+  });
+});
+
+describe("getSmartTerrainRespawnLimit", () => {
+  beforeEach(() => {
+    resetRegistry();
+  });
+
+  it("should read the section's limit from its condition list", () => {
+    const terrain: SmartTerrain = MockSmartTerrain.mock();
+
+    mockRegisteredActor();
+
+    terrain.ini = MockIniFile.mock("test.ltx", {
+      "spawn-section": ["test-section-1"],
+      "test-section-1": {
+        spawn_squads: "a",
+        spawn_num: "{+test_info} 4, 2",
+      },
+    });
+
+    applySmartTerrainRespawnSectionsConfig(terrain, "spawn-section");
+
+    expect(getSmartTerrainRespawnLimit(terrain, "test-section-1")).toBe(2);
+
+    giveInfoPortion("test_info");
+
+    expect(getSmartTerrainRespawnLimit(terrain, "test-section-1")).toBe(4);
   });
 });

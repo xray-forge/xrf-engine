@@ -12,6 +12,17 @@ export const enum ESmartTerrainStatus {
 }
 
 /**
+ * Why a smart terrain cannot respawn a squad now.
+ *
+ * @inline
+ */
+export enum ESmartTerrainRespawnBlocker {
+  UNAVAILABLE = "simulation unavailable",
+  FULL = "full",
+  ACTOR_NEARBY = "actor nearby",
+}
+
+/**
  * Map of smart terrain statuses by name.
  */
 export const ALARM_STATUSES: Record<TName, ESmartTerrainStatus> = {

@@ -26,6 +26,7 @@ import { DebuggerTab } from "@/engine/core/ui/debug/tabs/DebuggerTab";
 import { DebugOverlayTab } from "@/engine/core/ui/debug/tabs/DebugOverlayTab";
 import { DebugPlayerTab } from "@/engine/core/ui/debug/tabs/DebugPlayerTab";
 import { DebugQuestsTab } from "@/engine/core/ui/debug/tabs/DebugQuestsTab";
+import { DebugSimulationTab } from "@/engine/core/ui/debug/tabs/DebugSimulationTab";
 import { DebugSpawnTab } from "@/engine/core/ui/debug/tabs/DebugSpawnTab";
 import { DebugSystemTab } from "@/engine/core/ui/debug/tabs/DebugSystemTab";
 import { DebugTargetTab } from "@/engine/core/ui/debug/tabs/DebugTargetTab";
@@ -110,6 +111,7 @@ export class Debugger extends CUIScriptWnd {
     this.addTab(xml, new DebugPlayerTab(this));
     this.addTab(xml, new DebugSpawnTab(this));
     this.addTab(xml, new DebugWorldTab(this));
+    this.addTab(xml, new DebugSimulationTab(this));
     this.addTab(xml, new DebugQuestsTab(this));
     this.addTab(xml, new DebugOverlayTab(this));
     this.addTab(xml, new DebugSystemTab(this));

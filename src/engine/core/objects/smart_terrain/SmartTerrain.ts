@@ -68,6 +68,7 @@ import { updateTerrainMapSpot } from "@/engine/core/managers/map/utils";
 import { simulationActivities } from "@/engine/core/managers/simulation/activity/simulation_activities";
 import { simulationConfig } from "@/engine/core/managers/simulation/SimulationConfig";
 import {
+  ESimulationTargetRejection,
   ESimulationTerrainRole,
   ISimulationActivityDescriptor,
   ISimulationTarget,
@@ -779,8 +780,20 @@ export class SmartTerrain extends cse_alife_smart_zone implements ISimulationTar
    * @returns Whether current smart terrain is valid simulation target for provided squad.
    */
   public isValidSimulationTarget(squad: Squad, isPopulationDecreaseNeeded?: boolean): boolean {
+    return $isNil(this.getSimulationTargetRejection(squad, isPopulationDecreaseNeeded));
+  }
+
+  /**
+   * @param squad - Squad checking availability of current smart terrain.
+   * @param isPopulationDecreaseNeeded - Whether population decrease should be estimated with check.
+   * @returns Why the terrain is not a valid simulation target for the squad, `null` when it is.
+   */
+  public getSimulationTargetRejection(
+    squad: Squad,
+    isPopulationDecreaseNeeded?: boolean
+  ): Nillable<ESimulationTargetRejection> {
     if (this.isRespawnOnlySmart) {
-      return false;
+      return ESimulationTargetRejection.RESPAWN_ONLY;
     }
 
     let squadsCount: TCount = getSimulationTerrainAssignedSquadsCount(this.id);
@@ -791,51 +804,51 @@ export class SmartTerrain extends cse_alife_smart_zone implements ISimulationTar
 
     // Cannot select smart as target due to max population constraints.
     if (squadsCount >= this.maxStayingSquadsCount) {
-      return false;
+      return ESimulationTargetRejection.FULL;
     }
 
     const squadParameters: Nillable<ISimulationActivityDescriptor> = simulationActivities.get(squad.faction);
 
     if (!squadParameters || !squadParameters.smart) {
-      return false;
+      return ESimulationTargetRejection.NO_FACTION_RULE;
     }
 
     if (
       (this.simulationProperties.get(ESimulationTerrainRole.RESOURCE) ?? 0) > 0 &&
       squadParameters.smart.resource?.(squad, this)
     ) {
-      return true;
+      return null;
     }
 
     if (
       (this.simulationProperties.get(ESimulationTerrainRole.BASE) ?? 0) > 0 &&
       squadParameters.smart.base?.(squad, this)
     ) {
-      return true;
+      return null;
     }
 
     if (
       (this.simulationProperties.get(ESimulationTerrainRole.LAIR) ?? 0) > 0 &&
       squadParameters.smart.lair?.(squad, this)
     ) {
-      return true;
+      return null;
     }
 
     if (
       (this.simulationProperties.get(ESimulationTerrainRole.TERRITORY) ?? 0) > 0 &&
       squadParameters.smart.territory?.(squad, this)
     ) {
-      return true;
+      return null;
     }
 
     if (
       (this.simulationProperties.get(ESimulationTerrainRole.SURGE) ?? 0) > 0 &&
       squadParameters.smart.surge?.(squad, this)
     ) {
-      return true;
+      return null;
     }
 
-    return false;
+    return ESimulationTargetRejection.NO_ROLE_ALLOWED;
   }
 
   /**

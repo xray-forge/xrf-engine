@@ -9,6 +9,7 @@ export enum EDebugTab {
   PLAYER = "player",
   SPAWN = "spawn",
   WORLD = "world",
+  SIMULATION = "simulation",
   QUESTS = "quests",
   OVERLAY = "overlay",
   SYSTEM = "system",
@@ -68,6 +69,27 @@ export enum EDebugWorldView {
   STORY_OBJECTS = "story objects",
   POSITIONS = "saved positions",
   TREASURES = "treasures",
+}
+
+/**
+ * Lists the simulation tab browses, in the order they are listed.
+ */
+export enum EDebugSimulationView {
+  SQUADS = "squads",
+  TERRAINS = "terrains",
+  OVERVIEW = "overview",
+}
+
+/**
+ * Row of a simulation tab list: a squad, a smart terrain, or a level of the overview.
+ */
+export interface IDebugSimulationEntry {
+  // Squad or terrain of the row, `null` for a level.
+  id: Nillable<TNumberId>;
+  level: TName;
+  label: TLabel;
+  // Label in lower case, matched by the search.
+  search: string;
 }
 
 /**
@@ -200,6 +222,8 @@ export interface IDebugPreferences {
   recentSpawns: LuaArray<TSection>;
   // List the world tab shows.
   worldView: EDebugWorldView;
+  // List the simulation tab shows.
+  simulationView: EDebugSimulationView;
   // Positions saved in the world tab.
   savedPositions: LuaArray<IDebugSavedPosition>;
   // List the quests tab shows.

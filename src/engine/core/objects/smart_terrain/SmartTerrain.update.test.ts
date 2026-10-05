@@ -11,7 +11,7 @@ import { forgeConfig } from "@/engine/core/database/forge_config";
 import { EGameEvent, EventsManager } from "@/engine/core/managers/events";
 import { updateTerrainMapSpot } from "@/engine/core/managers/map/utils";
 import { simulationActivities } from "@/engine/core/managers/simulation/activity/simulation_activities";
-import { ESimulationTerrainRole } from "@/engine/core/managers/simulation/types";
+import { ESimulationTargetRejection, ESimulationTerrainRole } from "@/engine/core/managers/simulation/types";
 import { IObjectJobState, SmartTerrain } from "@/engine/core/objects/smart_terrain";
 import { createObjectJobDescriptor, updateTerrainJobs } from "@/engine/core/objects/smart_terrain/job";
 import { smartTerrainConfig } from "@/engine/core/objects/smart_terrain/SmartTerrainConfig";
@@ -433,6 +433,7 @@ describe("SmartTerrain simulation targeting", () => {
     terrain.isRespawnOnlySmart = true;
 
     expect(terrain.isValidSimulationTarget(squad)).toBe(false);
+    expect(terrain.getSimulationTargetRejection(squad)).toBe(ESimulationTargetRejection.RESPAWN_ONLY);
   });
 
   it("should reject squads once the population limit is reached", () => {
@@ -442,6 +443,7 @@ describe("SmartTerrain simulation targeting", () => {
     terrain.maxStayingSquadsCount = 0;
 
     expect(terrain.isValidSimulationTarget(squad)).toBe(false);
+    expect(terrain.getSimulationTargetRejection(squad)).toBe(ESimulationTargetRejection.FULL);
 
     // Population decrease is estimated for the squad that is leaving the terrain.
     terrain.maxStayingSquadsCount = -1;
@@ -457,6 +459,7 @@ describe("SmartTerrain simulation targeting", () => {
     squad.faction = "unknown_faction" as never;
 
     expect(terrain.isValidSimulationTarget(squad)).toBe(false);
+    expect(terrain.getSimulationTargetRejection(squad)).toBe(ESimulationTargetRejection.NO_FACTION_RULE);
   });
 
   it("should accept a squad matching one of the terrain simulation roles", () => {
@@ -473,6 +476,7 @@ describe("SmartTerrain simulation targeting", () => {
     // No role is set on the terrain, so none of the role checks can pass.
     terrain.simulationProperties = new LuaTable();
     expect(terrain.isValidSimulationTarget(squad)).toBe(false);
+    expect(terrain.getSimulationTargetRejection(squad)).toBe(ESimulationTargetRejection.NO_ROLE_ALLOWED);
 
     for (const role of [
       ESimulationTerrainRole.RESOURCE,

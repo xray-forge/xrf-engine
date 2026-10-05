@@ -35,6 +35,18 @@ export enum ESimulationTerrainRole {
 export type TSimulationObject = Squad | SmartTerrain | Actor;
 
 /**
+ * Why a smart terrain is not a valid target for a squad.
+ *
+ * @inline
+ */
+export enum ESimulationTargetRejection {
+  RESPAWN_ONLY = "respawn only",
+  FULL = "full",
+  NO_FACTION_RULE = "no rule for the faction",
+  NO_ROLE_ALLOWED = "no role the faction may take",
+}
+
+/**
  * Smart terrain details descriptor for alife participation.
  */
 export interface ISmartTerrainDescriptor {

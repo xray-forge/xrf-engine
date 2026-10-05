@@ -1,27 +1,15 @@
 import { level } from "xray16";
 import { ServerObject } from "xray16/alias";
-import { createVector, LuaArray, MAX_U16, Nillable, TIndex, TLabel, TName, TNumberId } from "xray16/lib";
-import { $isNil, $isNotNil } from "xray16/macros";
+import { createVector, LuaArray, Nillable, TIndex, TLabel, TName } from "xray16/lib";
+import { $isNil } from "xray16/macros";
 
 import { getManager, registry } from "@/engine/core/database";
 import { EDebugWorldView, IDebugSavedPosition, IDebugWorldEntry } from "@/engine/core/managers/debug/debug_types";
+import { getDebugObjectLevelName } from "@/engine/core/managers/debug/utils/debug_inspect";
+import { sortDebugEntriesByLevel } from "@/engine/core/managers/debug/utils/debug_search";
 import { treasureConfig, TreasureManager } from "@/engine/core/managers/treasures";
 import { isSmartTerrain, isSquad } from "@/engine/core/utils/class_ids";
-import { getGameLevelName, getGameVertexLevelId } from "@/engine/core/utils/position";
 import { getServerObjects } from "@/engine/core/utils/registry";
-
-/**
- * @param serverObject - Server object.
- * @returns Name of the level the object is on, `unknown` when it has no game vertex, which some server classes do not
- *   even bind.
- */
-function getObjectLevelName(serverObject: ServerObject): TName {
-  const gameVertexId: Nillable<TNumberId> = serverObject.m_game_vertex_id;
-
-  return $isNotNil(gameVertexId) && gameVertexId < MAX_U16
-    ? getGameLevelName(getGameVertexLevelId(gameVertexId))
-    : "unknown";
-}
 
 /**
  * @param serverObject - Object of the row.
@@ -29,7 +17,7 @@ function getObjectLevelName(serverObject: ServerObject): TName {
  * @returns Row for the object, placed where it stands.
  */
 function createObjectEntry(serverObject: ServerObject, name: TLabel): IDebugWorldEntry {
-  const levelName: TName = getObjectLevelName(serverObject);
+  const levelName: TName = getDebugObjectLevelName(serverObject);
   const label: TLabel = `${name} (${levelName})`;
 
   return {
@@ -139,15 +127,7 @@ export function buildDebugWorldEntries(
       return entries;
   }
 
-  const loadedLevel: TName = level.name();
-
-  table.sort(entries, (first, second) =>
-    first.level === second.level || (first.level !== loadedLevel && second.level !== loadedLevel)
-      ? first.label < second.label
-      : first.level === loadedLevel
-  );
-
-  return entries;
+  return sortDebugEntriesByLevel(entries, level.name());
 }
 
 /**

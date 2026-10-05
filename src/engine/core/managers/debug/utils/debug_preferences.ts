@@ -8,6 +8,7 @@ import {
   EDebugOverlaySlot,
   EDebugOverlayView,
   EDebugQuestView,
+  EDebugSimulationView,
   EDebugSpawnDestination,
   EDebugSpawnKind,
   EDebugTab,
@@ -28,6 +29,7 @@ export function createDebugPreferences(): IDebugPreferences {
     spawnDestination: EDebugSpawnDestination.INVENTORY,
     recentSpawns: new LuaTable(),
     worldView: EDebugWorldView.SMART_TERRAINS,
+    simulationView: EDebugSimulationView.SQUADS,
     savedPositions: new LuaTable(),
     questView: EDebugQuestView.TASKS,
     consoleHistory: new LuaTable(),
@@ -93,6 +95,7 @@ export function loadDebugPreferences(): IDebugPreferences {
   }
 
   preferences.worldView = readEnumValue(EDebugWorldView, saved.worldView, preferences.worldView);
+  preferences.simulationView = readEnumValue(EDebugSimulationView, saved.simulationView, preferences.simulationView);
 
   preferences.questView = readEnumValue(EDebugQuestView, saved.questView, preferences.questView);
   preferences.isOverlayEnabled = saved.isOverlayEnabled === true;

@@ -1,7 +1,8 @@
 import { beforeEach, describe, expect, it, jest } from "@jest/globals";
 import { level } from "xray16";
 import { GameObject, ServerHumanObject, ServerObject } from "xray16/alias";
-import { LuaArray } from "xray16/lib";
+import { LuaArray, MAX_U16 } from "xray16/lib";
+import { $fromObject } from "xray16/macros";
 import { MockAlifeHumanStalker, MockAlifeObject, MockGameObject, MockVector } from "xray16/mocks";
 import { replaceFunctionMock, resetFunctionMock } from "xray16/testing/utils";
 
@@ -9,11 +10,15 @@ import { registerObject, registerSimulator } from "@/engine/core/database";
 import { IDebugField } from "@/engine/core/managers/debug/debug_types";
 import {
   describeDebugObject,
+  describeDebugRates,
+  formatDebugGameDuration,
   formatDebugPosition,
+  getDebugObjectLevelName,
   inspectActorLocation,
   inspectDebugTarget,
 } from "@/engine/core/managers/debug/utils/debug_inspect";
 import { EScheme } from "@/engine/core/schemes/types";
+import { getGameLevelName, getGameVertexLevelId } from "@/engine/core/utils/position";
 import { mockRegisteredActor, resetRegistry } from "@/fixtures/engine";
 
 function toRecord(fields: LuaArray<IDebugField>): Record<string, string> {
@@ -35,6 +40,25 @@ beforeEach(() => {
 describe("formatDebugPosition", () => {
   it("should round to decimetres", () => {
     expect(formatDebugPosition(MockVector.mock(1.04, -2.36, 300))).toBe("1.0, -2.4, 300.0");
+  });
+});
+
+describe("formatDebugGameDuration", () => {
+  it("should show hours and minutes, or seconds under a minute", () => {
+    expect(formatDebugGameDuration(-5)).toBe("0s");
+    expect(formatDebugGameDuration(42)).toBe("42s");
+    expect(formatDebugGameDuration(16 * 60 + 40)).toBe("16m");
+    expect(formatDebugGameDuration(90 * 60)).toBe("1h 30m");
+  });
+});
+
+describe("describeDebugRates", () => {
+  it("should list the non-zero rates sorted by name", () => {
+    expect(describeDebugRates($fromObject<string, number>({ territory: 1, base: 2, lair: 0 }))).toBe(
+      "base 2, territory 1"
+    );
+    expect(describeDebugRates($fromObject<string, string>({ actor: "1", surge: "0" }))).toBe("actor 1");
+    expect(describeDebugRates(new LuaTable())).toBe("none");
   });
 });
 
@@ -105,5 +129,14 @@ describe("inspectDebugTarget", () => {
     expect(fields.state).toBe("offline");
     expect(fields.position).toBe("1.0, 1.0, 1.0");
     expect(fields.level).toBeDefined();
+  });
+});
+
+describe("getDebugObjectLevelName", () => {
+  it("should name the level of the object's game vertex, or unknown without one", () => {
+    const serverObject: ServerObject = MockAlifeObject.mock({ gameVertexId: 512 });
+
+    expect(getDebugObjectLevelName(serverObject)).toBe(getGameLevelName(getGameVertexLevelId(512)));
+    expect(getDebugObjectLevelName(MockAlifeObject.mock({ gameVertexId: MAX_U16 }))).toBe("unknown");
   });
 });

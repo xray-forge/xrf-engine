@@ -1,4 +1,4 @@
-import { LuaArray } from "xray16/lib";
+import { LuaArray, TName } from "xray16/lib";
 import { $isNotNil } from "xray16/macros";
 
 /**
@@ -25,4 +25,24 @@ export function filterDebugEntries<T extends { search: string }>(entries: LuaArr
   }
 
   return matching;
+}
+
+/**
+ * Sort list rows so the loaded level's come first, then by label.
+ *
+ * @param entries - Rows to sort in place.
+ * @param loadedLevel - Name of the loaded level.
+ * @returns The rows.
+ */
+export function sortDebugEntriesByLevel<T extends { level: TName; label: string }>(
+  entries: LuaArray<T>,
+  loadedLevel: TName
+): LuaArray<T> {
+  table.sort(entries, (first, second) =>
+    first.level === second.level || (first.level !== loadedLevel && second.level !== loadedLevel)
+      ? first.label < second.label
+      : first.level === loadedLevel
+  );
+
+  return entries;
 }

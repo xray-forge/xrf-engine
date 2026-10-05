@@ -7,6 +7,7 @@ import { registerSimulator, registry } from "@/engine/core/database";
 import {
   evaluateSimulationPriority,
   evaluateSimulationPriorityByDistance,
+  evaluateSimulationPropertiesPriority,
   getSlicedSimulationTargets,
   getSquadSimulationTarget,
 } from "@/engine/core/managers/simulation/utils/simulation_priority";
@@ -31,6 +32,18 @@ describe("evaluateSimulationPriorityByDistance", () => {
     resetPositionCache();
     MockVector.DEFAULT_DISTANCE = 5;
     expect(evaluateSimulationPriorityByDistance(MockAlifeObject.mock(), MockAlifeObject.mock())).toBe(1.2);
+  });
+});
+
+describe("evaluateSimulationPropertiesPriority", () => {
+  it("should add each behaviour rate times the matching property to the base priority", () => {
+    const squad: Squad = MockSquad.mock({ behaviour: $fromObject<string, string>({ a: "2", b: "3", c: "0.5" }) });
+    const target: Squad = MockSquad.mock({ simulationProperties: $fromObject<TName, TRate>({ a: 4, c: 2, d: 10 }) });
+
+    expect(evaluateSimulationPropertiesPriority(target, squad)).toBe(3 + 2 * 4 + 0.5 * 2);
+    expect(evaluateSimulationPropertiesPriority(MockSquad.mock({ simulationProperties: new LuaTable() }), squad)).toBe(
+      3
+    );
   });
 });
 

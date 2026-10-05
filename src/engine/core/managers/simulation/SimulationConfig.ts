@@ -19,6 +19,10 @@ export const simulationConfig = {
   ALIFE_DAY_START_HOUR: 6,
   ALIFE_DAY_END_HOUR: 19,
   ALIFE_LATE_NIGHT_HOUR: 21,
+  // Priority every valid target starts from, before the squad's behaviour and the distance weigh it.
+  TARGET_PRIORITY_BASE: 3,
+  // Highest priority targets a squad picks its next one from at random.
+  TARGET_CHOICES: 5,
   // Interval between "squad target outranks assigned terrain" full-registry rescans per squad,
   // staggered by squad id. The rescan is the dominant scan trigger; 0 restores per-tick vanilla behavior.
   SQUAD_TARGET_OUTRANK_RECHECK_INTERVAL: 5_000,

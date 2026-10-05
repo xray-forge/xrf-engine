@@ -1,6 +1,17 @@
 import { cast_planner, level } from "xray16";
 import { ActionPlanner, GameObject, ServerCreatureObject, ServerObject, Vector } from "xray16/alias";
-import { LuaArray, MAX_ALIFE_ID, Nillable, TCount, TLabel, TNumberId } from "xray16/lib";
+import {
+  LuaArray,
+  MAX_ALIFE_ID,
+  MAX_U16,
+  Nillable,
+  TCount,
+  TDuration,
+  TLabel,
+  TName,
+  TNumberId,
+  TRate,
+} from "xray16/lib";
 import { $isNil, $isNotNil } from "xray16/macros";
 
 import { EActionId } from "@/engine/core/ai/planner/types";
@@ -31,6 +42,40 @@ export function describeDebugObject(id: TNumberId): TLabel {
   const serverObject: Nillable<ServerObject> = registry.simulator.object(id);
 
   return $isNil(serverObject) ? `gone (${id})` : `${serverObject.name()} (${id})`;
+}
+
+/**
+ * @param seconds - Game seconds.
+ * @returns The duration in hours and minutes, or in seconds under a minute.
+ */
+export function formatDebugGameDuration(seconds: TDuration): TLabel {
+  if (seconds < 60) {
+    return string.format("%ds", math.max(seconds, 0));
+  }
+
+  const minutes: TCount = math.floor(seconds / 60);
+
+  return minutes < 60
+    ? string.format("%dm", minutes)
+    : string.format("%dh %dm", math.floor(minutes / 60), minutes % 60);
+}
+
+/**
+ * @param rates - Rates by name, as numbers or their text.
+ * @returns The non-zero ones as `name rate`, sorted and comma separated, `none` without any.
+ */
+export function describeDebugRates<T extends TRate | string>(rates: LuaTable<TName, T>): TLabel {
+  const parts: LuaArray<TLabel> = new LuaTable();
+
+  for (const [name, rate] of rates) {
+    if (tonumber(rate) !== 0) {
+      table.insert(parts, `${name} ${rate}`);
+    }
+  }
+
+  table.sort(parts, (first, second) => first < second);
+
+  return parts.length() > 0 ? table.concat(parts, ", ") : "none";
 }
 
 /**
@@ -110,7 +155,7 @@ function inspectOnlineObject(fields: LuaArray<IDebugField>, object: GameObject):
  * @param serverObject - Server object.
  */
 function inspectOfflineObject(fields: LuaArray<IDebugField>, serverObject: ServerObject): void {
-  addDebugField(fields, "level", getGameLevelName(getGameVertexLevelId(serverObject.m_game_vertex_id)));
+  addDebugField(fields, "level", getDebugObjectLevelName(serverObject));
   addDebugField(fields, "position", formatDebugPosition(serverObject.position));
 
   if (isCreature(serverObject)) {
@@ -163,4 +208,17 @@ export function addDebugField(fields: LuaArray<IDebugField>, label: TLabel, valu
   if ($isNotNil(value)) {
     table.insert(fields, { label, value });
   }
+}
+
+/**
+ * @param serverObject - Server object.
+ * @returns Name of the level the object is on, `unknown` when it has no game vertex, which some server classes do not
+ *   even bind.
+ */
+export function getDebugObjectLevelName(serverObject: ServerObject): TName {
+  const gameVertexId: Nillable<TNumberId> = serverObject.m_game_vertex_id;
+
+  return $isNotNil(gameVertexId) && gameVertexId < MAX_U16
+    ? getGameLevelName(getGameVertexLevelId(gameVertexId))
+    : "unknown";
 }

@@ -9,6 +9,7 @@ import {
   createSimulationSquad,
   getSimulationTerrainAssignedSquadsCount,
 } from "@/engine/core/managers/simulation/utils";
+import { ESmartTerrainRespawnBlocker } from "@/engine/core/objects/smart_terrain/smart_terrain_types";
 import type { SmartTerrain } from "@/engine/core/objects/smart_terrain/SmartTerrain";
 import { smartTerrainConfig } from "@/engine/core/objects/smart_terrain/SmartTerrainConfig";
 import { Squad } from "@/engine/core/objects/squad";
@@ -86,11 +87,8 @@ export function respawnSmartTerrainSquad(terrain: SmartTerrain): Nillable<Squad>
   const availableSections: LuaArray<TSection> = new LuaTable();
 
   // Pick section that can be used for spawn and have available spots.
-  for (const [section, descriptor] of terrain.spawnSquadsConfiguration) {
-    if (
-      tonumber(pickSectionFromCondList(registry.actor, null, descriptor.num))! >
-      terrain.spawnedSquadsList.get(section).num
-    ) {
+  for (const [section] of terrain.spawnSquadsConfiguration) {
+    if (getSmartTerrainRespawnLimit(terrain, section) > terrain.spawnedSquadsList.get(section).num) {
       table.insert(availableSections, section);
     }
   }
@@ -127,9 +125,34 @@ export function canRespawnSmartTerrainSquad(terrain: SmartTerrain, now: Time = g
     terrain.lastRespawnUpdatedAt = now;
   }
 
-  return (
-    pickSectionFromCondList(registry.actor, terrain, terrain.isSimulationAvailableConditionList) === TRUE &&
-    getSimulationTerrainAssignedSquadsCount(terrain.id) < terrain.maxStayingSquadsCount &&
-    registry.actorServer.position.distance_to_sqr(terrain.position) > smartTerrainConfig.RESPAWN_RADIUS_RESTRICTION_SQR
-  );
+  return $isNil(getSmartTerrainRespawnBlocker(terrain));
+}
+
+/**
+ * @param terrain - Smart terrain to check.
+ * @returns Why the terrain cannot respawn a squad now, `null` when it can, the throttle period aside.
+ */
+export function getSmartTerrainRespawnBlocker(terrain: SmartTerrain): Nillable<ESmartTerrainRespawnBlocker> {
+  if (pickSectionFromCondList(registry.actor, terrain, terrain.isSimulationAvailableConditionList) !== TRUE) {
+    return ESmartTerrainRespawnBlocker.UNAVAILABLE;
+  } else if (getSimulationTerrainAssignedSquadsCount(terrain.id) >= terrain.maxStayingSquadsCount) {
+    return ESmartTerrainRespawnBlocker.FULL;
+  } else if (
+    registry.actorServer.position.distance_to_sqr(terrain.position) <= smartTerrainConfig.RESPAWN_RADIUS_RESTRICTION_SQR
+  ) {
+    return ESmartTerrainRespawnBlocker.ACTOR_NEARBY;
+  }
+
+  return null;
+}
+
+/**
+ * @param terrain - Smart terrain with respawn configuration.
+ * @param section - Respawn section of the terrain.
+ * @returns How many squads the section may have spawned and alive now.
+ */
+export function getSmartTerrainRespawnLimit(terrain: SmartTerrain, section: TSection): TCount {
+  return tonumber(
+    pickSectionFromCondList(registry.actor, null, terrain.spawnSquadsConfiguration.get(section).num)
+  ) as TCount;
 }

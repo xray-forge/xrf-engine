@@ -4,6 +4,7 @@ import { $isNil } from "xray16/macros";
 
 import { registry } from "@/engine/core/database";
 import { IAvailableSimulationTargetDescriptor, TSimulationObject } from "@/engine/core/managers/simulation";
+import { simulationConfig } from "@/engine/core/managers/simulation/SimulationConfig";
 import { SmartTerrain } from "@/engine/core/objects/smart_terrain";
 import { Squad } from "@/engine/core/objects/squad";
 import { areObjectsOnSameLevel, getServerDistanceBetween } from "@/engine/core/utils/position";
@@ -25,21 +26,15 @@ export function evaluateSimulationPriorityByDistance(first: ServerObject, second
 }
 
 /**
- * Evaluate objects selection priority for alife simulation.
+ * Weigh a target by what the squad wants: the base priority plus each behaviour rate of the squad times the target's
+ * matching property.
  *
- * @param target - Simulation target to evaluate priority for.
- * @param squad - Squad trying to reach the target.
- * @returns Alife simulation priority for target selection.
+ * @param target - Simulation target to weigh.
+ * @param squad - Squad weighing it.
+ * @returns Priority before distance and validity are accounted for.
  */
-export function evaluateSimulationPriority(target: TSimulationObject, squad: Squad): TRate {
-  let priority: TRate = 3;
-
-  // Blocking level traveling and specific preconditions.
-  // Same-level check runs first - most registry entries are off-level and the check is two
-  // memoized table reads, while target validity evaluates population counts and preconditions.
-  if (!areObjectsOnSameLevel(target, squad) || !target.isValidSimulationTarget(squad)) {
-    return 0;
-  }
+export function evaluateSimulationPropertiesPriority(target: TSimulationObject, squad: Squad): TRate {
+  let priority: TRate = simulationConfig.TARGET_PRIORITY_BASE;
 
   for (const [property, rate] of squad.behaviour) {
     const squadCoefficient: TRate = tonumber(rate) as TRate;
@@ -52,7 +47,25 @@ export function evaluateSimulationPriority(target: TSimulationObject, squad: Squ
     priority += squadCoefficient * targetCoefficient;
   }
 
-  return priority * evaluateSimulationPriorityByDistance(target, squad);
+  return priority;
+}
+
+/**
+ * Evaluate objects selection priority for alife simulation.
+ *
+ * @param target - Simulation target to evaluate priority for.
+ * @param squad - Squad trying to reach the target.
+ * @returns Alife simulation priority for target selection.
+ */
+export function evaluateSimulationPriority(target: TSimulationObject, squad: Squad): TRate {
+  // Blocking level traveling and specific preconditions.
+  // Same-level check runs first - most registry entries are off-level and the check is two
+  // memoized table reads, while target validity evaluates population counts and preconditions.
+  if (!areObjectsOnSameLevel(target, squad) || !target.isValidSimulationTarget(squad)) {
+    return 0;
+  }
+
+  return evaluateSimulationPropertiesPriority(target, squad) * evaluateSimulationPriorityByDistance(target, squad);
 }
 
 /**
@@ -116,13 +129,16 @@ export function getSlicedSimulationTargets(
 }
 
 /**
- * Get simulation target for squad participating in alife, picked at random among the five highest priority ones.
+ * Get simulation target for squad participating in alife, picked at random among the highest priority ones.
  *
  * @param squad - Squad to generate simulation target for.
  * @returns Simulation object to target or null based on priorities.
  */
 export function getSquadSimulationTarget(squad: Squad): Nillable<TSimulationObject> {
-  const availableTargets: LuaArray<IAvailableSimulationTargetDescriptor> = getSlicedSimulationTargets(squad, 5);
+  const availableTargets: LuaArray<IAvailableSimulationTargetDescriptor> = getSlicedSimulationTargets(
+    squad,
+    simulationConfig.TARGET_CHOICES
+  );
   const availableTargetsCount: TCount = availableTargets.length();
 
   return availableTargetsCount > 0
