@@ -1,5 +1,8 @@
-import { abort, TIndex, TName } from "xray16/lib";
+import { abort, Nillable, TIndex, TName, TStringId } from "xray16/lib";
 
+import { expectEqual } from "@/engine/checks/framework/dsl";
+import { checkTaskText } from "@/engine/checks/framework/world";
+import { TaskObject } from "@/engine/core/managers/tasks/TaskObject";
 import { hasInfoPortion } from "@/engine/core/utils/info_portion";
 
 /**
@@ -50,4 +53,29 @@ export function isStageCurrent(stages: ReadonlyArray<TName>, stage: TName): bool
   const index: TIndex = findStageIndex(stages, stage);
 
   return isStagePassed(stages, stage) && (index === stages.length - 1 || !isStagePassed(stages, stages[index + 1]));
+}
+
+/**
+ * Check a task shows the title of a stage of its chain, while that stage is the current one.
+ *
+ * A title condlist reads the same portions as the chain, so once a later stage is reached the title has moved on.
+ *
+ * @param taskId - Task the chain belongs to.
+ * @param stages - Info portions the quest moves through, in order.
+ * @param stage - Stage the title belongs to, one of the chain.
+ * @param title - Title key the stage shows.
+ */
+export function expectTaskTitleAtStage(
+  taskId: TStringId,
+  stages: ReadonlyArray<TName>,
+  stage: TName,
+  title: TName
+): void {
+  if (!isStageCurrent(stages, stage)) {
+    return;
+  }
+
+  const task: Nillable<TaskObject> = checkTaskText(taskId, string.format("at '%s'", stage));
+
+  expectEqual(task?.currentTitle, title, string.format("title at '%s'", stage));
 }

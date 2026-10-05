@@ -299,6 +299,7 @@ export const jupiterInfoPortions = {
   /**
    * Jupiter b220 - mutant hunt quests.
    */
+  jup_b220_trapper_about_chimera_told: "jup_b220_trapper_about_chimera_told",
   jup_b220_trapper_about_himself_told: "jup_b220_trapper_about_himself_told",
   jup_b220_trapper_about_retire_told: "jup_b220_trapper_about_retire_told",
   jup_b220_trapper_bloodsucker_lair_hunted_told: "jup_b220_trapper_bloodsucker_lair_hunted_told",

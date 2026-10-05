@@ -37,6 +37,7 @@ export const zoneNames = {
   zat_a2_sr_sleep: "zat_a2_sr_sleep",
   zat_b100_heli_2: "zat_b100_heli_2",
   zat_b101_heli_5: "zat_b101_heli_5",
+  zat_b106_sr_infirmary: "zat_b106_sr_infirmary",
   zat_b20_sr_actor_cross_the_teleport: "zat_b20_sr_actor_cross_the_teleport",
   zat_b20_teleport: "zat_b20_teleport",
   zat_b28_heli_3: "zat_b28_heli_3",

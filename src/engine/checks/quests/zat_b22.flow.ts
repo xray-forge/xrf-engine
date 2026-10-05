@@ -1,10 +1,9 @@
-import { Nillable, TCount, TLabel, TName } from "xray16/lib";
+import { TCount, TName } from "xray16/lib";
 import { $isNil } from "xray16/macros";
 
-import { expectEqual, report, requires, step } from "@/engine/checks/framework";
-import { isStageCurrent, isStagePassed } from "@/engine/checks/framework/stages";
+import { report, requires, step } from "@/engine/checks/framework";
+import { expectTaskTitleAtStage, isStagePassed } from "@/engine/checks/framework/stages";
 import {
-  checkTaskText,
   expectActorMoneyGained,
   rememberActorMoney,
   teleportToServerObject,
@@ -14,7 +13,6 @@ import { infoPortions, TInfoPortion } from "@/engine/constants/info_portions";
 import { storyIds } from "@/engine/constants/story_ids";
 import { taskIds } from "@/engine/constants/task_ids";
 import { taskConfig } from "@/engine/core/managers/tasks/TaskConfig";
-import { TaskObject } from "@/engine/core/managers/tasks/TaskObject";
 import { hasInfoPortion } from "@/engine/core/utils/info_portion";
 
 const TASK_ID: TName = taskIds.zat_b38_disappearance_stalkers;
@@ -33,22 +31,6 @@ const STAGES: Array<TInfoPortion> = [
   infoPortions.zat_b38_disappearance_stalkers_tell_barmen_about_medic_give,
   infoPortions.zat_b22_barmen_gave_reward,
 ];
-
-/**
- * Check the missing stalkers task names the stage it is at, while it still is.
- *
- * @param stage - Portion of the stage.
- * @param title - Title key the stage shows.
- */
-function expectStageTitle(stage: TInfoPortion, title: TLabel): void {
-  if (!isStageCurrent(STAGES, stage)) {
-    return;
-  }
-
-  const task: Nillable<TaskObject> = checkTaskText(TASK_ID, string.format("at '%s'", stage));
-
-  expectEqual(task?.currentTitle, title, string.format("title at '%s'", stage));
-}
 
 /**
  * Zaton b38 missing stalkers, the second half: a day after the lair Grouse misses the meeting in Skadovsk, the barman
@@ -74,7 +56,9 @@ requires({
 step("1 - a day after the lair", {
   reached: (): boolean => isStagePassed(STAGES, infoPortions.zat_b38_disappearance_stalkers_meet_cop_24h_past_give),
   verify: (): void =>
-    expectStageTitle(
+    expectTaskTitleAtStage(
+      TASK_ID,
+      STAGES,
       infoPortions.zat_b38_disappearance_stalkers_meet_cop_24h_past_give,
       "zat_b38_disappearance_stalkers_meet_cop_24h_past_name"
     ),
@@ -87,7 +71,9 @@ step("2 - Grouse missed in Skadovsk", {
   reached: (): boolean => isStagePassed(STAGES, infoPortions.zat_b38_disappearance_stalkers_find_out_where_is_cop_give),
   travel: (): void => void teleportToServerObject("zat_b22_stalker_cop_place"),
   verify: (): void =>
-    expectStageTitle(
+    expectTaskTitleAtStage(
+      TASK_ID,
+      STAGES,
       infoPortions.zat_b38_disappearance_stalkers_find_out_where_is_cop_give,
       "zat_b38_disappearance_stalkers_find_out_where_is_cop_name"
     ),
@@ -99,7 +85,9 @@ step("3 - the barman passed on Grouse's message", {
     isStagePassed(STAGES, infoPortions.zat_b38_disappearance_stalkers_find_cop_near_port_krans_give),
   travel: (): void => void teleportToStoryObject(BARMAN_STORY_ID, 2),
   verify: (): void =>
-    expectStageTitle(
+    expectTaskTitleAtStage(
+      TASK_ID,
+      STAGES,
       infoPortions.zat_b38_disappearance_stalkers_find_cop_near_port_krans_give,
       "zat_b38_disappearance_stalkers_find_cop_near_port_krans_name"
     ),
