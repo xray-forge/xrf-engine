@@ -25,7 +25,7 @@ export enum EGameHook {
    */
   SMART_TERRAIN_RESPAWN_IDLE = "smart_terrain_respawn_idle",
   /**
-   * Modifier: squads a respawn section of a smart terrain may have alive.
+   * Modifier: squads a respawn section of a smart terrain may have alive, asked for a respawn attempt or for display.
    */
   SMART_TERRAIN_RESPAWN_LIMIT = "smart_terrain_respawn_limit",
   /**
@@ -55,7 +55,8 @@ export interface IGameModifierHooks {
     this: void,
     limit: TCount,
     terrain: SmartTerrain,
-    section: TSection
+    section: TSection,
+    isRespawnAttempt: boolean
   ) => TCount;
 }
 

@@ -1,5 +1,6 @@
 export * from "#/build/steps/collect_log";
 export * from "#/build/steps/configs_statics";
+export * from "#/build/steps/extensions_statics";
 export * from "#/build/steps/extern";
 export * from "#/build/steps/scripts_dynamic";
 export * from "#/build/steps/configs_dynamic";

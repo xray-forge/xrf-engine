@@ -34,7 +34,8 @@ export const TARGET_GAME_DATA_CONFIGS_DIR: string = path.resolve(TARGET_GAME_DAT
 export const TARGET_GAME_DATA_SCRIPTS_DIR: string = path.resolve(TARGET_GAME_DATA_DIR, "scripts");
 export const TARGET_GAME_DATA_CHECKS_DIR: string = path.resolve(TARGET_GAME_DATA_DIR, "checks");
 export const TARGET_GAME_DATA_CHECKS_MCP_DIR: string = path.resolve(TARGET_GAME_DATA_CHECKS_DIR, "mcp");
-export const TARGET_GAME_DATA_MCP_EXTENSION_DIR: string = path.resolve(TARGET_GAME_DATA_DIR, "extensions", "xrf_mcp");
+export const TARGET_GAME_DATA_EXTENSIONS_DIR: string = path.resolve(TARGET_GAME_DATA_DIR, "extensions");
+export const TARGET_GAME_DATA_MCP_EXTENSION_DIR: string = path.resolve(TARGET_GAME_DATA_EXTENSIONS_DIR, "xrf_mcp");
 export const TARGET_GAME_DATA_UI_DIR: string = path.resolve(TARGET_GAME_DATA_CONFIGS_DIR, "ui");
 export const TARGET_GAME_DATA_TRANSLATIONS_DIR: string = path.resolve(TARGET_GAME_DATA_CONFIGS_DIR, "text");
 

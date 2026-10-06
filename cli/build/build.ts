@@ -10,6 +10,7 @@ import {
   buildMeta,
   buildResourcesStatics,
   buildStaticConfigs,
+  buildStaticExtensions,
   collectLog,
 } from "#/build/steps";
 import { buildTranslations } from "#/build/steps/translations";
@@ -99,6 +100,8 @@ export async function build(parameters: IBuildCommandParameters): Promise<void> 
     if (buildTargets.includes(EBuildTarget.SCRIPTS)) {
       await buildDynamicScripts(parameters);
       timeTracker.addMark("BUILT_DYNAMIC_SCRIPTS");
+      await buildStaticExtensions(parameters);
+      timeTracker.addMark("BUILT_STATIC_EXTENSIONS");
     } else {
       log.info("Scripts build steps skipped");
       timeTracker.addMark("SKIP_SCRIPTS");

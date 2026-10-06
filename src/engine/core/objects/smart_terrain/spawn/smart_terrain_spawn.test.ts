@@ -357,11 +357,13 @@ describe("getSmartTerrainRespawnLimit", () => {
 
     registerGameHook(
       EGameHook.SMART_TERRAIN_RESPAWN_LIMIT,
-      (limit, it, section) => (it === terrain && section === "test-section-1" ? limit - 3 : limit),
+      (limit, it, section, isRespawnAttempt) =>
+        it === terrain && section === "test-section-1" ? limit - (isRespawnAttempt ? 2 : 3) : limit,
       { owner: "test" }
     );
 
     expect(getSmartTerrainRespawnLimit(terrain, "test-section-1")).toBe(1);
+    expect(getSmartTerrainRespawnLimit(terrain, "test-section-1", true)).toBe(2);
   });
 });
 

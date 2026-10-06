@@ -30,6 +30,12 @@ export const mockSquadDescription = {
     npc_random: "sim_default_stalker_0, sim_default_stalker_1, sim_default_stalker_2",
     npc_in_squad: "2, 3",
   },
+  simulation_boar: {
+    ...onlineOfflineGroup,
+    faction: "monster_vegetarian",
+    npc_random: "boar_normal, boar_strong",
+    npc_in_squad: "1, 2",
+  },
   simulation_bandit: {
     ...onlineOfflineGroup,
     faction: "bandit",

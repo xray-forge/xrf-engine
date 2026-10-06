@@ -91,7 +91,7 @@ export function respawnSmartTerrainSquad(terrain: SmartTerrain): Nillable<Squad>
 
   // Pick section that can be used for spawn and have available spots.
   for (const [section] of terrain.spawnSquadsConfiguration) {
-    if (getSmartTerrainRespawnLimit(terrain, section) > terrain.spawnedSquadsList.get(section).num) {
+    if (getSmartTerrainRespawnLimit(terrain, section, true) > terrain.spawnedSquadsList.get(section).num) {
       table.insert(availableSections, section);
     }
   }
@@ -165,12 +165,17 @@ export function getSmartTerrainRespawnBlocker(terrain: SmartTerrain): Nillable<E
 /**
  * @param terrain - Smart terrain with respawn configuration.
  * @param section - Respawn section of the terrain.
+ * @param isRespawnAttempt - Whether the terrain is about to respawn by the limit, rather than showing it.
  * @returns How many squads the section may have spawned and alive now.
  */
-export function getSmartTerrainRespawnLimit(terrain: SmartTerrain, section: TSection): TCount {
+export function getSmartTerrainRespawnLimit(
+  terrain: SmartTerrain,
+  section: TSection,
+  isRespawnAttempt: boolean = false
+): TCount {
   const limit: TCount = tonumber(
     pickSectionFromCondList(registry.actor, null, terrain.spawnSquadsConfiguration.get(section).num)
   ) as TCount;
 
-  return applyGameModifierHook(EGameHook.SMART_TERRAIN_RESPAWN_LIMIT, limit, terrain, section);
+  return applyGameModifierHook(EGameHook.SMART_TERRAIN_RESPAWN_LIMIT, limit, terrain, section, isRespawnAttempt);
 }

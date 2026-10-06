@@ -124,7 +124,7 @@ describe("applyGameModifierHook", () => {
     const terrain: SmartTerrain = MockSmartTerrain.mock();
     const context: { factor: number } = { factor: 3 };
 
-    expect(applyGameModifierHook(EGameHook.SMART_TERRAIN_RESPAWN_LIMIT, 4, terrain, "test_section")).toBe(4);
+    expect(applyGameModifierHook(EGameHook.SMART_TERRAIN_RESPAWN_LIMIT, 4, terrain, "test_section", false)).toBe(4);
 
     registerGameHook(
       EGameHook.SMART_TERRAIN_RESPAWN_LIMIT,
@@ -143,8 +143,8 @@ describe("applyGameModifierHook", () => {
       phase: EGameHookPhase.LIMIT,
     });
 
-    expect(applyGameModifierHook(EGameHook.SMART_TERRAIN_RESPAWN_LIMIT, 4, terrain, "test_section")).toBe(5);
-    expect(applyGameModifierHook(EGameHook.SMART_TERRAIN_RESPAWN_LIMIT, 1, terrain, "other_section")).toBe(3);
+    expect(applyGameModifierHook(EGameHook.SMART_TERRAIN_RESPAWN_LIMIT, 4, terrain, "test_section", false)).toBe(5);
+    expect(applyGameModifierHook(EGameHook.SMART_TERRAIN_RESPAWN_LIMIT, 1, terrain, "other_section", false)).toBe(3);
   });
 });
 
