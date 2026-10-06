@@ -25,7 +25,7 @@ export function canSquadTakeSimulationTarget(
     return $multi(false, rejection);
   }
 
-  const reason: Nillable<TLabel> = getGameGuardHookRejection(EGameHook.SIMULATION_TARGET_REJECTION, target, squad);
+  const reason: Nillable<TLabel> = getGameGuardHookRejection(EGameHook.SIMULATION_TARGET_VALIDITY, target, squad);
 
   if ($isNotNil(reason)) {
     return $multi(false, reason);

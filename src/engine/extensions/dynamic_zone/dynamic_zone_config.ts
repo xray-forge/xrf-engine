@@ -1,5 +1,5 @@
 import { IniFile } from "xray16/alias";
-import { abort, Nillable, TCount, TDuration, TName, TRate } from "xray16/lib";
+import { abort, Nillable, TCount, TDistance, TDuration, TName, TRate } from "xray16/lib";
 import { $isNil } from "xray16/macros";
 
 import { readIniNumber } from "@/engine/core/ini";
@@ -15,6 +15,8 @@ export interface IDynamicZoneConfig {
   // Factors scaling how many squads a respawn section may have alive.
   stalkerRespawnFactor: TRate;
   monsterRespawnFactor: TRate;
+  // Distance from a base terrain within which squads are not hunted.
+  baseProtectionRadius: TDistance;
 }
 
 /**
@@ -44,5 +46,6 @@ export function readDynamicZoneConfig(ini: IniFile): IDynamicZoneConfig {
     respawnIdleByTerrain,
     stalkerRespawnFactor: readIniNumber(ini, "population", "stalker_factor", false, 0.5),
     monsterRespawnFactor: readIniNumber(ini, "population", "monster_factor", false, 0.75),
+    baseProtectionRadius: readIniNumber(ini, "hunting", "base_protection_radius", false, 75),
   };
 }

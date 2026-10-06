@@ -17,6 +17,7 @@ const config: IDynamicZoneConfig = {
   respawnIdleByTerrain: $fromObject<TName, TDuration>({ test_hub: 7_200 }),
   stalkerRespawnFactor: 0.5,
   monsterRespawnFactor: 0.75,
+  baseProtectionRadius: 150,
 };
 
 beforeEach(() => {

@@ -1,4 +1,4 @@
-; Dynamic zone: respawn points wait longer and respawn fewer squads.
+; Dynamic zone: respawn points wait longer and respawn fewer squads, and squads at or near bases are not hunted.
 
 [respawn]
 ; Game seconds a respawn point waits between respawn attempts.
@@ -12,3 +12,7 @@ idle = 86400
 ; respawn attempt.
 stalker_factor = 0.5
 monster_factor = 0.75
+
+[hunting]
+; Metres from a base smart terrain within which squads are not hunted; squads assigned to a base never are.
+base_protection_radius = 75

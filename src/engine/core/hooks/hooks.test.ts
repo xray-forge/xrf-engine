@@ -64,8 +64,8 @@ describe("registerGameHook", () => {
   });
 
   it("should refuse a handler without owner", () => {
-    expect(() => registerGameHook(EGameHook.SIMULATION_TARGET_REJECTION, () => null, { owner: "" })).toThrow();
-    expect(registry.hooks.has(EGameHook.SIMULATION_TARGET_REJECTION)).toBe(false);
+    expect(() => registerGameHook(EGameHook.SIMULATION_TARGET_VALIDITY, () => null, { owner: "" })).toThrow();
+    expect(registry.hooks.has(EGameHook.SIMULATION_TARGET_VALIDITY)).toBe(false);
   });
 });
 
@@ -155,23 +155,23 @@ describe("getGameGuardHookRejection", () => {
     const last = jest.fn((): Nillable<TLabel> => "last");
     const context: { reason: TLabel } = { reason: "first" };
 
-    expect(getGameGuardHookRejection(EGameHook.SIMULATION_TARGET_REJECTION, target, squad)).toBeNull();
+    expect(getGameGuardHookRejection(EGameHook.SIMULATION_TARGET_VALIDITY, target, squad)).toBeNull();
 
-    registerGameHook(EGameHook.SIMULATION_TARGET_REJECTION, () => null, { owner: "allow" });
+    registerGameHook(EGameHook.SIMULATION_TARGET_VALIDITY, () => null, { owner: "allow" });
 
-    expect(getGameGuardHookRejection(EGameHook.SIMULATION_TARGET_REJECTION, target, squad)).toBeNull();
+    expect(getGameGuardHookRejection(EGameHook.SIMULATION_TARGET_VALIDITY, target, squad)).toBeNull();
 
     registerGameHook(
-      EGameHook.SIMULATION_TARGET_REJECTION,
+      EGameHook.SIMULATION_TARGET_VALIDITY,
       function (this: { reason: TLabel }, it: unknown, by: Squad): Nillable<TLabel> {
         return it === target && by === squad ? this.reason : null;
       },
       { owner: "first", context }
     );
-    registerGameHook(EGameHook.SIMULATION_TARGET_REJECTION, last, { owner: "last" });
+    registerGameHook(EGameHook.SIMULATION_TARGET_VALIDITY, last, { owner: "last" });
 
-    expect(getGameGuardHookRejection(EGameHook.SIMULATION_TARGET_REJECTION, target, squad)).toBe("first");
+    expect(getGameGuardHookRejection(EGameHook.SIMULATION_TARGET_VALIDITY, target, squad)).toBe("first");
     expect(last).not.toHaveBeenCalled();
-    expect(getGameGuardHookRejection(EGameHook.SIMULATION_TARGET_REJECTION, squad, target)).toBe("last");
+    expect(getGameGuardHookRejection(EGameHook.SIMULATION_TARGET_VALIDITY, squad, target)).toBe("last");
   });
 });

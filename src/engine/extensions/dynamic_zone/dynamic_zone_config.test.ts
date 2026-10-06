@@ -10,6 +10,7 @@ describe("readDynamicZoneConfig", () => {
       respawnIdleByTerrain: {},
       stalkerRespawnFactor: 0.5,
       monsterRespawnFactor: 0.75,
+      baseProtectionRadius: 75,
     });
 
     expect(
@@ -18,6 +19,7 @@ describe("readDynamicZoneConfig", () => {
           respawn: { idle: 3_600 },
           respawn_idle: { zat_stalker_base_smart: 7_200, zat_sim_29: 172_800 },
           population: { stalker_factor: 0.25, monster_factor: 1 },
+          hunting: { base_protection_radius: 50 },
         })
       )
     ).toEqualLuaTables({
@@ -25,6 +27,7 @@ describe("readDynamicZoneConfig", () => {
       respawnIdleByTerrain: { zat_stalker_base_smart: 7_200, zat_sim_29: 172_800 },
       stalkerRespawnFactor: 0.25,
       monsterRespawnFactor: 1,
+      baseProtectionRadius: 50,
     });
   });
 

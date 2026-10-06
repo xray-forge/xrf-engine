@@ -23,7 +23,7 @@ describe("canSquadTakeSimulationTarget", () => {
     expect(canSquadTakeSimulationTarget(squad, target)).toEqual([true, null]);
 
     own.mockImplementation(() => $multi(false, ESimulationTargetRejection.NOT_WANTED));
-    registerGameHook(EGameHook.SIMULATION_TARGET_REJECTION, guard, { owner: "test" });
+    registerGameHook(EGameHook.SIMULATION_TARGET_VALIDITY, guard, { owner: "test" });
 
     expect(canSquadTakeSimulationTarget(squad, target, true)).toEqual([false, ESimulationTargetRejection.NOT_WANTED]);
     expect(own).toHaveBeenCalledWith(squad, true);

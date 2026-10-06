@@ -42,11 +42,11 @@ describe("inspectDebugSystem", () => {
       owner: "first",
       phase: EGameHookPhase.SET,
     });
-    registerGameHook(EGameHook.SIMULATION_TARGET_REJECTION, () => null, { owner: "guard" });
+    registerGameHook(EGameHook.SIMULATION_TARGET_VALIDITY, () => null, { owner: "guard" });
 
     const fields = inspectDebugSystem();
 
-    expect(fields.get(6)).toEqual({ label: EGameHook.SIMULATION_TARGET_REJECTION, value: "guard (adjust)" });
+    expect(fields.get(6)).toEqual({ label: EGameHook.SIMULATION_TARGET_VALIDITY, value: "guard (adjust)" });
     expect(fields.get(7)).toEqual({
       label: EGameHook.SMART_TERRAIN_RESPAWN_IDLE,
       value: "first (set), second (adjust)",

@@ -31,7 +31,7 @@ export enum EGameHook {
   /**
    * Guard: why a squad may not take a simulation target, after the target's own rules allowed it.
    */
-  SIMULATION_TARGET_REJECTION = "simulation_target_rejection",
+  SIMULATION_TARGET_VALIDITY = "simulation_target_validity",
 }
 
 /**
@@ -64,7 +64,7 @@ export interface IGameModifierHooks {
  * Guard hooks: each handler returns why the decision is refused, `null` to allow it.
  */
 export interface IGameGuardHooks {
-  [EGameHook.SIMULATION_TARGET_REJECTION]: (this: void, target: TSimulationObject, squad: Squad) => Nillable<TLabel>;
+  [EGameHook.SIMULATION_TARGET_VALIDITY]: (this: void, target: TSimulationObject, squad: Squad) => Nillable<TLabel>;
 }
 
 /**
