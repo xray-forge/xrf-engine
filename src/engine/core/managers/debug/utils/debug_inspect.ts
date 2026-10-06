@@ -17,6 +17,8 @@ import { $isNil, $isNotNil } from "xray16/macros";
 import { EActionId } from "@/engine/core/ai/planner/types";
 import { getGameObjectById, IRegistryObjectState, registry } from "@/engine/core/database";
 import { getStoryIdByObjectId } from "@/engine/core/database/story_objects";
+import { getGameHookRegistrations } from "@/engine/core/hooks/hooks";
+import { EGameHook, EGameHookPhase, TGameHookRegistrations } from "@/engine/core/hooks/hooks_types";
 import { IDebugField } from "@/engine/core/managers/debug/debug_types";
 import type { SmartTerrain } from "@/engine/core/objects/smart_terrain";
 import type { Squad } from "@/engine/core/objects/squad";
@@ -25,6 +27,13 @@ import { getObjectCommunity } from "@/engine/core/utils/community";
 import { getGameLevelName, getGameVertexLevelId, getObjectTerrain } from "@/engine/core/utils/position";
 import { getRelationByGoodwill } from "@/engine/core/utils/relation";
 import { getObjectSquad } from "@/engine/core/utils/squad";
+
+// Names of hook phases, as hooks list them.
+const HOOK_PHASE_LABELS: Record<EGameHookPhase, TLabel> = {
+  [EGameHookPhase.SET]: "set",
+  [EGameHookPhase.ADJUST]: "adjust",
+  [EGameHookPhase.LIMIT]: "limit",
+};
 
 /**
  * @param position - World position.
@@ -221,4 +230,19 @@ export function getDebugObjectLevelName(serverObject: ServerObject): TName {
   return $isNotNil(gameVertexId) && gameVertexId < MAX_U16
     ? getGameLevelName(getGameVertexLevelId(gameVertexId))
     : "unknown";
+}
+
+/**
+ * @param hook - Game hook.
+ * @returns Owners of the hook's handlers with their phases, in the order they run, `null` without handlers.
+ */
+export function describeDebugGameHook(hook: EGameHook): Nillable<TLabel> {
+  const registrations: TGameHookRegistrations = getGameHookRegistrations(hook);
+  const owners: LuaArray<TLabel> = new LuaTable();
+
+  for (const index of $range(1, registrations.length())) {
+    table.insert(owners, `${registrations.get(index).owner} (${HOOK_PHASE_LABELS[registrations.get(index).phase]})`);
+  }
+
+  return owners.length() > 0 ? table.concat(owners, ", ") : null;
 }

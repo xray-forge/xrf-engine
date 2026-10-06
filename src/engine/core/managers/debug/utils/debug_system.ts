@@ -4,19 +4,11 @@ import { $fromArray, $isNil } from "xray16/macros";
 
 import { forgeConfig } from "@/engine/core/database/forge_config";
 import { registry } from "@/engine/core/database/registry";
-import { getGameHookRegistrations } from "@/engine/core/hooks/hooks";
-import { EGameHook, EGameHookPhase } from "@/engine/core/hooks/hooks_types";
+import { EGameHook } from "@/engine/core/hooks/hooks_types";
 import { IDebugField } from "@/engine/core/managers/debug/debug_types";
-import { addDebugField } from "@/engine/core/managers/debug/utils/debug_inspect";
+import { addDebugField, describeDebugGameHook } from "@/engine/core/managers/debug/utils/debug_inspect";
 import { dumpLuaData, dumpSystemIni } from "@/engine/core/utils/debug/debug_dump";
 import { getTableKeys } from "@/engine/core/utils/table";
-
-// Names of hook phases, as hooks list them.
-const HOOK_PHASE_LABELS: Record<EGameHookPhase, TLabel> = {
-  [EGameHookPhase.SET]: "set",
-  [EGameHookPhase.ADJUST]: "adjust",
-  [EGameHookPhase.LIMIT]: "limit",
-};
 
 /**
  * @returns Lua runtime facts for the system tab, with the game hooks extensions registered and who handles them.
@@ -34,13 +26,7 @@ export function inspectDebugSystem(): LuaArray<IDebugField> {
   table.sort(hooks, (first, second) => first < second);
 
   for (const [, hook] of hooks) {
-    const owners: LuaArray<TLabel> = new LuaTable();
-
-    for (const [, it] of getGameHookRegistrations(hook)) {
-      table.insert(owners, `${it.owner} (${HOOK_PHASE_LABELS[it.phase]})`);
-    }
-
-    addDebugField(fields, hook, table.concat(owners, ", "));
+    addDebugField(fields, hook, describeDebugGameHook(hook));
   }
 
   if (hooks.length() === 0) {

@@ -1,9 +1,11 @@
-import { LuaArray, TCount, TName } from "xray16/lib";
+import { LuaArray, Nillable, TCount, TLabel, TName } from "xray16/lib";
 import { $isNil, $isNotNil } from "xray16/macros";
 
+import { EGameHook } from "@/engine/core/hooks/hooks_types";
 import { IDebugField } from "@/engine/core/managers/debug/debug_types";
 import {
   addDebugField,
+  describeDebugGameHook,
   formatDebugGameDuration,
   getDebugObjectLevelName,
 } from "@/engine/core/managers/debug/utils/debug_inspect";
@@ -124,7 +126,22 @@ function inspectLevelTerrains(fields: LuaArray<IDebugField>, levelName: TName): 
 }
 
 /**
- * Show the simulation's tunables, read only.
+ * @param value - Value the core sets, `null` for rules without one.
+ * @param hook - Hook extensions change it with.
+ * @returns The value with the extensions changing it, `null` for a rule no extension changes.
+ */
+function describeChangedTunable(value: Nillable<TLabel>, hook: EGameHook): Nillable<TLabel> {
+  const owners: Nillable<TLabel> = describeDebugGameHook(hook);
+
+  if ($isNil(owners)) {
+    return value;
+  }
+
+  return $isNil(value) ? `changed by ${owners}` : `${value}, changed by ${owners}`;
+}
+
+/**
+ * Show the simulation's tunables, read only, with the extensions changing them.
  *
  * @param fields - Fields to add to.
  */
@@ -141,7 +158,16 @@ function inspectSimulationTunables(fields: LuaArray<IDebugField>): void {
     "stay on target",
     `${formatDebugGameDuration(squadConfig.STAY_POINT_IDLE_MIN)} to ${formatDebugGameDuration(squadConfig.STAY_POINT_IDLE_MAX)}`
   );
-  addDebugField(fields, "respawn idle", formatDebugGameDuration(smartTerrainConfig.RESPAWN_IDLE));
+  addDebugField(
+    fields,
+    "respawn idle",
+    describeChangedTunable(
+      formatDebugGameDuration(smartTerrainConfig.RESPAWN_IDLE),
+      EGameHook.SMART_TERRAIN_RESPAWN_IDLE
+    )
+  );
+  addDebugField(fields, "respawn limits", describeChangedTunable(null, EGameHook.SMART_TERRAIN_RESPAWN_LIMIT));
+  addDebugField(fields, "target rules", describeChangedTunable(null, EGameHook.SIMULATION_TARGET_VALIDITY));
   addDebugField(fields, "respawn radius", string.format("%d m", smartTerrainConfig.RESPAWN_RADIUS_RESTRICTION));
 }
 

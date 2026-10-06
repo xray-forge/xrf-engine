@@ -7,8 +7,11 @@ import { MockAlifeHumanStalker, MockAlifeObject, MockGameObject, MockVector } fr
 import { replaceFunctionMock, resetFunctionMock } from "xray16/testing/utils";
 
 import { registerObject, registerSimulator } from "@/engine/core/database";
+import { registerGameHook } from "@/engine/core/hooks/hooks";
+import { EGameHook, EGameHookPhase } from "@/engine/core/hooks/hooks_types";
 import { IDebugField } from "@/engine/core/managers/debug/debug_types";
 import {
+  describeDebugGameHook,
   describeDebugObject,
   describeDebugRates,
   formatDebugGameDuration,
@@ -138,5 +141,19 @@ describe("getDebugObjectLevelName", () => {
 
     expect(getDebugObjectLevelName(serverObject)).toBe(getGameLevelName(getGameVertexLevelId(512)));
     expect(getDebugObjectLevelName(MockAlifeObject.mock({ gameVertexId: MAX_U16 }))).toBe("unknown");
+  });
+});
+
+describe("describeDebugGameHook", () => {
+  it("should name a hook's owners with their phases in run order, `null` without handlers", () => {
+    expect(describeDebugGameHook(EGameHook.SMART_TERRAIN_RESPAWN_IDLE)).toBeNull();
+
+    registerGameHook(EGameHook.SMART_TERRAIN_RESPAWN_IDLE, (idle) => idle, { owner: "second" });
+    registerGameHook(EGameHook.SMART_TERRAIN_RESPAWN_IDLE, (idle) => idle, {
+      owner: "first",
+      phase: EGameHookPhase.SET,
+    });
+
+    expect(describeDebugGameHook(EGameHook.SMART_TERRAIN_RESPAWN_IDLE)).toBe("first (set), second (adjust)");
   });
 });

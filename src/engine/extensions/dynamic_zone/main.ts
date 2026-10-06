@@ -2,8 +2,7 @@ import { TName } from "xray16/lib";
 import { $dirname } from "xray16/macros";
 
 import { IExtensionsDescriptor, openExtensionIni } from "@/engine/core/extensions";
-import { registerGameHook } from "@/engine/core/hooks/hooks";
-import { EGameHook, EGameHookPhase } from "@/engine/core/hooks/hooks_types";
+import { EGameHook, EGameHookPhase, registerGameHook } from "@/engine/core/hooks";
 import { LuaLogger } from "@/engine/core/utils/logging";
 import { IDynamicZoneConfig, readDynamicZoneConfig } from "@/engine/extensions/dynamic_zone/dynamic_zone_config";
 import {
