@@ -14,6 +14,7 @@ import {
 import { simulationConfig } from "@/engine/core/managers/simulation/SimulationConfig";
 import { IAvailableSimulationTargetDescriptor, TSimulationObject } from "@/engine/core/managers/simulation/types";
 import {
+  canSquadTakeSimulationTarget,
   evaluateSimulationPriorityByDistance,
   evaluateSimulationPropertiesPriority,
   getSimulationTerrains,
@@ -136,9 +137,13 @@ function getRejectedTargets(squad: Squad): LuaArray<IDebugRejectedTarget> {
 
   for (const [, terrain] of getSimulationTerrains()) {
     if (getDebugObjectLevelName(terrain) === squadLevel) {
-      const reason: Nillable<TLabel> = registry.simulationObjects.has(terrain.id)
-        ? terrain.getSimulationTargetRejection(squad)
-        : "simulation unavailable";
+      let reason: Nillable<TLabel> = "simulation unavailable";
+
+      if (registry.simulationObjects.has(terrain.id)) {
+        const [isValid, rejection] = canSquadTakeSimulationTarget(squad, terrain);
+
+        reason = isValid ? null : rejection;
+      }
 
       if ($isNotNil(reason)) {
         table.insert(rejected, {

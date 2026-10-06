@@ -4,11 +4,14 @@ import { $isNil, $isNotNil } from "xray16/macros";
 import { getStoryIdByObjectId, registry } from "@/engine/core/database";
 import { describeDebugObject } from "@/engine/core/managers/debug/utils/debug_inspect";
 import { TSimulationObject } from "@/engine/core/managers/simulation/types";
-import { getSimulationTerrainDescriptorById, releaseSimulationSquad } from "@/engine/core/managers/simulation/utils";
+import {
+  canSquadTakeSimulationTarget,
+  getSimulationTerrainDescriptorById,
+  releaseSimulationSquad,
+} from "@/engine/core/managers/simulation/utils";
 import type { SmartTerrain } from "@/engine/core/objects/smart_terrain";
 import { respawnSmartTerrainSquad } from "@/engine/core/objects/smart_terrain/spawn/smart_terrain_spawn";
 import type { Squad } from "@/engine/core/objects/squad";
-import { isSmartTerrain } from "@/engine/core/utils/class_ids";
 import { areObjectsOnSameLevel } from "@/engine/core/utils/position";
 
 /**
@@ -30,10 +33,12 @@ export function sendDebugSquadToTarget(squad: Squad, targetId: TNumberId): TLabe
     return `${describeDebugObject(targetId)} is not a simulation target now`;
   } else if (!areObjectsOnSameLevel(target, squad)) {
     return `${target.name()} is on another level`;
-  } else if (!target.isValidSimulationTarget(squad)) {
-    return isSmartTerrain(target)
-      ? `${target.name()} does not take ${squad.name()}: ${(target as SmartTerrain).getSimulationTargetRejection(squad)}`
-      : `${target.name()} is not a target ${squad.name()} may take`;
+  }
+
+  const [isValid, rejection] = canSquadTakeSimulationTarget(squad, target);
+
+  if (!isValid) {
+    return `${squad.name()} may not take ${target.name()}: ${rejection}`;
   }
 
   squad.currentAction?.finalize();

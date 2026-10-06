@@ -2,6 +2,8 @@ import { beforeEach, describe, expect, it, jest } from "@jest/globals";
 import { replaceFunctionMock, resetFunctionMock } from "xray16/testing/utils";
 
 import { forgeConfig } from "@/engine/core/database/forge_config";
+import { registerGameHook } from "@/engine/core/hooks/hooks";
+import { EGameHook, EGameHookPhase } from "@/engine/core/hooks/hooks_types";
 import {
   collectDebugGarbage,
   dumpDebugLuaData,
@@ -10,10 +12,12 @@ import {
   toggleDebugSimulationView,
 } from "@/engine/core/managers/debug/utils/debug_system";
 import { dumpLuaData, dumpSystemIni } from "@/engine/core/utils/debug/debug_dump";
+import { resetRegistry } from "@/fixtures/engine";
 
 jest.mock("@/engine/core/utils/debug/debug_dump");
 
 beforeEach(() => {
+  resetRegistry();
   resetFunctionMock(collectgarbage);
 });
 
@@ -27,8 +31,27 @@ describe("inspectDebugSystem", () => {
       labels.push(field.label);
     }
 
-    expect(labels).toEqual(["lua", "jit", "lua memory", "simulation debug", "command line"]);
+    expect(labels).toEqual(["lua", "jit", "lua memory", "simulation debug", "command line", "game hooks"]);
     expect(inspectDebugSystem().get(3)).toEqual({ label: "lua memory", value: "2.000 MB" });
+    expect(inspectDebugSystem().get(6)).toEqual({ label: "game hooks", value: "none" });
+  });
+
+  it("should list each game hook with its handlers' owners and phases, in the order they run", () => {
+    registerGameHook(EGameHook.SMART_TERRAIN_RESPAWN_IDLE, (idle) => idle, { owner: "second" });
+    registerGameHook(EGameHook.SMART_TERRAIN_RESPAWN_IDLE, (idle) => idle, {
+      owner: "first",
+      phase: EGameHookPhase.SET,
+    });
+    registerGameHook(EGameHook.SIMULATION_TARGET_REJECTION, () => null, { owner: "guard" });
+
+    const fields = inspectDebugSystem();
+
+    expect(fields.get(6)).toEqual({ label: EGameHook.SIMULATION_TARGET_REJECTION, value: "guard (adjust)" });
+    expect(fields.get(7)).toEqual({
+      label: EGameHook.SMART_TERRAIN_RESPAWN_IDLE,
+      value: "first (set), second (adjust)",
+    });
+    expect(fields.length()).toBe(7);
   });
 });
 

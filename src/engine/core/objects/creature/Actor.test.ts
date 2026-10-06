@@ -9,6 +9,7 @@ import { parseConditionsList } from "@/engine/core/ini";
 import { EGameEvent, EventsManager } from "@/engine/core/managers/events";
 import { SaveManager } from "@/engine/core/managers/save/SaveManager";
 import { simulationActivities } from "@/engine/core/managers/simulation/activity";
+import { ESimulationTargetRejection } from "@/engine/core/managers/simulation/types";
 import { assignSimulationSquadToTerrain } from "@/engine/core/managers/simulation/utils";
 import { Actor } from "@/engine/core/objects/creature/Actor";
 import { mockRegisteredActor, MockSquad, resetRegistry } from "@/fixtures/engine";
@@ -125,15 +126,18 @@ describe("Actor server object", () => {
     expect(actor.isReachedBySimulationObject()).toBe(true);
   });
 
-  it("should delegate simulation target availability to the squad faction activity", () => {
+  it("should say why a squad may not go for it, by the squad faction activity", () => {
     const actor: Actor = new Actor("actor");
     const squad = MockSquad.mock();
 
     jest.spyOn(simulationActivities, "get").mockReturnValue({ actor: () => true } as never);
-    expect(actor.isValidSimulationTarget(squad)).toBe(true);
+    expect(actor.isValidSimulationTarget(squad)).toEqual([true, null]);
 
     jest.spyOn(simulationActivities, "get").mockReturnValue({ actor: () => false } as never);
-    expect(actor.isValidSimulationTarget(squad)).toBe(false);
+    expect(actor.isValidSimulationTarget(squad)).toEqual([false, ESimulationTargetRejection.NOT_WANTED]);
+
+    jest.spyOn(simulationActivities, "get").mockReturnValue({ actor: null } as never);
+    expect(actor.isValidSimulationTarget(squad)).toEqual([false, ESimulationTargetRejection.NO_FACTION_RULE]);
   });
 
   it("should reset selected squad members and clear the terrain assignment", () => {

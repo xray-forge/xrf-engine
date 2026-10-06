@@ -40,7 +40,7 @@ describe("sendDebugSquadToTarget", () => {
     const squad: Squad = MockSquad.mockRegistered();
     const target: Squad = MockSquad.mockRegistered();
 
-    jest.spyOn(target, "isValidSimulationTarget").mockImplementation(() => true);
+    jest.spyOn(target, "isValidSimulationTarget").mockImplementation(() => $multi(true, null));
     jest.spyOn(target, "isReachedBySimulationObject").mockImplementation(() => false);
     registry.simulationObjects.set(target.id, target);
 
@@ -76,7 +76,7 @@ describe("sendDebugSquadToTarget", () => {
     far.mockSetGameVertexId(330);
 
     expect(sendDebugSquadToTarget(squad, far.id)).toBe(`${far.name()} is on another level`);
-    expect(sendDebugSquadToTarget(squad, terrain.id)).toBe(`test_smart does not take ${squad.name()}: full`);
+    expect(sendDebugSquadToTarget(squad, terrain.id)).toBe(`${squad.name()} may not take test_smart: full`);
     expect(squad.assignedTargetId).toBeNull();
   });
 });

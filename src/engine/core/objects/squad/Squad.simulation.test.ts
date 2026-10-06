@@ -12,7 +12,7 @@ import { zoneNames } from "@/engine/constants/zone_names";
 import { registerOfflineObject, registerSimulator, registerZone, registry } from "@/engine/core/database";
 import { parseConditionsList } from "@/engine/core/ini";
 import { simulationConfig } from "@/engine/core/managers/simulation/SimulationConfig";
-import { ESimulationTerrainRole } from "@/engine/core/managers/simulation/types";
+import { ESimulationTargetRejection, ESimulationTerrainRole } from "@/engine/core/managers/simulation/types";
 import { assignSimulationSquadToTerrain } from "@/engine/core/managers/simulation/utils";
 import { ESmartTerrainStatus, SmartTerrain, SmartTerrainControl } from "@/engine/core/objects/smart_terrain";
 import { Squad } from "@/engine/core/objects/squad";
@@ -91,31 +91,31 @@ describe("Squad server object", () => {
     expect(squad.isSimulationAvailable()).toBe(true);
   });
 
-  it("should correctly check if squad is valid target", () => {
+  it("should say why another squad may not hunt it", () => {
     const squad: MockSquad = MockSquad.mock();
     const another: MockSquad = MockSquad.mock();
 
-    expect(squad.isValidSimulationTarget(another)).toBe(false);
+    expect(squad.isValidSimulationTarget(another)).toEqual([false, ESimulationTargetRejection.NO_FACTION_RULE]);
 
     another.faction = communities.stalker;
     squad.faction = communities.monster;
 
-    expect(squad.isValidSimulationTarget(another)).toBe(false);
+    expect(squad.isValidSimulationTarget(another)).toEqual([false, ESimulationTargetRejection.NO_FACTION_RULE]);
 
     another.faction = communities.dolg;
     squad.faction = communities.monster_predatory_day;
 
     jest.spyOn(level, "get_time_hours").mockImplementation(() => 7);
-    expect(squad.isValidSimulationTarget(another)).toBe(false);
+    expect(squad.isValidSimulationTarget(another)).toEqual([false, ESimulationTargetRejection.NOT_WANTED]);
 
     jest.spyOn(level, "get_time_hours").mockImplementation(() => 8);
-    expect(squad.isValidSimulationTarget(another)).toBe(true);
+    expect(squad.isValidSimulationTarget(another)).toEqual([true, null]);
 
     jest.spyOn(level, "get_time_hours").mockImplementation(() => 18);
-    expect(squad.isValidSimulationTarget(another)).toBe(true);
+    expect(squad.isValidSimulationTarget(another)).toEqual([true, null]);
 
     jest.spyOn(level, "get_time_hours").mockImplementation(() => 19);
-    expect(squad.isValidSimulationTarget(another)).toBe(false);
+    expect(squad.isValidSimulationTarget(another)).toEqual([false, ESimulationTargetRejection.NOT_WANTED]);
   });
 
   it("should correctly check if squad is reached", () => {
@@ -190,7 +190,7 @@ describe("Squad server object", () => {
     const enemy: Squad = MockSquad.mockRegistered();
 
     // Enemy squad is a valid, positive-priority squad target on the same level.
-    jest.spyOn(enemy, "isValidSimulationTarget").mockImplementation(() => true);
+    jest.spyOn(enemy, "isValidSimulationTarget").mockImplementation(() => $multi(true, null));
     squad.behaviour.set("a", "1");
     enemy.simulationProperties = $fromObject<TName, TRate>({ a: 10 });
     registry.simulationObjects.set(enemy.id, enemy);

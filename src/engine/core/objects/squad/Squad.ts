@@ -47,7 +47,13 @@ import { EGameEvent, EventsManager } from "@/engine/core/managers/events";
 import { removeSquadMapSpot, updateSquadMapSpot } from "@/engine/core/managers/map/utils";
 import { simulationActivities } from "@/engine/core/managers/simulation/activity";
 import { simulationConfig } from "@/engine/core/managers/simulation/SimulationConfig";
-import { ESimulationTerrainRole, ISimulationTarget, TSimulationObject } from "@/engine/core/managers/simulation/types";
+import {
+  ESimulationTargetRejection,
+  ESimulationTerrainRole,
+  ISimulationTarget,
+  TSimulationActivityPrecondition,
+  TSimulationObject,
+} from "@/engine/core/managers/simulation/types";
 import {
   getSimulationTerrainByName,
   getSimulationTerrainDescriptorById,
@@ -60,6 +66,7 @@ import {
   releaseSimulationSquad,
   unRegisterSimulationSquad,
 } from "@/engine/core/managers/simulation/utils/simulation_squads";
+import { canSquadTakeSimulationTarget } from "@/engine/core/managers/simulation/utils/simulation_validity";
 import { StoryPlaybackController } from "@/engine/core/managers/sounds/stories";
 import { getStoryPlayback } from "@/engine/core/managers/sounds/utils";
 import type { SmartTerrain } from "@/engine/core/objects/smart_terrain/SmartTerrain";
@@ -488,10 +495,17 @@ export class Squad extends cse_alife_online_offline_group implements ISimulation
    * @returns If currently assigned target written in field is available and can be reached in simulation.
    */
   public isAssignedTargetAvailable(): boolean {
-    return this.assignedTargetId
-      ? registry.simulator.object<TSimulationObject>(this.assignedTargetId)?.isValidSimulationTarget(this, true) ===
-          true
-      : false;
+    const target: Nillable<TSimulationObject> = this.assignedTargetId
+      ? registry.simulator.object<TSimulationObject>(this.assignedTargetId)
+      : null;
+
+    if ($isNil(target)) {
+      return false;
+    }
+
+    const [isValid] = canSquadTakeSimulationTarget(this, target, true);
+
+    return isValid;
   }
 
   /**
@@ -781,11 +795,23 @@ export class Squad extends cse_alife_online_offline_group implements ISimulation
   }
 
   /**
-   * @param squad - Another squad checking availability of current one.
-   * @returns Whether current squad is valid simulation target for provided squad.
+   * @param squad - Another squad weighing the current one as a target.
+   * @returns Whether the squad may hunt the current one, and why not when it may not.
    */
-  public isValidSimulationTarget(squad: Squad): boolean {
-    return simulationActivities.get(squad.faction)?.squad?.[this.faction]?.(squad, this) === true;
+  public isValidSimulationTarget(squad: Squad): LuaMultiReturn<[boolean, Nillable<ESimulationTargetRejection>]> {
+    const rule: Nillable<TSimulationActivityPrecondition> = simulationActivities.get(squad.faction)?.squad?.[
+      this.faction
+    ];
+
+    if ($isNil(rule)) {
+      return $multi(false, ESimulationTargetRejection.NO_FACTION_RULE);
+    }
+
+    if (rule(squad, this)) {
+      return $multi(true, null);
+    }
+
+    return $multi(false, ESimulationTargetRejection.NOT_WANTED);
   }
 
   /**

@@ -432,8 +432,7 @@ describe("SmartTerrain simulation targeting", () => {
 
     terrain.isRespawnOnlySmart = true;
 
-    expect(terrain.isValidSimulationTarget(squad)).toBe(false);
-    expect(terrain.getSimulationTargetRejection(squad)).toBe(ESimulationTargetRejection.RESPAWN_ONLY);
+    expect(terrain.isValidSimulationTarget(squad)).toEqual([false, ESimulationTargetRejection.RESPAWN_ONLY]);
   });
 
   it("should reject squads once the population limit is reached", () => {
@@ -442,13 +441,12 @@ describe("SmartTerrain simulation targeting", () => {
 
     terrain.maxStayingSquadsCount = 0;
 
-    expect(terrain.isValidSimulationTarget(squad)).toBe(false);
-    expect(terrain.getSimulationTargetRejection(squad)).toBe(ESimulationTargetRejection.FULL);
+    expect(terrain.isValidSimulationTarget(squad)).toEqual([false, ESimulationTargetRejection.FULL]);
 
     // Population decrease is estimated for the squad that is leaving the terrain.
     terrain.maxStayingSquadsCount = -1;
 
-    expect(terrain.isValidSimulationTarget(squad, true)).toBe(false);
+    expect(terrain.isValidSimulationTarget(squad, true)).toEqual([false, ESimulationTargetRejection.FULL]);
   });
 
   it("should reject factions without simulation activity descriptors", () => {
@@ -458,8 +456,7 @@ describe("SmartTerrain simulation targeting", () => {
     terrain.maxStayingSquadsCount = 10;
     squad.faction = "unknown_faction" as never;
 
-    expect(terrain.isValidSimulationTarget(squad)).toBe(false);
-    expect(terrain.getSimulationTargetRejection(squad)).toBe(ESimulationTargetRejection.NO_FACTION_RULE);
+    expect(terrain.isValidSimulationTarget(squad)).toEqual([false, ESimulationTargetRejection.NO_FACTION_RULE]);
   });
 
   it("should accept a squad matching one of the terrain simulation roles", () => {
@@ -475,8 +472,7 @@ describe("SmartTerrain simulation targeting", () => {
 
     // No role is set on the terrain, so none of the role checks can pass.
     terrain.simulationProperties = new LuaTable();
-    expect(terrain.isValidSimulationTarget(squad)).toBe(false);
-    expect(terrain.getSimulationTargetRejection(squad)).toBe(ESimulationTargetRejection.NO_ROLE_ALLOWED);
+    expect(terrain.isValidSimulationTarget(squad)).toEqual([false, ESimulationTargetRejection.NO_ROLE_ALLOWED]);
 
     for (const role of [
       ESimulationTerrainRole.RESOURCE,
@@ -491,7 +487,7 @@ describe("SmartTerrain simulation targeting", () => {
       const check: unknown = descriptor.smart[role];
 
       // Only roles the stalker faction actually declares can resolve to a positive check.
-      expect(terrain.isValidSimulationTarget(squad)).toBe(
+      expect(terrain.isValidSimulationTarget(squad)[0]).toBe(
         typeof check === "function" && (check as (a: Squad, b: SmartTerrain) => boolean)(squad, terrain)
       );
     }

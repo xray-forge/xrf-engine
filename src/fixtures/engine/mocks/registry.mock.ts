@@ -60,6 +60,7 @@ export function resetRegistry(): void {
     objects: new LuaTable(),
   };
   registry.extensions = new LuaTable();
+  registry.hooks = new LuaTable();
   registry.helicopter.storage = new LuaTable();
   registry.helicopter.enemies = new LuaTable();
   registry.helicopter.enemyIndex = 0;

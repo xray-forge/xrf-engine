@@ -21,7 +21,11 @@ import { parseConditionsList, pickSectionFromCondList, TConditionList } from "@/
 import { EGameEvent, EventsManager } from "@/engine/core/managers/events";
 import { SaveManager } from "@/engine/core/managers/save/SaveManager";
 import { simulationActivities } from "@/engine/core/managers/simulation/activity";
-import { ISimulationTarget } from "@/engine/core/managers/simulation/types";
+import {
+  ESimulationTargetRejection,
+  ISimulationTarget,
+  TSimulationActivityPrecondition,
+} from "@/engine/core/managers/simulation/types";
 import { assignSimulationSquadToTerrain, getSimulationTerrainByName } from "@/engine/core/managers/simulation/utils";
 import { ESmartTerrainStatus } from "@/engine/core/objects/smart_terrain/smart_terrain_types";
 import { SmartTerrain } from "@/engine/core/objects/smart_terrain/SmartTerrain";
@@ -148,10 +152,21 @@ export class Actor extends cse_alife_creature_actor implements ISimulationTarget
   }
 
   /**
-   * Whether actor can be selected as simulation target by squad.
+   * @param squad - Squad weighing the actor as a target.
+   * @returns Whether the squad may go for the actor, and why not when it may not.
    */
-  public isValidSimulationTarget(squad: Squad): boolean {
-    return simulationActivities.get(squad.faction)?.actor?.(squad, this) === true;
+  public isValidSimulationTarget(squad: Squad): LuaMultiReturn<[boolean, Nillable<ESimulationTargetRejection>]> {
+    const rule: Nillable<TSimulationActivityPrecondition> = simulationActivities.get(squad.faction)?.actor;
+
+    if ($isNil(rule)) {
+      return $multi(false, ESimulationTargetRejection.NO_FACTION_RULE);
+    }
+
+    if (rule(squad, this)) {
+      return $multi(true, null);
+    }
+
+    return $multi(false, ESimulationTargetRejection.NOT_WANTED);
   }
 
   /**

@@ -18,9 +18,9 @@ import {
 } from "@/engine/core/managers/simulation/utils";
 import type { SmartTerrain } from "@/engine/core/objects/smart_terrain";
 import { ESmartTerrainStatus } from "@/engine/core/objects/smart_terrain/smart_terrain_types";
-import { smartTerrainConfig } from "@/engine/core/objects/smart_terrain/SmartTerrainConfig";
 import {
   getSmartTerrainRespawnBlocker,
+  getSmartTerrainRespawnIdle,
   getSmartTerrainRespawnLimit,
 } from "@/engine/core/objects/smart_terrain/spawn/smart_terrain_spawn";
 
@@ -87,7 +87,7 @@ function inspectTerrainRespawn(fields: LuaArray<IDebugField>, terrain: SmartTerr
     "next respawn check",
     $isNil(lastCheck)
       ? "on the next update"
-      : formatDebugGameDuration(smartTerrainConfig.RESPAWN_IDLE - game.get_game_time().diffSec(lastCheck))
+      : formatDebugGameDuration(getSmartTerrainRespawnIdle(terrain) - game.get_game_time().diffSec(lastCheck))
   );
   addDebugField(
     fields,

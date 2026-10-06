@@ -10,7 +10,7 @@ import { getManager, registerSimulator, registry } from "@/engine/core/database"
 import { parseConditionsList } from "@/engine/core/ini";
 import { EGameEvent, EventsManager } from "@/engine/core/managers/events";
 import { simulationConfig } from "@/engine/core/managers/simulation/SimulationConfig";
-import { ESimulationTerrainRole } from "@/engine/core/managers/simulation/types";
+import { ESimulationTargetRejection, ESimulationTerrainRole } from "@/engine/core/managers/simulation/types";
 import { assignSimulationSquadToTerrain } from "@/engine/core/managers/simulation/utils";
 import { SmartTerrain } from "@/engine/core/objects/smart_terrain";
 import { SquadReachTargetAction, SquadStayOnTargetAction } from "@/engine/core/objects/squad/action";
@@ -534,10 +534,12 @@ describe("Squad targeting and update", () => {
     expect(squad.isAssignedTargetAvailable()).toBe(false);
 
     squad.assignedTargetId = target.id;
-    jest.spyOn(target, "isValidSimulationTarget").mockImplementation(() => false);
+    jest
+      .spyOn(target, "isValidSimulationTarget")
+      .mockImplementation(() => $multi(false, ESimulationTargetRejection.NOT_WANTED));
     expect(squad.isAssignedTargetAvailable()).toBe(false);
 
-    jest.spyOn(target, "isValidSimulationTarget").mockImplementation(() => true);
+    jest.spyOn(target, "isValidSimulationTarget").mockImplementation(() => $multi(true, null));
     expect(squad.isAssignedTargetAvailable()).toBe(true);
   });
 

@@ -14,6 +14,7 @@ import type {
   IRegistryOfflineState,
 } from "@/engine/core/database/database_types";
 import type { IExtensionsDescriptor } from "@/engine/core/extensions";
+import type { EGameHook, TGameHookRegistrations } from "@/engine/core/hooks/hooks_types";
 import type { TConditionList } from "@/engine/core/ini";
 import type { AbstractManager, TAbstractCoreManagerConstructor } from "@/engine/core/managers/abstract";
 import type { TSimulationObject } from "@/engine/core/managers/simulation";
@@ -278,6 +279,10 @@ export const registry = {
    * List of extensions details loaded additionally to the game engine.
    */
   extensions: new LuaTable<TName, IExtensionsDescriptor>(),
+  /**
+   * Registrations of each game hook that has any, in the order their handlers run.
+   */
+  hooks: new LuaTable<EGameHook, TGameHookRegistrations>(),
   /**
    * Dynamic data stored in separate file with marshal lib.
    */

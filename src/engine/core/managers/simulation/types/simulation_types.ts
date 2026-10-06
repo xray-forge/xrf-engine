@@ -44,6 +44,7 @@ export enum ESimulationTargetRejection {
   FULL = "full",
   NO_FACTION_RULE = "no rule for the faction",
   NO_ROLE_ALLOWED = "no role the faction may take",
+  NOT_WANTED = "not wanted by the faction now",
 }
 
 /**
@@ -67,9 +68,16 @@ export interface ISimulationTarget {
    */
   isSimulationAvailable(): boolean;
   /**
-   * @returns Whether object can be selected as simulation target by squad.
+   * Apply the target's own rules; `canSquadTakeSimulationTarget` adds the rules extensions hook in.
+   *
+   * @param squad - Squad weighing the target.
+   * @param isPopulationDecreaseNeeded - Whether the squad already counts in the target's population.
+   * @returns Whether the squad may take the target, and why not when it may not.
    */
-  isValidSimulationTarget(squad: Squad): boolean;
+  isValidSimulationTarget(
+    squad: Squad,
+    isPopulationDecreaseNeeded?: boolean
+  ): LuaMultiReturn<[boolean, Nillable<ESimulationTargetRejection>]>;
   /**
    * @returns Whether object reached by squad.
    */

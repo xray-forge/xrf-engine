@@ -64,8 +64,8 @@ describe("evaluateSimulationPriority", () => {
     });
     const fourth: Squad = MockSquad.mock();
 
-    jest.spyOn(first, "isValidSimulationTarget").mockImplementation(() => true);
-    jest.spyOn(third, "isValidSimulationTarget").mockImplementation(() => true);
+    jest.spyOn(first, "isValidSimulationTarget").mockImplementation(() => $multi(true, null));
+    jest.spyOn(third, "isValidSimulationTarget").mockImplementation(() => $multi(true, null));
 
     expect(evaluateSimulationPriority(first, second)).toBe(13.65);
 
@@ -81,7 +81,7 @@ function mockSimulationTargetSquad(propertyRate: TRate): Squad {
     simulationProperties: $fromObject<TName, TRate>({ a: propertyRate }),
   });
 
-  jest.spyOn(target, "isValidSimulationTarget").mockImplementation(() => true);
+  jest.spyOn(target, "isValidSimulationTarget").mockImplementation(() => $multi(true, null));
   registry.simulationObjects.set(target.id, target);
 
   return target;

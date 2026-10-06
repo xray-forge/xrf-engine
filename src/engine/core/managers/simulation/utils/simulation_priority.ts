@@ -5,6 +5,7 @@ import { $isNil } from "xray16/macros";
 import { registry } from "@/engine/core/database";
 import { IAvailableSimulationTargetDescriptor, TSimulationObject } from "@/engine/core/managers/simulation";
 import { simulationConfig } from "@/engine/core/managers/simulation/SimulationConfig";
+import { canSquadTakeSimulationTarget } from "@/engine/core/managers/simulation/utils/simulation_validity";
 import { SmartTerrain } from "@/engine/core/objects/smart_terrain";
 import { Squad } from "@/engine/core/objects/squad";
 import { areObjectsOnSameLevel, getServerDistanceBetween } from "@/engine/core/utils/position";
@@ -61,7 +62,13 @@ export function evaluateSimulationPriority(target: TSimulationObject, squad: Squ
   // Blocking level traveling and specific preconditions.
   // Same-level check runs first - most registry entries are off-level and the check is two
   // memoized table reads, while target validity evaluates population counts and preconditions.
-  if (!areObjectsOnSameLevel(target, squad) || !target.isValidSimulationTarget(squad)) {
+  if (!areObjectsOnSameLevel(target, squad)) {
+    return 0;
+  }
+
+  const [isValid] = canSquadTakeSimulationTarget(squad, target);
+
+  if (!isValid) {
     return 0;
   }
 

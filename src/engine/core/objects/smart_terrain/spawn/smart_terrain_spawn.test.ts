@@ -4,6 +4,8 @@ import { FALSE, Nillable, TRUE } from "xray16/lib";
 import { MockAlifeHumanStalker, MockCTime, MockIniFile } from "xray16/mocks";
 
 import { getManager, registerSimulator, registry } from "@/engine/core/database";
+import { registerGameHook } from "@/engine/core/hooks/hooks";
+import { EGameHook } from "@/engine/core/hooks/hooks_types";
 import { parseConditionsList } from "@/engine/core/ini";
 import { EGameEvent, EventsManager } from "@/engine/core/managers/events";
 import {
@@ -16,6 +18,7 @@ import {
   applySmartTerrainRespawnSectionsConfig,
   canRespawnSmartTerrainSquad,
   getSmartTerrainRespawnBlocker,
+  getSmartTerrainRespawnIdle,
   getSmartTerrainRespawnLimit,
   respawnSmartTerrainSquad,
 } from "@/engine/core/objects/smart_terrain/spawn/smart_terrain_spawn";
@@ -351,5 +354,43 @@ describe("getSmartTerrainRespawnLimit", () => {
     giveInfoPortion("test_info");
 
     expect(getSmartTerrainRespawnLimit(terrain, "test-section-1")).toBe(4);
+
+    registerGameHook(
+      EGameHook.SMART_TERRAIN_RESPAWN_LIMIT,
+      (limit, it, section) => (it === terrain && section === "test-section-1" ? limit - 3 : limit),
+      { owner: "test" }
+    );
+
+    expect(getSmartTerrainRespawnLimit(terrain, "test-section-1")).toBe(1);
+  });
+});
+
+describe("getSmartTerrainRespawnIdle", () => {
+  beforeEach(() => {
+    resetRegistry();
+  });
+
+  it("should give the configured wait, as extensions change it, and throttle respawn by it", () => {
+    const terrain: SmartTerrain = MockSmartTerrain.mockRegistered("test_smart");
+    const { actorServerObject } = mockRegisteredActor();
+
+    jest
+      .spyOn(actorServerObject.position, "distance_to_sqr")
+      .mockImplementation(() => smartTerrainConfig.RESPAWN_RADIUS_RESTRICTION_SQR + 1);
+    terrain.maxStayingSquadsCount = 1;
+
+    expect(getSmartTerrainRespawnIdle(terrain)).toBe(smartTerrainConfig.RESPAWN_IDLE);
+
+    registerGameHook(EGameHook.SMART_TERRAIN_RESPAWN_IDLE, (idle, it) => (it === terrain ? idle * 10 : idle), {
+      owner: "test",
+    });
+
+    expect(getSmartTerrainRespawnIdle(terrain)).toBe(smartTerrainConfig.RESPAWN_IDLE * 10);
+
+    const start: CTime = MockCTime.create(2012, 6, 12, 10, 0, 0, 0);
+
+    expect(canRespawnSmartTerrainSquad(terrain, start)).toBe(true);
+    expect(canRespawnSmartTerrainSquad(terrain, MockCTime.create(2012, 6, 12, 11, 0, 0, 0))).toBe(false);
+    expect(canRespawnSmartTerrainSquad(terrain, MockCTime.create(2012, 6, 12, 13, 0, 0, 0))).toBe(true);
   });
 });

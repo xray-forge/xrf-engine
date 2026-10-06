@@ -31,7 +31,7 @@ import {
 function mockTargetSquad(propertyRate: TRate): Squad {
   const target: Squad = MockSquad.mock({ simulationProperties: $fromObject<TName, TRate>({ a: propertyRate }) });
 
-  jest.spyOn(target, "isValidSimulationTarget").mockImplementation(() => true);
+  jest.spyOn(target, "isValidSimulationTarget").mockImplementation(() => $multi(true, null));
   registry.simulationObjects.set(target.id, target);
 
   return target;

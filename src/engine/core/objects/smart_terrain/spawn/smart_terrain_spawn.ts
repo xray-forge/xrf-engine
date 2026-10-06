@@ -1,9 +1,11 @@
 import { game } from "xray16";
 import { Time } from "xray16/alias";
-import { abort, LuaArray, Nillable, TCount, TRUE, TSection } from "xray16/lib";
+import { abort, LuaArray, Nillable, TCount, TDuration, TRUE, TSection } from "xray16/lib";
 import { $isNil } from "xray16/macros";
 
 import { registry } from "@/engine/core/database";
+import { applyGameModifierHook } from "@/engine/core/hooks/hooks";
+import { EGameHook } from "@/engine/core/hooks/hooks_types";
 import { parseConditionsList, parseStringsList, pickSectionFromCondList, readIniString } from "@/engine/core/ini";
 import { EGameEvent, EventsManager } from "@/engine/core/managers/events";
 import {
@@ -122,13 +124,24 @@ export function respawnSmartTerrainSquad(terrain: SmartTerrain): Nillable<Squad>
 export function canRespawnSmartTerrainSquad(terrain: SmartTerrain, now: Time = game.get_game_time()): boolean {
   // Throttle respawn attempts period.
   // Memoize `false` state for `idle` period of time.
-  if (terrain.lastRespawnUpdatedAt && now.diffSec(terrain.lastRespawnUpdatedAt) <= smartTerrainConfig.RESPAWN_IDLE) {
+  if (
+    terrain.lastRespawnUpdatedAt &&
+    now.diffSec(terrain.lastRespawnUpdatedAt) <= getSmartTerrainRespawnIdle(terrain)
+  ) {
     return false;
   } else {
     terrain.lastRespawnUpdatedAt = now;
   }
 
   return $isNil(getSmartTerrainRespawnBlocker(terrain));
+}
+
+/**
+ * @param terrain - Smart terrain that respawns squads.
+ * @returns Game seconds the terrain waits between respawn attempts.
+ */
+export function getSmartTerrainRespawnIdle(terrain: SmartTerrain): TDuration {
+  return applyGameModifierHook(EGameHook.SMART_TERRAIN_RESPAWN_IDLE, smartTerrainConfig.RESPAWN_IDLE, terrain);
 }
 
 /**
@@ -155,7 +168,9 @@ export function getSmartTerrainRespawnBlocker(terrain: SmartTerrain): Nillable<E
  * @returns How many squads the section may have spawned and alive now.
  */
 export function getSmartTerrainRespawnLimit(terrain: SmartTerrain, section: TSection): TCount {
-  return tonumber(
+  const limit: TCount = tonumber(
     pickSectionFromCondList(registry.actor, null, terrain.spawnSquadsConfiguration.get(section).num)
   ) as TCount;
+
+  return applyGameModifierHook(EGameHook.SMART_TERRAIN_RESPAWN_LIMIT, limit, terrain, section);
 }
