@@ -19,7 +19,7 @@ export function packDescriptionSprites(parameters: ISpritesCommandParameters): v
     GAME_DATA_UI_DIR,
     "textures_descr",
     parameters.description ?? ""
-  )} --base ${path.resolve(RESOURCES_DIR, "textures_unpacked")} --output ${path.resolve(
+  )} --base ${path.resolve(RESOURCES_DIR, "textures_unpacked")} -d ${path.resolve(
     RESOURCES_DIR,
     "textures"
   )} ${parameters.strict ? " --strict" : ""}${parameters.verbose ? " --verbose" : ""}`;

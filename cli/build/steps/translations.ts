@@ -16,7 +16,7 @@ export async function buildTranslations(parameters: IBuildCommandParameters): Pr
 
   const command: string = `${XRF_UTILS_PATH} translation build ${
     parameters.verbose ? "--verbose " : "--silent "
-  }-p ${GAME_DATA_TRANSLATIONS_DIR} -o ${TARGET_GAME_DATA_TRANSLATIONS_DIR}`;
+  }-p ${GAME_DATA_TRANSLATIONS_DIR} -d ${TARGET_GAME_DATA_TRANSLATIONS_DIR}`;
 
   log.info("Execute build command:", blue(command));
 

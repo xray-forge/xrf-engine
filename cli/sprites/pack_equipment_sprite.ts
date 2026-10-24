@@ -21,7 +21,7 @@ export async function packEquipmentSprite(parameters: ISpritesCommandParameters)
   const command: string = `${XRF_UTILS_PATH} sprite pack-equipment --system-ltx ${path.resolve(
     GAME_DATA_LTX_CONFIGS_DIR,
     "system.ltx"
-  )} --source ${path.resolve(RESOURCES_DIR, "textures_unpacked", "ui", "ui_icon_equipment")} --output ${path.resolve(
+  )} -p ${path.resolve(RESOURCES_DIR, "textures_unpacked", "ui", "ui_icon_equipment")} -d ${path.resolve(
     RESOURCES_DIR,
     "textures",
     "ui",

@@ -46,7 +46,7 @@ export async function verifyGamedata(parameters: IVerifyGamedataParameters = {})
 
   const timeTracker: TimeTracker = new TimeTracker().start();
 
-  const args: Array<string> = ["gamedata", "verify", TARGET_GAME_DATA_DIR];
+  const args: Array<string> = ["gamedata", "verify", "-p", TARGET_GAME_DATA_DIR];
 
   if (parameters.strict) {
     args.push("--strict");
