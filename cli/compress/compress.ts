@@ -17,7 +17,7 @@ import { createDirIfNoExisting } from "#/utils/fs/create_dir_if_no_existing";
 import { deleteFileIfExists } from "#/utils/fs/delete_file_if_exists";
 import { NodeLogger } from "#/utils/logging";
 import { TimeTracker } from "#/utils/timing";
-import { Nullable } from "#/utils/types";
+import { Optional } from "#/utils/types";
 
 const log: NodeLogger = NodeLogger.forFile(__filename);
 
@@ -48,13 +48,13 @@ export interface ICompressParameters {
 }
 
 /**
- * The `--report` envelope `xrf-cli archive pack` writes, as far as this step reads it.
+ * The `--report` envelope `xrf-cli archive pack` writes, as far as this step reads it: `error` is present only on an
+ * execution failure, `result` only when the pack deposited one.
  */
 interface IPackReport {
-  outcome: "success" | "checkFailed" | "executionFailed";
   exitCode: number;
-  error: Nullable<string>;
-  result: Nullable<IPackReportResult>;
+  error?: Optional<string>;
+  result?: Optional<IPackReportResult>;
 }
 
 interface IPackReportResult {
@@ -225,7 +225,10 @@ function compressWithConfig(
   log.info("Pack report:", yellowBright(artifacts.report));
   log.info("Pack log:", yellowBright(artifacts.log));
 
-  assert(report.result, `Expected pack report for '${configName}' to carry a result, got outcome '${report.outcome}'.`);
+  assert(
+    report.result,
+    `Expected pack report for '${configName}' to carry a result, got exit code ${report.exitCode}: ${report.error}.`
+  );
 
   logPackVerdict(report.result);
 
