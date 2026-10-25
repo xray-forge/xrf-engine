@@ -13,8 +13,10 @@ const log: NodeLogger = NodeLogger.forFile(__filename);
  */
 export enum EGamedataCheck {
   ANIMATIONS = "animations",
+  ENVIRONMENT = "environment",
   LEVELS = "levels",
   LTX = "ltx",
+  MATERIALS = "materials",
   MESHES = "meshes",
   PARTICLES = "particles",
   PARTICLES_USAGE = "particles-usage",
@@ -24,7 +26,6 @@ export enum EGamedataCheck {
   SPAWNS = "spawns",
   TEXTURES = "textures",
   WEAPONS = "weapons",
-  WEATHERS = "weathers",
 }
 
 export interface IVerifyGamedataParameters {
