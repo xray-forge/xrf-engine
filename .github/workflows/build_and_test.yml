@@ -40,7 +40,7 @@ jobs:
         uses: actions/cache/restore@v5
         with:
           path: target/jest_cache
-          key: jest-${{ hashFiles('**/package-lock.json') }}-${{ matrix.shard }}
+          key: jest-${{ runner.os }}-unit-${{ hashFiles('**/package-lock.json', 'cli/test/jest.config.ts') }}-${{ matrix.shard }}
 
       - run: npm test -- --shard=${{ matrix.shard }}/${{ strategy.job-total }} --maxWorkers=100%
 
