@@ -9,6 +9,8 @@ export interface IToolArgumentSchema {
   minimum?: number;
   maximum?: number;
   minLength?: number;
+  /** Regular expression a string must match, JSON Schema's `pattern`. */
+  pattern?: string;
 }
 
 /**

@@ -157,22 +157,33 @@ export async function prepareSave(context: IGameToolsContext, save: string): Pro
 }
 
 /**
+ * The world an armed game starts in: a save to load, or a new game from a root spawn.
+ */
+export interface IArmedGameWorld {
+  /** Save to load; a new game when absent. */
+  save?: string;
+  /** Root spawn a new game starts from; the game's own `all` when absent. */
+  spawn?: string;
+  /** Difficulty of a new game. */
+  difficulty?: EGameDifficulty;
+}
+
+/**
  * Launch the game armed and wait for its level, refusing while a game runs.
  *
  * @param context - What the tools reach outside the pipe.
- * @param save - Save to load, a new game when null.
- * @param difficulty - Difficulty of a new game.
+ * @param world - The save to load, or the new game to start.
  * @param timeoutMs - How long to wait for the level.
  * @param isGodMode - Whether the actor is to be invulnerable once the level runs.
  * @returns The greeting, or why the game did not start.
  */
 export async function startArmedGame(
   context: IGameToolsContext,
-  save: Nullable<string>,
-  difficulty: Optional<EGameDifficulty>,
+  world: IArmedGameWorld,
   timeoutMs: number,
   isGodMode: boolean
 ): Promise<IToolResult> {
+  const { save, spawn, difficulty } = world;
   const { client } = context;
 
   if (!context.isEndpointBuilt()) {
@@ -202,7 +213,8 @@ export async function startArmedGame(
 
   await context.startGame({
     new: !save,
-    load: save ?? undefined,
+    load: save,
+    spawn,
     difficulty,
     flushlog: true,
     mcp: true,
@@ -253,6 +265,13 @@ export function createSessionTools(context: IGameToolsContext): Array<IMcpTool> 
           description: "Start a new game or load a save; a new game unless `save` is given.",
         },
         save: { type: "string", minLength: 1, description: "Save name without extension, to load." },
+        spawn: {
+          type: "string",
+          pattern: "^[A-Za-z0-9_]+$",
+          description:
+            "Root spawn a new game starts from, spawns/<spawn>.spawn without extension, such as one `xrf-cli spawn " +
+            "build` wrote; the game's own `all` by default. Saves made in another spawn do not load in it.",
+        },
         difficulty: { type: "string", enum: Object.values(EGameDifficulty), description: "Difficulty of a new game." },
         timeoutSeconds: {
           type: "integer",
@@ -263,18 +282,23 @@ export function createSessionTools(context: IGameToolsContext): Array<IMcpTool> 
         },
         god: GOD_MODE_ARGUMENT,
       }),
-      call: async ({ mode, save, difficulty, timeoutSeconds, god }) => {
+      call: async ({ mode, save, spawn, difficulty, timeoutSeconds, god }) => {
         if (mode === "load" && !save) {
           return text("Mode 'load' needs a save name.", true);
         } else if (mode === "new" && save) {
           // Dropping the save would start a new game where the caller meant to continue one.
           return text("Mode 'new' starts a new game and takes no save; ask for mode 'load'.", true);
+        } else if (save && spawn) {
+          return text("A spawn names the world of a new game; a save loads the world it was made in.", true);
         }
 
         return startArmedGame(
           context,
-          save ? (save as string) : null,
-          difficulty as Optional<EGameDifficulty>,
+          {
+            save: save as Optional<string>,
+            spawn: spawn as Optional<string>,
+            difficulty: difficulty as Optional<EGameDifficulty>,
+          },
           (timeoutSeconds as number) * 1000,
           god as boolean
         );

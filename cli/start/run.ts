@@ -12,6 +12,12 @@ export function setupStartCommands(command: Command): void {
     .addOption(new Option("-n, --new", "start new game world instantly, skipping main menu"))
     .addOption(new Option("-l, --load <save>", "load game save instantly, skipping main menu").conflicts("new"))
     .addOption(
+      new Option(
+        "-s, --spawn <spawn>",
+        "root spawn a new game starts from, spawns/<spawn>.spawn, such as one `xrf-cli spawn build` wrote; all by default"
+      ).conflicts("load")
+    )
+    .addOption(
       new Option("-d, --difficulty <difficulty>", "game difficulty to use with instant start").choices(
         Object.values(EGameDifficulty)
       )

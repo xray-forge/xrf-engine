@@ -23,6 +23,8 @@ export enum EGameDifficulty {
 export interface IStartGameCommandParameters {
   new?: boolean;
   load?: string;
+  /** Root spawn a new game starts from, `spawns/<spawn>.spawn`; the game's own `all` when absent. */
+  spawn?: string;
   difficulty?: EGameDifficulty;
   intro?: boolean;
   flushlog?: boolean;
@@ -33,6 +35,8 @@ const START_GAME_ARGUMENTS: ReadonlyArray<string> = ["-dump_bindings"];
 // Never `-nogameintro`: the engine checks `-nogame` by substring and would start without the game module.
 const START_GAME_NO_INTRO_ARGUMENTS: ReadonlyArray<string> = ["-nointro"];
 const NEW_GAME_SPAWN: string = "all";
+// A spawn's name goes into the `-start server(...)` command line, which parentheses, slashes and spaces would break.
+const SPAWN_NAME_PATTERN: RegExp = /^[A-Za-z0-9_]+$/;
 const GAME_SAVE_EXTENSION: string = ".scop";
 
 /**
@@ -46,6 +50,16 @@ export async function startGame(parameters: IStartGameCommandParameters = {}): P
 
   if (parameters.new && parameters.load) {
     throw new Error("Cannot start new game and load game save at the same time.");
+  }
+
+  if (parameters.spawn !== undefined) {
+    if (!parameters.new) {
+      throw new Error("A spawn names the world of a new game; a save loads the world it was made in.");
+    }
+
+    if (!SPAWN_NAME_PATTERN.test(parameters.spawn)) {
+      throw new Error(`Spawn name '${parameters.spawn}' must be letters, digits and underscores, without extension.`);
+    }
   }
 
   if (parameters.load) {
@@ -85,7 +99,9 @@ export async function startGame(parameters: IStartGameCommandParameters = {}): P
     // Note: `-start` is parsed as whole remaining command line, so it should be provided last.
     startArguments.push(
       "-start",
-      parameters.new ? `server(${NEW_GAME_SPAWN}/single/alife/new)` : `server(${parameters.load}/single/alife/load)`,
+      parameters.new
+        ? `server(${parameters.spawn ?? NEW_GAME_SPAWN}/single/alife/new)`
+        : `server(${parameters.load}/single/alife/load)`,
       "client(localhost)"
     );
   }

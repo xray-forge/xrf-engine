@@ -173,6 +173,7 @@ describe("game MCP tools", () => {
     expect(context.startGame).toHaveBeenCalledWith({
       new: true,
       load: undefined,
+      spawn: undefined,
       difficulty: EGameDifficulty.VETERAN,
       flushlog: true,
       mcp: true,
@@ -181,6 +182,21 @@ describe("game MCP tools", () => {
     expect(client.textEncoding).toBe("windows-1251");
     expect(JSON.parse(textOf(result)).session).toBe("session-1");
     expect(result.content).toHaveLength(1);
+  });
+
+  it("should start a new game from the root spawn asked for", async () => {
+    const { call, context, directory } = setup();
+
+    directories.push(directory);
+
+    await call("game_start", { spawn: "xrf_jupiter", timeoutSeconds: 60 });
+
+    expect(context.startGame).toHaveBeenCalledWith(expect.objectContaining({ new: true, spawn: "xrf_jupiter" }));
+    expect(textOf(await call("game_start", { save: "mcp_bar", spawn: "xrf_jupiter" }))).toContain(
+      "a save loads the world it was made in"
+    );
+    expect(textOf(await call("game_start", { spawn: "all/single" }))).toContain("'spawn' must match");
+    expect(context.startGame).toHaveBeenCalledTimes(1);
   });
 
   it("should keep the logs of a crashed run before starting the next one", async () => {

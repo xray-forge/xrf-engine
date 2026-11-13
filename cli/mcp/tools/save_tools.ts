@@ -129,7 +129,7 @@ export function createSaveTools(context: IGameToolsContext): Array<IMcpTool> {
         const timeoutMs: number = (timeoutSeconds as number) * 1000;
 
         if (!(await context.isGameRunning())) {
-          return startArmedGame(context, save, undefined, timeoutMs, god as boolean);
+          return startArmedGame(context, { save }, timeoutMs, god as boolean);
         }
 
         const missing: Nullable<IToolResult> = await prepareSave(context, save);

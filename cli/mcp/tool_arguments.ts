@@ -39,6 +39,10 @@ function describeMismatch(name: string, schema: IToolArgumentSchema, value: unkn
         return `'${name}' must not be empty`;
       }
 
+      if (schema.pattern !== undefined && !new RegExp(schema.pattern).test(value)) {
+        return `'${name}' must match ${schema.pattern}`;
+      }
+
       return null;
   }
 }

@@ -63,6 +63,23 @@ describe("startGame", () => {
     );
   });
 
+  it("should start new game world from a root spawn of its own", async () => {
+    await startGame({ new: true, spawn: "xrf_jupiter" });
+
+    expect(cp.spawn).toHaveBeenCalledWith(
+      expect.any(String),
+      ["-dump_bindings", "-start", "server(xrf_jupiter/single/alife/new)", "client(localhost)"],
+      expect.anything()
+    );
+  });
+
+  it("should refuse a spawn outside a new game or not a plain name", async () => {
+    await expect(startGame({ spawn: "xrf_jupiter" })).rejects.toThrow("a save loads the world it was made in");
+    await expect(startGame({ load: "test_save", spawn: "xrf_jupiter" })).rejects.toThrow("world of a new game");
+    await expect(startGame({ new: true, spawn: "all/single" })).rejects.toThrow("letters, digits and underscores");
+    expect(cp.spawn).not.toHaveBeenCalled();
+  });
+
   it("should start to the main menu without the logo video", async () => {
     await startGame({ intro: false });
 
