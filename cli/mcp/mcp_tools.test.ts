@@ -817,7 +817,6 @@ describe("game MCP tools", () => {
         "list",
         "--profile",
         "snag",
-        "--path",
         TARGET_GAME_DATA_DIR,
         "--source",
         "directory",

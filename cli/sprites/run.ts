@@ -7,6 +7,7 @@ import { unpackEquipmentSprite } from "#/sprites/unpack_equipment_sprite";
 
 export interface ISpritesCommandParameters {
   description?: string;
+  force?: boolean;
   verbose?: boolean;
   strict?: boolean;
 }
@@ -45,5 +46,6 @@ export function setupSpritesCommand(command: Command): void {
     .addOption(new Option("-d, --description <name>", "name of description file to process"))
     .addOption(new Option("-v, --verbose", "print verbose logs"))
     .addOption(new Option("-s, --strict", "activate strict mode").default(true))
+    .addOption(new Option("-f, --force", "overwrite sprites already unpacked"))
     .action(unpackDescriptionSprites);
 }

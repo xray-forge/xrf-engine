@@ -47,7 +47,6 @@ export function createDialogTools(context: IGameToolsContext): Array<IMcpTool> {
     const envelope: IXrfCliEnvelope = await context.runXrfCli([
       "dialog",
       ...parameters,
-      "--path",
       TARGET_GAME_DATA_DIR,
       "--source",
       "directory",

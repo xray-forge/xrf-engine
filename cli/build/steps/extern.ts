@@ -22,7 +22,7 @@ export async function buildExternManifest(): Promise<void> {
   for (const outputPath of [EXTERN_MANIFEST_PATH, TARGET_EXTERN_MANIFEST_PATH]) {
     cp.execFileSync(
       XRF_UTILS_PATH,
-      ["externs", "export", "-p", GAME_DATA_DECLARATIONS_DIR, "-d", outputPath, "--format", "json"],
+      ["externs", "export", GAME_DATA_DECLARATIONS_DIR, "-d", outputPath, "--format", "json"],
       { stdio: "inherit" }
     );
   }

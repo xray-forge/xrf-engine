@@ -23,12 +23,14 @@ export async function verifyLtx(parameters: IVerifyLtxParameters = {}): Promise<
 
   const timeTracker: TimeTracker = new TimeTracker().start();
 
-  const command: string = `${XRF_UTILS_PATH} ltx verify -p ${GAME_DATA_LTX_CONFIGS_DIR} ${
-    parameters.verbose ? "-v " : ""
-  }`;
+  const args: Array<string> = ["ltx", "verify", GAME_DATA_LTX_CONFIGS_DIR];
 
-  log.info("Execute:", blue(command));
-  cp.execSync(command, { stdio: "inherit" });
+  if (parameters.verbose) {
+    args.push("-v");
+  }
+
+  log.info("Execute:", blue([XRF_UTILS_PATH, ...args].join(" ")));
+  cp.execFileSync(XRF_UTILS_PATH, args, { stdio: "inherit" });
 
   log.info("Successfully executed verify command, took:", timeTracker.end().getDuration() / 1000, "sec");
 }

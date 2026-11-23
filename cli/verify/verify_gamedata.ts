@@ -47,7 +47,7 @@ export async function verifyGamedata(parameters: IVerifyGamedataParameters = {})
 
   const timeTracker: TimeTracker = new TimeTracker().start();
 
-  const args: Array<string> = ["gamedata", "verify", "-p", TARGET_GAME_DATA_DIR];
+  const args: Array<string> = ["gamedata", "verify", TARGET_GAME_DATA_DIR];
 
   if (parameters.strict) {
     args.push("--strict");
@@ -62,7 +62,8 @@ export async function verifyGamedata(parameters: IVerifyGamedataParameters = {})
   }
 
   if (parameters.checks?.length) {
-    args.push("--checks", ...parameters.checks);
+    // A second bare value after `--checks` would read as another gamedata path.
+    args.push("--checks", parameters.checks.join(","));
   }
 
   log.info("Execute:", blue([XRF_UTILS_PATH, ...args].join(" ")));

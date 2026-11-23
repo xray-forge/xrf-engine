@@ -15,20 +15,31 @@ export function unpackDescriptionSprites(parameters: ISpritesCommandParameters):
 
   const timeTracker: TimeTracker = new TimeTracker().start();
 
-  const command: string = `${XRF_UTILS_PATH} sprite unpack-description --description ${path.resolve(
-    GAME_DATA_UI_DIR,
-    "textures_descr",
-    parameters.description ?? ""
-  )} --base ${path.resolve(RESOURCES_DIR, "textures")} -d ${path.resolve(
-    RESOURCES_DIR,
-    "textures_unpacked"
-  )} ${parameters.strict ? " --strict" : ""}${parameters.verbose ? " --verbose" : ""}`;
+  const args: Array<string> = [
+    "sprite",
+    "unpack-description",
+    path.resolve(GAME_DATA_UI_DIR, "textures_descr", parameters.description ?? ""),
+    "--base",
+    path.resolve(RESOURCES_DIR, "textures"),
+    "-d",
+    path.resolve(RESOURCES_DIR, "textures_unpacked"),
+  ];
 
-  log.info("Execute:", blue(command));
+  if (parameters.strict) {
+    args.push("--strict");
+  }
 
-  cp.execSync(command, {
-    stdio: "inherit",
-  });
+  if (parameters.force) {
+    args.push("--force");
+  }
+
+  if (parameters.verbose) {
+    args.push("--verbose");
+  }
+
+  log.info("Execute:", blue([XRF_UTILS_PATH, ...args].join(" ")));
+
+  cp.execFileSync(XRF_UTILS_PATH, args, { stdio: "inherit" });
 
   log.info(
     "Successfully executed unpack description sprites command, took:",

@@ -25,12 +25,21 @@ export async function verifyTranslations(parameters: IVerifyTranslationsParamete
 
   const timeTracker: TimeTracker = new TimeTracker().start();
 
-  const command: string = `${XRF_UTILS_PATH} translation verify ${
-    parameters.verbose ? "--verbose " : "--silent "
-  }-p ${GAME_DATA_TRANSLATIONS_DIR} -l ${parameters.language || "all"} ${parameters.strict ? "--strict" : ""}`;
+  const args: Array<string> = [
+    "translation",
+    "verify",
+    GAME_DATA_TRANSLATIONS_DIR,
+    "-l",
+    parameters.language || "all",
+    parameters.verbose ? "--verbose" : "--silent",
+  ];
 
-  log.info("Execute:", blue(command));
-  cp.execSync(command, { stdio: "inherit" });
+  if (parameters.strict) {
+    args.push("--strict");
+  }
+
+  log.info("Execute:", blue([XRF_UTILS_PATH, ...args].join(" ")));
+  cp.execFileSync(XRF_UTILS_PATH, args, { stdio: "inherit" });
 
   log.info("Successfully executed verify command, took:", timeTracker.end().getDuration() / 1000, "sec");
 }

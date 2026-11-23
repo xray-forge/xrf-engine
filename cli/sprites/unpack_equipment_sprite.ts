@@ -18,21 +18,23 @@ export async function unpackEquipmentSprite(parameters: ISpritesCommandParameter
 
   const timeTracker: TimeTracker = new TimeTracker().start();
 
-  const command: string = `${XRF_UTILS_PATH} sprite unpack-equipment --system-ltx ${path.resolve(
-    GAME_DATA_LTX_CONFIGS_DIR,
-    "system.ltx"
-  )} -p ${path.resolve(RESOURCES_DIR, "textures", "ui", "ui_icon_equipment.dds")} -d ${path.resolve(
-    RESOURCES_DIR,
-    "textures_unpacked",
-    "ui",
-    "ui_icon_equipment"
-  )}${parameters.verbose ? " --verbose" : ""}`;
+  const args: Array<string> = [
+    "sprite",
+    "unpack-equipment",
+    path.resolve(RESOURCES_DIR, "textures", "ui", "ui_icon_equipment.dds"),
+    "--system-ltx",
+    path.resolve(GAME_DATA_LTX_CONFIGS_DIR, "system.ltx"),
+    "-d",
+    path.resolve(RESOURCES_DIR, "textures_unpacked", "ui", "ui_icon_equipment"),
+  ];
 
-  log.info("Execute:", blue(command));
+  if (parameters.verbose) {
+    args.push("--verbose");
+  }
 
-  cp.execSync(command, {
-    stdio: "inherit",
-  });
+  log.info("Execute:", blue([XRF_UTILS_PATH, ...args].join(" ")));
+
+  cp.execFileSync(XRF_UTILS_PATH, args, { stdio: "inherit" });
 
   log.info(
     "Successfully executed unpack equipment sprite command, took:",

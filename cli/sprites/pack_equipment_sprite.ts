@@ -18,21 +18,27 @@ export async function packEquipmentSprite(parameters: ISpritesCommandParameters)
 
   const timeTracker: TimeTracker = new TimeTracker().start();
 
-  const command: string = `${XRF_UTILS_PATH} sprite pack-equipment --system-ltx ${path.resolve(
-    GAME_DATA_LTX_CONFIGS_DIR,
-    "system.ltx"
-  )} -p ${path.resolve(RESOURCES_DIR, "textures_unpacked", "ui", "ui_icon_equipment")} -d ${path.resolve(
-    RESOURCES_DIR,
-    "textures",
-    "ui",
-    "ui_icon_equipment.dds"
-  )}${parameters.strict ? " --strict" : ""}${parameters.verbose ? " --verbose" : ""}`;
+  const args: Array<string> = [
+    "sprite",
+    "pack-equipment",
+    path.resolve(RESOURCES_DIR, "textures_unpacked", "ui", "ui_icon_equipment"),
+    "--system-ltx",
+    path.resolve(GAME_DATA_LTX_CONFIGS_DIR, "system.ltx"),
+    "-d",
+    path.resolve(RESOURCES_DIR, "textures", "ui", "ui_icon_equipment.dds"),
+  ];
 
-  log.info("Execute:", blue(command));
+  if (parameters.strict) {
+    args.push("--strict");
+  }
 
-  cp.execSync(command, {
-    stdio: "inherit",
-  });
+  if (parameters.verbose) {
+    args.push("--verbose");
+  }
+
+  log.info("Execute:", blue([XRF_UTILS_PATH, ...args].join(" ")));
+
+  cp.execFileSync(XRF_UTILS_PATH, args, { stdio: "inherit" });
 
   log.info("Successfully executed pack equipment sprite command, took:", timeTracker.end().getDuration() / 1000, "sec");
 }

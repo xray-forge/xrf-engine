@@ -18,7 +18,7 @@ describe("verifyGamedata", () => {
   it("should verify assembled gamedata", async () => {
     await verifyGamedata();
 
-    expect(cp.execFileSync).toHaveBeenCalledWith(XRF_UTILS_PATH, ["gamedata", "verify", "-p", TARGET_GAME_DATA_DIR], {
+    expect(cp.execFileSync).toHaveBeenCalledWith(XRF_UTILS_PATH, ["gamedata", "verify", TARGET_GAME_DATA_DIR], {
       stdio: "inherit",
     });
   });
@@ -26,13 +26,9 @@ describe("verifyGamedata", () => {
   it("should enable verbose validator output", async () => {
     await verifyGamedata({ verbose: true });
 
-    expect(cp.execFileSync).toHaveBeenCalledWith(
-      XRF_UTILS_PATH,
-      ["gamedata", "verify", "-p", TARGET_GAME_DATA_DIR, "-v"],
-      {
-        stdio: "inherit",
-      }
-    );
+    expect(cp.execFileSync).toHaveBeenCalledWith(XRF_UTILS_PATH, ["gamedata", "verify", TARGET_GAME_DATA_DIR, "-v"], {
+      stdio: "inherit",
+    });
   });
 
   it("should enable strict validator output", async () => {
@@ -40,7 +36,7 @@ describe("verifyGamedata", () => {
 
     expect(cp.execFileSync).toHaveBeenCalledWith(
       XRF_UTILS_PATH,
-      ["gamedata", "verify", "-p", TARGET_GAME_DATA_DIR, "--strict"],
+      ["gamedata", "verify", TARGET_GAME_DATA_DIR, "--strict"],
       {
         stdio: "inherit",
       }
@@ -52,7 +48,7 @@ describe("verifyGamedata", () => {
 
     expect(cp.execFileSync).toHaveBeenCalledWith(
       XRF_UTILS_PATH,
-      ["gamedata", "verify", "-p", TARGET_GAME_DATA_DIR, "--checks", "meshes", "weapons"],
+      ["gamedata", "verify", TARGET_GAME_DATA_DIR, "--checks", "meshes,weapons"],
       { stdio: "inherit" }
     );
   });
@@ -60,7 +56,7 @@ describe("verifyGamedata", () => {
   it("should not forward empty checks list", async () => {
     await verifyGamedata({ checks: [] });
 
-    expect(cp.execFileSync).toHaveBeenCalledWith(XRF_UTILS_PATH, ["gamedata", "verify", "-p", TARGET_GAME_DATA_DIR], {
+    expect(cp.execFileSync).toHaveBeenCalledWith(XRF_UTILS_PATH, ["gamedata", "verify", TARGET_GAME_DATA_DIR], {
       stdio: "inherit",
     });
   });
@@ -70,7 +66,7 @@ describe("verifyGamedata", () => {
 
     expect(cp.execFileSync).toHaveBeenCalledWith(
       XRF_UTILS_PATH,
-      ["gamedata", "verify", "-p", TARGET_GAME_DATA_DIR, "--report", "target/report.json"],
+      ["gamedata", "verify", TARGET_GAME_DATA_DIR, "--report", "target/report.json"],
       { stdio: "inherit" }
     );
   });

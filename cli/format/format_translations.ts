@@ -36,7 +36,7 @@ export async function formatTranslations(parameters: IFormatTranslationsParamete
   log.info("Formatting translation sources");
 
   const timeTracker: TimeTracker = new TimeTracker().start();
-  const args: Array<string> = ["translation", "format", "-p", ...(parameters.paths ?? [GAME_DATA_TRANSLATIONS_DIR])];
+  const args: Array<string> = ["translation", "format", ...(parameters.paths ?? [GAME_DATA_TRANSLATIONS_DIR])];
 
   if (parameters.check) {
     args.push("-c");

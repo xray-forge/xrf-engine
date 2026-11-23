@@ -28,11 +28,15 @@ export async function packParticles(parameters: IPackParticlesParameters = {}): 
   const from: string = parameters.path ?? RESOURCES_PARTICLES_UNPACKED_DIR;
   const to: string = parameters.dest ?? path.resolve(RESOURCES_DIR, "particles.xr");
 
-  const command: string = `${XRF_UTILS_PATH} particle pack -p ${from} -d ${to} ${parameters.force ? "-f" : ""}`;
+  const args: Array<string> = ["particle", "pack", from, "-d", to];
 
-  log.info("Execute:", blue(command));
+  if (parameters.force) {
+    args.push("-f");
+  }
 
-  cp.execSync(command, {
+  log.info("Execute:", blue([XRF_UTILS_PATH, ...args].join(" ")));
+
+  cp.execFileSync(XRF_UTILS_PATH, args, {
     cwd: TARGET_DIR,
     stdio: "inherit",
   });

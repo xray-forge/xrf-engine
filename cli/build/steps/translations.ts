@@ -14,15 +14,18 @@ const log: NodeLogger = NodeLogger.forFile(__filename);
 export async function buildTranslations(parameters: IBuildCommandParameters): Promise<void> {
   log.info(blueBright("Build translations"));
 
-  const command: string = `${XRF_UTILS_PATH} translation build ${
-    parameters.verbose ? "--verbose " : "--silent "
-  }-p ${GAME_DATA_TRANSLATIONS_DIR} -d ${TARGET_GAME_DATA_TRANSLATIONS_DIR}`;
+  const args: Array<string> = [
+    "translation",
+    "build",
+    GAME_DATA_TRANSLATIONS_DIR,
+    "-d",
+    TARGET_GAME_DATA_TRANSLATIONS_DIR,
+    parameters.verbose ? "--verbose" : "--silent",
+  ];
 
-  log.info("Execute build command:", blue(command));
+  log.info("Execute build command:", blue([XRF_UTILS_PATH, ...args].join(" ")));
 
-  cp.execSync(command, {
-    stdio: "inherit",
-  });
+  cp.execFileSync(XRF_UTILS_PATH, args, { stdio: "inherit" });
 
   log.info("Built translations");
 }

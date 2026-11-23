@@ -169,7 +169,6 @@ function compressWithConfig(
   const args: Array<string> = [
     "archive",
     "pack",
-    "-p",
     TARGET_GAME_DATA_DIR,
     "-d",
     TARGET_DATABASE_DIR,

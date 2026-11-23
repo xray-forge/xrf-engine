@@ -28,11 +28,15 @@ export async function unpackSpawn(parameters: IUnpackSpawnParameters = {}): Prom
   const from: string = parameters.path ?? path.resolve(RESOURCES_DIR, "spawns", "all.spawn");
   const to: string = parameters.dest ?? path.resolve(TARGET_DIR, "all_spawn");
 
-  const command: string = `${XRF_UTILS_PATH} spawn unpack -p ${from} -d ${to} ${parameters.force ? "-f" : ""}`;
+  const args: Array<string> = ["spawn", "unpack", from, "-d", to];
 
-  log.info("Execute:", blue(command));
+  if (parameters.force) {
+    args.push("-f");
+  }
 
-  cp.execSync(command, {
+  log.info("Execute:", blue([XRF_UTILS_PATH, ...args].join(" ")));
+
+  cp.execFileSync(XRF_UTILS_PATH, args, {
     cwd: TARGET_DIR,
     stdio: "inherit",
   });
