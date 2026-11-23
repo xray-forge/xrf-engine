@@ -21,14 +21,14 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [24.x]
+        node-version: [26.x]
         shard: [1, 2, 3, 4, 5]
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
@@ -37,7 +37,7 @@ jobs:
 
       - name: Restore jest cache
         id: cache-jest-restore
-        uses: actions/cache/restore@v5
+        uses: actions/cache/restore@v6
         with:
           path: target/jest_cache
           key: jest-${{ runner.os }}-unit-${{ hashFiles('**/package-lock.json', 'cli/test/jest.config.ts') }}-${{ matrix.shard }}
@@ -47,7 +47,7 @@ jobs:
       - name: Save jest cache
         if: ${{ steps.cache-jest-restore.outputs.cache-hit != 'true' && github.event_name != 'pull_request' }}
         id: cache-jest-save
-        uses: actions/cache/save@v5
+        uses: actions/cache/save@v6
         with:
           path: target/jest_cache
           key: ${{ steps.cache-jest-restore.outputs.cache-primary-key }}
@@ -57,13 +57,13 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [24.x]
+        node-version: [26.x]
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
@@ -79,14 +79,14 @@ jobs:
 
       - name: Restore eslint cache
         id: cache-eslint-restore
-        uses: actions/cache/restore@v5
+        uses: actions/cache/restore@v6
         with:
           path: target/eslint
           key: eslint-${{ runner.os }}-${{ hashFiles('package-lock.json', 'cli/lint/eslint.config.mjs') }}
 
       - name: Restore prettier cache
         id: cache-prettier-restore
-        uses: actions/cache/restore@v5
+        uses: actions/cache/restore@v6
         with:
           path: target/prettier
           key: prettier-${{ runner.os }}-${{ hashFiles('package-lock.json', 'package.json', '.prettierrc.json', '.prettierignore') }}
@@ -102,14 +102,14 @@ jobs:
 
       - name: Save eslint cache
         id: cache-eslint-save
-        uses: actions/cache/save@v5
+        uses: actions/cache/save@v6
         with:
           path: target/eslint
           key: ${{ steps.cache-eslint-restore.outputs.cache-primary-key }}
 
       - name: Save prettier cache
         id: cache-prettier-save
-        uses: actions/cache/save@v5
+        uses: actions/cache/save@v6
         with:
           path: target/prettier
           key: ${{ steps.cache-prettier-restore.outputs.cache-primary-key }}
@@ -119,15 +119,15 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [24.x]
+        node-version: [26.x]
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           lfs: false
 
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
