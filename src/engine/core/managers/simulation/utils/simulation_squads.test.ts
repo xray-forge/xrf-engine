@@ -349,10 +349,11 @@ describe("releasePendingSimulationSquads", () => {
     mockRegisteredActor();
   });
 
-  it("should release queued squads that are still empty, once", () => {
+  it("should release queued offline squads that are still empty, once", () => {
     const squad: MockSquad = MockSquad.mock();
 
     MockAlifeSimulator.addToRegistry(squad);
+    squad.mockSetOnline(false);
     releaseSimulationSquad(squad);
 
     releasePendingSimulationSquads();
@@ -360,6 +361,19 @@ describe("releasePendingSimulationSquads", () => {
 
     expect(registry.simulator.release).toHaveBeenCalledTimes(1);
     expect(registry.simulator.release).toHaveBeenCalledWith(squad, true);
+    expect(simulationConfig.PENDING_SQUAD_RELEASES).toEqualLuaTables({});
+  });
+
+  it("should leave queued online squads to the engine switch pass", () => {
+    const squad: MockSquad = MockSquad.mock();
+
+    MockAlifeSimulator.addToRegistry(squad);
+    squad.mockSetOnline(true);
+    releaseSimulationSquad(squad);
+
+    releasePendingSimulationSquads();
+
+    expect(registry.simulator.release).not.toHaveBeenCalled();
     expect(simulationConfig.PENDING_SQUAD_RELEASES).toEqualLuaTables({});
   });
 

@@ -89,6 +89,7 @@ describe("SimulationManager", () => {
     const squad: MockSquad = MockSquad.mock();
 
     MockAlifeSimulator.addToRegistry(squad);
+    squad.mockSetOnline(false);
     simulationConfig.PENDING_SQUAD_RELEASES.set(squad.id, squad.name());
 
     EventsManager.emitEvent(EGameEvent.ACTOR_UPDATE, 16);

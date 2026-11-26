@@ -184,7 +184,8 @@ export function createSimulationSquadMembers(squad: Squad, spawnTerrain: SmartTe
 
 /**
  * Release squad and squad members.
- * Un-assigns squad from smart terrain, releases all squad members and queues the emptied squad for release.
+ * Un-assigns squad from smart terrain, releases all squad members and queues the emptied squad for
+ * {@link releasePendingSimulationSquads}.
  *
  * @param squad - Target squad object to remove with members including.
  */
@@ -208,12 +209,15 @@ export function releaseSimulationSquad(squad: Squad): void {
 }
 
 /**
- * Release the emptied squads queued by {@link releaseSimulationSquad}.
+ * Release the emptied offline squads queued by {@link releaseSimulationSquad}.
+ * An emptied online squad is left to the engine, whose switch pass releases and unregisters it.
  */
 export function releasePendingSimulationSquads(): void {
   // Deferred, as a release destroys the squad at once while death handlers and kill loops still hold it. The engine
-  // itself releases an empty squad only on its level's switch pass and drops it from saves without unregistering it,
-  // so its respawn point would keep counting it.
+  // releases an empty squad only on its switch pass over the actor's level, and saves drop one elsewhere without
+  // unregistering it, so its respawn point would keep counting it: an offline squad needs this release. An online
+  // squad is always on the actor's level, and a script release of an online object only queues a destroy event that
+  // the switch pass would beat to it.
   for (const [id, name] of simulationConfig.PENDING_SQUAD_RELEASES) {
     const squad: Nillable<Squad> = registry.simulator.object<Squad>(id);
 
@@ -221,9 +225,13 @@ export function releasePendingSimulationSquads(): void {
 
     // The engine may have released the empty squad already, and its id may belong to another object since.
     if ($isNotNil(squad) && squad.name() === name && squad.npc_count() === 0) {
-      simulationLogger.info("Release emptied squad object: '%s'.", name);
+      if (squad.online) {
+        simulationLogger.info("Leave emptied online squad to the engine: '%s'.", name);
+      } else {
+        simulationLogger.info("Release emptied squad object: '%s'.", name);
 
-      registry.simulator.release(squad, true);
+        registry.simulator.release(squad, true);
+      }
     }
   }
 }
