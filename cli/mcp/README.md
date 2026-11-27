@@ -18,7 +18,7 @@ npm run cli -- mcp <command> [options]
   An MCP client runs it from the repository root as
   `node node_modules/ts-node/dist/bin.js -T -P cli/tsconfig.json cli/run.ts mcp serve`, as `npm run` would print to
   stdout. In the XRF workspace, `npm run context:install` in `xrf-agents` writes an untracked `.mcp.json` here that
-  registers it as `xrf-game`.
+  registers it as `xrf-engine-game`.
 
 `build` and `clean` accept `-v, --verbose`. `checks clean` removes the extension too, as it loads modules from the checks
 output.

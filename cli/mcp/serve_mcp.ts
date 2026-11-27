@@ -72,7 +72,7 @@ export async function serveMcp(): Promise<void> {
   client.textEncoding = await getTextEncoding();
 
   const server: McpStdioServer = new McpStdioServer(
-    { name: "xrf-game", version: "1.0.0" },
+    { name: "xrf-engine-game", version: "1.0.0" },
     createGameTools({
       client,
       workspace: {
